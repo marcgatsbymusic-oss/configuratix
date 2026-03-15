@@ -1,5 +1,24 @@
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, ChevronDown } from 'lucide-react'
+import { ArrowRight, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react'
+
+const HERO_SLIDES = [
+  {
+    img: '/assets/hero/hero-1.png',
+    headline: <>Define your<br /><span className="text-[#dca95c]">space</span></>,
+    sub: 'Precision-engineered windows and doors that transform architecture with cutting-edge thermal and acoustic performance.',
+  },
+  {
+    img: '/assets/hero/hero-2.png',
+    headline: <>Open to the<br /><span className="text-[#dca95c]">world</span></>,
+    sub: 'Panoramic lift-and-slide systems that dissolve the boundary between inside and outside.',
+  },
+  {
+    img: '/assets/hero/hero-3.png',
+    headline: <>Light, redefined<br /><span className="text-[#dca95c]">by design</span></>,
+    sub: 'Floor-to-ceiling glazing that fills every room with natural light while keeping heat and noise out.',
+  },
+]
 
 const FEATURED_SPECS = [
   { value: 'Uw = 0.57', label: 'Thermal Transmittance' },
@@ -32,32 +51,49 @@ const PRODUCT_HIGHLIGHTS = [
     specs: ['Uw = 0.74 W/m²K', '70mm depth', '5-chamber'],
   },
 ]
-
 export function HomePage() {
+  const [slide, setSlide] = useState(0)
+
+  useEffect(() => {
+    const t = setInterval(() => setSlide(s => (s + 1) % HERO_SLIDES.length), 5000)
+    return () => clearInterval(t)
+  }, [])
+
+  const prev = () => setSlide(s => (s - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)
+  const next = () => setSlide(s => (s + 1) % HERO_SLIDES.length)
+
   return (
     <main className="min-h-screen bg-black">
-      {/* ── Hero ──────────────────────────────────────────────── */}
+      {/* ── Hero Carousel ────────────────────────────────────────── */}
       <section className="relative h-screen flex items-end pb-20 overflow-hidden">
-        {/* Dark gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent z-10" />
+
+        {/* Slides */}
+        {HERO_SLIDES.map((s, i) => (
+          <div
+            key={i}
+            className={`absolute inset-0 transition-opacity duration-1000 ${i === slide ? 'opacity-100' : 'opacity-0'}`}
+          >
+            <div
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              style={{ backgroundImage: `url('${s.img}')` }}
+            />
+          </div>
+        ))}
+
+        {/* Overlays */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent z-10" />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30 z-10" />
 
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80"
-          style={{ backgroundImage: `url('/assets/hero.png')` }}
-        />
-
+        {/* Content */}
         <div className="relative z-20 max-w-7xl mx-auto px-6 w-full">
           <p className="text-[#dca95c] text-xs uppercase tracking-[0.3em] font-semibold mb-4">
-            Premium Windows & Doors
+            Premium Windows &amp; Doors
           </p>
-          <h1 className="text-6xl md:text-8xl font-black uppercase leading-none mb-6 max-w-3xl">
-            Define your<br />
-            <span className="text-[#dca95c]">space</span>
+          <h1 className="text-6xl md:text-8xl font-black uppercase leading-none mb-6 max-w-3xl transition-all duration-700">
+            {HERO_SLIDES[slide].headline}
           </h1>
-          <p className="text-white/60 text-lg mb-10 max-w-xl">
-            Precision-engineered windows and doors that transform architecture
-            with cutting-edge thermal and acoustic performance.
+          <p className="text-white/60 text-lg mb-10 max-w-xl transition-all duration-700">
+            {HERO_SLIDES[slide].sub}
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
@@ -75,8 +111,35 @@ export function HomePage() {
           </div>
         </div>
 
+        {/* Prev / Next arrows */}
+        <button
+          onClick={prev}
+          className="absolute left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 border border-white/20 flex items-center justify-center text-white/50 hover:border-[#dca95c] hover:text-[#dca95c] transition-all"
+        >
+          <ChevronLeft size={20} />
+        </button>
+        <button
+          onClick={next}
+          className="absolute right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 border border-white/20 flex items-center justify-center text-white/50 hover:border-[#dca95c] hover:text-[#dca95c] transition-all"
+        >
+          <ChevronRight size={20} />
+        </button>
+
+        {/* Dot indicators */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3">
+          {HERO_SLIDES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setSlide(i)}
+              className={`transition-all duration-300 rounded-full ${
+                i === slide ? 'w-8 h-2 bg-[#dca95c]' : 'w-2 h-2 bg-white/30 hover:bg-white/60'
+              }`}
+            />
+          ))}
+        </div>
+
         {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 text-white/30 animate-bounce">
+        <div className="absolute bottom-8 right-6 z-20 flex flex-col items-center gap-2 text-white/30 animate-bounce">
           <ChevronDown size={20} />
         </div>
       </section>
