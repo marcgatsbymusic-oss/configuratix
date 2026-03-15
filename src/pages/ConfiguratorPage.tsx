@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ArrowRight, ChevronRight, Check, RotateCcw, ShoppingCart, Info } from 'lucide-react'
+import { ArrowRight, ChevronRight, ChevronLeft, Check, RotateCcw, ShoppingCart, Info } from 'lucide-react'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type Step = 1 | 2 | 3 | 4
@@ -41,10 +41,20 @@ const PROFILES = [
 ]
 
 const WINDOW_TYPES = [
-  { id: '1f', label: '1 Sash', desc: 'Fixed or tilt-turn' },
-  { id: '2f', label: '2 Sash', desc: 'Side by side' },
-  { id: '3f', label: '3 Sash', desc: 'Large flat opening' },
-  { id: 'corner', label: 'Corner', desc: 'Frameless corner join' },
+  { id: '1f',    label: '1 Sash',                    img: '/assets/window-types/1f_thumb_20100415_w8jxu.png' },
+  { id: '2f',    label: '2 Sash',                    img: '/assets/window-types/2f_thumb_20100415_5jze.png' },
+  { id: '3f',    label: '3 Sash',                    img: '/assets/window-types/3f_thumb_20100418_gxnat.png' },
+  { id: '4f',    label: '4 Sash',                    img: '/assets/window-types/4flugel-base.png' },
+  { id: '1ol',   label: '1 Sash + Top Light',        img: '/assets/window-types/1ol_thumb_20100415_3gktz.png' },
+  { id: '2fol',  label: '2 Sash + Wide Top Light',   img: '/assets/window-types/2fol_thumb_20100415_dusrq.png' },
+  { id: '2fols', label: '2 Sash + 2 Top Lights',     img: '/assets/window-types/2fols_thumb_20100420_w2yrq.png' },
+  { id: '3fol',  label: '3 Sash + Wide Top Light',   img: '/assets/window-types/3fol_thumb_20100424_4eaqp.png' },
+  { id: '3fols', label: '3 Sash + 3 Top Lights',     img: '/assets/window-types/3fols_thumb_20100420_hcczx.png' },
+  { id: '1ul',   label: '1 Sash + Bottom Light',     img: '/assets/window-types/1ul_thumb_20100419_ri49y.png' },
+  { id: '2ful',  label: '2 Sash + Wide Bottom Light',img: '/assets/window-types/2ful_thumb_20100420_xhrit.png' },
+  { id: '2fuls', label: '2 Sash + 2 Bottom Lights',  img: '/assets/window-types/2fuls_thumbs_20100415_wfwt7.png' },
+  { id: '3ful',  label: '3 Sash + Wide Bottom Light',img: '/assets/window-types/3ful_thumb_20100419_zkidg.png' },
+  { id: '3fuls', label: '3 Sash + 3 Bottom Lights',  img: '/assets/window-types/3fuls_thumb_20100420_p7z5z.png' },
 ]
 
 const OPENING_STYLES = [
@@ -154,6 +164,8 @@ export function ConfiguratorPage() {
   const [config, setConfig] = useState<Config>(DEFAULT_CONFIG)
   const [submitted, setSubmitted] = useState(false)
   const [email, setEmail] = useState('')
+  const [wtSliderIndex, setWtSliderIndex] = useState(0)
+  const VISIBLE = 5
 
   const set = (k: keyof Config, v: unknown) => setConfig(c => ({ ...c, [k]: v }))
 
@@ -317,26 +329,75 @@ export function ConfiguratorPage() {
                 </div>
               </div>
 
-              {/* Window type */}
+              {/* Window type slider */}
               <div className="border border-[#2a2a2b] bg-[#111112]">
-                <div className="px-6 py-4 border-b border-[#2a2a2b]">
+                <div className="px-6 py-4 border-b border-[#2a2a2b] flex items-center justify-between">
                   <h3 className="text-xs uppercase tracking-widest font-bold text-white/60">Window Type</h3>
+                  <span className="text-[11px] text-white/30">{WINDOW_TYPES.findIndex(w => w.id === config.windowType) + 1} / {WINDOW_TYPES.length}</span>
                 </div>
-                <div className="p-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  {WINDOW_TYPES.map(wt => (
-                    <button
-                      key={wt.id}
-                      onClick={() => set('windowType', wt.id)}
-                      className={`px-4 py-4 border text-center transition-all ${
-                        config.windowType === wt.id
-                          ? 'border-[#dca95c] bg-[#1a1a1b]'
-                          : 'border-[#2a2a2b] hover:border-[#dca95c]/40'
-                      }`}
-                    >
-                      <p className="text-sm font-bold text-white">{wt.label}</p>
-                      <p className="text-[11px] text-white/40 mt-1">{wt.desc}</p>
-                    </button>
-                  ))}
+                <div className="p-6">
+                  {/* Slider track */}
+                  <div className="relative">
+                    <div className="flex gap-3 overflow-hidden">
+                      {WINDOW_TYPES.slice(wtSliderIndex, wtSliderIndex + VISIBLE).map(wt => (
+                        <button
+                          key={wt.id}
+                          onClick={() => set('windowType', wt.id)}
+                          className={`flex-1 flex flex-col items-center gap-2 p-3 border transition-all min-w-0 ${
+                            config.windowType === wt.id
+                              ? 'border-[#dca95c] bg-[#1a1a1b]'
+                              : 'border-[#2a2a2b] hover:border-[#dca95c]/40'
+                          }`}
+                        >
+                          <div className={`w-full flex items-center justify-center p-2 rounded ${
+                            config.windowType === wt.id ? 'bg-[#dca95c]/10' : 'bg-[#0d0d0e]'
+                          }`}>
+                            <img
+                              src={wt.img}
+                              alt={wt.label}
+                              className="w-16 h-16 object-contain"
+                              style={{ imageRendering: 'crisp-edges' }}
+                            />
+                          </div>
+                          <p className={`text-[10px] text-center leading-tight uppercase tracking-wide font-semibold ${
+                            config.windowType === wt.id ? 'text-[#dca95c]' : 'text-white/40'
+                          }`}>{wt.label}</p>
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Nav buttons */}
+                    <div className="flex items-center justify-between mt-4">
+                      <button
+                        onClick={() => setWtSliderIndex(i => Math.max(0, i - 1))}
+                        disabled={wtSliderIndex === 0}
+                        className="flex items-center gap-1 text-xs uppercase tracking-widest text-white/40 hover:text-[#dca95c] disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
+                      >
+                        <ChevronLeft size={14} /> Prev
+                      </button>
+
+                      {/* Dot indicators */}
+                      <div className="flex gap-1">
+                        {Array.from({ length: WINDOW_TYPES.length - VISIBLE + 1 }).map((_, i) => (
+                          <button
+                            key={i}
+                            onClick={() => setWtSliderIndex(i)}
+                            className={`w-1.5 h-1.5 rounded-full transition-all ${
+                              i === wtSliderIndex ? 'bg-[#dca95c] w-4' : 'bg-white/20 hover:bg-white/40'
+                            }`}
+                          />
+                        ))}
+                      </div>
+
+                      <button
+                        onClick={() => setWtSliderIndex(i => Math.min(WINDOW_TYPES.length - VISIBLE, i + 1))}
+                        disabled={wtSliderIndex >= WINDOW_TYPES.length - VISIBLE}
+                        className="flex items-center gap-1 text-xs uppercase tracking-widest text-white/40 hover:text-[#dca95c] disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
+                      >
+                        Next <ChevronRight size={14} />
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
 
