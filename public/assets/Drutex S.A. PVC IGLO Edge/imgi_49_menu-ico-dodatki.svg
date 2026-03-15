@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="50" height="50" viewBox="0 0 50 50">
+  <defs>
+    <clipPath id="clip-dodatki">
+      <rect width="50" height="50"/>
+    </clipPath>
+  </defs>
+  <g id="dodatki" clip-path="url(#clip-dodatki)">
+    <g id="Group_715" data-name="Group 715" transform="translate(18.25 8.752)">
+      <path id="Path_710" data-name="Path 710" d="M-13823.2-2211.569v3.515s-.631,2.883-5.295,2.883-5.171-2.883-5.171-2.883v-27.173s.757-2.439,5.171-2.439,5.295,3.216,5.295,3.216v2.817" transform="translate(13833.667 2237.667)" fill="none" stroke="#dadada" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <g id="Ellipse_6" data-name="Ellipse 6" transform="translate(3.756 8.582)" fill="none" stroke="#dadada" stroke-width="2">
+        <ellipse cx="2.413" cy="2.365" rx="2.413" ry="2.365" stroke="none"/>
+        <ellipse cx="2.413" cy="2.365" rx="1.413" ry="1.365" fill="none"/>
+      </g>
+      <ellipse id="Ellipse_7" data-name="Ellipse 7" cy="0.842" ry="0.842" transform="translate(3.756 2.526)" fill="#ffdd4f"/>
+      <ellipse id="Ellipse_10" data-name="Ellipse 10" cy="0.842" ry="0.842" transform="translate(3.756 27.781)" fill="#ffdd4f"/>
+      <ellipse id="Ellipse_8" data-name="Ellipse 8" cy="0.842" ry="0.842" transform="translate(7.193 2.526)" fill="#ffdd4f"/>
+      <ellipse id="Ellipse_9" data-name="Ellipse 9" cy="0.842" ry="0.842" transform="translate(7.193 27.781)" fill="#ffdd4f"/>
+      <g id="Rectangle_214" data-name="Rectangle 214" transform="translate(5.135 9.258)" fill="#dadada" stroke="#dadada" stroke-width="2">
+        <rect width="13.099" height="3.378" rx="1.689" stroke="none"/>
+        <rect x="1" y="1" width="11.099" height="1.378" rx="0.689" fill="none"/>
+      </g>
+      <g id="Union_1" data-name="Union 1" transform="translate(3.755 19.363)" fill="none">
+        <path d="M.86,5.876V3.428A1.862,1.862,0,0,1,0,1.837,1.781,1.781,0,0,1,1.718,0,1.78,1.78,0,0,1,3.436,1.837a1.862,1.862,0,0,1-.859,1.591V5.876a.859.859,0,0,1-1.718,0Z" stroke="none"/>
+        <path d="M 1.718425750732422 2.783524751663208 L 2.051429986953735 2.57748007774353 C 2.288760185241699 2.430630207061768 2.436200141906738 2.146860122680664 2.436200141906738 1.836900115013123 C 2.436200141906738 1.375430107116699 2.114060163497925 1.00000011920929 1.718100070953369 1.00000011920929 C 1.322140097618103 1.00000011920929 1.00000011920929 1.375430107116699 1.00000011920929 1.836900115013123 C 1.00000011920929 2.14684009552002 1.14766001701355 2.430670022964478 1.385350108146667 2.577610015869141 L 1.718425750732422 2.783524751663208 M 1.718100070953369 6.734700202941895 C 1.243800044059753 6.734700202941895 0.8595000505447388 6.350399971008301 0.8595000505447388 5.876100063323975 L 0.8595000505447388 3.428189992904663 C 0.3457700610160828 3.110590219497681 7.095336940210473e-08 2.516840219497681 7.095336940210473e-08 1.836900115013123 C 7.095336940210473e-08 0.8226001262664795 0.7695000767707825 1.014709454238982e-07 1.718100070953369 1.014709454238982e-07 C 2.667600154876709 1.014709454238982e-07 3.436200141906738 0.8226001262664795 3.436200141906738 1.836900115013123 C 3.436200141906738 2.516590118408203 3.091020107269287 3.110180139541626 2.577600002288818 3.427860021591187 L 2.577600002288818 5.876100063323975 C 2.577600002288818 6.350399971008301 2.192399978637695 6.734700202941895 1.718100070953369 6.734700202941895 Z" stroke="none" fill="#dadada"/>
+      </g>
+      <path id="Path_719" data-name="Path 719" d="M866.269,1046.52V1041" transform="translate(-855.802 -1024.937)" fill="none" stroke="#dadada" stroke-linecap="round" stroke-width="2"/>
+    </g>
+  </g>
+</svg>

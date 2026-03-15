@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+
+/* ─── Mammut Design Tokens ─────────────────────────────────── */
+@theme {
+  --color-mammut-black: #000000;
+  --color-mammut-dark: #1a1a1b;
+  --color-mammut-darker: #111112;
+  --color-mammut-gold: #dca95c;
+  --color-mammut-gold-light: #eab676;
+  --color-mammut-white: #ffffff;
+  --color-mammut-grey: #333333;
+  --color-mammut-grey-light: #888888;
+  --color-mammut-border: #2a2a2b;
+
+  --font-sans: 'Montserrat', sans-serif;
+
+  --spacing-section: 6rem;
+}
+
+/* ─── Base Styles ───────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #000000;
+  color: #ffffff;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Typography ──────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ─── Scrollbar ───────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #1a1a1b;
+}
+::-webkit-scrollbar-thumb {
+  background: #dca95c;
+  border-radius: 3px;
+}
+
+/* ─── Mammut Spec Card (corner-only gold borders) ──────────── */
+.spec-card {
+  position: relative;
+  padding: 1.25rem;
+  background: transparent;
+}
+.spec-card::before,
+.spec-card::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: #dca95c;
+  border-style: solid;
+}
+.spec-card::before {
+  top: 0;
+  left: 0;
+  border-width: 2px 0 0 2px;
+}
+.spec-card::after {
+  bottom: 0;
+  right: 0;
+  border-width: 0 2px 2px 0;
+}
+
+/* ─── Transitions ──────────────────────────────────────────── */
+.transition-mammut {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Gold underline animation ─────────────────────────────── */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #dca95c;
+  transition: width 0.3s ease;
+}
+.nav-link:hover::after {
+  width: 100%;
+}
