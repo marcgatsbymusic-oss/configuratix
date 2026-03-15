@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { Search, Globe, Menu, X, ChevronDown, ChevronRight } from 'lucide-react'
+import { Search, Globe, Menu, X, ChevronDown, ChevronRight, ChevronUp } from 'lucide-react'
 
 // The mega menu structure matching drutex.es categories
 const MEGA_MENU_CATEGORIES = [
@@ -89,6 +89,7 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
   const [activeMegaCategory, setActiveMegaCategory] = useState(MEGA_MENU_CATEGORIES[0].id)
+  const [mobileProductsOpen, setMobileProductsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const megaHoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const location = useLocation()
@@ -280,31 +281,81 @@ export function Header() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="lg:hidden bg-[#1a1a1b] border-t border-[#2a2a2b] py-6 px-6 space-y-4">
-          <Link
-            to="/products"
-            className="block text-sm uppercase tracking-widest text-[#dca95c] transition-colors duration-200 font-bold"
-            onClick={() => setMenuOpen(false)}
-          >
-            Products
-          </Link>
+        <div className="lg:hidden bg-[#1a1a1b] border-t border-[#2a2a2b] py-6 px-6 space-y-1 max-h-[80vh] overflow-y-auto">
+          {/* Products accordion */}
+          <div>
+            <button
+              className="w-full flex items-center justify-between py-3 text-sm uppercase tracking-widest text-[#dca95c] font-bold"
+              onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
+            >
+              Products
+              {mobileProductsOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+            </button>
+
+            {mobileProductsOpen && (
+              <div className="ml-2 mb-2 space-y-3 border-l border-[#2a2a2b] pl-4">
+                <Link
+                  to="/products"
+                  className="block text-xs uppercase tracking-widest text-white/40 hover:text-[#dca95c] py-1 transition-colors"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  View All Products →
+                </Link>
+                {MEGA_MENU_CATEGORIES.map((cat) => (
+                  <div key={cat.id}>
+                    <Link
+                      to={cat.href}
+                      className="block text-xs uppercase tracking-widest text-white/70 hover:text-[#dca95c] font-semibold py-1 transition-colors"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      {cat.label}
+                    </Link>
+                    {cat.columns.length > 0 && (
+                      <div className="ml-3 mt-1 space-y-1">
+                        {cat.columns.flatMap((col) =>
+                          col.items.map((item) => (
+                            <Link
+                              key={item.href}
+                              to={item.href}
+                              className="flex items-center gap-2 text-[11px] text-white/40 hover:text-[#dca95c] py-0.5 transition-colors"
+                              onClick={() => setMenuOpen(false)}
+                            >
+                              {item.label}
+                              {item.isNew && (
+                                <span className="bg-[#dca95c] text-black text-[8px] uppercase tracking-widest px-1 font-bold">New</span>
+                              )}
+                            </Link>
+                          ))
+                        )}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Standard nav links */}
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.label}
               to={item.href}
-              className="block text-sm uppercase tracking-widest text-white/70 hover:text-[#dca95c] transition-colors duration-200"
+              className="block py-3 text-sm uppercase tracking-widest text-white/70 hover:text-[#dca95c] transition-colors duration-200"
               onClick={() => setMenuOpen(false)}
             >
               {item.label}
             </Link>
           ))}
-          <Link
-            to="/configurator"
-            className="block border border-[#dca95c] text-[#dca95c] text-xs uppercase tracking-widest px-4 py-2 text-center hover:bg-[#dca95c] hover:text-black transition-all duration-200 font-semibold"
-            onClick={() => setMenuOpen(false)}
-          >
-            Door Configurator
-          </Link>
+
+          <div className="pt-2">
+            <Link
+              to="/configurator"
+              className="block border border-[#dca95c] text-[#dca95c] text-xs uppercase tracking-widest px-4 py-3 text-center hover:bg-[#dca95c] hover:text-black transition-all duration-200 font-semibold"
+              onClick={() => setMenuOpen(false)}
+            >
+              Door Configurator
+            </Link>
+          </div>
         </div>
       )}
     </header>

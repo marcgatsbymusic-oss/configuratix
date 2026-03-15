@@ -54,7 +54,7 @@ export const PRODUCTS: Product[] = [
       { label: 'Profile Chambers', value: '6' },
       { label: 'Sound Insulation (Rw)', value: 'up to 48', unit: 'dB' },
     ],
-    images: ['/assets/iglo-edge-1.jpg', '/assets/iglo-edge-2.jpg']
+    images: ['/assets/iglo-edge-featured.png']
   },
   {
     id: 'p2',

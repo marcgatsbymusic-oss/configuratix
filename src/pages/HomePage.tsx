@@ -13,7 +13,7 @@ const PRODUCT_HIGHLIGHTS = [
     tag: 'NEW',
     name: 'IGLO EDGE',
     tagline: 'Maximum insulation, minimal frame',
-    href: '/products/windows/pvc/iglo-edge',
+    href: '/products/iglo-edge',
     specs: ['Uw = 0.66 W/(m²K)*', '82mm depth', '7-chamber', 'Profile Class A'],
     image: '/assets/iglo-edge-featured.png'
   },

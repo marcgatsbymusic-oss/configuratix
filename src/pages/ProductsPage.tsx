@@ -44,16 +44,24 @@ export function ProductsPage() {
               to={`/products/${p.slug}`}
               className="group flex flex-col bg-[#1a1a1b] border border-[#2a2a2b] hover:border-[#dca95c]/40 transition-all duration-300"
             >
-              {/* Product Image Placeholder */}
+              {/* Product Image */}
               <div className="aspect-[4/3] bg-[#111112] relative overflow-hidden flex items-center justify-center p-8">
-                <div className="w-full h-full border border-white/5 group-hover:border-[#dca95c]/20 transition-colors duration-500">
-                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/50 to-transparent" />
-                  <p className="absolute bottom-4 left-6 text-white/20 font-bold tracking-widest uppercase break-all opacity-50 text-[100px] leading-none select-none">
-                    {p.name.substring(0, 3)}
-                  </p>
-                </div>
+                {p.images && p.images[0] ? (
+                  <img
+                    src={p.images[0]}
+                    alt={p.name}
+                    className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
+                  />
+                ) : (
+                  <div className="w-full h-full border border-white/5 group-hover:border-[#dca95c]/20 transition-colors duration-500">
+                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/50 to-transparent" />
+                    <p className="absolute bottom-4 left-6 text-white/20 font-bold tracking-widest uppercase break-all opacity-50 text-[100px] leading-none select-none">
+                      {p.name.substring(0, 3)}
+                    </p>
+                  </div>
+                )}
                 {p.isNew && (
-                  <span className="absolute top-4 left-4 bg-[#dca95c] text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1">
+                  <span className="absolute top-4 left-4 z-10 bg-[#dca95c] text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1">
                     NEW
                   </span>
                 )}
