@@ -1,12 +1,105 @@
 import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { Check, Play, X } from 'lucide-react'
+import { Check, ChevronLeft, ChevronRight, Play, X } from 'lucide-react'
 import { IGLO_EDGE_DETAIL, type GlassOption } from '../data/productDetails'
 import { PRODUCTS } from '../data/products'
 import { ColorSwatch } from '../components/products/ColorSwatch'
 
 
+const HANDLES = [
+  { name: 'nevada-ral7016',    label: 'NEVADA con llave (RAL7016)',         image: '/assets/handles/nevada-ral7016.png' },
+  { name: 'nevada-ral9001',    label: 'NEVADA con llave (RAL9001)',         image: '/assets/handles/nevada-ral9001.png' },
+  { name: 'nevada-ral9005',    label: 'NEVADA con llave (RAL9005)',         image: '/assets/handles/nevada-ral9005.png' },
+  { name: 'nevada-ral9016',    label: 'NEVADA con llave (RAL9016)',         image: '/assets/handles/nevada-ral9016.png' },
+  { name: 'nevada-f9',         label: 'NEVADA con llave (tytan F9)',        image: '/assets/handles/nevada-f9.png' },
+  { name: 'mistral-ral7016',   label: 'MISTRAL con llave (RAL7016)',        image: '/assets/handles/mistral-ral7016.png' },
+  { name: 'mistral-ral9001',   label: 'MISTRAL con llave (RAL9001)',        image: '/assets/handles/mistral-ral9001.png' },
+  { name: 'mistral-ral9005',   label: 'MISTRAL con llave (RAL9005)',        image: '/assets/handles/mistral-ral9005.png' },
+  { name: 'mistral-f9-key',    label: 'MISTRAL con llave (tytan F9)',       image: '/assets/handles/mistral-f9-key.png' },
+  { name: 'mistral-f9',        label: 'MISTRAL F9',                        image: '/assets/handles/mistral-f9.png' },
+  { name: 'dublin-ral9016',    label: 'DUBLIN (blanco RAL9016)',            image: '/assets/handles/dublin-ral9016.png' },
+  { name: 'dublin-ral8019',    label: 'DUBLIN (marrón RAL8019)',            image: '/assets/handles/dublin-ral8019.png' },
+  { name: 'dublin-ral7016',    label: 'DUBLIN (RAL7016)',                   image: '/assets/handles/dublin-ral7016.png' },
+  { name: 'dublin-ral9005',    label: 'DUBLIN (RAL9005)',                   image: '/assets/handles/dublin-ral9005.png' },
+  { name: 'dublin-silver',     label: 'DUBLIN (plateada)',                  image: '/assets/handles/dublin-silver.png' },
+  { name: 'dublin-key-ral7016', label: 'DUBLIN con llave (RAL7016)',        image: '/assets/handles/dublin-key-ral7016.png' },
+  { name: 'dublin-key-ral9005', label: 'DUBLIN con llave (RAL9005)',        image: '/assets/handles/dublin-key-ral9005.png' },
+  { name: 'dublin-key-ral9016', label: 'DUBLIN con llave (blanco RAL9016)', image: '/assets/handles/dublin-key-ral9016.png' },
+  { name: 'dublin-key-ral8019', label: 'DUBLIN con llave (marrón RAL8019)', image: '/assets/handles/dublin-key-ral8019.png' },
+  { name: 'dublin-key-silver',  label: 'DUBLIN con llave (plateada)',       image: '/assets/handles/dublin-key-silver.png' },
+  { name: 'kwadrat-ral7016',   label: 'KWADRAT RAL 7016',                  image: '/assets/handles/kwadrat-ral7016.png' },
+  { name: 'kwadrat-ral8019',   label: 'KWADRAT RAL 8019',                  image: '/assets/handles/kwadrat-ral8019.png' },
+  { name: 'kwadrat-ral9016',   label: 'KWADRAT RAL 9016',                  image: '/assets/handles/kwadrat-ral9016.png' },
+  { name: 'kwadrat-ral9001',   label: 'KWADRAT RAL 9001',                  image: '/assets/handles/kwadrat-ral9001.png' },
+  { name: 'kwadrat-f9',        label: 'KWADRAT tytan F9',                  image: '/assets/handles/kwadrat-f9.png' },
+  { name: 'kwadrat-key-f1',    label: 'KWADRAT con llave F1',              image: '/assets/handles/kwadrat-key-f1.png' },
+  { name: 'kwadrat-key-f4',    label: 'KWADRAT con llave F4',              image: '/assets/handles/kwadrat-key-f4.png' },
+  { name: 'kwadrat-key-f9',    label: 'KWADRAT con llave F9',              image: '/assets/handles/kwadrat-key-f9.png' },
+  { name: 'kwadrat-key-ral7016', label: 'KWADRAT con llave (RAL7016)',     image: '/assets/handles/kwadrat-key-ral7016.png' },
+  { name: 'kwadrat-key-ral8019', label: 'KWADRAT con llave (RAL8019)',     image: '/assets/handles/kwadrat-key-ral8019.png' },
+  { name: 'kwadrat-key-ral9001', label: 'KWADRAT con llave (RAL9001)',     image: '/assets/handles/kwadrat-key-ral9001.png' },
+  { name: 'kwadrat-key-ral9005', label: 'KWADRAT con llave (RAL9005)',     image: '/assets/handles/kwadrat-key-ral9005.png' },
+  { name: 'kwadrat-key-ral9016', label: 'KWADRAT con llave (RAL9016)',     image: '/assets/handles/kwadrat-key-ral9016.png' },
+]
 
+const PER_PAGE = 5
+
+function HandlesSlider() {
+  const [page, setPage] = useState(0)
+  const totalPages = Math.ceil(HANDLES.length / PER_PAGE)
+  const visible = HANDLES.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE)
+
+  return (
+    <section className="py-16 border-b border-[#2a2a2b]" style={{ background: 'linear-gradient(180deg, #0e0e0f 0%, #161617 100%)' }}>
+      <div className="max-w-7xl mx-auto px-6">
+        <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-2">Handles</h2>
+        <p className="text-white/50 text-sm mb-10 max-w-2xl">
+          Our window handles are distinguished by their excellent workmanship, functionality and durability. Available in multiple color variants to perfectly match your windows.
+        </p>
+        <div className="relative flex items-center gap-4">
+          <button
+            onClick={() => setPage(p => (p - 1 + totalPages) % totalPages)}
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-[#3a3a3b] text-white/60 hover:text-[#dca95c] hover:border-[#dca95c] transition-colors duration-200"
+            aria-label="Previous"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <div className="flex-1 grid grid-cols-5 gap-4">
+            {visible.map(handle => (
+              <div key={handle.name} className="flex flex-col items-center gap-3">
+                <div className="w-full aspect-square flex items-end justify-center overflow-hidden bg-[#111112]">
+                  <img src={handle.image} alt={handle.label} className="w-full h-full object-contain hover:scale-105 transition-transform duration-300" />
+                </div>
+                <p className="text-white/70 text-[11px] text-center leading-tight px-1">{handle.label}</p>
+              </div>
+            ))}
+            {Array.from({ length: PER_PAGE - visible.length }).map((_, i) => (
+              <div key={`empty-${i}`} />
+            ))}
+          </div>
+          <button
+            onClick={() => setPage(p => (p + 1) % totalPages)}
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-[#3a3a3b] text-white/60 hover:text-[#dca95c] hover:border-[#dca95c] transition-colors duration-200"
+            aria-label="Next"
+          >
+            <ChevronRight size={20} />
+          </button>
+        </div>
+        <div className="flex justify-center gap-2 mt-8">
+          {Array.from({ length: totalPages }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setPage(i)}
+              className="w-2 h-2 rounded-full transition-colors duration-200"
+              style={{ background: i === page ? '#dca95c' : 'rgba(255,255,255,0.2)' }}
+              aria-label={`Page ${i + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
 function GlazingSection({ glassOptions }: { glassOptions: GlassOption[] }) {
   const [selected, setSelected] = useState<GlassOption>(glassOptions[0])
 
@@ -368,8 +461,8 @@ export function ProductDetailPage() {
       {/* 4. Glass Options Grid */}
       <GlazingSection glassOptions={detailData.glassOptions} />
 
-
-
+      {/* 5. Handles Slider */}
+      <HandlesSlider />
 
       {/* Floating Action Bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-md border-t border-[#2a2a2b] p-4 z-40 transform translate-y-0 transition-transform">
