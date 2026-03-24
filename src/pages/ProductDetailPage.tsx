@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { Check, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Check, ChevronLeft, ChevronRight, Play, X } from 'lucide-react'
 import { IGLO_EDGE_DETAIL, type GlassOption } from '../data/productDetails'
 import { PRODUCTS } from '../data/products'
 import { ColorSwatch } from '../components/products/ColorSwatch'
@@ -177,6 +177,7 @@ export function ProductDetailPage() {
   const basicData = PRODUCTS.find((p) => p.slug === slug)
 
   const [selectedColorId, setSelectedColorId] = useState(detailData?.colors[0]?.id || '')
+  const [videoOpen, setVideoOpen] = useState(false)
 
   if (!detailData && !basicData) {
     return (
@@ -258,17 +259,109 @@ export function ProductDetailPage() {
         </div>
       </section>
 
-      {/* 2. Blueprint / Profile Section */}
+      {/* 2. Drutex Product Overview — mirrors the drutex.eu layout */}
+      <section className="border-b border-[#2a2a2b]" style={{ background: 'linear-gradient(180deg, #111112 0%, #161617 100%)' }}>
+
+        {/* Row A: Description + bullets (left) | Window photo (right) */}
+        <div className="max-w-7xl mx-auto px-6 pt-20 pb-12">
+          <div className="grid lg:grid-cols-2 gap-16 items-start">
+
+            {/* Left: text block */}
+            <div>
+              <span className="bg-[#dca95c] text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">Standard Equipment</span>
+              <h2 className="text-4xl font-black text-white uppercase mb-6 leading-tight">
+                IGLO EDGE
+              </h2>
+              <p className="text-white/70 leading-relaxed mb-8">
+                {detailData.description}
+              </p>
+              <ul className="space-y-3 mb-10">
+                {detailData.standardEquipment.map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <span className="mt-1 w-4 h-4 flex-shrink-0 rounded-full flex items-center justify-center" style={{ background: '#dca95c' }}>
+                      <Check size={10} className="text-black" />
+                    </span>
+                    <span className="text-white/70 text-sm leading-snug">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              {/* Video CTA */}
+              <button
+                onClick={() => setVideoOpen(true)}
+                className="flex items-center gap-3 text-sm text-white/70 hover:text-[#dca95c] transition-colors duration-200 group"
+              >
+                <span className="w-10 h-10 flex items-center justify-center border border-[#dca95c] text-[#dca95c] group-hover:bg-[#dca95c] group-hover:text-black transition-all duration-200">
+                  <Play size={16} fill="currentColor" />
+                </span>
+                <span className="uppercase tracking-widest font-semibold text-xs">See video</span>
+              </button>
+            </div>
+
+            {/* Right: window photo */}
+            <div className="flex items-center justify-center bg-white/5 border border-[#2a2a2b] p-8">
+              <img
+                src={detailData.windowPhoto}
+                alt="IGLO EDGE window"
+                className="w-full max-w-sm object-contain"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Row B: Profile cross-section photo + Technical drawing */}
+        <div className="max-w-7xl mx-auto px-6 pb-20">
+          <div className="grid grid-cols-2 gap-8 items-center">
+            {/* Profile photograph */}
+            <div className="bg-[#1a1a1b] border border-[#2a2a2b] flex items-center justify-center p-8">
+              <img
+                src={detailData.profileImage}
+                alt="IGLO EDGE profile cross-section"
+                className="w-full max-w-sm object-contain"
+              />
+            </div>
+            {/* Technical drawing */}
+            <div className="bg-white flex items-center justify-center p-8">
+              <img
+                src={detailData.blueprintImage}
+                alt="IGLO EDGE technical drawing"
+                className="w-full max-w-sm object-contain"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Video modal */}
+      {videoOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
+          onClick={() => setVideoOpen(false)}
+        >
+          <div className="relative w-full max-w-4xl mx-6" onClick={e => e.stopPropagation()}>
+            <button
+              onClick={() => setVideoOpen(false)}
+              className="absolute -top-10 right-0 text-white/70 hover:text-[#dca95c] transition-colors"
+            >
+              <X size={24} />
+            </button>
+            <video
+              src={detailData.videoSrc}
+              autoPlay
+              controls
+              className="w-full rounded-sm shadow-2xl"
+            />
+          </div>
+        </div>
+      )}
+
+      {/* 3. Profile Specs Section */}
       <section className="max-w-7xl mx-auto px-6 py-24 border-b border-[#2a2a2b]">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
             <span className="bg-[#dca95c] text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">New Generation</span>
             <h2 className="text-4xl font-black text-white uppercase mb-6 leading-tight">
-              Uncompromising Quality & Thermal Performance
+              Uncompromising Quality &amp; Thermal Performance
             </h2>
-            <p className="text-white/60 text-lg leading-relaxed mb-10">
-              {detailData.description}
-            </p>
             <ul className="space-y-4">
               {detailData.keySpecs.map(spec => (
                 <li key={spec.label} className="flex items-center gap-3 border-b border-[#2a2a2b] pb-3">
@@ -279,9 +372,14 @@ export function ProductDetailPage() {
               ))}
             </ul>
           </div>
-          <div className="grid grid-cols-2 gap-8 items-center bg-[#161617] p-8 md:p-12 rounded-sm border border-[#2a2a2b]">
-            <img src={detailData.profileImage} alt="Profile Cross Section" className="w-full object-contain" />
-            <img src={detailData.blueprintImage} alt="Technical Drawing" className="w-full object-contain invert opacity-80" />
+          <div className="flex flex-col gap-4 bg-[#161617] p-8 md:p-12 border border-[#2a2a2b]">
+            <p className="text-white/50 text-xs uppercase tracking-widest mb-2">Key specifications at a glance</p>
+            {detailData.keySpecs.map(spec => (
+              <div key={spec.label} className="flex justify-between border-b border-[#2a2a2b] pb-2">
+                <span className="text-white/60 text-sm">{spec.label}</span>
+                <span className="text-[#dca95c] font-bold text-sm">{spec.value}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>

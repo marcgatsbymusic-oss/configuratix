@@ -21,8 +21,11 @@ export interface ProductDetailData {
   tagline: string
   description: string
   heroImage: string
+  windowPhoto: string
   profileImage: string
   blueprintImage: string
+  videoSrc: string
+  standardEquipment: string[]
   keySpecs: { label: string; value: string }[]
   colors: SwatchColor[]
   glassOptions: GlassOption[]
@@ -79,12 +82,28 @@ export const IGLO_EDGE_DETAIL: ProductDetailData = {
   slug: 'iglo-edge',
   name: 'IGLO EDGE',
   tagline: 'Maximum insulation, minimal frame',
-  description: 'The Iglo Edge represents a breakthrough in PVC window design. Featuring unparalleled thermal insulation values (Uw = 0.57 W/m²K) combined with an ultra-slim profile and modern aesthetic. Engineered with a proprietary 6-chamber Class A system, it defines the future of premium energy-efficient fenestration.',
-  heroImage: '/assets/hero.png', // We'll reuse our stunning hero image for the banner 
-  profileImage: 'https://www.drutex.es/images/produkty/iglo-edge/przekroj-iglo-edge.png', // Taking Drutex cross-section for accuracy request
-  blueprintImage: 'https://www.drutex.es/images/produkty/iglo-edge/rysunek-techniczny-iglo-edge.png',
+  description: 'Our new, most technologically advanced window is distinguished by an excellent thermal insulation parameter of Uw = 0.66 W/(m²K)* and a modern, angular profile shape. The extremely good thermal insulation parameters are due, among other things, to the 7-chamber profile design and 3 EPDM gaskets, including the central gasket.',
+  heroImage: '/assets/hero.png',
+  windowPhoto: '/assets/iglo-edge-window-photo.png',
+  profileImage: '/assets/iglo-edge-profile-photo.png',
+  blueprintImage: '/assets/iglo-edge-technical-drawing.png',
+  videoSrc: '/assets/iglo-edge-animation.mp4',
+  standardEquipment: [
+    'Double-chamber glazing package Ug = 0.5 W/(m²K)',
+    'Swisspacer Ultimate plastic warm frame',
+    'V-perfect weld',
+    '4 anti-theft strikers according to the size of the sash and the hardware system',
+    'Microventilation',
+    'DUBLIN aluminium window handle',
+    'Handle misplacement locking mechanism',
+    'Perimeter, glazing and central gaskets in black or grey',
+    'Filling of the lower hardware groove',
+    'Sill trim',
+    'Wide selection of PVC veneer colours',
+    '3 profile colours to choose from: white, brown or anthracite',
+  ],
   keySpecs: [
-    { label: 'Sound Insulation', value: '36-47 dB' },
+    { label: 'Sound Insulation', value: '36–47 dB' },
     { label: 'EPDM Gaskets', value: '3' },
     { label: 'Thermal Transmittance', value: 'Uw = 0.66 W/(m²K)*' },
     { label: 'Number of Chambers', value: '7' },
