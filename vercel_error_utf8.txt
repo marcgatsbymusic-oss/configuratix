@@ -1,0 +1,1080 @@
+﻿node.exe : > [debug] [
+2026-03-20T10:35:22.83
+8Z] Found config in 
+file "C:\Users\Shadow\
+.gemini\antigravity\sc
+ratch\fantastic-octo-g
+iggle\vercel.json"
+At line:1 char:1
++ & "C:\Program Files\
+nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo 
+...
++ ~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: (> [debug]    
+ [2026...le\vercel    
+.json":String) []    
+, RemoteException
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+> [debug] [2026-03-20T
+10:35:22.839Z] Vercel 
+CLI 50.34.2
+> [debug] [2026-03-20T
+10:35:22.841Z] Agent/T
+TY/nonInteractive: 
+isAgent=true 
+agentName=antigravity 
+stdin.isTTY=true --non
+-interactive=false 
+explicitFalse=false 
+=> 
+nonInteractive=false
+> [debug] [2026-03-20T
+10:35:22.842Z] user 
+supplied a possible 
+target for deployment 
+or an extension
+> [debug] [2026-03-20T
+10:35:22.867Z] failed 
+to find extension 
+command with name 
+"vercel---prod"
+> [debug] [2026-03-20T
+10:35:22.912Z] 
+Setting target to 
+production
+> [debug] [2026-03-20T
+10:35:22.923Z] 
+Spinner invoked 
+(Retrieving 
+projectΓÇª) with a 
+1000ms delay
+> [debug] [2026-03-20T
+10:35:22.924Z] Valid 
+access token, 
+skipping token 
+refresh.
+> [debug] [2026-03-20T
+10:35:22.937Z] #1 ΓåÆ 
+GET https://api.vercel
+.com/teams/team_vIOx9O
+2y1V9itFOOU7fLaVrY?tea
+mId=team_vIOx9O2y1V9it
+FOOU7fLaVrY
+> [debug] [2026-03-20T
+10:35:22.939Z] #2 ΓåÆ 
+GET https://api.vercel
+.com/v9/projects/prj_H
+qD6NpILJU20SjR9NbE4Z4O
+8e7cR?teamId=team_vIOx
+9O2y1V9itFOOU7fLaVrY
+> [debug] [2026-03-20T
+10:35:23.480Z] #1 ΓåÉ 
+200 OK: sfo1::7vcwt-17
+74002924060-12f088d0d7
+fb [542ms]
+> [debug] [2026-03-20T
+10:35:23.502Z] #2 ΓåÉ 
+200 OK: sfo1::4wllm-17
+74002924081-c8b52a7088
+bf [563ms]
+> [debug] [2026-03-20T
+10:35:23.643Z] 
+Spinner invoked 
+(Deploying marctruekal
+ia-4542s-projects/fant
+astic-octo-giggle) 
+with a 0ms delay
+[client-debug] 2026-03
+-20T10:35:23.644Z 
+Creating deployment...
+[client-debug] 2026-03
+-20T10:35:23.644Z 
+Provided 'path' is a 
+directory.
+[client-debug] 2026-03
+-20T10:35:23.645Z 
+Found 26 rules in 
+.vercelignore
+[client-debug] 2026-03
+-20T10:35:23.646Z 
+Building file tree...
+[client-debug] 2026-03
+-20T10:35:23.705Z 
+Found 519 files in 
+the specified 
+directory
+[client-debug] 2026-03
+-20T10:35:23.824Z 
+Yielding a 
+'hashes-calculated' 
+event with 467 hashes
+> [debug] [2026-03-20T
+10:35:23.826Z] #3 ΓåÆ 
+GET https://api.vercel
+.com/v9/projects/fanta
+stic-octo-giggle?teamI
+d=team_vIOx9O2y1V9itFO
+OU7fLaVrY
+> [debug] [2026-03-20T
+10:35:24.022Z] #3 ΓåÉ 
+200 OK: sfo1::kwrf2-17
+74002924599-49f958c21b
+bc [196ms]
+[client-debug] 2026-03
+-20T10:35:24.023Z 
+Using provided API 
+URL: 
+https://api.vercel.com
+[client-debug] 2026-03
+-20T10:35:24.023Z 
+Using provided user 
+agent: vercel 50.34.2 
+node-v24.14.0 win32 
+(x64)
+[client-debug] 2026-03
+-20T10:35:24.023Z 
+Setting platform 
+version to harcoded 
+value 2
+[client-debug] 2026-03
+-20T10:35:24.023Z 
+Creating the 
+deployment and 
+starting upload...
+[client-debug] 2026-03
+-20T10:35:24.023Z 
+Determining necessary 
+files for upload...
+[client-debug] 2026-03
+-20T10:35:24.023Z 
+Creating deployment
+[client-debug] 2026-03
+-20T10:35:24.026Z 
+Sending deployment 
+creation API request
+[client-debug] 2026-03
+-20T10:35:24.419Z 
+Deployment response: {
+"error":{"code":"missi
+ng_files","message":"M
+issing files","missing
+":["ed0fa46606ac85fc4d
+3301264f32bd7204a3187d
+"]}}
+[client-debug] 2026-03
+-20T10:35:24.419Z 
+Error: Deployment 
+request status is 400
+[client-debug] 2026-03
+-20T10:35:24.419Z 1 
+files are required to 
+upload
+[client-debug] 2026-03
+-20T10:35:24.419Z 
+Yielding a 
+'file-count' event
+> [debug] [2026-03-20T
+10:35:24.419Z] Total 
+files 467, 1 changed
+> [debug] [2026-03-20T
+10:35:24.419Z] 
+Spinner invoked 
+(Uploading [----------
+----------] 
+(0.0B/4.6KB)) with a 
+0ms delay
+[client-debug] 2026-03
+-20T10:35:24.419Z 
+Building an upload 
+list...
+[client-debug] 2026-03
+-20T10:35:24.420Z 
+Starting upload
+[client-debug] 2026-03
+-20T10:35:24.420Z 
+POST https://api.verce
+l.com/v2/files?teamId=
+team_vIOx9O2y1V9itFOOU
+7fLaVrY
+> [debug] [2026-03-20T
+10:35:24.421Z] 
+Spinner invoked 
+(Uploading [==========
+==========] 
+(4.6KB/4.6KB)) with a 
+0ms delay
+[client-debug] 2026-03
+-20T10:35:24.715Z 
+DONE in 295ms: POST ht
+tps://api.vercel.com/v
+2/files?teamId=team_vI
+Ox9O2y1V9itFOOU7fLaVrY
+[client-debug] 2026-03
+-20T10:35:24.715Z 
+File ed0fa46606ac85fc4
+d3301264f32bd7204a3187
+d (C:\Users\Shadow\.ge
+mini\antigravity\scrat
+ch\fantastic-octo-gigg
+le\vercel_error.txt) 
+uploaded
+[client-debug] 2026-03
+-20T10:35:24.715Z 
+Yielding a 
+'file-uploaded' event
+> [debug] [2026-03-20T
+10:35:24.715Z] 
+Uploaded: C:\Users\Sha
+dow\.gemini\antigravit
+y\scratch\fantastic-oc
+to-giggle\vercel_error
+.txt (4.62KB)
+[client-debug] 2026-03
+-20T10:35:24.716Z All 
+files uploaded
+[client-debug] 2026-03
+-20T10:35:24.716Z 
+Yielding a 
+'all-files-uploaded' 
+event
+[client-debug] 2026-03
+-20T10:35:24.716Z 
+Starting deployment 
+creation
+[client-debug] 2026-03
+-20T10:35:24.716Z 
+Creating deployment
+[client-debug] 2026-03
+-20T10:35:24.718Z 
+Sending deployment 
+creation API request
+[client-debug] 2026-03
+-20T10:35:27.135Z 
+Deployment response: {
+"alias":["fantastic-oc
+to-giggle-marctruekali
+a-4542s-projects.verce
+l.app"],"aliasAssigned
+":false,"automaticAlia
+ses":["fantastic-octo-
+giggle-marctruekalia-4
+542s-projects.vercel.a
+pp"],"bootedAt":177400
+2926034,"buildingAt":1
+774002926034,"buildSki
+pped":false,"createdAt
+":1774002926034,"creat
+or":{"uid":"NRrSClTPBA
+UE4VlgCtdMruH0","usern
+ame":"marctruekalia-45
+42"},"errorLink":"http
+s://vercel.com/docs/de
+ployments/troubleshoot
+-project-collaboration
+#team-configuration","
+id":"dpl_5dMNEqpFrfPFZ
+YtemxSHGUerPAmv","init
+ReadyAt":1774002926034
+,"name":"fantastic-oct
+o-giggle","meta":{"git
+hubCommitAuthorName":"
+Daniel Keller","github
+CommitAuthorEmail":"da
+niel.kellermartinez@cs
+em.ch","githubCommitMe
+ssage":"fix: add 
+vercel.json config 
+and Node 20+ engine 
+for Vercel deployment"
+,"githubCommitOrg":"ma
+rctruekalia-commits","
+githubCommitRef":"main
+","githubCommitRepo":"
+fantastic-octo-giggle"
+,"githubCommitSha":"ac
+04e729a6bd7a5f2b54452b
+eaf22b509dbe128a","git
+hubDeployment":"1","gi
+thubOrg":"marctruekali
+a-commits","githubRepo
+":"fantastic-octo-gigg
+le","gitDirty":"1","ac
+tor":"antigravity"},"o
+riginCacheRegion":"iad
+1","project":{"id":"pr
+j_HqD6NpILJU20SjR9NbE4
+Z4O8e7cR","name":"fant
+astic-octo-giggle","fr
+amework":"vite"},"publ
+ic":false,"ready":1774
+002926034,"readyState"
+:"ERROR","regions":["i
+ad1"],"source":"cli","
+status":"ERROR","targe
+t":"production","team"
+:{"id":"team_vIOx9O2y1
+V9itFOOU7fLaVrY","name
+":"marctruekalia-4542'
+s projects","slug":"ma
+rctruekalia-4542s-proj
+ects"},"type":"LAMBDAS
+","url":"fantastic-oct
+o-giggle-h9qox34ji-mar
+ctruekalia-4542s-proje
+cts.vercel.app","versi
+on":2,"previewComments
+Enabled":true,"oidcTok
+enClaims":{"sub":"owne
+r:marctruekalia-4542s-
+projects:project:fanta
+stic-octo-giggle:envir
+onment:production","is
+s":"https://oidc.verce
+l.com/marctruekalia-45
+42s-projects","scope":
+"owner:marctruekalia-4
+542s-projects:project:
+fantastic-octo-giggle:
+environment:production
+","aud":"https://verce
+l.com/marctruekalia-45
+42s-projects","owner":
+"marctruekalia-4542s-p
+rojects","owner_id":"t
+eam_vIOx9O2y1V9itFOOU7
+fLaVrY","project":"fan
+tastic-octo-giggle","p
+roject_id":"prj_HqD6Np
+ILJU20SjR9NbE4Z4O8e7cR
+","environment":"produ
+ction","plan":"hobby"}
+,"nodeVersion":"24.x",
+"readyStateReason":"Gi
+t author daniel.keller
+martinez@csem.ch must 
+have access to the 
+team 
+marctruekalia-4542's 
+projects on Vercel to 
+create deployments.","
+lambdas":[{"id":"bld_f
+7guz5sme","createdAt":
+1774002927214,"entrypo
+int":".","readyState":
+"READY","readyStateAt"
+:1774002927214,"output
+":[]}],"aliasAssignedA
+t":null,"alwaysRefuseT
+oBuild":true,"build":{
+"env":["CI","VERCEL","
+VERCEL_ENV","VERCEL_TA
+RGET_ENV","TURBO_REMOT
+E_ONLY","TURBO_RUN_SUM
+MARY","TURBO_DOWNLOAD_
+LOCAL_ENABLED","NX_DAE
+MON","TURBO_CACHE","VE
+RCEL_URL","VERCEL_GIT_
+PROVIDER","VERCEL_GIT_
+PREVIOUS_SHA","VERCEL_
+GIT_REPO_SLUG","VERCEL
+_GIT_REPO_OWNER","VERC
+EL_GIT_REPO_ID","VERCE
+L_GIT_COMMIT_REF","VER
+CEL_GIT_COMMIT_SHA","V
+ERCEL_GIT_COMMIT_MESSA
+GE","VERCEL_GIT_COMMIT
+_AUTHOR_LOGIN","VERCEL
+_GIT_COMMIT_AUTHOR_NAM
+E","VERCEL_GIT_PULL_RE
+QUEST_ID","TURBO_PLATF
+ORM_ENV","VITE_SUPABAS
+E_URL","VITE_SUPABASE_
+ANON_KEY","VERCEL_DISC
+OVER_FOLDER_SIZES","VE
+RCEL_LAMBDA_OUTPUTS_AS
+_MIDDLEWARE","VERCEL_N
+EXT_BUNDLED_SERVER","V
+ERCEL_SERVERLESS_FUNCT
+ION_FAILOVER","VERCEL_
+INVALIDATE_BUILD_CACHE
+_ON_SIZE_EXCEEDED","US
+E_RUST_LAYER_LATEST","
+VERCEL_EDGE_FNS_ON_WOR
+KERD","VERCEL_EDGE_FNS
+_ON_WORKERD_UNBUNDLED_
+FORMAT","VERCEL_EDGE_O
+N_SERVERLESS_NODE","VE
+RCEL_EDGE_FNS_ON_SERVE
+RLESS","VERCEL_EDGE_FN
+S_ON_SERVERLESS_USE_FI
+LESYSTEM_CONTENT","VER
+CEL_NODE_BRIDGE_COMPRE
+SS_MULTI_PAYLOADS","VE
+RCEL_USE_BYTECODE_CACH
+ING","VERCEL_COMPRESS_
+SERVERLESS_RESPONSE","
+VERCEL_SET_REQUESTED_A
+T_PRODUCTION_ON_DEPLOY
+MENT","VERCEL_FUNCTION
+S_USE_BUN_RUNTIME","VE
+RCEL_FUNCTIONS_USE_EXE
+CUTABLE_RUNTIME","VERC
+EL_ENABLE_REGIONALIZED
+_ISR","VERCEL_COMPRESS
+ED_ISR_BILLING","VERCE
+L_ENABLE_PARALLEL_CACH
+E_DOWNLOAD","VERCEL_US
+E_DEFAULT_PNPM_10","VE
+RCEL_ENABLE_PATH_LOOKU
+P_BLOOM_FILTER","VERCE
+L_ENABLE_UNCOMPRESSED_
+LAMBDA_SIZE_CHECK","VE
+RCEL_USE_API_CONNECTOR
+S","VERCEL_EDGE_MIDDLE
+WARE_WITH_NODEJS_24","
+VERCEL_EDGE_FUNCTIONS_
+WITH_NODEJS_24","VERCE
+L_DETECT_CRYPTO_MINER_
+IN_BUILD_LOG","NEXT_EN
+ABLE_ADAPTER","VERCEL_
+SKIP_EDGE_FUNCTION_END
+POINT","VERCEL_SKIP_FU
+NCTION_STATE_TRANSITIO
+N","VERCEL_COMPACT_LAM
+BDA_SUMMARY","VERCEL_S
+KIP_BUILD_TIME_STATIC_
+ASSET_COMPRESSION","VE
+RCEL_DEPLOYMENT_ID","V
+ERCEL_PROJECT_ID","VER
+CEL_PROJECT_NAME","VER
+CEL_PROJECT_PRODUCTION
+_URL","VERCEL_DEPLOYME
+NT_KEY","VERCEL_OBSERV
+ABILITY_CLIENT_CONFIG"
+,"NEXT_PUBLIC_VERCEL_O
+BSERVABILITY_CLIENT_CO
+NFIG","REACT_APP_VERCE
+L_OBSERVABILITY_CLIENT
+_CONFIG","PUBLIC_VERCE
+L_OBSERVABILITY_CLIENT
+_CONFIG","VITE_VERCEL_
+OBSERVABILITY_CLIENT_C
+ONFIG","VERCEL_BUILD_O
+UTPUTS_POST_LAMBDA_SEM
+A","VERCEL_EDGE_MIDDLE
+WARE_MEMORY_SIZE","VER
+CEL_EDGE_FUNCTIONS_MEM
+ORY_SIZE","VERCEL_EDGE
+_FUNCTIONS_BATCH_SIZE"
+,"VERCEL_OIDC_TOKEN","
+VERCEL_EDGE_FUNCTIONS_
+ENABLE_CREATE_FUNC_DED
+UPE","VERCEL_EDGE_FUNC
+TIONS_USE_FILESYSTEM_C
+ONTENT","NEXT_PRIVATE_
+MULTI_PAYLOAD","VERCEL
+_RICHER_DEPLOYMENT_OUT
+PUTS","VERCEL_SERVERLE
+SS_SUSPENSE_CACHE","VE
+RCEL_BUILD_MONOREPO_SU
+PPORT","VERCEL_USE_ONL
+Y_STREAMING_LAMBDA","V
+ERCEL_USE_STREAMING_PR
+ERENDER","VERCEL_ENABL
+E_EXTENDED_FALLBACK_PA
+YLOAD","VERCEL_PREREND
+ER_METADATA_AS_METADAT
+A_FILE","VERCEL_PREREN
+DER_METADATA_BOUNDARY"
+,"VERCEL_CLI_ROLLOUT_V
+ERSION","VERCEL_PREREN
+DER_METADATA_BYPASS_FO
+R","VERCEL_ENV_ENC_KEY
+","VERCEL_ENCRYPTED_EN
+V_CONTENT","VERCEL_ENC
+RYPTED_ENV_FILENAME"]}
+,"builds":[],"createdI
+n":"sfo1","env":["CI",
+"VERCEL","VERCEL_ENV",
+"VERCEL_TARGET_ENV","T
+URBO_REMOTE_ONLY","TUR
+BO_RUN_SUMMARY","TURBO
+_DOWNLOAD_LOCAL_ENABLE
+D","NX_DAEMON","TURBO_
+CACHE","VERCEL_URL","V
+ERCEL_GIT_PROVIDER","V
+ERCEL_GIT_PREVIOUS_SHA
+","VERCEL_GIT_REPO_SLU
+G","VERCEL_GIT_REPO_OW
+NER","VERCEL_GIT_REPO_
+ID","VERCEL_GIT_COMMIT
+_REF","VERCEL_GIT_COMM
+IT_SHA","VERCEL_GIT_CO
+MMIT_MESSAGE","VERCEL_
+GIT_COMMIT_AUTHOR_LOGI
+N","VERCEL_GIT_COMMIT_
+AUTHOR_NAME","VERCEL_G
+IT_PULL_REQUEST_ID","T
+URBO_PLATFORM_ENV","VI
+TE_SUPABASE_URL","VITE
+_SUPABASE_ANON_KEY","V
+ERCEL_DISCOVER_FOLDER_
+SIZES","VERCEL_LAMBDA_
+OUTPUTS_AS_MIDDLEWARE"
+,"VERCEL_NEXT_BUNDLED_
+SERVER","VERCEL_SERVER
+LESS_FUNCTION_FAILOVER
+","VERCEL_INVALIDATE_B
+UILD_CACHE_ON_SIZE_EXC
+EEDED","USE_RUST_LAYER
+_LATEST","VERCEL_EDGE_
+FNS_ON_WORKERD","VERCE
+L_EDGE_FNS_ON_WORKERD_
+UNBUNDLED_FORMAT","VER
+CEL_EDGE_ON_SERVERLESS
+_NODE","VERCEL_EDGE_FN
+S_ON_SERVERLESS","VERC
+EL_EDGE_FNS_ON_SERVERL
+ESS_USE_FILESYSTEM_CON
+TENT","VERCEL_NODE_BRI
+DGE_COMPRESS_MULTI_PAY
+LOADS","VERCEL_USE_BYT
+ECODE_CACHING","VERCEL
+_COMPRESS_SERVERLESS_R
+ESPONSE","VERCEL_SET_R
+EQUESTED_AT_PRODUCTION
+_ON_DEPLOYMENT","VERCE
+L_FUNCTIONS_USE_BUN_RU
+NTIME","VERCEL_FUNCTIO
+NS_USE_EXECUTABLE_RUNT
+IME","VERCEL_ENABLE_RE
+GIONALIZED_ISR","VERCE
+L_COMPRESSED_ISR_BILLI
+NG","VERCEL_ENABLE_PAR
+ALLEL_CACHE_DOWNLOAD",
+"VERCEL_USE_DEFAULT_PN
+PM_10","VERCEL_ENABLE_
+PATH_LOOKUP_BLOOM_FILT
+ER","VERCEL_ENABLE_UNC
+OMPRESSED_LAMBDA_SIZE_
+CHECK","VERCEL_USE_API
+_CONNECTORS","VERCEL_E
+DGE_MIDDLEWARE_WITH_NO
+DEJS_24","VERCEL_EDGE_
+FUNCTIONS_WITH_NODEJS_
+24","VERCEL_DETECT_CRY
+PTO_MINER_IN_BUILD_LOG
+","NEXT_ENABLE_ADAPTER
+","VERCEL_SKIP_EDGE_FU
+NCTION_ENDPOINT","VERC
+EL_SKIP_FUNCTION_STATE
+_TRANSITION","VERCEL_C
+OMPACT_LAMBDA_SUMMARY"
+,"VERCEL_SKIP_BUILD_TI
+ME_STATIC_ASSET_COMPRE
+SSION","VERCEL_DEPLOYM
+ENT_ID","VERCEL_PROJEC
+T_ID","VERCEL_PROJECT_
+NAME","VERCEL_PROJECT_
+PRODUCTION_URL","VERCE
+L_DEPLOYMENT_KEY","VER
+CEL_OBSERVABILITY_CLIE
+NT_CONFIG","NEXT_PUBLI
+C_VERCEL_OBSERVABILITY
+_CLIENT_CONFIG","REACT
+_APP_VERCEL_OBSERVABIL
+ITY_CLIENT_CONFIG","PU
+BLIC_VERCEL_OBSERVABIL
+ITY_CLIENT_CONFIG","VI
+TE_VERCEL_OBSERVABILIT
+Y_CLIENT_CONFIG","VERC
+EL_BUILD_OUTPUTS_POST_
+LAMBDA_SEMA","VERCEL_E
+DGE_MIDDLEWARE_MEMORY_
+SIZE","VERCEL_EDGE_FUN
+CTIONS_MEMORY_SIZE","V
+ERCEL_EDGE_FUNCTIONS_B
+ATCH_SIZE","VERCEL_OID
+C_TOKEN","VERCEL_EDGE_
+FUNCTIONS_ENABLE_CREAT
+E_FUNC_DEDUPE","VERCEL
+_EDGE_FUNCTIONS_USE_FI
+LESYSTEM_CONTENT","NEX
+T_PRIVATE_MULTI_PAYLOA
+D","VERCEL_RICHER_DEPL
+OYMENT_OUTPUTS","VERCE
+L_SERVERLESS_SUSPENSE_
+CACHE","VERCEL_BUILD_M
+ONOREPO_SUPPORT","VERC
+EL_USE_ONLY_STREAMING_
+LAMBDA","VERCEL_USE_ST
+REAMING_PRERENDER","VE
+RCEL_ENABLE_EXTENDED_F
+ALLBACK_PAYLOAD","VERC
+EL_PRERENDER_METADATA_
+AS_METADATA_FILE","VER
+CEL_PRERENDER_METADATA
+_BOUNDARY","VERCEL_CLI
+_ROLLOUT_VERSION","VER
+CEL_PRERENDER_METADATA
+_BYPASS_FOR","VERCEL_E
+NV_ENC_KEY","VERCEL_EN
+CRYPTED_ENV_CONTENT","
+VERCEL_ENCRYPTED_ENV_F
+ILENAME"],"functions":
+null,"inspectorUrl":"h
+ttps://vercel.com/marc
+truekalia-4542s-projec
+ts/fantastic-octo-gigg
+le/5dMNEqpFrfPFZYtemxS
+HGUerPAmv","isInConcur
+rentBuildsQueue":false
+,"isInSystemBuildsQueu
+e":false,"ownerId":"te
+am_vIOx9O2y1V9itFOOU7f
+LaVrY","plan":"hobby",
+"projectId":"prj_HqD6N
+pILJU20SjR9NbE4Z4O8e7c
+R","projectSettings":{
+"buildCommand":"npm 
+run build","devCommand
+":null,"framework":"vi
+te","commandForIgnorin
+gBuildStep":null,"inst
+allCommand":"npm 
+install --legacy-peer-
+deps","outputDirectory
+":"dist","speedInsight
+s":{"id":"YrxTI8iqADpV
+hUXVHfzSaU2pwMB","hasD
+ata":false},"webAnalyt
+ics":{"id":"1svhreODHQ
+ztvys6wgjjn18tp"},"nod
+eVersion":"24.x"},"rou
+tes":[{"handle":"files
+ystem"},{"src":"^(?:/(
+(?!assets/).*))$","des
+t":"/index.html","chec
+k":true}],"config":{"v
+ersion":1,"secureCompu
+tePrimaryRegion":null,
+"secureComputeFallback
+Region":null,"function
+Timeout":300,"function
+Type":"fluid","functio
+nMemoryType":"standard
+","isUsingActiveCPU":t
+rue,"resourceConfig":{
+"buildQueue":{"configu
+ration":"SKIP_NAMESPAC
+E_QUEUE"}}},"seatBlock
+":{"blockCode":"TEAM_A
+CCESS_REQUIRED","userI
+d":"JojlRLZkeCTumiDLR7
+EEFIMn","isVerified":f
+alse}}
+[client-debug] 2026-03
+-20T10:35:27.135Z 
+Deployment created
+[client-debug] 2026-03
+-20T10:35:27.135Z 
+Yielding a 'created' 
+event
+Inspect: https://verce
+l.com/marctruekalia-45
+42s-projects/fantastic
+-octo-giggle/5dMNEqpFr
+fPFZYtemxSHGUerPAmv 
+[3s]
+Production: https://fa
+ntastic-octo-giggle-h9
+qox34ji-marctruekalia-
+4542s-projects.vercel.
+app [3s]
+> [debug] [2026-03-20T
+10:35:27.136Z] 
+Spinner invoked 
+(Building...) with a 
+0ms delay
+> [debug] [2026-03-20T
+10:35:27.136Z] #4 ΓåÆ 
+GET https://api.vercel
+.com/v2/user
+[client-debug] 2026-03
+-20T10:35:27.136Z 
+Waiting for 
+deployment to be 
+ready...
+[client-debug] 2026-03
+-20T10:35:27.137Z 
+Waiting for builds 
+and the deployment to 
+complete...
+> [debug] [2026-03-20T
+10:35:27.303Z] #4 ΓåÉ 
+200 OK: sfo1::2kkrd-17
+74002927908-9851f6d759
+e2 [167ms]
+> [debug] [2026-03-20T
+10:35:27.305Z] #5 ΓåÆ 
+GET https://api.vercel
+.com/v3/now/deployment
+s/dpl_5dMNEqpFrfPFZYte
+mxSHGUerPAmv/events?di
+rection=forward&follow
+=1&format=lines&teamId
+=team_vIOx9O2y1V9itFOO
+U7fLaVrY
+[client-debug] 2026-03
+-20T10:35:27.552Z 
+Yielding a 'error' 
+event
+> [debug] [2026-03-20T
+10:35:27.555Z] 
+Retrying: AbortError: 
+The user aborted a 
+request.
+AbortError: The user 
+aborted a request.
+    at abort2 (file://
+/C:/Users/Shadow/AppDa
+ta/Local/npm-cache/_np
+x/69f9afb961c37556/nod
+e_modules/vercel/dist/
+chunks/chunk-7T3BJ5FK.
+js:40514:23)
+    at AbortSignal.abo
+rtAndFinalize2 (file:/
+//C:/Users/Shadow/AppD
+ata/Local/npm-cache/_n
+px/69f9afb961c37556/no
+de_modules/vercel/dist
+/chunks/chunk-7T3BJ5FK
+.js:40528:11)
+    at [nodejs.interna
+l.kHybridDispatch] (no
+de:internal/event_targ
+et:843:20)
+    at AbortSignal.dis
+patchEvent (node:inter
+nal/event_target:776:2
+6)
+    at runAbort (node:
+internal/abort_control
+ler:488:10)
+    at abortSignal (no
+de:internal/abort_cont
+roller:459:3)
+    at 
+AbortController.abort 
+(node:internal/abort_c
+ontroller:507:5)
+    at stopSpinner (fi
+le:///C:/Users/Shadow/
+AppData/Local/npm-cach
+e/_npx/69f9afb961c3755
+6/node_modules/vercel/
+dist/chunks/chunk-JC4Y
+7GCY.js:4319:22)
+    at 
+processDeployment (fil
+e:///C:/Users/Shadow/A
+ppData/Local/npm-cache
+/_npx/69f9afb961c37556
+/node_modules/vercel/d
+ist/chunks/chunk-JC4Y7
+GCY.js:4472:9)
+    at process.process
+TicksAndRejections (no
+de:internal/process/ta
+sk_queues:104:5)
+> [debug] [2026-03-20T
+10:35:27.557Z] Error: 
+Error
+Error
+    at Now.handleDeplo
+ymentError (file:///C:
+/Users/Shadow/AppData/
+Local/npm-cache/_npx/6
+9f9afb961c37556/node_m
+odules/vercel/dist/chu
+nks/chunk-JC4Y7GCY.js:
+4717:12)
+    at 
+processDeployment (fil
+e:///C:/Users/Shadow/A
+ppData/Local/npm-cache
+/_npx/69f9afb961c37556
+/node_modules/vercel/d
+ist/chunks/chunk-JC4Y7
+GCY.js:4479:33)
+    at process.process
+TicksAndRejections (no
+de:internal/process/ta
+sk_queues:104:5)
+    at async 
+Now.create (file:///C:
+/Users/Shadow/AppData/
+Local/npm-cache/_npx/6
+9f9afb961c37556/node_m
+odules/vercel/dist/chu
+nks/chunk-JC4Y7GCY.js:
+4609:24)
+    at async 
+createDeploy (file:///
+C:/Users/Shadow/AppDat
+a/Local/npm-cache/_npx
+/69f9afb961c37556/node
+_modules/vercel/dist/c
+ommands/deploy/index.j
+s:171:12)
+    at async 
+handleDefaultDeploy (f
+ile:///C:/Users/Shadow
+/AppData/Local/npm-cac
+he/_npx/69f9afb961c375
+56/node_modules/vercel
+/dist/commands/deploy/
+index.js:1299:18)
+    at async main (fil
+e:///C:/Users/Shadow/A
+ppData/Local/npm-cache
+/_npx/69f9afb961c37556
+/node_modules/vercel/d
+ist/index.js:24145:18)
+> [debug] [2026-03-20T
+10:35:27.557Z] 
+handling error: Error
+    at Now.handleDeplo
+ymentError (file:///C:
+/Users/Shadow/AppData/
+Local/npm-cache/_npx/6
+9f9afb961c37556/node_m
+odules/vercel/dist/chu
+nks/chunk-JC4Y7GCY.js:
+4717:12)
+    at 
+processDeployment (fil
+e:///C:/Users/Shadow/A
+ppData/Local/npm-cache
+/_npx/69f9afb961c37556
+/node_modules/vercel/d
+ist/chunks/chunk-JC4Y7
+GCY.js:4479:33)
+    at process.process
+TicksAndRejections (no
+de:internal/process/ta
+sk_queues:104:5)
+    at async 
+Now.create (file:///C:
+/Users/Shadow/AppData/
+Local/npm-cache/_npx/6
+9f9afb961c37556/node_m
+odules/vercel/dist/chu
+nks/chunk-JC4Y7GCY.js:
+4609:24)
+    at async 
+createDeploy (file:///
+C:/Users/Shadow/AppDat
+a/Local/npm-cache/_npx
+/69f9afb961c37556/node
+_modules/vercel/dist/c
+ommands/deploy/index.j
+s:171:12)
+    at async 
+handleDefaultDeploy (f
+ile:///C:/Users/Shadow
+/AppData/Local/npm-cac
+he/_npx/69f9afb961c375
+56/node_modules/vercel
+/dist/commands/deploy/
+index.js:1299:18)
+    at async main (fil
+e:///C:/Users/Shadow/A
+ppData/Local/npm-cache
+/_npx/69f9afb961c37556
+/node_modules/vercel/d
+ist/index.js:24145:18)
+Error: Unexpected 
+error. Please try 
+again later. ()
+> [debug] [2026-03-20T
+10:35:27.557Z] #6 ΓåÆ 
+GET https://api.vercel
+.com/v2/user
+> [debug] [2026-03-20T
+10:35:27.738Z] #6 ΓåÉ 
+200 OK: sfo1::tb4d7-17
+74002928330-a4925852c9
+ff [181ms]
+> [debug] [2026-03-20T
+10:35:28.558Z] #7 ΓåÆ 
+GET https://api.vercel
+.com/v3/now/deployment
+s/dpl_5dMNEqpFrfPFZYte
+mxSHGUerPAmv/events?di
+rection=forward&follow
+=1&format=lines&teamId
+=team_vIOx9O2y1V9itFOO
+U7fLaVrY
+> [debug] [2026-03-20T
+10:35:28.559Z] 
+Retrying: AbortError: 
+The user aborted a 
+request.
+AbortError: The user 
+aborted a request.
+    at abort2 (file://
+/C:/Users/Shadow/AppDa
+ta/Local/npm-cache/_np
+x/69f9afb961c37556/nod
+e_modules/vercel/dist/
+chunks/chunk-7T3BJ5FK.
+js:40514:23)
+    at file:///C:/User
+s/Shadow/AppData/Local
+/npm-cache/_npx/69f9af
+b961c37556/node_module
+s/vercel/dist/chunks/c
+hunk-7T3BJ5FK.js:40524
+:11
+    at new Promise 
+(<anonymous>)
+    at fetch (file:///
+C:/Users/Shadow/AppDat
+a/Local/npm-cache/_npx
+/69f9afb961c37556/node
+_modules/vercel/dist/c
+hunks/chunk-7T3BJ5FK.j
+s:40507:14)
+    at Client._fetch (
+file:///C:/Users/Shado
+w/AppData/Local/npm-ca
+che/_npx/69f9afb961c37
+556/node_modules/verce
+l/dist/chunks/chunk-SV
+MRMING.js:4067:38)
+    at async file:///C
+:/Users/Shadow/AppData
+/Local/npm-cache/_npx/
+69f9afb961c37556/node_
+modules/vercel/dist/ch
+unks/chunk-SVMRMING.js
+:4072:19
+    at async retries (
+file:///C:/Users/Shado
+w/AppData/Local/npm-ca
+che/_npx/69f9afb961c37
+556/node_modules/verce
+l/dist/chunks/chunk-JC
+4Y7GCY.js:3902:27)
+    at async 
+printEvents (file:///C
+:/Users/Shadow/AppData
+/Local/npm-cache/_npx/
+69f9afb961c37556/node_
+modules/vercel/dist/ch
+unks/chunk-JC4Y7GCY.js
+:3884:3)
+> [debug] [2026-03-20T
+10:35:28.693Z] 
+Telemetry event 
+tracked
+> [debug] [2026-03-20T
+10:35:29.198Z] 
+Telemetry subprocess 
+exited with code 0
+> [debug] [2026-03-20T
+10:35:29.753Z] 
+Telemetry subprocess 
+killed due to timeout
+> [debug] [2026-03-20T
+10:35:30.560Z] #8 ΓåÆ 
+GET https://api.vercel
+.com/v3/now/deployment
+s/dpl_5dMNEqpFrfPFZYte
+mxSHGUerPAmv/events?di
+rection=forward&follow
+=1&format=lines&teamId
+=team_vIOx9O2y1V9itFOO
+U7fLaVrY
+> [debug] [2026-03-20T
+10:35:30.560Z] 
+Retrying: AbortError: 
+The user aborted a 
+request.
+AbortError: The user 
+aborted a request.
+    at abort2 (file://
+/C:/Users/Shadow/AppDa
+ta/Local/npm-cache/_np
+x/69f9afb961c37556/nod
+e_modules/vercel/dist/
+chunks/chunk-7T3BJ5FK.
+js:40514:23)
+    at file:///C:/User
+s/Shadow/AppData/Local
+/npm-cache/_npx/69f9af
+b961c37556/node_module
+s/vercel/dist/chunks/c
+hunk-7T3BJ5FK.js:40524
+:11
+    at new Promise 
+(<anonymous>)
+    at fetch (file:///
+C:/Users/Shadow/AppDat
+a/Local/npm-cache/_npx
+/69f9afb961c37556/node
+_modules/vercel/dist/c
+hunks/chunk-7T3BJ5FK.j
+s:40507:14)
+    at Client._fetch (
+file:///C:/Users/Shado
+w/AppData/Local/npm-ca
+che/_npx/69f9afb961c37
+556/node_modules/verce
+l/dist/chunks/chunk-SV
+MRMING.js:4067:38)
+    at async file:///C
+:/Users/Shadow/AppData
+/Local/npm-cache/_npx/
+69f9afb961c37556/node_
+modules/vercel/dist/ch
+unks/chunk-SVMRMING.js
+:4072:19
+    at async retries (
+file:///C:/Users/Shado
+w/AppData/Local/npm-ca
+che/_npx/69f9afb961c37
+556/node_modules/verce
+l/dist/chunks/chunk-JC
+4Y7GCY.js:3902:27)
+    at async 
+printEvents (file:///C
+:/Users/Shadow/AppData
+/Local/npm-cache/_npx/
+69f9afb961c37556/node_
+modules/vercel/dist/ch
+unks/chunk-JC4Y7GCY.js
+:3884:3)
+> [debug] [2026-03-20T
+10:35:34.567Z] #9 ΓåÆ 
+GET https://api.vercel
+.com/v3/now/deployment
+s/dpl_5dMNEqpFrfPFZYte
+mxSHGUerPAmv/events?di
+rection=forward&follow
+=1&format=lines&teamId
+=team_vIOx9O2y1V9itFOO
+U7fLaVrY
+https://fantastic-octo-giggle-h9qox34ji-marctruekalia-4542s-projects.vercel.app
