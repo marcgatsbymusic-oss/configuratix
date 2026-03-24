@@ -48,18 +48,8 @@ export function ConfiguratorPage() {
   // ── render ──────────────────────────────────────────────────────────────
   return (
     <div className="cfg-page">
-      {/* ── Header ── */}
-      <header className="cfg-header">
-        <h1 className="cfg-title">Configure Your Window</h1>
-        <p className="cfg-subtitle">
-          Build your ideal window step by step — profile, type, dimensions, and options.
-        </p>
-      </header>
-
-      {/* ── Step breadcrumb ── */}
-      <div className="cfg-progress">
-        <StepProgress />
-      </div>
+      {/* ── Full-width step wizard banner (fensternorm style) ── */}
+      <StepProgress />
 
       {/* ── Main layout: content + sidebar ── */}
       <div className="cfg-layout">
@@ -89,6 +79,13 @@ export function ConfiguratorPage() {
             />
           ) : step === 3 ? (
             <div className="details-step">
+              {/* Step 3 instruction */}
+              <div className="step-instruction" style={{ marginBottom: '1.5rem', borderRadius: '8px' }}>
+                <p className="step-instruction-text">
+                  Enter dimensions and customise your window options
+                </p>
+              </div>
+
               {/* Dimension inputs */}
               <div className="dimension-inputs">
                 <DimensionInput field="width" label="Width" />
@@ -122,7 +119,7 @@ export function ConfiguratorPage() {
             <QuoteRequestForm />
           ) : null}
 
-          {/* ── Prev / Next navigation (mobile-friendly) ── */}
+          {/* ── Prev / Next navigation ── */}
           {!quoteOpen && (
             <div className="cfg-nav">
               {step > 1 && (

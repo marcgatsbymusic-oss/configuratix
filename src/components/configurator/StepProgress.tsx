@@ -12,7 +12,6 @@ const STEPS = [
 export function StepProgress() {
   const { step, setStep, profileSystem, windowType } = useConfiguratorStore()
 
-  // A step is navigable if previous required selections are complete
   function isAccessible(target: number) {
     if (target === 1) return true
     if (target === 2) return !!profileSystem
@@ -22,32 +21,35 @@ export function StepProgress() {
   }
 
   return (
-    <nav className="configurator-steps" aria-label="Configuration progress">
-      {STEPS.map((s, idx) => {
-        const done = step > s.id
-        const active = step === s.id
-        const accessible = isAccessible(s.id)
+    <div className="step-banner">
+      <h1 className="step-banner-title">Windows Configurator</h1>
+      <nav className="configurator-steps" aria-label="Configuration progress">
+        {STEPS.map((s, idx) => {
+          const done = step > s.id
+          const active = step === s.id
+          const accessible = isAccessible(s.id)
 
-        return (
-          <React.Fragment key={s.id}>
-            <button
-              className={`step-item ${active ? 'step-active' : ''} ${done ? 'step-done' : ''} ${!accessible ? 'step-locked' : ''}`}
-              onClick={() => accessible && setStep(s.id as 1 | 2 | 3 | 4)}
-              disabled={!accessible}
-              aria-current={active ? 'step' : undefined}
-              aria-label={`Step ${s.id}: ${s.label}`}
-            >
-              <span className="step-bubble">
-                {done ? <Check size={14} strokeWidth={3} /> : s.id}
-              </span>
-              <span className="step-label">{s.label}</span>
-            </button>
-            {idx < STEPS.length - 1 && (
-              <ChevronRight size={16} className="step-divider" aria-hidden />
-            )}
-          </React.Fragment>
-        )
-      })}
-    </nav>
+          return (
+            <React.Fragment key={s.id}>
+              <button
+                className={`step-item ${active ? 'step-active' : ''} ${done ? 'step-done' : ''} ${!accessible ? 'step-locked' : ''}`}
+                onClick={() => accessible && setStep(s.id as 1 | 2 | 3 | 4)}
+                disabled={!accessible}
+                aria-current={active ? 'step' : undefined}
+                aria-label={`Step ${s.id}: ${s.label}`}
+              >
+                <span className="step-bubble">
+                  {done ? <Check size={15} strokeWidth={3} /> : s.id}
+                </span>
+                <span className="step-label">{s.label}</span>
+              </button>
+              {idx < STEPS.length - 1 && (
+                <ChevronRight size={18} className="step-divider" aria-hidden />
+              )}
+            </React.Fragment>
+          )
+        })}
+      </nav>
+    </div>
   )
 }

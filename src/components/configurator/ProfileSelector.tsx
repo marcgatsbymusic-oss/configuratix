@@ -1,39 +1,38 @@
-import { useMemo } from 'react'
-import { CheckCircle2, Layers } from 'lucide-react'
-import type { ProfileSystem } from '../../types'
+import { useMemo, useState } from 'react'
+import { CheckCircle2 } from 'lucide-react'
+import type { ProfileSystem, ProductMaterial } from '../../types'
 import { useConfiguratorStore } from '../../store/configuratorStore'
 
-const MATERIAL_LABELS: Record<string, string> = {
-  pvc: 'uPVC',
-  aluminum: 'Aluminium',
-  wood: 'Wood',
-  'wood-aluminum': 'Wood-Alu',
-}
+const MATERIAL_TABS: { key: ProductMaterial | 'all'; label: string }[] = [
+  { key: 'all', label: 'All' },
+  { key: 'pvc', label: 'uPVC' },
+  { key: 'aluminum', label: 'Aluminium' },
+  { key: 'wood', label: 'Wood' },
+  { key: 'wood-aluminum', label: 'Wood-Alu' },
+]
 
 interface ProfileSelectorProps {
   profiles: ProfileSystem[]
-  onSelect: () => void // callback to advance to next step
+  onSelect: () => void
 }
 
 export function ProfileSelector({ profiles, onSelect }: ProfileSelectorProps) {
   const { profileSystem, setProfileSystem, productCategory } = useConfiguratorStore()
+  const [activeMaterial, setActiveMaterial] = useState<ProductMaterial | 'all'>('all')
 
-  // Filter profiles that support this product category (window/door/…)
-  const filtered = useMemo(
-    () => profiles.filter((p) => p.allowed_types.includes(productCategory)),
-    [profiles, productCategory]
-  )
+  // Filter by category first, then by active material tab
+  const filtered = useMemo(() => {
+    const byCategory = profiles.filter((p) => p.allowed_types.includes(productCategory))
+    if (activeMaterial === 'all') return byCategory
+    return byCategory.filter((p) => p.material === (activeMaterial as ProductMaterial))
+  }, [profiles, productCategory, activeMaterial])
 
-  // Group by material
-  const grouped = useMemo(() => {
-    const map = new Map<string, ProfileSystem[]>()
-    for (const p of filtered) {
-      const list = map.get(p.material) ?? []
-      list.push(p)
-      map.set(p.material, list)
-    }
-    return map
-  }, [filtered])
+  // Only show tabs that have at least one profile
+  const availableMaterials = useMemo(() => {
+    const byCategory = profiles.filter((p) => p.allowed_types.includes(productCategory))
+    const existing = new Set(byCategory.map((p) => p.material))
+    return MATERIAL_TABS.filter((t) => t.key === 'all' || existing.has(t.key))
+  }, [profiles, productCategory])
 
   function handleSelect(profile: ProfileSystem) {
     setProfileSystem(profile)
@@ -42,57 +41,69 @@ export function ProfileSelector({ profiles, onSelect }: ProfileSelectorProps) {
 
   return (
     <div className="selector-container">
-      <h2 className="selector-title">Choose your profile system</h2>
-      <p className="selector-subtitle">
-        The profile determines frame depth, thermal performance, and available window types.
-      </p>
-
-      {Array.from(grouped.entries()).map(([material, items]) => (
-        <div key={material} className="material-group">
-          <div className="material-label">
-            <Layers size={14} />
-            {MATERIAL_LABELS[material] ?? material}
-          </div>
-          <div className="profile-grid">
-            {items.map((profile) => {
-              const selected = profileSystem?.id === profile.id
-              return (
-                <button
-                  key={profile.id}
-                  className={`profile-card ${selected ? 'profile-card-selected' : ''}`}
-                  onClick={() => handleSelect(profile)}
-                  aria-pressed={selected}
-                >
-                  {selected && (
-                    <CheckCircle2 size={18} className="profile-check" aria-hidden />
-                  )}
-                  <div className="profile-img-wrap">
-                    {profile.image_url ? (
-                      <img src={profile.image_url} alt={profile.name} />
-                    ) : (
-                      <div className="profile-img-placeholder" />
-                    )}
-                  </div>
-                  <div className="profile-info">
-                    <strong>{profile.name}</strong>
-                    {profile.uw_value != null && (
-                      <span className="profile-badge">
-                        U<sub>w</sub> {profile.uw_value} W/m²K
-                      </span>
-                    )}
-                    {profile.depth_mm != null && (
-                      <span className="profile-badge">{profile.depth_mm} mm</span>
-                    )}
-                    {profile.description && (
-                      <p className="profile-desc">{profile.description}</p>
-                    )}
-                  </div>
-                </button>
-              )
-            })}
-          </div>
+      {/* Material filter tabs */}
+      <div className="step-instruction">
+        <p className="step-instruction-text">
+          Please first select the desired window profile system
+        </p>
+        <div className="mat-filter-tabs">
+          {availableMaterials.map((tab) => (
+            <button
+              key={tab.key}
+              className={`mat-tab ${activeMaterial === tab.key ? 'mat-tab-active' : ''}`}
+              onClick={() => setActiveMaterial(tab.key)}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
-      ))}
+      </div>
+
+      {/* Profile grid */}
+      <div className="profile-grid" style={{ marginTop: '1.5rem' }}>
+        {filtered.length === 0 ? (
+          <p style={{ color: '#666', fontStyle: 'italic', gridColumn: '1/-1' }}>
+            No profiles available for this selection.
+          </p>
+        ) : (
+          filtered.map((profile) => {
+            const selected = profileSystem?.id === profile.id
+            return (
+              <button
+                key={profile.id}
+                className={`profile-card ${selected ? 'profile-card-selected' : ''}`}
+                onClick={() => handleSelect(profile)}
+                aria-pressed={selected}
+              >
+                {selected && (
+                  <CheckCircle2 size={20} className="profile-check" aria-hidden />
+                )}
+                <div className="profile-img-wrap">
+                  {profile.image_url ? (
+                    <img src={profile.image_url} alt={profile.name} />
+                  ) : (
+                    <div className="profile-img-placeholder" />
+                  )}
+                </div>
+                <div className="profile-info">
+                  <strong>{profile.name}</strong>
+                  {profile.uw_value != null && (
+                    <span className="profile-badge">
+                      U<sub>w</sub> {profile.uw_value} W/m²K
+                    </span>
+                  )}
+                  {profile.depth_mm != null && (
+                    <span className="profile-badge">{profile.depth_mm} mm depth</span>
+                  )}
+                  {profile.description && (
+                    <p className="profile-desc">{profile.description}</p>
+                  )}
+                </div>
+              </button>
+            )
+          })
+        )}
+      </div>
     </div>
   )
 }

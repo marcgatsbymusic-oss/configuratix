@@ -29,11 +29,15 @@ export function WindowTypeSelector({ windowTypes, onSelect }: WindowTypeSelector
 
   return (
     <div className="selector-container">
-      <h2 className="selector-title">Choose window type</h2>
-      <p className="selector-subtitle">
-        Select a sash configuration. Available options depend on your chosen profile.
-      </p>
-      <div className="window-type-grid">
+      {/* Instruction bar */}
+      <div className="step-instruction">
+        <p className="step-instruction-text">
+          Please select a window type for your chosen profile
+        </p>
+      </div>
+
+      {/* Window type grid — fensternorm style: seamless grid with dividing lines */}
+      <div className="window-type-grid" style={{ marginTop: '1.5rem' }}>
         {filtered.map((wt) => {
           const isSelected = selected?.id === wt.id
           return (
@@ -50,8 +54,8 @@ export function WindowTypeSelector({ windowTypes, onSelect }: WindowTypeSelector
                 <WindowPreview
                   sashCount={wt.sash_count}
                   openingType={wt.opening_type}
-                  width={120}
-                  height={90}
+                  width={130}
+                  height={100}
                   mini
                 />
               </div>
