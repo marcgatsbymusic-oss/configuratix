@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+﻿import { useState, useEffect, useRef } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { Search, Globe, Menu, X, ChevronDown, ChevronRight, ChevronUp } from 'lucide-react'
 
@@ -21,7 +21,12 @@ const MEGA_MENU_CATEGORIES = [
           { label: 'IGLO LIGHT', href: '/products/iglo-light' },
           { label: 'IGLO EXT', href: '/products/iglo-ext' },
           { label: 'IGLO PREMIER', href: '/products/iglo-premier' },
-          { label: 'IDEAL', href: '/products/ideal' },
+          { label: 'IDEAL NEO AD', href: '/products/ideal-neo-ad' },
+          { label: 'IDEAL NEO MD', href: '/products/ideal-neo-md' },
+          { label: 'IDEAL NEO MD-FS', href: '/products/ideal-neo-md-fs' },
+          { label: 'IDEAL NEO MD MONOBLOCK', href: '/products/ideal-neo-md-monoblock' },
+          { label: 'IDEAL NEO MD RENOVATION', href: '/products/ideal-neo-md-renovation' },
+          { label: 'IDEAL 7000 NL', href: '/products/ideal-7000-nl' },
         ]
       },
       {
@@ -37,13 +42,13 @@ const MEGA_MENU_CATEGORIES = [
       {
         title: 'Wood Windows',
         items: [
-          { label: 'SOFTLINE - 68, 78, 88', href: '/products/softline' },
+          { label: 'SOFTLINE 68/78/88', href: '/products/softline' },
         ]
       },
       {
         title: 'Wood-Aluminum Windows',
         items: [
-          { label: 'DUOLINE - 68, 78, 88', href: '/products/duoline' },
+          { label: 'DUOLINE 68/78/88', href: '/products/duoline' },
         ]
       }
     ]
@@ -299,7 +304,7 @@ export function Header() {
                   className="block text-xs uppercase tracking-widest text-white/40 hover:text-[#dca95c] py-1 transition-colors"
                   onClick={() => setMenuOpen(false)}
                 >
-                  View All Products →
+                  View All Products â†’
                 </Link>
                 {MEGA_MENU_CATEGORIES.map((cat) => (
                   <div key={cat.id}>
