@@ -38,6 +38,7 @@ export function QuoteRequestForm() {
       // 1. Save configuration to DB
       const { data: configData, error: configErr } = await supabase
         .from('configurations')
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .insert({
           session_id: getSessionId(),
           product_category: 'window',
@@ -47,7 +48,7 @@ export function QuoteRequestForm() {
           height_mm: dimensions.height,
           options_json: options,
           total_price_eur: price?.total_eur ?? null,
-        })
+        } as any)
         .select('id')
         .single()
 
@@ -55,12 +56,12 @@ export function QuoteRequestForm() {
 
       // 2. Submit quote request
       const { error: quoteErr } = await supabase.from('quote_requests').insert({
-        configuration_id: configData.id,
+        configuration_id: (configData as any).id,
         name: form.name,
         email: form.email,
         phone: form.phone || null,
         message: form.message || null,
-      })
+      } as any)
 
       if (quoteErr) throw quoteErr
 

@@ -102,22 +102,23 @@ export const useConfiguratorStore = create<ConfiguratorStore>((set, get) => ({
         .single()
         .then(({ data }) => {
           if (data) {
+            const row = data as unknown as { min_width_mm: number; max_width_mm: number; min_height_mm: number; max_height_mm: number }
             set({
               dimensionBounds: {
-                min_width_mm: data.min_width_mm,
-                max_width_mm: data.max_width_mm,
-                min_height_mm: data.min_height_mm,
-                max_height_mm: data.max_height_mm,
+                min_width_mm: row.min_width_mm,
+                max_width_mm: row.max_width_mm,
+                min_height_mm: row.min_height_mm,
+                max_height_mm: row.max_height_mm,
               },
               // Clamp current dimensions into new bounds
               dimensions: {
                 width: Math.min(
-                  Math.max(get().dimensions.width, data.min_width_mm),
-                  data.max_width_mm
+                  Math.max(get().dimensions.width, row.min_width_mm),
+                  row.max_width_mm
                 ),
                 height: Math.min(
-                  Math.max(get().dimensions.height, data.min_height_mm),
-                  data.max_height_mm
+                  Math.max(get().dimensions.height, row.min_height_mm),
+                  row.max_height_mm
                 ),
               },
             })

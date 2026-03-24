@@ -1,0 +1,31 @@
+﻿
+> antigravravity@0.0.0 build
+> tsc -b && vite build
+
+src/components/configurator/QuoteRequestForm.tsx(41,10): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: never, options?: { count?: "exact" | "planned" | "estimated" | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "configurations", never, "POST">', gave the following error.
+    Argument of type '{ session_id: string; product_category: string; profile_system_id: string | null; window_type_id: string | null; width_mm: number; height_mm: number; options_json: Record<string, string>; total_price_eur: number | null; }' is not assignable to parameter of type 'never'.
+  Overload 2 of 2, '(values: never[], options?: { count?: "exact" | "planned" | "estimated" | undefined; defaultToNull?: boolean | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "configurations", never, "POST">', gave the following error.
+    Object literal may only specify known properties, and 'session_id' does not exist in type 'never[]'.
+src/components/configurator/QuoteRequestForm.tsx(57,73): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: never, options?: { count?: "exact" | "planned" | "estimated" | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "quote_requests", never, "POST">', gave the following error.
+    Argument of type '{ configuration_id: any; name: string; email: string; phone: string | null; message: string | null; }' is not assignable to parameter of type 'never'.
+  Overload 2 of 2, '(values: never[], options?: { count?: "exact" | "planned" | "estimated" | undefined; defaultToNull?: boolean | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "quote_requests", never, "POST">', gave the following error.
+    Object literal may only specify known properties, and 'configuration_id' does not exist in type 'never[]'.
+src/components/configurator/QuoteRequestForm.tsx(58,38): error TS2339: Property 'id' does not exist on type 'never'.
+src/hooks/useConstraints.ts(30,32): error TS2339: Property 'min_width_mm' does not exist on type 'never'.
+src/hooks/useConstraints.ts(31,32): error TS2339: Property 'max_width_mm' does not exist on type 'never'.
+src/hooks/useConstraints.ts(32,33): error TS2339: Property 'min_height_mm' does not exist on type 'never'.
+src/hooks/useConstraints.ts(33,33): error TS2339: Property 'max_height_mm' does not exist on type 'never'.
+src/hooks/useConstraints.ts(40,22): error TS2339: Property 'min_width_mm' does not exist on type 'never'.
+src/hooks/useConstraints.ts(42,20): error TS2339: Property 'max_width_mm' does not exist on type 'never'.
+src/hooks/useConstraints.ts(47,22): error TS2339: Property 'min_height_mm' does not exist on type 'never'.
+src/hooks/useConstraints.ts(49,20): error TS2339: Property 'max_height_mm' does not exist on type 'never'.
+src/store/configuratorStore.ts(107,36): error TS2339: Property 'min_width_mm' does not exist on type 'never'.
+src/store/configuratorStore.ts(108,36): error TS2339: Property 'max_width_mm' does not exist on type 'never'.
+src/store/configuratorStore.ts(109,37): error TS2339: Property 'min_height_mm' does not exist on type 'never'.
+src/store/configuratorStore.ts(110,37): error TS2339: Property 'max_height_mm' does not exist on type 'never'.
+src/store/configuratorStore.ts(115,57): error TS2339: Property 'min_width_mm' does not exist on type 'never'.
+src/store/configuratorStore.ts(116,24): error TS2339: Property 'max_width_mm' does not exist on type 'never'.
+src/store/configuratorStore.ts(119,58): error TS2339: Property 'min_height_mm' does not exist on type 'never'.
+src/store/configuratorStore.ts(120,24): error TS2339: Property 'max_height_mm' does not exist on type 'never'.
