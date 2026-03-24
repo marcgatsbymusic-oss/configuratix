@@ -1,4 +1,4 @@
-export interface SwatchColor {
+﻿export interface SwatchColor {
   id: string
   name: string
   hex: string
@@ -84,7 +84,7 @@ export const IGLO_EDGE_DETAIL: ProductDetailData = {
   tagline: 'Maximum insulation, minimal frame',
   description: 'Our new, most technologically advanced window is distinguished by an excellent thermal insulation parameter of Uw = 0.66 W/(m²K)* and a modern, angular profile shape. The extremely good thermal insulation parameters are due, among other things, to the 7-chamber profile design and 3 EPDM gaskets, including the central gasket.',
   heroImage: '/assets/hero.png',
-  windowPhoto: '/assets/iglo-edge-window-photo.png',
+  windowPhoto: '/assets/iglo-edge-featured.png',
   profileImage: '/assets/iglo-edge-profile-photo.png',
   blueprintImage: '/assets/iglo-edge-technical-drawing.png',
   videoSrc: '/assets/iglo-edge-animation.mp4',

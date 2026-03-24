@@ -297,12 +297,16 @@ export function ProductDetailPage() {
               </button>
             </div>
 
-            {/* Right: window photo */}
-            <div className="flex items-center justify-center bg-white/5 border border-[#2a2a2b] p-8">
-              <img
-                src={detailData.windowPhoto}
-                alt="IGLO EDGE window"
-                className="w-full max-w-sm object-contain"
+            {/* Right: window-opening video */}
+            <div className="overflow-hidden border border-[#2a2a2b] bg-[#0e0e0f]">
+              <video
+                src="/assets/iglo-edge-okno-window-opening.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+                style={{ minHeight: '360px' }}
               />
             </div>
           </div>
@@ -319,7 +323,7 @@ export function ProductDetailPage() {
                 className="w-full max-w-sm object-contain"
               />
             </div>
-            {/* Technical drawing */}
+            {/* Technical drawing — white background so line-art is visible */}
             <div className="bg-white flex items-center justify-center p-8">
               <img
                 src={detailData.blueprintImage}
@@ -356,31 +360,20 @@ export function ProductDetailPage() {
 
       {/* 3. Profile Specs Section */}
       <section className="max-w-7xl mx-auto px-6 py-24 border-b border-[#2a2a2b]">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <span className="bg-[#dca95c] text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">New Generation</span>
-            <h2 className="text-4xl font-black text-white uppercase mb-6 leading-tight">
-              Uncompromising Quality &amp; Thermal Performance
-            </h2>
-            <ul className="space-y-4">
-              {detailData.keySpecs.map(spec => (
-                <li key={spec.label} className="flex items-center gap-3 border-b border-[#2a2a2b] pb-3">
-                  <Check size={16} className="text-[#dca95c] shrink-0" />
-                  <span className="text-white/70 text-sm">{spec.label}</span>
-                  <span className="text-white font-bold text-sm ml-auto">{spec.value}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="flex flex-col gap-4 bg-[#161617] p-8 md:p-12 border border-[#2a2a2b]">
-            <p className="text-white/50 text-xs uppercase tracking-widest mb-2">Key specifications at a glance</p>
+        <div className="max-w-2xl">
+          <span className="bg-[#dca95c] text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">New Generation</span>
+          <h2 className="text-4xl font-black text-white uppercase mb-6 leading-tight">
+            Uncompromising Quality &amp; Thermal Performance
+          </h2>
+          <ul className="space-y-4">
             {detailData.keySpecs.map(spec => (
-              <div key={spec.label} className="flex justify-between border-b border-[#2a2a2b] pb-2">
-                <span className="text-white/60 text-sm">{spec.label}</span>
-                <span className="text-[#dca95c] font-bold text-sm">{spec.value}</span>
-              </div>
+              <li key={spec.label} className="flex items-center gap-3 border-b border-[#2a2a2b] pb-3">
+                <Check size={16} className="text-[#dca95c] shrink-0" />
+                <span className="text-white/70 text-sm">{spec.label}</span>
+                <span className="text-white font-bold text-sm ml-auto">{spec.value}</span>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
