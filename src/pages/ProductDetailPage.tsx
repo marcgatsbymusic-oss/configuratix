@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { Check, ChevronLeft, ChevronRight, Play, X } from 'lucide-react'
 import { IGLO_EDGE_DETAIL, type GlassOption } from '../data/productDetails'
@@ -441,45 +441,8 @@ export function ProductDetailPage() {
       {/* 4. Glass Options Grid */}
       <GlazingSection glassOptions={detailData.glassOptions} />
 
-      {/* 5. Handles Slider */}
-      <HandlesSlider />
 
-      {/* 6. Accessories & Hardware */}
-      <section className="py-24 bg-[#1a1a1b]">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-            <div>
-              <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-4">Hardware & Handles</h2>
-              <p className="text-white/50 max-w-xl">Premium aluminum and security handles designed to perfectly match your aesthetic and security requirements.</p>
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
-            {detailData.hardware.map(hw => (
-              <div key={hw.id} className="bg-[#111112] border border-[#2a2a2b] p-6 text-center hover:border-[#dca95c]/50 transition-colors group">
-                <div className="h-40 flex items-center justify-center mb-6">
-                  <img src={hw.image} alt={hw.name} className="max-h-full object-contain filter drop-shadow-lg group-hover:scale-110 transition-transform duration-500" />
-                </div>
-                <p className="text-[#dca95c] text-[10px] uppercase tracking-widest font-bold mb-1">{hw.type}</p>
-                <h4 className="text-white text-sm font-bold">{hw.name}</h4>
-              </div>
-            ))}
-          </div>
 
-          <h2 className="text-2xl font-black text-white uppercase tracking-widest mb-8">Standard Accessories</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {detailData.accessories.map(acc => (
-              <div key={acc.id} className="bg-[#111112] border border-[#2a2a2b] p-6 flex flex-col">
-                <div className="h-32 mb-4 bg-black/50 overflow-hidden flex items-center justify-center border border-[#2a2a2b]">
-                   <img src={acc.image} alt={acc.name} className="w-full h-full object-cover opacity-70" />
-                </div>
-                <h4 className="text-white text-sm font-bold mb-2 uppercase tracking-wide">{acc.name}</h4>
-                <p className="text-white/50 text-xs leading-relaxed mt-auto">{acc.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Floating Action Bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-md border-t border-[#2a2a2b] p-4 z-40 transform translate-y-0 transition-transform">
