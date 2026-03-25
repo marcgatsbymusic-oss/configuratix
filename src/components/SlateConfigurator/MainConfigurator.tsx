@@ -1,8 +1,9 @@
 import { useRef, useState } from 'react';
 import { useConfigurator } from './useConfigurator';
 import { CONFIG_SCHEMA, WINDOW_TYPES, OPENING_TYPES, COLOR_LOCALE, GLASS_LOCALE } from './types';
-import { Ruler, Layers, Check, ChevronLeft, ChevronRight, LayoutGrid, ShoppingCart, Download } from 'lucide-react';
-import { WindowPreview } from '../configurator/WindowPreview';
+import { Ruler, Layers, Check, ChevronLeft, ChevronRight, ShoppingCart, Download } from 'lucide-react';
+import { BlueprintPreview } from './BlueprintPreview';
+import { WindowTypeGraphic } from './WindowTypeGraphic';
 import { useCartStore } from '../../store/useCartStore';
 import { generateBlueprintPayload, downloadBlueprint } from '../../utils/exportConfig';
 
@@ -181,11 +182,10 @@ export function MainConfigurator() {
                         onClick={() => { dispatch({ type: 'SET_WINDOW_TYPE', payload: wt.id }); setTimeout(() => setActiveStep(4), 350); }}
                         className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center justify-between gap-3 min-h-[140px] ${state.windowTypeId === wt.id ? 'border-indigo-600 bg-indigo-50/50 text-indigo-700 shadow-md ring-4 ring-indigo-600/10' : 'border-slate-200 hover:border-slate-300 shadow-sm hover:shadow-md group bg-white'}`}
                       >
-                        <div className="w-full h-20 flex items-center justify-center relative">
-                          <img 
-                            src={`/assets/windowtypes/${wt.id}.png?v=4`} 
-                            alt={wt.name} 
-                            className={`h-full w-auto object-contain transition-transform duration-300 brightness-0 ${state.windowTypeId === wt.id ? 'scale-110 drop-shadow-md opacity-100' : 'group-hover:scale-105 opacity-60 group-hover:opacity-80 drop-shadow-sm'}`}
+                        <div className="w-full h-20 flex items-center justify-center relative p-2">
+                          <WindowTypeGraphic 
+                            id={wt.id} 
+                            className={`transition-all duration-300 ${state.windowTypeId === wt.id ? 'text-indigo-600 scale-110 drop-shadow-md opacity-100' : 'text-slate-400 group-hover:text-slate-500 group-hover:scale-105 opacity-80 group-hover:opacity-100 drop-shadow-sm'}`}
                           />
                         </div>
                         <div className="font-bold text-xs text-center leading-tight whitespace-pre-wrap">{wt.name}</div>
@@ -468,23 +468,9 @@ export function MainConfigurator() {
             {/* Glassmorphism Summary Card */}
             <div className="bg-white/70 backdrop-blur-xl border border-white/60 shadow-2xl shadow-indigo-900/5 rounded-3xl overflow-hidden">
               
-              {/* Dynamic SVG Preview Area */}
-              <div className="bg-slate-100/50 h-72 flex items-center justify-center relative border-b border-indigo-100/50 p-6 overflow-hidden">
-                <div className="absolute top-5 left-5 text-[10px] font-black text-slate-400 tracking-[0.2em] uppercase">Live Render</div>
-                
-                {/* SVG Window Representation derived from Dynamic Engine */}
-                <div className="flex items-center justify-center" style={{ width: 200, height: 200 }}>
-                  <WindowPreview 
-                    sashCount={WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.sashes || 1}
-                    sashOpenings={state.sashOpenings}
-                    width={Math.max(40, drawW)}
-                    height={Math.max(40, drawH)}
-                  />
-                </div>
-                
-                {/* Measurement labels absolute positioned to geometry limits could be complex, sticking to stable layout overlay */}
-                <div className="absolute bottom-5 bg-white/80 px-2 py-1 rounded text-xs font-bold text-slate-600 border border-slate-200/50 shadow-sm">{state.dimensions.width} mm</div>
-                <div className="absolute left-5 bg-white/80 px-2 py-1 rounded text-xs font-bold text-slate-600 -rotate-90 origin-left border border-slate-200/50 shadow-sm">{state.dimensions.height} mm</div>
+              {/* Dynamic SVG Fensternorm-Style Blueprint Area */}
+              <div className="bg-white w-full aspect-square flex items-center justify-center relative border-b border-indigo-100/50 overflow-hidden">
+                <BlueprintPreview state={state} />
               </div>
 
               {/* Data Breakdown */}
