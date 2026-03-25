@@ -66,7 +66,7 @@ export function MainConfigurator() {
                           </div>
                           <div className="p-5">
                             <div className="font-bold text-lg text-slate-800">{mat}</div>
-                            <div className="text-[10px] font-bold text-indigo-500 mt-1 uppercase tracking-widest">+${CONFIG_SCHEMA.materials[mat].basePricePerSqm}/m²</div>
+                            <div className="text-[10px] font-bold text-indigo-500 mt-1 uppercase tracking-widest">+€{CONFIG_SCHEMA.materials[mat].basePricePerSqm}/m²</div>
                           </div>
                           
                           {state.material === mat && (
@@ -494,7 +494,7 @@ export function MainConfigurator() {
                             </div>
                             <span className="font-bold text-slate-700">{addon.name}</span>
                           </div>
-                          <span className="text-sm font-black text-indigo-600">+${addon.price}</span>
+                          <span className="text-sm font-black text-indigo-600">+€{addon.price}</span>
                         </button>
                       );
                     })}
@@ -610,16 +610,16 @@ export function MainConfigurator() {
                 <div>
                   <h3 className="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] mb-4">Financials</h3>
                   <div className="space-y-3 text-sm">
-                    <div className="flex justify-between items-center"><span className="text-slate-500 font-medium">Base Framework</span> <span className="font-bold text-slate-900">${pricing.base.toFixed(2)}</span></div>
-                    <div className="flex justify-between items-center"><span className="text-slate-500 font-medium">Hardware Assembly</span> <span className="font-bold text-slate-900">${pricing.hardware.toFixed(2)}</span></div>
-                    <div className="flex justify-between items-center"><span className="text-slate-500 font-medium">Accessories</span> <span className="font-bold text-slate-900">${pricing.addons.toFixed(2)}</span></div>
+                    <div className="flex justify-between items-center"><span className="text-slate-500 font-medium">Base Framework</span> <span className="font-bold text-slate-900">€{pricing.base.toFixed(2)}</span></div>
+                    <div className="flex justify-between items-center"><span className="text-slate-500 font-medium">Hardware Assembly</span> <span className="font-bold text-slate-900">€{pricing.hardware.toFixed(2)}</span></div>
+                    <div className="flex justify-between items-center"><span className="text-slate-500 font-medium">Accessories</span> <span className="font-bold text-slate-900">€{pricing.addons.toFixed(2)}</span></div>
                   </div>
                 </div>
 
                 <div className="pt-4 flex items-end justify-between">
                   <div>
                     <div className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] mb-1">Total System</div>
-                    <div className="text-4xl font-black text-slate-900 tracking-tighter">${pricing.total.toFixed(2)}</div>
+                    <div className="text-4xl font-black text-slate-900 tracking-tighter">€{pricing.total.toFixed(2)}</div>
                   </div>
                 </div>
                 <div className="mt-6 flex flex-col sm:flex-row gap-3">
