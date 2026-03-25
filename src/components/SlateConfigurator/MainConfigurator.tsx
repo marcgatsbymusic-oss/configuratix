@@ -338,8 +338,31 @@ export function MainConfigurator() {
               <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${activeStep === 6 ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
                 <div className="overflow-hidden">
                   <div className="pt-2 grid md:grid-cols-2 gap-8">
+                    {/* Width Control */}
                     <div className="bg-slate-50 p-5 rounded-xl border border-slate-100">
-                      <label className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2 uppercase tracking-widest"><Ruler size={16} className="text-indigo-500"/> Width</label>
+                      <div className="flex justify-between items-start mb-4">
+                        <label className="text-sm font-bold text-slate-700 flex items-center gap-2 uppercase tracking-widest leading-none">
+                          <Ruler size={16} className="text-indigo-500"/> Width
+                        </label>
+                        <div className="flex flex-col items-end gap-0.5">
+                          <div className="flex items-center gap-1.5 focus-within:ring-2 ring-indigo-500/30 rounded px-1 -mr-1 transition-all">
+                            <input
+                              type="number"
+                              value={state.dimensions.width || ''}
+                              onChange={(e) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: Number(e.target.value) || 0, height: state.dimensions.height }})}
+                              onBlur={(e) => {
+                                let val = Number(e.target.value) || CONFIG_SCHEMA.materials[state.material].minWidth;
+                                val = Math.max(CONFIG_SCHEMA.materials[state.material].minWidth, Math.min(CONFIG_SCHEMA.materials[state.material].maxWidth, val));
+                                dispatch({ type: 'SET_DIMENSIONS', payload: { width: val, height: state.dimensions.height }});
+                              }}
+                              className="w-[60px] bg-transparent text-right font-black text-indigo-700 focus:outline-none"
+                            />
+                            <span className="text-xs font-bold text-indigo-400">mm</span>
+                          </div>
+                          <span className="text-[10px] font-bold text-slate-400 tracking-wider">({(state.dimensions.width / 10).toFixed(0)} cm)</span>
+                        </div>
+                      </div>
+                      
                       <input
                         type="range"
                         min={CONFIG_SCHEMA.materials[state.material].minWidth}
@@ -349,14 +372,37 @@ export function MainConfigurator() {
                         onChange={(e) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: Number(e.target.value) } })}
                         className="w-full accent-indigo-600 mb-2 cursor-pointer"
                       />
-                      <div className="flex justify-between items-center text-xs font-bold text-slate-400">
+                      <div className="flex justify-between items-center text-[10px] font-bold text-slate-300">
                         <span>{CONFIG_SCHEMA.materials[state.material].minWidth}</span>
-                        <span className="text-lg text-indigo-600">{state.dimensions.width} mm</span>
                         <span>{CONFIG_SCHEMA.materials[state.material].maxWidth}</span>
                       </div>
                     </div>
+
+                    {/* Height Control */}
                     <div className="bg-slate-50 p-5 rounded-xl border border-slate-100">
-                      <label className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2 uppercase tracking-widest"><Ruler size={16} className="rotate-90 text-indigo-500"/> Height</label>
+                      <div className="flex justify-between items-start mb-4">
+                        <label className="text-sm font-bold text-slate-700 flex items-center gap-2 uppercase tracking-widest leading-none">
+                          <Ruler size={16} className="rotate-90 text-indigo-500"/> Height
+                        </label>
+                        <div className="flex flex-col items-end gap-0.5">
+                          <div className="flex items-center gap-1.5 focus-within:ring-2 ring-indigo-500/30 rounded px-1 -mr-1 transition-all">
+                            <input
+                              type="number"
+                              value={state.dimensions.height || ''}
+                              onChange={(e) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: state.dimensions.width, height: Number(e.target.value) || 0 }})}
+                              onBlur={(e) => {
+                                let val = Number(e.target.value) || CONFIG_SCHEMA.materials[state.material].minHeight;
+                                val = Math.max(CONFIG_SCHEMA.materials[state.material].minHeight, Math.min(CONFIG_SCHEMA.materials[state.material].maxHeight, val));
+                                dispatch({ type: 'SET_DIMENSIONS', payload: { width: state.dimensions.width, height: val }});
+                              }}
+                              className="w-[60px] bg-transparent text-right font-black text-indigo-700 focus:outline-none"
+                            />
+                            <span className="text-xs font-bold text-indigo-400">mm</span>
+                          </div>
+                          <span className="text-[10px] font-bold text-slate-400 tracking-wider">({(state.dimensions.height / 10).toFixed(0)} cm)</span>
+                        </div>
+                      </div>
+                      
                       <input
                         type="range"
                         min={CONFIG_SCHEMA.materials[state.material].minHeight}
@@ -366,9 +412,8 @@ export function MainConfigurator() {
                         onChange={(e) => dispatch({ type: 'SET_DIMENSIONS', payload: { height: Number(e.target.value) } })}
                         className="w-full accent-indigo-600 mb-2 cursor-pointer"
                       />
-                      <div className="flex justify-between items-center text-xs font-bold text-slate-400">
+                      <div className="flex justify-between items-center text-[10px] font-bold text-slate-300">
                         <span>{CONFIG_SCHEMA.materials[state.material].minHeight}</span>
-                        <span className="text-lg text-indigo-600">{state.dimensions.height} mm</span>
                         <span>{CONFIG_SCHEMA.materials[state.material].maxHeight}</span>
                       </div>
                     </div>
@@ -477,6 +522,60 @@ export function MainConfigurator() {
                 <div>
                   <h3 className="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] mb-4">Specs Overview</h3>
                   <div className="space-y-1 text-sm">
+                    {/* Input-Driven Dimensions Row */}
+                    <div className="py-3 px-3 mb-3 -mx-2 bg-slate-50 border border-indigo-100/50 rounded-xl shadow-inner">
+                      <div className="flex justify-between mb-3 border-b border-indigo-100/30 pb-2">
+                        <span className="text-slate-500 font-bold text-xs uppercase tracking-wider flex items-center gap-2">Dimensions</span>
+                        <button onClick={() => setActiveStep(6)} className="text-[10px] font-black uppercase tracking-widest text-indigo-500 hover:text-indigo-700">Edit Node</button>
+                      </div>
+
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex-1 flex flex-col items-center">
+                          <div className="flex items-center justify-between w-full bg-white border border-slate-200 focus-within:border-indigo-500 focus-within:ring-2 ring-indigo-500/20 rounded px-2 py-1 transition-all">
+                            <span className="text-[10px] font-bold text-slate-400">W</span>
+                            <div className="flex items-center gap-1 w-full justify-end">
+                              <input 
+                                type="number"
+                                value={state.dimensions.width || ''}
+                                onChange={(e) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: Number(e.target.value) || 0, height: state.dimensions.height }})}
+                                onBlur={(e) => {
+                                  let val = Number(e.target.value) || CONFIG_SCHEMA.materials[state.material].minWidth;
+                                  val = Math.max(CONFIG_SCHEMA.materials[state.material].minWidth, Math.min(CONFIG_SCHEMA.materials[state.material].maxWidth, val));
+                                  dispatch({ type: 'SET_DIMENSIONS', payload: { width: val, height: state.dimensions.height }});
+                                }}
+                                className="w-[45px] text-right bg-transparent text-sm font-black text-slate-800 focus:outline-none"
+                              />
+                              <span className="text-[10px] font-bold text-slate-400">mm</span>
+                            </div>
+                          </div>
+                          <span className="text-[9px] font-bold text-slate-400 mt-1 uppercase tracking-widest">({(state.dimensions.width / 10).toFixed(0)} cm)</span>
+                        </div>
+
+                        <span className="text-slate-300 font-black text-xs">×</span>
+
+                        <div className="flex-1 flex flex-col items-center">
+                          <div className="flex items-center justify-between w-full bg-white border border-slate-200 focus-within:border-indigo-500 focus-within:ring-2 ring-indigo-500/20 rounded px-2 py-1 transition-all">
+                            <span className="text-[10px] font-bold text-slate-400">H</span>
+                            <div className="flex items-center gap-1 w-full justify-end">
+                              <input 
+                                type="number"
+                                value={state.dimensions.height || ''}
+                                onChange={(e) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: state.dimensions.width, height: Number(e.target.value) || 0 }})}
+                                onBlur={(e) => {
+                                  let val = Number(e.target.value) || CONFIG_SCHEMA.materials[state.material].minHeight;
+                                  val = Math.max(CONFIG_SCHEMA.materials[state.material].minHeight, Math.min(CONFIG_SCHEMA.materials[state.material].maxHeight, val));
+                                  dispatch({ type: 'SET_DIMENSIONS', payload: { width: state.dimensions.width, height: val }});
+                                }}
+                                className="w-[45px] text-right bg-transparent text-sm font-black text-slate-800 focus:outline-none"
+                              />
+                              <span className="text-[10px] font-bold text-slate-400">mm</span>
+                            </div>
+                          </div>
+                          <span className="text-[9px] font-bold text-slate-400 mt-1 uppercase tracking-widest">({(state.dimensions.height / 10).toFixed(0)} cm)</span>
+                        </div>
+                      </div>
+                    </div>
+
                     <button onClick={() => setActiveStep(1)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-slate-50 transition-colors">
                       <span className="text-slate-500 group-hover:text-indigo-600 font-medium text-xs uppercase tracking-wider transition-colors">Material Profile</span> 
                       <span className="font-bold text-slate-900 group-hover:text-indigo-700 transition-colors">{state.material}</span>
