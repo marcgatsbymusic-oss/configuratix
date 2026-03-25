@@ -14,12 +14,7 @@ export function MainConfigurator() {
   const profileScrollRef = useRef<HTMLDivElement>(null);
   const [activeStep, setActiveStep] = useState(1);
 
-  // Dynamic SVG drawing logic
-  // Scale the window drawing based on user dimensions relative to max possible size (4000x3000)
-  const maxW = 4000;
-  const maxH = 3000;
-  const drawW = (state.dimensions.width / maxW) * 120 + 40; // 40-160 range visually
-  const drawH = (state.dimensions.height / maxH) * 120 + 40; // 40-160 range visually
+
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pb-20 font-sans">
