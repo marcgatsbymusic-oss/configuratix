@@ -177,7 +177,7 @@ export function HomePage() {
             <h2 className="text-4xl font-black text-white uppercase mb-6 leading-tight">
               Our Offer
             </h2>
-            <p className="text-white leading-relaxed mb-8">
+            <p className="!text-white leading-relaxed mb-8">
               We offer a wide range of windows, frames, exterior doors, and sliding doors in PVC, wood and aluminium. Through expert craftsmanship, the highest quality materials, and a level of service we ensure our company's status. Each window and door is made to order, providing each customer with individual service and attention. We will provide you with the highest level of expertise and assist you all the way with your renovation and construction plans.
             </p>
             <Link
