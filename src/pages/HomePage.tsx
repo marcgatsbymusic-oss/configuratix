@@ -217,11 +217,11 @@ export function HomePage() {
                 {/* Gold gradient at bottom */}
                 <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/50 to-transparent" />
                 {/* Text */}
-                <div className="absolute inset-0 flex flex-col justify-end p-4">
-                  <span className="text-[#dca95c] text-[9px] font-bold uppercase tracking-[0.2em] mb-1">
+                <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-4">
+                  <span className="text-[#dca95c] text-lg font-bold uppercase tracking-[0.2em] mb-2">
                     {tile.category}
                   </span>
-                  <span className="text-white font-black text-sm uppercase leading-tight group-hover:text-[#dca95c] transition-colors duration-200">
+                  <span className="text-white font-black text-3xl uppercase leading-tight group-hover:text-[#dca95c] transition-colors duration-200">
                     {tile.title}
                   </span>
                 </div>
