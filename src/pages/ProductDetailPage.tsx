@@ -292,7 +292,7 @@ function GlazingSection({ glassOptions }: { glassOptions: GlassOption[] }) {
     <section className="py-16 border-b border-[#2a2a2b]">
       <div className="max-w-7xl mx-auto px-6">
         <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-2">Glass</h2>
-        <p className="text-white/50 text-sm mb-10 max-w-2xl">
+        <p className="!text-white text-sm mb-10 max-w-2xl">
           DRUTEX, with over 30 years of experience in the production of composite glass, offers a very wide range of glass with which you can fit your windows and doors. They meet strict requirements for energy efficiency and sound insulation. The offer also includes laminated glass (safe and burglar-proof), sun protected glass, glass with enhanced sound insulation, tempered, ornamental and sandblasted glass.
         </p>
         <div className="flex flex-col lg:flex-row gap-8">
