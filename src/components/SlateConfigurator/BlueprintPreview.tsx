@@ -82,9 +82,9 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
     return (
       <svg 
         viewBox={`0 0 ${SVG_W} ${SVG_H}`}
-        className="absolute inset-0 w-full h-full object-contain"
+        className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none"
         vectorEffect="non-scaling-stroke"
-        style={{ backfaceVisibility: 'hidden', transform: isExterior ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
+        style={{ backfaceVisibility: 'hidden', transform: isExterior ? 'rotateY(180deg) translateZ(-1px)' : 'rotateY(0deg) translateZ(1px)' }}
       >
         <defs>
           {imgUrl && (
@@ -197,11 +197,12 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
       </div>
 
       <div 
-        className="w-full h-full flex-1 relative cursor-grab active:cursor-grabbing hover:scale-105"
+        className="w-full h-full flex-1 relative cursor-grab active:cursor-grabbing hover:scale-105 select-none touch-none"
         style={{ 
           transformStyle: 'preserve-3d', 
           transform: `rotateY(${rotationY}deg)`,
-          transition: isDragging ? 'none' : 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)'
+          transition: isDragging ? 'none' : 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
+          touchAction: 'none'
         }}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
