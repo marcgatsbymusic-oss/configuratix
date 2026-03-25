@@ -44,6 +44,53 @@ h1, h2, h3, h4, h5, h6 {
   text-transform: uppercase;
 }
 
+:root {
+  /* Drutex Color Palette */
+  --drutex-yellow: #FFD100;
+  --drutex-black: #000000;
+  --drutex-gray-dark: #333333;
+  --drutex-gray-light: #F4F4F4;
+  --drutex-white: #FFFFFF;
+
+  /* Typography */
+  --font-primary: 'Montserrat', sans-serif;
+  --font-secondary: 'Open Sans', sans-serif;
+}
+
+h1 {
+  font-family: var(--font-primary);
+  font-size: 3.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--drutex-black);
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-family: var(--font-primary);
+  font-size: 2.25rem;
+  font-weight: 600;
+  border-left: 5px solid var(--drutex-yellow); /* Signature Drutex accent */
+  padding-left: 15px;
+}
+
+p {
+  font-family: var(--font-secondary);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--drutex-gray-dark);
+}
+
+.btn-primary {
+  background-color: var(--drutex-yellow);
+  color: var(--drutex-black);
+  font-weight: 700;
+  padding: 12px 30px;
+  border: none;
+  text-transform: uppercase;
+  transition: background 0.3s ease;
+}
+
 /* ─── Scrollbar ───────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 6px;
