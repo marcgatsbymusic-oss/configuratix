@@ -151,3 +151,12 @@ p {
 .nav-link:hover::after {
   width: 100%;
 }
+
+/* ─── Product Hero Typography ──────────────────────────────── */
+.product-hero-title,
+.product-hero-tagline,
+.product-hero-spec-value,
+.product-hero-spec-label {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}

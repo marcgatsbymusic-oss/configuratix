@@ -399,10 +399,10 @@ export function ProductDetailPage() {
         </div>
         
         <div className="relative z-10 text-center px-6 max-w-7xl mx-auto flex flex-col items-center w-full">
-          <h1 className="text-4xl md:text-5xl font-bold text-white tracking-widest uppercase mb-3">
+          <h1 className="product-hero-title text-4xl md:text-5xl font-bold tracking-widest uppercase mb-3">
             {detailData.name}
           </h1>
-          <p className="text-xl md:text-2xl text-white font-light mb-10 tracking-wider">
+          <p className="product-hero-tagline text-xl md:text-2xl font-light mb-10 tracking-wider">
             {detailData.tagline}
           </p>
 
@@ -421,10 +421,10 @@ export function ProductDetailPage() {
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-[1px]" style={{ background: '#111112' }} />
                   <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-[1px]" style={{ background: '#111112' }} />
                   {/* Value text */}
-                  <span className="relative text-white font-medium text-base md:text-lg whitespace-nowrap px-3">{spec.value}</span>
+                  <span className="product-hero-spec-value relative font-medium text-base md:text-lg whitespace-nowrap px-3">{spec.value}</span>
                 </div>
                 {/* Label */}
-                <p className="text-white/70 text-[9px] md:text-[10px] uppercase font-semibold tracking-[0.12em] text-center leading-tight w-full px-1">{spec.label}</p>
+                <p className="product-hero-spec-label text-[9px] md:text-[10px] uppercase font-semibold tracking-[0.12em] text-center leading-tight w-full px-1">{spec.label}</p>
               </div>
             ))}
           </div>
