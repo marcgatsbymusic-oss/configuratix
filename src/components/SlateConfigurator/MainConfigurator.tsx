@@ -17,8 +17,8 @@ export function MainConfigurator() {
 
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 pb-20 font-sans">
-      <div className="max-w-7xl mx-auto px-6 pt-32 lg:pt-40">
+    <div className="min-h-screen bg-slate-50 text-slate-900 pb-20 font-sans overflow-x-hidden max-w-[100vw] w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-32 lg:pt-40 w-full overflow-hidden sm:overflow-visible">
         <div className="grid lg:grid-cols-12 gap-10 items-start">
           
           {/* LEFT: Configure Wizard */}
@@ -26,7 +26,7 @@ export function MainConfigurator() {
             
             {/* Contextual Headers aligned with Accordions */}
             <div className="px-2 pt-2 pb-2">
-              <h1 className="text-slate-700 font-medium text-lg tracking-wide">Design your custom window system.</h1>
+              <p className="text-slate-300 text-sm md:text-lg lg:text-xl font-medium max-w-2xl relative z-10 leading-relaxed break-words">Design your custom window system.</p>
               <p className="text-slate-400 text-sm mt-1">Pick the material and configure your exact architectural specifications below.</p>
             </div>
             

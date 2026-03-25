@@ -62,11 +62,11 @@ export function HomePage() {
         {/* Overlays removed per user request for zero opacity */}
 
         {/* Content */}
-        <div className="relative z-20 max-w-7xl mx-auto px-6 w-full">
-          <p className="!text-white drop-shadow-md text-xs uppercase tracking-[0.3em] font-semibold mb-4">
+        <div className="relative z-20 max-w-7xl mx-auto px-4 md:px-6 w-full">
+          <p className="!text-white drop-shadow-md text-[10px] md:text-xs uppercase tracking-[0.3em] font-semibold mb-4">
             {t('home.hero.premium')}
           </p>
-          <h1 className="!text-white text-6xl md:text-8xl font-black uppercase leading-none mb-6 max-w-3xl transition-all duration-700 drop-shadow-lg">
+          <h1 className="!text-white text-5xl md:text-7xl lg:text-8xl font-black uppercase leading-none mb-6 max-w-3xl transition-all duration-700 drop-shadow-lg break-words">
             {t(`home.hero.${HERO_SLIDES[slide].key}.headline`)}<br />
             <span className="!text-[#dca95c]">{t(`home.hero.${HERO_SLIDES[slide].key}.headlineSpan`)}</span>
           </h1>
@@ -138,7 +138,7 @@ export function HomePage() {
           </div>
 
           {/* Right: text */}
-          <div className="bg-[#1a1a1b] flex flex-col justify-center px-12 py-16 lg:px-16">
+          <div className="bg-[#1a1a1b] flex flex-col justify-center px-6 md:px-12 py-12 lg:py-16 lg:px-16">
             <span className="text-[#dca95c] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">
               {t('home.offer.subtitle')}
             </span>
@@ -195,8 +195,8 @@ export function HomePage() {
       </section>
 
       {/* ── Featured Products ──────────────────────────────────────────────────── */}
-      <section className="py-24 max-w-7xl mx-auto px-6">
-        <div className="flex items-end justify-between mb-12">
+      <section className="py-16 md:py-24 max-w-7xl mx-auto px-4 md:px-6">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-8 md:mb-12 gap-4">
           <div>
             <p className="text-[#dca95c] text-xs uppercase tracking-widest font-semibold mb-2">
               {t('home.featured.subtitle')}
@@ -259,8 +259,8 @@ export function HomePage() {
       </section>
 
       {/* ── Configurator CTA ───────────────────────────────────── */}
-      <section className="bg-[#1a1a1b] border-t border-[#2a2a2b] py-24">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-10">
+      <section className="bg-[#1a1a1b] border-t border-[#2a2a2b] py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-10">
           <div className="max-w-lg">
             <p className="text-[#dca95c] text-xs uppercase tracking-widest font-semibold mb-3">
               {t('home.cta.subtitle')}
