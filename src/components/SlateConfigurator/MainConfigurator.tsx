@@ -8,6 +8,71 @@ import { WindowTypeGraphic } from './WindowTypeGraphic';
 import { useCartStore } from '../../store/useCartStore';
 import { generateBlueprintPayload, downloadBlueprint } from '../../utils/exportConfig';
 
+const TiltProfileCard = ({ profile, isActive, onClick, tags }: { profile: any, isActive: boolean, onClick: () => void, tags: any[] }) => {
+  const cardRef = useRef<HTMLButtonElement>(null);
+  const [rotation, setRotation] = useState({ x: 0, y: 0 });
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -12; 
+    const rotateY = ((x - centerX) / centerX) * 12;
+    setRotation({ x: rotateX, y: rotateY });
+  };
+
+  const handlePointerLeave = () => setRotation({ x: 0, y: 0 });
+
+  return (
+    <button
+      ref={cardRef}
+      onClick={onClick}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
+      className="group/btn relative w-56 shrink-0 snap-start bg-transparent text-left outline-none"
+      style={{ perspective: '1200px' }}
+    >
+      <div 
+        className={`w-full h-full flex flex-col rounded-2xl border-2 transition-all duration-200 overflow-visible shadow-sm group-hover/btn:shadow-xl ${isActive ? 'border-indigo-600 ring-4 ring-indigo-600/10 bg-indigo-50/10' : 'border-slate-200 group-hover/btn:border-slate-300 bg-white'}`}
+        style={{
+          transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) scale(${isActive ? 1.02 : 1})`,
+          transformStyle: 'preserve-3d'
+        }}
+      >
+        <div className="h-44 flex items-center justify-center bg-slate-50 p-4 border-b border-slate-100 relative rounded-t-xl" style={{ transformStyle: 'preserve-3d' }}>
+          <img 
+            src={profile.image} 
+            alt={profile.name} 
+            className="max-h-full max-w-full object-contain mix-blend-multiply transition-transform duration-500 group-hover/btn:scale-110" 
+            style={{ 
+              transform: 'translateZ(50px)', 
+              filter: `drop-shadow(${rotation.y * -0.5}px ${rotation.x * 0.5 + 10}px 15px rgba(0,0,0,0.25))`
+            }}
+          />
+          <div className="absolute top-3 left-3 flex flex-col gap-1 items-start z-10" style={{ transform: 'translateZ(30px)' }}>
+            {tags.map((tag: any, i: number) => (
+              <span key={i} className={`text-[9px] font-bold text-white px-2 py-0.5 rounded shadow-sm tracking-wider uppercase ${tag.color === 'emerald' ? 'bg-emerald-500' : 'bg-blue-600'}`}>
+                {tag.text}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="p-4 bg-white rounded-b-xl relative z-20" style={{ transform: 'translateZ(20px)' }}>
+          <div className="font-bold text-lg text-slate-800">{profile.name}</div>
+        </div>
+        {isActive && (
+          <div className="absolute bottom-4 right-4 w-7 h-7 bg-indigo-600 rounded-full flex items-center justify-center text-white shadow-md z-30" style={{ transform: 'translateZ(40px)' }}>
+            <Check size={14} strokeWidth={4} />
+          </div>
+        )}
+      </div>
+    </button>
+  );
+};
+
 export function MainConfigurator() {
   const { t } = useTranslation();
   const { state, dispatch, pricing } = useConfigurator();
@@ -120,31 +185,13 @@ export function MainConfigurator() {
 
                         <div ref={profileScrollRef} className="flex overflow-x-auto gap-5 pb-4 snap-x hide-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                           {CONFIG_SCHEMA.materials[state.material].profiles.map(profile => (
-                            <button
-                              key={profile.id}
+                            <TiltProfileCard 
+                              key={profile.id} 
+                              profile={profile} 
+                              tags={profile.tags}
+                              isActive={state.profile === profile.id}
                               onClick={() => { dispatch({ type: 'SET_PROFILE', payload: profile.id }); setTimeout(() => setActiveStep(3), 350); }}
-                              className={`group/btn relative w-56 shrink-0 snap-start rounded-2xl border-2 text-left transition-all overflow-hidden bg-white shadow-sm hover:shadow-md ${state.profile === profile.id ? 'border-indigo-600 ring-4 ring-indigo-600/10 scale-[1.02]' : 'border-slate-200 hover:border-slate-300'}`}
-                            >
-                              <div className="h-44 flex items-center justify-center bg-slate-50 p-4 border-b border-slate-100 relative overflow-hidden">
-                                <img src={profile.image} alt={profile.name} className="max-h-full max-w-full object-contain drop-shadow-md mix-blend-multiply transition-transform duration-500 group-hover/btn:scale-110" />
-                                <div className="absolute top-3 left-3 flex flex-col gap-1 items-start z-10">
-                                  {profile.tags.map((tag, i) => (
-                                    <span key={i} className={`text-[9px] font-bold text-white px-2 py-0.5 rounded shadow-sm tracking-wider uppercase ${tag.color === 'emerald' ? 'bg-emerald-500' : 'bg-blue-600'}`}>
-                                      {tag.text}
-                                    </span>
-                                  ))}
-                                </div>
-                              </div>
-                              <div className="p-4">
-                                <div className="font-bold text-lg text-slate-800">{profile.name}</div>
-                              </div>
-                              
-                              {state.profile === profile.id && (
-                                <div className="absolute bottom-4 right-4 w-7 h-7 bg-indigo-600 rounded-full flex items-center justify-center text-white shadow-md">
-                                  <Check size={14} strokeWidth={4} />
-                                </div>
-                              )}
-                            </button>
+                            />
                           ))}
                         </div>
 
