@@ -203,12 +203,15 @@ export function Header() {
             >
               {t('header.nav.configurator')}
             </Link>
-            <button className="text-white/60 hover:text-[#dca95c] transition-colors duration-200"><Search size={18} /></button>
+            <button className="text-white/60 hover:text-[#dca95c] transition-colors duration-200 p-2 -ml-2"><Search size={18} /></button>
             {/* Language Switcher */}
             <div className="relative">
               <button 
-                className="text-white/60 hover:text-[#dca95c] transition-colors duration-200"
-                onClick={() => setLangMenuOpen((prev) => !prev)}
+                className="text-white/60 hover:text-[#dca95c] transition-colors duration-200 p-2"
+                onClick={() => {
+                  setLangMenuOpen((prev) => !prev);
+                  setMenuOpen(false);
+                }}
                 onBlur={() => setTimeout(() => setLangMenuOpen(false), 200)}
               >
                 <Globe size={18} />
@@ -241,8 +244,11 @@ export function Header() {
               )}
             </div>
             <button
-              className="lg:hidden text-white/60 hover:text-[#dca95c] transition-colors duration-200"
-              onClick={() => setMenuOpen(!menuOpen)}
+              className="lg:hidden text-white/60 hover:text-[#dca95c] transition-colors duration-200 p-2 -mr-2"
+              onClick={() => {
+                setMenuOpen(!menuOpen);
+                setLangMenuOpen(false);
+              }}
             >
               {menuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
