@@ -18,7 +18,7 @@ export function MainConfigurator() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pb-20 font-sans">
-      <div className="max-w-7xl mx-auto px-6 pt-12">
+      <div className="max-w-7xl mx-auto px-6 pt-32 lg:pt-40">
         <div className="grid lg:grid-cols-12 gap-10 items-start">
           
           {/* LEFT: Configure Wizard */}
