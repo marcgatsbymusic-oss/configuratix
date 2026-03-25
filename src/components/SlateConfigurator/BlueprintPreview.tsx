@@ -52,6 +52,24 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
     setRotationY(snapped);
   };
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsDragging(true);
+    dragStartX.current = e.touches[0].clientX;
+    currentRotation.current = rotationY;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return;
+    const deltaX = e.touches[0].clientX - dragStartX.current;
+    setRotationY(currentRotation.current + deltaX * 0.8);
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+    const snapped = Math.round(rotationY / 180) * 180;
+    setRotationY(snapped);
+  };
+
   const layout = LAYOUT_MAP[state.windowTypeId] || LAYOUT_MAP['1-flugel'];
   const SVG_W = 500;
   const SVG_H = 600;
@@ -130,7 +148,7 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
             return (
               <g key={i}>
                 <rect x={sx} y={sy} width={sw} height={sh} fill={imgUrl ? `url(#${patternId})` : '#ffffff'} stroke="#64748b" strokeWidth="1.5" />
-                <rect x={sx + S_THICK} y={sy + S_THICK} width={Math.max(1, sw - (S_THICK*2))} height={Math.max(1, sh - (S_THICK*2))} fill={isExterior ? "#94a3b8" : "#cffafe"} fillOpacity={isExterior ? 0.3 : 1} stroke="#94a3b8" strokeWidth="1" />
+                <rect x={sx + S_THICK} y={sy + S_THICK} width={Math.max(1, sw - (S_THICK*2))} height={Math.max(1, sh - (S_THICK*2))} fill={isExterior ? "#0f172a" : "#cffafe"} stroke="#94a3b8" strokeWidth="1" />
 
                 {!isFixed && (
                   <g stroke="#ef4444" strokeWidth="1.5" fill="none" opacity={isExterior ? "0.3" : "0.85"}>
@@ -209,6 +227,10 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
         onPointerUp={handlePointerUp}
         onPointerLeave={handlePointerUp}
         onPointerCancel={handlePointerUp}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onTouchCancel={handleTouchEnd}
       >
         {renderBlueprint(false)}
         {renderBlueprint(true)}
