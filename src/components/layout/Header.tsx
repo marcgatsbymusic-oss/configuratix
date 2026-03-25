@@ -92,6 +92,7 @@ const NAV_ITEMS = [
 export function Header() {
   const { t, i18n } = useTranslation()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [langMenuOpen, setLangMenuOpen] = useState(false)
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
   const [activeMegaCategory, setActiveMegaCategory] = useState(MEGA_MENU_CATEGORIES[0].id)
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false)
@@ -207,11 +208,12 @@ export function Header() {
             <div className="relative">
               <button 
                 className="text-white/60 hover:text-[#dca95c] transition-colors duration-200"
-                onClick={() => setMenuOpen((prev) => !prev)}
+                onClick={() => setLangMenuOpen((prev) => !prev)}
+                onBlur={() => setTimeout(() => setLangMenuOpen(false), 200)}
               >
                 <Globe size={18} />
               </button>
-              {menuOpen && (
+              {langMenuOpen && (
                  <div className="absolute right-0 top-10 w-32 bg-[#1a1a1b] border border-[#2a2a2b] shadow-xl py-2 z-50 rounded">
                    {[
                      { code: 'en', label: 'English' },
@@ -224,9 +226,11 @@ export function Header() {
                    ].map((lng) => (
                      <button
                        key={lng.code}
-                       onClick={() => {
+                       onClick={(e) => {
+                         e.preventDefault();
+                         e.stopPropagation();
                          i18n.changeLanguage(lng.code);
-                         setMenuOpen(false);
+                         setLangMenuOpen(false);
                        }}
                        className={`block w-full text-left px-4 py-2 text-xs uppercase tracking-widest transition-colors ${i18n.language === lng.code ? 'text-[#dca95c] bg-white/5' : 'text-white/60 hover:bg-white/5 hover:text-white'}`}
                      >
