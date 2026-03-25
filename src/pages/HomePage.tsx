@@ -90,9 +90,7 @@ export function HomePage() {
           </div>
         ))}
 
-        {/* Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent z-10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent z-10" />
+        {/* Overlays removed per user request for zero opacity */}
 
         {/* Content */}
         <div className="relative z-20 max-w-7xl mx-auto px-6 w-full">
