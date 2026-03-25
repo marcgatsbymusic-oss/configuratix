@@ -36,8 +36,10 @@ export interface ConfiguratorState {
   profile: string;
   windowTypeId: string;
   sashOpenings: string[];
-  colorGroup: string;
-  color: string;
+  interiorColorGroup: string;
+  interiorColor: string;
+  exteriorColorGroup: string;
+  exteriorColor: string;
   glazing: string;
   addons: string[];
 }
@@ -48,8 +50,10 @@ export type ConfiguratorAction =
   | { type: 'SET_PROFILE'; payload: string }
   | { type: 'SET_WINDOW_TYPE'; payload: string }
   | { type: 'SET_SASH_OPENING'; payload: { index: number; openingId: string } }
-  | { type: 'SET_COLOR_GROUP'; payload: string }
-  | { type: 'SET_COLOR'; payload: string }
+  | { type: 'SET_INTERIOR_COLOR_GROUP'; payload: string }
+  | { type: 'SET_INTERIOR_COLOR'; payload: string }
+  | { type: 'SET_EXTERIOR_COLOR_GROUP'; payload: string }
+  | { type: 'SET_EXTERIOR_COLOR'; payload: string }
   | { type: 'SET_GLAZING'; payload: string }
   | { type: 'TOGGLE_ADDON'; payload: string };
 

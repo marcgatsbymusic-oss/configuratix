@@ -7,7 +7,8 @@ export function generateBlueprintPayload(state: ConfiguratorState, pricing: any)
   const materialName = state.material;
   const profileName = CONFIG_SCHEMA.materials[state.material]?.profiles.find(p => p.id === state.profile)?.name || state.profile;
   const windowTypeName = WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.name || state.windowTypeId;
-  const colorName = COLOR_LOCALE.colors[state.color]?.name || state.color;
+  const interiorColorName = COLOR_LOCALE.colors[state.interiorColor]?.name || state.interiorColor;
+  const exteriorColorName = COLOR_LOCALE.colors[state.exteriorColor]?.name || state.exteriorColor;
   const glazingName = GLASS_LOCALE[state.glazing] || state.glazing;
   const glazingModifier = CONFIG_SCHEMA.glazing.find(g => g.id === state.glazing)?.priceMod || 1.0;
   
@@ -37,8 +38,10 @@ export function generateBlueprintPayload(state: ConfiguratorState, pricing: any)
       }))
     },
     finishing: {
-      surfaceColor: colorName,
-      surfaceGroup: state.colorGroup,
+      interiorColor: interiorColorName,
+      interiorColorGroup: state.interiorColorGroup,
+      exteriorColor: exteriorColorName,
+      exteriorColorGroup: state.exteriorColorGroup,
       glazingPackage: glazingName
     },
     addons: mappedAddons,

@@ -8,8 +8,10 @@ const initialState: ConfiguratorState = {
   profile: 'iglo5',
   windowTypeId: '1-flugel',
   sashOpenings: ['o2'], // Default: 1-sash Dreh-Kipp
-  colorGroup: 'Metal Effect',
-  color: 'c209', // Basalt Grey
+  interiorColorGroup: 'Metal Effect',
+  interiorColor: 'c209', // Basalt Grey
+  exteriorColorGroup: 'Metal Effect',
+  exteriorColor: 'c214', // Anthracite
   glazing: 'g11', // Float 4 (Standard)
   addons: []
 };
@@ -47,14 +49,10 @@ function configuratorReducer(state: ConfiguratorState, action: ConfiguratorActio
       updatedOpenings[action.payload.index] = action.payload.openingId;
       return { ...state, sashOpenings: updatedOpenings };
     }
-    case 'SET_COLOR_GROUP': {
-      // Find the first valid color key for this group mechanically using the UI dictionary.
-      // Since color groups don't natively map IDs in genColors, we'll let the UI dispatch the fallback color directly,
-      // or just reset it loosely. For now, rely on UI passing the first color directly after group change.
-      return { ...state, colorGroup: action.payload };
-    }
-    case 'SET_COLOR':
-      return { ...state, color: action.payload };
+    case 'SET_INTERIOR_COLOR_GROUP': return { ...state, interiorColorGroup: action.payload };
+    case 'SET_INTERIOR_COLOR': return { ...state, interiorColor: action.payload };
+    case 'SET_EXTERIOR_COLOR_GROUP': return { ...state, exteriorColorGroup: action.payload };
+    case 'SET_EXTERIOR_COLOR': return { ...state, exteriorColor: action.payload };
     case 'SET_GLAZING':
       return { ...state, glazing: action.payload };
     case 'TOGGLE_ADDON':
