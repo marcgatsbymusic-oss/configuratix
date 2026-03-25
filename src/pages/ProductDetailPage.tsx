@@ -415,10 +415,10 @@ export function ProductDetailPage() {
           {/* Thin gold divider */}
           <div className="w-full border-t border-[#dca95c]/40 mb-10" />
           
-          {/* Spec boxes — evenly distributed, no wrapping */}
-          <div className="w-full flex justify-between items-start gap-2">
+          {/* Spec boxes — evenly distributed, gracefully wrapping on mobile */}
+          <div className="w-full flex flex-wrap justify-center items-start gap-4 md:gap-6">
             {detailData.keySpecs.map((spec) => (
-              <div key={spec.label} className="flex flex-col items-center gap-3 flex-1 min-w-0">
+              <div key={spec.label} className="flex flex-col items-center gap-3 w-[45%] sm:w-[30%] lg:w-auto lg:flex-1 min-w-[120px]">
                 {/* Box with interrupted border: full border + background color strips at top/bottom center to create gap effect */}
                 <div className="relative flex items-center justify-center w-full" style={{ height: '56px' }}>
                   {/* Full border */}
