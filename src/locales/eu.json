@@ -1,0 +1,273 @@
+{
+  "header": {
+    "topBar": {
+      "partnerPortal": "Bazkideen Ataria",
+      "cooperation": "Lankidetza",
+      "contact": "Harremanetarako"
+    },
+    "nav": {
+      "products": "Produktuak",
+      "whereToBuy": "Non Erosi",
+      "aboutMammut": "Mammuti Buruz",
+      "configurator": "3D Konfiguratzailea"
+    },
+    "megaMenu": {
+      "viewAll": "Ikusi produktu guztiak",
+      "comingSoon": "{{category}} edukia laster.",
+      "cats": {
+        "windows": "Leihoak",
+        "doors": "Ateak",
+        "terrace": "Terraza Sistemak",
+        "shutters": "Pertsianak",
+        "facade": "Fatxada Pertsianak",
+        "mosquito": "Eltxo-sareak",
+        "garage": "Garaje Ateak",
+        "conservatories": "Fatxadak / Itxiturak",
+        "pergola": "Pergola",
+        "smart": "Etxe Adimenduna",
+        "extras": "Gehigarriak",
+        "promotional": "Material Promozionala"
+      },
+      "cols": {
+        "pvcWindows": "PVC Leihoak",
+        "alumWindows": "Aluminiozko Leihoak",
+        "woodWindows": "Egurrezko Leihoak",
+        "woodAlumWindows": "Egur-Aluminio Leihoak",
+        "pvcDoors": "PVC Ateak",
+        "alumDoors": "Aluminiozko Ateak"
+      },
+      "new": "Berria"
+    }
+  },
+  "home": {
+    "hero": {
+      "premium": "Goi Mailako Leiho eta Ateak",
+      "explore": "Produktuak Arakatu",
+      "configurator": "3D Konfiguratzailea",
+      "slide1": {
+        "headline": "Zure espazioa",
+        "headlineSpan": "definitu",
+        "sub": "Arkitektura eraldatzen duten doitasunezko leihoak."
+      },
+      "slide2": {
+        "headline": "Munduari",
+        "headlineSpan": "irekia",
+        "sub": "Barrualdea eta kanpoaldea lotzen dituzten sistema panoramikoak."
+      },
+      "slide3": {
+        "headline": "Argia",
+        "headlineSpan": "berriz definituta",
+        "sub": "Etxeko gela bakoitza argi naturalez betetzen duten beirateak."
+      }
+    },
+    "offer": {
+      "subtitle": "Irtenbide Osoak",
+      "title": "Gure Eskaintza",
+      "text": "PVC, egur eta aluminiozko leiho eta ate sorta zabala eskaintzen dugu. Eskariz fabrikatuak, xehetasun bakoitzari arreta jarriz."
+    },
+    "categories": {
+      "subtitle": "Arakatu Motaren Arabera",
+      "title": "Produktu Kategoriak",
+      "tabs": {
+        "windows": "LEIHOAK",
+        "doors": "ATEAK",
+        "shutters": "PERTSIANAK",
+        "blinds": "EGZKI-OHALAK",
+        "terrace": "TERRAZA SISTEMAK",
+        "additions": "OSAGARRIAK"
+      },
+      "items": {
+        "alu": "ALUMINIOA",
+        "woodAlu": "EGUR-ALUMINIOA",
+        "pvc": "PVC",
+        "wooden": "EGURRA",
+        "adaptive": "ADAPTAGARRIA",
+        "topMounted": "GAINEAN JARRIA",
+        "externalVenetian": "KANPOKO VENEZIARRAK",
+        "liftSlide": "HS SISTEMAK",
+        "tiltSlide": "PSK SISTEMAK",
+        "folding": "ATE TOLESGARRIAK",
+        "customization": "PERTSONALIZAZIOA"
+      }
+    },
+    "featured": {
+      "subtitle": "Gure Bilduma",
+      "title": "Sistema Nabarmenak",
+      "viewAll": "Ikusi Guztiak",
+      "tags": {
+        "new": "BERRIA",
+        "premium": "PREMIUM",
+        "bestseller": "SALDUENA"
+      },
+      "discover": "Ezagutu",
+      "igloEdge": {
+        "tagline": "Isolamendu maximoa, marko minimoa"
+      },
+      "igloLight": {
+        "tagline": "Argi gehiago zure espazioan"
+      },
+      "iglo5": {
+        "tagline": "Klasikoaren berpizkundea"
+      }
+    },
+    "cta": {
+      "subtitle": "3D Konfiguratzailea",
+      "title": "Diseinatu zure leihoa",
+      "text": "Aukeratu xehetasunak eta eskatu aurrekontua.",
+      "button": "Hasi Konfiguratzailea"
+    }
+  },
+  "products": {
+    "collection": "Gure Bilduma",
+    "title": "Premium Sistemak",
+    "description": "Ezagutu gure leiho, ate eta terraza sistema sorta zabala. Errendimendu termiko hobea, isolamendu akustikoa eta denborarik gabeko diseinurako garatuta.",
+    "allProducts": "Produktu Guztiak",
+    "new": "BERRIA"
+  },
+  "productDetail": {
+    "notFound": "Ez da produktua aurkitu",
+    "return": "Produktuetara itzuli",
+    "configure": "{{name}} konfiguratu",
+    "standardEquipment": "Serieko ekipamendua",
+    "seeVideo": "Bideoa ikusi",
+    "hoverDrawing": "Sagua pasa marrazki teknikoa ikusteko",
+    "profile": "Profila",
+    "technicalDrawing": "Marrazki Teknikoa",
+    "newGeneration": "Belaunaldi Berria",
+    "uncompromising": "Kalitate eta Errendimendu Termiko Paregabea",
+    "colorsTitle": "Koloreak eta Akaberak",
+    "colorsDesc": "Pertsonalizatu zure {{name}} {{count}} akabera baino gehiagorekin.",
+    "preview": "AURREIKUSPENA",
+    "selectedFinish": "Hautatutako akabera",
+    "selectedColor": "Hautatutako kolorea:",
+    "glassTitle": "Beira",
+    "glassDesc": "DRUTEXek, beira konposatuaren ekoizpenean 30 urte baino gehiagoko esperientziarekin, zure leiho eta ateak hornitzeko beira sorta oso zabala eskaintzen du. Eraginkortasun energetikoaren eta soinu-isolamenduaren eskakizun zorrotzak betetzen dituzte. Eskaintzak beira laminatua (segurua eta lapurreten aurkakoa), eguzki-babeseko beira, soinu-isolamendu hobetua duen beira, beira tenplatua, apaingarria eta hareatua ere barne hartzen ditu.",
+    "handlesTitle": "Eskulekuak",
+    "handlesDesc": "Gure eskulekuak funtzionaltasunagatik nabarmentzen dira.",
+    "optionsTitle": "Aukera Gehigarriak",
+    "optionsDesc": "Hobetu zure IGLO EDGE.",
+    "seeAll": "Ikusi guztiak",
+    "configureQuote": "Konfiguratu eta Aurrekontua"
+  },
+  "footer": {
+    "newsletter": {
+      "title": "Buletina",
+      "desc": "Egon adi produktu berri eta berrikuntzen inguruan.",
+      "placeholder": "Zure e-posta helbidea",
+      "subscribe": "Harpidetzeko"
+    },
+    "cols": {
+      "about": {
+        "title": "Mammut-i buruz",
+        "history": "Gure Historia",
+        "quality": "Kalitatea eta Ziurtagiriak",
+        "innovation": "Berrikuntza",
+        "sustainability": "Jasangarritasuna"
+      },
+      "offer": {
+        "title": "Gure Eskaintza",
+        "pvc": "PVC Leihoak",
+        "alu": "Aluminiozko Leihoak",
+        "wood": "Egurrezko Leihoak",
+        "doors": "Kanpoko Ateak",
+        "shutters": "Pertsianak"
+      },
+      "inspiration": {
+        "title": "Inspirazioa",
+        "kitchen": "Sukaldea",
+        "living": "Egongela",
+        "bedroom": "Logela",
+        "terrace": "Terraza"
+      },
+      "partners": {
+        "title": "Bazkideak",
+        "portal": "Bazkide ataria",
+        "coop": "Lankidetza Programa",
+        "sales": "Salmenta Ordezkariak",
+        "contact": "Harremana"
+      }
+    },
+    "legal": {
+      "privacy": "Pribatutasun politika",
+      "cookies": "Cookieen ezarpenak",
+      "sitemap": "Gunearen mapa",
+      "terms": "Erabilera-baldintzak",
+      "copyright": "Mammut Windows & Doors. Eskubide guztiak erreserbatuta."
+    }
+  },
+  "igloEdge": {
+    "tagline": "Gehieneko isolamendua, gutxieneko markoa",
+    "description": "Gure leiho berriak isolamendu termikoko parametro bikaina du (Uw = 0,66 W/(m²K)*) eta profil angeluar modernoaren forma du.",
+    "basicDescription": "IGLO EDGE leiho sistemak eraginkortasun energetikoaren gailurra adierazten du.",
+    "equipment": [
+      "Kamera bikoitzeko beiraztatzea Ug = 0,5 W/(m²K)",
+      "Swisspacer plastikozko markoa",
+      "V-perfect soldadura",
+      "4 lapurreten aurkako itxitura",
+      "Mikroaireztapena",
+      "DUBLIN heldulekua",
+      "Okerreko blokeo mekanismoa",
+      "Juntak beltzez edo grisez",
+      "Zarata txikiagoko betegarria",
+      "Sill mozketa",
+      "Kolore aukera zabala",
+      "3 kolore aukeran: zuria, marroia edo antrazita"
+    ],
+    "specs": {
+      "sound": "Azkartze Akustikoa",
+      "gaskets": "EPDM Junturak",
+      "thermal": "Transmitantzia Termikoa",
+      "chambers": "Ganberak",
+      "depth": "Sakonera",
+      "class": "Profil Klasea"
+    }
+  },
+  "colorGroups": {
+    "Metal Effect": "Metal Efektua",
+    "Solid": "Solidoa",
+    "Wood Effect": "Egur Efektua"
+  },
+  "colors": {
+    "c209": "Basalto grisa",
+    "c210": "Basalto gris leuna",
+    "c232": "Brontze sakona",
+    "c213": "Grafito hareatua",
+    "c207": "Kuartzo grisa",
+    "c208": "Kuartzo gris leuna",
+    "c237": "Altzairu urdina",
+    "c214": "Antrazita",
+    "c216": "Antrazita Ulti Matea",
+    "c215": "Antrazita leuna",
+    "c218": "Beltz Ulti Matea",
+    "c236": "Urdin distiratsua",
+    "c231": "Txokolate marroia",
+    "c206": "Hormigoi grisa",
+    "c200": "Krema",
+    "c199": "Croviu Platynium",
+    "c234": "Berde iluna",
+    "c235": "Gorri iluna",
+    "c233": "Goroldio berdea",
+    "c205": "Grisa",
+    "c217": "Beltz azabachea",
+    "c204": "Gris argia",
+    "c201": "Pirita",
+    "c228": "Palisandroa",
+    "c211": "Arbela",
+    "c212": "Arbel leuna",
+    "c197": "Zuria",
+    "c198": "Hare zuri matea",
+    "c202": "Haritz zuritua",
+    "c227": "Haritz iluna",
+    "c225": "Douglas izeia",
+    "c229": "Makore",
+    "c230": "Kaoba",
+    "c203": "Haritz naturala",
+    "c224": "Oregon",
+    "c220": "Turner haritza 2023",
+    "c221": "Turner Toffee haritza",
+    "c222": "Turner intxaur haritza",
+    "c226": "Intxaurrondoa",
+    "c223": "Winchester",
+    "c219": "Urrezko haritza"
+  }
+}

@@ -1,4 +1,4 @@
-﻿export interface SwatchColor {
+export interface SwatchColor {
   id: string
   name: string
   hex: string
@@ -36,11 +36,11 @@ export interface ProductDetailData {
 export const IGLO_EDGE_COLORS: SwatchColor[] = [
   { id: 'c209', name: 'Basalt Grey', image: '/assets/windowcolors/textures/bazaltowy_szary.jpg', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/gris-basalto.webp', hex: '#404040', group: 'Metal Effect' },
   { id: 'c210', name: 'Basalt Grey Gadki', image: '/assets/windowcolors/textures/bazaltowy-szary-gadki.jpg', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/gris-basalto-liso.webp', hex: '#404040', group: 'Metal Effect' },
-  { id: 'c232', name: 'Deep Bronze', image: '/assets/windowcolors/textures/deep_bronze.jpg', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/shine-deep-bronze.webp', hex: '#404040', group: 'Metal Effect' },
-  { id: 'c213', name: 'Graphite Sandblasted', image: '/assets/windowcolors/textures/grafitowy_piaskowany.jpg', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/grafito-arena.webp', hex: '#404040', group: 'Metal Effect' },
+  { id: 'c232', name: 'Deep Bronze', image: '/assets/windowcolors/textures/deep_bronze.jpg', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/shine-deep-bronze-fixed.webp', hex: '#404040', group: 'Metal Effect' },
+  { id: 'c213', name: 'Graphite Sandblasted', image: '/assets/windowcolors/textures/grafitowy_piaskowany.jpg', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/grafito-arena-fixed.webp', hex: '#404040', group: 'Metal Effect' },
   { id: 'c207', name: 'Grey Quartz', image: '/assets/windowcolors/textures/szary-kwarcytowy.jpg', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/cuarcita-gris.webp', hex: '#404040', group: 'Metal Effect' },
   { id: 'c208', name: 'Grey Quartz Smooth', image: '/assets/windowcolors/textures/szary-kwarcytowy-gladki.jpg', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/gris-cuarcita-liso.webp', hex: '#404040', group: 'Metal Effect' },
-  { id: 'c237', name: 'Steel Blue', image: '/assets/windowcolors/textures/stalowy-niebieski_N2imWIS.jpg', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/azul-acero.webp', hex: '#404040', group: 'Metal Effect' },
+  { id: 'c237', name: 'Steel Blue', image: '/assets/windowcolors/textures/stalowy-niebieski_N2imWIS.jpg', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/azul-acero-fixed.webp', hex: '#404040', group: 'Metal Effect' },
   { id: 'c214', name: 'Anthracite', image: '/assets/windowcolors/textures/antracyt.jpg', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/antracita.webp', hex: '#404040', group: 'Solid' },
   { id: 'c216', name: 'Anthracite Ulti Matt', image: '/assets/windowcolors/textures/antracut_ulti-matt_www.jpg', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/antracita-ulti-matt.webp', hex: '#404040', group: 'Solid' },
   { id: 'c215', name: 'Anthracite Smooth', image: '/assets/windowcolors/textures/antrycyt0gladki.jpg', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/antracita-liso.webp', hex: '#404040', group: 'Solid' },
@@ -103,12 +103,12 @@ export const IGLO_EDGE_DETAIL: ProductDetailData = {
     '3 profile colours to choose from: white, brown or anthracite',
   ],
   keySpecs: [
-    { label: 'Sound Insulation', value: '36–47 dB' },
-    { label: 'EPDM Gaskets', value: '3' },
-    { label: 'Thermal Transmittance', value: 'Uw = 0.66 W/(m²K)*' },
-    { label: 'Number of Chambers', value: '7' },
-    { label: 'Installation Depth', value: '82 mm' },
-    { label: 'Profile Class', value: 'A' },
+    { label: 'sound', value: '36–47 dB' },
+    { label: 'gaskets', value: '3' },
+    { label: 'thermal', value: 'Uw = 0.66 W/(m²K)*' },
+    { label: 'chambers', value: '7' },
+    { label: 'depth', value: '82 mm' },
+    { label: 'class', value: 'A' },
   ],
   colors: IGLO_EDGE_COLORS,
   glassOptions: [

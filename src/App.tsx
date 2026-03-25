@@ -8,6 +8,7 @@ import { ProductsPage } from './pages/ProductsPage'
 import { ProductDetailPage } from './pages/ProductDetailPage'
 import { ConfiguratorPage } from './pages/ConfiguratorPage'
 import { AboutPage } from './pages/AboutPage'
+import { MainConfigurator } from './components/SlateConfigurator/MainConfigurator'
 import './index.css'
 
 // Error boundary to catch silent crashes in the component tree
@@ -42,6 +43,7 @@ function App() {
                 <Route path="/products" element={<ProductsPage />} />
                 <Route path="/products/:slug" element={<ProductDetailPage />} />
                 <Route path="/configurator" element={<ConfiguratorPage />} />
+                <Route path="/slate-configurator" element={<MainConfigurator />} />
                 <Route path="/about/*" element={<AboutPage />} />
                 <Route path="/where-to-buy" element={<AboutPage />} />
               </Routes>

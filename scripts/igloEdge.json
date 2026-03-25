@@ -1,0 +1,205 @@
+{
+  "en": {
+    "igloEdge": {
+      "tagline": "Maximum insulation, minimal frame",
+      "description": "Our new, most technologically advanced window is distinguished by an excellent thermal insulation parameter of Uw = 0.66 W/(m²K)* and a modern, angular profile shape. The extremely good thermal insulation parameters are due, among other things, to the 7-chamber profile design and 3 EPDM gaskets, including the central gasket.",
+      "basicDescription": "The IGLO EDGE window system represents the pinnacle of energy efficiency. Designed for passive houses and energy-conscious renovations, it features a 7-chamber profile, the best-in-class Uw = 0.66 W/(m²K), and a minimalist design that maximises natural light entering the room.",
+      "equipment": [
+        "Double-chamber glazing package Ug = 0.5 W/(m²K)",
+        "Swisspacer Ultimate plastic warm frame",
+        "V-perfect weld",
+        "4 anti-theft strikers according to the size of the sash and the hardware system",
+        "Microventilation",
+        "DUBLIN aluminium window handle",
+        "Handle misplacement locking mechanism",
+        "Perimeter, glazing and central gaskets in black or grey",
+        "Filling of the lower hardware groove",
+        "Sill trim",
+        "Wide selection of PVC veneer colours",
+        "3 profile colours to choose from: white, brown or anthracite"
+      ],
+      "specs": {
+        "sound": "Sound Insulation",
+        "gaskets": "EPDM Gaskets",
+        "thermal": "Thermal Transmittance",
+        "chambers": "Number of Chambers",
+        "depth": "Installation Depth",
+        "class": "Profile Class"
+      }
+    }
+  },
+  "es": {
+    "igloEdge": {
+      "tagline": "Aislamiento máximo, marco mínimo",
+      "description": "Nuestra ventana nueva y más avanzada tecnológicamente se distingue por un excelente parámetro de aislamiento térmico de Uw = 0.66 W/(m²K)* y una forma de perfil angular moderna. Los parámetros extremadamente buenos se deben, entre otras cosas, al diseño del perfil de 7 cámaras y 3 juntas EPDM.",
+      "basicDescription": "El sistema de ventanas IGLO EDGE representa la cumbre de la eficiencia energética. Diseñado para casas pasivas, cuenta con un perfil de 7 cámaras.",
+      "equipment": [
+        "Paquete de acristalamiento de doble cámara Ug = 0.5 W/(m²K)",
+        "Marco cálido de plástico Swisspacer Ultimate",
+        "Soldadura V-perfect",
+        "4 cerraderos antirrobo según el tamaño de la hoja",
+        "Microventilación",
+        "Manilla de ventana de aluminio DUBLIN",
+        "Mecanismo de bloqueo de manipulación incorrecta",
+        "Juntas perimetrales, de acristalamiento y centrales en negro o gris",
+        "Llenado de la ranura inferior del herraje",
+        "Embellecedor de alféizar",
+        "Amplia selección de colores de chapado de PVC",
+        "3 colores de perfil a elegir: blanco, marrón o antracita"
+      ],
+      "specs": {
+        "sound": "Aislamiento acústico",
+        "gaskets": "Juntas EPDM",
+        "thermal": "Transmitancia térmica",
+        "chambers": "Número de cámaras",
+        "depth": "Profundidad de instalación",
+        "class": "Clase de perfil"
+      }
+    }
+  },
+  "de": {
+    "igloEdge": {
+      "tagline": "Maximale Isolierung, minimaler Rahmen",
+      "description": "Unser neues, technologisch fortschrittlichstes Fenster zeichnet sich durch einen exzellenten Wärmedämmwert von Uw = 0,66 W/(m²K)* und eine moderne, kantige Profilform aus. Die extrem guten Wärmedämmwerte sind unter anderem auf das 7-Kammer-Profildesign und 3 EPDM-Dichtungen.",
+      "basicDescription": "Das IGLO EDGE Fenstersystem repräsentiert die Spitze der Energieeffizienz. Entwickelt für Passivhäuser.",
+      "equipment": [
+        "Zweikammer-Verglasungspaket Ug = 0,5 W/(m²K)",
+        "Warme Kante Swisspacer Ultimate aus Kunststoff",
+        "V-Perfect-Schweißnaht",
+        "4 Einbruchschutzschließbleche je nach Flügelgröße",
+        "Mikroventilation",
+        "DUBLIN Aluminium-Fenstergriff",
+        "Fehlbedienungssperre",
+        "Umlaufende, Verglasungs- und Mitteldichtungen in Schwarz oder Grau",
+        "Füllung der unteren Beschlagsnut",
+        "Sohlbankanschluss",
+        "Große Auswahl an PVC-Folienfarben",
+        "3 Profilfarben zur Auswahl: Weiß, Braun oder Anthrazit"
+      ],
+      "specs": {
+        "sound": "Schalldämmung",
+        "gaskets": "EPDM-Dichtungen",
+        "thermal": "Wärmedurchgangskoeffizient",
+        "chambers": "Kammern",
+        "depth": "Bautiefe",
+        "class": "Profilklasse"
+      }
+    }
+  },
+  "fr": {
+    "igloEdge": {
+      "tagline": "Isolation maximale, cadre minimal",
+      "description": "Notre nouvelle fenêtre se distingue par un excellent paramètre d'isolation thermique de Uw = 0,66 W/(m²K)* et une forme de profilé moderne et angulaire.",
+      "basicDescription": "Le système de fenêtres IGLO EDGE représente le summum de l'efficacité énergétique.",
+      "equipment": [
+        "Double vitrage Ug = 0,5 W/(m²K)",
+        "Intercalaire chaud en plastique Swisspacer Ultimate",
+        "Soudure V-perfect",
+        "4 gâches anti-effraction",
+        "Microventilation",
+        "Poignée en aluminium DUBLIN",
+        "Mécanisme de blocage",
+        "Joints en noir ou gris",
+        "Remplissage de la rainure inférieure",
+        "Profilé de rejet",
+        "Large choix de couleurs PVC",
+        "3 couleurs au choix : blanc, marron ou anthracite"
+      ],
+      "specs": {
+        "sound": "Isolation phonique",
+        "gaskets": "Joints EPDM",
+        "thermal": "Transmission thermique",
+        "chambers": "Chambres",
+        "depth": "Profondeur",
+        "class": "Classe de profilé"
+      }
+    }
+  },
+  "ca": {
+    "igloEdge": {
+      "tagline": "Aïllament màxim, marc mínim",
+      "description": "La nostra nova finestra es distingeix per un excel·lent paràmetre d'aïllament tèrmic d'Uw = 0,66 W/(m²K)* i una forma de perfil angular moderna.",
+      "basicDescription": "El sistema IGLO EDGE representa el cim de l'eficiència.",
+      "equipment": [
+        "Doble vidre Ug = 0,5 W/(m²K)",
+        "Marc càlid de plàstic Swisspacer Ultimate",
+        "Soldadura V-perfect",
+        "4 tancadors antirobatori",
+        "Microventilació",
+        "Maneta d'alumini DUBLIN",
+        "Mecanisme de bloqueig",
+        "Juntes en negre o gris",
+        "Farciment de la ranura",
+        "Marcaboques d'ampit",
+        "Àmplia selecció de colors",
+        "3 colors a escollir: blanc, marró o antracita"
+      ],
+      "specs": {
+        "sound": "Aïllament acústic",
+        "gaskets": "Juntes EPDM",
+        "thermal": "Transmitància tèrmica",
+        "chambers": "Cambres",
+        "depth": "Profunditat",
+        "class": "Classe de perfil"
+      }
+    }
+  },
+  "pt": {
+    "igloEdge": {
+      "tagline": "Isolamento máximo, moldura mínima",
+      "description": "A nossa nova janela distingue-se por um excelente parâmetro de isolamento térmico de Uw = 0,66 W/(m²K)* e por um perfil de forma angular moderna.",
+      "basicDescription": "O sistema IGLO EDGE representa o auge da eficiência energética.",
+      "equipment": [
+        "Vidros duplos Ug = 0,5 W/(m²K)",
+        "Afastador quente de plástico Swisspacer Ultimate",
+        "Soldadura V-perfect",
+        "4 trincos anti-roubo",
+        "Microventilação",
+        "Puxador em alumínio DUBLIN",
+        "Mecanismo de bloqueio",
+        "Juntas em preto ou cinzento",
+        "Preenchimento inferior",
+        "Parapeito",
+        "Vasta seleção de cores",
+        "3 cores à escolha: branco, castanho ou antracite"
+      ],
+      "specs": {
+        "sound": "Isolamento Acústico",
+        "gaskets": "Juntas EPDM",
+        "thermal": "Transmitância Térmica",
+        "chambers": "Câmaras",
+        "depth": "Profundidade",
+        "class": "Classe de Perfil"
+      }
+    }
+  },
+  "eu": {
+    "igloEdge": {
+      "tagline": "Gehieneko isolamendua, gutxieneko markoa",
+      "description": "Gure leiho berriak isolamendu termikoko parametro bikaina du (Uw = 0,66 W/(m²K)*) eta profil angeluar modernoaren forma du.",
+      "basicDescription": "IGLO EDGE leiho sistemak eraginkortasun energetikoaren gailurra adierazten du.",
+      "equipment": [
+        "Kamera bikoitzeko beiraztatzea Ug = 0,5 W/(m²K)",
+        "Swisspacer plastikozko markoa",
+        "V-perfect soldadura",
+        "4 lapurreten aurkako itxitura",
+        "Mikroaireztapena",
+        "DUBLIN heldulekua",
+        "Okerreko blokeo mekanismoa",
+        "Juntak beltzez edo grisez",
+        "Zarata txikiagoko betegarria",
+        "Sill mozketa",
+        "Kolore aukera zabala",
+        "3 kolore aukeran: zuria, marroia edo antrazita"
+      ],
+      "specs": {
+        "sound": "Azkartze Akustikoa",
+        "gaskets": "EPDM Junturak",
+        "thermal": "Transmitantzia Termikoa",
+        "chambers": "Ganberak",
+        "depth": "Sakonera",
+        "class": "Profil Klasea"
+      }
+    }
+  }
+}

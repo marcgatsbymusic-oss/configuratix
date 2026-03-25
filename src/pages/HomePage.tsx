@@ -1,67 +1,36 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
-const HERO_SLIDES = [
-  {
-    img: '/assets/hero/hero-1.png',
-    headline: <>Define your<br /><span className="text-[#dca95c]">space</span></>,
-    sub: 'Precision-engineered windows and doors that transform architecture with cutting-edge thermal and acoustic performance.',
-  },
-  {
-    img: '/assets/hero/hero-2.png',
-    headline: <>Open to the<br /><span className="text-[#dca95c]">world</span></>,
-    sub: 'Panoramic lift-and-slide systems that dissolve the boundary between inside and outside.',
-  },
-  {
-    img: '/assets/hero/hero-3.png',
-    headline: <>Light, redefined<br /><span className="text-[#dca95c]">by design</span></>,
-    sub: 'Floor-to-ceiling glazing that fills every room with natural light while keeping heat and noise out.',
-  },
-]
-
-
+// Using i18n keys for data maps
+const HERO_SLIDES = ['slide1', 'slide2', 'slide3'].map((k, i) => ({
+  img: `/assets/hero/hero-${i + 1}.png`,
+  key: k
+}))
 
 const CATEGORY_TILES = [
-  { category: 'WINDOWS',         title: 'ALUMINIUM',              image: '/assets/mwindows/windows_alu.jpg',              href: '/products' },
-  { category: 'WINDOWS',         title: 'WOOD-ALUMINIUM',         image: '/assets/mwindows/windows_wood-alu.jpg',         href: '/products' },
-  { category: 'DOORS',           title: 'PVC',                    image: '/assets/mwindows/doors_pvc-1.jpg',              href: '/products' },
-  { category: 'DOORS',           title: 'WOODEN',                 image: '/assets/mwindows/doors_wooden.jpg',             href: '/products' },
-  { category: 'DOORS',           title: 'ALUMINIUM',              image: '/assets/mwindows/doors_alu.jpg',                href: '/products' },
-  { category: 'SHUTTERS',        title: 'ADAPTIVE',               image: '/assets/mwindows/shutters_adaptive.jpg',        href: '/products' },
-  { category: 'SHUTTERS',        title: 'TOP-MOUNTED',            image: '/assets/mwindows/shutters_top-mounted.jpg',     href: '/products' },
-  { category: 'BLINDS',          title: 'EXTERNAL VENETIAN',      image: '/assets/mwindows/external_venetian_blinds.jpg', href: '/products' },
-  { category: 'TERRACE SYSTEMS', title: 'LIFT AND SLIDE HS',      image: '/assets/mwindows/terrace_hs.jpg',               href: '/products' },
-  { category: 'TERRACE SYSTEMS', title: 'TILT AND SLIDE PSK',     image: '/assets/mwindows/terrace_psk.jpg',              href: '/products' },
-  { category: 'TERRACE SYSTEMS', title: 'FOLDING DOORS',          image: '/assets/mwindows/terrace_folding.jpg',          href: '/products' },
-  { category: 'ADDITIONS',       title: 'CUSTOMIZATION',          image: '/assets/mwindows/additions.jpg',                href: '/products' },
+  { cKey: 'windows', iKey: 'alu', image: '/assets/mwindows/windows_alu.jpg', href: '/products' },
+  { cKey: 'windows', iKey: 'woodAlu', image: '/assets/mwindows/windows_wood-alu.jpg', href: '/products' },
+  { cKey: 'doors', iKey: 'pvc', image: '/assets/mwindows/doors_pvc-1.jpg', href: '/products' },
+  { cKey: 'doors', iKey: 'wooden', image: '/assets/mwindows/doors_wooden.jpg', href: '/products' },
+  { cKey: 'doors', iKey: 'alu', image: '/assets/mwindows/doors_alu.jpg', href: '/products' },
+  { cKey: 'shutters', iKey: 'adaptive', image: '/assets/mwindows/shutters_adaptive.jpg', href: '/products' },
+  { cKey: 'shutters', iKey: 'topMounted', image: '/assets/mwindows/shutters_top-mounted.jpg', href: '/products' },
+  { cKey: 'blinds', iKey: 'externalVenetian', image: '/assets/mwindows/external_venetian_blinds.jpg', href: '/products' },
+  { cKey: 'terrace', iKey: 'liftSlide', image: '/assets/mwindows/terrace_hs.jpg', href: '/products' },
+  { cKey: 'terrace', iKey: 'tiltSlide', image: '/assets/mwindows/terrace_psk.jpg', href: '/products' },
+  { cKey: 'terrace', iKey: 'folding', image: '/assets/mwindows/terrace_folding.jpg', href: '/products' },
+  { cKey: 'additions', iKey: 'customization', image: '/assets/mwindows/additions.jpg', href: '/products' },
 ]
 
 const PRODUCT_HIGHLIGHTS = [
-  {
-    tag: 'NEW',
-    name: 'IGLO EDGE',
-    tagline: 'Maximum insulation, minimal frame',
-    href: '/products/iglo-edge',
-    specs: ['Uw = 0.66 W/(m²K)*', '82mm depth', '7-chamber', 'Profile Class A'],
-    image: '/assets/iglo-edge-featured.png'
-  },
-  {
-    tag: 'PREMIUM',
-    name: 'IGLO LIGHT',
-    tagline: 'Even more light into your space',
-    href: '/products/windows/pvc/iglo-light',
-    specs: ['dB = 34', '5 chambers', 'EPDM seals'],
-  },
-  {
-    tag: 'BESTSELLER',
-    name: 'IGLO 5',
-    tagline: 'The classic reborn',
-    href: '/products/windows/pvc/iglo-5',
-    specs: ['Uw = 0.74 W/m²K', '70mm depth', '5-chamber'],
-  },
+  { tagKey: 'new', name: 'IGLO EDGE', nameKey: 'igloEdge', href: '/products/iglo-edge', specs: ['Uw = 0.66 W/(m²K)*', '82mm depth', '7-chamber', 'Profile Class A'], image: '/assets/iglo-edge-featured.png' },
+  { tagKey: 'premium', name: 'IGLO LIGHT', nameKey: 'igloLight', href: '/products/windows/pvc/iglo-light', specs: ['dB = 34', '5 chambers', 'EPDM seals'] },
+  { tagKey: 'bestseller', name: 'IGLO 5', nameKey: 'iglo5', href: '/products/windows/pvc/iglo-5', specs: ['Uw = 0.74 W/m²K', '70mm depth', '5-chamber'] },
 ]
 export function HomePage() {
+  const { t } = useTranslation()
   const [slide, setSlide] = useState(0)
 
   useEffect(() => {
@@ -94,27 +63,28 @@ export function HomePage() {
 
         {/* Content */}
         <div className="relative z-20 max-w-7xl mx-auto px-6 w-full">
-          <p className="text-[#dca95c] text-xs uppercase tracking-[0.3em] font-semibold mb-4">
-            Premium Windows &amp; Doors
+          <p className="!text-white drop-shadow-md text-xs uppercase tracking-[0.3em] font-semibold mb-4">
+            {t('home.hero.premium')}
           </p>
-          <h1 className="text-6xl md:text-8xl font-black uppercase leading-none mb-6 max-w-3xl transition-all duration-700">
-            {HERO_SLIDES[slide].headline}
+          <h1 className="!text-white text-6xl md:text-8xl font-black uppercase leading-none mb-6 max-w-3xl transition-all duration-700 drop-shadow-lg">
+            {t(`home.hero.${HERO_SLIDES[slide].key}.headline`)}<br />
+            <span className="!text-[#dca95c]">{t(`home.hero.${HERO_SLIDES[slide].key}.headlineSpan`)}</span>
           </h1>
-          <p className="text-white/60 text-lg mb-10 max-w-xl transition-all duration-700">
-            {HERO_SLIDES[slide].sub}
+          <p className="!text-white drop-shadow-md text-lg mb-10 max-w-xl transition-all duration-700">
+            {t(`home.hero.${HERO_SLIDES[slide].key}.sub`)}
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
               to="/products"
               className="flex items-center gap-2 bg-[#dca95c] text-black px-8 py-4 text-sm uppercase tracking-widest font-bold hover:bg-[#eab676] transition-colors duration-200"
             >
-              Explore Products <ArrowRight size={16} />
+              {t('home.hero.explore')} <ArrowRight size={16} />
             </Link>
             <Link
               to="/configurator"
               className="flex items-center gap-2 border border-white/30 text-white px-8 py-4 text-sm uppercase tracking-widest font-bold hover:border-[#dca95c] hover:text-[#dca95c] transition-all duration-200"
             >
-              3D Configurator
+              {t('home.hero.configurator')}
             </Link>
           </div>
         </div>
@@ -170,61 +140,54 @@ export function HomePage() {
           {/* Right: text */}
           <div className="bg-[#1a1a1b] flex flex-col justify-center px-12 py-16 lg:px-16">
             <span className="text-[#dca95c] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">
-              Complete Solutions
+              {t('home.offer.subtitle')}
             </span>
             <h2 className="text-4xl font-black text-white uppercase mb-6 leading-tight">
-              Our Offer
+              {t('home.offer.title')}
             </h2>
             <p className="!text-white leading-relaxed mb-8">
-              We offer a wide range of windows, frames, exterior doors, and sliding doors in PVC, wood and aluminium. Through expert craftsmanship, the highest quality materials, and a level of service we ensure our company's status. Each window and door is made to order, providing each customer with individual service and attention. We will provide you with the highest level of expertise and assist you all the way with your renovation and construction plans.
+              {t('home.offer.text')}
             </p>
             <Link
               to="/products"
               className="inline-flex items-center gap-2 bg-[#dca95c] text-black px-8 py-4 text-sm uppercase tracking-widest font-bold hover:bg-[#eab676] transition-colors duration-200 self-start"
             >
-              Explore Products <ArrowRight size={16} />
+              {t('home.hero.explore')} <ArrowRight size={16} />
             </Link>
           </div>
         </div>
       </section>
 
       {/* ── Product Category Grid ───────────────────────────────── */}
-      <section className="py-20 border-b border-[#2a2a2b] bg-[#0e0e0f]">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="mb-12 text-center">
-            <span className="text-[#dca95c] text-[10px] font-bold uppercase tracking-[0.3em] mb-3 block">
-              Browse by Type
-            </span>
-            <h2 className="text-4xl font-black text-white uppercase">Product Categories</h2>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4">
+      <section className="border-b border-[#2a2a2b] bg-[#0e0e0f]">
+        <div className="w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-0">
             {CATEGORY_TILES.map((tile) => (
               <Link
-                key={`${tile.category}-${tile.title}`}
+                key={`${tile.cKey}-${tile.iKey}`}
                 to={tile.href}
-                className="group relative overflow-hidden aspect-[4/3] block"
+                className="group relative overflow-hidden aspect-square block"
               >
                 {/* Background image */}
                 <img
                   src={tile.image}
-                  alt={`${tile.category} — ${tile.title}`}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  alt={tile.cKey}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                {/* Dark overlay */}
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-300" />
-                {/* Gold gradient at bottom */}
-                <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/50 to-transparent" />
-                {/* Text */}
-                <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-4">
-                  <span className="text-[#dca95c] text-lg font-bold uppercase tracking-[0.2em] mb-2">
-                    {tile.category}
+                {/* Dark overlay (Removed completely for full brightness) */}
+                
+                {/* Inset Border (Hover Only) */}
+                <div className="absolute inset-4 lg:inset-6 border-[2px] border-[#dca95c] pointer-events-none transition-transform duration-500 scale-0 group-hover:scale-100 z-10" />
+
+                {/* Text centered */}
+                <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-6 z-20">
+                  <span className="bg-[#dca95c] text-black px-5 py-1.5 text-[10px] lg:text-xs font-normal tracking-[0.15em] uppercase mb-3 shadow-lg transition-colors duration-300 group-hover:bg-[#eab676]">
+                    {t(`home.categories.tabs.${tile.cKey}`)}
                   </span>
-                  <span className="text-white font-black text-3xl uppercase leading-tight group-hover:text-[#dca95c] transition-colors duration-200">
-                    {tile.title}
+                  <span className="text-white font-black text-2xl lg:text-3xl uppercase leading-tight drop-shadow-xl transition-transform duration-300 group-hover:scale-105">
+                    {t(`home.categories.items.${tile.iKey}`)}
                   </span>
                 </div>
-                {/* Gold border on hover */}
-                <div className="absolute inset-0 border-2 border-transparent group-hover:border-[#dca95c]/60 transition-all duration-300" />
               </Link>
             ))}
           </div>
@@ -236,15 +199,15 @@ export function HomePage() {
         <div className="flex items-end justify-between mb-12">
           <div>
             <p className="text-[#dca95c] text-xs uppercase tracking-widest font-semibold mb-2">
-              Our Collection
+              {t('home.featured.subtitle')}
             </p>
-            <h2 className="text-4xl font-black uppercase">Featured Systems</h2>
+            <h2 className="text-4xl font-black uppercase">{t('home.featured.title')}</h2>
           </div>
           <Link
             to="/products"
             className="hidden md:flex items-center gap-2 text-sm text-[#dca95c] uppercase tracking-widest hover:gap-3 transition-all duration-200"
           >
-            View All <ArrowRight size={14} />
+            {t('home.featured.viewAll')} <ArrowRight size={14} />
           </Link>
         </div>
 
@@ -268,14 +231,14 @@ export function HomePage() {
                 )}
                 <div className="absolute top-4 left-4 z-10">
                   <span className="bg-[#dca95c] text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1">
-                    {p.tag}
+                    {t(`home.featured.tags.${p.tagKey}`)}
                   </span>
                 </div>
               </div>
 
               <div className="p-6">
                 <h3 className="text-xl font-black uppercase mb-1">{p.name}</h3>
-                <p className="text-white/50 text-sm mb-4">{p.tagline}</p>
+                <p className="text-white/50 text-sm mb-4">{t(`home.featured.${p.nameKey}.tagline`)}</p>
                 <div className="flex flex-wrap gap-2">
                   {p.specs.map((s) => (
                     <span
@@ -287,7 +250,7 @@ export function HomePage() {
                   ))}
                 </div>
                 <div className="flex items-center gap-2 mt-6 text-[#dca95c] text-xs uppercase tracking-widest font-semibold group-hover:gap-3 transition-all duration-200">
-                  Discover <ArrowRight size={12} />
+                  {t('home.featured.discover')} <ArrowRight size={12} />
                 </div>
               </div>
             </Link>
@@ -300,21 +263,20 @@ export function HomePage() {
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-10">
           <div className="max-w-lg">
             <p className="text-[#dca95c] text-xs uppercase tracking-widest font-semibold mb-3">
-              3D Configurator
+              {t('home.cta.subtitle')}
             </p>
             <h2 className="text-4xl font-black uppercase mb-4">
-              Design Your Perfect Window
+              {t('home.cta.title')}
             </h2>
             <p className="text-white/50">
-              Choose dimensions, materials, colors, and glass type. Save your configuration
-              and request a quote instantly.
+              {t('home.cta.text')}
             </p>
           </div>
           <Link
             to="/configurator"
             className="shrink-0 flex items-center gap-3 border border-[#dca95c] text-[#dca95c] px-10 py-5 text-sm uppercase tracking-widest font-bold hover:bg-[#dca95c] hover:text-black transition-all duration-300"
           >
-            Launch Configurator <ArrowRight size={16} />
+            {t('home.cta.button')} <ArrowRight size={16} />
           </Link>
         </div>
       </section>

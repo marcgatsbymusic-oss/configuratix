@@ -97,8 +97,8 @@ export function ConfiguratorPage() {
                 <div className="preview-section">
                   <h3 className="section-label">Preview</h3>
                   <WindowPreview
-                    sashCount={windowType.sash_count}
-                    openingType={windowType.opening_type}
+                    sashCount={windowType.sash_count || 1}
+                    sashOpenings={[windowType.opening_type || 'o2']}
                     width={320}
                     height={260}
                   />

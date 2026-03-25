@@ -1,0 +1,1500 @@
+{
+  "en": {
+    "colorGroups": {
+      "Metal Effect": "Metal Effect",
+      "Solid": "Solid",
+      "Wood Effect": "Wood Effect"
+    },
+    "colors": {
+      "c199": {
+        "name": "Croviu Platynium",
+        "group": "Solid",
+        "swatch": "url('/assets/windowcolors/textures/croviu_platynium-n.jpg')"
+      },
+      "c201": {
+        "name": "Piryt",
+        "group": "Solid",
+        "swatch": "url('/assets/windowcolors/textures/piryt.jpg')"
+      },
+      "c209": {
+        "name": "Basalt Grey",
+        "group": "Metal Effect",
+        "swatch": "url('/assets/windowcolors/textures/bazaltowy_szary.jpg')"
+      },
+      "c210": {
+        "name": "Basalt Grey Gadki",
+        "group": "Metal Effect",
+        "swatch": "url('/assets/windowcolors/textures/bazaltowy-szary-gadki.jpg')"
+      },
+      "c207": {
+        "name": "Grey Quartz",
+        "group": "Metal Effect",
+        "swatch": "url('/assets/windowcolors/textures/szary-kwarcytowy.jpg')"
+      },
+      "c208": {
+        "name": "Grey Quartz Smooth",
+        "group": "Metal Effect",
+        "swatch": "url('/assets/windowcolors/textures/szary-kwarcytowy-gladki.jpg')"
+      },
+      "c237": {
+        "name": "Steel Blue",
+        "group": "Metal Effect",
+        "swatch": "url('/assets/windowcolors/textures/stalowy-niebieski_N2imWIS.jpg')"
+      },
+      "c214": {
+        "name": "Anthracite",
+        "group": "Solid",
+        "swatch": "url('/assets/windowcolors/textures/antracyt.jpg')"
+      },
+      "c216": {
+        "name": "Anthracite Ulti Matt",
+        "group": "Solid",
+        "swatch": "url('/assets/windowcolors/textures/antracut_ulti-matt_www.jpg')"
+      },
+      "c215": {
+        "name": "Anthracite Smooth",
+        "group": "Solid",
+        "swatch": "url('/assets/windowcolors/textures/antrycyt0gladki.jpg')"
+      },
+      "c218": {
+        "name": "Black Ulti Matt",
+        "group": "Solid",
+        "swatch": "url('/assets/windowcolors/textures/czarny_ulti-matt_www.jpg')"
+      },
+      "c236": {
+        "name": "Brilliant Blue",
+        "group": "Solid",
+        "swatch": "url('/assets/windowcolors/textures/brylantowo-niebieski.jpg')"
+      },
+      "c231": {
+        "name": "Chocolate Brown",
+        "group": "Solid",
+        "swatch": "url('/assets/windowcolors/textures/braz-czekoladowy.jpg')"
+      },
+      "c206": {
+        "name": "Concrete Grey",
+        "group": "Solid",
+        "swatch": "url('/assets/windowcolors/textures/betonowy-szary.jpg')"
+      },
+      "c200": {
+        "name": "Cream",
+        "group": "Solid",
+        "swatch": "url('/assets/windowcolors/textures/kremowy.jpg')"
+      },
+      "c234": {
+        "name": "Dark Green",
+        "group": "Solid",
+        "swatch": "url('/assets/windowcolors/textures/ciemno-zielony.jpg')"
+      },
+      "c235": {
+        "name": "Dark Red",
+        "group": "Solid",
+        "swatch": "url('/assets/windowcolors/textures/ciemny-czerwony.jpg')"
+      },
+      "c233": {
+        "name": "Moss Green",
+        "group": "Solid",
+        "swatch": "url('/assets/windowcolors/textures/zielen-mchu.jpg')"
+      },
+      "c205": {
+        "name": "Grey",
+        "group": "Solid",
+        "swatch": "url('/assets/windowcolors/textures/szary.jpg')"
+      },
+      "c217": {
+        "name": "Jet Black",
+        "group": "Solid",
+        "swatch": "url('/assets/windowcolors/textures/jet-black.jpg')"
+      },
+      "c204": {
+        "name": "Light Grey",
+        "group": "Solid",
+        "swatch": "url('/assets/windowcolors/textures/jasny_szary-n.jpg')"
+      },
+      "c211": {
+        "name": "Slate",
+        "group": "Solid",
+        "swatch": "url('/assets/windowcolors/textures/lupkowy-n.jpg')"
+      },
+      "c212": {
+        "name": "Slate Smooth",
+        "group": "Solid",
+        "swatch": "url('/assets/windowcolors/textures/lupkowy-gladki-n.jpg')"
+      },
+      "c197": {
+        "name": "White",
+        "group": "Solid",
+        "swatch": "url('/assets/windowcolors/textures/bialy-fx.jpg')"
+      },
+      "c198": {
+        "name": "White Sand Matt",
+        "group": "Solid",
+        "swatch": "url('/assets/windowcolors/textures/white_sand-u-matt.jpg')"
+      },
+      "c232": {
+        "name": "Deep Bronze",
+        "group": "Metal Effect",
+        "swatch": "url('/assets/windowcolors/textures/deep_bronze.jpg')"
+      },
+      "c213": {
+        "name": "Graphite Sandblasted",
+        "group": "Metal Effect",
+        "swatch": "url('/assets/windowcolors/textures/grafitowy_piaskowany.jpg')"
+      },
+      "c228": {
+        "name": "Palisander",
+        "group": "Solid",
+        "swatch": "url('/assets/windowcolors/textures/polisander-a.jpg')"
+      },
+      "c202": {
+        "name": "Bleached Oak",
+        "group": "Wood Effect",
+        "swatch": "url('/assets/windowcolors/textures/dab-bielony.jpg')"
+      },
+      "c227": {
+        "name": "Dark Oak",
+        "group": "Wood Effect",
+        "swatch": "url('/assets/windowcolors/textures/ciemny-dab_kk.jpg')"
+      },
+      "c225": {
+        "name": "Douglas Fir",
+        "group": "Wood Effect",
+        "swatch": "url('/assets/windowcolors/textures/daglezja_kk.jpg')"
+      },
+      "c229": {
+        "name": "Macore",
+        "group": "Wood Effect",
+        "swatch": "url('/assets/windowcolors/textures/macore_kk.jpg')"
+      },
+      "c230": {
+        "name": "Mahogany",
+        "group": "Wood Effect",
+        "swatch": "url('/assets/windowcolors/textures/machoa_kk.jpg')"
+      },
+      "c203": {
+        "name": "Natural Oak",
+        "group": "Wood Effect",
+        "swatch": "url('/assets/windowcolors/textures/dab-naturalny.jpg')"
+      },
+      "c224": {
+        "name": "Oregon",
+        "group": "Wood Effect",
+        "swatch": "url('/assets/windowcolors/textures/oregon_kk.jpg')"
+      },
+      "c220": {
+        "name": "Turner Oak 2023",
+        "group": "Wood Effect",
+        "swatch": "url('/assets/windowcolors/textures/turner-oak-2023.jpg')"
+      },
+      "c221": {
+        "name": "Turner Oak Toffee 470 3004",
+        "group": "Wood Effect",
+        "swatch": "url('/assets/windowcolors/textures/turner_oak_toffee_470-3004.jpg')"
+      },
+      "c222": {
+        "name": "Turner Oak Walnut 470 3004",
+        "group": "Wood Effect",
+        "swatch": "url('/assets/windowcolors/textures/turner_oak_walnut_470-3004.jpg')"
+      },
+      "c226": {
+        "name": "Walnut",
+        "group": "Wood Effect",
+        "swatch": "url('/assets/windowcolors/textures/orzech-a.jpg')"
+      },
+      "c223": {
+        "name": "Winchester",
+        "group": "Wood Effect",
+        "swatch": "url('/assets/windowcolors/textures/winchester_kk.jpg')"
+      },
+      "c219": {
+        "name": "Golden Oak",
+        "group": "Wood Effect",
+        "swatch": "url('/assets/windowcolors/textures/zaoty-dab_kk.jpg')"
+      }
+    }
+  },
+  "es": {
+    "colorGroups": {
+      "Metal Effect": "Efecto Metal",
+      "Solid": "Sólido",
+      "Wood Effect": "Efecto Madera"
+    },
+    "colors": {
+      "c199": {
+        "name": "Croviu Platynium",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/croviu_platynium-n.jpg')"
+      },
+      "c201": {
+        "name": "Pirita",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/piryt.jpg')"
+      },
+      "c209": {
+        "name": "Gris Basalto",
+        "group": "Efecto Metal",
+        "swatch": "url('/assets/windowcolors/textures/bazaltowy_szary.jpg')"
+      },
+      "c210": {
+        "name": "Gris Basalto Liso",
+        "group": "Efecto Metal",
+        "swatch": "url('/assets/windowcolors/textures/bazaltowy-szary-gadki.jpg')"
+      },
+      "c207": {
+        "name": "Cuarzo Gris",
+        "group": "Efecto Metal",
+        "swatch": "url('/assets/windowcolors/textures/szary-kwarcytowy.jpg')"
+      },
+      "c208": {
+        "name": "Cuarzo Gris Liso",
+        "group": "Efecto Metal",
+        "swatch": "url('/assets/windowcolors/textures/szary-kwarcytowy-gladki.jpg')"
+      },
+      "c237": {
+        "name": "Azul Acero",
+        "group": "Efecto Metal",
+        "swatch": "url('/assets/windowcolors/textures/stalowy-niebieski_N2imWIS.jpg')"
+      },
+      "c214": {
+        "name": "Antracita",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/antracyt.jpg')"
+      },
+      "c216": {
+        "name": "Antracita Ulti Mate",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/antracut_ulti-matt_www.jpg')"
+      },
+      "c215": {
+        "name": "Antracita Liso",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/antrycyt0gladki.jpg')"
+      },
+      "c218": {
+        "name": "Negro Ulti Mate",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/czarny_ulti-matt_www.jpg')"
+      },
+      "c236": {
+        "name": "Azul Brillante",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/brylantowo-niebieski.jpg')"
+      },
+      "c231": {
+        "name": "Marrón Chocolate",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/braz-czekoladowy.jpg')"
+      },
+      "c206": {
+        "name": "Gris Hormigón",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/betonowy-szary.jpg')"
+      },
+      "c200": {
+        "name": "Crema",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/kremowy.jpg')"
+      },
+      "c234": {
+        "name": "Verde Oscuro",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/ciemno-zielony.jpg')"
+      },
+      "c235": {
+        "name": "Rojo Oscuro",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/ciemny-czerwony.jpg')"
+      },
+      "c233": {
+        "name": "Verde Musgo",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/zielen-mchu.jpg')"
+      },
+      "c205": {
+        "name": "Gris",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/szary.jpg')"
+      },
+      "c217": {
+        "name": "Negro Azabache",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/jet-black.jpg')"
+      },
+      "c204": {
+        "name": "Gris Claro",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/jasny_szary-n.jpg')"
+      },
+      "c211": {
+        "name": "Pizarra",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/lupkowy-n.jpg')"
+      },
+      "c212": {
+        "name": "Pizarra Liso",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/lupkowy-gladki-n.jpg')"
+      },
+      "c197": {
+        "name": "Blanco",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/bialy-fx.jpg')"
+      },
+      "c198": {
+        "name": "Blanco Arena Mate",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/white_sand-u-matt.jpg')"
+      },
+      "c232": {
+        "name": "Bronce Profundo",
+        "group": "Efecto Metal",
+        "swatch": "url('/assets/windowcolors/textures/deep_bronze.jpg')"
+      },
+      "c213": {
+        "name": "Grafito Arenado",
+        "group": "Efecto Metal",
+        "swatch": "url('/assets/windowcolors/textures/grafitowy_piaskowany.jpg')"
+      },
+      "c228": {
+        "name": "Palisandro",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/polisander-a.jpg')"
+      },
+      "c202": {
+        "name": "Roble Blanqueado",
+        "group": "Efecto Madera",
+        "swatch": "url('/assets/windowcolors/textures/dab-bielony.jpg')"
+      },
+      "c227": {
+        "name": "Roble Oscuro",
+        "group": "Efecto Madera",
+        "swatch": "url('/assets/windowcolors/textures/ciemny-dab_kk.jpg')"
+      },
+      "c225": {
+        "name": "Abeto Douglas",
+        "group": "Efecto Madera",
+        "swatch": "url('/assets/windowcolors/textures/daglezja_kk.jpg')"
+      },
+      "c229": {
+        "name": "Macoré",
+        "group": "Efecto Madera",
+        "swatch": "url('/assets/windowcolors/textures/macore_kk.jpg')"
+      },
+      "c230": {
+        "name": "Caoba",
+        "group": "Efecto Madera",
+        "swatch": "url('/assets/windowcolors/textures/machoa_kk.jpg')"
+      },
+      "c203": {
+        "name": "Roble Natural",
+        "group": "Efecto Madera",
+        "swatch": "url('/assets/windowcolors/textures/dab-naturalny.jpg')"
+      },
+      "c224": {
+        "name": "Oregón",
+        "group": "Efecto Madera",
+        "swatch": "url('/assets/windowcolors/textures/oregon_kk.jpg')"
+      },
+      "c220": {
+        "name": "Roble Turner 2023",
+        "group": "Efecto Madera",
+        "swatch": "url('/assets/windowcolors/textures/turner-oak-2023.jpg')"
+      },
+      "c221": {
+        "name": "Roble Turner Toffee",
+        "group": "Efecto Madera",
+        "swatch": "url('/assets/windowcolors/textures/turner_oak_toffee_470-3004.jpg')"
+      },
+      "c222": {
+        "name": "Roble Turner Nogal",
+        "group": "Efecto Madera",
+        "swatch": "url('/assets/windowcolors/textures/turner_oak_walnut_470-3004.jpg')"
+      },
+      "c226": {
+        "name": "Nogal",
+        "group": "Efecto Madera",
+        "swatch": "url('/assets/windowcolors/textures/orzech-a.jpg')"
+      },
+      "c223": {
+        "name": "Winchester",
+        "group": "Efecto Madera",
+        "swatch": "url('/assets/windowcolors/textures/winchester_kk.jpg')"
+      },
+      "c219": {
+        "name": "Roble Dorado",
+        "group": "Efecto Madera",
+        "swatch": "url('/assets/windowcolors/textures/zaoty-dab_kk.jpg')"
+      }
+    }
+  },
+  "de": {
+    "colorGroups": {
+      "Metal Effect": "Metalleffekt",
+      "Solid": "Vollton",
+      "Wood Effect": "Holzeffekt"
+    },
+    "colors": {
+      "c199": {
+        "name": "Croviu Platynium",
+        "group": "Vollton",
+        "swatch": "url('/assets/windowcolors/textures/croviu_platynium-n.jpg')"
+      },
+      "c201": {
+        "name": "Pyrit",
+        "group": "Vollton",
+        "swatch": "url('/assets/windowcolors/textures/piryt.jpg')"
+      },
+      "c209": {
+        "name": "Basaltgrau",
+        "group": "Metalleffekt",
+        "swatch": "url('/assets/windowcolors/textures/bazaltowy_szary.jpg')"
+      },
+      "c210": {
+        "name": "Basaltgrau Glatt",
+        "group": "Metalleffekt",
+        "swatch": "url('/assets/windowcolors/textures/bazaltowy-szary-gadki.jpg')"
+      },
+      "c207": {
+        "name": "Quarzgrau",
+        "group": "Metalleffekt",
+        "swatch": "url('/assets/windowcolors/textures/szary-kwarcytowy.jpg')"
+      },
+      "c208": {
+        "name": "Quarzgrau Glatt",
+        "group": "Metalleffekt",
+        "swatch": "url('/assets/windowcolors/textures/szary-kwarcytowy-gladki.jpg')"
+      },
+      "c237": {
+        "name": "Stahlblau",
+        "group": "Metalleffekt",
+        "swatch": "url('/assets/windowcolors/textures/stalowy-niebieski_N2imWIS.jpg')"
+      },
+      "c214": {
+        "name": "Anthrazit",
+        "group": "Vollton",
+        "swatch": "url('/assets/windowcolors/textures/antracyt.jpg')"
+      },
+      "c216": {
+        "name": "Anthrazit Ulti Matt",
+        "group": "Vollton",
+        "swatch": "url('/assets/windowcolors/textures/antracut_ulti-matt_www.jpg')"
+      },
+      "c215": {
+        "name": "Anthrazit Glatt",
+        "group": "Vollton",
+        "swatch": "url('/assets/windowcolors/textures/antrycyt0gladki.jpg')"
+      },
+      "c218": {
+        "name": "Schwarz Ulti Matt",
+        "group": "Vollton",
+        "swatch": "url('/assets/windowcolors/textures/czarny_ulti-matt_www.jpg')"
+      },
+      "c236": {
+        "name": "Brillantblau",
+        "group": "Vollton",
+        "swatch": "url('/assets/windowcolors/textures/brylantowo-niebieski.jpg')"
+      },
+      "c231": {
+        "name": "Schokoladenbraun",
+        "group": "Vollton",
+        "swatch": "url('/assets/windowcolors/textures/braz-czekoladowy.jpg')"
+      },
+      "c206": {
+        "name": "Betongrau",
+        "group": "Vollton",
+        "swatch": "url('/assets/windowcolors/textures/betonowy-szary.jpg')"
+      },
+      "c200": {
+        "name": "Cremeweiß",
+        "group": "Vollton",
+        "swatch": "url('/assets/windowcolors/textures/kremowy.jpg')"
+      },
+      "c234": {
+        "name": "Dunkelgrün",
+        "group": "Vollton",
+        "swatch": "url('/assets/windowcolors/textures/ciemno-zielony.jpg')"
+      },
+      "c235": {
+        "name": "Dunkelrot",
+        "group": "Vollton",
+        "swatch": "url('/assets/windowcolors/textures/ciemny-czerwony.jpg')"
+      },
+      "c233": {
+        "name": "Moosgrün",
+        "group": "Vollton",
+        "swatch": "url('/assets/windowcolors/textures/zielen-mchu.jpg')"
+      },
+      "c205": {
+        "name": "Grau",
+        "group": "Vollton",
+        "swatch": "url('/assets/windowcolors/textures/szary.jpg')"
+      },
+      "c217": {
+        "name": "Tiefschwarz",
+        "group": "Vollton",
+        "swatch": "url('/assets/windowcolors/textures/jet-black.jpg')"
+      },
+      "c204": {
+        "name": "Lichtgrau",
+        "group": "Vollton",
+        "swatch": "url('/assets/windowcolors/textures/jasny_szary-n.jpg')"
+      },
+      "c211": {
+        "name": "Schiefergrau",
+        "group": "Vollton",
+        "swatch": "url('/assets/windowcolors/textures/lupkowy-n.jpg')"
+      },
+      "c212": {
+        "name": "Schiefergrau Glatt",
+        "group": "Vollton",
+        "swatch": "url('/assets/windowcolors/textures/lupkowy-gladki-n.jpg')"
+      },
+      "c197": {
+        "name": "Weiß",
+        "group": "Vollton",
+        "swatch": "url('/assets/windowcolors/textures/bialy-fx.jpg')"
+      },
+      "c198": {
+        "name": "Weißer Sand Matt",
+        "group": "Vollton",
+        "swatch": "url('/assets/windowcolors/textures/white_sand-u-matt.jpg')"
+      },
+      "c232": {
+        "name": "Tiefbronze",
+        "group": "Metalleffekt",
+        "swatch": "url('/assets/windowcolors/textures/deep_bronze.jpg')"
+      },
+      "c213": {
+        "name": "Graphit Sandgestrahlt",
+        "group": "Metalleffekt",
+        "swatch": "url('/assets/windowcolors/textures/grafitowy_piaskowany.jpg')"
+      },
+      "c228": {
+        "name": "Palisander",
+        "group": "Vollton",
+        "swatch": "url('/assets/windowcolors/textures/polisander-a.jpg')"
+      },
+      "c202": {
+        "name": "Gebleichte Eiche",
+        "group": "Holzeffekt",
+        "swatch": "url('/assets/windowcolors/textures/dab-bielony.jpg')"
+      },
+      "c227": {
+        "name": "Dunkle Eiche",
+        "group": "Holzeffekt",
+        "swatch": "url('/assets/windowcolors/textures/ciemny-dab_kk.jpg')"
+      },
+      "c225": {
+        "name": "Douglasie",
+        "group": "Holzeffekt",
+        "swatch": "url('/assets/windowcolors/textures/daglezja_kk.jpg')"
+      },
+      "c229": {
+        "name": "Macore",
+        "group": "Holzeffekt",
+        "swatch": "url('/assets/windowcolors/textures/macore_kk.jpg')"
+      },
+      "c230": {
+        "name": "Mahagoni",
+        "group": "Holzeffekt",
+        "swatch": "url('/assets/windowcolors/textures/machoa_kk.jpg')"
+      },
+      "c203": {
+        "name": "Eiche Natur",
+        "group": "Holzeffekt",
+        "swatch": "url('/assets/windowcolors/textures/dab-naturalny.jpg')"
+      },
+      "c224": {
+        "name": "Oregon",
+        "group": "Holzeffekt",
+        "swatch": "url('/assets/windowcolors/textures/oregon_kk.jpg')"
+      },
+      "c220": {
+        "name": "Turner Eiche 2023",
+        "group": "Holzeffekt",
+        "swatch": "url('/assets/windowcolors/textures/turner-oak-2023.jpg')"
+      },
+      "c221": {
+        "name": "Turner Eiche Toffee",
+        "group": "Holzeffekt",
+        "swatch": "url('/assets/windowcolors/textures/turner_oak_toffee_470-3004.jpg')"
+      },
+      "c222": {
+        "name": "Turner Eiche Nussbaum",
+        "group": "Holzeffekt",
+        "swatch": "url('/assets/windowcolors/textures/turner_oak_walnut_470-3004.jpg')"
+      },
+      "c226": {
+        "name": "Nussbaum",
+        "group": "Holzeffekt",
+        "swatch": "url('/assets/windowcolors/textures/orzech-a.jpg')"
+      },
+      "c223": {
+        "name": "Winchester",
+        "group": "Holzeffekt",
+        "swatch": "url('/assets/windowcolors/textures/winchester_kk.jpg')"
+      },
+      "c219": {
+        "name": "Goldeiche",
+        "group": "Holzeffekt",
+        "swatch": "url('/assets/windowcolors/textures/zaoty-dab_kk.jpg')"
+      }
+    }
+  },
+  "fr": {
+    "colorGroups": {
+      "Metal Effect": "Effet Métal",
+      "Solid": "Solide",
+      "Wood Effect": "Effet Bois"
+    },
+    "colors": {
+      "c199": {
+        "name": "Croviu Platynium",
+        "group": "Solide",
+        "swatch": "url('/assets/windowcolors/textures/croviu_platynium-n.jpg')"
+      },
+      "c201": {
+        "name": "Pyrite",
+        "group": "Solide",
+        "swatch": "url('/assets/windowcolors/textures/piryt.jpg')"
+      },
+      "c209": {
+        "name": "Gris Basalte",
+        "group": "Effet Métal",
+        "swatch": "url('/assets/windowcolors/textures/bazaltowy_szary.jpg')"
+      },
+      "c210": {
+        "name": "Gris Basalte Lisse",
+        "group": "Effet Métal",
+        "swatch": "url('/assets/windowcolors/textures/bazaltowy-szary-gadki.jpg')"
+      },
+      "c207": {
+        "name": "Gris Quartz",
+        "group": "Effet Métal",
+        "swatch": "url('/assets/windowcolors/textures/szary-kwarcytowy.jpg')"
+      },
+      "c208": {
+        "name": "Gris Quartz Lisse",
+        "group": "Effet Métal",
+        "swatch": "url('/assets/windowcolors/textures/szary-kwarcytowy-gladki.jpg')"
+      },
+      "c237": {
+        "name": "Bleu Acier",
+        "group": "Effet Métal",
+        "swatch": "url('/assets/windowcolors/textures/stalowy-niebieski_N2imWIS.jpg')"
+      },
+      "c214": {
+        "name": "Anthracite",
+        "group": "Solide",
+        "swatch": "url('/assets/windowcolors/textures/antracyt.jpg')"
+      },
+      "c216": {
+        "name": "Anthracite Ulti Mat",
+        "group": "Solide",
+        "swatch": "url('/assets/windowcolors/textures/antracut_ulti-matt_www.jpg')"
+      },
+      "c215": {
+        "name": "Anthracite Lisse",
+        "group": "Solide",
+        "swatch": "url('/assets/windowcolors/textures/antrycyt0gladki.jpg')"
+      },
+      "c218": {
+        "name": "Noir Ulti Mat",
+        "group": "Solide",
+        "swatch": "url('/assets/windowcolors/textures/czarny_ulti-matt_www.jpg')"
+      },
+      "c236": {
+        "name": "Bleu Brillant",
+        "group": "Solide",
+        "swatch": "url('/assets/windowcolors/textures/brylantowo-niebieski.jpg')"
+      },
+      "c231": {
+        "name": "Brun Chocolat",
+        "group": "Solide",
+        "swatch": "url('/assets/windowcolors/textures/braz-czekoladowy.jpg')"
+      },
+      "c206": {
+        "name": "Gris Béton",
+        "group": "Solide",
+        "swatch": "url('/assets/windowcolors/textures/betonowy-szary.jpg')"
+      },
+      "c200": {
+        "name": "Crème",
+        "group": "Solide",
+        "swatch": "url('/assets/windowcolors/textures/kremowy.jpg')"
+      },
+      "c234": {
+        "name": "Vert Foncé",
+        "group": "Solide",
+        "swatch": "url('/assets/windowcolors/textures/ciemno-zielony.jpg')"
+      },
+      "c235": {
+        "name": "Rouge Foncé",
+        "group": "Solide",
+        "swatch": "url('/assets/windowcolors/textures/ciemny-czerwony.jpg')"
+      },
+      "c233": {
+        "name": "Vert Mousse",
+        "group": "Solide",
+        "swatch": "url('/assets/windowcolors/textures/zielen-mchu.jpg')"
+      },
+      "c205": {
+        "name": "Gris",
+        "group": "Solide",
+        "swatch": "url('/assets/windowcolors/textures/szary.jpg')"
+      },
+      "c217": {
+        "name": "Noir Jaïs",
+        "group": "Solide",
+        "swatch": "url('/assets/windowcolors/textures/jet-black.jpg')"
+      },
+      "c204": {
+        "name": "Gris Clair",
+        "group": "Solide",
+        "swatch": "url('/assets/windowcolors/textures/jasny_szary-n.jpg')"
+      },
+      "c211": {
+        "name": "Ardoise",
+        "group": "Solide",
+        "swatch": "url('/assets/windowcolors/textures/lupkowy-n.jpg')"
+      },
+      "c212": {
+        "name": "Ardoise Lisse",
+        "group": "Solide",
+        "swatch": "url('/assets/windowcolors/textures/lupkowy-gladki-n.jpg')"
+      },
+      "c197": {
+        "name": "Blanc",
+        "group": "Solide",
+        "swatch": "url('/assets/windowcolors/textures/bialy-fx.jpg')"
+      },
+      "c198": {
+        "name": "Blanc Sable Mat",
+        "group": "Solide",
+        "swatch": "url('/assets/windowcolors/textures/white_sand-u-matt.jpg')"
+      },
+      "c232": {
+        "name": "Bronze Profond",
+        "group": "Effet Métal",
+        "swatch": "url('/assets/windowcolors/textures/deep_bronze.jpg')"
+      },
+      "c213": {
+        "name": "Graphite Sablé",
+        "group": "Effet Métal",
+        "swatch": "url('/assets/windowcolors/textures/grafitowy_piaskowany.jpg')"
+      },
+      "c228": {
+        "name": "Palissandre",
+        "group": "Solide",
+        "swatch": "url('/assets/windowcolors/textures/polisander-a.jpg')"
+      },
+      "c202": {
+        "name": "Chêne Blanchi",
+        "group": "Effet Bois",
+        "swatch": "url('/assets/windowcolors/textures/dab-bielony.jpg')"
+      },
+      "c227": {
+        "name": "Chêne Foncé",
+        "group": "Effet Bois",
+        "swatch": "url('/assets/windowcolors/textures/ciemny-dab_kk.jpg')"
+      },
+      "c225": {
+        "name": "Sapin de Douglas",
+        "group": "Effet Bois",
+        "swatch": "url('/assets/windowcolors/textures/daglezja_kk.jpg')"
+      },
+      "c229": {
+        "name": "Macoré",
+        "group": "Effet Bois",
+        "swatch": "url('/assets/windowcolors/textures/macore_kk.jpg')"
+      },
+      "c230": {
+        "name": "Acajou",
+        "group": "Effet Bois",
+        "swatch": "url('/assets/windowcolors/textures/machoa_kk.jpg')"
+      },
+      "c203": {
+        "name": "Chêne Naturel",
+        "group": "Effet Bois",
+        "swatch": "url('/assets/windowcolors/textures/dab-naturalny.jpg')"
+      },
+      "c224": {
+        "name": "Orégon",
+        "group": "Effet Bois",
+        "swatch": "url('/assets/windowcolors/textures/oregon_kk.jpg')"
+      },
+      "c220": {
+        "name": "Chêne Turner 2023",
+        "group": "Effet Bois",
+        "swatch": "url('/assets/windowcolors/textures/turner-oak-2023.jpg')"
+      },
+      "c221": {
+        "name": "Chêne Turner Toffee",
+        "group": "Effet Bois",
+        "swatch": "url('/assets/windowcolors/textures/turner_oak_toffee_470-3004.jpg')"
+      },
+      "c222": {
+        "name": "Chêne Turner Noyer",
+        "group": "Effet Bois",
+        "swatch": "url('/assets/windowcolors/textures/turner_oak_walnut_470-3004.jpg')"
+      },
+      "c226": {
+        "name": "Noyer",
+        "group": "Effet Bois",
+        "swatch": "url('/assets/windowcolors/textures/orzech-a.jpg')"
+      },
+      "c223": {
+        "name": "Winchester",
+        "group": "Effet Bois",
+        "swatch": "url('/assets/windowcolors/textures/winchester_kk.jpg')"
+      },
+      "c219": {
+        "name": "Chêne Doré",
+        "group": "Effet Bois",
+        "swatch": "url('/assets/windowcolors/textures/zaoty-dab_kk.jpg')"
+      }
+    }
+  },
+  "ca": {
+    "colorGroups": {
+      "Metal Effect": "Efecte Metall",
+      "Solid": "Sòlid",
+      "Wood Effect": "Efecte Fusta"
+    },
+    "colors": {
+      "c199": {
+        "name": "Croviu Platynium",
+        "group": "Sòlid",
+        "swatch": "url('/assets/windowcolors/textures/croviu_platynium-n.jpg')"
+      },
+      "c201": {
+        "name": "Pirita",
+        "group": "Sòlid",
+        "swatch": "url('/assets/windowcolors/textures/piryt.jpg')"
+      },
+      "c209": {
+        "name": "Gris Basalt",
+        "group": "Efecte Metall",
+        "swatch": "url('/assets/windowcolors/textures/bazaltowy_szary.jpg')"
+      },
+      "c210": {
+        "name": "Gris Basalt Llis",
+        "group": "Efecte Metall",
+        "swatch": "url('/assets/windowcolors/textures/bazaltowy-szary-gadki.jpg')"
+      },
+      "c207": {
+        "name": "Quars Gris",
+        "group": "Efecte Metall",
+        "swatch": "url('/assets/windowcolors/textures/szary-kwarcytowy.jpg')"
+      },
+      "c208": {
+        "name": "Quars Gris Llis",
+        "group": "Efecte Metall",
+        "swatch": "url('/assets/windowcolors/textures/szary-kwarcytowy-gladki.jpg')"
+      },
+      "c237": {
+        "name": "Blau Acer",
+        "group": "Efecte Metall",
+        "swatch": "url('/assets/windowcolors/textures/stalowy-niebieski_N2imWIS.jpg')"
+      },
+      "c214": {
+        "name": "Antracita",
+        "group": "Sòlid",
+        "swatch": "url('/assets/windowcolors/textures/antracyt.jpg')"
+      },
+      "c216": {
+        "name": "Antracita Ulti Mat",
+        "group": "Sòlid",
+        "swatch": "url('/assets/windowcolors/textures/antracut_ulti-matt_www.jpg')"
+      },
+      "c215": {
+        "name": "Antracita Llis",
+        "group": "Sòlid",
+        "swatch": "url('/assets/windowcolors/textures/antrycyt0gladki.jpg')"
+      },
+      "c218": {
+        "name": "Negre Ulti Mat",
+        "group": "Sòlid",
+        "swatch": "url('/assets/windowcolors/textures/czarny_ulti-matt_www.jpg')"
+      },
+      "c236": {
+        "name": "Blau Brillant",
+        "group": "Sòlid",
+        "swatch": "url('/assets/windowcolors/textures/brylantowo-niebieski.jpg')"
+      },
+      "c231": {
+        "name": "Marró Xocolata",
+        "group": "Sòlid",
+        "swatch": "url('/assets/windowcolors/textures/braz-czekoladowy.jpg')"
+      },
+      "c206": {
+        "name": "Gris Formigó",
+        "group": "Sòlid",
+        "swatch": "url('/assets/windowcolors/textures/betonowy-szary.jpg')"
+      },
+      "c200": {
+        "name": "Crema",
+        "group": "Sòlid",
+        "swatch": "url('/assets/windowcolors/textures/kremowy.jpg')"
+      },
+      "c234": {
+        "name": "Verd Fosc",
+        "group": "Sòlid",
+        "swatch": "url('/assets/windowcolors/textures/ciemno-zielony.jpg')"
+      },
+      "c235": {
+        "name": "Vermell Fosc",
+        "group": "Sòlid",
+        "swatch": "url('/assets/windowcolors/textures/ciemny-czerwony.jpg')"
+      },
+      "c233": {
+        "name": "Verd Molsa",
+        "group": "Sòlid",
+        "swatch": "url('/assets/windowcolors/textures/zielen-mchu.jpg')"
+      },
+      "c205": {
+        "name": "Gris",
+        "group": "Sòlid",
+        "swatch": "url('/assets/windowcolors/textures/szary.jpg')"
+      },
+      "c217": {
+        "name": "Negre Atzabeja",
+        "group": "Sòlid",
+        "swatch": "url('/assets/windowcolors/textures/jet-black.jpg')"
+      },
+      "c204": {
+        "name": "Gris Clar",
+        "group": "Sòlid",
+        "swatch": "url('/assets/windowcolors/textures/jasny_szary-n.jpg')"
+      },
+      "c211": {
+        "name": "Pissarra",
+        "group": "Sòlid",
+        "swatch": "url('/assets/windowcolors/textures/lupkowy-n.jpg')"
+      },
+      "c212": {
+        "name": "Pissarra Llis",
+        "group": "Sòlid",
+        "swatch": "url('/assets/windowcolors/textures/lupkowy-gladki-n.jpg')"
+      },
+      "c197": {
+        "name": "Blanc",
+        "group": "Sòlid",
+        "swatch": "url('/assets/windowcolors/textures/bialy-fx.jpg')"
+      },
+      "c198": {
+        "name": "Blanc Sorra Mat",
+        "group": "Sòlid",
+        "swatch": "url('/assets/windowcolors/textures/white_sand-u-matt.jpg')"
+      },
+      "c232": {
+        "name": "Bronze Profund",
+        "group": "Efecte Metall",
+        "swatch": "url('/assets/windowcolors/textures/deep_bronze.jpg')"
+      },
+      "c213": {
+        "name": "Grafit Sorrejat",
+        "group": "Efecte Metall",
+        "swatch": "url('/assets/windowcolors/textures/grafitowy_piaskowany.jpg')"
+      },
+      "c228": {
+        "name": "Palissandre",
+        "group": "Sòlid",
+        "swatch": "url('/assets/windowcolors/textures/polisander-a.jpg')"
+      },
+      "c202": {
+        "name": "Roure Blanquejat",
+        "group": "Efecte Fusta",
+        "swatch": "url('/assets/windowcolors/textures/dab-bielony.jpg')"
+      },
+      "c227": {
+        "name": "Roure Fosc",
+        "group": "Efecte Fusta",
+        "swatch": "url('/assets/windowcolors/textures/ciemny-dab_kk.jpg')"
+      },
+      "c225": {
+        "name": "Avet Douglas",
+        "group": "Efecte Fusta",
+        "swatch": "url('/assets/windowcolors/textures/daglezja_kk.jpg')"
+      },
+      "c229": {
+        "name": "Macoré",
+        "group": "Efecte Fusta",
+        "swatch": "url('/assets/windowcolors/textures/macore_kk.jpg')"
+      },
+      "c230": {
+        "name": "Caoba",
+        "group": "Efecte Fusta",
+        "swatch": "url('/assets/windowcolors/textures/machoa_kk.jpg')"
+      },
+      "c203": {
+        "name": "Roure Natural",
+        "group": "Efecte Fusta",
+        "swatch": "url('/assets/windowcolors/textures/dab-naturalny.jpg')"
+      },
+      "c224": {
+        "name": "Oregón",
+        "group": "Efecte Fusta",
+        "swatch": "url('/assets/windowcolors/textures/oregon_kk.jpg')"
+      },
+      "c220": {
+        "name": "Roure Turner 2023",
+        "group": "Efecte Fusta",
+        "swatch": "url('/assets/windowcolors/textures/turner-oak-2023.jpg')"
+      },
+      "c221": {
+        "name": "Roure Turner Toffee",
+        "group": "Efecte Fusta",
+        "swatch": "url('/assets/windowcolors/textures/turner_oak_toffee_470-3004.jpg')"
+      },
+      "c222": {
+        "name": "Roure Turner Noguera",
+        "group": "Efecte Fusta",
+        "swatch": "url('/assets/windowcolors/textures/turner_oak_walnut_470-3004.jpg')"
+      },
+      "c226": {
+        "name": "Noguera",
+        "group": "Efecte Fusta",
+        "swatch": "url('/assets/windowcolors/textures/orzech-a.jpg')"
+      },
+      "c223": {
+        "name": "Winchester",
+        "group": "Efecte Fusta",
+        "swatch": "url('/assets/windowcolors/textures/winchester_kk.jpg')"
+      },
+      "c219": {
+        "name": "Roure Daurat",
+        "group": "Efecte Fusta",
+        "swatch": "url('/assets/windowcolors/textures/zaoty-dab_kk.jpg')"
+      }
+    }
+  },
+  "pt": {
+    "colorGroups": {
+      "Metal Effect": "Efeito Metal",
+      "Solid": "Sólido",
+      "Wood Effect": "Efeito Madeira"
+    },
+    "colors": {
+      "c199": {
+        "name": "Croviu Platynium",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/croviu_platynium-n.jpg')"
+      },
+      "c201": {
+        "name": "Pirita",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/piryt.jpg')"
+      },
+      "c209": {
+        "name": "Cinza Basalto",
+        "group": "Efeito Metal",
+        "swatch": "url('/assets/windowcolors/textures/bazaltowy_szary.jpg')"
+      },
+      "c210": {
+        "name": "Cinza Basalto Liso",
+        "group": "Efeito Metal",
+        "swatch": "url('/assets/windowcolors/textures/bazaltowy-szary-gadki.jpg')"
+      },
+      "c207": {
+        "name": "Cinza Quartzo",
+        "group": "Efeito Metal",
+        "swatch": "url('/assets/windowcolors/textures/szary-kwarcytowy.jpg')"
+      },
+      "c208": {
+        "name": "Cinza Quartzo Liso",
+        "group": "Efeito Metal",
+        "swatch": "url('/assets/windowcolors/textures/szary-kwarcytowy-gladki.jpg')"
+      },
+      "c237": {
+        "name": "Azul Aço",
+        "group": "Efeito Metal",
+        "swatch": "url('/assets/windowcolors/textures/stalowy-niebieski_N2imWIS.jpg')"
+      },
+      "c214": {
+        "name": "Antracite",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/antracyt.jpg')"
+      },
+      "c216": {
+        "name": "Antracite Ulti Mate",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/antracut_ulti-matt_www.jpg')"
+      },
+      "c215": {
+        "name": "Antracite Liso",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/antrycyt0gladki.jpg')"
+      },
+      "c218": {
+        "name": "Preto Ulti Mate",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/czarny_ulti-matt_www.jpg')"
+      },
+      "c236": {
+        "name": "Azul Brilhante",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/brylantowo-niebieski.jpg')"
+      },
+      "c231": {
+        "name": "Marrom Chocolate",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/braz-czekoladowy.jpg')"
+      },
+      "c206": {
+        "name": "Cinza Concreto",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/betonowy-szary.jpg')"
+      },
+      "c200": {
+        "name": "Creme",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/kremowy.jpg')"
+      },
+      "c234": {
+        "name": "Verde Escuro",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/ciemno-zielony.jpg')"
+      },
+      "c235": {
+        "name": "Vermelho Escuro",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/ciemny-czerwony.jpg')"
+      },
+      "c233": {
+        "name": "Verde Musgo",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/zielen-mchu.jpg')"
+      },
+      "c205": {
+        "name": "Cinza",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/szary.jpg')"
+      },
+      "c217": {
+        "name": "Preto Azeviche",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/jet-black.jpg')"
+      },
+      "c204": {
+        "name": "Cinza Claro",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/jasny_szary-n.jpg')"
+      },
+      "c211": {
+        "name": "Ardósia",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/lupkowy-n.jpg')"
+      },
+      "c212": {
+        "name": "Ardósia Liso",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/lupkowy-gladki-n.jpg')"
+      },
+      "c197": {
+        "name": "Branco",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/bialy-fx.jpg')"
+      },
+      "c198": {
+        "name": "Areia Branca Mate",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/white_sand-u-matt.jpg')"
+      },
+      "c232": {
+        "name": "Bronze Profundo",
+        "group": "Efeito Metal",
+        "swatch": "url('/assets/windowcolors/textures/deep_bronze.jpg')"
+      },
+      "c213": {
+        "name": "Grafite Jateado",
+        "group": "Efeito Metal",
+        "swatch": "url('/assets/windowcolors/textures/grafitowy_piaskowany.jpg')"
+      },
+      "c228": {
+        "name": "Jacarandá",
+        "group": "Sólido",
+        "swatch": "url('/assets/windowcolors/textures/polisander-a.jpg')"
+      },
+      "c202": {
+        "name": "Carvalho Branqueado",
+        "group": "Efeito Madeira",
+        "swatch": "url('/assets/windowcolors/textures/dab-bielony.jpg')"
+      },
+      "c227": {
+        "name": "Carvalho Escuro",
+        "group": "Efeito Madeira",
+        "swatch": "url('/assets/windowcolors/textures/ciemny-dab_kk.jpg')"
+      },
+      "c225": {
+        "name": "Abeto de Douglas",
+        "group": "Efeito Madeira",
+        "swatch": "url('/assets/windowcolors/textures/daglezja_kk.jpg')"
+      },
+      "c229": {
+        "name": "Macoré",
+        "group": "Efeito Madeira",
+        "swatch": "url('/assets/windowcolors/textures/macore_kk.jpg')"
+      },
+      "c230": {
+        "name": "Mogno",
+        "group": "Efeito Madeira",
+        "swatch": "url('/assets/windowcolors/textures/machoa_kk.jpg')"
+      },
+      "c203": {
+        "name": "Carvalho Natural",
+        "group": "Efeito Madeira",
+        "swatch": "url('/assets/windowcolors/textures/dab-naturalny.jpg')"
+      },
+      "c224": {
+        "name": "Oregon",
+        "group": "Efeito Madeira",
+        "swatch": "url('/assets/windowcolors/textures/oregon_kk.jpg')"
+      },
+      "c220": {
+        "name": "Carvalho Turner 2023",
+        "group": "Efeito Madeira",
+        "swatch": "url('/assets/windowcolors/textures/turner-oak-2023.jpg')"
+      },
+      "c221": {
+        "name": "Carvalho Turner Toffee",
+        "group": "Efeito Madeira",
+        "swatch": "url('/assets/windowcolors/textures/turner_oak_toffee_470-3004.jpg')"
+      },
+      "c222": {
+        "name": "Carvalho Turner Nogueira",
+        "group": "Efeito Madeira",
+        "swatch": "url('/assets/windowcolors/textures/turner_oak_walnut_470-3004.jpg')"
+      },
+      "c226": {
+        "name": "Nogueira",
+        "group": "Efeito Madeira",
+        "swatch": "url('/assets/windowcolors/textures/orzech-a.jpg')"
+      },
+      "c223": {
+        "name": "Winchester",
+        "group": "Efeito Madeira",
+        "swatch": "url('/assets/windowcolors/textures/winchester_kk.jpg')"
+      },
+      "c219": {
+        "name": "Carvalho Dourado",
+        "group": "Efeito Madeira",
+        "swatch": "url('/assets/windowcolors/textures/zaoty-dab_kk.jpg')"
+      }
+    }
+  },
+  "eu": {
+    "colorGroups": {
+      "Metal Effect": "Metal Efektua",
+      "Solid": "Solidoa",
+      "Wood Effect": "Egur Efektua"
+    },
+    "colors": {
+      "c199": {
+        "name": "Croviu Platynium",
+        "group": "Solidoa",
+        "swatch": "url('/assets/windowcolors/textures/croviu_platynium-n.jpg')"
+      },
+      "c201": {
+        "name": "Pirita",
+        "group": "Solidoa",
+        "swatch": "url('/assets/windowcolors/textures/piryt.jpg')"
+      },
+      "c209": {
+        "name": "Basalto grisa",
+        "group": "Metal Efektua",
+        "swatch": "url('/assets/windowcolors/textures/bazaltowy_szary.jpg')"
+      },
+      "c210": {
+        "name": "Basalto gris leuna",
+        "group": "Metal Efektua",
+        "swatch": "url('/assets/windowcolors/textures/bazaltowy-szary-gadki.jpg')"
+      },
+      "c207": {
+        "name": "Kuartzo grisa",
+        "group": "Metal Efektua",
+        "swatch": "url('/assets/windowcolors/textures/szary-kwarcytowy.jpg')"
+      },
+      "c208": {
+        "name": "Kuartzo gris leuna",
+        "group": "Metal Efektua",
+        "swatch": "url('/assets/windowcolors/textures/szary-kwarcytowy-gladki.jpg')"
+      },
+      "c237": {
+        "name": "Altzairu urdina",
+        "group": "Metal Efektua",
+        "swatch": "url('/assets/windowcolors/textures/stalowy-niebieski_N2imWIS.jpg')"
+      },
+      "c214": {
+        "name": "Antrazita",
+        "group": "Solidoa",
+        "swatch": "url('/assets/windowcolors/textures/antracyt.jpg')"
+      },
+      "c216": {
+        "name": "Antrazita Ulti Matea",
+        "group": "Solidoa",
+        "swatch": "url('/assets/windowcolors/textures/antracut_ulti-matt_www.jpg')"
+      },
+      "c215": {
+        "name": "Antrazita leuna",
+        "group": "Solidoa",
+        "swatch": "url('/assets/windowcolors/textures/antrycyt0gladki.jpg')"
+      },
+      "c218": {
+        "name": "Beltz Ulti Matea",
+        "group": "Solidoa",
+        "swatch": "url('/assets/windowcolors/textures/czarny_ulti-matt_www.jpg')"
+      },
+      "c236": {
+        "name": "Urdin distiratsua",
+        "group": "Solidoa",
+        "swatch": "url('/assets/windowcolors/textures/brylantowo-niebieski.jpg')"
+      },
+      "c231": {
+        "name": "Txokolate marroia",
+        "group": "Solidoa",
+        "swatch": "url('/assets/windowcolors/textures/braz-czekoladowy.jpg')"
+      },
+      "c206": {
+        "name": "Hormigoi grisa",
+        "group": "Solidoa",
+        "swatch": "url('/assets/windowcolors/textures/betonowy-szary.jpg')"
+      },
+      "c200": {
+        "name": "Krema",
+        "group": "Solidoa",
+        "swatch": "url('/assets/windowcolors/textures/kremowy.jpg')"
+      },
+      "c234": {
+        "name": "Berde iluna",
+        "group": "Solidoa",
+        "swatch": "url('/assets/windowcolors/textures/ciemno-zielony.jpg')"
+      },
+      "c235": {
+        "name": "Gorri iluna",
+        "group": "Solidoa",
+        "swatch": "url('/assets/windowcolors/textures/ciemny-czerwony.jpg')"
+      },
+      "c233": {
+        "name": "Goroldio berdea",
+        "group": "Solidoa",
+        "swatch": "url('/assets/windowcolors/textures/zielen-mchu.jpg')"
+      },
+      "c205": {
+        "name": "Grisa",
+        "group": "Solidoa",
+        "swatch": "url('/assets/windowcolors/textures/szary.jpg')"
+      },
+      "c217": {
+        "name": "Beltz azabachea",
+        "group": "Solidoa",
+        "swatch": "url('/assets/windowcolors/textures/jet-black.jpg')"
+      },
+      "c204": {
+        "name": "Gris argia",
+        "group": "Solidoa",
+        "swatch": "url('/assets/windowcolors/textures/jasny_szary-n.jpg')"
+      },
+      "c211": {
+        "name": "Arbela",
+        "group": "Solidoa",
+        "swatch": "url('/assets/windowcolors/textures/lupkowy-n.jpg')"
+      },
+      "c212": {
+        "name": "Arbel leuna",
+        "group": "Solidoa",
+        "swatch": "url('/assets/windowcolors/textures/lupkowy-gladki-n.jpg')"
+      },
+      "c197": {
+        "name": "Zuria",
+        "group": "Solidoa",
+        "swatch": "url('/assets/windowcolors/textures/bialy-fx.jpg')"
+      },
+      "c198": {
+        "name": "Hare zuri matea",
+        "group": "Solidoa",
+        "swatch": "url('/assets/windowcolors/textures/white_sand-u-matt.jpg')"
+      },
+      "c232": {
+        "name": "Brontze sakona",
+        "group": "Metal Efektua",
+        "swatch": "url('/assets/windowcolors/textures/deep_bronze.jpg')"
+      },
+      "c213": {
+        "name": "Grafito hareatua",
+        "group": "Metal Efektua",
+        "swatch": "url('/assets/windowcolors/textures/grafitowy_piaskowany.jpg')"
+      },
+      "c228": {
+        "name": "Palisandroa",
+        "group": "Solidoa",
+        "swatch": "url('/assets/windowcolors/textures/polisander-a.jpg')"
+      },
+      "c202": {
+        "name": "Haritz zuritua",
+        "group": "Egur Efektua",
+        "swatch": "url('/assets/windowcolors/textures/dab-bielony.jpg')"
+      },
+      "c227": {
+        "name": "Haritz iluna",
+        "group": "Egur Efektua",
+        "swatch": "url('/assets/windowcolors/textures/ciemny-dab_kk.jpg')"
+      },
+      "c225": {
+        "name": "Douglas izeia",
+        "group": "Egur Efektua",
+        "swatch": "url('/assets/windowcolors/textures/daglezja_kk.jpg')"
+      },
+      "c229": {
+        "name": "Makore",
+        "group": "Egur Efektua",
+        "swatch": "url('/assets/windowcolors/textures/macore_kk.jpg')"
+      },
+      "c230": {
+        "name": "Kaoba",
+        "group": "Egur Efektua",
+        "swatch": "url('/assets/windowcolors/textures/machoa_kk.jpg')"
+      },
+      "c203": {
+        "name": "Haritz naturala",
+        "group": "Egur Efektua",
+        "swatch": "url('/assets/windowcolors/textures/dab-naturalny.jpg')"
+      },
+      "c224": {
+        "name": "Oregon",
+        "group": "Egur Efektua",
+        "swatch": "url('/assets/windowcolors/textures/oregon_kk.jpg')"
+      },
+      "c220": {
+        "name": "Turner haritza 2023",
+        "group": "Egur Efektua",
+        "swatch": "url('/assets/windowcolors/textures/turner-oak-2023.jpg')"
+      },
+      "c221": {
+        "name": "Turner Toffee haritza",
+        "group": "Egur Efektua",
+        "swatch": "url('/assets/windowcolors/textures/turner_oak_toffee_470-3004.jpg')"
+      },
+      "c222": {
+        "name": "Turner intxaur haritza",
+        "group": "Egur Efektua",
+        "swatch": "url('/assets/windowcolors/textures/turner_oak_walnut_470-3004.jpg')"
+      },
+      "c226": {
+        "name": "Intxaurrondoa",
+        "group": "Egur Efektua",
+        "swatch": "url('/assets/windowcolors/textures/orzech-a.jpg')"
+      },
+      "c223": {
+        "name": "Winchester",
+        "group": "Egur Efektua",
+        "swatch": "url('/assets/windowcolors/textures/winchester_kk.jpg')"
+      },
+      "c219": {
+        "name": "Urrezko haritza",
+        "group": "Egur Efektua",
+        "swatch": "url('/assets/windowcolors/textures/zaoty-dab_kk.jpg')"
+      }
+    }
+  }
+}

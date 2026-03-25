@@ -1,0 +1,273 @@
+{
+  "header": {
+    "topBar": {
+      "partnerPortal": "Portail Partenaire",
+      "cooperation": "Coopération",
+      "contact": "Contact"
+    },
+    "nav": {
+      "products": "Produits",
+      "whereToBuy": "Où Acheter",
+      "aboutMammut": "À propos de Mammut",
+      "configurator": "Configurateur 3D"
+    },
+    "megaMenu": {
+      "viewAll": "Voir tous les produits",
+      "comingSoon": "Contenu pour {{category}} à venir.",
+      "cats": {
+        "windows": "Fenêtres",
+        "doors": "Portes",
+        "terrace": "Systèmes de terrasse",
+        "shutters": "Volets",
+        "facade": "Brise-soleil",
+        "mosquito": "Moustiquaires",
+        "garage": "Portes de garage",
+        "conservatories": "Façades / Vérandas",
+        "pergola": "Pergola",
+        "smart": "Maison Intelligente",
+        "extras": "Garnitures",
+        "promotional": "Matériel Promotionnel"
+      },
+      "cols": {
+        "pvcWindows": "Fenêtres en PVC",
+        "alumWindows": "Fenêtres en Aluminium",
+        "woodWindows": "Fenêtres en Bois",
+        "woodAlumWindows": "Fenêtres Bois-Aluminium",
+        "pvcDoors": "Portes en PVC",
+        "alumDoors": "Portes en Aluminium"
+      },
+      "new": "Nouveau"
+    }
+  },
+  "home": {
+    "hero": {
+      "premium": "Fenêtres & Portes Premium",
+      "explore": "Explorer les Produits",
+      "configurator": "Configurateur 3D",
+      "slide1": {
+        "headline": "Définissez votre",
+        "headlineSpan": "espace",
+        "sub": "Des fenêtres et portes de précision qui transforment l'architecture grâce à des performances thermiques et acoustiques de pointe."
+      },
+      "slide2": {
+        "headline": "Ouvert sur le",
+        "headlineSpan": "monde",
+        "sub": "Systèmes levants-coulissants panoramiques qui font disparaître la frontière entre l'intérieur et l'extérieur."
+      },
+      "slide3": {
+        "headline": "Lumière, redéfinie",
+        "headlineSpan": "par le design",
+        "sub": "Vitrage du sol au plafond qui remplit chaque pièce de lumière naturelle tout en bloquant la chaleur et le bruit."
+      }
+    },
+    "offer": {
+      "subtitle": "Solutions Complètes",
+      "title": "Notre Offre",
+      "text": "Nous vous proposons une large gamme de fenêtres, portes extérieures et portes coulissantes en PVC, bois et aluminium. Grâce à un savoir-faire expert, des matériaux de la plus haute qualité et un niveau de service irréprochable. Chaque fenêtre et porte est fabriquée sur commande, offrant à chaque client une attention individuelle. Nous vous fournirons le plus haut niveau d'expertise et vous assisterons tout au long de vos projets de rénovation."
+    },
+    "categories": {
+      "subtitle": "Parcourir par Type",
+      "title": "Catégories de Produits",
+      "tabs": {
+        "windows": "FENÊTRES",
+        "doors": "PORTES",
+        "shutters": "VOLETS",
+        "blinds": "STORES",
+        "terrace": "SYSTÈMES DE TERRASSE",
+        "additions": "SUPPLÉMENTS"
+      },
+      "items": {
+        "alu": "ALUMINIUM",
+        "woodAlu": "BOIS-ALUMINIUM",
+        "pvc": "PVC",
+        "wooden": "BOIS",
+        "adaptive": "RÉNOVATION",
+        "topMounted": "MONOBLOC",
+        "externalVenetian": "BRISE-SOLEIL",
+        "liftSlide": "LEVANT-COULISSANT HS",
+        "tiltSlide": "OSCILLO-COULISSANT PSK",
+        "folding": "PORTES REPLIABLES",
+        "customization": "PERSONNALISATION"
+      }
+    },
+    "featured": {
+      "subtitle": "Notre Collection",
+      "title": "Systèmes Phares",
+      "viewAll": "Voir Tout",
+      "tags": {
+        "new": "NOUVEAU",
+        "premium": "PREMIUM",
+        "bestseller": "BEST-SELLER"
+      },
+      "discover": "Découvrir",
+      "igloEdge": {
+        "tagline": "Isolation maximale, cadre minimal"
+      },
+      "igloLight": {
+        "tagline": "Encore plus de lumière chez vous"
+      },
+      "iglo5": {
+        "tagline": "Le classique réincarné"
+      }
+    },
+    "cta": {
+      "subtitle": "Configurateur 3D",
+      "title": "Créez votre Fenêtre Parfaite",
+      "text": "Choisissez les dimensions, matériaux, couleurs et le type de verre. Enregistrez votre configuration et demandez un devis.",
+      "button": "Lancer le Configurateur"
+    }
+  },
+  "products": {
+    "collection": "Notre Collection",
+    "title": "Systèmes Premium",
+    "description": "Découvrez notre gamme complète de fenêtres, portes et systèmes de terrasse. Conçus pour des performances thermiques et une isolation acoustique supérieures ainsi qu'un design intemporel.",
+    "allProducts": "Tous les Produits",
+    "new": "NOUVEAU"
+  },
+  "productDetail": {
+    "notFound": "Produit introuvable",
+    "return": "Retour aux produits",
+    "configure": "Configurer {{name}}",
+    "standardEquipment": "Équipement de Série",
+    "seeVideo": "Voir vidéo",
+    "hoverDrawing": "Survolez pour voir le dessin technique",
+    "profile": "Profil",
+    "technicalDrawing": "Dessin Technique",
+    "newGeneration": "Nouvelle Génération",
+    "uncompromising": "Qualité et Performances Thermiques Inégalées",
+    "colorsTitle": "Couleurs et Finitions",
+    "colorsDesc": "Personnalisez votre {{name}} avec plus de {{count}} finitions premium.",
+    "preview": "APERÇU",
+    "selectedFinish": "Finition sélectionnée",
+    "selectedColor": "Couleur sélectionnée:",
+    "glassTitle": "Verre",
+    "glassDesc": "DRUTEX, fort de plus de 30 ans d'expérience dans la production de verre composite, propose une très large gamme de vitrages pour équiper vos fenêtres et vos portes. Ils répondent à des exigences strictes en matière d'efficacité énergétique et d'isolation acoustique. L'offre comprend également du verre feuilleté (sécurisé et anti-effraction), du verre à protection solaire, du verre à isolation phonique renforcée, du verre trempé, ornemental et sablé.",
+    "handlesTitle": "Poignées",
+    "handlesDesc": "Nos poignées de fenêtre se distinguent par leur fonctionnalité.",
+    "optionsTitle": "Options Supplémentaires",
+    "optionsDesc": "Améliorez votre IGLO EDGE.",
+    "seeAll": "Voir tout",
+    "configureQuote": "Configurer et Devis"
+  },
+  "footer": {
+    "newsletter": {
+      "title": "Lettre d'information",
+      "desc": "Restez informé des nouveaux produits et innovations.",
+      "placeholder": "Votre adresse email",
+      "subscribe": "S'abonner"
+    },
+    "cols": {
+      "about": {
+        "title": "À propos de Mammut",
+        "history": "Notre Histoire",
+        "quality": "Qualité et Certificats",
+        "innovation": "Innovation",
+        "sustainability": "Durabilité"
+      },
+      "offer": {
+        "title": "Notre Offre",
+        "pvc": "Fenêtres en PVC",
+        "alu": "Fenêtres en Aluminium",
+        "wood": "Fenêtres en Bois",
+        "doors": "Portes Extérieures",
+        "shutters": "Volets"
+      },
+      "inspiration": {
+        "title": "Inspiration",
+        "kitchen": "Cuisine",
+        "living": "Salon",
+        "bedroom": "Chambre",
+        "terrace": "Terrasse"
+      },
+      "partners": {
+        "title": "Partenaires",
+        "portal": "Portail Partenaire",
+        "coop": "Programme de Coopération",
+        "sales": "Représentants Commerciaux",
+        "contact": "Contact"
+      }
+    },
+    "legal": {
+      "privacy": "Politique de Confidentialité",
+      "cookies": "Paramètres des Cookies",
+      "sitemap": "Plan du Site",
+      "terms": "Conditions d'Utilisation",
+      "copyright": "Mammut Windows & Doors. Tous droits réservés."
+    }
+  },
+  "igloEdge": {
+    "tagline": "Isolation maximale, cadre minimal",
+    "description": "Notre nouvelle fenêtre se distingue par un excellent paramètre d'isolation thermique de Uw = 0,66 W/(m²K)* et une forme de profilé moderne et angulaire.",
+    "basicDescription": "Le système de fenêtres IGLO EDGE représente le summum de l'efficacité énergétique.",
+    "equipment": [
+      "Double vitrage Ug = 0,5 W/(m²K)",
+      "Intercalaire chaud en plastique Swisspacer Ultimate",
+      "Soudure V-perfect",
+      "4 gâches anti-effraction",
+      "Microventilation",
+      "Poignée en aluminium DUBLIN",
+      "Mécanisme de blocage",
+      "Joints en noir ou gris",
+      "Remplissage de la rainure inférieure",
+      "Profilé de rejet",
+      "Large choix de couleurs PVC",
+      "3 couleurs au choix : blanc, marron ou anthracite"
+    ],
+    "specs": {
+      "sound": "Isolation phonique",
+      "gaskets": "Joints EPDM",
+      "thermal": "Transmission thermique",
+      "chambers": "Chambres",
+      "depth": "Profondeur",
+      "class": "Classe de profilé"
+    }
+  },
+  "colorGroups": {
+    "Metal Effect": "Effet Métal",
+    "Solid": "Solide",
+    "Wood Effect": "Effet Bois"
+  },
+  "colors": {
+    "c209": "Gris Basalte",
+    "c210": "Gris Basalte Lisse",
+    "c232": "Bronze Profond",
+    "c213": "Graphite Sablé",
+    "c207": "Gris Quartz",
+    "c208": "Gris Quartz Lisse",
+    "c237": "Bleu Acier",
+    "c214": "Anthracite",
+    "c216": "Anthracite Ulti Mat",
+    "c215": "Anthracite Lisse",
+    "c218": "Noir Ulti Mat",
+    "c236": "Bleu Brillant",
+    "c231": "Brun Chocolat",
+    "c206": "Gris Béton",
+    "c200": "Crème",
+    "c199": "Croviu Platynium",
+    "c234": "Vert Foncé",
+    "c235": "Rouge Foncé",
+    "c233": "Vert Mousse",
+    "c205": "Gris",
+    "c217": "Noir Jaïs",
+    "c204": "Gris Clair",
+    "c201": "Pyrite",
+    "c228": "Palissandre",
+    "c211": "Ardoise",
+    "c212": "Ardoise Lisse",
+    "c197": "Blanc",
+    "c198": "Blanc Sable Mat",
+    "c202": "Chêne Blanchi",
+    "c227": "Chêne Foncé",
+    "c225": "Sapin de Douglas",
+    "c229": "Macoré",
+    "c230": "Acajou",
+    "c203": "Chêne Naturel",
+    "c224": "Orégon",
+    "c220": "Chêne Turner 2023",
+    "c221": "Chêne Turner Toffee",
+    "c222": "Chêne Turner Noyer",
+    "c226": "Noyer",
+    "c223": "Winchester",
+    "c219": "Chêne Doré"
+  }
+}

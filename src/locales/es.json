@@ -1,0 +1,273 @@
+{
+  "header": {
+    "topBar": {
+      "partnerPortal": "Portal de Socios",
+      "cooperation": "Cooperación",
+      "contact": "Contacto"
+    },
+    "nav": {
+      "products": "Productos",
+      "whereToBuy": "Dónde Comprar",
+      "aboutMammut": "Sobre Mammut",
+      "configurator": "Configurador 3D"
+    },
+    "megaMenu": {
+      "viewAll": "Ver todos los productos",
+      "comingSoon": "Contenido para {{category}} próximamente.",
+      "cats": {
+        "windows": "Ventanas",
+        "doors": "Puertas",
+        "terrace": "Sistemas de Terrazas",
+        "shutters": "Persianas",
+        "facade": "Persianas Fachada",
+        "mosquito": "Mosquiteras",
+        "garage": "Puertas de Garaje",
+        "conservatories": "Fachadas / Cerramientos",
+        "pergola": "Pérgola",
+        "smart": "Smart Home",
+        "extras": "Extras",
+        "promotional": "Material Promocional"
+      },
+      "cols": {
+        "pvcWindows": "Ventanas de PVC",
+        "alumWindows": "Ventanas de Aluminio",
+        "woodWindows": "Ventanas de Madera",
+        "woodAlumWindows": "Ventanas Madera-Aluminio",
+        "pvcDoors": "Puertas de PVC",
+        "alumDoors": "Puertas de Aluminio"
+      },
+      "new": "Nuevo"
+    }
+  },
+  "home": {
+    "hero": {
+      "premium": "Ventanas y Puertas Premium",
+      "explore": "Explorar Productos",
+      "configurator": "Configurador 3D",
+      "slide1": {
+        "headline": "Define tu",
+        "headlineSpan": "espacio",
+        "sub": "Ventanas y puertas de precisión que transforman la arquitectura con un rendimiento térmico y acústico vanguardista."
+      },
+      "slide2": {
+        "headline": "Abierto al",
+        "headlineSpan": "mundo",
+        "sub": "Sistemas correderos elevables panorámicos que disuelven el límite entre el interior y el exterior."
+      },
+      "slide3": {
+        "headline": "Luz, redefinida",
+        "headlineSpan": "por diseño",
+        "sub": "Acristalamiento de suelo a techo que inunda cada habitación de luz natural manteniendo fuera el calor y el ruido."
+      }
+    },
+    "offer": {
+      "subtitle": "Soluciones Completas",
+      "title": "Nuestra Oferta",
+      "text": "Ofrecemos una amplia gama de ventanas, marcos, puertas exteriores y puertas correderas en PVC, madera y aluminio. A través de la artesanía experta, materiales de la más alta calidad y un nivel de servicio aseguramos el estatus de nuestra empresa. Cada ventana y puerta se fabrica bajo pedido, brindando a cada cliente un servicio y atención individuales. Le brindaremos el más alto nivel de experiencia y le ayudaremos en todo con sus planes de renovación y construcción."
+    },
+    "categories": {
+      "subtitle": "Navegar por Tipo",
+      "title": "Categorías de Productos",
+      "tabs": {
+        "windows": "VENTANAS",
+        "doors": "PUERTAS",
+        "shutters": "PERSIANAS",
+        "blinds": "PERSIANAS",
+        "terrace": "SISTEMAS TERRAZA",
+        "additions": "COMPLEMENTOS"
+      },
+      "items": {
+        "alu": "ALUMINIO",
+        "woodAlu": "MADERA-ALUMINIO",
+        "pvc": "PVC",
+        "wooden": "MADERA",
+        "adaptive": "ADAPTABLES",
+        "topMounted": "SOBREPUESTAS",
+        "externalVenetian": "VENECIANAS EXTERIORES",
+        "liftSlide": "ELEVADORA CORREDERA HS",
+        "tiltSlide": "OSCILOPARALELAS PSK",
+        "folding": "PUERTAS PLEGABLES",
+        "customization": "PERSONALIZACIÓN"
+      }
+    },
+    "featured": {
+      "subtitle": "Nuestra Colección",
+      "title": "Sistemas Destacados",
+      "viewAll": "Ver Todo",
+      "tags": {
+        "new": "NUEVO",
+        "premium": "PREMIUM",
+        "bestseller": "MÁS VENDIDO"
+      },
+      "discover": "Descubrir",
+      "igloEdge": {
+        "tagline": "Máximo aislamiento, mínimo marco"
+      },
+      "igloLight": {
+        "tagline": "Aún más luz en tu espacio"
+      },
+      "iglo5": {
+        "tagline": "El clásico renacido"
+      }
+    },
+    "cta": {
+      "subtitle": "Configurador 3D",
+      "title": "Diseña tu Ventana Perfecta",
+      "text": "Elige dimensiones, materiales, colores y tipo de cristal. Guarda tu configuración y solicita un presupuesto al instante.",
+      "button": "Lanzar Configurador"
+    }
+  },
+  "products": {
+    "collection": "Nuestra Colección",
+    "title": "Sistemas Premium",
+    "description": "Descubra nuestra amplia gama de ventanas, puertas y sistemas de terrazas. Diseñados para un rendimiento térmico y aislamiento acústico superiores y un diseño atemporal.",
+    "allProducts": "Todos los Productos",
+    "new": "NUEVO"
+  },
+  "productDetail": {
+    "notFound": "Producto no encontrado",
+    "return": "Volver a productos",
+    "configure": "Configurar {{name}}",
+    "standardEquipment": "Equipamiento de Serie",
+    "seeVideo": "Ver vídeo",
+    "hoverDrawing": "Pasa el ratón para ver el dibujo técnico",
+    "profile": "Perfil",
+    "technicalDrawing": "Dibujo Técnico",
+    "newGeneration": "Nueva Generación",
+    "uncompromising": "Calidad y Rendimiento Térmico Inigualables",
+    "colorsTitle": "Colores y Acabados",
+    "colorsDesc": "Personaliza tu {{name}} con más de {{count}} acabados premium.",
+    "preview": "VISTA PREVIA",
+    "selectedFinish": "Acabado Seleccionado",
+    "selectedColor": "Color seleccionado:",
+    "glassTitle": "Vidrios",
+    "glassDesc": "DRUTEX, con más de 30 años de experiencia en la producción de vidrio compuesto, ofrece una amplísima gama de acristalamientos con los que puede equipar sus puertas y ventanas. Éstos cumplen los requisitos más estrictos en materia de eficiencia energética y aislamiento acústico. La oferta también incluye vidrios laminados (seguros y antirrobo), vidrios con protección solar, vidrios con aislamiento acústico mejorado, vidrios templados, ornamentales y arenados.",
+    "handlesTitle": "Manillas",
+    "handlesDesc": "Nuestras manillas destacan por su funcionalidad.",
+    "optionsTitle": "Opciones Adicionales",
+    "optionsDesc": "Mejore su IGLO EDGE.",
+    "seeAll": "Ver todo",
+    "configureQuote": "Configurar y Cotizar"
+  },
+  "footer": {
+    "newsletter": {
+      "title": "Boletín",
+      "desc": "Manténgase informado sobre nuevos productos e innovaciones.",
+      "placeholder": "Su dirección de correo electrónico",
+      "subscribe": "Suscribirse"
+    },
+    "cols": {
+      "about": {
+        "title": "Sobre Mammut",
+        "history": "Nuestra Historia",
+        "quality": "Calidad y Certificados",
+        "innovation": "Innovación",
+        "sustainability": "Sostenibilidad"
+      },
+      "offer": {
+        "title": "Nuestra Oferta",
+        "pvc": "Ventanas de PVC",
+        "alu": "Ventanas de Aluminio",
+        "wood": "Ventanas de Madera",
+        "doors": "Puertas Exteriores",
+        "shutters": "Persianas"
+      },
+      "inspiration": {
+        "title": "Inspiración",
+        "kitchen": "Cocina",
+        "living": "Sala de Estar",
+        "bedroom": "Dormitorio",
+        "terrace": "Terraza"
+      },
+      "partners": {
+        "title": "Asociados",
+        "portal": "Portal de Asociados",
+        "coop": "Programa de Cooperación",
+        "sales": "Representantes de Ventas",
+        "contact": "Contacto"
+      }
+    },
+    "legal": {
+      "privacy": "Política de Privacidad",
+      "cookies": "Configuración de Cookies",
+      "sitemap": "Mapa del Sitio",
+      "terms": "Términos de Uso",
+      "copyright": "Mammut Windows & Doors. Todos los derechos reservados."
+    }
+  },
+  "igloEdge": {
+    "tagline": "Aislamiento máximo, marco mínimo",
+    "description": "Nuestra ventana nueva y más avanzada tecnológicamente se distingue por un excelente parámetro de aislamiento térmico de Uw = 0.66 W/(m²K)* y una forma de perfil angular moderna. Los parámetros extremadamente buenos se deben, entre otras cosas, al diseño del perfil de 7 cámaras y 3 juntas EPDM.",
+    "basicDescription": "El sistema de ventanas IGLO EDGE representa la cumbre de la eficiencia energética. Diseñado para casas pasivas, cuenta con un perfil de 7 cámaras.",
+    "equipment": [
+      "Paquete de acristalamiento de doble cámara Ug = 0.5 W/(m²K)",
+      "Marco cálido de plástico Swisspacer Ultimate",
+      "Soldadura V-perfect",
+      "4 cerraderos antirrobo según el tamaño de la hoja",
+      "Microventilación",
+      "Manilla de ventana de aluminio DUBLIN",
+      "Mecanismo de bloqueo de manipulación incorrecta",
+      "Juntas perimetrales, de acristalamiento y centrales en negro o gris",
+      "Llenado de la ranura inferior del herraje",
+      "Embellecedor de alféizar",
+      "Amplia selección de colores de chapado de PVC",
+      "3 colores de perfil a elegir: blanco, marrón o antracita"
+    ],
+    "specs": {
+      "sound": "Aislamiento acústico",
+      "gaskets": "Juntas EPDM",
+      "thermal": "Transmitancia térmica",
+      "chambers": "Número de cámaras",
+      "depth": "Profundidad de instalación",
+      "class": "Clase de perfil"
+    }
+  },
+  "colorGroups": {
+    "Metal Effect": "Efecto Metal",
+    "Solid": "Sólido",
+    "Wood Effect": "Efecto Madera"
+  },
+  "colors": {
+    "c209": "Gris Basalto",
+    "c210": "Gris Basalto Liso",
+    "c232": "Bronce Profundo",
+    "c213": "Grafito Arenado",
+    "c207": "Cuarzo Gris",
+    "c208": "Cuarzo Gris Liso",
+    "c237": "Azul Acero",
+    "c214": "Antracita",
+    "c216": "Antracita Ulti Mate",
+    "c215": "Antracita Liso",
+    "c218": "Negro Ulti Mate",
+    "c236": "Azul Brillante",
+    "c231": "Marrón Chocolate",
+    "c206": "Gris Hormigón",
+    "c200": "Crema",
+    "c199": "Croviu Platynium",
+    "c234": "Verde Oscuro",
+    "c235": "Rojo Oscuro",
+    "c233": "Verde Musgo",
+    "c205": "Gris",
+    "c217": "Negro Azabache",
+    "c204": "Gris Claro",
+    "c201": "Pirita",
+    "c228": "Palisandro",
+    "c211": "Pizarra",
+    "c212": "Pizarra Liso",
+    "c197": "Blanco",
+    "c198": "Blanco Arena Mate",
+    "c202": "Roble Blanqueado",
+    "c227": "Roble Oscuro",
+    "c225": "Abeto Douglas",
+    "c229": "Macoré",
+    "c230": "Caoba",
+    "c203": "Roble Natural",
+    "c224": "Oregón",
+    "c220": "Roble Turner 2023",
+    "c221": "Roble Turner Toffee",
+    "c222": "Roble Turner Nogal",
+    "c226": "Nogal",
+    "c223": "Winchester",
+    "c219": "Roble Dorado"
+  }
+}

@@ -1,16 +1,16 @@
-﻿import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { Search, Globe, Menu, X, ChevronDown, ChevronRight, ChevronUp } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 // The mega menu structure matching drutex.es categories
 const MEGA_MENU_CATEGORIES = [
   {
     id: 'windows',
-    label: 'Windows',
     href: '/products/windows',
     columns: [
       {
-        title: 'PVC Windows',
+        colKey: 'pvcWindows',
         items: [
           { label: 'IGLO EDGE', href: '/products/iglo-edge', isNew: true },
           { label: 'IGLO ENERGY', href: '/products/iglo-energy' },
@@ -30,7 +30,7 @@ const MEGA_MENU_CATEGORIES = [
         ]
       },
       {
-        title: 'Aluminum Windows',
+        colKey: 'alumWindows',
         items: [
           { label: 'MB-86N SI', href: '/products/mb-86n-si' },
           { label: 'MB-79N SI', href: '/products/mb-79n-si' },
@@ -40,13 +40,13 @@ const MEGA_MENU_CATEGORIES = [
         ]
       },
       {
-        title: 'Wood Windows',
+        colKey: 'woodWindows',
         items: [
           { label: 'SOFTLINE 68/78/88', href: '/products/softline' },
         ]
       },
       {
-        title: 'Wood-Aluminum Windows',
+        colKey: 'woodAlumWindows',
         items: [
           { label: 'DUOLINE 68/78/88', href: '/products/duoline' },
         ]
@@ -55,42 +55,42 @@ const MEGA_MENU_CATEGORIES = [
   },
   {
     id: 'doors',
-    label: 'Doors',
     href: '/products/doors',
     columns: [
       {
-        title: 'PVC Doors',
+        colKey: 'pvcDoors',
         items: [
           { label: 'IGLO EDGE DOORS', href: '/products/iglo-edge-doors' },
           { label: 'IGLO ENERGY DOORS', href: '/products/iglo-energy-doors' },
         ]
       },
       {
-        title: 'Aluminum Doors',
+        colKey: 'alumDoors',
         items: [
           { label: 'MB-86N DOORS', href: '/products/mb-86n-doors' },
         ]
       }
     ]
   },
-  { id: 'terrace', label: 'Terrace Systems', href: '/products/terrace', columns: [] },
-  { id: 'shutters', label: 'Roller Shutters', href: '/products/shutters', columns: [] },
-  { id: 'facade', label: 'Facade Blinds', href: '/products/facade', columns: [] },
-  { id: 'mosquito', label: 'Mosquito Nets', href: '/products/mosquito', columns: [] },
-  { id: 'garage', label: 'Garage Doors', href: '/products/garage', columns: [] },
-  { id: 'conservatories', label: 'Facades / Conservatories', href: '/products/conservatories', columns: [] },
-  { id: 'pergola', label: 'Pergola', href: '/products/pergola', columns: [] },
-  { id: 'smart', label: 'Smart Home', href: '/products/smart-home', columns: [] },
-  { id: 'extras', label: 'Extras', href: '/products/extras', columns: [] },
-  { id: 'promotional', label: 'Promotional Material', href: '/products/promotional', columns: [] },
+  { id: 'terrace', href: '/products/terrace', columns: [] },
+  { id: 'shutters', href: '/products/shutters', columns: [] },
+  { id: 'facade', href: '/products/facade', columns: [] },
+  { id: 'mosquito', href: '/products/mosquito', columns: [] },
+  { id: 'garage', href: '/products/garage', columns: [] },
+  { id: 'conservatories', href: '/products/conservatories', columns: [] },
+  { id: 'pergola', href: '/products/pergola', columns: [] },
+  { id: 'smart', href: '/products/smart-home', columns: [] },
+  { id: 'extras', href: '/products/extras', columns: [] },
+  { id: 'promotional', href: '/products/promotional', columns: [] },
 ]
 
 const NAV_ITEMS = [
-  { label: 'Where to Buy', href: '/where-to-buy' },
-  { label: 'About Mammut', href: '/about' },
+  { i18nKey: 'whereToBuy', href: '/where-to-buy' },
+  { i18nKey: 'aboutMammut', href: '/about' },
 ]
 
 export function Header() {
+  const { t, i18n } = useTranslation()
   const [menuOpen, setMenuOpen] = useState(false)
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
   const [activeMegaCategory, setActiveMegaCategory] = useState(MEGA_MENU_CATEGORIES[0].id)
@@ -132,13 +132,17 @@ export function Header() {
       {/* Top utility bar */}
       <div className="border-b border-[#2a2a2b]">
         <div className="max-w-7xl mx-auto px-6 flex justify-end gap-6 py-1.5">
-          {['Partner Portal', 'Cooperation', 'Contact'].map((item) => (
+          {[
+            { key: 'partnerPortal', defaultText: 'Partner Portal' },
+            { key: 'cooperation', defaultText: 'Cooperation' },
+            { key: 'contact', defaultText: 'Contact' }
+          ].map((item) => (
             <a
-              key={item}
+              key={item.key}
               href="#"
               className="text-[10px] uppercase tracking-widest text-[#888888] hover:text-[#dca95c] transition-colors duration-200"
             >
-              {item}
+              {t(`header.topBar.${item.key}`)}
             </a>
           ))}
         </div>
@@ -169,7 +173,7 @@ export function Header() {
               onMouseLeave={handleMouseLeaveProducts}
             >
               <button className={`flex items-center gap-1 text-sm uppercase tracking-widest transition-colors duration-200 nav-link ${megaMenuOpen ? 'text-[#dca95c]' : 'text-white/80'}`}>
-                Products
+                {t('header.nav.products')}
                 <ChevronDown size={14} className={`transition-transform duration-200 ${megaMenuOpen ? 'rotate-180' : ''}`} />
               </button>
             </div>
@@ -177,7 +181,7 @@ export function Header() {
             {/* Standard Nav Items */}
             {NAV_ITEMS.map((item) => (
               <NavLink
-                key={item.label}
+                key={item.i18nKey}
                 to={item.href}
                 className={({ isActive }) =>
                   `text-sm uppercase tracking-widest nav-link transition-colors duration-200 ${
@@ -185,7 +189,7 @@ export function Header() {
                   }`
                 }
               >
-                {item.label}
+                {t(`header.nav.${item.i18nKey}`)}
               </NavLink>
             ))}
           </div>
@@ -196,10 +200,42 @@ export function Header() {
               to="/configurator"
               className="hidden lg:flex items-center gap-2 border border-[#dca95c] text-[#dca95c] text-xs uppercase tracking-widest px-4 py-2 hover:bg-[#dca95c] hover:text-black transition-all duration-200 font-semibold"
             >
-              3D Configurator
+              {t('header.nav.configurator')}
             </Link>
             <button className="text-white/60 hover:text-[#dca95c] transition-colors duration-200"><Search size={18} /></button>
-            <button className="text-white/60 hover:text-[#dca95c] transition-colors duration-200"><Globe size={18} /></button>
+            {/* Language Switcher */}
+            <div className="relative">
+              <button 
+                className="text-white/60 hover:text-[#dca95c] transition-colors duration-200"
+                onClick={() => setMenuOpen((prev) => !prev)}
+              >
+                <Globe size={18} />
+              </button>
+              {menuOpen && (
+                 <div className="absolute right-0 top-10 w-32 bg-[#1a1a1b] border border-[#2a2a2b] shadow-xl py-2 z-50 rounded">
+                   {[
+                     { code: 'en', label: 'English' },
+                     { code: 'es', label: 'Español' },
+                     { code: 'de', label: 'Deutsch' },
+                     { code: 'fr', label: 'Français' },
+                     { code: 'ca', label: 'Català' },
+                     { code: 'pt', label: 'Português' },
+                     { code: 'eu', label: 'Euskara' }
+                   ].map((lng) => (
+                     <button
+                       key={lng.code}
+                       onClick={() => {
+                         i18n.changeLanguage(lng.code);
+                         setMenuOpen(false);
+                       }}
+                       className={`block w-full text-left px-4 py-2 text-xs uppercase tracking-widest transition-colors ${i18n.language === lng.code ? 'text-[#dca95c] bg-white/5' : 'text-white/60 hover:bg-white/5 hover:text-white'}`}
+                     >
+                       {lng.label}
+                     </button>
+                   ))}
+                 </div>
+              )}
+            </div>
             <button
               className="lg:hidden text-white/60 hover:text-[#dca95c] transition-colors duration-200"
               onClick={() => setMenuOpen(!menuOpen)}
@@ -223,7 +259,7 @@ export function Header() {
                 to="/products"
                 className="flex items-center gap-3 px-8 text-white/40 hover:text-white uppercase tracking-widest text-[10px] font-bold mb-4"
               >
-                View all products <ChevronRight size={12} />
+                {t('header.megaMenu.viewAll')} <ChevronRight size={12} />
               </Link>
               
               <ul className="flex flex-col">
@@ -236,7 +272,7 @@ export function Header() {
                                   ? 'bg-[#1a1a1b] text-[#dca95c] border-l-2 border-[#dca95c]' 
                                   : 'text-white/60 hover:bg-[#1a1a1b] hover:text-white border-l-2 border-transparent'}`}
                     >
-                      {cat.label}
+                      {t(`header.megaMenu.cats.${cat.id}`)}
                     </button>
                   </li>
                 ))}
@@ -250,7 +286,7 @@ export function Header() {
                   {activeCategoryData.columns.map((col, idx) => (
                     <div key={idx}>
                       <h4 className="text-white text-[11px] font-bold uppercase tracking-widest border-b border-[#2a2a2b] pb-2 mb-4">
-                        {col.title}
+                        {t(`header.megaMenu.cols.${col.colKey}`)}
                       </h4>
                       <ul className="space-y-3">
                         {col.items.map(item => (
@@ -263,7 +299,7 @@ export function Header() {
                                 {item.label}
                                 {item.isNew && (
                                   <span className="bg-[#dca95c] text-black text-[9px] uppercase tracking-widest px-1.5 py-0.5 font-bold">
-                                    New
+                                    {t('header.megaMenu.new')}
                                   </span>
                                 )}
                               </span>
@@ -276,7 +312,7 @@ export function Header() {
                 </div>
               ) : (
                 <div className="h-full flex flex-col items-center justify-center text-white/30 text-sm italic">
-                  <p>Content for {activeCategoryData?.label} coming soon.</p>
+                  <p>{t('header.megaMenu.comingSoon', { category: t(`header.megaMenu.cats.${activeCategoryData?.id}`) })}</p>
                 </div>
               )}
             </div>
@@ -293,7 +329,7 @@ export function Header() {
               className="w-full flex items-center justify-between py-3 text-sm uppercase tracking-widest text-[#dca95c] font-bold"
               onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
             >
-              Products
+              {t('header.nav.products')}
               {mobileProductsOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
             </button>
 
@@ -304,7 +340,7 @@ export function Header() {
                   className="block text-xs uppercase tracking-widest text-white/40 hover:text-[#dca95c] py-1 transition-colors"
                   onClick={() => setMenuOpen(false)}
                 >
-                  View All Products â†’
+                  {t('header.megaMenu.viewAll')} â†’
                 </Link>
                 {MEGA_MENU_CATEGORIES.map((cat) => (
                   <div key={cat.id}>
@@ -313,7 +349,7 @@ export function Header() {
                       className="block text-xs uppercase tracking-widest text-white/70 hover:text-[#dca95c] font-semibold py-1 transition-colors"
                       onClick={() => setMenuOpen(false)}
                     >
-                      {cat.label}
+                      {t(`header.megaMenu.cats.${cat.id}`)}
                     </Link>
                     {cat.columns.length > 0 && (
                       <div className="ml-3 mt-1 space-y-1">
@@ -327,7 +363,7 @@ export function Header() {
                             >
                               {item.label}
                               {item.isNew && (
-                                <span className="bg-[#dca95c] text-black text-[8px] uppercase tracking-widest px-1 font-bold">New</span>
+                                <span className="bg-[#dca95c] text-black text-[8px] uppercase tracking-widest px-1 font-bold">{t('header.megaMenu.new')}</span>
                               )}
                             </Link>
                           ))
@@ -343,12 +379,12 @@ export function Header() {
           {/* Standard nav links */}
           {NAV_ITEMS.map((item) => (
             <Link
-              key={item.label}
+              key={item.i18nKey}
               to={item.href}
               className="block py-3 text-sm uppercase tracking-widest text-white/70 hover:text-[#dca95c] transition-colors duration-200"
               onClick={() => setMenuOpen(false)}
             >
-              {item.label}
+              {t(`header.nav.${item.i18nKey}`)}
             </Link>
           ))}
 
@@ -358,7 +394,7 @@ export function Header() {
               className="block border border-[#dca95c] text-[#dca95c] text-xs uppercase tracking-widest px-4 py-3 text-center hover:bg-[#dca95c] hover:text-black transition-all duration-200 font-semibold"
               onClick={() => setMenuOpen(false)}
             >
-              3D Configurator
+              {t('header.nav.configurator')}
             </Link>
           </div>
         </div>

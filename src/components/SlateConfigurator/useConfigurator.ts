@@ -1,0 +1,108 @@
+import { useReducer, useMemo } from 'react';
+import { CONFIG_SCHEMA, WINDOW_TYPES } from './types';
+import type { ConfiguratorState, ConfiguratorAction } from './types';
+
+const initialState: ConfiguratorState = {
+  dimensions: { width: 1000, height: 1200 },
+  material: 'PVC',
+  profile: 'iglo5',
+  windowTypeId: '1-flugel',
+  sashOpenings: ['o2'], // Default: 1-sash Dreh-Kipp
+  colorGroup: 'Metal Effect',
+  color: 'c209', // Basalt Grey
+  glazing: 'g11', // Float 4 (Standard)
+  addons: []
+};
+
+function configuratorReducer(state: ConfiguratorState, action: ConfiguratorAction): ConfiguratorState {
+  switch (action.type) {
+    case 'SET_DIMENSIONS':
+      return { ...state, dimensions: { ...state.dimensions, ...action.payload } };
+    case 'SET_MATERIAL': {
+      // Safely clamp dimensions if out of bounds for the newly selected material constraints
+      const limits = CONFIG_SCHEMA.materials[action.payload];
+      // Automatically target the first sub-profile mapped on this material tier explicitly
+      const fallbackProfile = limits.profiles.length > 0 ? limits.profiles[0].id : '';
+      return {
+        ...state,
+        material: action.payload,
+        profile: fallbackProfile,
+        dimensions: {
+          width: Math.min(Math.max(state.dimensions.width, limits.minWidth), limits.maxWidth),
+          height: Math.min(Math.max(state.dimensions.height, limits.minHeight), limits.maxHeight),
+        }
+      };
+    }
+    case 'SET_PROFILE':
+      return { ...state, profile: action.payload };
+    case 'SET_WINDOW_TYPE': {
+      const wt = WINDOW_TYPES.find(w => w.id === action.payload);
+      if (!wt) return state;
+      // Auto-populate the sash openings array matching the new sash count
+      const newOpenings = Array.from({ length: wt.sashes }).map((_, i) => state.sashOpenings[i] || 'o2');
+      return { ...state, windowTypeId: action.payload, sashOpenings: newOpenings };
+    }
+    case 'SET_SASH_OPENING': {
+      const updatedOpenings = [...state.sashOpenings];
+      updatedOpenings[action.payload.index] = action.payload.openingId;
+      return { ...state, sashOpenings: updatedOpenings };
+    }
+    case 'SET_COLOR_GROUP': {
+      // Find the first valid color key for this group mechanically using the UI dictionary.
+      // Since color groups don't natively map IDs in genColors, we'll let the UI dispatch the fallback color directly,
+      // or just reset it loosely. For now, rely on UI passing the first color directly after group change.
+      return { ...state, colorGroup: action.payload };
+    }
+    case 'SET_COLOR':
+      return { ...state, color: action.payload };
+    case 'SET_GLAZING':
+      return { ...state, glazing: action.payload };
+    case 'TOGGLE_ADDON':
+      return {
+        ...state,
+        addons: state.addons.includes(action.payload)
+          ? state.addons.filter(id => id !== action.payload)
+          : [...state.addons, action.payload]
+      };
+    default:
+      return state;
+  }
+}
+
+export function useConfigurator() {
+  const [state, dispatch] = useReducer(configuratorReducer, initialState);
+
+  const pricing = useMemo(() => {
+    // Area in square meters
+    const area = (state.dimensions.width / 1000) * (state.dimensions.height / 1000);
+    
+    // Base material cost metric
+    let basePrice = area * CONFIG_SCHEMA.materials[state.material].basePricePerSqm;
+    
+    // Glazing multiplier processing
+    const glassObj = CONFIG_SCHEMA.glazing.find(g => g.id === state.glazing);
+    basePrice *= glassObj ? glassObj.priceMod : 1.0;
+    
+    // Hardware basics (fixed cost framework)
+    let hardwareCost = 120; // Structural elements, hinges, mechanism locking points
+    
+    // Add-ons accumulator
+    const addonsCost = state.addons.reduce((total, addonId) => {
+      const item = CONFIG_SCHEMA.addons.find(a => a.id === addonId);
+      return total + (item ? item.price : 0);
+    }, 0);
+
+    return {
+      base: basePrice,
+      hardware: hardwareCost,
+      addons: addonsCost,
+      total: basePrice + hardwareCost + addonsCost
+    };
+  }, [state]);
+
+  // Removed legacy single static ugValue tracking; advanced glazing models have multiple performance metrics.
+  // We will return standard '1.1' as a mocked unified value for UI backward compatibility for now.
+  const ugValue = 1.1;
+
+  return { state, dispatch, pricing, ugValue };
+}

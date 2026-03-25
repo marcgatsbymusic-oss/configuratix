@@ -1,0 +1,273 @@
+{
+  "header": {
+    "topBar": {
+      "partnerPortal": "Portal de Socis",
+      "cooperation": "Cooperació",
+      "contact": "Contacte"
+    },
+    "nav": {
+      "products": "Productes",
+      "whereToBuy": "On Comprar",
+      "aboutMammut": "Sobre Mammut",
+      "configurator": "Configurador 3D"
+    },
+    "megaMenu": {
+      "viewAll": "Veure tots els productes",
+      "comingSoon": "Contingut per a {{category}} pròximament.",
+      "cats": {
+        "windows": "Finestres",
+        "doors": "Portes",
+        "terrace": "Sistemes de Terrassa",
+        "shutters": "Persianes",
+        "facade": "Persianes de Façana",
+        "mosquito": "Mosquiteres",
+        "garage": "Portes de Garatge",
+        "conservatories": "Façanes / Tancaments",
+        "pergola": "Pèrgola",
+        "smart": "Smart Home",
+        "extras": "Extres",
+        "promotional": "Material Promocional"
+      },
+      "cols": {
+        "pvcWindows": "Finestres de PVC",
+        "alumWindows": "Finestres d'Alumini",
+        "woodWindows": "Finestres de Fusta",
+        "woodAlumWindows": "Finestres Fusta-Alumini",
+        "pvcDoors": "Portes de PVC",
+        "alumDoors": "Portes d'Alumini"
+      },
+      "new": "Nou"
+    }
+  },
+  "home": {
+    "hero": {
+      "premium": "Finestres i Portes Premium",
+      "explore": "Explorar Productes",
+      "configurator": "Configurador 3D",
+      "slide1": {
+        "headline": "Defineix el teu",
+        "headlineSpan": "espai",
+        "sub": "Finestres i portes de precisió que transformen l'arquitectura amb un rendiment tèrmic i acústic d'avantguarda."
+      },
+      "slide2": {
+        "headline": "Obert al",
+        "headlineSpan": "món",
+        "sub": "Sistemes corredissos elevadors panoràmics que dissolen el límit entre l'interior i l'exterior."
+      },
+      "slide3": {
+        "headline": "Llum, redefinida",
+        "headlineSpan": "pel disseny",
+        "sub": "Vidres de terra a sostre que inunden cada habitació de llum natural mantenint-ne fora la calor i el soroll."
+      }
+    },
+    "offer": {
+      "subtitle": "Solucions Completes",
+      "title": "La Nostra Oferta",
+      "text": "Oferim una àmplia gamma de finestres, marcs, portes exteriors i portes corredisses en PVC, fusta i alumini. A través de l'artesania experta, els materials de la més alta qualitat i un nivell de servei assegurem l'estatus de la nostra empresa. Cada finestra i porta es fabrica per encàrrec, proporcionant a cada client un servei i atenció individuals. Li proporcionarem el màxim nivell d'experiència i li ajudarem en els seus plans de renovació i construcció."
+    },
+    "categories": {
+      "subtitle": "Navegar per Tipus",
+      "title": "Categories de Productes",
+      "tabs": {
+        "windows": "FINESTRES",
+        "doors": "PORTES",
+        "shutters": "PERSIANES",
+        "blinds": "PERSIANES",
+        "terrace": "SISTEMES DE TERRASSA",
+        "additions": "COMPLEMENTS"
+      },
+      "items": {
+        "alu": "ALUMINI",
+        "woodAlu": "FUSTA-ALUMINI",
+        "pvc": "PVC",
+        "wooden": "FUSTA",
+        "adaptive": "ADAPTABLES",
+        "topMounted": "SOBREPOSADES",
+        "externalVenetian": "VENEZIANES EXTERIORS",
+        "liftSlide": "ELEVADORA CORREDISSA HS",
+        "tiltSlide": "OSCIL·LOPARAL·LELES PSK",
+        "folding": "PORTES PLEGABLES",
+        "customization": "PERSONALITZACIÓ"
+      }
+    },
+    "featured": {
+      "subtitle": "La Nostra Col·lecció",
+      "title": "Sistemes Destacats",
+      "viewAll": "Veure-ho Tot",
+      "tags": {
+        "new": "NOU",
+        "premium": "PREMIUM",
+        "bestseller": "MÉS VENUT"
+      },
+      "discover": "Descobrir",
+      "igloEdge": {
+        "tagline": "Màxim aïllament, mínim marc"
+      },
+      "igloLight": {
+        "tagline": "Encara més llum al teu espai"
+      },
+      "iglo5": {
+        "tagline": "El clàssic renascut"
+      }
+    },
+    "cta": {
+      "subtitle": "Configurador 3D",
+      "title": "Dissenya la teva Finestra Perfecta",
+      "text": "Tria les dimensions, materials, colors i el tipus de vidre. Desa la teva configuració i sol·licita un pressupost de forma instantània.",
+      "button": "Llançar Configurador"
+    }
+  },
+  "products": {
+    "collection": "La Nostra Col·lecció",
+    "title": "Sistemes Premium",
+    "description": "Descobriu la nostra àmplia gamma de finestres, portes i sistemes de terrasses. Dissenyats per a un rendiment tèrmic superior, aïllament acústic i un disseny atemporal.",
+    "allProducts": "Tots els Productes",
+    "new": "NOU"
+  },
+  "productDetail": {
+    "notFound": "Producte no trobat",
+    "return": "Tornar a productes",
+    "configure": "Configurar {{name}}",
+    "standardEquipment": "Equipament de Sèrie",
+    "seeVideo": "Veure vídeo",
+    "hoverDrawing": "Passa el ratolí per veure el dibuix tècnic",
+    "profile": "Perfil",
+    "technicalDrawing": "Dibuix Tècnic",
+    "newGeneration": "Nova Generació",
+    "uncompromising": "Qualitat i Rendiment Tèrmic Inigualables",
+    "colorsTitle": "Colors i Acabats",
+    "colorsDesc": "Personalitza el teu {{name}} amb més de {{count}} acabats premium.",
+    "preview": "VISTA PRÈVIA",
+    "selectedFinish": "Acabat Seleccionat",
+    "selectedColor": "Color seleccionat:",
+    "glassTitle": "Cristalls",
+    "glassDesc": "DRUTEX, amb més de 30 anys d'experiència en la producció de vidre compost, ofereix una amplíssima gamma de vidres amb els quals pot equipar les seves finestres i portes. Aquests compleixen els requisits més estrictes en matèria d'eficiència energètica i aïllament acústic. L'oferta també inclou vidre laminat (segur i antirobatori), vidre amb protecció solar, vidre amb aïllament acústic millorat, vidre temperat, ornamental i sorrejat.",
+    "handlesTitle": "Manetes",
+    "handlesDesc": "Les nostres manetes destaquen per la seva funcionalitat.",
+    "optionsTitle": "Opcions Addicionals",
+    "optionsDesc": "Millora el teu IGLO EDGE.",
+    "seeAll": "Veure tot",
+    "configureQuote": "Configurar i Pressupost"
+  },
+  "footer": {
+    "newsletter": {
+      "title": "Butlletí",
+      "desc": "Mantingui's informat sobre nous productes i innovacions.",
+      "placeholder": "La seva adreça de correu electrònic",
+      "subscribe": "Subscriure's"
+    },
+    "cols": {
+      "about": {
+        "title": "Sobre Mammut",
+        "history": "La Nostra Història",
+        "quality": "Qualitat i Certificats",
+        "innovation": "Innovació",
+        "sustainability": "Sostenibilitat"
+      },
+      "offer": {
+        "title": "La Nostra Oferta",
+        "pvc": "Finestres de PVC",
+        "alu": "Finestres d'Alumini",
+        "wood": "Finestres de Fusta",
+        "doors": "Portes Exteriors",
+        "shutters": "Persianes"
+      },
+      "inspiration": {
+        "title": "Inspiració",
+        "kitchen": "Cuina",
+        "living": "Sala d'Estar",
+        "bedroom": "Dormitori",
+        "terrace": "Terrassa"
+      },
+      "partners": {
+        "title": "Socis",
+        "portal": "Portal per a Socis",
+        "coop": "Programa de Cooperació",
+        "sales": "Representants de Vendes",
+        "contact": "Contacte"
+      }
+    },
+    "legal": {
+      "privacy": "Política de Privacitat",
+      "cookies": "Configuració de Galetes",
+      "sitemap": "Mapa del Lloc",
+      "terms": "Condicions d'Ús",
+      "copyright": "Mammut Windows & Doors. Tots els drets reservats."
+    }
+  },
+  "igloEdge": {
+    "tagline": "Aïllament màxim, marc mínim",
+    "description": "La nostra nova finestra es distingeix per un excel·lent paràmetre d'aïllament tèrmic d'Uw = 0,66 W/(m²K)* i una forma de perfil angular moderna.",
+    "basicDescription": "El sistema IGLO EDGE representa el cim de l'eficiència.",
+    "equipment": [
+      "Doble vidre Ug = 0,5 W/(m²K)",
+      "Marc càlid de plàstic Swisspacer Ultimate",
+      "Soldadura V-perfect",
+      "4 tancadors antirobatori",
+      "Microventilació",
+      "Maneta d'alumini DUBLIN",
+      "Mecanisme de bloqueig",
+      "Juntes en negre o gris",
+      "Farciment de la ranura",
+      "Marcaboques d'ampit",
+      "Àmplia selecció de colors",
+      "3 colors a escollir: blanc, marró o antracita"
+    ],
+    "specs": {
+      "sound": "Aïllament acústic",
+      "gaskets": "Juntes EPDM",
+      "thermal": "Transmitància tèrmica",
+      "chambers": "Cambres",
+      "depth": "Profunditat",
+      "class": "Classe de perfil"
+    }
+  },
+  "colorGroups": {
+    "Metal Effect": "Efecte Metall",
+    "Solid": "Sòlid",
+    "Wood Effect": "Efecte Fusta"
+  },
+  "colors": {
+    "c209": "Gris Basalt",
+    "c210": "Gris Basalt Llis",
+    "c232": "Bronze Profund",
+    "c213": "Grafit Sorrejat",
+    "c207": "Quars Gris",
+    "c208": "Quars Gris Llis",
+    "c237": "Blau Acer",
+    "c214": "Antracita",
+    "c216": "Antracita Ulti Mat",
+    "c215": "Antracita Llis",
+    "c218": "Negre Ulti Mat",
+    "c236": "Blau Brillant",
+    "c231": "Marró Xocolata",
+    "c206": "Gris Formigó",
+    "c200": "Crema",
+    "c199": "Croviu Platynium",
+    "c234": "Verd Fosc",
+    "c235": "Vermell Fosc",
+    "c233": "Verd Molsa",
+    "c205": "Gris",
+    "c217": "Negre Atzabeja",
+    "c204": "Gris Clar",
+    "c201": "Pirita",
+    "c228": "Palissandre",
+    "c211": "Pissarra",
+    "c212": "Pissarra Llis",
+    "c197": "Blanc",
+    "c198": "Blanc Sorra Mat",
+    "c202": "Roure Blanquejat",
+    "c227": "Roure Fosc",
+    "c225": "Avet Douglas",
+    "c229": "Macoré",
+    "c230": "Caoba",
+    "c203": "Roure Natural",
+    "c224": "Oregón",
+    "c220": "Roure Turner 2023",
+    "c221": "Roure Turner Toffee",
+    "c222": "Roure Turner Noguera",
+    "c226": "Noguera",
+    "c223": "Winchester",
+    "c219": "Roure Daurat"
+  }
+}

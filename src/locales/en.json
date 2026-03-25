@@ -1,0 +1,273 @@
+{
+  "header": {
+    "topBar": {
+      "partnerPortal": "Partner Portal",
+      "cooperation": "Cooperation",
+      "contact": "Contact"
+    },
+    "nav": {
+      "products": "Products",
+      "whereToBuy": "Where to Buy",
+      "aboutMammut": "About Mammut",
+      "configurator": "3D Configurator"
+    },
+    "megaMenu": {
+      "viewAll": "View all products",
+      "comingSoon": "Content for {{category}} coming soon.",
+      "cats": {
+        "windows": "Windows",
+        "doors": "Doors",
+        "terrace": "Terrace Systems",
+        "shutters": "Roller Shutters",
+        "facade": "Facade Blinds",
+        "mosquito": "Mosquito Nets",
+        "garage": "Garage Doors",
+        "conservatories": "Facades / Conservatories",
+        "pergola": "Pergola",
+        "smart": "Smart Home",
+        "extras": "Extras",
+        "promotional": "Promotional Material"
+      },
+      "cols": {
+        "pvcWindows": "PVC Windows",
+        "alumWindows": "Aluminum Windows",
+        "woodWindows": "Wood Windows",
+        "woodAlumWindows": "Wood-Aluminum Windows",
+        "pvcDoors": "PVC Doors",
+        "alumDoors": "Aluminum Doors"
+      },
+      "new": "New"
+    }
+  },
+  "home": {
+    "hero": {
+      "premium": "Premium Windows & Doors",
+      "explore": "Explore Products",
+      "configurator": "3D Configurator",
+      "slide1": {
+        "headline": "Define your",
+        "headlineSpan": "space",
+        "sub": "Precision-engineered windows and doors that transform architecture with cutting-edge thermal and acoustic performance."
+      },
+      "slide2": {
+        "headline": "Open to the",
+        "headlineSpan": "world",
+        "sub": "Panoramic lift-and-slide systems that dissolve the boundary between inside and outside."
+      },
+      "slide3": {
+        "headline": "Light, redefined",
+        "headlineSpan": "by design",
+        "sub": "Floor-to-ceiling glazing that fills every room with natural light while keeping heat and noise out."
+      }
+    },
+    "offer": {
+      "subtitle": "Complete Solutions",
+      "title": "Our Offer",
+      "text": "We offer a wide range of windows, frames, exterior doors, and sliding doors in PVC, wood and aluminium. Through expert craftsmanship, the highest quality materials, and a level of service we ensure our company's status. Each window and door is made to order, providing each customer with individual service and attention. We will provide you with the highest level of expertise and assist you all the way with your renovation and construction plans."
+    },
+    "categories": {
+      "subtitle": "Browse by Type",
+      "title": "Product Categories",
+      "tabs": {
+        "windows": "WINDOWS",
+        "doors": "DOORS",
+        "shutters": "SHUTTERS",
+        "blinds": "BLINDS",
+        "terrace": "TERRACE SYSTEMS",
+        "additions": "ADDITIONS"
+      },
+      "items": {
+        "alu": "ALUMINIUM",
+        "woodAlu": "WOOD-ALUMINIUM",
+        "pvc": "PVC",
+        "wooden": "WOODEN",
+        "adaptive": "ADAPTIVE",
+        "topMounted": "TOP-MOUNTED",
+        "externalVenetian": "EXTERNAL VENETIAN",
+        "liftSlide": "LIFT AND SLIDE HS",
+        "tiltSlide": "TILT AND SLIDE PSK",
+        "folding": "FOLDING DOORS",
+        "customization": "CUSTOMIZATION"
+      }
+    },
+    "featured": {
+      "subtitle": "Our Collection",
+      "title": "Featured Systems",
+      "viewAll": "View All",
+      "tags": {
+        "new": "NEW",
+        "premium": "PREMIUM",
+        "bestseller": "BESTSELLER"
+      },
+      "discover": "Discover",
+      "igloEdge": {
+        "tagline": "Maximum insulation, minimal frame"
+      },
+      "igloLight": {
+        "tagline": "Even more light into your space"
+      },
+      "iglo5": {
+        "tagline": "The classic reborn"
+      }
+    },
+    "cta": {
+      "subtitle": "3D Configurator",
+      "title": "Design Your Perfect Window",
+      "text": "Choose dimensions, materials, colors, and glass type. Save your configuration and request a quote instantly.",
+      "button": "Launch Configurator"
+    }
+  },
+  "products": {
+    "collection": "Our Collection",
+    "title": "Premium Systems",
+    "description": "Discover our comprehensive range of windows, doors, and terrace systems. Engineered for superior thermal performance, acoustic insulation, and timeless design.",
+    "allProducts": "All Products",
+    "new": "NEW"
+  },
+  "productDetail": {
+    "notFound": "Product not found",
+    "return": "Return to products",
+    "configure": "Configure {{name}}",
+    "standardEquipment": "Standard Equipment",
+    "seeVideo": "See video",
+    "hoverDrawing": "Hover to reveal technical drawing",
+    "profile": "Profile",
+    "technicalDrawing": "Technical Drawing",
+    "newGeneration": "New Generation",
+    "uncompromising": "Uncompromising Quality & Thermal Performance",
+    "colorsTitle": "Colors & Finishes",
+    "colorsDesc": "Customize your {{name}} with over {{count}} premium finishes, ranging from modern architectural solids to hyper-realistic woodgrains.",
+    "preview": "PREVIEW",
+    "selectedFinish": "Selected Finish",
+    "selectedColor": "Selected color:",
+    "glassTitle": "Glass",
+    "glassDesc": "DRUTEX, with over 30 years of experience in the production of composite glass, offers a very wide range of glass with which you can fit your windows and doors. They meet strict requirements for energy efficiency and sound insulation. The offer also includes laminated glass (safe and burglar-proof), sun protected glass, glass with enhanced sound insulation, tempered, ornamental and sandblasted glass.",
+    "handlesTitle": "Handles",
+    "handlesDesc": "Our window handles are distinguished by their excellent workmanship, functionality and durability. Available in multiple color variants to perfectly match your windows.",
+    "optionsTitle": "Additional Options",
+    "optionsDesc": "Enhance and personalise your IGLO EDGE with our wide range of certified accessories and add-ons.",
+    "seeAll": "See all",
+    "configureQuote": "Configure Product & Quote"
+  },
+  "footer": {
+    "newsletter": {
+      "title": "Newsletter",
+      "desc": "Stay updated on new products and innovations.",
+      "placeholder": "Your email address",
+      "subscribe": "Subscribe"
+    },
+    "cols": {
+      "about": {
+        "title": "About Mammut",
+        "history": "Our History",
+        "quality": "Quality & Certificates",
+        "innovation": "Innovation",
+        "sustainability": "Sustainability"
+      },
+      "offer": {
+        "title": "Our Offer",
+        "pvc": "PVC Windows",
+        "alu": "Aluminum Windows",
+        "wood": "Wood Windows",
+        "doors": "Exterior Doors",
+        "shutters": "Shutters"
+      },
+      "inspiration": {
+        "title": "Inspiration",
+        "kitchen": "Kitchen",
+        "living": "Living Room",
+        "bedroom": "Bedroom",
+        "terrace": "Terrace"
+      },
+      "partners": {
+        "title": "Partners",
+        "portal": "Partner Portal",
+        "coop": "Cooperation Program",
+        "sales": "Sales Representatives",
+        "contact": "Contact"
+      }
+    },
+    "legal": {
+      "privacy": "Privacy Policy",
+      "cookies": "Cookie Settings",
+      "sitemap": "Site Map",
+      "terms": "Terms of Use",
+      "copyright": "Mammut Windows & Doors. All rights reserved."
+    }
+  },
+  "igloEdge": {
+    "tagline": "Maximum insulation, minimal frame",
+    "description": "Our new, most technologically advanced window is distinguished by an excellent thermal insulation parameter of Uw = 0.66 W/(m²K)* and a modern, angular profile shape. The extremely good thermal insulation parameters are due, among other things, to the 7-chamber profile design and 3 EPDM gaskets, including the central gasket.",
+    "basicDescription": "The IGLO EDGE window system represents the pinnacle of energy efficiency. Designed for passive houses and energy-conscious renovations, it features a 7-chamber profile, the best-in-class Uw = 0.66 W/(m²K), and a minimalist design that maximises natural light entering the room.",
+    "equipment": [
+      "Double-chamber glazing package Ug = 0.5 W/(m²K)",
+      "Swisspacer Ultimate plastic warm frame",
+      "V-perfect weld",
+      "4 anti-theft strikers according to the size of the sash and the hardware system",
+      "Microventilation",
+      "DUBLIN aluminium window handle",
+      "Handle misplacement locking mechanism",
+      "Perimeter, glazing and central gaskets in black or grey",
+      "Filling of the lower hardware groove",
+      "Sill trim",
+      "Wide selection of PVC veneer colours",
+      "3 profile colours to choose from: white, brown or anthracite"
+    ],
+    "specs": {
+      "sound": "Sound Insulation",
+      "gaskets": "EPDM Gaskets",
+      "thermal": "Thermal Transmittance",
+      "chambers": "Number of Chambers",
+      "depth": "Installation Depth",
+      "class": "Profile Class"
+    }
+  },
+  "colorGroups": {
+    "Metal Effect": "Metal Effect",
+    "Solid": "Solid",
+    "Wood Effect": "Wood Effect"
+  },
+  "colors": {
+    "c209": "Basalt Grey",
+    "c210": "Basalt Grey Gadki",
+    "c232": "Deep Bronze",
+    "c213": "Graphite Sandblasted",
+    "c207": "Grey Quartz",
+    "c208": "Grey Quartz Smooth",
+    "c237": "Steel Blue",
+    "c214": "Anthracite",
+    "c216": "Anthracite Ulti Matt",
+    "c215": "Anthracite Smooth",
+    "c218": "Black Ulti Matt",
+    "c236": "Brilliant Blue",
+    "c231": "Chocolate Brown",
+    "c206": "Concrete Grey",
+    "c200": "Cream",
+    "c199": "Croviu Platynium",
+    "c234": "Dark Green",
+    "c235": "Dark Red",
+    "c233": "Moss Green",
+    "c205": "Grey",
+    "c217": "Jet Black",
+    "c204": "Light Grey",
+    "c201": "Piryt",
+    "c228": "Palisander",
+    "c211": "Slate",
+    "c212": "Slate Smooth",
+    "c197": "White",
+    "c198": "White Sand Matt",
+    "c202": "Bleached Oak",
+    "c227": "Dark Oak",
+    "c225": "Douglas Fir",
+    "c229": "Macore",
+    "c230": "Mahogany",
+    "c203": "Natural Oak",
+    "c224": "Oregon",
+    "c220": "Turner Oak 2023",
+    "c221": "Turner Oak Toffee 470 3004",
+    "c222": "Turner Oak Walnut 470 3004",
+    "c226": "Walnut",
+    "c223": "Winchester",
+    "c219": "Golden Oak"
+  }
+}

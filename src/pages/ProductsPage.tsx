@@ -1,21 +1,22 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { CATEGORIES, PRODUCTS } from '../data/products'
+import { useTranslation } from 'react-i18next'
 
 export function ProductsPage() {
+  const { t } = useTranslation()
   return (
     <main className="min-h-screen bg-black pt-28 pb-20">
       {/* ── Header ────────────────────────────────────────────── */}
       <section className="max-w-7xl mx-auto px-6 mb-16">
         <p className="text-[#dca95c] text-xs uppercase tracking-[0.2em] font-semibold mb-3">
-          Our Collection
+          {t('products.collection')}
         </p>
         <h1 className="text-5xl md:text-7xl font-black uppercase mb-6">
-          Premium Systems
+          {t('products.title')}
         </h1>
         <p className="text-white/60 text-lg max-w-2xl">
-          Discover our comprehensive range of windows, doors, and terrace systems. 
-          Engineered for superior thermal performance, acoustic insulation, and timeless design.
+          {t('products.description')}
         </p>
       </section>
 
@@ -34,7 +35,7 @@ export function ProductsPage() {
       {/* ── All Products Grid ─────────────────────────────────── */}
       <section className="max-w-7xl mx-auto px-6">
         <h2 className="text-3xl font-black uppercase mb-12 border-b border-[#2a2a2b] pb-4">
-          All Products
+          {t('products.allProducts')}
         </h2>
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -62,7 +63,7 @@ export function ProductsPage() {
                 )}
                 {p.isNew && (
                   <span className="absolute top-4 left-4 z-10 bg-[#dca95c] text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1">
-                    NEW
+                    {t('products.new')}
                   </span>
                 )}
               </div>

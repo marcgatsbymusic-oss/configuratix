@@ -1,0 +1,86 @@
+{
+  "en": {
+    "footer": {
+      "newsletter": { "title": "Newsletter", "desc": "Stay updated on new products and innovations.", "placeholder": "Your email address", "subscribe": "Subscribe" },
+      "cols": {
+        "about": { "title": "About Mammut", "history": "Our History", "quality": "Quality & Certificates", "innovation": "Innovation", "sustainability": "Sustainability" },
+        "offer": { "title": "Our Offer", "pvc": "PVC Windows", "alu": "Aluminum Windows", "wood": "Wood Windows", "doors": "Exterior Doors", "shutters": "Shutters" },
+        "inspiration": { "title": "Inspiration", "kitchen": "Kitchen", "living": "Living Room", "bedroom": "Bedroom", "terrace": "Terrace" },
+        "partners": { "title": "Partners", "portal": "Partner Portal", "coop": "Cooperation Program", "sales": "Sales Representatives", "contact": "Contact" }
+      },
+      "legal": { "privacy": "Privacy Policy", "cookies": "Cookie Settings", "sitemap": "Site Map", "terms": "Terms of Use", "copyright": "Mammut Windows & Doors. All rights reserved." }
+    }
+  },
+  "es": {
+    "footer": {
+      "newsletter": { "title": "Boletín", "desc": "Manténgase informado sobre nuevos productos e innovaciones.", "placeholder": "Su dirección de correo electrónico", "subscribe": "Suscribirse" },
+      "cols": {
+        "about": { "title": "Sobre Mammut", "history": "Nuestra Historia", "quality": "Calidad y Certificados", "innovation": "Innovación", "sustainability": "Sostenibilidad" },
+        "offer": { "title": "Nuestra Oferta", "pvc": "Ventanas de PVC", "alu": "Ventanas de Aluminio", "wood": "Ventanas de Madera", "doors": "Puertas Exteriores", "shutters": "Persianas" },
+        "inspiration": { "title": "Inspiración", "kitchen": "Cocina", "living": "Sala de Estar", "bedroom": "Dormitorio", "terrace": "Terraza" },
+        "partners": { "title": "Asociados", "portal": "Portal de Asociados", "coop": "Programa de Cooperación", "sales": "Representantes de Ventas", "contact": "Contacto" }
+      },
+      "legal": { "privacy": "Política de Privacidad", "cookies": "Configuración de Cookies", "sitemap": "Mapa del Sitio", "terms": "Términos de Uso", "copyright": "Mammut Windows & Doors. Todos los derechos reservados." }
+    }
+  },
+  "de": {
+    "footer": {
+      "newsletter": { "title": "Newsletter", "desc": "Bleiben Sie über neue Produkte und Innovationen informiert.", "placeholder": "Ihre E-Mail-Adresse", "subscribe": "Abonnieren" },
+      "cols": {
+        "about": { "title": "Über Mammut", "history": "Unsere Geschichte", "quality": "Qualität & Zertifikate", "innovation": "Innovation", "sustainability": "Nachhaltigkeit" },
+        "offer": { "title": "Unser Angebot", "pvc": "PVC-Fenster", "alu": "Aluminiumfenster", "wood": "Holzfenster", "doors": "Außentüren", "shutters": "Rollläden" },
+        "inspiration": { "title": "Inspiration", "kitchen": "Küche", "living": "Wohnzimmer", "bedroom": "Schlafzimmer", "terrace": "Terrasse" },
+        "partners": { "title": "Partner", "portal": "Partnerportal", "coop": "Kooperationsprogramm", "sales": "Vertriebsmitarbeiter", "contact": "Kontakt" }
+      },
+      "legal": { "privacy": "Datenschutz-Bestimmungen", "cookies": "Cookie-Einstellungen", "sitemap": "Seitenübersicht", "terms": "Nutzungsbedingungen", "copyright": "Mammut Windows & Doors. Alle Rechte vorbehalten." }
+    }
+  },
+  "fr": {
+    "footer": {
+      "newsletter": { "title": "Lettre d'information", "desc": "Restez informé des nouveaux produits et innovations.", "placeholder": "Votre adresse email", "subscribe": "S'abonner" },
+      "cols": {
+        "about": { "title": "À propos de Mammut", "history": "Notre Histoire", "quality": "Qualité et Certificats", "innovation": "Innovation", "sustainability": "Durabilité" },
+        "offer": { "title": "Notre Offre", "pvc": "Fenêtres en PVC", "alu": "Fenêtres en Aluminium", "wood": "Fenêtres en Bois", "doors": "Portes Extérieures", "shutters": "Volets" },
+        "inspiration": { "title": "Inspiration", "kitchen": "Cuisine", "living": "Salon", "bedroom": "Chambre", "terrace": "Terrasse" },
+        "partners": { "title": "Partenaires", "portal": "Portail Partenaire", "coop": "Programme de Coopération", "sales": "Représentants Commerciaux", "contact": "Contact" }
+      },
+      "legal": { "privacy": "Politique de Confidentialité", "cookies": "Paramètres des Cookies", "sitemap": "Plan du Site", "terms": "Conditions d'Utilisation", "copyright": "Mammut Windows & Doors. Tous droits réservés." }
+    }
+  },
+  "ca": {
+    "footer": {
+      "newsletter": { "title": "Butlletí", "desc": "Mantingui's informat sobre nous productes i innovacions.", "placeholder": "La seva adreça de correu electrònic", "subscribe": "Subscriure's" },
+      "cols": {
+        "about": { "title": "Sobre Mammut", "history": "La Nostra Història", "quality": "Qualitat i Certificats", "innovation": "Innovació", "sustainability": "Sostenibilitat" },
+        "offer": { "title": "La Nostra Oferta", "pvc": "Finestres de PVC", "alu": "Finestres d'Alumini", "wood": "Finestres de Fusta", "doors": "Portes Exteriors", "shutters": "Persianes" },
+        "inspiration": { "title": "Inspiració", "kitchen": "Cuina", "living": "Sala d'Estar", "bedroom": "Dormitori", "terrace": "Terrassa" },
+        "partners": { "title": "Socis", "portal": "Portal per a Socis", "coop": "Programa de Cooperació", "sales": "Representants de Vendes", "contact": "Contacte" }
+      },
+      "legal": { "privacy": "Política de Privacitat", "cookies": "Configuració de Galetes", "sitemap": "Mapa del Lloc", "terms": "Condicions d'Ús", "copyright": "Mammut Windows & Doors. Tots els drets reservats." }
+    }
+  },
+  "pt": {
+    "footer": {
+      "newsletter": { "title": "Boletim Informativo", "desc": "Mantenha-se atualizado sobre novos produtos e inovações.", "placeholder": "O seu endereço de e-mail", "subscribe": "Inscrever-se" },
+      "cols": {
+        "about": { "title": "Sobre a Mammut", "history": "A Nossa História", "quality": "Qualidade e Certificados", "innovation": "Inovação", "sustainability": "Sustentabilidade" },
+        "offer": { "title": "A Nossa Oferta", "pvc": "Janelas de PVC", "alu": "Janelas de Alumínio", "wood": "Janelas de Madeira", "doors": "Portas Exteriores", "shutters": "Persianas" },
+        "inspiration": { "title": "Inspiração", "kitchen": "Cozinha", "living": "Sala de Estar", "bedroom": "Quarto", "terrace": "Terraço" },
+        "partners": { "title": "Parceiros", "portal": "Portal do Parceiro", "coop": "Programa de Cooperação", "sales": "Representantes de Vendas", "contact": "Contato" }
+      },
+      "legal": { "privacy": "Política de Privacidade", "cookies": "Configurações de Cookies", "sitemap": "Mapa do Site", "terms": "Termos de Uso", "copyright": "Mammut Windows & Doors. Todos os direitos reservados." }
+    }
+  },
+  "eu": {
+    "footer": {
+      "newsletter": { "title": "Buletina", "desc": "Egon adi produktu berri eta berrikuntzen inguruan.", "placeholder": "Zure e-posta helbidea", "subscribe": "Harpidetzeko" },
+      "cols": {
+        "about": { "title": "Mammut-i buruz", "history": "Gure Historia", "quality": "Kalitatea eta Ziurtagiriak", "innovation": "Berrikuntza", "sustainability": "Jasangarritasuna" },
+        "offer": { "title": "Gure Eskaintza", "pvc": "PVC Leihoak", "alu": "Aluminiozko Leihoak", "wood": "Egurrezko Leihoak", "doors": "Kanpoko Ateak", "shutters": "Pertsianak" },
+        "inspiration": { "title": "Inspirazioa", "kitchen": "Sukaldea", "living": "Egongela", "bedroom": "Logela", "terrace": "Terraza" },
+        "partners": { "title": "Bazkideak", "portal": "Bazkide ataria", "coop": "Lankidetza Programa", "sales": "Salmenta Ordezkariak", "contact": "Harremana" }
+      },
+      "legal": { "privacy": "Pribatutasun politika", "cookies": "Cookieen ezarpenak", "sitemap": "Gunearen mapa", "terms": "Erabilera-baldintzak", "copyright": "Mammut Windows & Doors. Eskubide guztiak erreserbatuta." }
+    }
+  }
+}

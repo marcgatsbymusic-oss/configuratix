@@ -1,0 +1,273 @@
+{
+  "header": {
+    "topBar": {
+      "partnerPortal": "Partnerportal",
+      "cooperation": "Zusammenarbeit",
+      "contact": "Kontakt"
+    },
+    "nav": {
+      "products": "Produkte",
+      "whereToBuy": "Wo Kaufen",
+      "aboutMammut": "Über Mammut",
+      "configurator": "3D-Konfigurator"
+    },
+    "megaMenu": {
+      "viewAll": "Alle Produkte anzeigen",
+      "comingSoon": "Inhalt für {{category}} in Kürze verfügbar.",
+      "cats": {
+        "windows": "Fenster",
+        "doors": "Türen",
+        "terrace": "Terrassensysteme",
+        "shutters": "Rollläden",
+        "facade": "Fassadenjalousien",
+        "mosquito": "Moskitonetze",
+        "garage": "Garagentore",
+        "conservatories": "Fassaden / Wintergärten",
+        "pergola": "Pergola",
+        "smart": "Smart Home",
+        "extras": "Extras",
+        "promotional": "Werbematerial"
+      },
+      "cols": {
+        "pvcWindows": "PVC-Fenster",
+        "alumWindows": "Aluminiumfenster",
+        "woodWindows": "Holzfenster",
+        "woodAlumWindows": "Holz-Aluminium-Fenster",
+        "pvcDoors": "PVC-Türen",
+        "alumDoors": "Aluminiumtüren"
+      },
+      "new": "Neu"
+    }
+  },
+  "home": {
+    "hero": {
+      "premium": "Premium Fenster & Türen",
+      "explore": "Produkte entdecken",
+      "configurator": "3D-Konfigurator",
+      "slide1": {
+        "headline": "Definieren Sie Ihren",
+        "headlineSpan": "Raum",
+        "sub": "Präzisionsgefertigte Fenster und Türen, die Architektur mit modernster Wärme- und Schalldämmung verwandeln."
+      },
+      "slide2": {
+        "headline": "Offen für die",
+        "headlineSpan": "Welt",
+        "sub": "Panoramische Hebeschiebesysteme, die die Grenze zwischen Innen und Außen auflösen."
+      },
+      "slide3": {
+        "headline": "Licht, neu definiert",
+        "headlineSpan": "durch Design",
+        "sub": "Boden-bis-Decken-Verglasung, die jeden Raum mit natürlichem Licht füllt, während Hitze und Lärm draußen bleiben."
+      }
+    },
+    "offer": {
+      "subtitle": "Komplettlösungen",
+      "title": "Unser Angebot",
+      "text": "Wir bieten eine breite Palette an Fenstern, Rahmen, Außentüren und Schiebetüren aus PVC, Holz und Aluminium. Durch fachmännische Handwerkskunst, hochwertigste Materialien und unser Serviceniveau sichern wir den Status unseres Unternehmens. Jedes Fenster und jede Tür wird auf Bestellung gefertigt, was jedem Kunden individuellen Service und Aufmerksamkeit bietet. Wir stellen Ihnen höchste Expertise zur Verfügung und unterstützen Sie bei all Ihren Renovierungs- und Bauvorhaben."
+    },
+    "categories": {
+      "subtitle": "Nach Typ durchsuchen",
+      "title": "Produktkategorien",
+      "tabs": {
+        "windows": "FENSTER",
+        "doors": "TÜREN",
+        "shutters": "ROLLLÄDEN",
+        "blinds": "JALOUSIEN",
+        "terrace": "TERRASSENSYSTEME",
+        "additions": "ZUSÄTZE"
+      },
+      "items": {
+        "alu": "ALUMINIUM",
+        "woodAlu": "HOLZ-ALUMINIUM",
+        "pvc": "PVC",
+        "wooden": "HOLZ",
+        "adaptive": "VORBAU",
+        "topMounted": "AUFSATZ",
+        "externalVenetian": "AUSSENJALOUSIEN",
+        "liftSlide": "HEBESCHIEBE HS",
+        "tiltSlide": "PARALLELSCHIEBE KIPP PSK",
+        "folding": "FALTTÜREN",
+        "customization": "ANPASSUNG"
+      }
+    },
+    "featured": {
+      "subtitle": "Unsere Kollektion",
+      "title": "Bestseller Systeme",
+      "viewAll": "Alle ansehen",
+      "tags": {
+        "new": "NEU",
+        "premium": "PREMIUM",
+        "bestseller": "BESTSELLER"
+      },
+      "discover": "Entdecken",
+      "igloEdge": {
+        "tagline": "Maximale Isolierung, minimaler Rahmen"
+      },
+      "igloLight": {
+        "tagline": "Noch mehr Licht in Ihrem Raum"
+      },
+      "iglo5": {
+        "tagline": "Der Klassiker neu geboren"
+      }
+    },
+    "cta": {
+      "subtitle": "3D-Konfigurator",
+      "title": "Gestalten Sie Ihr perfektes Fenster",
+      "text": "Wählen Sie Abmessungen, Materialien, Farben und Glasart. Speichern Sie Ihre Konfiguration und fordern Sie sofort ein Angebot an.",
+      "button": "Konfigurator starten"
+    }
+  },
+  "products": {
+    "collection": "Unsere Kollektion",
+    "title": "Premium Systeme",
+    "description": "Entdecken Sie unser umfassendes Angebot an Fenstern, Türen und Terrassensystemen. Entwickelt für überlegene Wärmeleistung, Schalldämmung und zeitloses Design.",
+    "allProducts": "Alle Produkte",
+    "new": "NEU"
+  },
+  "productDetail": {
+    "notFound": "Produkt nicht gefunden",
+    "return": "Zurück zu Produkten",
+    "configure": "{{name}} konfigurieren",
+    "standardEquipment": "Serienausstattung",
+    "seeVideo": "Video ansehen",
+    "hoverDrawing": "Darüberfahren für technische Zeichnung",
+    "profile": "Profil",
+    "technicalDrawing": "Technische Zeichnung",
+    "newGeneration": "Neue Generation",
+    "uncompromising": "Kompromisslose Qualität & Wärmeleistung",
+    "colorsTitle": "Farben & Oberflächen",
+    "colorsDesc": "Personalisieren Sie Ihr {{name}} mit über {{count}} Premium-Oberflächen.",
+    "preview": "VORSCHAU",
+    "selectedFinish": "Gewähltes Finish",
+    "selectedColor": "Gewählte Farbe:",
+    "glassTitle": "Glas",
+    "glassDesc": "DRUTEX, mit über 30 Jahren Erfahrung in der Herstellung von Verbundglas, bietet eine sehr breite Palette an Gläsern, mit denen Sie Ihre Fenster und Türen ausstatten können. Sie erfüllen strenge Anforderungen an Energieeffizienz und Schalldämmung. Das Angebot umfasst auch Verbundsicherheitsglas (sicher und einbruchhemmend), Sonnenschutzglas, Glas mit verbessertem Schallschutz, Einscheibensicherheitsglas, Ornament- und sandgestrahltes Glas.",
+    "handlesTitle": "Griffe",
+    "handlesDesc": "Unsere Fenstergriffe zeichnen sich durch Funktionalität aus.",
+    "optionsTitle": "Zusätzliche Optionen",
+    "optionsDesc": "Erweitern Sie Ihr IGLO EDGE.",
+    "seeAll": "Alle ansehen",
+    "configureQuote": "Produkt konfigurieren & Angebot"
+  },
+  "footer": {
+    "newsletter": {
+      "title": "Newsletter",
+      "desc": "Bleiben Sie über neue Produkte und Innovationen informiert.",
+      "placeholder": "Ihre E-Mail-Adresse",
+      "subscribe": "Abonnieren"
+    },
+    "cols": {
+      "about": {
+        "title": "Über Mammut",
+        "history": "Unsere Geschichte",
+        "quality": "Qualität & Zertifikate",
+        "innovation": "Innovation",
+        "sustainability": "Nachhaltigkeit"
+      },
+      "offer": {
+        "title": "Unser Angebot",
+        "pvc": "PVC-Fenster",
+        "alu": "Aluminiumfenster",
+        "wood": "Holzfenster",
+        "doors": "Außentüren",
+        "shutters": "Rollläden"
+      },
+      "inspiration": {
+        "title": "Inspiration",
+        "kitchen": "Küche",
+        "living": "Wohnzimmer",
+        "bedroom": "Schlafzimmer",
+        "terrace": "Terrasse"
+      },
+      "partners": {
+        "title": "Partner",
+        "portal": "Partnerportal",
+        "coop": "Kooperationsprogramm",
+        "sales": "Vertriebsmitarbeiter",
+        "contact": "Kontakt"
+      }
+    },
+    "legal": {
+      "privacy": "Datenschutz-Bestimmungen",
+      "cookies": "Cookie-Einstellungen",
+      "sitemap": "Seitenübersicht",
+      "terms": "Nutzungsbedingungen",
+      "copyright": "Mammut Windows & Doors. Alle Rechte vorbehalten."
+    }
+  },
+  "igloEdge": {
+    "tagline": "Maximale Isolierung, minimaler Rahmen",
+    "description": "Unser neues, technologisch fortschrittlichstes Fenster zeichnet sich durch einen exzellenten Wärmedämmwert von Uw = 0,66 W/(m²K)* und eine moderne, kantige Profilform aus. Die extrem guten Wärmedämmwerte sind unter anderem auf das 7-Kammer-Profildesign und 3 EPDM-Dichtungen.",
+    "basicDescription": "Das IGLO EDGE Fenstersystem repräsentiert die Spitze der Energieeffizienz. Entwickelt für Passivhäuser.",
+    "equipment": [
+      "Zweikammer-Verglasungspaket Ug = 0,5 W/(m²K)",
+      "Warme Kante Swisspacer Ultimate aus Kunststoff",
+      "V-Perfect-Schweißnaht",
+      "4 Einbruchschutzschließbleche je nach Flügelgröße",
+      "Mikroventilation",
+      "DUBLIN Aluminium-Fenstergriff",
+      "Fehlbedienungssperre",
+      "Umlaufende, Verglasungs- und Mitteldichtungen in Schwarz oder Grau",
+      "Füllung der unteren Beschlagsnut",
+      "Sohlbankanschluss",
+      "Große Auswahl an PVC-Folienfarben",
+      "3 Profilfarben zur Auswahl: Weiß, Braun oder Anthrazit"
+    ],
+    "specs": {
+      "sound": "Schalldämmung",
+      "gaskets": "EPDM-Dichtungen",
+      "thermal": "Wärmedurchgangskoeffizient",
+      "chambers": "Kammern",
+      "depth": "Bautiefe",
+      "class": "Profilklasse"
+    }
+  },
+  "colorGroups": {
+    "Metal Effect": "Metalleffekt",
+    "Solid": "Vollton",
+    "Wood Effect": "Holzeffekt"
+  },
+  "colors": {
+    "c209": "Basaltgrau",
+    "c210": "Basaltgrau Glatt",
+    "c232": "Tiefbronze",
+    "c213": "Graphit Sandgestrahlt",
+    "c207": "Quarzgrau",
+    "c208": "Quarzgrau Glatt",
+    "c237": "Stahlblau",
+    "c214": "Anthrazit",
+    "c216": "Anthrazit Ulti Matt",
+    "c215": "Anthrazit Glatt",
+    "c218": "Schwarz Ulti Matt",
+    "c236": "Brillantblau",
+    "c231": "Schokoladenbraun",
+    "c206": "Betongrau",
+    "c200": "Cremeweiß",
+    "c199": "Croviu Platynium",
+    "c234": "Dunkelgrün",
+    "c235": "Dunkelrot",
+    "c233": "Moosgrün",
+    "c205": "Grau",
+    "c217": "Tiefschwarz",
+    "c204": "Lichtgrau",
+    "c201": "Pyrit",
+    "c228": "Palisander",
+    "c211": "Schiefergrau",
+    "c212": "Schiefergrau Glatt",
+    "c197": "Weiß",
+    "c198": "Weißer Sand Matt",
+    "c202": "Gebleichte Eiche",
+    "c227": "Dunkle Eiche",
+    "c225": "Douglasie",
+    "c229": "Macore",
+    "c230": "Mahagoni",
+    "c203": "Eiche Natur",
+    "c224": "Oregon",
+    "c220": "Turner Eiche 2023",
+    "c221": "Turner Eiche Toffee",
+    "c222": "Turner Eiche Nussbaum",
+    "c226": "Nussbaum",
+    "c223": "Winchester",
+    "c219": "Goldeiche"
+  }
+}

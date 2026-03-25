@@ -1,42 +1,44 @@
 import { Link } from 'react-router-dom'
 import { Youtube, Instagram, Linkedin, Facebook, ArrowRight } from 'lucide-react'
 
+import { useTranslation } from 'react-i18next'
+
 const FOOTER_COLS = [
   {
-    heading: 'About Mammut',
+    colKey: 'about',
     links: [
-      { label: 'Our History', href: '/about/history' },
-      { label: 'Quality & Certificates', href: '/about/quality' },
-      { label: 'Innovation', href: '/about/innovation' },
-      { label: 'Sustainability', href: '/about/sustainability' },
+      { keyKey: 'history', href: '/about/history' },
+      { keyKey: 'quality', href: '/about/quality' },
+      { keyKey: 'innovation', href: '/about/innovation' },
+      { keyKey: 'sustainability', href: '/about/sustainability' },
     ],
   },
   {
-    heading: 'Our Offer',
+    colKey: 'offer',
     links: [
-      { label: 'PVC Windows', href: '/products/windows/pvc' },
-      { label: 'Aluminum Windows', href: '/products/windows/aluminum' },
-      { label: 'Wood Windows', href: '/products/windows/wood' },
-      { label: 'Exterior Doors', href: '/products/doors/exterior' },
-      { label: 'Shutters', href: '/products/shutters/roller' },
+      { keyKey: 'pvc', href: '/products/windows/pvc' },
+      { keyKey: 'alu', href: '/products/windows/aluminum' },
+      { keyKey: 'wood', href: '/products/windows/wood' },
+      { keyKey: 'doors', href: '/products/doors/exterior' },
+      { keyKey: 'shutters', href: '/products/shutters/roller' },
     ],
   },
   {
-    heading: 'Inspiration',
+    colKey: 'inspiration',
     links: [
-      { label: 'Kitchen', href: '/inspiration/kitchen' },
-      { label: 'Living Room', href: '/inspiration/living-room' },
-      { label: 'Bedroom', href: '/inspiration/bedroom' },
-      { label: 'Terrace', href: '/inspiration/terrace' },
+      { keyKey: 'kitchen', href: '/inspiration/kitchen' },
+      { keyKey: 'living', href: '/inspiration/living-room' },
+      { keyKey: 'bedroom', href: '/inspiration/bedroom' },
+      { keyKey: 'terrace', href: '/inspiration/terrace' },
     ],
   },
   {
-    heading: 'Partners',
+    colKey: 'partners',
     links: [
-      { label: 'Partner Portal', href: '/partners/portal' },
-      { label: 'Cooperation Program', href: '/partners/cooperation' },
-      { label: 'Sales Representatives', href: '/where-to-buy' },
-      { label: 'Contact', href: '/contact' },
+      { keyKey: 'portal', href: '/partners/portal' },
+      { keyKey: 'coop', href: '/partners/cooperation' },
+      { keyKey: 'sales', href: '/where-to-buy' },
+      { keyKey: 'contact', href: '/contact' },
     ],
   },
 ]
@@ -49,6 +51,8 @@ const SOCIAL = [
 ]
 
 export function Footer() {
+  const { t } = useTranslation()
+
   return (
     <footer className="bg-[#111112] border-t border-[#2a2a2b]">
       {/* Newsletter bar */}
@@ -56,23 +60,23 @@ export function Footer() {
         <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
             <p className="text-[#dca95c] text-xs uppercase tracking-widest font-semibold mb-1">
-              Newsletter
+              {t('footer.newsletter.title')}
             </p>
             <p className="text-white/60 text-sm">
-              Stay updated on new products and innovations.
+              {t('footer.newsletter.desc')}
             </p>
           </div>
           <form className="flex w-full md:w-auto gap-0">
             <input
               type="email"
-              placeholder="Your email address"
+              placeholder={t('footer.newsletter.placeholder')}
               className="bg-black border border-[#2a2a2b] text-white text-sm px-4 py-2.5 w-full md:w-72 focus:outline-none focus:border-[#dca95c] transition-colors duration-200 placeholder:text-white/30"
             />
             <button
               type="submit"
               className="bg-[#dca95c] text-black px-5 py-2.5 hover:bg-[#eab676] transition-colors duration-200 flex items-center gap-2 text-sm font-semibold"
             >
-              Subscribe <ArrowRight size={14} />
+              {t('footer.newsletter.subscribe')} <ArrowRight size={14} />
             </button>
           </form>
         </div>
@@ -81,18 +85,18 @@ export function Footer() {
       {/* Main footer columns */}
       <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-2 md:grid-cols-4 gap-10">
         {FOOTER_COLS.map((col) => (
-          <div key={col.heading}>
+          <div key={col.colKey}>
             <h4 className="text-[#dca95c] text-[10px] font-bold uppercase tracking-widest mb-5 pb-2 border-b border-[#dca95c]/30">
-              {col.heading}
+              {t(`footer.cols.${col.colKey}.title`)}
             </h4>
             <ul className="space-y-3">
               {col.links.map((link) => (
-                <li key={link.label}>
+                <li key={link.keyKey}>
                   <Link
                     to={link.href}
                     className="text-sm text-white/50 hover:text-white transition-colors duration-200"
                   >
-                    {link.label}
+                    {t(`footer.cols.${col.colKey}.${link.keyKey}`)}
                   </Link>
                 </li>
               ))}
@@ -118,13 +122,13 @@ export function Footer() {
 
           {/* Legal links */}
           <div className="flex flex-wrap justify-center gap-4">
-            {['Privacy Policy', 'Cookie Settings', 'Site Map', 'Terms of Use'].map((item) => (
+            {['privacy', 'cookies', 'sitemap', 'terms'].map((item) => (
               <a
                 key={item}
                 href="#"
                 className="text-[11px] text-white/30 hover:text-white/60 transition-colors duration-200 uppercase tracking-wider"
               >
-                {item}
+                {t(`footer.legal.${item}`)}
               </a>
             ))}
           </div>
@@ -145,7 +149,7 @@ export function Footer() {
         </div>
 
         <p className="text-center text-[11px] text-white/20 pb-4">
-          © {new Date().getFullYear()} Mammut Windows & Doors. All rights reserved.
+          © {new Date().getFullYear()} {t('footer.legal.copyright')}
         </p>
       </div>
     </footer>

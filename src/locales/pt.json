@@ -1,0 +1,273 @@
+{
+  "header": {
+    "topBar": {
+      "partnerPortal": "Portal do Parceiro",
+      "cooperation": "Cooperação",
+      "contact": "Contato"
+    },
+    "nav": {
+      "products": "Produtos",
+      "whereToBuy": "Onde Comprar",
+      "aboutMammut": "Sobre a Mammut",
+      "configurator": "Configurador 3D"
+    },
+    "megaMenu": {
+      "viewAll": "Ver todos os produtos",
+      "comingSoon": "Conteúdo para {{category}} em breve.",
+      "cats": {
+        "windows": "Janelas",
+        "doors": "Portas",
+        "terrace": "Sistemas de Terraço",
+        "shutters": "Persianas",
+        "facade": "Persianas de Fachada",
+        "mosquito": "Mosquiteiros",
+        "garage": "Portões de Garagem",
+        "conservatories": "Fachadas / Conservatórios",
+        "pergola": "Pérgola",
+        "smart": "Casa Inteligente",
+        "extras": "Extras",
+        "promotional": "Material Promocional"
+      },
+      "cols": {
+        "pvcWindows": "Janelas de PVC",
+        "alumWindows": "Janelas de Alumínio",
+        "woodWindows": "Janelas de Madeira",
+        "woodAlumWindows": "Janelas Madeira-Alumínio",
+        "pvcDoors": "Portas de PVC",
+        "alumDoors": "Portas de Alumínio"
+      },
+      "new": "Novo"
+    }
+  },
+  "home": {
+    "hero": {
+      "premium": "Janelas e Portas Premium",
+      "explore": "Explorar Produtos",
+      "configurator": "Configurador 3D",
+      "slide1": {
+        "headline": "Defina seu",
+        "headlineSpan": "espaço",
+        "sub": "Janelas e portas projetadas com precisão que transformam a arquitetura."
+      },
+      "slide2": {
+        "headline": "Aberto para o",
+        "headlineSpan": "mundo",
+        "sub": "Sistemas corrediços panorâmicos elevatórios que dissolvem o limite entre o interior e o exterior."
+      },
+      "slide3": {
+        "headline": "Luz, redefinida",
+        "headlineSpan": "pelo design",
+        "sub": "Vidros do piso ao teto que enchem cada ambiente com luz natural."
+      }
+    },
+    "offer": {
+      "subtitle": "Soluções Completas",
+      "title": "Nossa Oferta",
+      "text": "Oferecemos uma ampla gama de janelas e portas em PVC, madeira e alumínio. Produzidas sob encomenda com máxima atenção a cada detalhe."
+    },
+    "categories": {
+      "subtitle": "Navegar por Tipo",
+      "title": "Categorias de Produtos",
+      "tabs": {
+        "windows": "JANELAS",
+        "doors": "PORTAS",
+        "shutters": "PERSIANAS",
+        "blinds": "TOLDOS",
+        "terrace": "SISTEMAS DE TERRAÇO",
+        "additions": "COMPLEMENTOS"
+      },
+      "items": {
+        "alu": "ALUMÍNIO",
+        "woodAlu": "MADEIRA-ALUMÍNIO",
+        "pvc": "PVC",
+        "wooden": "MADEIRA",
+        "adaptive": "ADAPTÁVEL",
+        "topMounted": "SOBREPOSTA",
+        "externalVenetian": "VENEZIANAS EXTERNAS",
+        "liftSlide": "ELEVADORA CORREDIÇA HS",
+        "tiltSlide": "OSCILOPARALELAS PSK",
+        "folding": "PORTAS DOBRÁVEIS",
+        "customization": "PERSONALIZAÇÃO"
+      }
+    },
+    "featured": {
+      "subtitle": "Nossa Coleção",
+      "title": "Sistemas em Destaque",
+      "viewAll": "Ver Tudo",
+      "tags": {
+        "new": "NOVO",
+        "premium": "PREMIUM",
+        "bestseller": "MAIS VENDIDO"
+      },
+      "discover": "Descobrir",
+      "igloEdge": {
+        "tagline": "Isolamento máximo, moldura mínima"
+      },
+      "igloLight": {
+        "tagline": "Ainda mais luz no seu espaço"
+      },
+      "iglo5": {
+        "tagline": "O clássico renascutido"
+      }
+    },
+    "cta": {
+      "subtitle": "Configurador 3D",
+      "title": "Projete sua Janela Perfeita",
+      "text": "Escolha as opções e solicite um orçamento instantaneamente.",
+      "button": "Iniciar Configurador"
+    }
+  },
+  "products": {
+    "collection": "Nossa Coleção",
+    "title": "Sistemas Premium",
+    "description": "Descubra a nossa abrangente gama de janelas, portas e sistemas de terraço. Projetados para desempenho térmico superior, isolamento acústico e design atemporal.",
+    "allProducts": "Todos os Produtos",
+    "new": "NOVO"
+  },
+  "productDetail": {
+    "notFound": "Produto não encontrado",
+    "return": "Voltar aos produtos",
+    "configure": "Configurar {{name}}",
+    "standardEquipment": "Equipamento Padrão",
+    "seeVideo": "Ver vídeo",
+    "hoverDrawing": "Passe o mouse para ver o desenho técnico",
+    "profile": "Perfil",
+    "technicalDrawing": "Desenho Técnico",
+    "newGeneration": "Nova Geração",
+    "uncompromising": "Qualidade e Desempenho Térmico Incomparáveis",
+    "colorsTitle": "Cores e Acabamentos",
+    "colorsDesc": "Personalize seu {{name}} com mais de {{count}} opções de acabamento.",
+    "preview": "VISUALIZAÇÃO",
+    "selectedFinish": "Acabamento Selecionado",
+    "selectedColor": "Cor selecionada:",
+    "glassTitle": "Vidros",
+    "glassDesc": "A DRUTEX, com mais de 30 anos de experiência na produção de vidro composto, oferece uma gama muito vasta de vidros com os quais pode equipar as suas janelas e portas. Cumprem requisitos rigorosos de eficiência energética e isolamento acústico. A oferta inclui também vidro laminado (seguro e anti-roubo), vidro com proteção solar, vidro com isolamento acústico reforçado, vidro temperado, ornamental e jateado.",
+    "handlesTitle": "Maçanetas",
+    "handlesDesc": "Nossas maçanetas são reconhecidas por sua funcionalidade.",
+    "optionsTitle": "Opções Adicionais",
+    "optionsDesc": "Personalize seu IGLO EDGE.",
+    "seeAll": "Ver tudo",
+    "configureQuote": "Configurar e Orçamento"
+  },
+  "footer": {
+    "newsletter": {
+      "title": "Boletim Informativo",
+      "desc": "Mantenha-se atualizado sobre novos produtos e inovações.",
+      "placeholder": "O seu endereço de e-mail",
+      "subscribe": "Inscrever-se"
+    },
+    "cols": {
+      "about": {
+        "title": "Sobre a Mammut",
+        "history": "A Nossa História",
+        "quality": "Qualidade e Certificados",
+        "innovation": "Inovação",
+        "sustainability": "Sustentabilidade"
+      },
+      "offer": {
+        "title": "A Nossa Oferta",
+        "pvc": "Janelas de PVC",
+        "alu": "Janelas de Alumínio",
+        "wood": "Janelas de Madeira",
+        "doors": "Portas Exteriores",
+        "shutters": "Persianas"
+      },
+      "inspiration": {
+        "title": "Inspiração",
+        "kitchen": "Cozinha",
+        "living": "Sala de Estar",
+        "bedroom": "Quarto",
+        "terrace": "Terraço"
+      },
+      "partners": {
+        "title": "Parceiros",
+        "portal": "Portal do Parceiro",
+        "coop": "Programa de Cooperação",
+        "sales": "Representantes de Vendas",
+        "contact": "Contato"
+      }
+    },
+    "legal": {
+      "privacy": "Política de Privacidade",
+      "cookies": "Configurações de Cookies",
+      "sitemap": "Mapa do Site",
+      "terms": "Termos de Uso",
+      "copyright": "Mammut Windows & Doors. Todos os direitos reservados."
+    }
+  },
+  "igloEdge": {
+    "tagline": "Isolamento máximo, moldura mínima",
+    "description": "A nossa nova janela distingue-se por um excelente parâmetro de isolamento térmico de Uw = 0,66 W/(m²K)* e por um perfil de forma angular moderna.",
+    "basicDescription": "O sistema IGLO EDGE representa o auge da eficiência energética.",
+    "equipment": [
+      "Vidros duplos Ug = 0,5 W/(m²K)",
+      "Afastador quente de plástico Swisspacer Ultimate",
+      "Soldadura V-perfect",
+      "4 trincos anti-roubo",
+      "Microventilação",
+      "Puxador em alumínio DUBLIN",
+      "Mecanismo de bloqueio",
+      "Juntas em preto ou cinzento",
+      "Preenchimento inferior",
+      "Parapeito",
+      "Vasta seleção de cores",
+      "3 cores à escolha: branco, castanho ou antracite"
+    ],
+    "specs": {
+      "sound": "Isolamento Acústico",
+      "gaskets": "Juntas EPDM",
+      "thermal": "Transmitância Térmica",
+      "chambers": "Câmaras",
+      "depth": "Profundidade",
+      "class": "Classe de Perfil"
+    }
+  },
+  "colorGroups": {
+    "Metal Effect": "Efeito Metal",
+    "Solid": "Sólido",
+    "Wood Effect": "Efeito Madeira"
+  },
+  "colors": {
+    "c209": "Cinza Basalto",
+    "c210": "Cinza Basalto Liso",
+    "c232": "Bronze Profundo",
+    "c213": "Grafite Jateado",
+    "c207": "Cinza Quartzo",
+    "c208": "Cinza Quartzo Liso",
+    "c237": "Azul Aço",
+    "c214": "Antracite",
+    "c216": "Antracite Ulti Mate",
+    "c215": "Antracite Liso",
+    "c218": "Preto Ulti Mate",
+    "c236": "Azul Brilhante",
+    "c231": "Marrom Chocolate",
+    "c206": "Cinza Concreto",
+    "c200": "Creme",
+    "c199": "Croviu Platynium",
+    "c234": "Verde Escuro",
+    "c235": "Vermelho Escuro",
+    "c233": "Verde Musgo",
+    "c205": "Cinza",
+    "c217": "Preto Azeviche",
+    "c204": "Cinza Claro",
+    "c201": "Pirita",
+    "c228": "Jacarandá",
+    "c211": "Ardósia",
+    "c212": "Ardósia Liso",
+    "c197": "Branco",
+    "c198": "Areia Branca Mate",
+    "c202": "Carvalho Branqueado",
+    "c227": "Carvalho Escuro",
+    "c225": "Abeto de Douglas",
+    "c229": "Macoré",
+    "c230": "Mogno",
+    "c203": "Carvalho Natural",
+    "c224": "Oregon",
+    "c220": "Carvalho Turner 2023",
+    "c221": "Carvalho Turner Toffee",
+    "c222": "Carvalho Turner Nogueira",
+    "c226": "Nogueira",
+    "c223": "Winchester",
+    "c219": "Carvalho Dourado"
+  }
+}

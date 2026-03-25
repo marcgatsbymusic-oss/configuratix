@@ -4,6 +4,7 @@ import { Check, ChevronLeft, ChevronRight, Play, X } from 'lucide-react'
 import { IGLO_EDGE_DETAIL, type GlassOption } from '../data/productDetails'
 import { PRODUCTS } from '../data/products'
 import { ColorSwatch } from '../components/products/ColorSwatch'
+import { useTranslation } from 'react-i18next'
 
 
 const HANDLES = [
@@ -45,6 +46,7 @@ const HANDLES = [
 const PER_PAGE = 5
 
 function HandlesSlider() {
+  const { t } = useTranslation()
   const [page, setPage] = useState(0)
   const totalPages = Math.ceil(HANDLES.length / PER_PAGE)
   const visible = HANDLES.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE)
@@ -52,9 +54,9 @@ function HandlesSlider() {
   return (
     <section className="py-16 border-b border-[#2a2a2b]" style={{ background: 'linear-gradient(180deg, #0e0e0f 0%, #161617 100%)' }}>
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-2">Handles</h2>
-        <p className="text-white/50 text-sm mb-10 max-w-2xl">
-          Our window handles are distinguished by their excellent workmanship, functionality and durability. Available in multiple color variants to perfectly match your windows.
+        <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-2">{t('productDetail.handlesTitle')}</h2>
+        <p className="!text-white/50 text-sm mb-10 max-w-2xl">
+          {t('productDetail.handlesDesc')}
         </p>
         <div className="relative flex items-center gap-4">
           <button
@@ -70,7 +72,7 @@ function HandlesSlider() {
                 <div className="w-full aspect-square flex items-end justify-center overflow-hidden bg-[#111112]">
                   <img src={handle.image} alt={handle.label} className="w-full h-full object-contain hover:scale-105 transition-transform duration-300" />
                 </div>
-                <p className="text-white/70 text-[11px] text-center leading-tight px-1">{handle.label}</p>
+                <p className="!text-white/70 text-[11px] text-center leading-tight px-1">{handle.label}</p>
               </div>
             ))}
             {Array.from({ length: PER_PAGE - visible.length }).map((_, i) => (
@@ -214,7 +216,7 @@ function AdditionalOptionSlider({ items }: { items: { name: string; image: strin
                 className="w-full h-full object-contain hover:scale-105 transition-transform duration-300"
               />
             </div>
-            <p className="text-white/60 text-[11px] text-center leading-tight px-1 whitespace-pre-line">{item.name}</p>
+            <p className="!text-white/60 text-[11px] text-center leading-tight px-1 whitespace-pre-line">{item.name}</p>
           </div>
         ))}
         {Array.from({ length: AO_PER_PAGE - visible.length }).map((_, i) => (
@@ -250,12 +252,14 @@ function AdditionalOptionSlider({ items }: { items: { name: string; image: strin
 }
 
 function AdditionalOptionsSection() {
+  const { t } = useTranslation()
+
   return (
     <section className="py-16 border-b border-[#2a2a2b]" style={{ background: 'linear-gradient(180deg, #111112 0%, #0e0e0f 100%)' }}>
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-2">Additional Options</h2>
-        <p className="text-white/50 text-sm mb-12 max-w-2xl">
-          Enhance and personalise your IGLO EDGE with our wide range of certified accessories and add-ons.
+        <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-2">{t('productDetail.optionsTitle')}</h2>
+        <p className="!text-white/50 text-sm mb-12 max-w-2xl">
+          {t('productDetail.optionsDesc')}
         </p>
 
         <div className="space-y-10">
@@ -264,14 +268,14 @@ function AdditionalOptionsSection() {
               {/* Left: info panel */}
               <div className="w-56 flex-shrink-0">
                 <h3 className="text-white font-black text-lg uppercase leading-tight mb-2">{group.title}</h3>
-                <p className="text-white/50 text-xs leading-relaxed mb-4">{group.description}</p>
+                <p className="!text-white/50 text-xs leading-relaxed mb-4">{group.description}</p>
                 <a
                   href={group.seeAllHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block bg-[#dca95c] text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 hover:bg-[#eab676] transition-colors"
                 >
-                  See all
+                  {t('productDetail.seeAll')}
                 </a>
               </div>
 
@@ -286,14 +290,15 @@ function AdditionalOptionsSection() {
 }
 
 function GlazingSection({ glassOptions }: { glassOptions: GlassOption[] }) {
+  const { t } = useTranslation()
   const [selected, setSelected] = useState<GlassOption>(glassOptions[0])
 
   return (
     <section className="py-16 border-b border-[#2a2a2b]">
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-2">Glass</h2>
+        <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-2">{t('productDetail.glassTitle')}</h2>
         <p className="!text-white text-sm mb-10 max-w-2xl">
-          DRUTEX, with over 30 years of experience in the production of composite glass, offers a very wide range of glass with which you can fit your windows and doors. They meet strict requirements for energy efficiency and sound insulation. The offer also includes laminated glass (safe and burglar-proof), sun protected glass, glass with enhanced sound insulation, tempered, ornamental and sandblasted glass.
+          {t('productDetail.glassDesc')}
         </p>
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Thumbnail grid — 4 columns, 5 rows */}
@@ -310,7 +315,7 @@ function GlazingSection({ glassOptions }: { glassOptions: GlassOption[] }) {
                 >
                   <img
                     src={glass.image}
-                    alt={glass.name}
+                    alt={t(`glass.${glass.id}`)}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
@@ -318,7 +323,7 @@ function GlazingSection({ glassOptions }: { glassOptions: GlassOption[] }) {
                   className="text-[10px] text-center leading-tight transition-colors duration-200 w-full px-0.5"
                   style={{ color: selected.id === glass.id ? '#dca95c' : 'rgba(255,255,255,0.6)' }}
                 >
-                  {glass.name}
+                  {t(`glass.${glass.id}`)}
                 </span>
               </button>
             ))}
@@ -329,7 +334,7 @@ function GlazingSection({ glassOptions }: { glassOptions: GlassOption[] }) {
             <img
               key={selected.id}
               src={selected.largeImage}
-              alt={selected.name}
+              alt={t(`glass.${selected.id}`)}
               className="w-full h-full object-cover"
               style={{ minHeight: '400px', maxHeight: '560px' }}
             />
@@ -341,6 +346,7 @@ function GlazingSection({ glassOptions }: { glassOptions: GlassOption[] }) {
 }
 
 export function ProductDetailPage() {
+  const { t } = useTranslation()
   const { slug } = useParams<{ slug: string }>()
   
   // For the MVP, we showcase the full complex layout only for Iglo Edge
@@ -354,9 +360,9 @@ export function ProductDetailPage() {
   if (!detailData && !basicData) {
     return (
       <main className="min-h-screen bg-black pt-32 px-6 text-center">
-        <h1 className="text-3xl font-black uppercase text-[#dca95c]">Product not found</h1>
+        <h1 className="text-3xl font-black uppercase text-[#dca95c]">{t('productDetail.notFound')}</h1>
         <Link to="/products" className="mt-6 inline-flex text-sm text-white/60 hover:text-white uppercase tracking-widest transition-colors">
-          Return to products
+          {t('productDetail.return')}
         </Link>
       </main>
     )
@@ -370,7 +376,7 @@ export function ProductDetailPage() {
         <p className="text-[#dca95c] mb-8">{basicData.tagline}</p>
         <p className="text-white/60 max-w-2xl mx-auto mb-10">{basicData.description}</p>
         <Link to={`/configurator?product=${basicData.slug}`} className="bg-[#dca95c] text-black px-8 py-4 font-bold uppercase tracking-widest hover:bg-[#eab676] transition-colors">
-          Configure {basicData.name}
+          {t('productDetail.configure', { name: basicData.name })}
         </Link>
       </main>
     )
@@ -403,7 +409,7 @@ export function ProductDetailPage() {
             {detailData.name}
           </h1>
           <p className="product-hero-tagline text-xl md:text-2xl font-light mb-10 tracking-wider">
-            {detailData.tagline}
+            {t('igloEdge.tagline')}
           </p>
 
           {/* Thin gold divider */}
@@ -424,7 +430,7 @@ export function ProductDetailPage() {
                   <span className="product-hero-spec-value relative font-medium text-base md:text-lg whitespace-nowrap px-3">{spec.value}</span>
                 </div>
                 {/* Label */}
-                <p className="product-hero-spec-label text-[9px] md:text-[10px] uppercase font-semibold tracking-[0.12em] text-center leading-tight w-full px-1">{spec.label}</p>
+                <p className="product-hero-spec-label text-[9px] md:text-[10px] uppercase font-semibold tracking-[0.12em] text-center leading-tight w-full px-1">{t(`igloEdge.specs.${spec.label}`)}</p>
               </div>
             ))}
           </div>
@@ -440,20 +446,20 @@ export function ProductDetailPage() {
 
             {/* Left: text block */}
             <div>
-              <span className="bg-[#dca95c] text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">Standard Equipment</span>
+              <span className="bg-[#dca95c] text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">{t('productDetail.standardEquipment')}</span>
               <h2 className="text-4xl font-black text-white uppercase mb-6 leading-tight">
                 IGLO EDGE
               </h2>
               <p className="product-overview-description leading-relaxed mb-8">
-                {detailData.description}
+                {t('igloEdge.description')}
               </p>
               <ul className="space-y-3 mb-10">
-                {detailData.standardEquipment.map((item, i) => (
+                {detailData.standardEquipment.map((_, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <span className="mt-1 w-4 h-4 flex-shrink-0 rounded-full flex items-center justify-center" style={{ background: '#dca95c' }}>
                       <Check size={10} className="text-black" />
                     </span>
-                    <span className="text-white/70 text-sm leading-snug">{item}</span>
+                    <span className="text-white/70 text-sm leading-snug">{t(`igloEdge.equipment.${i}`)}</span>
                   </li>
                 ))}
               </ul>
@@ -465,7 +471,7 @@ export function ProductDetailPage() {
                 <span className="w-10 h-10 flex items-center justify-center border border-[#dca95c] text-[#dca95c] group-hover:bg-[#dca95c] group-hover:text-black transition-all duration-200">
                   <Play size={16} fill="currentColor" />
                 </span>
-                <span className="uppercase tracking-widest font-semibold text-xs">See video</span>
+                <span className="uppercase tracking-widest font-semibold text-xs">{t('productDetail.seeVideo')}</span>
               </button>
             </div>
 
@@ -486,7 +492,7 @@ export function ProductDetailPage() {
 
         {/* Row B: 3D flip card — front = profile photo, back = technical drawing */}
         <div className="max-w-7xl mx-auto px-6 pb-20">
-          <p className="text-white/70 text-xs uppercase tracking-widest mb-4 text-center">Hover to reveal technical drawing</p>
+          <p className="text-white/70 text-xs uppercase tracking-widest mb-4 text-center">{t('productDetail.hoverDrawing')}</p>
           <div
             style={{
               perspective: '1200px',
@@ -516,7 +522,7 @@ export function ProductDetailPage() {
                   alt="IGLO EDGE profile cross-section"
                   className="w-full h-full object-contain"
                 />
-                <span className="absolute bottom-4 right-4 text-[10px] text-white/30 uppercase tracking-widest">Profile</span>
+                <span className="absolute bottom-4 right-4 text-[10px] text-white/30 uppercase tracking-widest">{t('productDetail.profile')}</span>
               </div>
 
               {/* Back: technical drawing */}
@@ -533,7 +539,7 @@ export function ProductDetailPage() {
                   alt="IGLO EDGE technical drawing"
                   className="w-full h-full object-contain"
                 />
-                <span className="absolute bottom-4 right-4 text-[10px] text-black/40 uppercase tracking-widest">Technical Drawing</span>
+                <span className="absolute bottom-4 right-4 text-[10px] text-black/40 uppercase tracking-widest">{t('productDetail.technicalDrawing')}</span>
               </div>
             </div>
           </div>
@@ -566,15 +572,15 @@ export function ProductDetailPage() {
       {/* 3. Profile Specs Section */}
       <section className="max-w-7xl mx-auto px-6 py-24 border-b border-[#2a2a2b]">
         <div className="max-w-2xl">
-          <span className="bg-[#dca95c] text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">New Generation</span>
+          <span className="bg-[#dca95c] text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">{t('productDetail.newGeneration')}</span>
           <h2 className="text-4xl font-black text-white uppercase mb-6 leading-tight">
-            Uncompromising Quality &amp; Thermal Performance
+            {t('productDetail.uncompromising')}
           </h2>
           <ul className="space-y-4">
             {detailData.keySpecs.map(spec => (
               <li key={spec.label} className="flex items-center gap-3 border-b border-[#2a2a2b] pb-3">
                 <Check size={16} className="text-[#dca95c] shrink-0" />
-                <span className="text-white/70 text-sm">{spec.label}</span>
+                <span className="text-white/70 text-sm">{t(`igloEdge.specs.${spec.label}`)}</span>
                 <span className="text-white font-bold text-sm ml-auto">{spec.value}</span>
               </li>
             ))}
@@ -586,8 +592,8 @@ export function ProductDetailPage() {
       <section className="bg-[#1a1a1b] border-b border-[#2a2a2b] py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-4">Colors & Finishes</h2>
-            <p className="text-white/50 max-w-2xl mx-auto">Customize your {detailData.name} with over {detailData.colors.length} premium finishes, ranging from modern architectural solids to hyper-realistic woodgrains.</p>
+            <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-4">{t('productDetail.colorsTitle')}</h2>
+            <p className="!text-white/50 max-w-2xl mx-auto">{t('productDetail.colorsDesc', { count: detailData.colors.length, name: detailData.name })}</p>
           </div>
 
           <div className="grid lg:grid-cols-12 gap-12">
@@ -598,16 +604,16 @@ export function ProductDetailPage() {
               <div className="relative w-full max-w-sm flex items-center justify-center mb-8 px-4">
                 <img 
                   src={selectedColor?.windowImage || "/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp"} 
-                  alt={`${selectedColor?.name || 'White'} Window Frame`} 
+                  alt={`${selectedColor ? t(`colors.${selectedColor.id}`) : 'White'} Window Frame`} 
                   className="w-full h-auto object-contain z-20 transition-opacity duration-500"
                 />
               </div>
               
-              <div className="absolute text-white/20 text-xs font-bold tracking-widest z-30 bg-black/50 px-3 py-1 uppercase rounded-sm backdrop-blur-sm -bottom-4">PREVIEW</div>
+              <div className="absolute text-white/20 text-xs font-bold tracking-widest z-30 bg-black/50 px-3 py-1 uppercase rounded-sm backdrop-blur-sm -bottom-4">{t('productDetail.preview')}</div>
               
               <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center text-xs z-40">
-                <span className="text-white/40 uppercase tracking-widest border border-white/10 px-3 py-1 bg-black/80 rounded-sm">Selected Finish</span>
-                <span className="text-[#dca95c] font-black uppercase tracking-widest drop-shadow-md">{selectedColor?.name}</span>
+                <span className="text-white/40 uppercase tracking-widest border border-white/10 px-3 py-1 bg-black/80 rounded-sm">{t('productDetail.selectedFinish')}</span>
+                <span className="text-[#dca95c] font-black uppercase tracking-widest drop-shadow-md">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</span>
               </div>
             </div>
 
@@ -637,9 +643,9 @@ export function ProductDetailPage() {
         }}
       >
         <div className="relative z-10 text-white" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7)' }}>
-          <p className="text-sm font-normal opacity-90 mb-1">Selected color:</p>
-          <p className="text-lg font-bold tracking-wide">{selectedColor?.name}</p>
-          <p className="text-xs opacity-80 mt-0.5 tracking-widest">{selectedColor?.id}</p>
+          <p className="!text-white text-sm font-normal opacity-90 mb-1">{t('productDetail.selectedColor')}</p>
+          <p className="!text-white text-lg font-bold tracking-wide">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</p>
+          <p className="!text-white text-xs opacity-80 mt-0.5 tracking-widest">{selectedColor?.id}</p>
         </div>
       </div>
 
@@ -657,14 +663,14 @@ export function ProductDetailPage() {
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           <div className="hidden md:block">
             <span className="text-white font-black tracking-widest uppercase mr-4">{detailData.name}</span>
-            <span className="text-white/40 text-xs uppercase tracking-widest">{selectedColor?.name}</span>
+            <span className="text-white/40 text-xs uppercase tracking-widest">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</span>
           </div>
           <div className="flex w-full md:w-auto gap-4">
              <Link 
                to={`/configurator?product=${detailData.slug}&color=${selectedColor?.hex?.replace('#', '')}`}
                className="flex-1 md:flex-none bg-[#dca95c] text-black px-8 py-3 text-xs font-bold uppercase tracking-widest hover:bg-[#eab676] transition-colors text-center"
              >
-               Configure Product & Quote
+               {t('productDetail.configureQuote')}
              </Link>
           </div>
         </div>
