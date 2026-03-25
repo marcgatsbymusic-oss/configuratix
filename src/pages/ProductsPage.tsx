@@ -54,7 +54,7 @@ export function ProductsPage() {
                   />
                 ) : (
                   <div className="w-full h-full border border-white/5 group-hover:border-[#dca95c]/20 transition-colors duration-500">
-                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/50 to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/20 to-transparent" />
                     <p className="absolute bottom-4 left-6 text-white/20 font-bold tracking-widest uppercase break-all opacity-50 text-[100px] leading-none select-none">
                       {p.name.substring(0, 3)}
                     </p>

@@ -91,8 +91,8 @@ export function HomePage() {
         ))}
 
         {/* Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent z-10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent z-10" />
 
         {/* Content */}
         <div className="relative z-20 max-w-7xl mx-auto px-6 w-full">
@@ -213,9 +213,9 @@ export function HomePage() {
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 {/* Dark overlay */}
-                <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-colors duration-300" />
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-300" />
                 {/* Gold gradient at bottom */}
-                <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/50 to-transparent" />
                 {/* Text */}
                 <div className="absolute inset-0 flex flex-col justify-end p-4">
                   <span className="text-[#dca95c] text-[9px] font-bold uppercase tracking-[0.2em] mb-1">
