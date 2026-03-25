@@ -20,12 +20,7 @@ const HERO_SLIDES = [
   },
 ]
 
-const FEATURED_SPECS = [
-  { value: 'Uw = 0.57', label: 'Thermal Transmittance' },
-  { value: '48 dB', label: 'Sound Insulation' },
-  { value: '6-chamber', label: 'Profile Design' },
-  { value: '82 mm', label: 'Installation Depth' },
-]
+
 
 const CATEGORY_TILES = [
   { category: 'WINDOWS',         title: 'ALUMINIUM',              image: '/assets/mwindows/windows_alu.jpg',              href: '/products' },
@@ -159,17 +154,7 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── Spec Band ─────────────────────────────────────────── */}
-      <section className="bg-[#1a1a1b] border-y border-[#2a2a2b] py-8">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
-          {FEATURED_SPECS.map((s) => (
-            <div key={s.label} className="spec-card text-center">
-              <p className="text-2xl font-black text-[#dca95c] mb-1">{s.value}</p>
-              <p className="text-[11px] uppercase tracking-widest text-white/40">{s.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+
 
       {/* ── Our Offer ──────────────────────────────────────────── */}
       <section className="border-b border-[#2a2a2b]" style={{ background: 'linear-gradient(180deg, #111112 0%, #161617 100%)' }}>
