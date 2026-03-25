@@ -486,7 +486,7 @@ export function ProductDetailPage() {
 
         {/* Row B: 3D flip card — front = profile photo, back = technical drawing */}
         <div className="max-w-7xl mx-auto px-6 pb-20">
-          <p className="text-white/30 text-xs uppercase tracking-widest mb-4 text-center">Hover to reveal technical drawing</p>
+          <p className="text-white/70 text-xs uppercase tracking-widest mb-4 text-center">Hover to reveal technical drawing</p>
           <div
             style={{
               perspective: '1200px',
