@@ -6,7 +6,6 @@ import { Footer } from './components/layout/Footer'
 import { HomePage } from './pages/HomePage'
 import { ProductsPage } from './pages/ProductsPage'
 import { ProductDetailPage } from './pages/ProductDetailPage'
-import { ConfiguratorPage } from './pages/ConfiguratorPage'
 import { AboutPage } from './pages/AboutPage'
 import { MainConfigurator } from './components/SlateConfigurator/MainConfigurator'
 import './index.css'
@@ -42,7 +41,7 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/products" element={<ProductsPage />} />
                 <Route path="/products/:slug" element={<ProductDetailPage />} />
-                <Route path="/configurator" element={<ConfiguratorPage />} />
+                <Route path="/configurator" element={<MainConfigurator />} />
                 <Route path="/slate-configurator" element={<MainConfigurator />} />
                 <Route path="/about/*" element={<AboutPage />} />
                 <Route path="/where-to-buy" element={<AboutPage />} />
