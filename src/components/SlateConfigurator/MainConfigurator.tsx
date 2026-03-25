@@ -117,7 +117,7 @@ export function MainConfigurator() {
                   <div className="relative group pt-2">
                     <button 
                       onClick={() => materialScrollRef.current?.scrollBy({ left: -300, behavior: 'smooth' })}
-                      className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 z-10 text-amber-500 hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] bg-white/50 backdrop-blur-sm rounded-full p-1 opacity-0 group-hover:opacity-100 hidden md:block"
+                      className="absolute left-2 top-1/2 -translate-y-1/2 z-20 text-amber-500 hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] bg-white/80 backdrop-blur-sm rounded-full p-1 opacity-0 group-hover:opacity-100 hidden md:block"
                     >
                       <ChevronLeft size={40} strokeWidth={2.5} />
                     </button>
@@ -148,7 +148,7 @@ export function MainConfigurator() {
 
                     <button 
                       onClick={() => materialScrollRef.current?.scrollBy({ left: 300, behavior: 'smooth' })}
-                      className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 z-10 text-amber-500 hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] bg-white/50 backdrop-blur-sm rounded-full p-1 opacity-0 group-hover:opacity-100 hidden md:block"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 z-20 text-amber-500 hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] bg-white/80 backdrop-blur-sm rounded-full p-1 opacity-0 group-hover:opacity-100 hidden md:block"
                     >
                       <ChevronRight size={40} strokeWidth={2.5} />
                     </button>
@@ -178,7 +178,7 @@ export function MainConfigurator() {
                       <div className="relative group">
                         <button 
                           onClick={() => profileScrollRef.current?.scrollBy({ left: -300, behavior: 'smooth' })}
-                          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 z-10 text-amber-500 hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] bg-white/50 backdrop-blur-sm rounded-full p-1 opacity-0 group-hover:opacity-100 hidden md:block"
+                          className="absolute left-2 top-1/2 -translate-y-1/2 z-20 text-amber-500 hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] bg-white/80 backdrop-blur-sm rounded-full p-1 opacity-0 group-hover:opacity-100 hidden md:block"
                         >
                           <ChevronLeft size={40} strokeWidth={2.5} />
                         </button>
@@ -197,7 +197,7 @@ export function MainConfigurator() {
 
                         <button 
                           onClick={() => profileScrollRef.current?.scrollBy({ left: 300, behavior: 'smooth' })}
-                          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 z-10 text-amber-500 hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] bg-white/50 backdrop-blur-sm rounded-full p-1 opacity-0 group-hover:opacity-100 hidden md:block"
+                          className="absolute right-2 top-1/2 -translate-y-1/2 z-20 text-amber-500 hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] bg-white/80 backdrop-blur-sm rounded-full p-1 opacity-0 group-hover:opacity-100 hidden md:block"
                         >
                           <ChevronRight size={40} strokeWidth={2.5} />
                         </button>
