@@ -444,7 +444,7 @@ export function ProductDetailPage() {
               <h2 className="text-4xl font-black text-white uppercase mb-6 leading-tight">
                 IGLO EDGE
               </h2>
-              <p className="text-white/70 leading-relaxed mb-8">
+              <p className="product-overview-description leading-relaxed mb-8">
                 {detailData.description}
               </p>
               <ul className="space-y-3 mb-10">
