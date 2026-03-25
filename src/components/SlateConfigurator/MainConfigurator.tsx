@@ -24,13 +24,16 @@ export function MainConfigurator() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pb-20 font-sans">
       <div className="max-w-7xl mx-auto px-6 pt-12">
-        <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-2">Window Architect</h1>
-        <p className="text-slate-500 mb-10 font-medium">Design your custom window system.</p>
-
         <div className="grid lg:grid-cols-12 gap-10 items-start">
           
           {/* LEFT: Configure Wizard */}
-          <div className="lg:col-span-8 space-y-10">
+          <div className="lg:col-span-8 space-y-8">
+            
+            {/* Contextual Headers aligned with Accordions */}
+            <div className="px-2 pt-2 pb-2">
+              <h1 className="text-slate-700 font-medium text-lg tracking-wide">Design your custom window system.</h1>
+              <p className="text-slate-400 text-sm mt-1">Pick the material and configure your exact architectural specifications below.</p>
+            </div>
             
             {/* Step 1: Material */}
             <section className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200/60 transition-all duration-300">
