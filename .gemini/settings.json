@@ -1,0 +1,7 @@
+{
+  "persistence": "aggressive",
+  "autoCommit": {
+    "enabled": true,
+    "trigger": "onTaskComplete"
+  }
+}

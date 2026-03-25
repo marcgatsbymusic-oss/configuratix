@@ -100,15 +100,200 @@ function HandlesSlider() {
     </section>
   )
 }
+
+// ─── Additional Options ──────────────────────────────────────────────────────
+
+const ADDITIONAL_OPTIONS = [
+  {
+    id: 'mounting',
+    title: 'Mounting accessories',
+    description: 'Here you will find the products necessary for proper installation of joinery.',
+    seeAllHref: 'https://www.drutex.eu/en/products/addons/type/602/',
+    items: [
+      { name: 'Mounting wedges',       image: '/assets/additional-options/mounting-wedges.webp' },
+      { name: 'NYXON HS Air Yellow',   image: '/assets/additional-options/nyxon-hs-air-yellow.webp' },
+      { name: 'NYXON Mono Yellow',     image: '/assets/additional-options/nyxon-mono-yellow.webp' },
+      { name: 'Phonotherm 200 RG 700', image: '/assets/additional-options/phonotherm-200.webp' },
+    ],
+  },
+  {
+    id: 'muntin',
+    title: 'Muntin bars',
+    description: 'An attractive addition that highlights the unique character of the building.',
+    seeAllHref: 'https://www.drutex.eu/en/products/addons/type/4/',
+    items: [
+      { name: 'Glue-on muntin bars\nSizes: 27/45/65 mm',      image: '/assets/additional-options/muntin-glue-on.webp' },
+      { name: 'Internal muntin bars\nSizes: 8/18/26/45 mm',    image: '/assets/additional-options/muntin-internal.webp' },
+      { name: 'Vienna muntin bars',                             image: '/assets/additional-options/muntin-vienna.webp' },
+    ],
+  },
+  {
+    id: 'fittings',
+    title: 'Reliable fittings',
+    description: 'Safety, comfort and functionality in every detail.',
+    seeAllHref: 'https://www.drutex.eu/en/products/addons/type/6/',
+    items: [
+      { name: 'Friction brake',        image: '/assets/additional-options/fitting-friction-brake.webp' },
+      { name: 'Reed switch',           image: '/assets/additional-options/fitting-reed-switch.webp' },
+      { name: 'Multistep tilt',        image: '/assets/additional-options/fitting-multistep-tilt.webp' },
+      { name: 'Comfort',               image: '/assets/additional-options/fitting-comfort.webp' },
+      { name: 'Concealed hinges',      image: '/assets/additional-options/fitting-concealed-hinges.webp' },
+      { name: 'Tilt-first (TBT) handle', image: '/assets/additional-options/fitting-tbt-handle.webp' },
+      { name: 'Hinge covers',          image: '/assets/additional-options/fitting-hinge-covers.webp' },
+      { name: 'Door closer',           image: '/assets/additional-options/fitting-door-closer.webp' },
+    ],
+  },
+  {
+    id: 'glass',
+    title: 'Sandblasted glass',
+    description: 'A perfect combination of modern design and privacy.',
+    seeAllHref: 'https://www.drutex.eu/en/products/addons/type/272/',
+    items: [
+      { name: 'Sandblasted patterns (24 options)', image: '/assets/additional-options/glass-sandblasted-1.webp' },
+    ],
+  },
+  {
+    id: 'spacers',
+    title: 'Spacers',
+    description: 'The latest generation of spacers ensuring thermal comfort.',
+    seeAllHref: 'https://www.drutex.eu/en/products/addons/type/5/',
+    items: [
+      { name: 'Swisspacer Ultimate', image: '/assets/additional-options/spacer-swisspacer.webp' },
+    ],
+  },
+  {
+    id: 'ventilation',
+    title: 'Ventilation',
+    description: 'Ensure healthy air and optimal humidity in your home.',
+    seeAllHref: 'https://www.drutex.eu/en/products/addons/type/2/',
+    items: [
+      { name: 'Aereco AMO',          image: '/assets/additional-options/vent-aereco-amo.webp' },
+      { name: 'Awenta Slimline 2000', image: '/assets/additional-options/vent-awenta-slimline.webp' },
+      { name: 'Ventair Simpress',    image: '/assets/additional-options/vent-ventair-simpress.webp' },
+      { name: 'Aereco 2MR',          image: '/assets/additional-options/vent-aereco-2mr.webp' },
+      { name: 'Brookvent SM HY',     image: '/assets/additional-options/vent-brookvent-sm-hy.webp' },
+    ],
+  },
+  {
+    id: 'sill',
+    title: 'Window sill PVC',
+    description: 'Over 30 veneer colours to choose from.',
+    seeAllHref: 'https://www.drutex.eu/en/products/addons/type/429/',
+    items: [
+      { name: 'Window sill 150 mm', image: '/assets/additional-options/sill-150mm.webp' },
+    ],
+  },
+]
+
+const AO_PER_PAGE = 3
+
+function AdditionalOptionSlider({ items }: { items: { name: string; image: string }[] }) {
+  const [page, setPage] = useState(0)
+  const totalPages = Math.ceil(items.length / AO_PER_PAGE)
+  const visible = items.slice(page * AO_PER_PAGE, page * AO_PER_PAGE + AO_PER_PAGE)
+
+  return (
+    <div className="flex-1 relative flex items-center gap-3">
+      {totalPages > 1 && (
+        <button
+          onClick={() => setPage(p => (p - 1 + totalPages) % totalPages)}
+          className="flex-shrink-0 w-8 h-8 flex items-center justify-center border border-[#3a3a3b] text-white/60 hover:text-[#dca95c] hover:border-[#dca95c] transition-colors duration-200"
+          aria-label="Previous"
+        >
+          <ChevronLeft size={16} />
+        </button>
+      )}
+
+      <div className="flex-1 grid grid-cols-3 gap-4">
+        {visible.map((item, i) => (
+          <div key={i} className="flex flex-col items-center gap-2">
+            <div className="w-full aspect-square bg-[#111112] border border-[#2a2a2b] overflow-hidden flex items-center justify-center p-3">
+              <img
+                src={item.image}
+                alt={item.name}
+                className="w-full h-full object-contain hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+            <p className="text-white/60 text-[11px] text-center leading-tight px-1 whitespace-pre-line">{item.name}</p>
+          </div>
+        ))}
+        {Array.from({ length: AO_PER_PAGE - visible.length }).map((_, i) => (
+          <div key={`empty-${i}`} />
+        ))}
+      </div>
+
+      {totalPages > 1 && (
+        <button
+          onClick={() => setPage(p => (p + 1) % totalPages)}
+          className="flex-shrink-0 w-8 h-8 flex items-center justify-center border border-[#3a3a3b] text-white/60 hover:text-[#dca95c] hover:border-[#dca95c] transition-colors duration-200"
+          aria-label="Next"
+        >
+          <ChevronRight size={16} />
+        </button>
+      )}
+
+      {totalPages > 1 && (
+        <div className="absolute -bottom-5 left-0 right-0 flex justify-center gap-1.5">
+          {Array.from({ length: totalPages }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setPage(i)}
+              className="w-1.5 h-1.5 rounded-full transition-colors duration-200"
+              style={{ background: i === page ? '#dca95c' : 'rgba(255,255,255,0.2)' }}
+              aria-label={`Page ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function AdditionalOptionsSection() {
+  return (
+    <section className="py-16 border-b border-[#2a2a2b]" style={{ background: 'linear-gradient(180deg, #111112 0%, #0e0e0f 100%)' }}>
+      <div className="max-w-7xl mx-auto px-6">
+        <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-2">Additional Options</h2>
+        <p className="text-white/50 text-sm mb-12 max-w-2xl">
+          Enhance and personalise your IGLO EDGE with our wide range of certified accessories and add-ons.
+        </p>
+
+        <div className="space-y-10">
+          {ADDITIONAL_OPTIONS.map(group => (
+            <div key={group.id} className="flex gap-8 border-b border-[#2a2a2b] pb-10 last:border-0 last:pb-0">
+              {/* Left: info panel */}
+              <div className="w-56 flex-shrink-0">
+                <h3 className="text-white font-black text-lg uppercase leading-tight mb-2">{group.title}</h3>
+                <p className="text-white/50 text-xs leading-relaxed mb-4">{group.description}</p>
+                <a
+                  href={group.seeAllHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-[#dca95c] text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 hover:bg-[#eab676] transition-colors"
+                >
+                  See all
+                </a>
+              </div>
+
+              {/* Right: slider */}
+              <AdditionalOptionSlider items={group.items} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function GlazingSection({ glassOptions }: { glassOptions: GlassOption[] }) {
   const [selected, setSelected] = useState<GlassOption>(glassOptions[0])
 
   return (
     <section className="py-16 border-b border-[#2a2a2b]">
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-2">Vidrios</h2>
+        <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-2">Glass</h2>
         <p className="text-white/50 text-sm mb-10 max-w-2xl">
-          Con más de 30 años de experiencia en la fabricación de vidrios compuestos, ofrecemos una gama muy amplia para equipar sus ventanas y puertas.
+          DRUTEX, with over 30 years of experience in the production of composite glass, offers a very wide range of glass with which you can fit your windows and doors. They meet strict requirements for energy efficiency and sound insulation. The offer also includes laminated glass (safe and burglar-proof), sun protected glass, glass with enhanced sound insulation, tempered, ornamental and sandblasted glass.
         </p>
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Thumbnail grid — 4 columns, 5 rows */}
@@ -214,7 +399,7 @@ export function ProductDetailPage() {
         </div>
         
         <div className="relative z-10 text-center px-6 max-w-7xl mx-auto flex flex-col items-center w-full">
-          <h1 className="text-6xl md:text-8xl font-black text-white tracking-widest uppercase mb-3">
+          <h1 className="text-4xl md:text-5xl font-bold text-white tracking-widest uppercase mb-3">
             {detailData.name}
           </h1>
           <p className="text-xl md:text-2xl text-white font-light mb-10 tracking-wider">
@@ -452,7 +637,7 @@ export function ProductDetailPage() {
         }}
       >
         <div className="relative z-10 text-white" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7)' }}>
-          <p className="text-sm font-normal opacity-90 mb-1">Elija un color:</p>
+          <p className="text-sm font-normal opacity-90 mb-1">Selected color:</p>
           <p className="text-lg font-bold tracking-wide">{selectedColor?.name}</p>
           <p className="text-xs opacity-80 mt-0.5 tracking-widest">{selectedColor?.id}</p>
         </div>
@@ -463,6 +648,9 @@ export function ProductDetailPage() {
 
       {/* 5. Handles Slider */}
       <HandlesSlider />
+
+      {/* 6. Additional Options */}
+      <AdditionalOptionsSection />
 
       {/* Floating Action Bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-md border-t border-[#2a2a2b] p-4 z-40 transform translate-y-0 transition-transform">

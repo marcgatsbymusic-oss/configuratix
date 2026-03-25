@@ -27,6 +27,21 @@ const FEATURED_SPECS = [
   { value: '82 mm', label: 'Installation Depth' },
 ]
 
+const CATEGORY_TILES = [
+  { category: 'WINDOWS',         title: 'ALUMINIUM',              image: '/assets/mwindows/windows_alu.jpg',              href: '/products' },
+  { category: 'WINDOWS',         title: 'WOOD-ALUMINIUM',         image: '/assets/mwindows/windows_wood-alu.jpg',         href: '/products' },
+  { category: 'DOORS',           title: 'PVC',                    image: '/assets/mwindows/doors_pvc-1.jpg',              href: '/products' },
+  { category: 'DOORS',           title: 'WOODEN',                 image: '/assets/mwindows/doors_wooden.jpg',             href: '/products' },
+  { category: 'DOORS',           title: 'ALUMINIUM',              image: '/assets/mwindows/doors_alu.jpg',                href: '/products' },
+  { category: 'SHUTTERS',        title: 'ADAPTIVE',               image: '/assets/mwindows/shutters_adaptive.jpg',        href: '/products' },
+  { category: 'SHUTTERS',        title: 'TOP-MOUNTED',            image: '/assets/mwindows/shutters_top-mounted.jpg',     href: '/products' },
+  { category: 'BLINDS',          title: 'EXTERNAL VENETIAN',      image: '/assets/mwindows/external_venetian_blinds.jpg', href: '/products' },
+  { category: 'TERRACE SYSTEMS', title: 'LIFT AND SLIDE HS',      image: '/assets/mwindows/terrace_hs.jpg',               href: '/products' },
+  { category: 'TERRACE SYSTEMS', title: 'TILT AND SLIDE PSK',     image: '/assets/mwindows/terrace_psk.jpg',              href: '/products' },
+  { category: 'TERRACE SYSTEMS', title: 'FOLDING DOORS',          image: '/assets/mwindows/terrace_folding.jpg',          href: '/products' },
+  { category: 'ADDITIONS',       title: 'CUSTOMIZATION',          image: '/assets/mwindows/additions.jpg',                href: '/products' },
+]
+
 const PRODUCT_HIGHLIGHTS = [
   {
     tag: 'NEW',
@@ -156,7 +171,84 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── Featured Products ──────────────────────────────────── */}
+      {/* ── Our Offer ──────────────────────────────────────────── */}
+      <section className="border-b border-[#2a2a2b]" style={{ background: 'linear-gradient(180deg, #111112 0%, #161617 100%)' }}>
+        <div className="max-w-7xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-0 items-stretch">
+          {/* Left: architectural image */}
+          <div className="overflow-hidden min-h-[420px] lg:min-h-0">
+            <img
+              src="/assets/mwindows/slide1.jpg"
+              alt="Modern architecture with premium windows"
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+              style={{ minHeight: '420px' }}
+            />
+          </div>
+
+          {/* Right: text */}
+          <div className="bg-[#1a1a1b] flex flex-col justify-center px-12 py-16 lg:px-16">
+            <span className="text-[#dca95c] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">
+              Complete Solutions
+            </span>
+            <h2 className="text-4xl font-black text-white uppercase mb-6 leading-tight">
+              Our Offer
+            </h2>
+            <p className="text-white/60 leading-relaxed mb-8">
+              We offer a wide range of windows, frames, exterior doors, and sliding doors in PVC, wood and aluminium. Through expert craftsmanship, the highest quality materials, and a level of service we ensure our company's status. Each window and door is made to order, providing each customer with individual service and attention. We will provide you with the highest level of expertise and assist you all the way with your renovation and construction plans.
+            </p>
+            <Link
+              to="/products"
+              className="inline-flex items-center gap-2 bg-[#dca95c] text-black px-8 py-4 text-sm uppercase tracking-widest font-bold hover:bg-[#eab676] transition-colors duration-200 self-start"
+            >
+              Explore Products <ArrowRight size={16} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Product Category Grid ───────────────────────────────── */}
+      <section className="py-20 border-b border-[#2a2a2b] bg-[#0e0e0f]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="mb-12 text-center">
+            <span className="text-[#dca95c] text-[10px] font-bold uppercase tracking-[0.3em] mb-3 block">
+              Browse by Type
+            </span>
+            <h2 className="text-4xl font-black text-white uppercase">Product Categories</h2>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {CATEGORY_TILES.map((tile) => (
+              <Link
+                key={`${tile.category}-${tile.title}`}
+                to={tile.href}
+                className="group relative overflow-hidden aspect-[4/3] block"
+              >
+                {/* Background image */}
+                <img
+                  src={tile.image}
+                  alt={`${tile.category} — ${tile.title}`}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                {/* Dark overlay */}
+                <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-colors duration-300" />
+                {/* Gold gradient at bottom */}
+                <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 to-transparent" />
+                {/* Text */}
+                <div className="absolute inset-0 flex flex-col justify-end p-4">
+                  <span className="text-[#dca95c] text-[9px] font-bold uppercase tracking-[0.2em] mb-1">
+                    {tile.category}
+                  </span>
+                  <span className="text-white font-black text-sm uppercase leading-tight group-hover:text-[#dca95c] transition-colors duration-200">
+                    {tile.title}
+                  </span>
+                </div>
+                {/* Gold border on hover */}
+                <div className="absolute inset-0 border-2 border-transparent group-hover:border-[#dca95c]/60 transition-all duration-300" />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Featured Products ──────────────────────────────────────────────────── */}
       <section className="py-24 max-w-7xl mx-auto px-6">
         <div className="flex items-end justify-between mb-12">
           <div>
