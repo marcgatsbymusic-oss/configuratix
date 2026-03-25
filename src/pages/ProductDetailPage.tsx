@@ -393,7 +393,7 @@ export function ProductDetailPage() {
             loop 
             muted 
             playsInline
-            className="w-full h-full object-cover opacity-60"
+            className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#111112] via-transparent to-[#111112]/50" />
         </div>
