@@ -269,5 +269,53 @@
     "c226": "Nogueira",
     "c223": "Winchester",
     "c219": "Carvalho Dourado"
+  },
+  "configurator": {
+    "title": "Desenhe o seu sistema de janelas personalizado.",
+    "subtitle": "Escolha o material e configure as suas especificações arquitetónicas exatas abaixo.",
+    "steps": {
+      "material": "Perfil do Material",
+      "system": "Perfil do Sistema",
+      "windowType": "Tipo de Janela",
+      "openingType": "Tipo de Abertura",
+      "color": "Cor e Decoração",
+      "dimensions": "Dimensões (MM)",
+      "glazing": "Vidros",
+      "options": "Acessórios"
+    },
+    "summary": {
+      "title": "Resumo das Especificações",
+      "dimensions": "Dimensões",
+      "material": "Material",
+      "system": "Sistema",
+      "windowType": "Tipo de Janela",
+      "color": "Cor e Decoração",
+      "glazing": "Vidros",
+      "financials": "Finanças",
+      "baseFramework": "Armação Básica",
+      "hardwareAssembly": "Ferragens",
+      "accessories": "Acessórios",
+      "totalSystem": "Sistema Total",
+      "exportJson": "JSON",
+      "saveToCart": "Guardar no Carrinho",
+      "edit": "Editar"
+    },
+    "inputs": {
+      "w": "L",
+      "h": "A",
+      "mm": "mm",
+      "cm": "(CM)"
+    },
+    "state": {
+      "selected": "Selecionado",
+      "selectWindowType": "Selecionar Tipo de Janela",
+      "openingDirection": "Direção de Abertura",
+      "fixedNoOpening": "Fixo (Sem Abertura)",
+      "turnTilt": "Folha (Oscilobatente)",
+      "sashes": "Configuração de {{count}} folhas"
+    },
+    "blueprint": {
+      "interiorView": "Vista Interior"
+    }
   }
 }

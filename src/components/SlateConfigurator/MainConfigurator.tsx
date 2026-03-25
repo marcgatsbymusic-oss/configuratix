@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useConfigurator } from './useConfigurator';
 import { CONFIG_SCHEMA, WINDOW_TYPES, OPENING_TYPES, COLOR_LOCALE, GLASS_LOCALE } from './types';
 import { Ruler, Layers, Check, ChevronLeft, ChevronRight, ShoppingCart, Download } from 'lucide-react';
@@ -8,6 +9,7 @@ import { useCartStore } from '../../store/useCartStore';
 import { generateBlueprintPayload, downloadBlueprint } from '../../utils/exportConfig';
 
 export function MainConfigurator() {
+  const { t } = useTranslation();
   const { state, dispatch, pricing } = useConfigurator();
   const { items, addItem } = useCartStore();
   const materialScrollRef = useRef<HTMLDivElement>(null);
@@ -26,8 +28,8 @@ export function MainConfigurator() {
             
             {/* Contextual Headers aligned with Accordions */}
             <div className="px-2 pt-2 pb-2">
-              <p className="text-slate-300 text-sm md:text-lg lg:text-xl font-medium max-w-2xl relative z-10 leading-relaxed break-words">Design your custom window system.</p>
-              <p className="text-slate-400 text-sm mt-1">Pick the material and configure your exact architectural specifications below.</p>
+              <p className="text-slate-300 text-sm md:text-lg lg:text-xl font-medium max-w-2xl relative z-10 leading-relaxed break-words">{t('configurator.title')}</p>
+              <p className="text-slate-400 text-sm mt-1">{t('configurator.subtitle')}</p>
             </div>
             
             {/* Step 1: Material */}
@@ -38,7 +40,7 @@ export function MainConfigurator() {
               >
                 <div className="flex items-center gap-3">
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 1 ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-400'}`}>1</div>
-                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 1 ? 'text-slate-800' : 'text-slate-400'}`}>Material Profile</h2>
+                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 1 ? 'text-slate-800' : 'text-slate-400'}`}>{t('configurator.steps.material')}</h2>
                 </div>
                 {activeStep !== 1 && <div className="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-full uppercase tracking-wider">{state.material}</div>}
               </div>
@@ -96,7 +98,7 @@ export function MainConfigurator() {
               >
                 <div className="flex items-center gap-3">
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 2 ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-400'}`}>2</div>
-                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 2 ? 'text-slate-800' : 'text-slate-400'}`}>System Profile</h2>
+                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 2 ? 'text-slate-800' : 'text-slate-400'}`}>{t('configurator.steps.system')}</h2>
                 </div>
                 {state.profile && <div className="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-full uppercase tracking-wider transition-opacity">{CONFIG_SCHEMA.materials[state.material].profiles.find(p => p.id === state.profile)?.name || state.profile}</div>}
               </div>
@@ -166,7 +168,7 @@ export function MainConfigurator() {
               >
                 <div className="flex items-center gap-3">
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 3 ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-400'}`}>3</div>
-                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 3 ? 'text-slate-800' : 'text-slate-400'}`}>Window Type</h2>
+                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 3 ? 'text-slate-800' : 'text-slate-400'}`}>{t('configurator.steps.windowType')}</h2>
                 </div>
                 {activeStep !== 3 && <div className="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-full uppercase tracking-wider">{WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.name || state.windowTypeId}</div>}
               </div>
@@ -202,9 +204,9 @@ export function MainConfigurator() {
               >
                 <div className="flex items-center gap-3">
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 4 ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-400'}`}>4</div>
-                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 4 ? 'text-slate-800' : 'text-slate-400'}`}>Opening Type</h2>
+                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 4 ? 'text-slate-800' : 'text-slate-400'}`}>{t('configurator.steps.openingType')}</h2>
                 </div>
-                {activeStep !== 4 && <div className="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-full uppercase tracking-wider">{state.sashOpenings.length} Sashes Configured</div>}
+                {activeStep !== 4 && <div className="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-full uppercase tracking-wider">{t('configurator.state.sashes', { count: state.sashOpenings.length })}</div>}
               </div>
               
               <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${activeStep === 4 ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
@@ -219,7 +221,7 @@ export function MainConfigurator() {
                         <div key={sashIndex} className="bg-slate-50 rounded-xl p-4 border border-slate-100">
                           <div className="text-sm font-bold text-slate-700 mb-3 flex items-center gap-2">
                             <span className="w-5 h-5 rounded bg-indigo-100 text-indigo-600 flex items-center justify-center text-xs">{sashIndex + 1}</span>
-                            Sash Position {sashIndex + 1}
+                            Sash {sashIndex + 1}
                           </div>
                           <div className="flex flex-wrap gap-2">
                             {OPENING_TYPES.map(ot => (
@@ -241,7 +243,7 @@ export function MainConfigurator() {
                         onClick={() => setActiveStep(5)}
                         className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-600/20 transition-all active:scale-95 text-sm uppercase tracking-wider"
                       >
-                        Continue to Color & Decor
+                        {t('configurator.steps.color')}
                       </button>
                     </div>
                   </div>
@@ -257,7 +259,7 @@ export function MainConfigurator() {
               >
                 <div className="flex items-center gap-3">
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 5 ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-400'}`}>5</div>
-                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 5 ? 'text-slate-800' : 'text-slate-400'}`}>Color & Decor</h2>
+                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 5 ? 'text-slate-800' : 'text-slate-400'}`}>{t('configurator.steps.color')}</h2>
                 </div>
                 {activeStep !== 5 && <div className="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-full uppercase tracking-wider">{COLOR_LOCALE.colors[state.color]?.name || state.color}</div>}
               </div>
@@ -330,7 +332,7 @@ export function MainConfigurator() {
               >
                 <div className="flex items-center gap-3">
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 6 ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-400'}`}>6</div>
-                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 6 ? 'text-slate-800' : 'text-slate-400'}`}>Dimensions (mm)</h2>
+                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 6 ? 'text-slate-800' : 'text-slate-400'}`}>{t('configurator.steps.dimensions')}</h2>
                 </div>
                 {activeStep !== 6 && <div className="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-full uppercase tracking-wider">{state.dimensions.width} x {state.dimensions.height}</div>}
               </div>
@@ -342,7 +344,7 @@ export function MainConfigurator() {
                     <div className="bg-slate-50 p-5 rounded-xl border border-slate-100">
                       <div className="flex justify-between items-start mb-4">
                         <label className="text-sm font-bold text-slate-700 flex items-center gap-2 uppercase tracking-widest leading-none">
-                          <Ruler size={16} className="text-indigo-500"/> Width
+                          <Ruler size={16} className="text-indigo-500"/> {t('configurator.inputs.w')}
                         </label>
                         <div className="flex flex-col items-end gap-0.5">
                           <div className="flex items-center gap-1.5 focus-within:ring-2 ring-indigo-500/30 rounded px-1 -mr-1 transition-all">
@@ -357,9 +359,9 @@ export function MainConfigurator() {
                               }}
                               className="w-[60px] bg-transparent text-right font-black text-indigo-700 focus:outline-none"
                             />
-                            <span className="text-xs font-bold text-indigo-400">mm</span>
+                            <span className="text-xs font-bold text-indigo-400">{t('configurator.inputs.mm')}</span>
                           </div>
-                          <span className="text-[10px] font-bold text-slate-400 tracking-wider">({(state.dimensions.width / 10).toFixed(0)} cm)</span>
+                          <span className="text-[10px] font-bold text-slate-400 tracking-wider">({(state.dimensions.width / 10).toFixed(0)} {t('configurator.inputs.cm')}</span>
                         </div>
                       </div>
                       
@@ -382,7 +384,7 @@ export function MainConfigurator() {
                     <div className="bg-slate-50 p-5 rounded-xl border border-slate-100">
                       <div className="flex justify-between items-start mb-4">
                         <label className="text-sm font-bold text-slate-700 flex items-center gap-2 uppercase tracking-widest leading-none">
-                          <Ruler size={16} className="rotate-90 text-indigo-500"/> Height
+                          <Ruler size={16} className="rotate-90 text-indigo-500"/> {t('configurator.inputs.h')}
                         </label>
                         <div className="flex flex-col items-end gap-0.5">
                           <div className="flex items-center gap-1.5 focus-within:ring-2 ring-indigo-500/30 rounded px-1 -mr-1 transition-all">
@@ -397,9 +399,9 @@ export function MainConfigurator() {
                               }}
                               className="w-[60px] bg-transparent text-right font-black text-indigo-700 focus:outline-none"
                             />
-                            <span className="text-xs font-bold text-indigo-400">mm</span>
+                            <span className="text-xs font-bold text-indigo-400">{t('configurator.inputs.mm')}</span>
                           </div>
-                          <span className="text-[10px] font-bold text-slate-400 tracking-wider">({(state.dimensions.height / 10).toFixed(0)} cm)</span>
+                          <span className="text-[10px] font-bold text-slate-400 tracking-wider">({(state.dimensions.height / 10).toFixed(0)} {t('configurator.inputs.cm')}</span>
                         </div>
                       </div>
                       
@@ -423,7 +425,7 @@ export function MainConfigurator() {
                       onClick={() => setActiveStep(7)}
                       className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-600/20 transition-all active:scale-95 text-sm uppercase tracking-wider"
                     >
-                      Continue to Glazing
+                      {t('configurator.steps.glazing')}
                     </button>
                   </div>
                 </div>
@@ -438,7 +440,7 @@ export function MainConfigurator() {
               >
                 <div className="flex items-center gap-3">
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 7 ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-400'}`}>7</div>
-                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 7 ? 'text-slate-800' : 'text-slate-400'}`}>Glazing Package</h2>
+                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 7 ? 'text-slate-800' : 'text-slate-400'}`}>{t('configurator.steps.glazing')}</h2>
                 </div>
                 {activeStep !== 7 && <div className="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-full uppercase tracking-wider">{GLASS_LOCALE[state.glazing] || state.glazing}</div>}
               </div>
@@ -472,7 +474,7 @@ export function MainConfigurator() {
               >
                 <div className="flex items-center gap-3">
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 8 ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-400'}`}>8</div>
-                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 8 ? 'text-slate-800' : 'text-slate-400'}`}>Accessories & Add-ons</h2>
+                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 8 ? 'text-slate-800' : 'text-slate-400'}`}>{t('configurator.steps.options')}</h2>
                 </div>
                 {activeStep !== 8 && state.addons.length > 0 && <div className="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-full uppercase tracking-wider">{state.addons.length} selected</div>}
               </div>
@@ -520,13 +522,13 @@ export function MainConfigurator() {
               <div className="p-8 space-y-6">
                 
                 <div>
-                  <h3 className="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] mb-4">Specs Overview</h3>
+                  <h3 className="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] mb-4">{t('configurator.summary.title')}</h3>
                   <div className="space-y-1 text-sm">
                     {/* Input-Driven Dimensions Row */}
                     <div className="py-3 px-3 mb-3 -mx-2 bg-slate-50 border border-indigo-100/50 rounded-xl shadow-inner">
                       <div className="flex justify-between mb-3 border-b border-indigo-100/30 pb-2">
-                        <span className="text-slate-500 font-bold text-xs uppercase tracking-wider flex items-center gap-2">Dimensions</span>
-                        <button onClick={() => setActiveStep(6)} className="text-[10px] font-black uppercase tracking-widest text-indigo-500 hover:text-indigo-700">Edit Node</button>
+                        <span className="text-slate-500 font-bold text-xs uppercase tracking-wider flex items-center gap-2">{t('configurator.summary.dimensions')}</span>
+                        <button onClick={() => setActiveStep(6)} className="text-[10px] font-black uppercase tracking-widest text-indigo-500 hover:text-indigo-700">{t('configurator.summary.edit')}</button>
                       </div>
 
                       <div className="flex items-center justify-between gap-3">
@@ -545,10 +547,10 @@ export function MainConfigurator() {
                                 }}
                                 className="w-[45px] text-right bg-transparent text-sm font-black text-slate-800 focus:outline-none"
                               />
-                              <span className="text-[10px] font-bold text-slate-400">mm</span>
+                              <span className="text-[10px] font-bold text-slate-400">{t('configurator.inputs.mm')}</span>
                             </div>
                           </div>
-                          <span className="text-[9px] font-bold text-slate-400 mt-1 uppercase tracking-widest">({(state.dimensions.width / 10).toFixed(0)} cm)</span>
+                          <span className="text-[9px] font-bold text-slate-400 mt-1 uppercase tracking-widest">({(state.dimensions.width / 10).toFixed(0)} {t('configurator.inputs.cm')}</span>
                         </div>
 
                         <span className="text-slate-300 font-black text-xs">×</span>
@@ -568,32 +570,32 @@ export function MainConfigurator() {
                                 }}
                                 className="w-[45px] text-right bg-transparent text-sm font-black text-slate-800 focus:outline-none"
                               />
-                              <span className="text-[10px] font-bold text-slate-400">mm</span>
+                              <span className="text-[10px] font-bold text-slate-400">{t('configurator.inputs.mm')}</span>
                             </div>
                           </div>
-                          <span className="text-[9px] font-bold text-slate-400 mt-1 uppercase tracking-widest">({(state.dimensions.height / 10).toFixed(0)} cm)</span>
+                          <span className="text-[9px] font-bold text-slate-400 mt-1 uppercase tracking-widest">({(state.dimensions.height / 10).toFixed(0)} {t('configurator.inputs.cm')}</span>
                         </div>
                       </div>
                     </div>
 
                     <button onClick={() => setActiveStep(1)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-slate-50 transition-colors">
-                      <span className="text-slate-500 group-hover:text-indigo-600 font-medium text-xs uppercase tracking-wider transition-colors">Material Profile</span> 
+                      <span className="text-slate-500 group-hover:text-indigo-600 font-medium text-xs uppercase tracking-wider transition-colors">{t('configurator.summary.material')}</span> 
                       <span className="font-bold text-slate-900 group-hover:text-indigo-700 transition-colors">{state.material}</span>
                     </button>
                     <button onClick={() => setActiveStep(2)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-slate-50 transition-colors">
-                      <span className="text-slate-500 group-hover:text-indigo-600 font-medium text-xs uppercase tracking-wider transition-colors">System Profile</span> 
+                      <span className="text-slate-500 group-hover:text-indigo-600 font-medium text-xs uppercase tracking-wider transition-colors">{t('configurator.summary.system')}</span> 
                       <span className="font-bold text-slate-900 group-hover:text-indigo-700 transition-colors truncate max-w-[150px] text-right">{state.profile ? (CONFIG_SCHEMA.materials[state.material].profiles.find(p => p.id === state.profile)?.name || state.profile) : 'Standard System'}</span>
                     </button>
                     <button onClick={() => setActiveStep(3)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-slate-50 transition-colors">
-                      <span className="text-slate-500 group-hover:text-indigo-600 font-medium text-xs uppercase tracking-wider transition-colors">Window Type</span> 
+                      <span className="text-slate-500 group-hover:text-indigo-600 font-medium text-xs uppercase tracking-wider transition-colors">{t('configurator.summary.windowType')}</span> 
                       <span className="font-bold text-slate-900 group-hover:text-indigo-700 transition-colors">{WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.name || state.windowTypeId}</span>
                     </button>
                     <button onClick={() => setActiveStep(5)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-slate-50 transition-colors">
-                      <span className="text-slate-500 group-hover:text-indigo-600 font-medium text-xs uppercase tracking-wider transition-colors">Color & Decor</span> 
+                      <span className="text-slate-500 group-hover:text-indigo-600 font-medium text-xs uppercase tracking-wider transition-colors">{t('configurator.summary.color')}</span> 
                       <span className="font-bold text-slate-900 group-hover:text-indigo-700 transition-colors line-clamp-1">{COLOR_LOCALE.colors[state.color]?.name || state.color}</span>
                     </button>
                     <button onClick={() => setActiveStep(7)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-slate-50 transition-colors">
-                      <span className="text-slate-500 group-hover:text-indigo-600 font-medium text-xs uppercase tracking-wider transition-colors">Glazing</span> 
+                      <span className="text-slate-500 group-hover:text-indigo-600 font-medium text-xs uppercase tracking-wider transition-colors">{t('configurator.summary.glazing')}</span> 
                       <span className="font-bold text-indigo-700 group-hover:text-white bg-indigo-50 group-hover:bg-indigo-600 px-2 py-0.5 rounded transition-colors truncate max-w-[150px] text-right">{GLASS_LOCALE[state.glazing] || state.glazing}</span>
                     </button>
                     {state.addons.length > 0 && (
@@ -608,17 +610,17 @@ export function MainConfigurator() {
                 <div className="h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
 
                 <div>
-                  <h3 className="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] mb-4">Financials</h3>
+                  <h3 className="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] mb-4">{t('configurator.summary.financials')}</h3>
                   <div className="space-y-3 text-sm">
-                    <div className="flex justify-between items-center"><span className="text-slate-500 font-medium">Base Framework</span> <span className="font-bold text-slate-900">€{pricing.base.toFixed(2)}</span></div>
-                    <div className="flex justify-between items-center"><span className="text-slate-500 font-medium">Hardware Assembly</span> <span className="font-bold text-slate-900">€{pricing.hardware.toFixed(2)}</span></div>
-                    <div className="flex justify-between items-center"><span className="text-slate-500 font-medium">Accessories</span> <span className="font-bold text-slate-900">€{pricing.addons.toFixed(2)}</span></div>
+                    <div className="flex justify-between items-center"><span className="text-slate-500 font-medium">{t('configurator.summary.baseFramework')}</span> <span className="font-bold text-slate-900">€{pricing.base.toFixed(2)}</span></div>
+                    <div className="flex justify-between items-center"><span className="text-slate-500 font-medium">{t('configurator.summary.hardwareAssembly')}</span> <span className="font-bold text-slate-900">€{pricing.hardware.toFixed(2)}</span></div>
+                    <div className="flex justify-between items-center"><span className="text-slate-500 font-medium">{t('configurator.summary.accessories')}</span> <span className="font-bold text-slate-900">€{pricing.addons.toFixed(2)}</span></div>
                   </div>
                 </div>
 
                 <div className="pt-4 flex items-end justify-between">
                   <div>
-                    <div className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] mb-1">Total System</div>
+                    <div className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] mb-1">{t('configurator.summary.totalSystem')}</div>
                     <div className="text-4xl font-black text-slate-900 tracking-tighter">€{pricing.total.toFixed(2)}</div>
                   </div>
                 </div>
@@ -630,7 +632,7 @@ export function MainConfigurator() {
                     }}
                     className="flex-1 bg-white hover:bg-slate-50 text-slate-900 border-2 border-slate-900 py-4 rounded-xl flex items-center justify-center gap-2 text-sm font-bold uppercase tracking-widest transition-all active:scale-[0.98]"
                   >
-                    <Download size={18} /> JSON
+                    <Download size={18} /> {t('configurator.summary.exportJson')}
                   </button>
                   <button 
                     onClick={() => {
@@ -638,7 +640,7 @@ export function MainConfigurator() {
                     }}
                     className="flex-[2] bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-xl flex items-center justify-center gap-2 text-sm font-bold uppercase tracking-widest shadow-lg shadow-indigo-600/20 transition-all active:scale-[0.98]"
                   >
-                    <ShoppingCart size={18} /> Save to Cart {items.length > 0 && `(${items.length})`}
+                    <ShoppingCart size={18} /> {t('configurator.summary.saveToCart')} {items.length > 0 && `(${items.length})`}
                   </button>
                 </div>
 

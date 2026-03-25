@@ -269,5 +269,53 @@
     "c226": "Walnut",
     "c223": "Winchester",
     "c219": "Golden Oak"
+  },
+  "configurator": {
+    "title": "Design your custom window system.",
+    "subtitle": "Pick the material and configure your exact architectural specifications below.",
+    "steps": {
+      "material": "Material Profile",
+      "system": "System Profile",
+      "windowType": "Window Type",
+      "openingType": "Opening Type",
+      "color": "Color & Decor",
+      "dimensions": "Dimensions (MM)",
+      "glazing": "Glazing Package",
+      "options": "Accessories & Add-ons"
+    },
+    "summary": {
+      "title": "Specs Overview",
+      "dimensions": "Dimensions",
+      "material": "Material Profile",
+      "system": "System Profile",
+      "windowType": "Window Type",
+      "color": "Color & Decor",
+      "glazing": "Glazing",
+      "financials": "Financials",
+      "baseFramework": "Base Framework",
+      "hardwareAssembly": "Hardware Assembly",
+      "accessories": "Accessories",
+      "totalSystem": "Total System",
+      "exportJson": "JSON Export",
+      "saveToCart": "Save to Cart",
+      "edit": "Edit"
+    },
+    "inputs": {
+      "w": "W",
+      "h": "H",
+      "mm": "mm",
+      "cm": "(CM)"
+    },
+    "state": {
+      "selected": "Selected",
+      "selectWindowType": "Select Window Type",
+      "openingDirection": "Opening Direction",
+      "fixedNoOpening": "Fixed (No Opening)",
+      "turnTilt": "Innerleaf (Turn/Tilt)",
+      "sashes": "{{count}} Sashes configuration"
+    },
+    "blueprint": {
+      "interiorView": "Interior View"
+    }
   }
 }

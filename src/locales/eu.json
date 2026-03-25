@@ -269,5 +269,53 @@
     "c226": "Intxaurrondoa",
     "c223": "Winchester",
     "c219": "Urrezko haritza"
+  },
+  "configurator": {
+    "title": "Diseinatu zure neurriko leiho sistema.",
+    "subtitle": "Elige el material y configura tus especificaciones arquitectónicas exactas a continuación.",
+    "steps": {
+      "material": "Perfil del material",
+      "system": "Perfil del sistema",
+      "windowType": "Tipo de ventana",
+      "openingType": "Tipo de apertura",
+      "color": "Color y Decoración",
+      "dimensions": "Dimensiones (MM)",
+      "glazing": "Acristalamiento",
+      "options": "Accesorios"
+    },
+    "summary": {
+      "title": "Resumen de especificaciones",
+      "dimensions": "Dimensiones",
+      "material": "Material",
+      "system": "Sistema",
+      "windowType": "Tipo de ventana",
+      "color": "Color y Decoración",
+      "glazing": "Acristalamiento",
+      "financials": "Finanzas",
+      "baseFramework": "Marco base",
+      "hardwareAssembly": "Herrajes",
+      "accessories": "Accesorios",
+      "totalSystem": "Sistema Total",
+      "exportJson": "Exportar JSON",
+      "saveToCart": "Guardar en carrito",
+      "edit": "Editar"
+    },
+    "inputs": {
+      "w": "A",
+      "h": "H",
+      "mm": "mm",
+      "cm": "(CM)"
+    },
+    "state": {
+      "selected": "Seleccionado",
+      "selectWindowType": "Seleccionar Tipo de Ventana",
+      "openingDirection": "Dirección de apertura",
+      "fixedNoOpening": "Fijo (Sin apertura)",
+      "turnTilt": "Hoja (Oscilobatiente)",
+      "sashes": "Configuración de {{count}} hojas"
+    },
+    "blueprint": {
+      "interiorView": "Vista Interior"
+    }
   }
 }

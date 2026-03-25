@@ -269,5 +269,53 @@
     "c226": "Noyer",
     "c223": "Winchester",
     "c219": "Chêne Doré"
+  },
+  "configurator": {
+    "title": "Concevez votre système de fenêtres personnalisé.",
+    "subtitle": "Choisissez le matériau et configurez vos spécifications architecturales exactes ci-dessous.",
+    "steps": {
+      "material": "Profilé de matériau",
+      "system": "Profilé de système",
+      "windowType": "Type de fenêtre",
+      "openingType": "Type d'ouverture",
+      "color": "Couleur & Décor",
+      "dimensions": "Dimensions (MM)",
+      "glazing": "Vitrage",
+      "options": "Accessoires"
+    },
+    "summary": {
+      "title": "Aperçu des spécifications",
+      "dimensions": "Dimensions",
+      "material": "Matériau",
+      "system": "Système",
+      "windowType": "Type de fenêtre",
+      "color": "Couleur & Décor",
+      "glazing": "Vitrage",
+      "financials": "Finances",
+      "baseFramework": "Cadre de base",
+      "hardwareAssembly": "Quincaillerie",
+      "accessories": "Accessoires",
+      "totalSystem": "Système Total",
+      "exportJson": "Export JSON",
+      "saveToCart": "Ajouter au panier",
+      "edit": "Modifier"
+    },
+    "inputs": {
+      "w": "L",
+      "h": "H",
+      "mm": "mm",
+      "cm": "(CM)"
+    },
+    "state": {
+      "selected": "Sélectionné",
+      "selectWindowType": "Sélectionnez le type de fenêtre",
+      "openingDirection": "Direction d'ouverture",
+      "fixedNoOpening": "Fixe (Sans ouverture)",
+      "turnTilt": "Vantail (Oscillo-battant)",
+      "sashes": "Configuration à {{count}} vantaux"
+    },
+    "blueprint": {
+      "interiorView": "Vue Intérieure"
+    }
   }
 }

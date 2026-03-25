@@ -1,5 +1,6 @@
 import type { ConfiguratorState } from './types';
 import { OPENING_TYPES, COLOR_LOCALE } from './types';
+import { useTranslation } from 'react-i18next';
 
 // Coordinate map for drawing the architectural layout (using identical schema to WindowTypeGraphic)
 const LAYOUT_MAP: Record<string, {x: number, y: number, w: number, h: number}[]> = {
@@ -24,6 +25,7 @@ interface BlueprintPreviewProps {
 }
 
 export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => {
+  const { t } = useTranslation();
   const layout = LAYOUT_MAP[state.windowTypeId] || LAYOUT_MAP['1-flugel'];
   
   // Outer rendering dimensions
@@ -83,7 +85,7 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
         <text x={offsetX + frameW / 2} y={SVG_H - DIM_PAD_BOTTOM + 12} textAnchor="middle" fill="#94a3b8" fontSize="16" className="font-sans font-bold">{realW}</text>
 
         {/* Interior View Badge (BOTTOM MOST) */}
-        <text x={SVG_W / 2} y={SVG_H - 10} textAnchor="middle" fill="#cbd5e1" fontSize="14" className="font-sans font-black tracking-[0.2em] uppercase">Interior View</text>
+        <text x={SVG_W / 2} y={SVG_H - 10} textAnchor="middle" fill="#cbd5e1" fontSize="14" className="font-sans font-black tracking-[0.2em] uppercase">{t('configurator.blueprint.interiorView')}</text>
 
         {/* Outer Dimension Lines (Right Height) */}
         <line x1={SVG_W - 15} y1={offsetY} x2={SVG_W - 15} y2={offsetY + frameH} stroke="#e2e8f0" strokeWidth="1" />
