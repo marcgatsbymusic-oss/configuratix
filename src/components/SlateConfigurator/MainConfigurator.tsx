@@ -16,6 +16,7 @@ import { CartDashboard } from './CartDashboard';
 import { useSessionStore } from '../../store/useSessionStore';
 import { Sparkles } from 'lucide-react';
 import { AIGuidedAssistant } from './AIGuidedAssistant';
+import { useOrderStore } from '../../store/useOrderStore';
 
 const TiltProfileCard = ({ profile, isActive, onClick, tags }: { profile: any, isActive: boolean, onClick: () => void, tags: any[] }) => {
   const { t } = useTranslation();
@@ -99,9 +100,10 @@ const SashSymbol = ({ shortCode, className = "w-6 h-6" }: { shortCode: string, c
 };
 
 export function MainConfigurator() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { state, dispatch, pricing } = useConfigurator();
   const { items, addItem } = useCartStore();
+  const orderStore = useOrderStore();
   const materialScrollRef = useRef<HTMLDivElement>(null);
   const profileScrollRef = useRef<HTMLDivElement>(null);
   const hasProduct = typeof window !== 'undefined' && window.location.search.includes('product=');
@@ -114,6 +116,21 @@ export function MainConfigurator() {
   const [showExitModal, setShowExitModal] = useState(false);
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, [activeStep]);
 
+  useEffect(() => {
+    if (orderStore.isActive && orderStore.items[orderStore.currentIndex]) {
+      const item = orderStore.items[orderStore.currentIndex];
+      dispatch({ type: 'SET_MATERIAL', payload: item.material as any });
+      setTimeout(() => {
+        dispatch({ type: 'SET_PROFILE', payload: item.profile });
+        dispatch({ type: 'SET_GLAZING', payload: item.glazing });
+        // NOTE: we could apply opening types and blinds here if the payload supported it
+      }, 100);
+      setActiveStep(6); 
+      setCompletedSteps([1, 2, 3, 4, 5]);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [orderStore.isActive, orderStore.currentIndex]);
+
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [showLeadModal, setShowLeadModal] = useState(false);
   const [showCartDashboard, setShowCartDashboard] = useState(false);
@@ -124,7 +141,21 @@ export function MainConfigurator() {
   };
   const [colorTab, setColorTab] = useState<'interior'|'exterior'>('interior');
 
+  const itemDiscount = orderStore.isActive && orderStore.items.length > 0 ? (orderStore.questionnaireDiscount / orderStore.items.length) : 0;
+  const finalPrice = Math.max(0, pricing.total - itemDiscount);
 
+  const deliveryDays = state.material === 'PVC' ? 5 : 42;
+  const deliveryDate = new Date();
+  if (state.material === 'PVC') {
+    let d = deliveryDays;
+    while(d > 0) {
+      deliveryDate.setDate(deliveryDate.getDate() + 1);
+      if (deliveryDate.getDay() !== 0 && deliveryDate.getDay() !== 6) d--;
+    }
+  } else {
+    deliveryDate.setDate(deliveryDate.getDate() + deliveryDays);
+  }
+  const formattedDelivery = deliveryDate.toLocaleDateString(i18n.language, { month: 'short', day: 'numeric', year: 'numeric' });
 
   return (
     <>
@@ -204,8 +235,27 @@ export function MainConfigurator() {
           {/* LEFT: Configure Wizard */}
           <div className={`flex flex-col gap-8 transition-all duration-700 ${activeStep === 0 ? "lg:col-span-12 max-w-4xl mx-auto w-full pt-10" : "lg:col-span-8"}`}>
             
+            {/* Order Loop Banner */}
+            {orderStore.isActive && orderStore.items[orderStore.currentIndex] && activeStep !== null && activeStep > 0 && (
+              <div className="bg-[#eab676]/10 border border-[#eab676]/30 rounded-2xl p-4 md:p-6 flex items-center justify-between shadow-[0_0_30px_rgba(234,182,118,0.1)] mb-4 animate-fade-in-up">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-[#eab676] !text-black rounded-full flex items-center justify-center font-black text-xl shadow-md">
+                    {orderStore.currentIndex + 1}
+                  </div>
+                  <div>
+                    <h3 className="text-[#eab676] font-black uppercase tracking-widest text-xs md:text-sm">Configuring Item {orderStore.currentIndex + 1} of {orderStore.items.length}</h3>
+                    <div className="text-white font-bold text-lg md:text-xl drop-shadow-md">{orderStore.items[orderStore.currentIndex].roomName || 'Custom Room'}</div>
+                  </div>
+                </div>
+                <div className="text-right hidden sm:block">
+                  <div className="text-white/40 font-bold uppercase tracking-widest text-[10px]">Type</div>
+                  <div className="text-white font-black text-sm uppercase">{orderStore.items[orderStore.currentIndex].itemType.replace('_', ' ')}</div>
+                </div>
+              </div>
+            )}
+            
             {/* Contextual Welcome Message */}
-            {activeStep === 0 && (
+            {activeStep === 0 && !orderStore.isActive && (
               <div className="bg-gradient-to-br from-[#1a1a1b] to-[#111112] border border-[#eab676]/30 p-10 md:p-14 rounded-3xl shadow-2xl mb-2 relative overflow-hidden group w-full" style={{ order: -1 }}>
                 <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-transparent via-[#eab676] to-transparent opacity-70" />
                 <div className="flex flex-col items-center text-center gap-6 relative z-10">
@@ -862,35 +912,68 @@ export function MainConfigurator() {
                     <div className="flex justify-between items-center"><span className="text-white/50 font-medium">{t('configurator.summary.baseFramework')}</span> <span className="font-bold text-white">€{pricing.base.toFixed(2)}</span></div>
                     <div className="flex justify-between items-center"><span className="text-white/50 font-medium">{t('configurator.summary.hardwareAssembly')}</span> <span className="font-bold text-white">€{pricing.hardware.toFixed(2)}</span></div>
                     <div className="flex justify-between items-center"><span className="text-white/50 font-medium">{t('configurator.summary.accessories')}</span> <span className="font-bold text-white">€{pricing.addons.toFixed(2)}</span></div>
+                    
+                    <div className="h-px bg-white/10 my-2"></div>
+                    <div className="flex justify-between items-center"><span className="text-white/50 font-medium tracking-tight">Est. Delivery</span> <span className="font-black text-[#eab676] bg-[#eab676]/10 px-2 py-1 rounded text-[10px] uppercase tracking-widest">{formattedDelivery}</span></div>
+                    {itemDiscount > 0 && (
+                      <div className="flex justify-between items-center text-emerald-400 mt-1"><span className="font-medium tracking-tight">Preset Discount</span> <span className="font-black">-€{itemDiscount.toFixed(2)}</span></div>
+                    )}
                   </div>
                 </div>
 
                 <div className="pt-4 flex flex-col items-end text-right">
                   <div className="text-[10px] font-black text-[#eab676] uppercase tracking-[0.2em] mb-1">Total incl 21% VAT</div>
-                  <div className="text-4xl font-black text-white tracking-tighter">€{pricing.total.toFixed(2)}</div>
+                  <div className="text-4xl font-black text-white tracking-tighter">€{finalPrice.toFixed(2)}</div>
                 </div>
                 <div className="mt-6 flex flex-col sm:flex-row gap-3">
                   <button 
                     onClick={() => {
-                      addItem({ 
-                        config: state, 
-                        pricing, 
-                        quantity: 1,
-                        name: `Window System (${state.material} ${state.profile})`,
-                        price: pricing.total,
-                        image: CONFIG_SCHEMA.materials[state.material].image,
-                        details: [
-                           `Dimensions: ${state.dimensions.width}x${state.dimensions.height}mm`,
-                           `Color: ${state.interiorColor} (In) / ${state.exteriorColor} (Out)`,
-                           `Opening: ${state.sashOpenings.length} Sashes`,
-                           `Integrations: ${state.addons.length}`
-                        ]
-                      });
-                      setShowSaveModal(true);
+                      if (orderStore.isActive) {
+                        orderStore.saveCurrentAndNext({
+                          config: state, 
+                          pricing, 
+                          quantity: orderStore.items[orderStore.currentIndex].quantity || 1,
+                          name: `${orderStore.items[orderStore.currentIndex].roomName} (${state.material} ${state.profile})`,
+                          price: finalPrice,
+                          image: CONFIG_SCHEMA.materials[state.material].image,
+                          details: [
+                             `Orientation: ${orderStore.items[orderStore.currentIndex].orientation || 'South'}`,
+                             `Quantity: ${orderStore.items[orderStore.currentIndex].quantity || 1} units`,
+                             `Dimensions: ${state.dimensions.width}x${state.dimensions.height}mm`,
+                             `Color: ${state.interiorColor} (In) / ${state.exteriorColor} (Out)`,
+                             `Opening: ${state.sashOpenings.length} Sashes`,
+                             `Integrations: ${state.addons.length}`
+                          ]
+                        });
+                        if (orderStore.currentIndex === orderStore.items.length - 1) {
+                          const finalItems = useOrderStore.getState().items;
+                          finalItems.forEach(i => {
+                            if (i.savedConfig) addItem(i.savedConfig);
+                          });
+                          orderStore.finishOrder();
+                          setShowSaveModal(true);
+                        }
+                      } else {
+                        addItem({ 
+                          config: state, 
+                          pricing, 
+                          quantity: 1,
+                          name: `Window System (${state.material} ${state.profile})`,
+                          price: pricing.total,
+                          image: CONFIG_SCHEMA.materials[state.material].image,
+                          details: [
+                             `Dimensions: ${state.dimensions.width}x${state.dimensions.height}mm`,
+                             `Color: ${state.interiorColor} (In) / ${state.exteriorColor} (Out)`,
+                             `Opening: ${state.sashOpenings.length} Sashes`,
+                             `Integrations: ${state.addons.length}`
+                          ]
+                        });
+                        setShowSaveModal(true);
+                      }
                     }}
                     className="flex-1 bg-[#eab676] !text-black hover:bg-[#ffc882] py-4 rounded-xl flex items-center justify-center gap-2 text-sm font-black uppercase tracking-widest shadow-[0_0_20px_rgba(234,182,118,0.2)] hover:shadow-[0_0_30px_rgba(234,182,118,0.4)] transition-all active:scale-[0.98]"
                   >
-                    <ShoppingCart size={18} strokeWidth={2.5} /> {t('configurator.summary.saveToCart', 'Save to Cart')} {items.length > 0 && `(${items.length})`}
+                    <ShoppingCart size={18} strokeWidth={2.5} /> {orderStore.isActive ? (orderStore.currentIndex === orderStore.items.length - 1 ? 'Finish Project' : `Save & Next (${orderStore.currentIndex + 1}/${orderStore.items.length})`) : t('configurator.summary.saveToCart', 'Save to Cart')} {!orderStore.isActive && items.length > 0 && `(${items.length})`}
                   </button>
                 </div>
 

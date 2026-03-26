@@ -1,19 +1,24 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, ChevronRight, ChevronLeft, ThermometerSnowflake, HandCoins, Ear, Loader2, Sparkles, CalendarCheck, PlayCircle } from 'lucide-react';
+import { X, ChevronRight, ChevronLeft, ThermometerSnowflake, HandCoins, Ear, Loader2, Sparkles, CalendarCheck, PlayCircle, CloudRain, Sun, Home } from 'lucide-react';
 import { CITIES_DB } from '../../data/spanishGeodata';
 import { calculateCTEZone } from '../../utils/cteCalculator';
-import { CONFIG_SCHEMA } from './types';
+import { CONFIG_SCHEMA, WINDOW_TYPES } from './types';
+import { useOrderStore, type OrderItem } from '../../store/useOrderStore';
 
 interface Props {
   onClose: () => void;
   onComplete: (material: string, profile: string, glazing: string) => void;
+  initialStep?: number;
 }
 
-export function AIGuidedAssistant({ onClose, onComplete }: Props) {
+export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Props) {
   const { t, i18n } = useTranslation();
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(initialStep);
   const [province, setProvince] = useState('');
+  const [provinceSearch, setProvinceSearch] = useState('');
+  const [showProvinceDropdown, setShowProvinceDropdown] = useState(false);
+  
   const [citySearch, setCitySearch] = useState('');
   const [showCityDropdown, setShowCityDropdown] = useState(false);
   const [altitude, setAltitude] = useState<number | null>(null);
@@ -27,11 +32,34 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
   const [housing, setHousing] = useState('');
   const [noise, setNoise] = useState('');
 
+  // Counters
+  const [windowsCount, setWindowsCount] = useState(1);
+  const [balconyCount, setBalconyCount] = useState(0);
+  const [slidingCount, setSlidingCount] = useState(0);
+  const [houseDoorCount, setHouseDoorCount] = useState(0);
+  const [garageDoorCount, setGarageDoorCount] = useState(0);
+
   const [isProcessing, setIsProcessing] = useState(false);
   const [recommendation, setRecommendation] = useState<any>(null);
   const [showVideo, setShowVideo] = useState(false);
 
-  const provinces = Array.from(new Set(CITIES_DB.map(c => c.p))).sort();
+  // Preset configuration flow state
+  const startOrder = useOrderStore(s => s.startOrder);
+  const [itemConfigList, setItemConfigList] = useState<Omit<OrderItem, 'id' | 'savedConfig' | 'isConfigured'>[]>([]);
+  const currentItemIndex = 0;
+
+  // Current item temporary state
+  const [currentRoomName, setCurrentRoomName] = useState('');
+  const [currentQuantity, setCurrentQuantity] = useState(1);
+  const [currentOrientation, setCurrentOrientation] = useState('South');
+  const [currentWindowType, setCurrentWindowType] = useState('');
+  const [currentOpenings, setCurrentOpenings] = useState<string[]>([]);
+  const [currentGlazing, setCurrentGlazing] = useState('');
+  const [currentBlinds, setCurrentBlinds] = useState('');
+
+  const allProvinces = Array.from(new Set(CITIES_DB.map(c => c.p))).sort();
+  const filteredProvinces = allProvinces.filter(p => p.toLowerCase().includes(provinceSearch.toLowerCase()));
+  
   const availableCities = CITIES_DB.filter(c => c.p === province);
   const filteredCities = availableCities.filter(c => c.n.toLowerCase().includes(citySearch.toLowerCase()));
 
@@ -43,6 +71,16 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
       setCteZone(zone.combined);
     }
   };
+
+  const climateData = useMemo(() => {
+    if (!altitude || !province) return null;
+    const baseTemp = 18 - (altitude / 200);
+    return {
+      avgTemp: baseTemp.toFixed(1),
+      radiation: (1600 + (altitude > 500 ? 200 : 0)).toString(),
+      precipitation: (cteZone.includes('A') || cteZone.includes('B') ? 400 : 800) + Math.round(altitude / 10)
+    };
+  }, [altitude, province, cteZone]);
 
   const processRecommendation = () => {
     setIsProcessing(true);
@@ -79,6 +117,38 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
       }
 
       setRecommendation({ material: recMat, profile: recProf, glazing: recGlaze });
+      
+      // Build the list of items based on counters
+      const items: typeof itemConfigList = [];
+      let index = 1;
+
+      const addItems = (count: number, type: OrderItem['itemType']) => {
+        for(let i=0; i<count; i++) {
+          items.push({
+            index: index++,
+            itemType: type,
+            roomName: '',
+            roomType: '',
+            orientation: 'South',
+            quantity: 1,
+            material: recMat,
+            profile: recProf,
+            glazing: recGlaze,
+            windowType: '',
+            openings: [],
+            blinds: ''
+          });
+        }
+      };
+
+      addItems(windowsCount, 'window');
+      addItems(balconyCount, 'balcony_door');
+      addItems(slidingCount, 'sliding_door');
+      addItems(houseDoorCount, 'house_door');
+      addItems(garageDoorCount, 'garage_door');
+
+      setItemConfigList(items);
+
       setIsProcessing(false);
     }, 3500);
   };
@@ -133,10 +203,39 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
             <div className="space-y-4 mb-8">
               <div>
                 <label className="text-xs font-black text-white uppercase tracking-widest mb-2 block">{t('assistant.province')}</label>
-                <select value={province} onChange={e => { setProvince(e.target.value); setCitySearch(''); setAltitude(null); setCteZone(''); }} className="w-full bg-[#111112] border-2 border-[#3a3a3b] font-black p-4 rounded-xl text-white focus:outline-none focus:border-[#eab676]">
-                  <option value="">{t('assistant.selectProv')}</option>
-                  {provinces.map(p => <option key={p} value={p}>{p}</option>)}
-                </select>
+                <div className="relative">
+                  <input 
+                    type="text"
+                    value={provinceSearch}
+                    onChange={e => { setProvinceSearch(e.target.value); setShowProvinceDropdown(true); }}
+                    onFocus={() => setShowProvinceDropdown(true)}
+                    onBlur={() => setTimeout(() => setShowProvinceDropdown(false), 200)}
+                    placeholder={t('assistant.selectProv', 'Search Province...')}
+                    className="w-full bg-[#111112] border-2 border-[#3a3a3b] font-black p-4 rounded-xl text-white focus:outline-none focus:border-[#eab676]"
+                  />
+                  {showProvinceDropdown && (
+                    <ul className="absolute z-50 w-full mt-2 bg-[#1a1a1b] border-2 border-[#2a2a2b] rounded-xl max-h-60 overflow-y-auto shadow-[0_10px_40px_rgba(0,0,0,0.8)]">
+                      {filteredProvinces.length > 0 ? filteredProvinces.map(p => (
+                        <li 
+                          key={p}
+                          onMouseDown={() => { 
+                            setProvinceSearch(p); 
+                            setProvince(p); 
+                            setShowProvinceDropdown(false); 
+                            setCitySearch(''); 
+                            setAltitude(null); 
+                            setCteZone(''); 
+                          }}
+                          className="p-4 text-white/90 hover:bg-[#eab676] hover:text-black font-black cursor-pointer transition-colors border-b border-[#2a2a2b] last:border-0"
+                        >
+                          {p}
+                        </li>
+                      )) : (
+                        <li className="p-4 text-white/50 italic text-center text-sm font-bold">No matching provinces found</li>
+                      )}
+                    </ul>
+                  )}
+                </div>
               </div>
               
               <div className={`transition-all duration-300 relative ${province ? 'opacity-100' : 'opacity-40 pointer-events-none'}`}>
@@ -173,15 +272,36 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
               </div>
             </div>
 
-            {cteZone && (
-              <div className="bg-[#111112] border border-[#eab676]/20 rounded-xl p-5 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 animate-fade-in shadow-[0_0_30px_rgba(234,182,118,0.05)]">
-                <div>
-                  <div className="text-xs font-black text-[#eab676] uppercase tracking-[0.2em] mb-1">{t('assistant.topoEngine', 'Topographical Engine')}</div>
-                  <div className="text-white/90 font-bold text-sm">{t('assistant.altitude', 'Altitude')}: <span className="text-white font-black">{altitude}m</span></div>
+            {cteZone && climateData && (
+              <div className="bg-[#111112] border border-[#eab676]/20 rounded-xl p-5 mb-8 animate-fade-in shadow-[0_0_30px_rgba(234,182,118,0.05)]">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4 pb-4 border-b border-white/5">
+                  <div>
+                    <div className="text-xs font-black text-[#eab676] uppercase tracking-[0.2em] mb-1">{t('assistant.topoEngine', 'Topographical Engine')}</div>
+                    <div className="text-white/90 font-bold text-sm">{t('assistant.altitude', 'Altitude')}: <span className="text-white font-black">{altitude}m</span></div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-[10px] font-black text-white/60 uppercase tracking-[0.2em] mb-1">{t('assistant.cteZone', 'CTE DB-HE CLIMATE ZONE')}</div>
+                    <div className="text-4xl font-black text-[#eab676] uppercase tracking-widest leading-none drop-shadow-md">{cteZone}</div>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-[10px] font-black text-white/60 uppercase tracking-[0.2em] mb-1">{t('assistant.cteZone', 'CTE DB-HE CLIMATE ZONE')}</div>
-                  <div className="text-4xl font-black text-[#eab676] uppercase tracking-widest leading-none drop-shadow-md">{cteZone}</div>
+
+                {/* Climate Data Extraction */}
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="bg-[#1a1a1b] border border-[#2a2a2b] p-3 rounded-lg flex flex-col items-center text-center">
+                    <Sun size={20} className="text-[#eab676] mb-2" />
+                    <div className="text-[9px] font-black text-white/50 uppercase tracking-wider mb-1">Radiation</div>
+                    <div className="text-sm font-black text-white">{climateData.radiation} <span className="text-[10px] text-white/40">kWh/m²</span></div>
+                  </div>
+                  <div className="bg-[#1a1a1b] border border-[#2a2a2b] p-3 rounded-lg flex flex-col items-center text-center">
+                    <ThermometerSnowflake size={20} className="text-blue-400 mb-2" />
+                    <div className="text-[9px] font-black text-white/50 uppercase tracking-wider mb-1">Avg Temp</div>
+                    <div className="text-sm font-black text-white">{climateData.avgTemp} <span className="text-[10px] text-white/40">°C</span></div>
+                  </div>
+                  <div className="bg-[#1a1a1b] border border-[#2a2a2b] p-3 rounded-lg flex flex-col items-center text-center">
+                    <CloudRain size={20} className="text-slate-400 mb-2" />
+                    <div className="text-[9px] font-black text-white/50 uppercase tracking-wider mb-1">Precipitation</div>
+                    <div className="text-sm font-black text-white">{climateData.precipitation} <span className="text-[10px] text-white/40">mm/yr</span></div>
+                  </div>
                 </div>
               </div>
             )}
@@ -282,7 +402,37 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
               ))}
             </div>
 
-            <button disabled={!housing || !noise} onClick={processRecommendation} className="w-full bg-white text-black py-4 rounded-xl font-black uppercase tracking-widest transition-all disabled:opacity-20 hover:scale-[1.02] flex items-center justify-center gap-2">
+            <div className="my-6 pt-6 border-t border-[#2a2a2b]">
+              <h3 className="text-base font-black text-white uppercase tracking-widest mb-4">Project Scope (Counts)</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="flex justify-between items-center bg-[#111112] border border-[#2a2a2b] p-3 rounded-xl">
+                  <span className="text-xs font-bold text-white uppercase tracking-wider">Windows</span>
+                  <input type="number" min="0" value={windowsCount} onChange={e => setWindowsCount(Number(e.target.value))} className="w-16 bg-[#1a1a1b] border border-[#3a3a3b] text-center font-black rounded p-1 text-[#eab676]" />
+                </div>
+                <div className="flex justify-between items-center bg-[#111112] border border-[#2a2a2b] p-3 rounded-xl">
+                  <span className="text-xs font-bold text-white uppercase tracking-wider">Balcony Doors</span>
+                  <input type="number" min="0" value={balconyCount} onChange={e => setBalconyCount(Number(e.target.value))} className="w-16 bg-[#1a1a1b] border border-[#3a3a3b] text-center font-black rounded p-1 text-[#eab676]" />
+                </div>
+                <div className="flex justify-between items-center bg-[#111112] border border-[#2a2a2b] p-3 rounded-xl">
+                  <span className="text-xs font-bold text-white uppercase tracking-wider">Sliding Doors</span>
+                  <input type="number" min="0" value={slidingCount} onChange={e => setSlidingCount(Number(e.target.value))} className="w-16 bg-[#1a1a1b] border border-[#3a3a3b] text-center font-black rounded p-1 text-[#eab676]" />
+                </div>
+                {housing === 'villa' && (
+                  <>
+                    <div className="flex justify-between items-center bg-[#111112] border border-[#2a2a2b] p-3 rounded-xl">
+                      <span className="text-xs font-bold text-white uppercase tracking-wider">House Doors</span>
+                      <input type="number" min="0" value={houseDoorCount} onChange={e => setHouseDoorCount(Number(e.target.value))} className="w-16 bg-[#1a1a1b] border border-[#3a3a3b] text-center font-black rounded p-1 text-[#eab676]" />
+                    </div>
+                    <div className="flex justify-between items-center bg-[#111112] border border-[#2a2a2b] p-3 rounded-xl">
+                      <span className="text-xs font-bold text-white uppercase tracking-wider">Garage Doors</span>
+                      <input type="number" min="0" value={garageDoorCount} onChange={e => setGarageDoorCount(Number(e.target.value))} className="w-16 bg-[#1a1a1b] border border-[#3a3a3b] text-center font-black rounded p-1 text-[#eab676]" />
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+
+            <button disabled={!housing || !noise || (windowsCount+balconyCount+slidingCount+houseDoorCount+garageDoorCount === 0)} onClick={processRecommendation} className="w-full bg-white text-black py-4 rounded-xl font-black uppercase tracking-widest transition-all disabled:opacity-20 hover:scale-[1.02] flex items-center justify-center gap-2">
               {t('assistant.processCalc')} <Sparkles size={20} />
             </button>
           </div>
@@ -332,13 +482,194 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
                    </div>
                  </div>
 
-                 <button onClick={() => onComplete(recommendation.material, recommendation.profile, recommendation.glazing)} className="w-full bg-[#eab676] !text-black py-4 md:py-5 rounded-2xl font-black text-sm md:text-lg uppercase tracking-widest hover:bg-[#ffc882] hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(234,182,118,0.4)]">
-                    {t('assistant.useData')}
+                 <button onClick={() => setStep(6)} className="w-full bg-[#eab676] !text-black py-4 md:py-5 rounded-2xl font-black text-sm md:text-lg uppercase tracking-widest hover:bg-[#ffc882] hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(234,182,118,0.4)] flex items-center justify-center gap-2">
+                    {t('assistant.continueOrder', 'Continue with order')} <ChevronRight size={20} />
                  </button>
               </div>
             )}
           </div>
         );
+        
+      case 6: {
+        const item = itemConfigList[currentItemIndex];
+        return (
+          <div className="animate-fade-in-up">
+            <h2 className="text-xl md:text-3xl font-black mb-4 uppercase tracking-widest text-[#eab676]">{t('assistant.startConfig', 'Start Configuration')}</h2>
+            <p className="text-white/60 font-bold mb-8 text-sm md:text-base leading-relaxed">
+              {t('assistant.configIntro', "Let's start configuring your items. You can save this and change it later. We will configure each item one by one.")}
+            </p>
+            <div className="bg-[#111112] border border-[#2a2a2b] p-6 rounded-2xl mb-8 flex flex-col items-center justify-center text-center">
+               <div className="w-16 h-16 bg-[#eab676]/10 text-[#eab676] rounded-full flex items-center justify-center mb-4">
+                  <Home size={32} />
+               </div>
+               <div className="text-white font-black text-xl mb-1">Item {currentItemIndex + 1} of {itemConfigList.length}</div>
+               <div className="text-[#eab676] font-bold text-sm uppercase tracking-widest">{item?.itemType?.replace('_', ' ')}</div>
+            </div>
+            <button onClick={() => setStep(7)} className="w-full bg-[#eab676] !text-black py-4 rounded-xl font-black uppercase tracking-widest hover:scale-[1.02] transition-transform flex justify-center items-center gap-2">
+              Begin <ChevronRight size={20} />
+            </button>
+          </div>
+        )
+      }
+      case 7: {
+        const commonRooms = ['Main Bedroom', 'Bedroom', 'Living Room', 'Dining Room', 'Kitchen', 'Hall', 'Bathroom', 'Office'];
+        return (
+          <div className="animate-fade-in-up">
+            <h2 className="text-xl md:text-3xl font-black mb-4 uppercase tracking-widest text-[#eab676]">Room & Basics</h2>
+            <p className="text-white/60 font-bold mb-8 text-sm md:text-base leading-relaxed">Item {currentItemIndex + 1}/{itemConfigList.length}</p>
+            
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
+               {commonRooms.map(r => (
+                 <button key={r} onClick={() => setCurrentRoomName(r)} className={`p-3 rounded-xl border-2 font-black text-xs transition-all ${currentRoomName === r ? 'border-[#eab676] bg-[#eab676]/10 text-white' : 'border-[#2a2a2b] bg-[#111112] text-white/50 hover:border-[#3a3a3b]'}`}>{r}</button>
+               ))}
+            </div>
+            <div className="mb-6">
+               <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-2">Or type custom name:</p>
+               <input type="text" value={currentRoomName} onChange={e => setCurrentRoomName(e.target.value)} placeholder="e.g. Master Bath" className="w-full bg-[#111112] border border-[#3a3a3b] p-4 rounded-xl text-white font-bold focus:outline-none focus:border-[#eab676]" />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+               <div className="bg-[#111112] border border-[#2a2a2b] p-4 rounded-xl">
+                  <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Quantity (Units)</p>
+                  <div className="flex items-center gap-4">
+                     <button onClick={() => setCurrentQuantity(Math.max(1, currentQuantity - 1))} className="w-10 h-10 rounded-lg bg-[#1a1a1b] border border-[#3a3a3b] text-white font-black hover:border-[#eab676] transition-colors">-</button>
+                     <span className="text-xl font-black text-[#eab676] w-8 text-center">{currentQuantity}</span>
+                     <button onClick={() => setCurrentQuantity(currentQuantity + 1)} className="w-10 h-10 rounded-lg bg-[#1a1a1b] border border-[#3a3a3b] text-white font-black hover:border-[#eab676] transition-colors">+</button>
+                  </div>
+               </div>
+               <div className="bg-[#111112] border border-[#2a2a2b] p-4 rounded-xl">
+                  <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Orientation</p>
+                  <div className="flex bg-[#1a1a1b] rounded-lg border border-[#3a3a3b] overflow-hidden">
+                    {['North', 'South', 'East', 'West'].map(dir => (
+                      <button key={dir} onClick={() => setCurrentOrientation(dir)} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider transition-colors ${currentOrientation === dir ? 'bg-[#eab676] text-black' : 'text-white/50 hover:bg-[#2a2a2b] hover:text-white'}`}>
+                        {dir}
+                      </button>
+                    ))}
+                  </div>
+               </div>
+            </div>
+            <button disabled={!currentRoomName} onClick={() => setStep(8)} className="w-full bg-[#eab676] !text-black py-4 rounded-xl font-black uppercase tracking-widest disabled:opacity-20 flex justify-center items-center gap-2">
+              Next <ChevronRight size={20} />
+            </button>
+          </div>
+        );
+      }
+      case 8: {
+        return (
+          <div className="animate-fade-in-up">
+            <h2 className="text-xl md:text-3xl font-black mb-4 uppercase tracking-widest text-[#eab676]">Select Style</h2>
+            <p className="text-white/60 font-bold mb-8 text-sm md:text-base leading-relaxed">Item {currentItemIndex + 1}/{itemConfigList.length} - {currentRoomName}</p>
+            
+            <div className="grid grid-cols-2 gap-4 mb-8">
+               {WINDOW_TYPES.map(wt => (
+                 <button key={wt.id} onClick={() => setCurrentWindowType(wt.id)} className={`p-4 rounded-xl border-2 font-black text-sm flex-col flex items-center gap-2 transition-all ${currentWindowType === wt.id ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676]' : 'border-[#2a2a2b] bg-[#111112] text-white/50 hover:border-[#3a3a3b]'}`}>
+                   {wt.name}
+                 </button>
+               ))}
+            </div>
+            <button disabled={!currentWindowType} onClick={() => setStep(9)} className="w-full bg-[#eab676] !text-black py-4 rounded-xl font-black uppercase tracking-widest disabled:opacity-20 flex justify-center items-center gap-2">
+              Next <ChevronRight size={20} />
+            </button>
+          </div>
+        );
+      }
+      case 9: {
+        return (
+          <div className="animate-fade-in-up">
+            <h2 className="text-xl md:text-3xl font-black mb-4 uppercase tracking-widest text-[#eab676]">Select Openings</h2>
+            <p className="text-white/60 font-bold mb-8 text-sm md:text-base leading-relaxed">Item {currentItemIndex + 1}/{itemConfigList.length} - {currentRoomName}</p>
+            
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+               {['F', 'DKL', 'DKR', 'DL', 'DR', 'K'].map(op => (
+                 <button key={op} onClick={() => setCurrentOpenings([op])} className={`p-4 rounded-xl border-2 font-black text-sm flex-col flex items-center gap-2 transition-all ${currentOpenings[0] === op ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676]' : 'border-[#2a2a2b] bg-[#111112] text-white/50 hover:border-[#3a3a3b]'}`}>
+                   {op}
+                 </button>
+               ))}
+            </div>
+            <button disabled={currentOpenings.length === 0} onClick={() => { setCurrentGlazing(recommendation?.glazing || CONFIG_SCHEMA.glazing[0].id); setStep(10); }} className="w-full bg-[#eab676] !text-black py-4 rounded-xl font-black uppercase tracking-widest disabled:opacity-20 flex justify-center items-center gap-2">
+              Next <ChevronRight size={20} />
+            </button>
+          </div>
+        );
+      }
+      case 10: {
+        return (
+          <div className="animate-fade-in-up">
+            <h2 className="text-xl md:text-3xl font-black mb-4 uppercase tracking-widest text-[#eab676]">Select Glazing</h2>
+            <p className="text-white/60 font-bold mb-8 text-sm md:text-base leading-relaxed">Item {currentItemIndex + 1}/{itemConfigList.length} - {currentRoomName}</p>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+               {CONFIG_SCHEMA.glazing.map(gl => (
+                 <button key={gl.id} onClick={() => setCurrentGlazing(gl.id)} className={`p-4 text-left rounded-xl border-2 font-black text-sm flex-col transition-all ${currentGlazing === gl.id ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676] block' : 'border-[#2a2a2b] bg-[#111112] text-white/50 block hover:border-[#3a3a3b]'}`}>
+                   {gl.id}
+                 </button>
+               ))}
+            </div>
+            <button disabled={!currentGlazing} onClick={() => setStep(11)} className="w-full bg-[#eab676] !text-black py-4 rounded-xl font-black uppercase tracking-widest disabled:opacity-20 flex justify-center items-center gap-2">
+              Next <ChevronRight size={20} />
+            </button>
+          </div>
+        );
+      }
+      case 11: {
+        return (
+          <div className="animate-fade-in-up">
+            <h2 className="text-xl md:text-3xl font-black mb-4 uppercase tracking-widest text-[#eab676]">Select Blinds</h2>
+            <p className="text-white/60 font-bold mb-8 text-sm md:text-base leading-relaxed">Item {currentItemIndex + 1}/{itemConfigList.length} - {currentRoomName}</p>
+            
+            <div className="grid grid-cols-2 gap-3 mb-8">
+               {['None', 'Manual Roller', 'Electric Roller', 'Venetian'].map(bl => (
+                 <button key={bl} onClick={() => setCurrentBlinds(bl)} className={`p-4 rounded-xl border-2 font-black text-sm flex-col flex items-center gap-2 transition-all ${currentBlinds === bl ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676]' : 'border-[#2a2a2b] bg-[#111112] text-white/50 hover:border-[#3a3a3b]'}`}>
+                   {bl}
+                 </button>
+               ))}
+            </div>
+            <button disabled={!currentBlinds} onClick={() => setStep(12)} className="w-full bg-[#eab676] !text-black py-4 rounded-xl font-black uppercase tracking-widest disabled:opacity-20 flex justify-center items-center gap-2">
+              Next <ChevronRight size={20} />
+            </button>
+          </div>
+        );
+      }
+      case 12: {
+        return (
+          <div className="animate-fade-in-up">
+            <h2 className="text-xl md:text-3xl font-black mb-4 uppercase tracking-widest text-[#eab676]">Ready to Configure</h2>
+            <p className="text-white/60 font-bold mb-8 text-sm md:text-base leading-relaxed">
+              We will now open the main configurator with this preset data for <strong className="text-white">{currentRoomName}</strong>. 
+            </p>
+            <div className="bg-[#111112] border border-[#2a2a2b] p-6 rounded-2xl mb-8 shadow-inner">
+               <ul className="space-y-4 text-sm font-bold text-white/70">
+                 <li className="flex justify-between items-center border-b border-[#2a2a2b] pb-2"><span className="text-white/40 uppercase tracking-widest text-xs">Item:</span> <span className="text-white text-base">{currentRoomName} <span className="text-[#eab676]">({currentQuantity}x)</span></span></li>
+                 <li className="flex justify-between items-center border-b border-[#2a2a2b] pb-2"><span className="text-white/40 uppercase tracking-widest text-xs">Orient:</span> <span className="text-white">{currentOrientation}</span></li>
+                 <li className="flex justify-between items-center border-b border-[#2a2a2b] pb-2"><span className="text-white/40 uppercase tracking-widest text-xs">Style:</span> <span className="text-[#eab676]">{currentWindowType}</span></li>
+                 <li className="flex justify-between items-center border-b border-[#2a2a2b] pb-2"><span className="text-white/40 uppercase tracking-widest text-xs">Glazing:</span> <span className="text-white">{currentGlazing}</span></li>
+                 <li className="flex justify-between items-center"><span className="text-white/40 uppercase tracking-widest text-xs">Blinds:</span> <span className="text-white">{currentBlinds}</span></li>
+               </ul>
+            </div>
+            <button onClick={() => {
+              const updatedList = [...itemConfigList];
+              updatedList[currentItemIndex] = {
+                ...updatedList[currentItemIndex],
+                roomName: currentRoomName,
+                quantity: currentQuantity,
+                orientation: currentOrientation,
+                windowType: currentWindowType,
+                openings: currentOpenings,
+                glazing: currentGlazing,
+                blinds: currentBlinds,
+              };
+              setItemConfigList(updatedList);
+              
+              useOrderStore.getState().setDiscount(step * 10);
+              startOrder(updatedList);
+              onComplete(recommendation?.material || '', recommendation?.profile || '', recommendation?.glazing || '');
+            }} className="w-full bg-[#eab676] !text-black py-4 rounded-xl font-black uppercase tracking-widest hover:scale-[1.02] flex justify-center items-center gap-2 shadow-[0_0_30px_rgba(234,182,118,0.3)]">
+              Launch Configurator <Sparkles size={20} />
+            </button>
+          </div>
+        );
+      }
+      default:
+        return null;
     }
   };
 
@@ -353,6 +684,14 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
         {!isProcessing && step < 5 && (
           <div className="absolute top-0 left-0 w-full h-1.5 bg-[#111112] rounded-t-[2rem] overflow-hidden">
             <div className="h-full bg-gradient-to-r from-[#eab676]/50 to-[#eab676] transition-all duration-500 ease-in-out" style={{ width: `${(step / 4) * 100}%` }}></div>
+          </div>
+        )}
+
+        {/* Discount Badge */}
+        {!isProcessing && (
+          <div className="absolute top-4 left-6 z-20 bg-[#eab676]/10 border border-[#eab676]/30 px-3 py-1.5 rounded-full flex items-center gap-1.5 animate-fade-in shadow-lg">
+             <HandCoins size={14} className="text-[#eab676]" />
+             <span className="text-[#eab676] font-black text-xs uppercase tracking-widest">Saved: <span className="text-white">€{step * 10}</span></span>
           </div>
         )}
 
