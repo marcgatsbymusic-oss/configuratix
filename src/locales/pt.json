@@ -282,7 +282,8 @@
       "dimensions": "Dimensões (MM)",
       "glazing": "Vidros",
       "options": "Acessórios",
-      "profile": "Perfil"
+      "profile": "Perfil",
+      "start": "Iniciar"
     },
     "summary": {
       "title": "Resumo das Especificações",
@@ -342,6 +343,10 @@
       "DL": "De Abrir (Esq)",
       "DR": "De Abrir (Dir)",
       "K": "Basculante"
+    },
+    "welcome": {
+      "title": "Bem-vindo ao nosso configurador de janelas Inteligente",
+      "description": "Escolher janelas não é uma tarefa fácil, existem muitas opções e as necessidades de cada pessoa divergem. É por isso que o nosso configurador o guiará e o ajudará a tomar a melhor decisão que se adapte às suas necessidades e orçamento."
     }
   },
   "help": {

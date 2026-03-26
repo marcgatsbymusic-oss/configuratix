@@ -134,15 +134,15 @@ export function MainConfigurator() {
                   <div className="w-24 h-24 bg-[#eab676]/10 rounded-full flex items-center justify-center text-[#eab676] shadow-[0_0_40px_rgba(234,182,118,0.15)] outline outline-1 outline-white/5 mb-2">
                     <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
                   </div>
-                  <h1 className="!text-white text-3xl md:text-4xl lg:text-5xl font-black drop-shadow-md tracking-tight uppercase">Welcome to our AI powered windows configurator</h1>
+                  <h1 className="!text-white text-3xl md:text-4xl lg:text-5xl font-black drop-shadow-md tracking-tight uppercase">{t('configurator.welcome.title', 'Welcome to our AI powered windows configurator')}</h1>
                   <p className="!text-[#f0f0f0] font-bold text-base md:text-lg lg:text-xl max-w-4xl leading-relaxed drop-shadow-md pb-6 pt-2">
-                    Selecting windows is not an easy task, there are many options and everybody's needs differ, that's why our configurator will guide and help you make the best choice that suits your needs and budget.
+                    {t('configurator.welcome.description', "Selecting windows is not an easy task, there are many options and everybody's needs differ, that's why our configurator will guide and help you make the best choice that suits your needs and budget.")}
                   </p>
                   <button 
                     onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); setActiveStep(1); }}
                     className="bg-[#eab676] !text-black font-black text-xl md:text-2xl px-14 py-5 rounded-full hover:bg-[#ffc882] hover:scale-105 active:scale-95 transition-all duration-300 shadow-[0_0_30px_rgba(234,182,118,0.4)] flex items-center gap-3 uppercase tracking-[0.2em]"
                   >
-                    Start <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                    {t('configurator.steps.start', 'Start')} <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
                   </button>
                 </div>
               </div>

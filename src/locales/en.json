@@ -282,7 +282,8 @@
       "dimensions": "Dimensions (MM)",
       "glazing": "Glazing Package",
       "options": "Accessories & Add-ons",
-      "profile": "Profile"
+      "profile": "Profile",
+      "start": "Start"
     },
     "summary": {
       "title": "Specs Overview",
@@ -342,6 +343,10 @@
       "DL": "Turn (Left)",
       "DR": "Turn (Right)",
       "K": "Tilt"
+    },
+    "welcome": {
+      "title": "Welcome to our AI powered windows configurator",
+      "description": "Selecting windows is not an easy task, there are many options and everybody's needs differ, that's why our configurator will guide and help you make the best choice that suits your needs and budget."
     }
   },
   "help": {

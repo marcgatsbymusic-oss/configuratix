@@ -282,7 +282,8 @@
       "dimensions": "Dimensions (MM)",
       "glazing": "Vitrage",
       "options": "Accessoires",
-      "profile": "Profil"
+      "profile": "Profil",
+      "start": "Démarrer"
     },
     "summary": {
       "title": "Aperçu des spécifications",
@@ -342,6 +343,10 @@
       "DL": "Ouvrant (Gau)",
       "DR": "Ouvrant (Dro)",
       "K": "Soufflet"
+    },
+    "welcome": {
+      "title": "Bienvenue dans notre configurateur de fenêtres optimisé par l'IA",
+      "description": "Choisir des fenêtres n'est pas une tâche facile, les options sont nombreuses et les besoins de chacun diffèrent. C'est pourquoi notre configurateur vous guidera et vous aidera à faire le meilleur choix adapté à vos besoins et à votre budget."
     }
   },
   "help": {

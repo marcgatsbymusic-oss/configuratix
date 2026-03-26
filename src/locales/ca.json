@@ -282,7 +282,8 @@
       "dimensions": "Dimensions (MM)",
       "glazing": "Vidres",
       "options": "Accessoris",
-      "profile": "Perfil"
+      "profile": "Perfil",
+      "start": "Començar"
     },
     "summary": {
       "title": "Resum d'Especificacions",
@@ -341,6 +342,10 @@
       "DL": "Practicable (Esq)",
       "DR": "Practicable (Dre)",
       "K": "Abatible"
+    },
+    "welcome": {
+      "title": "Benvingut al nostre configurador de finestres impulsat per IA",
+      "description": "Seleccionar finestres no és una tasca fàcil, hi ha moltes opcions i les necessitats de cadascú difereixen. És per això que el nostre configurador us guiarà i us ajudarà a prendre la millor decisió que s'adapti a les vostres necessitats i pressupost."
     }
   }
 }

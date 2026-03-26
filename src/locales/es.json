@@ -282,7 +282,8 @@
       "dimensions": "Dimensiones (MM)",
       "glazing": "Acristalamiento",
       "options": "Accesorios",
-      "profile": "Perfil"
+      "profile": "Perfil",
+      "start": "Empezar"
     },
     "summary": {
       "title": "Resumen de especificaciones",
@@ -342,6 +343,10 @@
       "DL": "Practicable (Izq)",
       "DR": "Practicable (Der)",
       "K": "Abatible"
+    },
+    "welcome": {
+      "title": "Bienvenido a nuestro configurador de ventanas impulsado por IA",
+      "description": "Seleccionar ventanas no es una tarea fácil, hay muchas opciones y las necesidades de cada persona difieren. Por eso nuestro configurador le guiará y le ayudará a tomar la mejor decisión que se adapte a sus necesidades y presupuesto."
     }
   },
   "help": {

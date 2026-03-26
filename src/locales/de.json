@@ -282,7 +282,8 @@
       "dimensions": "Maße (MM)",
       "glazing": "Verglasung",
       "options": "Zubehör & Extras",
-      "profile": "Profil"
+      "profile": "Profil",
+      "start": "Starten"
     },
     "summary": {
       "title": "Spezifikationsübersicht",
@@ -342,6 +343,10 @@
       "DL": "Dreh (links)",
       "DR": "Dreh (rechts)",
       "K": "Kipp"
+    },
+    "welcome": {
+      "title": "Willkommen bei unserem KI-gestützten Fenster-Konfigurator",
+      "description": "Die Auswahl von Fenstern ist keine leichte Aufgabe, es gibt viele Optionen und die Bedürfnisse jedes Einzelnen sind unterschiedlich. Deshalb wird Sie unser Konfigurator begleiten und Ihnen helfen, die beste Entscheidung für Ihre Bedürfnisse und Ihr Budget zu treffen."
     }
   },
   "help": {
