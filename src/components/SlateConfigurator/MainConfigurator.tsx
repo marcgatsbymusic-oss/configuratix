@@ -83,7 +83,9 @@ export function MainConfigurator() {
   const { items, addItem } = useCartStore();
   const materialScrollRef = useRef<HTMLDivElement>(null);
   const profileScrollRef = useRef<HTMLDivElement>(null);
-  const [activeStep, setActiveStep] = useState(1);
+  const [activeStep, setActiveStep] = useState<number | null>(null);
+  const [stepOrder, setStepOrder] = useState<number[]>([1,2,3,4,5,6,7,8]);
+  const advanceStep = (current: number, next: number) => { setTimeout(() => { setActiveStep(next); setStepOrder(prev => { const n = prev.filter(s => s !== current); n.push(current); return n; }); }, 350); };
   const [expandedHelpSection, setExpandedHelpSection] = useState<number | null>(null);
   const [showExitModal, setShowExitModal] = useState(false);
 
@@ -103,16 +105,16 @@ export function MainConfigurator() {
         <div className="grid lg:grid-cols-12 gap-10 items-start">
           
           {/* LEFT: Configure Wizard */}
-          <div className="lg:col-span-8 space-y-8">
+          <div className="lg:col-span-8 flex flex-col gap-8">
             
             {/* Contextual Headers aligned with Accordions */}
-            <div className="px-2 pt-2 pb-2">
+            <div className="px-2 pt-2 pb-2" style={{ order: -1 }}>
               <p className="text-white text-sm md:text-lg lg:text-xl font-bold max-w-2xl relative z-10 leading-relaxed break-words">{t('configurator.title')}</p>
               <p className="text-white/90 font-medium text-sm mt-1">{t('configurator.subtitle')}</p>
             </div>
             
             {/* Step 1: Material */}
-            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300">
+            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300" style={{ order: stepOrder.indexOf(1) }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 1 ? 'mb-6' : ''}`}
                 onClick={() => setActiveStep(1)}
@@ -141,7 +143,7 @@ export function MainConfigurator() {
                       {(Object.keys(CONFIG_SCHEMA.materials) as Array<keyof typeof CONFIG_SCHEMA.materials>).map(mat => (
                         <button
                           key={mat}
-                          onClick={() => { dispatch({ type: 'SET_MATERIAL', payload: mat }); setTimeout(() => setActiveStep(2), 350); }}
+                          onClick={() => { dispatch({ type: 'SET_MATERIAL', payload: mat }); advanceStep(1, 2); }}
                           className={`group/btn relative w-56 shrink-0 snap-start rounded-2xl border-2 text-left transition-all overflow-hidden bg-[#1a1a1b] shadow-sm hover:shadow-md ${state.material === mat ? 'border-[#eab676] ring-4 ring-[#eab676]/10 scale-[1.02]' : 'border-[#2a2a2b] hover:border-[#3a3a3b]'}`}
                         >
                           <div className="h-48 flex items-center justify-center bg-[#111112] p-4 border-b border-[#2a2a2b] overflow-hidden">
@@ -171,7 +173,7 @@ export function MainConfigurator() {
               </div>
             </section>
             {/* Step 2: System Profile */}
-            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300">
+            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300" style={{ order: stepOrder.indexOf(2) }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 2 ? 'mb-6' : ''}`}
                 onClick={() => setActiveStep(2)}
@@ -205,7 +207,7 @@ export function MainConfigurator() {
                               profile={profile} 
                               tags={profile.tags}
                               isActive={state.profile === profile.id}
-                              onClick={() => { dispatch({ type: 'SET_PROFILE', payload: profile.id }); setTimeout(() => setActiveStep(3), 350); }}
+                              onClick={() => { dispatch({ type: 'SET_PROFILE', payload: profile.id }); advanceStep(2, 3); }}
                             />
                           ))}
                         </div>
@@ -224,7 +226,7 @@ export function MainConfigurator() {
             </section>
 
         {/* Step 3: Window Type (Fenstertyp) */}
-            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300">
+            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300" style={{ order: stepOrder.indexOf(3) }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 3 ? 'mb-6' : ''}`}
                 onClick={() => setActiveStep(3)}
@@ -244,7 +246,7 @@ export function MainConfigurator() {
                     {WINDOW_TYPES.map(wt => (
                       <button
                         key={wt.id}
-                        onClick={() => { dispatch({ type: 'SET_WINDOW_TYPE', payload: wt.id }); setTimeout(() => setActiveStep(4), 350); }}
+                        onClick={() => { dispatch({ type: 'SET_WINDOW_TYPE', payload: wt.id }); advanceStep(3, 4); }}
                         className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center justify-between gap-3 min-h-[140px] ${state.windowTypeId === wt.id ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676] shadow-md ring-4 ring-[#eab676]/10' : 'border-[#2a2a2b] hover:border-[#3a3a3b] shadow-sm hover:shadow-md group bg-[#1a1a1b]'}`}
                       >
                         <div className="w-full h-20 flex items-center justify-center relative p-2">
@@ -262,7 +264,7 @@ export function MainConfigurator() {
             </section>
 
             {/* Step 4: Opening Types (Öffnungsart) */}
-            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300">
+            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300" style={{ order: stepOrder.indexOf(4) }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 4 ? 'mb-6' : ''}`}
                 onClick={() => setActiveStep(4)}
@@ -305,7 +307,7 @@ export function MainConfigurator() {
 
                     <div className="mt-8 flex justify-end">
                       <button 
-                        onClick={() => setActiveStep(5)}
+                        onClick={() => advanceStep(4, 5)}
                         className="px-6 py-3 bg-[#eab676] !text-black hover:bg-[#F3C47F] text-white font-bold rounded-xl shadow-lg shadow-[#eab676]/20 transition-all active:scale-95 text-sm uppercase tracking-wider"
                       >
                         {t('configurator.steps.color')}
@@ -317,10 +319,10 @@ export function MainConfigurator() {
             </section>
 
             {/* Step 5: Color & Decor */}
-            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300">
+            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300" style={{ order: stepOrder.indexOf(5) }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 5 ? 'mb-6' : ''}`}
-                onClick={() => setActiveStep(5)}
+                onClick={() => advanceStep(4, 5)}
               >
                 <div className="flex items-center gap-3">
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 5 ? 'bg-[#eab676]/20 text-[#eab676]' : 'bg-[#111112] text-white/40'}`}>5</div>
@@ -383,7 +385,7 @@ export function MainConfigurator() {
                                 if (colorTab === 'interior') {
                                     setColorTab('exterior');
                                 } else {
-                                    setTimeout(() => setActiveStep(6), 350); 
+                                    advanceStep(5, 6); 
                                 }
                               }}
                               className={`relative group w-12 h-12 transition-all duration-200 outline outline-offset-2 ${
@@ -409,7 +411,7 @@ export function MainConfigurator() {
             </section>
 
             {/* Step 6: Dimensions */}
-            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300">
+            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300" style={{ order: stepOrder.indexOf(6) }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 6 ? 'mb-6' : ''}`}
                 onClick={() => setActiveStep(6)}
@@ -507,7 +509,7 @@ export function MainConfigurator() {
                   </div>
                   <div className="mt-8 flex justify-end">
                     <button 
-                      onClick={() => setActiveStep(7)}
+                      onClick={() => advanceStep(6, 7)}
                       className="px-6 py-3 bg-[#eab676] !text-black hover:bg-[#F3C47F] text-white font-bold rounded-xl shadow-lg shadow-[#eab676]/20 transition-all active:scale-95 text-sm uppercase tracking-wider"
                     >
                       {t('configurator.steps.glazing')}
@@ -518,10 +520,10 @@ export function MainConfigurator() {
             </section>
 
             {/* Step 7: Glazing Package */}
-            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300">
+            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300" style={{ order: stepOrder.indexOf(7) }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 7 ? 'mb-6' : ''}`}
-                onClick={() => setActiveStep(7)}
+                onClick={() => advanceStep(6, 7)}
               >
                 <div className="flex items-center gap-3">
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 7 ? 'bg-[#eab676]/20 text-[#eab676]' : 'bg-[#111112] text-white/40'}`}>7</div>
@@ -537,7 +539,7 @@ export function MainConfigurator() {
                     {CONFIG_SCHEMA.glazing.map(gl => (
                       <button
                         key={gl.id}
-                        onClick={() => { dispatch({ type: 'SET_GLAZING', payload: gl.id }); setTimeout(() => setActiveStep(8), 300); }}
+                        onClick={() => { dispatch({ type: 'SET_GLAZING', payload: gl.id }); advanceStep(7, 8); }}
                         className={`p-4 rounded-xl border-2 text-left transition-all ${state.glazing === gl.id ? 'border-[#eab676] bg-[#eab676]/10 ring-4 ring-[#eab676]/10' : 'border-[#2a2a2b] hover:border-[#3a3a3b] shadow-sm hover:shadow-md'}`}
                       >
                         <div className="flex items-center justify-between mb-2">
@@ -553,7 +555,7 @@ export function MainConfigurator() {
             </section>
 
             {/* Step 8: Accessories & Add-ons */}
-            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300">
+            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300" style={{ order: stepOrder.indexOf(8) }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 8 ? 'mb-6' : ''}`}
                 onClick={() => setActiveStep(8)}
@@ -684,7 +686,7 @@ export function MainConfigurator() {
                       <span className="text-white/50 group-hover:text-[#eab676] font-medium text-xs uppercase tracking-wider transition-colors">Exterior Color</span> 
                       <span className="font-bold text-white group-hover:text-[#eab676] transition-colors line-clamp-1">{COLOR_LOCALE.colors[state.exteriorColor]?.name || state.exteriorColor}</span>
                     </button>
-                    <button onClick={() => setActiveStep(7)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-[#111112] transition-colors">
+                    <button onClick={() => advanceStep(6, 7)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-[#111112] transition-colors">
                       <span className="text-white/50 group-hover:text-[#eab676] font-medium text-xs uppercase tracking-wider transition-colors">{t('configurator.summary.glazing')}</span> 
                       <span className="font-bold text-[#eab676] group-hover:text-white bg-[#eab676]/10 group-hover:bg-[#eab676] !text-black px-2 py-0.5 rounded transition-colors truncate max-w-[150px] text-right">{GLASS_LOCALE[state.glazing] || state.glazing}</span>
                     </button>
