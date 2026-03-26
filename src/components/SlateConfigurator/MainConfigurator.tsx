@@ -98,9 +98,10 @@ export function MainConfigurator() {
   const { items, addItem } = useCartStore();
   const materialScrollRef = useRef<HTMLDivElement>(null);
   const profileScrollRef = useRef<HTMLDivElement>(null);
-  const [activeStep, setActiveStep] = useState<number | null>(1);
+  const hasProduct = typeof window !== 'undefined' && window.location.search.includes('product=');
+  const [activeStep, setActiveStep] = useState<number | null>(hasProduct ? 3 : 1);
   const [stepOrder, setStepOrder] = useState<number[]>([1,2,3,4,5,6,7,8]);
-  const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+  const [completedSteps, setCompletedSteps] = useState<number[]>(hasProduct ? [1, 2] : []);
   const openStep = (step: number) => { setActiveStep(step); setStepOrder(prev => [step, ...prev.filter(s => s !== step)]); };
   const advanceStep = (current: number, next: number) => { setTimeout(() => { setActiveStep(next); setCompletedSteps(prev => Array.from(new Set([...prev, current]))); setStepOrder(prev => { const n = prev.filter(s => s !== current); n.push(current); return n; }); }, 350); };
   const [expandedHelpSection, setExpandedHelpSection] = useState<number | null>(null);
@@ -173,7 +174,7 @@ export function MainConfigurator() {
                         <button
                           key={mat}
                           onClick={() => { dispatch({ type: 'SET_MATERIAL', payload: mat }); advanceStep(1, 2); }}
-                          className={`group/btn relative w-56 shrink-0 snap-start rounded-2xl border-2 text-left transition-all overflow-hidden bg-[#1a1a1b] shadow-sm hover:shadow-md ${state.material === mat ? 'border-[#eab676] ring-4 ring-[#eab676]/10 scale-[1.02]' : 'border-[#2a2a2b] hover:border-[#3a3a3b]'}`}
+                          className={`group/btn relative w-56 shrink-0 snap-start rounded-2xl border-2 text-left transition-all overflow-hidden bg-[#1a1a1b] shadow-sm hover:shadow-md ${(completedSteps.includes(1) && state.material === mat) ? 'border-[#eab676] ring-4 ring-[#eab676]/10 scale-[1.02]' : 'border-[#2a2a2b] hover:border-[#3a3a3b]'}`}
                         >
                           <div className="h-48 flex items-center justify-center bg-[#111112] p-4 border-b border-[#2a2a2b] overflow-hidden">
                             <img src={CONFIG_SCHEMA.materials[mat].image} alt={mat} className="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-500 group-hover/btn:scale-110" />
@@ -182,7 +183,7 @@ export function MainConfigurator() {
                             <div className="font-bold text-lg text-white/90">{t(`configurator.materials.${mat}`, mat)}</div>
                           </div>
                           
-                          {state.material === mat && (
+                          {(completedSteps.includes(1) && state.material === mat) && (
                             <div className="absolute top-3 right-3 w-7 h-7 bg-[#eab676] !text-black rounded-full flex items-center justify-center text-white shadow-md">
                               <Check size={14} strokeWidth={4} />
                             </div>
@@ -236,7 +237,7 @@ export function MainConfigurator() {
                               key={profile.id} 
                               profile={profile} 
                               tags={profile.tags}
-                              isActive={state.profile === profile.id}
+                              isActive={completedSteps.includes(2) && state.profile === profile.id}
                               onClick={() => { dispatch({ type: 'SET_PROFILE', payload: profile.id }); advanceStep(2, 3); }}
                             />
                           ))}
@@ -327,9 +328,9 @@ export function MainConfigurator() {
                             {OPENING_TYPES.map(ot => (<button
                                 key={ot.id}
                                 onClick={() => { dispatch({ type: 'SET_SASH_OPENING', payload: { index: sashIndex, openingId: ot.shortCode } }); const count = WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.sashes || 1; if (sashIndex === count - 1) { advanceStep(4, 5); } }}
-                                className={`group flex flex-col items-center justify-center gap-3 p-3 w-32 rounded-xl border-2 transition-all ${state.sashOpenings[sashIndex] === ot.shortCode ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676] shadow-md shadow-[#eab676]/5 ring-1 ring-[#eab676]/50' : 'border-[#2a2a2b] bg-[#1a1a1b] text-white/50 hover:border-[#3a3a3b] hover:text-white/80'}`}
+                                className={`group flex flex-col items-center justify-center gap-3 p-3 w-32 rounded-xl border-2 transition-all ${(completedSteps.includes(4) && state.sashOpenings[sashIndex] === ot.shortCode) ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676] shadow-md shadow-[#eab676]/5 ring-1 ring-[#eab676]/50' : 'border-[#2a2a2b] bg-[#1a1a1b] text-white/50 hover:border-[#3a3a3b] hover:text-white/80'}`}
                               >
-                                <SashSymbol shortCode={ot.shortCode} className={`w-10 h-10 transition-colors ${state.sashOpenings[sashIndex] === ot.shortCode ? 'text-[#eab676]' : 'text-white/20 group-hover:text-white/40'}`} />
+                                <SashSymbol shortCode={ot.shortCode} className={`w-10 h-10 transition-colors ${(completedSteps.includes(4) && state.sashOpenings[sashIndex] === ot.shortCode) ? 'text-[#eab676]' : 'text-white/20 group-hover:text-white/40'}`} />
                                 <span className="text-[10px] sm:text-[11px] font-bold text-center leading-tight">
                                   {t(`configurator.openingTypes.${ot.shortCode}`, ot.name)}
                                 </span>
@@ -411,7 +412,7 @@ export function MainConfigurator() {
                         .filter(colorId => COLOR_LOCALE.colors[colorId].group === COLOR_LOCALE.colorGroups[colorTab === 'interior' ? state.interiorColorGroup : state.exteriorColorGroup])
                         .map(colorId => {
                           const colorData = COLOR_LOCALE.colors[colorId];
-                          const isActive = colorTab === 'interior' ? state.interiorColor === colorId : state.exteriorColor === colorId;
+                          const isActive = completedSteps.includes(5) && (colorTab === 'interior' ? state.interiorColor === colorId : state.exteriorColor === colorId);
                           return (
                             <button
                               key={colorId}
@@ -706,23 +707,23 @@ export function MainConfigurator() {
 
                     <button onClick={() => openStep(1)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-[#111112] transition-colors">
                       <div className="flex items-center gap-2.5"><span className="w-5 h-5 rounded-md inline-flex items-center justify-center bg-[#2a2a2b] border border-white/5 shadow-inner text-[10px] font-black text-white/50 group-hover:bg-[#eab676] group-hover:text-black group-hover:border-[#eab676] transition-all duration-300 drop-shadow-sm">1</span><span className="text-white/50 group-hover:text-[#eab676] font-medium text-xs uppercase tracking-wider transition-colors">{t('configurator.summary.material')}</span></div> 
-                      <span className="font-bold text-white group-hover:text-[#eab676] transition-colors">{state.material}</span>
+                      <span className="font-bold text-white group-hover:text-[#eab676] transition-colors">{completedSteps.includes(1) ? state.material : '---'}</span>
                     </button>
                     <button onClick={() => openStep(2)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-[#111112] transition-colors">
                       <div className="flex items-center gap-2.5"><span className="w-5 h-5 rounded-md inline-flex items-center justify-center bg-[#2a2a2b] border border-white/5 shadow-inner text-[10px] font-black text-white/50 group-hover:bg-[#eab676] group-hover:text-black group-hover:border-[#eab676] transition-all duration-300 drop-shadow-sm">2</span><span className="text-white/50 group-hover:text-[#eab676] font-medium text-xs uppercase tracking-wider transition-colors">{t('configurator.summary.system')}</span></div> 
-                      <span className="font-bold text-white group-hover:text-[#eab676] transition-colors truncate max-w-[150px] text-right">{state.profile ? (CONFIG_SCHEMA.materials[state.material].profiles.find(p => p.id === state.profile)?.name || state.profile) : 'Standard System'}</span>
+                      <span className="font-bold text-white group-hover:text-[#eab676] transition-colors truncate max-w-[150px] text-right">{completedSteps.includes(2) && state.profile ? (CONFIG_SCHEMA.materials[state.material].profiles.find(p => p.id === state.profile)?.name || state.profile) : '---'}</span>
                     </button>
                     <button onClick={() => openStep(3)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-[#111112] transition-colors">
                       <div className="flex items-center gap-2.5"><span className="w-5 h-5 rounded-md inline-flex items-center justify-center bg-[#2a2a2b] border border-white/5 shadow-inner text-[10px] font-black text-white/50 group-hover:bg-[#eab676] group-hover:text-black group-hover:border-[#eab676] transition-all duration-300 drop-shadow-sm">3</span><span className="text-white/50 group-hover:text-[#eab676] font-medium text-xs uppercase tracking-wider transition-colors">{t('configurator.summary.windowType')}</span></div> 
-                      <span className="font-bold text-white group-hover:text-[#eab676] transition-colors">{t(`configurator.windowTypes.${state.windowTypeId}`, WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.name || state.windowTypeId)}</span>
+                      <span className="font-bold text-white group-hover:text-[#eab676] transition-colors">{completedSteps.includes(3) ? t(`configurator.windowTypes.${state.windowTypeId}`, WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.name || state.windowTypeId) : '---'}</span>
                     </button>
                     <button onClick={() => { openStep(5); setColorTab('interior'); }} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-[#111112] transition-colors">
                       <div className="flex items-center gap-2.5"><span className="w-5 h-5 rounded-md inline-flex items-center justify-center bg-[#2a2a2b] border border-white/5 shadow-inner text-[10px] font-black text-white/50 group-hover:bg-[#eab676] group-hover:text-black group-hover:border-[#eab676] transition-all duration-300 drop-shadow-sm">5</span><span className="text-white/50 group-hover:text-[#eab676] font-medium text-xs uppercase tracking-wider transition-colors">Interior Color</span></div> 
-                      <span className="font-bold text-white group-hover:text-[#eab676] transition-colors line-clamp-1">{COLOR_LOCALE.colors[state.interiorColor]?.name || state.interiorColor}</span>
+                      <span className="font-bold text-white group-hover:text-[#eab676] transition-colors line-clamp-1">{completedSteps.includes(5) ? (COLOR_LOCALE.colors[state.interiorColor]?.name || state.interiorColor) : '---'}</span>
                     </button>
                     <button onClick={() => { openStep(5); setColorTab('exterior'); }} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-[#111112] transition-colors">
                       <div className="flex items-center gap-2.5"><span className="w-5 h-5 rounded-md inline-flex items-center justify-center bg-[#2a2a2b] border border-white/5 shadow-inner text-[10px] font-black text-white/50 group-hover:bg-[#eab676] group-hover:text-black group-hover:border-[#eab676] transition-all duration-300 drop-shadow-sm">5</span><span className="text-white/50 group-hover:text-[#eab676] font-medium text-xs uppercase tracking-wider transition-colors">Exterior Color</span></div> 
-                      <span className="font-bold text-white group-hover:text-[#eab676] transition-colors line-clamp-1">{COLOR_LOCALE.colors[state.exteriorColor]?.name || state.exteriorColor}</span>
+                      <span className="font-bold text-white group-hover:text-[#eab676] transition-colors line-clamp-1">{completedSteps.includes(5) ? (COLOR_LOCALE.colors[state.exteriorColor]?.name || state.exteriorColor) : '---'}</span>
                     </button>
                     <button onClick={() => openStep(7)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-[#111112] transition-colors">
                       <div className="flex items-center gap-2.5"><span className="w-5 h-5 rounded-md inline-flex items-center justify-center bg-[#2a2a2b] border border-white/5 shadow-inner text-[10px] font-black text-white/50 group-hover:bg-[#eab676] group-hover:text-black group-hover:border-[#eab676] transition-all duration-300 drop-shadow-sm">7</span><span className="text-white/50 group-hover:text-[#eab676] font-medium text-xs uppercase tracking-wider transition-colors">{t('configurator.summary.glazing')}</span></div> 
