@@ -98,7 +98,7 @@ export function MainConfigurator() {
   const { items, addItem } = useCartStore();
   const materialScrollRef = useRef<HTMLDivElement>(null);
   const profileScrollRef = useRef<HTMLDivElement>(null);
-  const [activeStep, setActiveStep] = useState<number | null>(null);
+  const [activeStep, setActiveStep] = useState<number | null>(1);
   const [stepOrder, setStepOrder] = useState<number[]>([1,2,3,4,5,6,7,8]);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const openStep = (step: number) => { setActiveStep(step); setStepOrder(prev => [step, ...prev.filter(s => s !== step)]); };
@@ -124,14 +124,24 @@ export function MainConfigurator() {
           {/* LEFT: Configure Wizard */}
           <div className="lg:col-span-8 flex flex-col gap-8">
             
-            {/* Contextual Headers aligned with Accordions */}
-            <div className="px-2 pt-2 pb-2" style={{ order: -1 }}>
-              <p className="!text-white text-sm md:text-lg lg:text-xl md:text-2xl font-black max-w-2xl relative z-10 leading-relaxed break-words drop-shadow-md">{t('configurator.title')}</p>
-              <p className="!text-[#f0f0f0] font-bold text-sm md:text-base mt-2 drop-shadow-sm">{t('configurator.subtitle')}</p>
-            </div>
+            {/* Contextual Welcome Message */}
+            {completedSteps.length === 0 && (
+              <div className="bg-gradient-to-br from-[#1a1a1b] to-[#111112] border border-[#eab676]/30 p-8 rounded-3xl shadow-2xl mb-2 relative overflow-hidden group" style={{ order: -1 }}>
+                <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-transparent via-[#eab676] to-transparent opacity-70" />
+                <div className="flex flex-col items-center text-center gap-5 relative z-10">
+                  <div className="w-20 h-20 bg-[#eab676]/10 rounded-full flex items-center justify-center text-[#eab676] shadow-[0_0_30px_rgba(234,182,118,0.15)] outline outline-1 outline-white/5">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+                  </div>
+                  <h1 className="!text-white text-2xl md:text-3xl lg:text-4xl font-black drop-shadow-md tracking-tight">Welcome to our AI powered windows configurator</h1>
+                  <p className="text-white/70 font-medium text-sm md:text-base lg:text-lg max-w-3xl leading-relaxed">
+                    Selecting windows is not an easy task, there are many options and everybody's needs differ, that's why our configurator will guide and help you make the best choice that suits your needs and budget.
+                  </p>
+                </div>
+              </div>
+            )}
             
             {/* Step 1: Material */}
-            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300" style={{ order: stepOrder.indexOf(1) }}>
+            <section className={`bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-500 ${activeStep !== 1 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(1) }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 1 ? 'mb-6' : ''}`}
                 onClick={() => openStep(1)}
@@ -191,7 +201,7 @@ export function MainConfigurator() {
               </div>
             </section>
             {/* Step 2: System Profile */}
-            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300" style={{ order: stepOrder.indexOf(2) }}>
+            <section className={`bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-500 ${activeStep !== 2 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(2) }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 2 ? 'mb-6' : ''}`}
                 onClick={() => openStep(2)}
@@ -245,7 +255,7 @@ export function MainConfigurator() {
             </section>
 
         {/* Step 3: Window Type (Fenstertyp) */}
-            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300" style={{ order: stepOrder.indexOf(3) }}>
+            <section className={`bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-500 ${activeStep !== 3 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(3) }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 3 ? 'mb-6' : ''}`}
                 onClick={() => openStep(3)}
@@ -284,7 +294,7 @@ export function MainConfigurator() {
             </section>
 
             {/* Step 4: Opening Types (Öffnungsart) */}
-            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300" style={{ order: stepOrder.indexOf(4) }}>
+            <section className={`bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-500 ${activeStep !== 4 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(4) }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 4 ? 'mb-6' : ''}`}
                 onClick={() => openStep(4)}
@@ -342,7 +352,7 @@ export function MainConfigurator() {
             </section>
 
             {/* Step 5: Color & Decor */}
-            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300" style={{ order: stepOrder.indexOf(5) }}>
+            <section className={`bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-500 ${activeStep !== 5 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(5) }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 5 ? 'mb-6' : ''}`}
                 onClick={() => openStep(5)}
@@ -435,7 +445,7 @@ export function MainConfigurator() {
             </section>
 
             {/* Step 6: Dimensions */}
-            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300" style={{ order: stepOrder.indexOf(6) }}>
+            <section className={`bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-500 ${activeStep !== 6 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(6) }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 6 ? 'mb-6' : ''}`}
                 onClick={() => openStep(6)}
@@ -545,7 +555,7 @@ export function MainConfigurator() {
             </section>
 
             {/* Step 7: Glazing Package */}
-            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300" style={{ order: stepOrder.indexOf(7) }}>
+            <section className={`bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-500 ${activeStep !== 7 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(7) }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 7 ? 'mb-6' : ''}`}
                 onClick={() => openStep(7)}
@@ -581,7 +591,7 @@ export function MainConfigurator() {
             </section>
 
             {/* Step 8: Accessories & Add-ons */}
-            <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300" style={{ order: stepOrder.indexOf(8) }}>
+            <section className={`bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-500 ${activeStep !== 8 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(8) }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 8 ? 'mb-6' : ''}`}
                 onClick={() => openStep(8)}
@@ -623,7 +633,7 @@ export function MainConfigurator() {
           </div>
 
           {/* RIGHT: Sticky Summary */}
-          <div className="lg:col-span-4 sticky top-10">
+          <div className={`lg:col-span-4 sticky top-10 transition-all duration-700 ${completedSteps.length === 0 ? "opacity-0 translate-x-10 pointer-events-none hidden lg:block" : "opacity-100 translate-x-0"}`}>
             
             {/* Glassmorphism Summary Card */}
             <div className="bg-[#1a1a1b]/70 backdrop-blur-xl border border-white/60 shadow-2xl shadow-indigo-900/5 rounded-3xl overflow-hidden">
