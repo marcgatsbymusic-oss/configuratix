@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useConfigurator } from './useConfigurator';
 import { CONFIG_SCHEMA, WINDOW_TYPES, OPENING_TYPES, COLOR_LOCALE, GLASS_LOCALE } from './types';
-import { Ruler, Layers, Check, ChevronLeft, ChevronRight, ShoppingCart, Download, HelpCircle } from 'lucide-react';
+import { Ruler, Layers, Check, ChevronLeft, ChevronRight, ShoppingCart, Download, HelpCircle, X } from 'lucide-react';
 import { FloatingHelpMenu } from './FloatingHelpMenu';
 import { ExitIntentModal } from './ExitIntentModal';
 import { MaterialHelp, WindowTypeHelp } from './HelpContents';
@@ -606,10 +606,27 @@ export function MainConfigurator() {
               >
                 <div className="flex items-center gap-3">
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 8 ? 'bg-[#eab676]/20 text-[#eab676]' : 'bg-[#111112] text-white/40'}`}>8</div> 
- {completedSteps.includes(8) && <Check size={20} className="text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.4)]" strokeWidth={3} />}
+                  {completedSteps.includes(8) && <Check size={20} className="text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.4)]" strokeWidth={3} />}
                   <h2 className={`text-xl font-bold transition-colors ${activeStep === 8 ? 'text-white/90' : 'text-white/40'}`}>{t('configurator.steps.options')}</h2>
                 </div>
-                {activeStep !== 8 && state.addons.length > 0 && <div className="text-xs font-bold text-[#eab676] bg-[#eab676]/10 px-3 py-1.5 rounded-full uppercase tracking-wider">{state.addons.length} selected</div>}
+                {activeStep === 8 ? (
+                  <button 
+                    onClick={(e) => { 
+                      e.stopPropagation(); 
+                      setActiveStep(-1); 
+                      // Mark as completed even if no addons selected so it visually resolves
+                      setCompletedSteps(prev => Array.from(new Set([...prev, 8]))); 
+                      // Bump step order to bottom
+                      setStepOrder(prev => { const n = prev.filter(s => s !== 8); n.push(8); return n; });
+                    }}
+                    className="p-1.5 rounded-full hover:bg-white/10 text-white/50 hover:text-white transition-all transform hover:scale-110 active:scale-95"
+                    title="Close"
+                  >
+                    <X size={22} strokeWidth={2.5} />
+                  </button>
+                ) : (
+                  state.addons.length > 0 && <div className="text-xs font-bold text-[#eab676] bg-[#eab676]/10 px-3 py-1.5 rounded-full uppercase tracking-wider">{state.addons.length} selected</div>
+                )}
               </div>
 
               <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${activeStep === 8 ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
