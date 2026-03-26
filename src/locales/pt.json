@@ -318,6 +318,22 @@
     "blueprint": {
       "interiorView": "Vista Interior",
       "dragToRotate": "Arraste para girar livremente em 3D"
+    },
+    "windowTypes": {
+      "1-flugel": "1 Folha",
+      "1-flugel-oberlicht": "1 Folha \ncom Bandeira",
+      "1-flugel-unterlicht": "1 Folha \ncom Peitoril",
+      "2-flugel": "2 Folhas",
+      "2-flugel-oberlicht": "2 Folhas \ncom Bandeira",
+      "2-flugel-oberlicht-asym": "2 Folhas assim. \ncom Bandeira",
+      "2-flugel-unterlicht": "2 Folhas \ncom Peitoril",
+      "2-flugel-unterlicht-asym": "2 Folhas assim. \ncom Peitoril",
+      "3-flugel": "3 Folhas",
+      "3-flugel-oberlicht": "3 Folhas \ncom Bandeira",
+      "3-flugel-oberlicht-asym": "3 Folhas assim. \ncom Bandeira",
+      "3-flugel-unterlicht": "3 Folhas \ncom Peitoril",
+      "3-flugel-unterlicht-asym": "3 Folhas assim. \ncom Peitoril",
+      "4-flugel": "4 Folhas"
     }
   },
   "help": {

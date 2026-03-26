@@ -318,6 +318,22 @@
     "blueprint": {
       "interiorView": "Vista Interior",
       "dragToRotate": "Arrastra para rotar libremente en 3D"
+    },
+    "windowTypes": {
+      "1-flugel": "1 Hoja",
+      "1-flugel-oberlicht": "1 Hoja \ncon Montante",
+      "1-flugel-unterlicht": "1 Hoja \ncon Fijo Inf.",
+      "2-flugel": "2 Hojas",
+      "2-flugel-oberlicht": "2 Hojas \ncon Montante",
+      "2-flugel-oberlicht-asym": "2 Hojas asim. \ncon Montante",
+      "2-flugel-unterlicht": "2 Hojas \ncon Fijo Inf.",
+      "2-flugel-unterlicht-asym": "2 Hojas asim. \ncon Fijo Inf.",
+      "3-flugel": "3 Hojas",
+      "3-flugel-oberlicht": "3 Hojas \ncon Montante",
+      "3-flugel-oberlicht-asym": "3 Hojas asim. \ncon Montante",
+      "3-flugel-unterlicht": "3 Hojas \ncon Fijo Inf.",
+      "3-flugel-unterlicht-asym": "3 Hojas asim. \ncon Fijo Inf.",
+      "4-flugel": "4 Hojas"
     }
   },
   "help": {

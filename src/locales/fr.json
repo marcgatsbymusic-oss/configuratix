@@ -318,6 +318,22 @@
     "blueprint": {
       "interiorView": "Vue Intérieure",
       "dragToRotate": "Faites glisser pour tourner librement en 3D"
+    },
+    "windowTypes": {
+      "1-flugel": "1 Vantail",
+      "1-flugel-oberlicht": "1 Vantail \navec Imposte",
+      "1-flugel-unterlicht": "1 Vantail \navec Allège",
+      "2-flugel": "2 Vantaux",
+      "2-flugel-oberlicht": "2 Vantaux \navec Imposte",
+      "2-flugel-oberlicht-asym": "2 Vantaux asym. \navec Imposte",
+      "2-flugel-unterlicht": "2 Vantaux \navec Allège",
+      "2-flugel-unterlicht-asym": "2 Vantaux asym. \navec Allège",
+      "3-flugel": "3 Vantaux",
+      "3-flugel-oberlicht": "3 Vantaux \navec Imposte",
+      "3-flugel-oberlicht-asym": "3 Vantaux asym. \navec Imposte",
+      "3-flugel-unterlicht": "3 Vantaux \navec Allège",
+      "3-flugel-unterlicht-asym": "3 Vantaux asym. \navec Allège",
+      "4-flugel": "4 Vantaux"
     }
   },
   "help": {

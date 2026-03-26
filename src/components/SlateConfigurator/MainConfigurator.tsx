@@ -237,7 +237,7 @@ export function MainConfigurator() {
                   <button onClick={(e) => { e.stopPropagation(); toggleHelp(3); }} className="text-white/40 hover:text-[#eab676] transition-colors ml-1" title="Toggle Help"><HelpCircle size={18} /></button>
                 </div>
                 {expandedHelpSection === 3 && <WindowTypeHelp onClose={() => setExpandedHelpSection(null)} />}
-                {activeStep !== 3 && <div className="text-xs font-bold text-[#eab676] bg-[#eab676]/10 px-3 py-1.5 rounded-full uppercase tracking-wider">{WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.name || state.windowTypeId}</div>}
+                {activeStep !== 3 && <div className="text-xs font-bold text-[#eab676] bg-[#eab676]/10 px-3 py-1.5 rounded-full uppercase tracking-wider">{t(`configurator.windowTypes.${state.windowTypeId}`, WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.name || state.windowTypeId)}</div>}
               </div>
               
               <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${activeStep === 3 ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
@@ -255,7 +255,7 @@ export function MainConfigurator() {
                             className={`transition-all duration-300 ${state.windowTypeId === wt.id ? 'text-[#eab676] scale-110 drop-shadow-md opacity-100' : 'text-white/40 group-hover:text-white/50 group-hover:scale-105 opacity-80 group-hover:opacity-100 drop-shadow-sm'}`}
                           />
                         </div>
-                        <div className="font-bold text-xs text-center leading-tight whitespace-pre-wrap">{wt.name}</div>
+                        <div className="font-bold text-xs text-center leading-tight whitespace-pre-wrap">{t(`configurator.windowTypes.${wt.id}`, wt.name)}</div>
                       </button>
                     ))}
                   </div>
@@ -676,7 +676,7 @@ export function MainConfigurator() {
                     </button>
                     <button onClick={() => setActiveStep(3)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-[#111112] transition-colors">
                       <span className="text-white/50 group-hover:text-[#eab676] font-medium text-xs uppercase tracking-wider transition-colors">{t('configurator.summary.windowType')}</span> 
-                      <span className="font-bold text-white group-hover:text-[#eab676] transition-colors">{WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.name || state.windowTypeId}</span>
+                      <span className="font-bold text-white group-hover:text-[#eab676] transition-colors">{t(`configurator.windowTypes.${state.windowTypeId}`, WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.name || state.windowTypeId)}</span>
                     </button>
                     <button onClick={() => { setActiveStep(5); setColorTab('interior'); }} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-[#111112] transition-colors">
                       <span className="text-white/50 group-hover:text-[#eab676] font-medium text-xs uppercase tracking-wider transition-colors">Interior Color</span> 

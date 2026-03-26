@@ -316,6 +316,22 @@
     },
     "blueprint": {
       "interiorView": "Vista Interior"
+    },
+    "windowTypes": {
+      "1-flugel": "1 Leaf",
+      "1-flugel-oberlicht": "1 Leaf \nwith Toplight",
+      "1-flugel-unterlicht": "1 Leaf \nwith Bottomlight",
+      "2-flugel": "2 Leaves",
+      "2-flugel-oberlicht": "2 Leaves \nwith Toplight",
+      "2-flugel-oberlicht-asym": "2 Leaves asym. \nwith Toplight",
+      "2-flugel-unterlicht": "2 Leaves \nwith Bottomlight",
+      "2-flugel-unterlicht-asym": "2 Leaves asym. \nwith Bottomlight",
+      "3-flugel": "3 Leaves",
+      "3-flugel-oberlicht": "3 Leaves \nwith Toplight",
+      "3-flugel-oberlicht-asym": "3 Leaves asym. \nwith Toplight",
+      "3-flugel-unterlicht": "3 Leaves \nwith Bottomlight",
+      "3-flugel-unterlicht-asym": "3 Leaves asym. \nwith Bottomlight",
+      "4-flugel": "4 Leaves"
     }
   }
 }

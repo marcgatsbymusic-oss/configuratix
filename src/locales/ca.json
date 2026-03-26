@@ -317,6 +317,22 @@
     },
     "blueprint": {
       "interiorView": "Vista Interior"
+    },
+    "windowTypes": {
+      "1-flugel": "1 Fulla",
+      "1-flugel-oberlicht": "1 Fulla \namb Muntant",
+      "1-flugel-unterlicht": "1 Fulla \namb Fix Inf.",
+      "2-flugel": "2 Fulles",
+      "2-flugel-oberlicht": "2 Fulles \namb Muntant",
+      "2-flugel-oberlicht-asym": "2 Fulles asim. \namb Muntant",
+      "2-flugel-unterlicht": "2 Fulles \namb Fix Inf.",
+      "2-flugel-unterlicht-asym": "2 Fulles asim. \namb Fix Inf.",
+      "3-flugel": "3 Fulles",
+      "3-flugel-oberlicht": "3 Fulles \namb Muntant",
+      "3-flugel-oberlicht-asym": "3 Fulles asim. \namb Muntant",
+      "3-flugel-unterlicht": "3 Fulles \namb Fix Inf.",
+      "3-flugel-unterlicht-asym": "3 Fulles asim. \namb Fix Inf.",
+      "4-flugel": "4 Fulles"
     }
   }
 }

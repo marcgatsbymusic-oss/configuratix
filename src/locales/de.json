@@ -318,6 +318,22 @@
     "blueprint": {
       "interiorView": "Innenansicht",
       "dragToRotate": "Ziehen Sie, um sich frei in 3D zu drehen"
+    },
+    "windowTypes": {
+      "1-flugel": "1 Flügel",
+      "1-flugel-oberlicht": "1 Flügel \nmit Oberlicht",
+      "1-flugel-unterlicht": "1 Flügel \nmit Unterlicht",
+      "2-flugel": "2 Flügel",
+      "2-flugel-oberlicht": "2 Flügel \nmit Oberlicht",
+      "2-flugel-oberlicht-asym": "2 Flügel asym. \nmit Oberlicht",
+      "2-flugel-unterlicht": "2 Flügel \nmit Unterlicht",
+      "2-flugel-unterlicht-asym": "2 Flügel asym. \nmit Unterlicht",
+      "3-flugel": "3 Flügel",
+      "3-flugel-oberlicht": "3 Flügel \nmit Oberlicht",
+      "3-flugel-oberlicht-asym": "3 Flügel asym. \nmit Oberlicht",
+      "3-flugel-unterlicht": "3 Flügel \nmit Unterlicht",
+      "3-flugel-unterlicht-asym": "3 Flügel asym. \nmit Unterlicht",
+      "4-flugel": "4 Flügel"
     }
   },
   "help": {
