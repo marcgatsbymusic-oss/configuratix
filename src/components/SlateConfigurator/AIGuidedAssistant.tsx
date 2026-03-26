@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, ChevronRight, ChevronLeft, ThermometerSnowflake, HandCoins, Ear, Loader2, Sparkles, CalendarCheck } from 'lucide-react';
+import { X, ChevronRight, ChevronLeft, ThermometerSnowflake, HandCoins, Ear, Loader2, Sparkles, CalendarCheck, PlayCircle } from 'lucide-react';
 import { CITIES_DB } from '../../data/spanishGeodata';
 import { calculateCTEZone } from '../../utils/cteCalculator';
 import { CONFIG_SCHEMA } from './types';
@@ -29,6 +29,7 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [recommendation, setRecommendation] = useState<any>(null);
+  const [showVideo, setShowVideo] = useState(false);
 
   const provinces = Array.from(new Set(CITIES_DB.map(c => c.p))).sort();
   const availableCities = CITIES_DB.filter(c => c.p === province);
@@ -363,6 +364,15 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
             </div>
           )}
         </div>
+        
+        {showVideo && (
+          <div className="absolute inset-0 z-50 bg-black/95 rounded-[2rem] overflow-hidden flex flex-col items-center justify-center animate-fade-in p-4 border border-[#eab676]/30">
+            <button onClick={() => setShowVideo(false)} className="absolute right-4 top-4 p-2 bg-black/50 hover:bg-white text-white hover:text-black rounded-full transition-colors z-50">
+              <X size={20} />
+            </button>
+            <video src="/assets/iglo-edge-okno-window-opening.mp4" autoPlay controls className="w-full h-auto max-h-full rounded-xl shadow-[0_0_50px_rgba(234,182,118,0.15)]" />
+          </div>
+        )}
       </div>
     </div>
   );
