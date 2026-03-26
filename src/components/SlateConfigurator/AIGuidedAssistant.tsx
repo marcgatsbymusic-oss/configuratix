@@ -321,6 +321,12 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
                        <div className="mt-4 flex flex-wrap items-center gap-2 md:gap-3">
                          <span className="bg-[#1a1a1b] border-2 border-[#3a3a3b] font-black text-white text-[9px] md:text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-lg">{t('assistant.base')}: {recommendation.material}</span>
                          <span className="bg-[#1a1a1b] border-2 border-[#3a3a3b] font-black text-[#eab676] text-[9px] md:text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-lg">{recommendation.glazing} {t('assistant.glaze')}</span>
+                         
+                         {recommendation.profile === 'igloedge' && (
+                            <button onClick={() => setShowVideo(true)} className="bg-[#eab676]/10 border-2 border-[#eab676]/30 text-[#eab676] hover:bg-[#eab676] hover:text-black font-black text-[9px] md:text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors shadow-lg">
+                              <PlayCircle size={14} /> {t('assistant.prodVideo', 'Product Video')}
+                            </button>
+                         )}
                        </div>
                      </div>
                    </div>
