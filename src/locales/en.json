@@ -275,7 +275,7 @@
     "subtitle": "Pick the material and configure your exact architectural specifications below.",
     "steps": {
       "material": "Material",
-      "system": "System Profile",
+      "system": "System",
       "windowType": "Window Type",
       "openingType": "Opening Type",
       "color": "Color & Decor",
@@ -287,8 +287,8 @@
     "summary": {
       "title": "Specs Overview",
       "dimensions": "Dimensions",
-      "material": "Material Profile",
-      "system": "System Profile",
+      "material": "Material",
+      "system": "System",
       "windowType": "Window Type",
       "color": "Color & Decor",
       "glazing": "Glazing",

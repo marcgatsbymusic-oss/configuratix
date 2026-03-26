@@ -107,8 +107,8 @@ export function MainConfigurator() {
             
             {/* Contextual Headers aligned with Accordions */}
             <div className="px-2 pt-2 pb-2">
-              <p className="text-white/70 text-sm md:text-lg lg:text-xl font-medium max-w-2xl relative z-10 leading-relaxed break-words">{t('configurator.title')}</p>
-              <p className="text-white/60 text-sm mt-1">{t('configurator.subtitle')}</p>
+              <p className="text-white text-sm md:text-lg lg:text-xl font-bold max-w-2xl relative z-10 leading-relaxed break-words">{t('configurator.title')}</p>
+              <p className="text-white/90 font-medium text-sm mt-1">{t('configurator.subtitle')}</p>
             </div>
             
             {/* Step 1: Material */}
@@ -149,7 +149,6 @@ export function MainConfigurator() {
                           </div>
                           <div className="p-5">
                             <div className="font-bold text-lg text-white/90">{t(`configurator.materials.${mat}`, mat)}</div>
-                            <div className="text-[10px] font-bold text-[#eab676] mt-1 uppercase tracking-widest">+€{CONFIG_SCHEMA.materials[mat].basePricePerSqm}/m²</div>
                           </div>
                           
                           {state.material === mat && (

@@ -275,7 +275,7 @@
     "subtitle": "Elige el material y configura tus especificaciones arquitectónicas exactas a continuación.",
     "steps": {
       "material": "Material",
-      "system": "Perfil del sistema",
+      "system": "Sistema",
       "windowType": "Tipo de ventana",
       "openingType": "Tipo de apertura",
       "color": "Color y Decoración",

@@ -275,7 +275,7 @@
     "subtitle": "Choisissez le matériau et configurez vos spécifications architecturales exactes ci-dessous.",
     "steps": {
       "material": "Matériau",
-      "system": "Profilé de système",
+      "system": "Système",
       "windowType": "Type de fenêtre",
       "openingType": "Type d'ouverture",
       "color": "Couleur & Décor",
