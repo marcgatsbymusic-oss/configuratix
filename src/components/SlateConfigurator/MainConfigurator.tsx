@@ -135,11 +135,11 @@ export function MainConfigurator() {
           onClose={() => setShowAIAssistant(false)}
           onComplete={(recommendedMaterial, recommendedProfile, recommendedGlazing) => {
             setShowAIAssistant(false);
-            dispatch({ type: 'SET_MATERIAL', payload: recommendedMaterial.toLowerCase() });
+            dispatch({ type: 'SET_MATERIAL', payload: recommendedMaterial as any });
             
             setTimeout(() => {
               // @ts-ignore
-              dispatch({ type: 'SET_PROFILE', payload: recommendedProfile.toLowerCase() });
+              dispatch({ type: 'SET_PROFILE', payload: recommendedProfile });
               // @ts-ignore
               dispatch({ type: 'SET_GLAZING', payload: recommendedGlazing });
               

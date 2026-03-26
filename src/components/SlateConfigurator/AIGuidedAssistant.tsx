@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, MapPin, ChevronRight, ThermometerSnowflake, HandCoins, HardHat, Ear, Loader2, Sparkles, Home, CalendarCheck } from 'lucide-react';
+import { X, ChevronRight, ThermometerSnowflake, HandCoins, Ear, Loader2, Sparkles, CalendarCheck } from 'lucide-react';
 import { CITIES_DB } from '../../data/spanishGeodata';
 import { calculateCTEZone } from '../../utils/cteCalculator';
 import { CONFIG_SCHEMA } from './types';
@@ -45,31 +45,33 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
     setStep(5);
     
     setTimeout(() => {
-      let recMat = material === 'pvc' || material === 'alu' || material === 'wood' ? material : 'pvc';
-      let recProf = 'iglo-5';
+      let recMat = 'PVC';
+      if (material === 'alu') recMat = 'Aluminium';
+      if (material === 'wood') recMat = 'Wood';
+
+      let recProf = 'iglo5';
       let recGlaze = '4/16/4';
       
       const isCold = cteZone.includes('D') || cteZone.includes('E');
       
       if (isCold) {
-         recProf = 'iglo-edge';
+         recProf = 'igloedge';
          recGlaze = '4/18/4/18/4 TG';
       }
       
       if (noise === 'high') {
          recGlaze = '33.1 Safe';
-         if (recProf === 'iglo-5') recProf = 'iglo-energy';
+         if (recProf === 'iglo5') recProf = 'igloenergy';
       }
 
       if (budget === 'low') {
-         recProf = recMat === 'alu' ? 'mb-45' : 'iglo-light';
+         recProf = recMat === 'Aluminium' ? 'mb-45' : 'iglolight';
          recGlaze = '4/16/4';
       } else if (budget === 'premium') {
-         recProf = recMat === 'alu' ? 'mb-86n-si' : 'iglo-edge';
+         recProf = recMat === 'Aluminium' ? 'mb-86n-si' : 'igloedge';
          recGlaze = '4/18/4/18/4 TG';
-      } else if (material === 'wood') {
-         recMat = 'wood';
-         recProf = 'softline';
+      } else if (recMat === 'Wood') {
+         recProf = 'softline68';
       }
 
       setRecommendation({ material: recMat, profile: recProf, glazing: recGlaze });
