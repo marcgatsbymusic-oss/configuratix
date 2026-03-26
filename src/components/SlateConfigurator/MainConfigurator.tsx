@@ -86,7 +86,7 @@ export function MainConfigurator() {
   const [activeStep, setActiveStep] = useState<number | null>(null);
   const [stepOrder, setStepOrder] = useState<number[]>([1,2,3,4,5,6,7,8]);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
-  const openStep = (step: number) => { openStep(step); setStepOrder(prev => [step, ...prev.filter(s => s !== step)]); };
+  const openStep = (step: number) => { setActiveStep(step); setStepOrder(prev => [step, ...prev.filter(s => s !== step)]); };
   const advanceStep = (current: number, next: number) => { setTimeout(() => { setActiveStep(next); setCompletedSteps(prev => Array.from(new Set([...prev, current]))); setStepOrder(prev => { const n = prev.filter(s => s !== current); n.push(current); return n; }); }, 350); };
   const [expandedHelpSection, setExpandedHelpSection] = useState<number | null>(null);
   const [showExitModal, setShowExitModal] = useState(false);
@@ -328,7 +328,7 @@ export function MainConfigurator() {
             <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300" style={{ order: stepOrder.indexOf(5) }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 5 ? 'mb-6' : ''}`}
-                onClick={() => advanceStep(4, 5)}
+                onClick={() => openStep(5)}
               >
                 <div className="flex items-center gap-3">
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 5 ? 'bg-[#eab676]/20 text-[#eab676]' : 'bg-[#111112] text-white/40'}`}>5</div> 
@@ -531,7 +531,7 @@ export function MainConfigurator() {
             <section className="bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-300" style={{ order: stepOrder.indexOf(7) }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 7 ? 'mb-6' : ''}`}
-                onClick={() => advanceStep(6, 7)}
+                onClick={() => openStep(7)}
               >
                 <div className="flex items-center gap-3">
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 7 ? 'bg-[#eab676]/20 text-[#eab676]' : 'bg-[#111112] text-white/40'}`}>7</div> 
@@ -696,7 +696,7 @@ export function MainConfigurator() {
                       <span className="text-white/50 group-hover:text-[#eab676] font-medium text-xs uppercase tracking-wider transition-colors">Exterior Color</span> 
                       <span className="font-bold text-white group-hover:text-[#eab676] transition-colors line-clamp-1">{COLOR_LOCALE.colors[state.exteriorColor]?.name || state.exteriorColor}</span>
                     </button>
-                    <button onClick={() => advanceStep(6, 7)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-[#111112] transition-colors">
+                    <button onClick={() => openStep(7)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-[#111112] transition-colors">
                       <span className="text-white/50 group-hover:text-[#eab676] font-medium text-xs uppercase tracking-wider transition-colors">{t('configurator.summary.glazing')}</span> 
                       <span className="font-bold text-[#eab676] group-hover:text-white bg-[#eab676]/10 group-hover:bg-[#eab676] !text-black px-2 py-0.5 rounded transition-colors truncate max-w-[150px] text-right">{GLASS_LOCALE[state.glazing] || state.glazing}</span>
                     </button>
