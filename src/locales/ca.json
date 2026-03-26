@@ -333,6 +333,14 @@
       "3-flugel-unterlicht": "3 Fulles \namb Fix Inf.",
       "3-flugel-unterlicht-asym": "3 Fulles asim. \namb Fix Inf.",
       "4-flugel": "4 Fulles"
+    },
+    "openingTypes": {
+      "F": "Fix",
+      "DKL": "Oscil·lobatent (Esq)",
+      "DKR": "Oscil·lobatent (Dre)",
+      "DL": "Practicable (Esq)",
+      "DR": "Practicable (Dre)",
+      "K": "Abatible"
     }
   }
 }

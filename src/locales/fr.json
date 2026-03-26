@@ -334,6 +334,14 @@
       "3-flugel-unterlicht": "3 Vantaux \navec Allège",
       "3-flugel-unterlicht-asym": "3 Vantaux asym. \navec Allège",
       "4-flugel": "4 Vantaux"
+    },
+    "openingTypes": {
+      "F": "Fixe",
+      "DKL": "Oscillo-Battant (Gau)",
+      "DKR": "Oscillo-Battant (Dro)",
+      "DL": "Ouvrant (Gau)",
+      "DR": "Ouvrant (Dro)",
+      "K": "Soufflet"
     }
   },
   "help": {

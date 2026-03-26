@@ -332,6 +332,14 @@
       "3-flugel-unterlicht": "3 Leaves \nwith Bottomlight",
       "3-flugel-unterlicht-asym": "3 Leaves asym. \nwith Bottomlight",
       "4-flugel": "4 Leaves"
+    },
+    "openingTypes": {
+      "F": "Fixed",
+      "DKL": "Turn-Tilt (Left)",
+      "DKR": "Turn-Tilt (Right)",
+      "DL": "Turn (Left)",
+      "DR": "Turn (Right)",
+      "K": "Tilt"
     }
   }
 }

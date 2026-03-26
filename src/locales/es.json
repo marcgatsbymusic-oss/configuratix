@@ -334,6 +334,14 @@
       "3-flugel-unterlicht": "3 Hojas \ncon Fijo Inf.",
       "3-flugel-unterlicht-asym": "3 Hojas asim. \ncon Fijo Inf.",
       "4-flugel": "4 Hojas"
+    },
+    "openingTypes": {
+      "F": "Fijo",
+      "DKL": "Oscilobatiente (Izq)",
+      "DKR": "Oscilobatiente (Der)",
+      "DL": "Practicable (Izq)",
+      "DR": "Practicable (Der)",
+      "K": "Abatible"
     }
   },
   "help": {

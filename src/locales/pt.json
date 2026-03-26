@@ -334,6 +334,14 @@
       "3-flugel-unterlicht": "3 Folhas \ncom Peitoril",
       "3-flugel-unterlicht-asym": "3 Folhas assim. \ncom Peitoril",
       "4-flugel": "4 Folhas"
+    },
+    "openingTypes": {
+      "F": "Fixo",
+      "DKL": "Oscilobatente (Esq)",
+      "DKR": "Oscilobatente (Dir)",
+      "DL": "De Abrir (Esq)",
+      "DR": "De Abrir (Dir)",
+      "K": "Basculante"
     }
   },
   "help": {

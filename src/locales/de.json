@@ -334,6 +334,14 @@
       "3-flugel-unterlicht": "3 Flügel \nmit Unterlicht",
       "3-flugel-unterlicht-asym": "3 Flügel asym. \nmit Unterlicht",
       "4-flugel": "4 Flügel"
+    },
+    "openingTypes": {
+      "F": "Festverglasung",
+      "DKL": "Dreh-Kipp (links)",
+      "DKR": "Dreh-Kipp (rechts)",
+      "DL": "Dreh (links)",
+      "DR": "Dreh (rechts)",
+      "K": "Kipp"
     }
   },
   "help": {

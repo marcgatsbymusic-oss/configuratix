@@ -77,6 +77,21 @@ const TiltProfileCard = ({ profile, isActive, onClick, tags }: { profile: any, i
   );
 };
 
+
+const SashSymbol = ({ shortCode, className = "w-6 h-6" }: { shortCode: string, className?: string }) => {
+  return (
+    <svg viewBox="0 0 100 100" className={className} fill="none" stroke="currentColor" strokeWidth="4" strokeDasharray="6 8" strokeLinecap="round" strokeLinejoin="round" opacity="0.9">
+      <rect x="5" y="5" width="90" height="90" fill="none" strokeDasharray="none" strokeWidth="3" stroke="currentColor" opacity="0.4" />
+      {shortCode === 'F' && <path d="M 5,5 L 95,95 M 5,95 L 95,5" strokeDasharray="none" strokeWidth="2" opacity="0.5" />}
+      {shortCode === 'DKL' && <><polyline points="5,5 95,50 5,95" /><polyline points="5,95 50,5 95,95" /></>}
+      {shortCode === 'DKR' && <><polyline points="95,5 5,50 95,95" /><polyline points="5,95 50,5 95,95" /></>}
+      {shortCode === 'DL' && <polyline points="5,5 95,50 5,95" />}
+      {shortCode === 'DR' && <polyline points="95,5 5,50 95,95" />}
+      {shortCode === 'K' && <polyline points="5,95 50,5 95,95" />}
+    </svg>
+  );
+};
+
 export function MainConfigurator() {
   const { t } = useTranslation();
   const { state, dispatch, pricing } = useConfigurator();
@@ -121,7 +136,7 @@ export function MainConfigurator() {
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 1 ? 'mb-6' : ''}`}
                 onClick={() => openStep(1)}
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 w-full relative">
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 1 ? 'bg-[#eab676]/20 text-[#eab676]' : 'bg-[#111112] text-white/40'}`}>1</div> 
  {completedSteps.includes(1) && <Check size={20} className="text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.4)]" strokeWidth={3} />}
                   <h2 className={`text-xl font-bold transition-colors ${activeStep === 1 ? 'text-white/90' : 'text-white/40'}`}>{t('configurator.steps.material')}</h2>
@@ -278,6 +293,7 @@ export function MainConfigurator() {
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 4 ? 'bg-[#eab676]/20 text-[#eab676]' : 'bg-[#111112] text-white/40'}`}>4</div> 
  {completedSteps.includes(4) && <Check size={20} className="text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.4)]" strokeWidth={3} />}
                   <h2 className={`text-xl font-bold transition-colors ${activeStep === 4 ? 'text-white/90' : 'text-white/40'}`}>{t('configurator.steps.openingType')}</h2>
+                  <img src={WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.imgUrl} alt="Active Layout" className="w-14 h-14 object-contain ml-auto border border-white/10 rounded-lg p-1 bg-black/40 drop-shadow-md hidden sm:block" />
                 </div>
                 {activeStep !== 4 && <div className="text-xs font-bold text-[#eab676] bg-[#eab676]/10 px-3 py-1.5 rounded-full uppercase tracking-wider">{t('configurator.state.sashes', { count: state.sashOpenings.length })}</div>}
               </div>
@@ -296,16 +312,17 @@ export function MainConfigurator() {
                             <span className="w-5 h-5 rounded bg-[#eab676]/20 text-[#eab676] flex items-center justify-center text-xs">{sashIndex + 1}</span>
                             Sash {sashIndex + 1}
                           </div>
-                          <div className="flex flex-wrap gap-2">
-                            {OPENING_TYPES.map(ot => (
-                              <button
+                          <div className="flex flex-wrap gap-3">
+                            {OPENING_TYPES.map(ot => (<button
                                 key={ot.id}
                                 onClick={() => { dispatch({ type: 'SET_SASH_OPENING', payload: { index: sashIndex, openingId: ot.shortCode } }); const count = WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.sashes || 1; if (sashIndex === count - 1) { advanceStep(4, 5); } }}
-                                className={`px-4 py-2 rounded-lg text-sm font-bold border-2 transition-all ${state.sashOpenings[sashIndex] === ot.shortCode ? 'border-[#eab676] bg-[#eab676] !text-black shadow-md' : 'border-[#2a2a2b] bg-[#1a1a1b] text-white/70 hover:border-[#3a3a3b]'}`}
+                                className={`group flex flex-col items-center justify-center gap-3 p-3 w-32 rounded-xl border-2 transition-all ${state.sashOpenings[sashIndex] === ot.shortCode ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676] shadow-md shadow-[#eab676]/5 ring-1 ring-[#eab676]/50' : 'border-[#2a2a2b] bg-[#1a1a1b] text-white/50 hover:border-[#3a3a3b] hover:text-white/80'}`}
                               >
-                                {ot.name}
-                              </button>
-                            ))}
+                                <SashSymbol shortCode={ot.shortCode} className={`w-10 h-10 transition-colors ${state.sashOpenings[sashIndex] === ot.shortCode ? 'text-[#eab676]' : 'text-white/20 group-hover:text-white/40'}`} />
+                                <span className="text-[10px] sm:text-[11px] font-bold text-center leading-tight">
+                                  {t(`configurator.openingTypes.${ot.shortCode}`, ot.name)}
+                                </span>
+                              </button>))}
                           </div>
                         </div>
                       ))}
