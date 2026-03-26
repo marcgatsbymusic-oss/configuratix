@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, ChevronRight, ThermometerSnowflake, HandCoins, Ear, Loader2, Sparkles, CalendarCheck } from 'lucide-react';
+import { X, ChevronRight, ChevronLeft, ThermometerSnowflake, HandCoins, Ear, Loader2, Sparkles, CalendarCheck } from 'lucide-react';
 import { CITIES_DB } from '../../data/spanishGeodata';
 import { calculateCTEZone } from '../../utils/cteCalculator';
 import { CONFIG_SCHEMA } from './types';
@@ -313,6 +313,17 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
 
         <div className="p-8 md:p-12 relative z-10">
           {renderStep()}
+          
+          {step < 5 && (
+            <div className="mt-8 text-left">
+              <button 
+                onClick={() => step > 1 ? setStep(step - 1) : onClose()} 
+                className="text-[10px] md:text-xs font-black text-white/40 uppercase tracking-[0.2em] hover:text-white transition-colors flex items-center gap-1.5"
+              >
+                <ChevronLeft size={14} /> {step > 1 ? t('assistant.previous', 'Previous') : t('assistant.cancel', 'Cancel')}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
