@@ -275,7 +275,7 @@
     "subtitle": "Escolha o material e configure as suas especificações arquitetónicas exatas abaixo.",
     "steps": {
       "material": "Material",
-      "system": "Sistema",
+      "system": "Perfil",
       "windowType": "Tipo de Janela",
       "openingType": "Tipo de Abertura",
       "color": "Cor e Decoração",
@@ -288,7 +288,7 @@
       "title": "Resumo das Especificações",
       "dimensions": "Dimensões",
       "material": "Material",
-      "system": "Sistema",
+      "system": "Perfil",
       "windowType": "Tipo de Janela",
       "color": "Cor e Decoração",
       "glazing": "Vidros",

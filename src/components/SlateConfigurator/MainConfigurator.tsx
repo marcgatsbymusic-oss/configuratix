@@ -111,8 +111,8 @@ export function MainConfigurator() {
             
             {/* Contextual Headers aligned with Accordions */}
             <div className="px-2 pt-2 pb-2" style={{ order: -1 }}>
-              <p className="text-white text-sm md:text-lg lg:text-xl font-bold max-w-2xl relative z-10 leading-relaxed break-words">{t('configurator.title')}</p>
-              <p className="text-white/90 font-medium text-sm mt-1">{t('configurator.subtitle')}</p>
+              <p className="!text-white text-sm md:text-lg lg:text-xl md:text-2xl font-black max-w-2xl relative z-10 leading-relaxed break-words drop-shadow-md">{t('configurator.title')}</p>
+              <p className="!text-[#f0f0f0] font-bold text-sm md:text-base mt-2 drop-shadow-sm">{t('configurator.subtitle')}</p>
             </div>
             
             {/* Step 1: Material */}

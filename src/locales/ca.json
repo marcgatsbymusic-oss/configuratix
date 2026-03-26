@@ -275,7 +275,7 @@
     "subtitle": "Tria el material i configura les teves especificacions arquitectòniques exactes a continuació.",
     "steps": {
       "material": "Material",
-      "system": "Sistema",
+      "system": "Perfil",
       "windowType": "Tipus de Finestra",
       "openingType": "Tipus d'Obertura",
       "color": "Color i Decoració",
@@ -288,7 +288,7 @@
       "title": "Resum d'Especificacions",
       "dimensions": "Dimensions",
       "material": "Material",
-      "system": "Sistema",
+      "system": "Perfil",
       "windowType": "Tipus de Finestra",
       "color": "Color i Decoració",
       "glazing": "Vidres",
