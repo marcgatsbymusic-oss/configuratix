@@ -277,7 +277,7 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
         {/* Progress Bar */}
         {!isProcessing && step < 5 && (
           <div className="absolute top-0 left-0 w-full h-1.5 bg-[#111112] rounded-t-[2rem] overflow-hidden">
-            <div className="h-full bg-gradient-to-r from-[#eab676]/50 to-[#eab676] transition-all duration-500 ease-in-out" style={{ width: \`\${(step / 4) * 100}%\` }}></div>
+            <div className="h-full bg-gradient-to-r from-[#eab676]/50 to-[#eab676] transition-all duration-500 ease-in-out" style={{ width: `${(step / 4) * 100}%` }}></div>
           </div>
         )}
 
