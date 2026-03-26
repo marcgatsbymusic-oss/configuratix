@@ -174,7 +174,7 @@ export function MainConfigurator() {
         />
       )}
       <div className="min-h-screen bg-[#111112] text-white pb-20 font-sans overflow-x-hidden max-w-[100vw] w-full">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-32 lg:pt-40 w-full overflow-hidden sm:overflow-visible">
+      <div className={`max-w-7xl mx-auto px-4 sm:px-6 w-full overflow-hidden sm:overflow-visible transition-all duration-700 ${activeStep === 0 ? "pt-24 lg:pt-28" : "pt-32 lg:pt-40"}`}>
         <div className="grid lg:grid-cols-12 gap-10 items-start">
           
           {/* LEFT: Configure Wizard */}
