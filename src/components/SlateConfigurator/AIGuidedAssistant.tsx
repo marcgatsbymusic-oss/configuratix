@@ -14,7 +14,8 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
   const { t } = useTranslation();
   const [step, setStep] = useState(1);
   const [province, setProvince] = useState('');
-  const [city, setCity] = useState('');
+  const [citySearch, setCitySearch] = useState('');
+  const [showCityDropdown, setShowCityDropdown] = useState(false);
   const [altitude, setAltitude] = useState<number | null>(null);
   const [cteZone, setCteZone] = useState('');
 
@@ -31,9 +32,9 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
 
   const provinces = Array.from(new Set(CITIES_DB.map(c => c.p))).sort();
   const availableCities = CITIES_DB.filter(c => c.p === province);
+  const filteredCities = availableCities.filter(c => c.n.toLowerCase().includes(citySearch.toLowerCase()));
 
   const handleCitySelect = (cityName: string) => {
-    setCity(cityName);
     const cData = CITIES_DB.find(c => c.n === cityName && c.p === province);
     if (cData) {
       setAltitude(cData.a);
@@ -89,44 +90,69 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
             <div className="w-16 h-16 bg-[#eab676]/20 text-[#eab676] rounded-full flex items-center justify-center mb-6 drop-shadow-[0_0_15px_rgba(234,182,118,0.2)]">
               <ThermometerSnowflake size={32} />
             </div>
-            <h2 className="text-2xl md:text-3xl font-black text-white mb-4 uppercase tracking-tight">{t('assistant.geoTitle')}</h2>
-            <p className="text-white/80 font-medium mb-8 max-w-lg text-sm md:text-base leading-relaxed">
+            <h2 className="text-2xl md:text-3xl font-black text-white mb-4 uppercase tracking-tight drop-shadow-md">{t('assistant.geoTitle')}</h2>
+            <p className="text-white/90 font-medium mb-8 max-w-lg text-sm md:text-base leading-relaxed drop-shadow-sm">
               {t('assistant.geoDesc')}
             </p>
 
             <div className="space-y-4 mb-8">
               <div>
-                <label className="text-xs font-black text-white/80 uppercase tracking-widest mb-2 block">{t('assistant.province')}</label>
-                <select value={province} onChange={e => { setProvince(e.target.value); setCity(''); setAltitude(null); setCteZone(''); }} className="w-full bg-[#111112] border-2 border-[#2a2a2b] font-bold p-4 rounded-xl text-white focus:outline-none focus:border-[#eab676]">
+                <label className="text-xs font-black text-white/90 uppercase tracking-widest mb-2 block">{t('assistant.province')}</label>
+                <select value={province} onChange={e => { setProvince(e.target.value); setCitySearch(''); setAltitude(null); setCteZone(''); }} className="w-full bg-[#111112] border-2 border-[#2a2a2b] font-bold p-4 rounded-xl text-white focus:outline-none focus:border-[#eab676]">
                   <option value="">{t('assistant.selectProv')}</option>
                   {provinces.map(p => <option key={p} value={p}>{p}</option>)}
                 </select>
               </div>
               
-              <div className={`transition-all duration-300 ${province ? 'opacity-100' : 'opacity-40 pointer-events-none'}`}>
-                <label className="text-xs font-black text-white/80 uppercase tracking-widest mb-2 block">{t('assistant.city')}</label>
-                <select value={city} onChange={e => handleCitySelect(e.target.value)} className="w-full bg-[#111112] border-2 border-[#2a2a2b] font-bold p-4 rounded-xl text-white focus:outline-none focus:border-[#eab676]">
-                  <option value="">{t('assistant.selectCity')}</option>
-                  {availableCities.map(c => <option key={c.n} value={c.n}>{c.n}</option>)}
-                </select>
+              <div className={`transition-all duration-300 relative ${province ? 'opacity-100' : 'opacity-40 pointer-events-none'}`}>
+                <label className="text-xs font-black text-white/90 uppercase tracking-widest mb-2 block">{t('assistant.city')}</label>
+                <input 
+                  type="text"
+                  value={citySearch}
+                  onChange={e => { setCitySearch(e.target.value); setShowCityDropdown(true); }}
+                  onFocus={() => setShowCityDropdown(true)}
+                  onBlur={() => setTimeout(() => setShowCityDropdown(false), 200)}
+                  placeholder={t('assistant.selectCity')}
+                  className="w-full bg-[#111112] border-2 border-[#2a2a2b] font-bold p-4 rounded-xl text-white focus:outline-none focus:border-[#eab676]"
+                />
+                
+                {showCityDropdown && province && (
+                  <ul className="absolute z-50 w-full mt-2 bg-[#1a1a1b] border-2 border-[#2a2a2b] rounded-xl max-h-60 overflow-y-auto shadow-[0_10px_40px_rgba(0,0,0,0.8)]">
+                    {filteredCities.length > 0 ? filteredCities.map(c => (
+                      <li 
+                        key={c.n}
+                        onMouseDown={() => { 
+                          setCitySearch(c.n); 
+                          setShowCityDropdown(false); 
+                          handleCitySelect(c.n); 
+                        }}
+                        className="p-4 text-white/90 hover:bg-[#eab676] hover:text-black font-black cursor-pointer transition-colors border-b border-[#2a2a2b] last:border-0"
+                      >
+                        {c.n}
+                      </li>
+                    )) : (
+                      <li className="p-4 text-white/50 italic text-center text-sm font-bold">No matching municipalities found</li>
+                    )}
+                  </ul>
+                )}
               </div>
             </div>
 
             {cteZone && (
               <div className="bg-[#111112] border border-[#eab676]/20 rounded-xl p-5 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 animate-fade-in shadow-[0_0_30px_rgba(234,182,118,0.05)]">
                 <div>
-                  <div className="text-xs font-black text-[#eab676] uppercase tracking-[0.2em] mb-1">Topographical Engine</div>
-                  <div className="text-white/70 text-sm">Altitude: <span className="text-white font-bold">{altitude}m</span></div>
+                  <div className="text-xs font-black text-[#eab676] uppercase tracking-[0.2em] mb-1">{t('assistant.topoEngine', 'Topographical Engine')}</div>
+                  <div className="text-white/90 font-bold text-sm">{t('assistant.altitude', 'Altitude')}: <span className="text-white font-black">{altitude}m</span></div>
                 </div>
                 <div className="text-right">
-                  <div className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] mb-1">CTE DB-HE CLIMATE ZONE</div>
-                  <div className="text-3xl font-black text-[#eab676] uppercase tracking-widest">{cteZone}</div>
+                  <div className="text-[10px] font-black text-white/60 uppercase tracking-[0.2em] mb-1">{t('assistant.cteZone', 'CTE DB-HE CLIMATE ZONE')}</div>
+                  <div className="text-4xl font-black text-[#eab676] uppercase tracking-widest leading-none drop-shadow-md">{cteZone}</div>
                 </div>
               </div>
             )}
 
             <button disabled={!cteZone} onClick={() => setStep(2)} className="w-full bg-[#eab676] !text-black py-4 rounded-xl font-black uppercase tracking-widest transition-all disabled:opacity-20 disabled:hover:scale-100 disabled:cursor-not-allowed hover:bg-[#ffc882] hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-[#eab676]/20 flex items-center justify-center gap-2">
-              Next Step <ChevronRight size={20} />
+              {t('assistant.next', 'Next Step')} <ChevronRight size={20} />
             </button>
           </div>
         );
