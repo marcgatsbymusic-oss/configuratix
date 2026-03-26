@@ -133,7 +133,7 @@ export function MainConfigurator() {
                     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
                   </div>
                   <h1 className="!text-white text-2xl md:text-3xl lg:text-4xl font-black drop-shadow-md tracking-tight">Welcome to our AI powered windows configurator</h1>
-                  <p className="text-white/70 font-medium text-sm md:text-base lg:text-lg max-w-3xl leading-relaxed">
+                  <p className="!text-[#f0f0f0] font-bold text-sm md:text-base lg:text-lg max-w-3xl leading-relaxed drop-shadow-md pb-2">
                     Selecting windows is not an easy task, there are many options and everybody's needs differ, that's why our configurator will guide and help you make the best choice that suits your needs and budget.
                   </p>
                 </div>
