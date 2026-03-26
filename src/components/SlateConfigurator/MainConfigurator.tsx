@@ -2,14 +2,18 @@ import { useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useConfigurator } from './useConfigurator';
 import { CONFIG_SCHEMA, WINDOW_TYPES, OPENING_TYPES, COLOR_LOCALE, GLASS_LOCALE } from './types';
-import { Ruler, Layers, Check, ChevronLeft, ChevronRight, ShoppingCart, Download, HelpCircle, X } from 'lucide-react';
+import { Ruler, Layers, Check, ChevronLeft, ChevronRight, ShoppingCart, HelpCircle, X } from 'lucide-react';
 import { FloatingHelpMenu } from './FloatingHelpMenu';
 import { ExitIntentModal } from './ExitIntentModal';
 import { MaterialHelp, WindowTypeHelp } from './HelpContents';
 import { BlueprintPreview } from './BlueprintPreview';
 import { WindowTypeGraphic } from './WindowTypeGraphic';
 import { useCartStore } from '../../store/useCartStore';
-import { generateBlueprintPayload, downloadBlueprint } from '../../utils/exportConfig';
+
+import { SaveToCartModal } from './SaveToCartModal';
+import { ProfileCaptureModal } from './ProfileCaptureModal';
+import { CartDashboard } from './CartDashboard';
+import { useSessionStore } from '../../store/useSessionStore';
 
 const TiltProfileCard = ({ profile, isActive, onClick, tags }: { profile: any, isActive: boolean, onClick: () => void, tags: any[] }) => {
   const { t } = useTranslation();
@@ -108,6 +112,10 @@ export function MainConfigurator() {
   const [showExitModal, setShowExitModal] = useState(false);
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, [activeStep]);
 
+  const [showSaveModal, setShowSaveModal] = useState(false);
+  const [showLeadModal, setShowLeadModal] = useState(false);
+  const [showCartDashboard, setShowCartDashboard] = useState(false);
+
   const toggleHelp = (step: number) => {
     setExpandedHelpSection(prev => prev === step ? null : step);
   };
@@ -119,6 +127,52 @@ export function MainConfigurator() {
     <>
       <FloatingHelpMenu />
       {showExitModal && <ExitIntentModal onClose={() => setShowExitModal(false)} onConfirmExit={() => window.location.href = '/'} />}
+      
+      {showSaveModal && (
+        <SaveToCartModal 
+          onClose={() => setShowSaveModal(false)}
+          onMoreWindows={() => {
+            setShowSaveModal(false);
+            if (!useSessionStore.getState().email) {
+              setShowLeadModal(true);
+            } else {
+              setShowCartDashboard(true);
+            }
+          }}
+          onCheckout={() => {
+            setShowSaveModal(false);
+            if (!useSessionStore.getState().email) {
+              setShowLeadModal(true);
+            } else {
+              setShowCartDashboard(true);
+            }
+          }}
+        />
+      )}
+
+      {showLeadModal && (
+        <ProfileCaptureModal 
+          onClose={() => setShowLeadModal(false)}
+          onComplete={() => {
+            setShowLeadModal(false);
+            setShowCartDashboard(true);
+          }}
+        />
+      )}
+
+      {showCartDashboard && (
+        <CartDashboard 
+          onClose={() => {
+            setShowCartDashboard(false);
+            setActiveStep(1);
+            setCompletedSteps([1, 2, 3, 4, 5, 7]);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          onCheckout={() => {
+            alert('Initiating Checkout Sequence!');
+          }}
+        />
+      )}
       <div className="min-h-screen bg-[#111112] text-white pb-20 font-sans overflow-x-hidden max-w-[100vw] w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-32 lg:pt-40 w-full overflow-hidden sm:overflow-visible">
         <div className="grid lg:grid-cols-12 gap-10 items-start">
@@ -785,7 +839,21 @@ export function MainConfigurator() {
                 <div className="mt-6 flex flex-col sm:flex-row gap-3">
                   <button 
                     onClick={() => {
-                      addItem({ config: state, pricing, quantity: 1 });
+                      addItem({ 
+                        config: state, 
+                        pricing, 
+                        quantity: 1,
+                        name: `Window System (${state.material} ${state.profile})`,
+                        price: pricing.total,
+                        image: CONFIG_SCHEMA.materials[state.material].image,
+                        details: [
+                           `Dimensions: ${state.dimensions.width}x${state.dimensions.height}mm`,
+                           `Color: ${state.interiorColor} (In) / ${state.exteriorColor} (Out)`,
+                           `Opening: ${state.sashOpenings.length} Sashes`,
+                           `Integrations: ${state.addons.length}`
+                        ]
+                      });
+                      setShowSaveModal(true);
                     }}
                     className="flex-1 bg-[#eab676] !text-black hover:bg-[#ffc882] py-4 rounded-xl flex items-center justify-center gap-2 text-sm font-black uppercase tracking-widest shadow-[0_0_20px_rgba(234,182,118,0.2)] hover:shadow-[0_0_30px_rgba(234,182,118,0.4)] transition-all active:scale-[0.98]"
                   >

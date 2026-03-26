@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import type { ConfiguratorState } from '../components/SlateConfigurator/types';
 
 export interface CartItem {
-  id: string; // Unique ID for this cart array instance (e.g. UUID)
+  id: string;
   timestamp: string;
   config: ConfiguratorState;
   pricing: {
@@ -12,7 +12,11 @@ export interface CartItem {
     total: number;
   };
   quantity: number;
-  projectName?: string; // Optional label for the window (e.g. "Kitchen Front")
+  projectName?: string;
+  name: string;
+  price: number;
+  image: string;
+  details: string[];
 }
 
 interface CartStore {
