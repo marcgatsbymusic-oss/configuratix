@@ -11,7 +11,7 @@ interface Props {
 }
 
 export function AIGuidedAssistant({ onClose, onComplete }: Props) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [step, setStep] = useState(1);
   const [province, setProvince] = useState('');
   const [citySearch, setCitySearch] = useState('');
@@ -80,6 +80,40 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
       setRecommendation({ material: recMat, profile: recProf, glazing: recGlaze });
       setIsProcessing(false);
     }, 3500);
+  };
+
+  const getDeliveryEstimate = () => {
+    let days = 10;
+    const date = new Date();
+    
+    // Calculate 10 working days
+    while (days > 0) {
+      date.setDate(date.getDate() + 1);
+      if (date.getDay() !== 0 && date.getDay() !== 6) {
+        days--;
+      }
+    }
+    
+    // Inject dynamic holiday delays based on municipal selection
+    let holidayBuffer = 0;
+    const month = date.getMonth();
+    const p = province.toLowerCase();
+    
+    if (p.includes('valencia') && month === 2) holidayBuffer = 4; // Fallas
+    if (p.includes('sevilla') && month === 3) holidayBuffer = 4; // Feria de Abril
+    if (p.includes('madrid') && (month === 4 || month === 10)) holidayBuffer = 2; // San Isidro / Almudena
+    if (p.includes('barcelona') && month === 8) holidayBuffer = 2; // La Mercè
+    if (p.includes('zaragoza') && month === 9) holidayBuffer = 3; // Fiestas del Pilar
+    if (p.includes('pamplona') || p.includes('navarra') && month === 6) holidayBuffer = 5; // San Fermines
+    if (month === 7 || month === 11) holidayBuffer = 3; // Global August / Christmas delays
+    
+    // Add buffers skipping weekends
+    while (holidayBuffer > 0) {
+       date.setDate(date.getDate() + 1);
+       if (date.getDay() !== 0 && date.getDay() !== 6) holidayBuffer--;
+    }
+
+    return date.toLocaleDateString(i18n.language || 'en-US', { day: '2-digit', month: 'long', year: 'numeric' });
   };
 
   const renderStep = () => {
@@ -206,7 +240,11 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
               ].map(tObj => (
                 <button key={tObj.id} onClick={() => setTimeline(tObj.id)} className={`p-4 md:p-6 rounded-xl border-2 font-black transition-all text-left text-sm md:text-base ${timeline === tObj.id ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676]' : 'border-[#2a2a2b] bg-[#111112] text-white/80 hover:border-[#4a4a4b] hover:text-white'}`}>
                   {tObj.label}
-                  {tObj.id === 't1' && <div className="text-[10px] uppercase font-black tracking-widest mt-2 opacity-70 text-[#eab676]">{t('assistant.t1Sub')}</div>}
+                  {tObj.id === 't1' && (
+                    <div className="text-[10px] uppercase font-black tracking-widest mt-2 opacity-70 text-[#eab676]">
+                      {t('assistant.deliveryEst', 'Est. Delivery:')} {getDeliveryEstimate()}
+                    </div>
+                  )}
                 </button>
               ))}
             </div>
