@@ -221,14 +221,14 @@ export function MainConfigurator() {
                       onClick={() => setShowAIAssistant(true)}
                       className="flex-[3] bg-[#eab676] !text-black font-black text-sm lg:text-base px-6 py-5 rounded-2xl hover:bg-[#ffc882] hover:scale-[1.02] active:scale-95 transition-all duration-300 shadow-[0_0_30px_rgba(234,182,118,0.3)] flex items-center justify-center gap-3 uppercase tracking-[0.1em]"
                     >
-                      <Sparkles size={20} className="shrink-0" /> Recommended: Intelligent Guided Assistant
+                      <Sparkles size={20} className="shrink-0" /> {t('assistant.inter1', 'Recommended: Intelligent Guided Assistant')}
                     </button>
                     <button 
                       onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); setActiveStep(1); }}
                       className="flex-[2] bg-[#111112] text-white border-2 border-[#2a2a2b] font-bold text-xs lg:text-sm px-6 py-5 rounded-2xl hover:border-[#eab676] hover:bg-[#1a1a1b] active:scale-95 transition-all duration-300 flex flex-col items-center justify-center uppercase tracking-widest text-center"
                     >
-                      Take me directly to the configurator
-                      <span className="text-[9px] text-[#eab676] tracking-widest mt-1 opacity-70">(Complex Setup)</span>
+                      {t('assistant.inter2', 'Take me directly to the configurator')}
+                      <span className="text-[9px] text-[#eab676] tracking-widest mt-1 opacity-70">{t('assistant.inter2Sub', '(Complex Setup)')}</span>
                     </button>
                   </div>
                 </div>

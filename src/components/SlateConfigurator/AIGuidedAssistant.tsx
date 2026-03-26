@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { X, ChevronRight, ThermometerSnowflake, HandCoins, Ear, Loader2, Sparkles, CalendarCheck } from 'lucide-react';
 import { CITIES_DB } from '../../data/spanishGeodata';
 import { calculateCTEZone } from '../../utils/cteCalculator';
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export function AIGuidedAssistant({ onClose, onComplete }: Props) {
+  const { t } = useTranslation();
   const [step, setStep] = useState(1);
   const [province, setProvince] = useState('');
   const [city, setCity] = useState('');
@@ -87,16 +89,16 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
             <div className="w-16 h-16 bg-[#eab676]/20 text-[#eab676] rounded-full flex items-center justify-center mb-6 drop-shadow-[0_0_15px_rgba(234,182,118,0.2)]">
               <ThermometerSnowflake size={32} />
             </div>
-            <h2 className="text-3xl font-black text-white mb-4 uppercase tracking-tight">Geographical Climate Analysis</h2>
-            <p className="text-white/60 mb-8 max-w-lg">
-              Windows are structurally designed with different climates in mind. Dependent upon exactly where you live, the system will calculate the precise CTE (Código Técnico de la Edificación) thermal rating to ensure maximum winter insulation and summer cooling.
+            <h2 className="text-2xl md:text-3xl font-black text-white mb-4 uppercase tracking-tight">{t('assistant.geoTitle')}</h2>
+            <p className="text-white/60 mb-8 max-w-lg text-sm md:text-base">
+              {t('assistant.geoDesc')}
             </p>
 
             <div className="space-y-4 mb-8">
               <div>
-                <label className="text-xs font-bold text-white/40 uppercase tracking-widest mb-2 block">Province</label>
+                <label className="text-xs font-bold text-white/40 uppercase tracking-widest mb-2 block">{t('assistant.province')}</label>
                 <select value={province} onChange={e => { setProvince(e.target.value); setCity(''); setAltitude(null); setCteZone(''); }} className="w-full bg-[#111112] border border-[#2a2a2b] p-4 rounded-xl text-white focus:outline-none focus:border-[#eab676]">
-                  <option value="">Select Province...</option>
+                  <option value="">{t('assistant.selectProv')}</option>
                   {provinces.map(p => <option key={p} value={p}>{p}</option>)}
                 </select>
               </div>
@@ -135,22 +137,22 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
              <div className="w-16 h-16 bg-[#eab676]/20 text-[#eab676] rounded-full flex items-center justify-center mb-6 drop-shadow-[0_0_15px_rgba(234,182,118,0.2)]">
               <HandCoins size={32} />
             </div>
-            <h2 className="text-3xl font-black text-white mb-4 uppercase tracking-tight">Material & Budget Constraints</h2>
+            <h2 className="text-2xl md:text-3xl font-black text-white mb-4 uppercase tracking-tight">{t('assistant.matTitle')}</h2>
             
-            <label className="text-xs font-bold text-[#eab676] uppercase tracking-widest mb-3 block">Material Preference</label>
+            <label className="text-xs font-bold text-[#eab676] uppercase tracking-widest mb-3 block">{t('assistant.matPref')}</label>
             <div className="grid grid-cols-2 gap-3 mb-8">
               {['pvc', 'alu', 'wood', 'guide'].map(m => (
-                <button key={m} onClick={() => setMaterial(m)} className={`p-4 rounded-xl border-2 font-bold uppercase tracking-wider text-sm transition-all ${material === m ? 'border-[#eab676] bg-[#eab676]/10 text-white' : 'border-[#2a2a2b] bg-[#111112] text-white/50 hover:border-[#3a3a3b]'}`}>
-                  {m === 'guide' ? "I don't know, guide me" : m}
+                <button key={m} onClick={() => setMaterial(m)} className={`p-4 rounded-xl border-2 font-bold uppercase tracking-wider text-xs md:text-sm transition-all ${material === m ? 'border-[#eab676] bg-[#eab676]/10 text-white' : 'border-[#2a2a2b] bg-[#111112] text-white/50 hover:border-[#3a3a3b]'}`}>
+                  {m === 'guide' ? t('assistant.guideMe') : m}
                 </button>
               ))}
             </div>
 
-            <label className="text-xs font-bold text-[#eab676] uppercase tracking-widest mb-3 block">Budget Scope</label>
+            <label className="text-xs font-bold text-[#eab676] uppercase tracking-widest mb-3 block">{t('assistant.budget')}</label>
             <div className="grid grid-cols-3 gap-3 mb-10">
               {['low', 'med', 'premium'].map(b => (
-                <button key={b} onClick={() => setBudget(b)} className={`p-4 rounded-xl border-2 font-bold uppercase tracking-wider text-sm transition-all text-center ${budget === b ? 'border-[#eab676] bg-[#eab676]/10 text-white' : 'border-[#2a2a2b] bg-[#111112] text-white/50 hover:border-[#3a3a3b]'}`}>
-                  {b}
+                <button key={b} onClick={() => setBudget(b)} className={`p-3 md:p-4 rounded-xl border-2 font-bold uppercase tracking-wider text-xs md:text-sm transition-all text-center ${budget === b ? 'border-[#eab676] bg-[#eab676]/10 text-white' : 'border-[#2a2a2b] bg-[#111112] text-white/50 hover:border-[#3a3a3b]'}`}>
+                  {t(`assistant.${b}`)}
                 </button>
               ))}
             </div>
@@ -167,24 +169,24 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
              <div className="w-16 h-16 bg-[#eab676]/20 text-[#eab676] rounded-full flex items-center justify-center mb-6 drop-shadow-[0_0_15px_rgba(234,182,118,0.2)]">
               <CalendarCheck size={32} />
             </div>
-            <h2 className="text-3xl font-black text-white mb-4 uppercase tracking-tight">Project Timeline</h2>
+            <h2 className="text-2xl md:text-3xl font-black text-white mb-4 uppercase tracking-tight">{t('assistant.timeTitle')}</h2>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
               {[
-                { id: 'asap', label: 'As soon as possible' },
-                { id: '1-2m', label: 'Next 1-2 months' },
-                { id: '2m+', label: 'More than 2 months' },
-                { id: 'unsure', label: 'Still not sure' },
-              ].map(t => (
-                <button key={t.id} onClick={() => setTimeline(t.id)} className={`p-6 rounded-xl border-2 font-bold transition-all text-left ${timeline === t.id ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676]' : 'border-[#2a2a2b] bg-[#111112] text-white/60 hover:border-[#3a3a3b]'}`}>
-                  {t.label}
-                  {t.id === 'asap' && <div className="text-[10px] uppercase font-black tracking-widest mt-2 opacity-50">15 Working days earliest</div>}
+                { id: 't1', label: t('assistant.t1') },
+                { id: 't2', label: t('assistant.t2') },
+                { id: 't3', label: t('assistant.t3') },
+                { id: 't4', label: t('assistant.t4') },
+              ].map(tObj => (
+                <button key={tObj.id} onClick={() => setTimeline(tObj.id)} className={`p-4 md:p-6 rounded-xl border-2 font-bold transition-all text-left text-sm md:text-base ${timeline === tObj.id ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676]' : 'border-[#2a2a2b] bg-[#111112] text-white/60 hover:border-[#3a3a3b]'}`}>
+                  {tObj.label}
+                  {tObj.id === 't1' && <div className="text-[10px] uppercase font-black tracking-widest mt-2 opacity-50">{t('assistant.t1Sub')}</div>}
                 </button>
               ))}
             </div>
 
             <button disabled={!timeline} onClick={() => setStep(4)} className="w-full bg-[#eab676] !text-black py-4 rounded-xl font-black uppercase tracking-widest transition-all disabled:opacity-20 flex items-center justify-center gap-2">
-              Next Step <ChevronRight size={20} />
+              {t('assistant.next')} <ChevronRight size={20} />
             </button>
           </div>
         );
@@ -195,28 +197,28 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
              <div className="w-16 h-16 bg-[#eab676]/20 text-[#eab676] rounded-full flex items-center justify-center mb-6 drop-shadow-[0_0_15px_rgba(234,182,118,0.2)]">
               <Ear size={32} />
             </div>
-            <h2 className="text-3xl font-black text-white mb-4 uppercase tracking-tight">Acoustics & Architecture</h2>
+            <h2 className="text-2xl md:text-3xl font-black text-white mb-4 uppercase tracking-tight">{t('assistant.archTitle')}</h2>
             
-            <label className="text-xs font-bold text-[#eab676] uppercase tracking-widest mb-3 block">Housing Type</label>
+            <label className="text-xs font-bold text-[#eab676] uppercase tracking-widest mb-3 block">{t('assistant.houseType')}</label>
             <div className="grid grid-cols-2 gap-3 mb-8">
-              {['villa', 'apartment'].map(h => (
-                <button key={h} onClick={() => setHousing(h)} className={`p-4 rounded-xl border-2 font-bold uppercase tracking-wider text-sm transition-all ${housing === h ? 'border-[#eab676] bg-[#eab676]/10 text-white' : 'border-[#2a2a2b] bg-[#111112] text-white/50 hover:border-[#3a3a3b]'}`}>
-                  {h}
+              {['villa', 'apt'].map(h => (
+                <button key={h} onClick={() => setHousing(h)} className={`p-4 rounded-xl border-2 font-bold uppercase tracking-wider text-xs md:text-sm transition-all ${housing === h ? 'border-[#eab676] bg-[#eab676]/10 text-white' : 'border-[#2a2a2b] bg-[#111112] text-white/50 hover:border-[#3a3a3b]'}`}>
+                  {t(`assistant.${h}`)}
                 </button>
               ))}
             </div>
 
-            <label className="text-xs font-bold text-[#eab676] uppercase tracking-widest mb-3 block">Local Noise Pollution</label>
+            <label className="text-xs font-bold text-[#eab676] uppercase tracking-widest mb-3 block">{t('assistant.noisePol')}</label>
             <div className="grid grid-cols-2 gap-3 mb-10">
-              {['high', 'low'].map(n => (
-                <button key={n} onClick={() => setNoise(n)} className={`p-4 rounded-xl border-2 font-bold uppercase tracking-wider text-sm transition-all ${noise === n ? 'border-[#eab676] bg-[#eab676]/10 text-white' : 'border-[#2a2a2b] bg-[#111112] text-white/50 hover:border-[#3a3a3b]'}`}>
-                  {n === 'high' ? 'City / High Traffic' : 'Rural / Quiet'}
+              {['nHigh', 'nLow'].map(n => (
+                <button key={n} onClick={() => setNoise(n)} className={`p-4 rounded-xl border-2 font-bold uppercase tracking-wider text-xs md:text-sm transition-all ${noise === n ? 'border-[#eab676] bg-[#eab676]/10 text-white' : 'border-[#2a2a2b] bg-[#111112] text-white/50 hover:border-[#3a3a3b]'}`}>
+                  {t(`assistant.${n}`)}
                 </button>
               ))}
             </div>
 
             <button disabled={!housing || !noise} onClick={processRecommendation} className="w-full bg-white text-black py-4 rounded-xl font-black uppercase tracking-widest transition-all disabled:opacity-20 hover:scale-[1.02] flex items-center justify-center gap-2">
-              Process Analysis <Sparkles size={20} />
+              {t('assistant.processCalc')} <Sparkles size={20} />
             </button>
           </div>
         );
@@ -230,9 +232,9 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
                   <div className="absolute inset-0 rounded-full border-4 border-[#2a2a2b] border-t-[#eab676] animate-spin"></div>
                   <Loader2 size={40} className="absolute inset-0 m-auto text-[#eab676] animate-pulse" />
                 </div>
-                <div>
-                   <h2 className="text-2xl font-black text-white uppercase tracking-widest mb-2">Analyzing Data</h2>
-                   <p className="text-[#eab676] font-bold text-sm tracking-widest uppercase animate-pulse">Computing optimal structural loads...</p>
+                 <div>
+                   <h2 className="text-2xl font-black text-white uppercase tracking-widest mb-2">{t('assistant.analyzing')}</h2>
+                   <p className="text-[#eab676] font-bold text-sm tracking-widest uppercase animate-pulse">{t('assistant.computing')}</p>
                 </div>
               </div>
             ) : recommendation && (
@@ -240,27 +242,27 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
                  <div className="w-20 h-20 bg-emerald-500/20 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(16,185,129,0.2)]">
                    <Sparkles size={40} />
                  </div>
-                 <h2 className="text-4xl font-black text-white uppercase tracking-tighter mb-2">Your Perfect Window</h2>
-                 <p className="text-white/60 mb-8 max-w-md mx-auto">Based on your absolute geographic Zone {cteZone} climate data, {noise} local noise pollution, and defined budget, our algorithms recommend:</p>
+                 <h2 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter mb-2">{t('assistant.perfWin')}</h2>
+                 <p className="text-white/60 mb-8 max-w-md mx-auto text-sm md:text-base">{t('assistant.basedOn').replace('{{zone}}', cteZone).replace('{{noise}}', noise === 'nHigh' ? t('assistant.nHigh') : t('assistant.nLow'))}</p>
 
                  <div className="bg-[#111112] border-2 border-[#eab676]/50 rounded-2xl p-6 mb-8 mt-4 relative overflow-hidden text-left shadow-[0_0_40px_rgba(234,182,118,0.15)]">
                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#eab676]/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
                    
                    <div className="flex justify-between items-start gap-4">
                      <div>
-                       <div className="text-[10px] font-black text-[#eab676] uppercase tracking-[0.2em] mb-1">Recommended Profile System</div>
-                       <h3 className="text-3xl font-black text-white uppercase tracking-tight">{CONFIG_SCHEMA.materials[recommendation.material as keyof typeof CONFIG_SCHEMA.materials]?.profiles.find(p=>p.id===recommendation.profile)?.name || recommendation.profile}</h3>
+                       <div className="text-[10px] font-black text-[#eab676] uppercase tracking-[0.2em] mb-1">{t('assistant.recProf')}</div>
+                       <h3 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tight">{CONFIG_SCHEMA.materials[recommendation.material as keyof typeof CONFIG_SCHEMA.materials]?.profiles.find(p=>p.id===recommendation.profile)?.name || recommendation.profile}</h3>
                        
-                       <div className="mt-4 flex items-center gap-3">
-                         <span className="bg-[#1a1a1b] border border-[#2a2a2b] font-black text-white/80 text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-lg">Base: {recommendation.material}</span>
-                         <span className="bg-[#1a1a1b] border border-[#2a2a2b] font-black text-[#eab676] text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-lg">{recommendation.glazing} Glazing</span>
+                       <div className="mt-4 flex flex-wrap items-center gap-2 md:gap-3">
+                         <span className="bg-[#1a1a1b] border border-[#2a2a2b] font-black text-white/80 text-[9px] md:text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-lg">{t('assistant.base')}: {recommendation.material}</span>
+                         <span className="bg-[#1a1a1b] border border-[#2a2a2b] font-black text-[#eab676] text-[9px] md:text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-lg">{recommendation.glazing} {t('assistant.glaze')}</span>
                        </div>
                      </div>
                    </div>
                  </div>
 
-                 <button onClick={() => onComplete(recommendation.material, recommendation.profile, recommendation.glazing)} className="w-full bg-[#eab676] !text-black py-5 rounded-2xl font-black text-lg uppercase tracking-widest hover:bg-[#ffc882] hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(234,182,118,0.4)]">
-                    Use this data and configure window
+                 <button onClick={() => onComplete(recommendation.material, recommendation.profile, recommendation.glazing)} className="w-full bg-[#eab676] !text-black py-4 md:py-5 rounded-2xl font-black text-sm md:text-lg uppercase tracking-widest hover:bg-[#ffc882] hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(234,182,118,0.4)]">
+                    {t('assistant.useData')}
                  </button>
               </div>
             )}
