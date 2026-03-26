@@ -778,29 +778,18 @@ export function MainConfigurator() {
                   </div>
                 </div>
 
-                <div className="pt-4 flex items-end justify-between">
-                  <div>
-                    <div className="text-[10px] font-black text-[#eab676] uppercase tracking-[0.2em] mb-1">{t('configurator.summary.totalSystem')}</div>
-                    <div className="text-4xl font-black text-white tracking-tighter">€{pricing.total.toFixed(2)}</div>
-                  </div>
+                <div className="pt-4 flex flex-col items-end text-right">
+                  <div className="text-[10px] font-black text-[#eab676] uppercase tracking-[0.2em] mb-1">Total incl 21% VAT</div>
+                  <div className="text-4xl font-black text-white tracking-tighter">€{pricing.total.toFixed(2)}</div>
                 </div>
                 <div className="mt-6 flex flex-col sm:flex-row gap-3">
                   <button 
                     onClick={() => {
-                      const payload = generateBlueprintPayload(state, pricing);
-                      downloadBlueprint(payload, `drutex-blueprint-${Date.now()}.json`);
-                    }}
-                    className="flex-1 bg-[#1a1a1b] hover:bg-[#111112] text-white border-2 border-slate-900 py-4 rounded-xl flex items-center justify-center gap-2 text-sm font-bold uppercase tracking-widest transition-all active:scale-[0.98]"
-                  >
-                    <Download size={18} /> {t('configurator.summary.exportJson')}
-                  </button>
-                  <button 
-                    onClick={() => {
                       addItem({ config: state, pricing, quantity: 1 });
                     }}
-                    className="flex-[2] bg-[#eab676] !text-black hover:bg-[#F3C47F] text-white py-4 rounded-xl flex items-center justify-center gap-2 text-sm font-bold uppercase tracking-widest shadow-lg shadow-[#eab676]/20 transition-all active:scale-[0.98]"
+                    className="flex-1 bg-[#eab676] !text-black hover:bg-[#ffc882] py-4 rounded-xl flex items-center justify-center gap-2 text-sm font-black uppercase tracking-widest shadow-[0_0_20px_rgba(234,182,118,0.2)] hover:shadow-[0_0_30px_rgba(234,182,118,0.4)] transition-all active:scale-[0.98]"
                   >
-                    <ShoppingCart size={18} /> {t('configurator.summary.saveToCart')} {items.length > 0 && `(${items.length})`}
+                    <ShoppingCart size={18} strokeWidth={2.5} /> {t('configurator.summary.saveToCart', 'Save to Cart')} {items.length > 0 && `(${items.length})`}
                   </button>
                 </div>
 
