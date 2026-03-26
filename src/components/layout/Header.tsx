@@ -141,7 +141,7 @@ export function Header() {
             <a
               key={item.key}
               href="#"
-              className="text-[10px] uppercase tracking-widest text-[#888888] hover:text-[#dca95c] transition-colors duration-200"
+              className="text-[10px] uppercase tracking-widest text-[#888888] hover:text-[#eab676] transition-colors duration-200"
             >
               {t(`header.topBar.${item.key}`)}
             </a>
@@ -159,7 +159,7 @@ export function Header() {
               alt="Mammut Icon" 
               className="w-10 h-10 object-contain"
             />
-            <span className="text-white font-black text-lg tracking-[0.2em] uppercase group-hover:text-[#dca95c] transition-colors duration-200">
+            <span className="text-white font-black text-lg tracking-[0.2em] uppercase group-hover:text-[#eab676] transition-colors duration-200">
               MAMMUT
             </span>
           </Link>
@@ -173,7 +173,7 @@ export function Header() {
               onMouseEnter={handleMouseEnterProducts}
               onMouseLeave={handleMouseLeaveProducts}
             >
-              <button className={`flex items-center gap-1 text-sm uppercase tracking-widest transition-colors duration-200 nav-link ${megaMenuOpen ? 'text-[#dca95c]' : 'text-white/80'}`}>
+              <button className={`flex items-center gap-1 text-sm uppercase tracking-widest transition-colors duration-200 nav-link ${megaMenuOpen ? 'text-[#eab676]' : 'text-white/80'}`}>
                 {t('header.nav.products')}
                 <ChevronDown size={14} className={`transition-transform duration-200 ${megaMenuOpen ? 'rotate-180' : ''}`} />
               </button>
@@ -186,7 +186,7 @@ export function Header() {
                 to={item.href}
                 className={({ isActive }) =>
                   `text-sm uppercase tracking-widest nav-link transition-colors duration-200 ${
-                    isActive ? 'text-[#dca95c]' : 'text-white/80 hover:text-[#dca95c]'
+                    isActive ? 'text-[#eab676]' : 'text-white/80 hover:text-[#eab676]'
                   }`
                 }
               >
@@ -199,15 +199,15 @@ export function Header() {
           <div className="flex items-center gap-4">
             <Link
               to="/configurator"
-              className="hidden lg:flex items-center gap-2 border border-[#dca95c] text-[#dca95c] text-xs uppercase tracking-widest px-4 py-2 hover:bg-[#dca95c] hover:text-black transition-all duration-200 font-semibold"
+              className="hidden lg:flex items-center gap-2 border border-[#eab676] text-[#eab676] text-xs uppercase tracking-widest px-4 py-2 hover:bg-[#eab676] hover:text-black transition-all duration-200 font-semibold"
             >
               {t('header.nav.configurator')}
             </Link>
-            <button className="text-white/60 hover:text-[#dca95c] transition-colors duration-200 p-2 -ml-2"><Search size={18} /></button>
+            <button className="text-white/60 hover:text-[#eab676] transition-colors duration-200 p-2 -ml-2"><Search size={18} /></button>
             {/* Language Switcher */}
             <div className="relative">
               <button 
-                className="text-white/60 hover:text-[#dca95c] transition-colors duration-200 p-2"
+                className="text-white/60 hover:text-[#eab676] transition-colors duration-200 p-2"
                 onClick={() => {
                   setLangMenuOpen((prev) => !prev);
                   setMenuOpen(false);
@@ -235,7 +235,7 @@ export function Header() {
                          i18n.changeLanguage(lng.code);
                          setLangMenuOpen(false);
                        }}
-                       className={`block w-full text-left px-4 py-2 text-xs uppercase tracking-widest transition-colors ${i18n.language === lng.code ? 'text-[#dca95c] bg-white/5' : 'text-white/60 hover:bg-white/5 hover:text-white'}`}
+                       className={`block w-full text-left px-4 py-2 text-xs uppercase tracking-widest transition-colors ${i18n.language === lng.code ? 'text-[#eab676] bg-white/5' : 'text-white/60 hover:bg-white/5 hover:text-white'}`}
                      >
                        {lng.label}
                      </button>
@@ -244,7 +244,7 @@ export function Header() {
               )}
             </div>
             <button
-              className="lg:hidden text-white/60 hover:text-[#dca95c] transition-colors duration-200 p-2 -mr-2"
+              className="lg:hidden text-white/60 hover:text-[#eab676] transition-colors duration-200 p-2 -mr-2"
               onClick={() => {
                 setMenuOpen(!menuOpen);
                 setLangMenuOpen(false);
@@ -279,7 +279,7 @@ export function Header() {
                       onMouseEnter={() => setActiveMegaCategory(cat.id)}
                       className={`w-full text-left px-8 py-3 text-xs tracking-[0.2em] uppercase font-semibold transition-colors
                                 ${activeMegaCategory === cat.id 
-                                  ? 'bg-[#1a1a1b] text-[#dca95c] border-l-2 border-[#dca95c]' 
+                                  ? 'bg-[#1a1a1b] text-[#eab676] border-l-2 border-[#eab676]' 
                                   : 'text-white/60 hover:bg-[#1a1a1b] hover:text-white border-l-2 border-transparent'}`}
                     >
                       {t(`header.megaMenu.cats.${cat.id}`)}
@@ -305,10 +305,10 @@ export function Header() {
                               to={item.href}
                               className="group flex flex-col"
                             >
-                              <span className="text-sm font-semibold text-white/70 group-hover:text-[#dca95c] transition-colors flex items-center gap-2">
+                              <span className="text-sm font-semibold text-white/70 group-hover:text-[#eab676] transition-colors flex items-center gap-2">
                                 {item.label}
                                 {item.isNew && (
-                                  <span className="bg-[#dca95c] text-black text-[9px] uppercase tracking-widest px-1.5 py-0.5 font-bold">
+                                  <span className="bg-[#eab676] text-black text-[9px] uppercase tracking-widest px-1.5 py-0.5 font-bold">
                                     {t('header.megaMenu.new')}
                                   </span>
                                 )}
@@ -336,7 +336,7 @@ export function Header() {
           {/* Products accordion */}
           <div>
             <button
-              className="w-full flex items-center justify-between py-3 text-sm uppercase tracking-widest text-[#dca95c] font-bold"
+              className="w-full flex items-center justify-between py-3 text-sm uppercase tracking-widest text-[#eab676] font-bold"
               onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
             >
               {t('header.nav.products')}
@@ -347,7 +347,7 @@ export function Header() {
               <div className="ml-2 mb-2 space-y-3 border-l border-[#2a2a2b] pl-4">
                 <Link
                   to="/products"
-                  className="block text-xs uppercase tracking-widest text-white/40 hover:text-[#dca95c] py-1 transition-colors"
+                  className="block text-xs uppercase tracking-widest text-white/40 hover:text-[#eab676] py-1 transition-colors"
                   onClick={() => setMenuOpen(false)}
                 >
                   {t('header.megaMenu.viewAll')} â†’
@@ -356,7 +356,7 @@ export function Header() {
                   <div key={cat.id}>
                     <Link
                       to={cat.href}
-                      className="block text-xs uppercase tracking-widest text-white/70 hover:text-[#dca95c] font-semibold py-1 transition-colors"
+                      className="block text-xs uppercase tracking-widest text-white/70 hover:text-[#eab676] font-semibold py-1 transition-colors"
                       onClick={() => setMenuOpen(false)}
                     >
                       {t(`header.megaMenu.cats.${cat.id}`)}
@@ -368,12 +368,12 @@ export function Header() {
                             <Link
                               key={item.href}
                               to={item.href}
-                              className="flex items-center gap-2 text-[11px] text-white/40 hover:text-[#dca95c] py-0.5 transition-colors"
+                              className="flex items-center gap-2 text-[11px] text-white/40 hover:text-[#eab676] py-0.5 transition-colors"
                               onClick={() => setMenuOpen(false)}
                             >
                               {item.label}
                               {item.isNew && (
-                                <span className="bg-[#dca95c] text-black text-[8px] uppercase tracking-widest px-1 font-bold">{t('header.megaMenu.new')}</span>
+                                <span className="bg-[#eab676] text-black text-[8px] uppercase tracking-widest px-1 font-bold">{t('header.megaMenu.new')}</span>
                               )}
                             </Link>
                           ))
@@ -391,7 +391,7 @@ export function Header() {
             <Link
               key={item.i18nKey}
               to={item.href}
-              className="block py-3 text-sm uppercase tracking-widest text-white/70 hover:text-[#dca95c] transition-colors duration-200"
+              className="block py-3 text-sm uppercase tracking-widest text-white/70 hover:text-[#eab676] transition-colors duration-200"
               onClick={() => setMenuOpen(false)}
             >
               {t(`header.nav.${item.i18nKey}`)}
@@ -401,7 +401,7 @@ export function Header() {
           <div className="pt-2">
             <Link
               to="/configurator"
-              className="block border border-[#dca95c] text-[#dca95c] text-xs uppercase tracking-widest px-4 py-3 text-center hover:bg-[#dca95c] hover:text-black transition-all duration-200 font-semibold"
+              className="block border border-[#eab676] text-[#eab676] text-xs uppercase tracking-widest px-4 py-3 text-center hover:bg-[#eab676] hover:text-black transition-all duration-200 font-semibold"
               onClick={() => setMenuOpen(false)}
             >
               {t('header.nav.configurator')}

@@ -6,8 +6,8 @@
   --color-mammut-black: #000000;
   --color-mammut-dark: #1a1a1b;
   --color-mammut-darker: #111112;
-  --color-mammut-gold: #dca95c;
-  --color-mammut-gold-light: #eab676;
+  --color-mammut-gold: #eab676;
+  --color-mammut-gold-light: #F3C47F;
   --color-mammut-white: #ffffff;
   --color-mammut-grey: #333333;
   --color-mammut-grey-light: #888888;
@@ -97,7 +97,7 @@ p {
   background: #1a1a1b;
 }
 ::-webkit-scrollbar-thumb {
-  background: #dca95c;
+  background: #eab676;
   border-radius: 3px;
 }
 
@@ -113,7 +113,7 @@ p {
   position: absolute;
   width: 16px;
   height: 16px;
-  border-color: #dca95c;
+  border-color: #eab676;
   border-style: solid;
 }
 .spec-card::before {
@@ -143,7 +143,7 @@ p {
   left: 0;
   width: 0;
   height: 1px;
-  background: #dca95c;
+  background: #eab676;
   transition: width 0.3s ease;
 }
 .nav-link:hover::after {

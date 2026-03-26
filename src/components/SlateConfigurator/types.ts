@@ -110,8 +110,14 @@ export const CONFIG_SCHEMA = {
   ],
   addons: [
     { id: 'handle-premium', name: 'Premium Metal Handle', price: 45 },
+    { id: 'handle-locked', name: 'Key-Locked Safety Handle', price: 55 },
     { id: 'sill-alu', name: 'Aluminum Window Sill', price: 85 },
-    { id: 'roller-shutter', name: 'Integrated Roller Shutter', price: 290 }
+    { id: 'roller-shutter', name: 'Integrated Roller Shutter', price: 290 },
+    { id: 'mosquito-net', name: 'Integrated Mosquito Net', price: 120 },
+    { id: 'trim-facia', name: 'Exterior Frame Trim / Facia', price: 65 },
+    { id: 'frame-extension', name: 'Frame Extension (+50mm)', price: 40 },
+    { id: 'warm-edge', name: 'Warm Edge Spacer (Swisspacer)', price: 30 },
+    { id: 'pressure-valve', name: 'Pressure Equalization Valve', price: 25 },
   ]
 };
 

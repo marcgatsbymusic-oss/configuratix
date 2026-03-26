@@ -1,6 +1,6 @@
 import { useReducer, useMemo } from 'react';
 import { CONFIG_SCHEMA, WINDOW_TYPES } from './types';
-import type { ConfiguratorState, ConfiguratorAction } from './types';
+import type { ConfiguratorState, ConfiguratorAction, MaterialType } from './types';
 
 const initialState: ConfiguratorState = {
   dimensions: { width: 1000, height: 1200 },
@@ -15,6 +15,27 @@ const initialState: ConfiguratorState = {
   glazing: 'g11', // Float 4 (Standard)
   addons: []
 };
+
+function getInitialState(): ConfiguratorState {
+  if (typeof window !== 'undefined') {
+    const params = new URLSearchParams(window.location.search);
+    const product = params.get('product');
+    
+    if (product) {
+      const slugToProfile: Record<string, { material: MaterialType, profile: string }> = {
+        'iglo-edge': { material: 'PVC', profile: 'igloedge' },
+        'iglo-5': { material: 'PVC', profile: 'iglo5' },
+        'iglo-light': { material: 'PVC', profile: 'iglolight' },
+        'iglo-energy': { material: 'PVC', profile: 'igloenergy' },
+      };
+      
+      if (slugToProfile[product]) {
+        return { ...initialState, ...slugToProfile[product] };
+      }
+    }
+  }
+  return initialState;
+}
 
 function configuratorReducer(state: ConfiguratorState, action: ConfiguratorAction): ConfiguratorState {
   switch (action.type) {
@@ -68,7 +89,7 @@ function configuratorReducer(state: ConfiguratorState, action: ConfiguratorActio
 }
 
 export function useConfigurator() {
-  const [state, dispatch] = useReducer(configuratorReducer, initialState);
+  const [state, dispatch] = useReducer(configuratorReducer, initialState, getInitialState);
 
   const pricing = useMemo(() => {
     // Area in square meters

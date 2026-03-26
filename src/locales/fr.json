@@ -274,14 +274,15 @@
     "title": "Concevez votre système de fenêtres personnalisé.",
     "subtitle": "Choisissez le matériau et configurez vos spécifications architecturales exactes ci-dessous.",
     "steps": {
-      "material": "Profilé de matériau",
+      "material": "Matériau",
       "system": "Profilé de système",
       "windowType": "Type de fenêtre",
       "openingType": "Type d'ouverture",
       "color": "Couleur & Décor",
       "dimensions": "Dimensions (MM)",
       "glazing": "Vitrage",
-      "options": "Accessoires"
+      "options": "Accessoires",
+      "profile": "Profil"
     },
     "summary": {
       "title": "Aperçu des spécifications",
@@ -315,7 +316,58 @@
       "sashes": "Configuration à {{count}} vantaux"
     },
     "blueprint": {
-      "interiorView": "Vue Intérieure"
+      "interiorView": "Vue Intérieure",
+      "dragToRotate": "Faites glisser pour tourner librement en 3D"
+    }
+  },
+  "help": {
+    "materialDesc": "Choisissez le type de matériau pour votre fenêtre. Vous trouverez ci-dessous un résumé des principales caractéristiques.",
+    "pvc": "PVC",
+    "aluminum": "ALUMINIUM",
+    "durability": "Durabilité",
+    "maintenance": "Entretien",
+    "insulation": "Isolation",
+    "weatherRes": "Résistance aux intempéries",
+    "security": "Sécurité",
+    "ecoFootprint": "Empreinte écologique",
+    "legend": "* = neutre | ** = bon | *** = très bon",
+    "windowTypeDesc": "Nos fenêtres ont différentes options d'ouverture. Il y a des fenêtres à un, deux et trois vantaux avec impostes.",
+    "singleLeaf": "Fenêtres à un vantail",
+    "doubleLeaf": "Fenêtres à deux vantaux",
+    "tripleLeaf": "Fenêtres à trois vantaux",
+    "specialWindows": "Types de fenêtres spéciaux",
+    "leaveConf": "Quitter le configurateur ?",
+    "stillQuestions": "Avez-vous encore des questions concernant votre commande ou le configurateur ?",
+    "csTeam": "Notre équipe du service client (et notre Assistant IA) se feront un plaisir de vous conseiller gratuitement :",
+    "monFri": "(Du lundi au vendredi de 8h00 à 18h00)",
+    "aiAssist": "Assistant IA",
+    "avail247": "(Disponible 24/7)",
+    "exitWarning": "En quittant le configurateur, votre sélection précédente sera perdue.",
+    "continueConf": "Continuer dans le configurateur",
+    "exitConf": "Quitter le configurateur",
+    "haveQuestions": "Avez-vous des questions ?",
+    "availableToday": "Nous sommes disponibles aujourd'hui jusqu'à 18h00.",
+    "shallWeTalk": "Parlons-nous ? Réservez votre appel maintenant.",
+    "scheduleMeeting": "Planifier une réunion",
+    "up": "HAUT",
+    "close": "Fermer",
+    "comp": {
+      "title": "Tableau Comparatif (Contexte 2026)",
+      "feature": "Caractéristique",
+      "pvc": "PVC (uPVC)",
+      "aluminum": "Aluminium",
+      "bestFor": "Idéal pour",
+      "bestForPvc": "Budget, tailles standard, efficacité thermique maximale à faible coût.",
+      "bestForAlu": "Grandes surfaces vitrées, esthétique moderne, longévité et solidité.",
+      "lifespan": "Durée de vie",
+      "lifespanPvc": "20–30 Ans",
+      "lifespanAlu": "45+ Ans",
+      "cost": "Coût",
+      "costPvc": "Généralement 30% à 50% moins cher.",
+      "costAlu": "Prix premium.",
+      "aesthetics": "Esthétique",
+      "aestheticsPvc": "Cadres plus volumineux.",
+      "aestheticsAlu": "Profilés fins (plus de lumière naturelle)."
     }
   }
 }

@@ -59,7 +59,7 @@ export function Footer() {
       <div className="bg-[#1a1a1b] border-b border-[#2a2a2b]">
         <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
-            <p className="text-[#dca95c] text-xs uppercase tracking-widest font-semibold mb-1">
+            <p className="text-[#eab676] text-xs uppercase tracking-widest font-semibold mb-1">
               {t('footer.newsletter.title')}
             </p>
             <p className="text-white/60 text-sm">
@@ -70,11 +70,11 @@ export function Footer() {
             <input
               type="email"
               placeholder={t('footer.newsletter.placeholder')}
-              className="bg-black border border-[#2a2a2b] text-white text-sm px-4 py-2.5 w-full md:w-72 focus:outline-none focus:border-[#dca95c] transition-colors duration-200 placeholder:text-white/30"
+              className="bg-black border border-[#2a2a2b] text-white text-sm px-4 py-2.5 w-full md:w-72 focus:outline-none focus:border-[#eab676] transition-colors duration-200 placeholder:text-white/30"
             />
             <button
               type="submit"
-              className="bg-[#dca95c] text-black px-5 py-2.5 hover:bg-[#eab676] transition-colors duration-200 flex items-center gap-2 text-sm font-semibold"
+              className="bg-[#eab676] text-black px-5 py-2.5 hover:bg-[#F3C47F] transition-colors duration-200 flex items-center gap-2 text-sm font-semibold"
             >
               {t('footer.newsletter.subscribe')} <ArrowRight size={14} />
             </button>
@@ -86,7 +86,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-2 md:grid-cols-4 gap-10">
         {FOOTER_COLS.map((col) => (
           <div key={col.colKey}>
-            <h4 className="text-[#dca95c] text-[10px] font-bold uppercase tracking-widest mb-5 pb-2 border-b border-[#dca95c]/30">
+            <h4 className="text-[#eab676] text-[10px] font-bold uppercase tracking-widest mb-5 pb-2 border-b border-[#eab676]/30">
               {t(`footer.cols.${col.colKey}.title`)}
             </h4>
             <ul className="space-y-3">
@@ -140,7 +140,7 @@ export function Footer() {
                 key={label}
                 href={href}
                 aria-label={label}
-                className="w-8 h-8 border border-[#2a2a2b] flex items-center justify-center text-white/40 hover:text-[#dca95c] hover:border-[#dca95c] transition-all duration-200"
+                className="w-8 h-8 border border-[#2a2a2b] flex items-center justify-center text-white/40 hover:text-[#eab676] hover:border-[#eab676] transition-all duration-200"
               >
                 <Icon size={14} />
               </a>

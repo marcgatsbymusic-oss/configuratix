@@ -274,14 +274,15 @@
     "title": "Diseña tu sistema de ventanas personalizado.",
     "subtitle": "Elige el material y configura tus especificaciones arquitectónicas exactas a continuación.",
     "steps": {
-      "material": "Perfil del material",
+      "material": "Material",
       "system": "Perfil del sistema",
       "windowType": "Tipo de ventana",
       "openingType": "Tipo de apertura",
       "color": "Color y Decoración",
       "dimensions": "Dimensiones (MM)",
       "glazing": "Acristalamiento",
-      "options": "Accesorios"
+      "options": "Accesorios",
+      "profile": "Perfil"
     },
     "summary": {
       "title": "Resumen de especificaciones",
@@ -315,7 +316,58 @@
       "sashes": "Configuración de {{count}} hojas"
     },
     "blueprint": {
-      "interiorView": "Vista Interior"
+      "interiorView": "Vista Interior",
+      "dragToRotate": "Arrastra para rotar libremente en 3D"
+    }
+  },
+  "help": {
+    "materialDesc": "Elige el tipo de material para tu ventana. A continuación encontrarás un resumen de las principales características de cada uno de ellos.",
+    "pvc": "PVC",
+    "aluminum": "ALUMINIO",
+    "durability": "Durabilidad",
+    "maintenance": "Mantenimiento",
+    "insulation": "Aislamiento",
+    "weatherRes": "Resistencia a la intemperie",
+    "security": "Seguridad",
+    "ecoFootprint": "Huella ecológica",
+    "legend": "* = neutro | ** = bueno | *** = muy bueno",
+    "windowTypeDesc": "Nuestras ventanas tienen diferentes opciones de apertura. Hay ventanas de una, dos y tres hojas con travesaños superiores o inferiores.",
+    "singleLeaf": "Ventanas de una hoja",
+    "doubleLeaf": "Ventanas de dos hojas",
+    "tripleLeaf": "Ventanas de tres hojas",
+    "specialWindows": "Tipos de ventanas especiales",
+    "leaveConf": "¿Salir del configurador?",
+    "stillQuestions": "¿Tienes todavía preguntas sobre tu pedido o el configurador?",
+    "csTeam": "Nuestro equipo de atención al cliente (y nuestro Asistente de IA) estará encantado de asesorarte gratuitamente:",
+    "monFri": "(de lunes a viernes de 8:00 a 18:00)",
+    "aiAssist": "Asistente de IA",
+    "avail247": "(Disponible 24/7)",
+    "exitWarning": "Al salir del configurador, se perderá tu selección anterior.",
+    "continueConf": "Continuar en el configurador",
+    "exitConf": "Salir del configurador",
+    "haveQuestions": "¿Tienes alguna pregunta?",
+    "availableToday": "Estamos disponibles hoy hasta 18:00.",
+    "shallWeTalk": "¿Hablamos? Reserva tu llamada ahora.",
+    "scheduleMeeting": "Programar reunión",
+    "up": "ARRIBA",
+    "close": "Cerrar",
+    "comp": {
+      "title": "Tabla Resumen Comparativa (Contexto 2026)",
+      "feature": "Característica",
+      "pvc": "PVC (uPVC)",
+      "aluminum": "Aluminio",
+      "bestFor": "Ideal para",
+      "bestForPvc": "Presupuestos ajustados, tamaños estándar, máxima eficiencia térmica a bajo coste.",
+      "bestForAlu": "Grandes superficies acristaladas, estética moderna, longevidad y resistencia.",
+      "lifespan": "Vida útil",
+      "lifespanPvc": "20–30 Años",
+      "lifespanAlu": "45+ Años",
+      "cost": "Coste",
+      "costPvc": "Generalmente un 30%–50% más barato.",
+      "costAlu": "Precio premium.",
+      "aesthetics": "Estética",
+      "aestheticsPvc": "Marcos más volumétricos.",
+      "aestheticsAlu": "Perfiles finos (más luz natural)."
     }
   }
 }

@@ -274,14 +274,15 @@
     "title": "Design your custom window system.",
     "subtitle": "Pick the material and configure your exact architectural specifications below.",
     "steps": {
-      "material": "Material Profile",
+      "material": "Material",
       "system": "System Profile",
       "windowType": "Window Type",
       "openingType": "Opening Type",
       "color": "Color & Decor",
       "dimensions": "Dimensions (MM)",
       "glazing": "Glazing Package",
-      "options": "Accessories & Add-ons"
+      "options": "Accessories & Add-ons",
+      "profile": "Profile"
     },
     "summary": {
       "title": "Specs Overview",
@@ -315,7 +316,58 @@
       "sashes": "{{count}} Sashes configuration"
     },
     "blueprint": {
-      "interiorView": "Interior View"
+      "interiorView": "Interior View",
+      "dragToRotate": "Drag to rotate freely in 3D"
+    }
+  },
+  "help": {
+    "materialDesc": "Choose the type of material for your window. Below you will find a summary of the main characteristics of each one.",
+    "pvc": "PVC",
+    "aluminum": "ALUMINUM",
+    "durability": "Durability",
+    "maintenance": "Maintenance",
+    "insulation": "Insulation",
+    "weatherRes": "Weather resistance",
+    "security": "Security",
+    "ecoFootprint": "Ecological footprint",
+    "legend": "* = neutral | ** = good | *** = very good",
+    "windowTypeDesc": "Our windows have different opening options. There are one, two, and three-leaf windows with top or bottom transoms.",
+    "singleLeaf": "Single leaf windows",
+    "doubleLeaf": "Two-leaf windows",
+    "tripleLeaf": "Three-leaf windows",
+    "specialWindows": "Special window types",
+    "leaveConf": "Leave configurator?",
+    "stillQuestions": "Do you still have questions about your order or the configurator?",
+    "csTeam": "Our customer service team (and our AI Assistant) will be happy to advise you for free:",
+    "monFri": "(Monday to Friday from 8:00 to 18:00)",
+    "aiAssist": "AI Assistant",
+    "avail247": "(Available 24/7)",
+    "exitWarning": "By exiting the configurator, your previous selection will be lost.",
+    "continueConf": "Continue in configurator",
+    "exitConf": "Exit configurator",
+    "haveQuestions": "Do you have any questions?",
+    "availableToday": "We are available today until 18:00.",
+    "shallWeTalk": "Shall we talk? Book your call now.",
+    "scheduleMeeting": "Schedule meeting",
+    "up": "UP",
+    "close": "Close",
+    "comp": {
+      "title": "Summary Comparison Table (2026 Context)",
+      "feature": "Feature",
+      "pvc": "PVC (uPVC)",
+      "aluminum": "Aluminum",
+      "bestFor": "Best For",
+      "bestForPvc": "Budget, standard sizes, maximum thermal efficiency at low cost.",
+      "bestForAlu": "Large glass areas, modern aesthetics, longevity, and strength.",
+      "lifespan": "Lifespan",
+      "lifespanPvc": "20–30 Years",
+      "lifespanAlu": "45+ Years",
+      "cost": "Cost",
+      "costPvc": "Generally 30%–50% cheaper.",
+      "costAlu": "Premium price point.",
+      "aesthetics": "Aesthetics",
+      "aestheticsPvc": "Bulkier frames.",
+      "aestheticsAlu": "Slim profiles (more natural light)."
     }
   }
 }

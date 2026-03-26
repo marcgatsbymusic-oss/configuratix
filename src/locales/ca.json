@@ -274,14 +274,15 @@
     "title": "Dissenya el teu sistema de finestres personalitzat.",
     "subtitle": "Tria el material i configura les teves especificacions arquitectòniques exactes a continuació.",
     "steps": {
-      "material": "Perfil del Material",
+      "material": "Material",
       "system": "Perfil del Sistema",
       "windowType": "Tipus de Finestra",
       "openingType": "Tipus d'Obertura",
       "color": "Color i Decoració",
       "dimensions": "Dimensions (MM)",
       "glazing": "Vidres",
-      "options": "Accessoris"
+      "options": "Accessoris",
+      "profile": "Perfil"
     },
     "summary": {
       "title": "Resum d'Especificacions",

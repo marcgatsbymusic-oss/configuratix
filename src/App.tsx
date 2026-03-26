@@ -20,7 +20,7 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | 
     if (this.state.error) {
       return (
         <div style={{ color: 'white', padding: '40px', fontFamily: 'Montserrat, sans-serif' }}>
-          <h1 style={{ color: '#dca95c' }}>MAMMUT</h1>
+          <h1 style={{ color: '#eab676' }}>MAMMUT</h1>
           <p style={{ color: '#888' }}>Runtime error: {(this.state.error as Error).message}</p>
         </div>
       )

@@ -61,7 +61,7 @@ function HandlesSlider() {
         <div className="relative flex items-center gap-4">
           <button
             onClick={() => setPage(p => (p - 1 + totalPages) % totalPages)}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-[#3a3a3b] text-white/60 hover:text-[#dca95c] hover:border-[#dca95c] transition-colors duration-200"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-[#3a3a3b] text-white/60 hover:text-[#eab676] hover:border-[#eab676] transition-colors duration-200"
             aria-label="Previous"
           >
             <ChevronLeft size={20} />
@@ -81,7 +81,7 @@ function HandlesSlider() {
           </div>
           <button
             onClick={() => setPage(p => (p + 1) % totalPages)}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-[#3a3a3b] text-white/60 hover:text-[#dca95c] hover:border-[#dca95c] transition-colors duration-200"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-[#3a3a3b] text-white/60 hover:text-[#eab676] hover:border-[#eab676] transition-colors duration-200"
             aria-label="Next"
           >
             <ChevronRight size={20} />
@@ -93,7 +93,7 @@ function HandlesSlider() {
               key={i}
               onClick={() => setPage(i)}
               className="w-2 h-2 rounded-full transition-colors duration-200"
-              style={{ background: i === page ? '#dca95c' : 'rgba(255,255,255,0.2)' }}
+              style={{ background: i === page ? '#eab676' : 'rgba(255,255,255,0.2)' }}
               aria-label={`Page ${i + 1}`}
             />
           ))}
@@ -185,6 +185,26 @@ const ADDITIONAL_OPTIONS = [
       { name: 'Window sill 150 mm', image: '/assets/additional-options/sill-150mm.webp' },
     ],
   },
+  {
+    id: 'shutters',
+    title: 'Roller Shutters',
+    description: 'Protect your home with integrated external roller shutters.',
+    seeAllHref: 'https://www.drutex.eu/en/products/roller-shutters/',
+    items: [
+      { name: 'PVC Roller Shutter', image: '/assets/placeholder-shutter.jpg' },
+      { name: 'External Aluminum Shutter', image: '/assets/placeholder-shutter.jpg' },
+    ],
+  },
+  {
+    id: 'mosquito-nets',
+    title: 'Mosquito Nets',
+    description: 'Keep insects out while letting fresh air in.',
+    seeAllHref: 'https://www.drutex.eu/en/products/addons/',
+    items: [
+      { name: 'Fixed Frame Mosquito Net', image: '/assets/placeholder-window.jpg' },
+      { name: 'Integrated Roll-up Net', image: '/assets/placeholder-window.jpg' },
+    ],
+  },
 ]
 
 const AO_PER_PAGE = 3
@@ -199,7 +219,7 @@ function AdditionalOptionSlider({ items }: { items: { name: string; image: strin
       {totalPages > 1 && (
         <button
           onClick={() => setPage(p => (p - 1 + totalPages) % totalPages)}
-          className="flex-shrink-0 w-8 h-8 flex items-center justify-center border border-[#3a3a3b] text-white/60 hover:text-[#dca95c] hover:border-[#dca95c] transition-colors duration-200"
+          className="flex-shrink-0 w-8 h-8 flex items-center justify-center border border-[#3a3a3b] text-white/60 hover:text-[#eab676] hover:border-[#eab676] transition-colors duration-200"
           aria-label="Previous"
         >
           <ChevronLeft size={16} />
@@ -227,7 +247,7 @@ function AdditionalOptionSlider({ items }: { items: { name: string; image: strin
       {totalPages > 1 && (
         <button
           onClick={() => setPage(p => (p + 1) % totalPages)}
-          className="flex-shrink-0 w-8 h-8 flex items-center justify-center border border-[#3a3a3b] text-white/60 hover:text-[#dca95c] hover:border-[#dca95c] transition-colors duration-200"
+          className="flex-shrink-0 w-8 h-8 flex items-center justify-center border border-[#3a3a3b] text-white/60 hover:text-[#eab676] hover:border-[#eab676] transition-colors duration-200"
           aria-label="Next"
         >
           <ChevronRight size={16} />
@@ -241,7 +261,7 @@ function AdditionalOptionSlider({ items }: { items: { name: string; image: strin
               key={i}
               onClick={() => setPage(i)}
               className="w-1.5 h-1.5 rounded-full transition-colors duration-200"
-              style={{ background: i === page ? '#dca95c' : 'rgba(255,255,255,0.2)' }}
+              style={{ background: i === page ? '#eab676' : 'rgba(255,255,255,0.2)' }}
               aria-label={`Page ${i + 1}`}
             />
           ))}
@@ -273,7 +293,7 @@ function AdditionalOptionsSection() {
                   href={group.seeAllHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block bg-[#dca95c] text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 hover:bg-[#eab676] transition-colors"
+                  className="inline-block bg-[#eab676] text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 hover:bg-[#F3C47F] transition-colors"
                 >
                   {t('productDetail.seeAll')}
                 </a>
@@ -311,7 +331,7 @@ function GlazingSection({ glassOptions }: { glassOptions: GlassOption[] }) {
               >
                 <div
                   className="w-full aspect-square overflow-hidden border-2 transition-all duration-200"
-                  style={{ borderColor: selected.id === glass.id ? '#dca95c' : 'transparent' }}
+                  style={{ borderColor: selected.id === glass.id ? '#eab676' : 'transparent' }}
                 >
                   <img
                     src={glass.image}
@@ -321,7 +341,7 @@ function GlazingSection({ glassOptions }: { glassOptions: GlassOption[] }) {
                 </div>
                 <span
                   className="text-[10px] text-center leading-tight transition-colors duration-200 w-full px-0.5"
-                  style={{ color: selected.id === glass.id ? '#dca95c' : 'rgba(255,255,255,0.6)' }}
+                  style={{ color: selected.id === glass.id ? '#eab676' : 'rgba(255,255,255,0.6)' }}
                 >
                   {t(`glass.${glass.id}`)}
                 </span>
@@ -360,7 +380,7 @@ export function ProductDetailPage() {
   if (!detailData && !basicData) {
     return (
       <main className="min-h-screen bg-black pt-32 px-6 text-center">
-        <h1 className="text-3xl font-black uppercase text-[#dca95c]">{t('productDetail.notFound')}</h1>
+        <h1 className="text-3xl font-black uppercase text-[#eab676]">{t('productDetail.notFound')}</h1>
         <Link to="/products" className="mt-6 inline-flex text-sm text-white/60 hover:text-white uppercase tracking-widest transition-colors">
           {t('productDetail.return')}
         </Link>
@@ -373,9 +393,9 @@ export function ProductDetailPage() {
     return (
       <main className="bg-black min-h-screen pt-24 px-6 text-center pb-20">
         <h1 className="text-4xl font-black uppercase mb-4 text-white">{basicData.name}</h1>
-        <p className="text-[#dca95c] mb-8">{basicData.tagline}</p>
+        <p className="text-[#eab676] mb-8">{basicData.tagline}</p>
         <p className="text-white/60 max-w-2xl mx-auto mb-10">{basicData.description}</p>
-        <Link to={`/configurator?product=${basicData.slug}`} className="bg-[#dca95c] text-black px-8 py-4 font-bold uppercase tracking-widest hover:bg-[#eab676] transition-colors">
+        <Link to={`/configurator?product=${basicData.slug}`} className="bg-[#eab676] text-black px-8 py-4 font-bold uppercase tracking-widest hover:bg-[#F3C47F] transition-colors">
           {t('productDetail.configure', { name: basicData.name })}
         </Link>
       </main>
@@ -391,7 +411,7 @@ export function ProductDetailPage() {
     <main className="bg-[#111112] min-h-screen pt-16">
       
       {/* 1. Hero Section (Full Width, matches the top section requested by user) */}
-      <section className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[80vh] min-h-[600px] flex items-end justify-center pb-8 lg:pb-12 overflow-hidden">
         <div className="absolute inset-0 bg-black z-0">
           <video 
             src="/assets/iglo-edge-header-cover.mp4"
@@ -413,7 +433,7 @@ export function ProductDetailPage() {
           </p>
 
           {/* Thin gold divider */}
-          <div className="w-full border-t border-[#dca95c]/40 mb-10" />
+          <div className="w-full border-t border-[#eab676]/40 mb-10" />
           
           {/* Spec boxes — evenly distributed, gracefully wrapping on mobile */}
           <div className="w-full flex flex-wrap justify-center items-start gap-4 md:gap-6">
@@ -422,7 +442,7 @@ export function ProductDetailPage() {
                 {/* Box with interrupted border: full border + background color strips at top/bottom center to create gap effect */}
                 <div className="relative flex items-center justify-center w-full" style={{ height: '56px' }}>
                   {/* Full border */}
-                  <div className="absolute inset-0 border border-[#dca95c]" />
+                  <div className="absolute inset-0 border border-[#eab676]" />
                   {/* Horizontal gap interruptions — thin bg strips at top and bottom center */}
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-[1px]" style={{ background: '#111112' }} />
                   <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-[1px]" style={{ background: '#111112' }} />
@@ -446,7 +466,7 @@ export function ProductDetailPage() {
 
             {/* Left: text block */}
             <div>
-              <span className="bg-[#dca95c] text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">{t('productDetail.standardEquipment')}</span>
+              <span className="bg-[#eab676] text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">{t('productDetail.standardEquipment')}</span>
               <h2 className="text-4xl font-black text-white uppercase mb-6 leading-tight">
                 IGLO EDGE
               </h2>
@@ -456,7 +476,7 @@ export function ProductDetailPage() {
               <ul className="space-y-3 mb-10">
                 {detailData.standardEquipment.map((_, i) => (
                   <li key={i} className="flex items-start gap-3">
-                    <span className="mt-1 w-4 h-4 flex-shrink-0 rounded-full flex items-center justify-center" style={{ background: '#dca95c' }}>
+                    <span className="mt-1 w-4 h-4 flex-shrink-0 rounded-full flex items-center justify-center" style={{ background: '#eab676' }}>
                       <Check size={10} className="text-black" />
                     </span>
                     <span className="text-white/70 text-sm leading-snug">{t(`igloEdge.equipment.${i}`)}</span>
@@ -466,9 +486,9 @@ export function ProductDetailPage() {
               {/* Video CTA */}
               <button
                 onClick={() => setVideoOpen(true)}
-                className="flex items-center gap-3 text-sm text-white/70 hover:text-[#dca95c] transition-colors duration-200 group"
+                className="flex items-center gap-3 text-sm text-white/70 hover:text-[#eab676] transition-colors duration-200 group"
               >
-                <span className="w-10 h-10 flex items-center justify-center border border-[#dca95c] text-[#dca95c] group-hover:bg-[#dca95c] group-hover:text-black transition-all duration-200">
+                <span className="w-10 h-10 flex items-center justify-center border border-[#eab676] text-[#eab676] group-hover:bg-[#eab676] group-hover:text-black transition-all duration-200">
                   <Play size={16} fill="currentColor" />
                 </span>
                 <span className="uppercase tracking-widest font-semibold text-xs">{t('productDetail.seeVideo')}</span>
@@ -555,7 +575,7 @@ export function ProductDetailPage() {
           <div className="relative w-full max-w-4xl mx-6" onClick={e => e.stopPropagation()}>
             <button
               onClick={() => setVideoOpen(false)}
-              className="absolute -top-10 right-0 text-white/70 hover:text-[#dca95c] transition-colors"
+              className="absolute -top-10 right-0 text-white/70 hover:text-[#eab676] transition-colors"
             >
               <X size={24} />
             </button>
@@ -572,14 +592,14 @@ export function ProductDetailPage() {
       {/* 3. Profile Specs Section */}
       <section className="max-w-7xl mx-auto px-6 py-24 border-b border-[#2a2a2b]">
         <div className="max-w-2xl">
-          <span className="bg-[#dca95c] text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">{t('productDetail.newGeneration')}</span>
+          <span className="bg-[#eab676] text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">{t('productDetail.newGeneration')}</span>
           <h2 className="text-4xl font-black text-white uppercase mb-6 leading-tight">
             {t('productDetail.uncompromising')}
           </h2>
           <ul className="space-y-4">
             {detailData.keySpecs.map(spec => (
               <li key={spec.label} className="flex items-center gap-3 border-b border-[#2a2a2b] pb-3">
-                <Check size={16} className="text-[#dca95c] shrink-0" />
+                <Check size={16} className="text-[#eab676] shrink-0" />
                 <span className="text-white/70 text-sm">{t(`igloEdge.specs.${spec.label}`)}</span>
                 <span className="text-white font-bold text-sm ml-auto">{spec.value}</span>
               </li>
@@ -613,7 +633,7 @@ export function ProductDetailPage() {
               
               <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center text-xs z-40">
                 <span className="text-white/40 uppercase tracking-widest border border-white/10 px-3 py-1 bg-black/80 rounded-sm">{t('productDetail.selectedFinish')}</span>
-                <span className="text-[#dca95c] font-black uppercase tracking-widest drop-shadow-md">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</span>
+                <span className="text-[#eab676] font-black uppercase tracking-widest drop-shadow-md">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</span>
               </div>
             </div>
 
@@ -668,7 +688,7 @@ export function ProductDetailPage() {
           <div className="flex w-full md:w-auto gap-4">
              <Link 
                to={`/configurator?product=${detailData.slug}&color=${selectedColor?.hex?.replace('#', '')}`}
-               className="flex-1 md:flex-none bg-[#dca95c] text-black px-8 py-3 text-xs font-bold uppercase tracking-widest hover:bg-[#eab676] transition-colors text-center"
+               className="flex-1 md:flex-none bg-[#eab676] text-black px-8 py-3 text-xs font-bold uppercase tracking-widest hover:bg-[#F3C47F] transition-colors text-center"
              >
                {t('productDetail.configureQuote')}
              </Link>

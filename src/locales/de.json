@@ -274,14 +274,15 @@
     "title": "Gestalten Sie Ihr individuelles Fenstersystem.",
     "subtitle": "Wählen Sie das Material und konfigurieren Sie unten Ihre genauen architektonischen Spezifikationen.",
     "steps": {
-      "material": "Materialprofil",
+      "material": "Material",
       "system": "Systemprofil",
       "windowType": "Fenstertyp",
       "openingType": "Öffnungsart",
       "color": "Farbe & Dekor",
       "dimensions": "Maße (MM)",
       "glazing": "Verglasung",
-      "options": "Zubehör & Extras"
+      "options": "Zubehör & Extras",
+      "profile": "Profil"
     },
     "summary": {
       "title": "Spezifikationsübersicht",
@@ -315,7 +316,58 @@
       "sashes": "{{count}} Flügelkonfiguration"
     },
     "blueprint": {
-      "interiorView": "Innenansicht"
+      "interiorView": "Innenansicht",
+      "dragToRotate": "Ziehen Sie, um sich frei in 3D zu drehen"
+    }
+  },
+  "help": {
+    "materialDesc": "Wählen Sie das Material für Ihr Fenster. Unten finden Sie eine Zusammenfassung der wichtigsten Eigenschaften.",
+    "pvc": "PVC",
+    "aluminum": "ALUMINIUM",
+    "durability": "Haltbarkeit",
+    "maintenance": "Wartung",
+    "insulation": "Isolierung",
+    "weatherRes": "Wetterbeständigkeit",
+    "security": "Sicherheit",
+    "ecoFootprint": "Ökologischer Fußabdruck",
+    "legend": "* = neutral | ** = gut | *** = sehr gut",
+    "windowTypeDesc": "Unsere Fenster haben verschiedene Öffnungsmöglichkeiten. Es gibt ein-, zwei- und dreiflügelige Fenster mit Ober- oder Unterlichtern.",
+    "singleLeaf": "Einflügelige Fenster",
+    "doubleLeaf": "Zweiflügelige Fenster",
+    "tripleLeaf": "Dreiflügelige Fenster",
+    "specialWindows": "Sonderfenster",
+    "leaveConf": "Konfigurator verlassen?",
+    "stillQuestions": "Haben Sie noch Fragen zu Ihrer Bestellung oder dem Konfigurator?",
+    "csTeam": "Unser Kundenservice-Team (und unser KI-Assistent) beraten Sie gerne kostenlos:",
+    "monFri": "(Montag bis Freitag von 8:00 bis 18:00 Uhr)",
+    "aiAssist": "KI-Assistent",
+    "avail247": "(24/7 verfügbar)",
+    "exitWarning": "Beim Verlassen des Konfigurators geht Ihre bisherige Auswahl verloren.",
+    "continueConf": "Im Konfigurator fortfahren",
+    "exitConf": "Konfigurator verlassen",
+    "haveQuestions": "Haben Sie Fragen?",
+    "availableToday": "Wir sind heute bis 18:00 Uhr erreichbar.",
+    "shallWeTalk": "Sollen wir sprechen? Buchen Sie jetzt Ihren Anruf.",
+    "scheduleMeeting": "Meeting planen",
+    "up": "NACH OBEN",
+    "close": "Schließen",
+    "comp": {
+      "title": "Zusammenfassende Vergleichstabelle (2026 Kontext)",
+      "feature": "Eigenschaft",
+      "pvc": "Kunststoff (uPVC)",
+      "aluminum": "Aluminium",
+      "bestFor": "Am besten für",
+      "bestForPvc": "Budget, Standardgrößen, maximale thermische Effizienz bei geringen Kosten.",
+      "bestForAlu": "Große Glasflächen, moderne Ästhetik, Langlebigkeit und Festigkeit.",
+      "lifespan": "Lebensdauer",
+      "lifespanPvc": "20–30 Jahre",
+      "lifespanAlu": "45+ Jahre",
+      "cost": "Kosten",
+      "costPvc": "In der Regel 30%–50% günstiger.",
+      "costAlu": "Premium-Preisklasse.",
+      "aesthetics": "Ästhetik",
+      "aestheticsPvc": "Klobigere Rahmen.",
+      "aestheticsAlu": "Schmale Profile (mehr natürliches Licht)."
     }
   }
 }

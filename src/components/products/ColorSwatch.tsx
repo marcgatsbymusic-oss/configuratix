@@ -22,7 +22,7 @@ export function ColorSwatch({ colors, selectedColorId, onColorSelect }: ColorSwa
     <div className="w-full space-y-8">
       {Object.entries(groupedColors).map(([groupName, groupColors]) => (
         <div key={groupName}>
-          <h4 className="text-[#dca95c] text-[10px] font-bold uppercase tracking-[0.2em] mb-4 pb-2 border-b border-[#2a2a2b]">
+          <h4 className="text-[#eab676] text-[10px] font-bold uppercase tracking-[0.2em] mb-4 pb-2 border-b border-[#2a2a2b]">
             {t(`colorGroups.${groupName}`)}
           </h4>
           <div className="flex flex-wrap gap-3">
@@ -33,7 +33,7 @@ export function ColorSwatch({ colors, selectedColorId, onColorSelect }: ColorSwa
                   key={color.id}
                   onClick={() => onColorSelect(color)}
                   className={`relative group w-10 h-10 transition-all duration-200 outline outline-offset-2 ${
-                    isSelected ? 'outline-[#dca95c]' : 'outline-transparent hover:outline-white/30'
+                    isSelected ? 'outline-[#eab676]' : 'outline-transparent hover:outline-white/30'
                   }`}
                   aria-label={`Select color ${t(`colors.${color.id}`)}`}
                   title={t(`colors.${color.id}`)}

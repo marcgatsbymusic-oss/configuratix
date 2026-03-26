@@ -112,23 +112,23 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
           )}
         </defs>
 
-        <line x1={offsetX} y1={SVG_H - DIM_PAD_BOTTOM + 20} x2={offsetX + frameW} y2={SVG_H - DIM_PAD_BOTTOM + 20} stroke="#e2e8f0" strokeWidth="1" />
-        <line x1={offsetX} y1={SVG_H - DIM_PAD_BOTTOM + 15} x2={offsetX} y2={SVG_H - DIM_PAD_BOTTOM + 25} stroke="#e2e8f0" strokeWidth="1" />
-        <line x1={offsetX + frameW} y1={SVG_H - DIM_PAD_BOTTOM + 15} x2={offsetX + frameW} y2={SVG_H - DIM_PAD_BOTTOM + 25} stroke="#e2e8f0" strokeWidth="1" />
-        <text x={offsetX + frameW / 2} y={SVG_H - DIM_PAD_BOTTOM + 12} textAnchor="middle" fill="#94a3b8" fontSize="16" className="font-sans font-bold">{realW}</text>
+        <line x1={offsetX} y1={SVG_H - DIM_PAD_BOTTOM + 20} x2={offsetX + frameW} y2={SVG_H - DIM_PAD_BOTTOM + 20} stroke="#2a2a2b" strokeWidth="1" />
+        <line x1={offsetX} y1={SVG_H - DIM_PAD_BOTTOM + 15} x2={offsetX} y2={SVG_H - DIM_PAD_BOTTOM + 25} stroke="#2a2a2b" strokeWidth="1" />
+        <line x1={offsetX + frameW} y1={SVG_H - DIM_PAD_BOTTOM + 15} x2={offsetX + frameW} y2={SVG_H - DIM_PAD_BOTTOM + 25} stroke="#2a2a2b" strokeWidth="1" />
+        <text x={offsetX + frameW / 2} y={SVG_H - DIM_PAD_BOTTOM + 12} textAnchor="middle" fill="#1a1a1b" opacity="0.6" fontSize="16" className="font-sans font-bold">{realW}</text>
 
-        <text x={SVG_W / 2} y={SVG_H - 10} textAnchor="middle" fill="#94a3b8" fontSize="14" className="font-sans font-black tracking-[0.2em] uppercase">
+        <text x={SVG_W / 2} y={SVG_H - 10} textAnchor="middle" fill="#1a1a1b" opacity="0.6" fontSize="14" className="font-sans font-black tracking-[0.2em] uppercase">
           {isExterior ? t('configurator.blueprint.exteriorView', 'Exterior View') : t('configurator.blueprint.interiorView', 'Interior View')}
         </text>
 
-        <line x1={SVG_W - 15} y1={offsetY} x2={SVG_W - 15} y2={offsetY + frameH} stroke="#e2e8f0" strokeWidth="1" />
-        <line x1={SVG_W - 20} y1={offsetY} x2={SVG_W - 10} y2={offsetY} stroke="#e2e8f0" strokeWidth="1" />
-        <line x1={SVG_W - 20} y1={offsetY + frameH} x2={SVG_W - 10} y2={offsetY + frameH} stroke="#e2e8f0" strokeWidth="1" />
-        <text x={SVG_W - 25} y={offsetY + frameH / 2} textAnchor="middle" fill="#94a3b8" fontSize="16" transform={`rotate(90, ${SVG_W - 25}, ${offsetY + frameH / 2})`} className="font-sans font-bold">{realH}</text>
+        <line x1={SVG_W - 15} y1={offsetY} x2={SVG_W - 15} y2={offsetY + frameH} stroke="#2a2a2b" strokeWidth="1" />
+        <line x1={SVG_W - 20} y1={offsetY} x2={SVG_W - 10} y2={offsetY} stroke="#2a2a2b" strokeWidth="1" />
+        <line x1={SVG_W - 20} y1={offsetY + frameH} x2={SVG_W - 10} y2={offsetY + frameH} stroke="#2a2a2b" strokeWidth="1" />
+        <text x={SVG_W - 25} y={offsetY + frameH / 2} textAnchor="middle" fill="#1a1a1b" opacity="0.6" fontSize="16" transform={`rotate(90, ${SVG_W - 25}, ${offsetY + frameH / 2})`} className="font-sans font-bold">{realH}</text>
 
         <g transform={`translate(${offsetX}, ${offsetY})`}>
-          <rect x="0" y="0" width={frameW} height={frameH} fill={imgUrl ? `url(#${patternId})` : '#ffffff'} stroke="#64748b" strokeWidth="2" />
-          <rect x={F_THICK} y={F_THICK} width={frameW - (F_THICK*2)} height={frameH - (F_THICK*2)} fill="#e2e8f0" stroke="#94a3b8" strokeWidth="1" />
+          <rect x="0" y="0" width={frameW} height={frameH} fill={imgUrl ? `url(#${patternId})` : '#ffffff'} stroke="#3a3a3b" strokeWidth="2" />
+          <rect x={F_THICK} y={F_THICK} width={frameW - (F_THICK*2)} height={frameH - (F_THICK*2)} fill="#111112" stroke="#2a2a2b" strokeWidth="1" />
 
           {layout.map((sash, i) => {
             const sx = F_THICK + (sash.x / 100) * (frameW - (F_THICK*2));
@@ -147,11 +147,11 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
 
             return (
               <g key={i}>
-                <rect x={sx} y={sy} width={sw} height={sh} fill={imgUrl ? `url(#${patternId})` : '#ffffff'} stroke="#64748b" strokeWidth="1.5" />
-                <rect x={sx + S_THICK} y={sy + S_THICK} width={Math.max(1, sw - (S_THICK*2))} height={Math.max(1, sh - (S_THICK*2))} fill={isExterior ? "#0f172a" : "#cffafe"} stroke="#94a3b8" strokeWidth="1" />
+                <rect x={sx} y={sy} width={sw} height={sh} fill={imgUrl ? `url(#${patternId})` : '#ffffff'} stroke="#3a3a3b" strokeWidth="1.5" />
+                <rect x={sx + S_THICK} y={sy + S_THICK} width={Math.max(1, sw - (S_THICK*2))} height={Math.max(1, sh - (S_THICK*2))} fill={isExterior ? "#0f172a" : "#cffafe"} stroke="#2a2a2b" strokeWidth="1" />
 
                 {!isFixed && (
-                  <g stroke="#ef4444" strokeWidth="1.5" fill="none" opacity={isExterior ? "0.3" : "0.85"}>
+                  <g stroke="#eab676" strokeWidth="1.5" fill="none" opacity={isExterior ? "0.3" : "0.85"}>
                     {(isDKL || isDL) && (
                       <path d={`M${sx + S_THICK},${sy + S_THICK} L${sx + sw - S_THICK},${sy + sh / 2} L${sx + S_THICK},${sy + sh - S_THICK}`} transform={isExterior ? `translate(${sx*2 + sw}, 0) scale(-1, 1)` : ""} />
                     )}
@@ -166,25 +166,26 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
 
                 {!isExterior && !isFixed && (isDKL || isDL) && (
                   <g transform={`translate(${sx + sw - (S_THICK/2)}, ${sy + (sh / 2) - 20})`}>
-                    <rect x="-4" y="0" width="8" height="40" fill="#f8fafc" stroke="#475569" strokeWidth="1" rx="2" />
-                    <rect x="-20" y="16" width="20" height="8" fill="#ffffff" stroke="#475569" strokeWidth="1" rx="4" />
+                    <rect x="-4" y="0" width="8" height="40" fill="#3a3a3b" stroke="#4a4a4b" strokeWidth="1" rx="2" />
+                    <rect x="-20" y="16" width="20" height="8" fill="#1a1a1b" stroke="#4a4a4b" strokeWidth="1" rx="4" />
                   </g>
                 )}
                 {!isExterior && !isFixed && (isDKR || isDR) && (
                   <g transform={`translate(${sx + (S_THICK/2)}, ${sy + (sh / 2) - 20})`}>
-                    <rect x="-4" y="0" width="8" height="40" fill="#f8fafc" stroke="#475569" strokeWidth="1" rx="2" />
-                    <rect x="0" y="16" width="20" height="8" fill="#ffffff" stroke="#475569" strokeWidth="1" rx="4" />
+                    <rect x="-4" y="0" width="8" height="40" fill="#3a3a3b" stroke="#4a4a4b" strokeWidth="1" rx="2" />
+                    <rect x="0" y="16" width="20" height="8" fill="#1a1a1b" stroke="#4a4a4b" strokeWidth="1" rx="4" />
                   </g>
                 )}
                 {!isExterior && !isFixed && isK && (
                   <g transform={`translate(${sx + (sw / 2) - 20}, ${sy + (S_THICK/2)})`}>
-                    <rect x="0" y="-4" width="40" height="8" fill="#f8fafc" stroke="#475569" strokeWidth="1" rx="2" />
-                    <rect x="16" y="0" width="8" height="20" fill="#ffffff" stroke="#475569" strokeWidth="1" rx="4" />
+                    <rect x="0" y="-4" width="40" height="8" fill="#3a3a3b" stroke="#4a4a4b" strokeWidth="1" rx="2" />
+                    <rect x="16" y="0" width="8" height="20" fill="#1a1a1b" stroke="#4a4a4b" strokeWidth="1" rx="4" />
                   </g>
                 )}
               </g>
             );
           })}
+          <image href="/assets/mammut-logo-icon.png" x={(frameW - Math.min(frameW, frameH) * 0.3) / 2} y={(frameH - Math.min(frameW, frameH) * 0.3) / 2} width={Math.min(frameW, frameH) * 0.3} height={Math.min(frameW, frameH) * 0.3} opacity="0.15" style={{ pointerEvents: 'none' }} />
         </g>
       </svg>
     );
@@ -195,23 +196,23 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center relative p-8 bg-transparent" style={{ perspective: '1200px' }}>
       
-      <div className="absolute top-4 right-4 flex gap-1 z-20 bg-white/80 backdrop-blur rounded-lg p-1 shadow-sm border border-slate-200/50">
+      <div className="absolute top-4 right-4 flex gap-1 z-20 bg-[#1a1a1b]/80 backdrop-blur rounded-lg p-1 shadow-sm border border-[#2a2a2b]">
         <button 
           onClick={() => setRotationY(0)} 
-          className={`px-3 py-1.5 text-[10px] uppercase tracking-wider font-bold rounded-md transition-all ${!isShowingExterior ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-500 hover:bg-slate-100'}`}
+          className={`px-3 py-1.5 text-[10px] uppercase tracking-wider font-bold rounded-md transition-all ${!isShowingExterior ? 'bg-[#eab676] !text-black shadow-md' : 'text-white/60 hover:bg-[#2a2a2b]'}`}
         >
           {t('configurator.blueprint.interiorView', 'Interior')}
         </button>
         <button 
           onClick={() => setRotationY(180)} 
-          className={`px-3 py-1.5 text-[10px] uppercase tracking-wider font-bold rounded-md transition-all ${isShowingExterior ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-500 hover:bg-slate-100'}`}
+          className={`px-3 py-1.5 text-[10px] uppercase tracking-wider font-bold rounded-md transition-all ${isShowingExterior ? 'bg-[#eab676] !text-black shadow-md' : 'text-white/60 hover:bg-[#2a2a2b]'}`}
         >
           {t('configurator.blueprint.exteriorView', 'Exterior')}
         </button>
       </div>
 
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-400 opacity-60 pointer-events-none">
-        <Rotate3D size={14} /> Drag to rotate freely in 3D
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-white/50 opacity-60 pointer-events-none">
+        <Rotate3D size={14} /> {t('configurator.blueprint.dragToRotate', 'Drag to rotate freely in 3D')}
       </div>
 
       <div 
