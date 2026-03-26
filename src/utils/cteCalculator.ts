@@ -11,17 +11,17 @@ const WINTER_ZONES = ['alpha', 'A', 'B', 'C', 'D', 'E'];
  */
 export function calculateCTEZone(province: string, altitude: number): { winter: string, summer: string, combined: string } {
   // Graceful fallback if province not strictly mapped
-  const base = PROVINCE_CTE_BASE[province as keyof typeof PROVINCE_CTE_BASE] || { zone: "C2", h0: 0 };
+  const base = PROVINCE_CTE_BASE[province as keyof typeof PROVINCE_CTE_BASE] || { w: "C", s: "2", alt: 0 };
   
-  const baseWinter = base.zone.substring(0, base.zone.length === 6 ? 5 : 1); // 'A', 'B', etc or 'alpha'
-  const baseSummer = parseInt(base.zone.substring(base.zone.length === 6 ? 5 : 1)); // '3', '4', etc
+  const baseWinter = base.w;
+  const baseSummer = parseInt(base.s, 10);
   
   if (baseWinter === 'alpha') {
     return { winter: 'alpha', summer: baseSummer.toString(), combined: `alpha${baseSummer}` };
   }
 
   // Calculate altitude delta (in meters)
-  const deltaH = altitude - base.h0;
+  const deltaH = altitude - base.alt;
   
   let currentWinterIndex = WINTER_ZONES.indexOf(baseWinter);
   

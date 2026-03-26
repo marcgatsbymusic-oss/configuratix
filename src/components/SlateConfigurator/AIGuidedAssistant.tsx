@@ -90,23 +90,23 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
               <ThermometerSnowflake size={32} />
             </div>
             <h2 className="text-2xl md:text-3xl font-black text-white mb-4 uppercase tracking-tight">{t('assistant.geoTitle')}</h2>
-            <p className="text-white/60 mb-8 max-w-lg text-sm md:text-base">
+            <p className="text-white/80 font-medium mb-8 max-w-lg text-sm md:text-base leading-relaxed">
               {t('assistant.geoDesc')}
             </p>
 
             <div className="space-y-4 mb-8">
               <div>
-                <label className="text-xs font-bold text-white/40 uppercase tracking-widest mb-2 block">{t('assistant.province')}</label>
-                <select value={province} onChange={e => { setProvince(e.target.value); setCity(''); setAltitude(null); setCteZone(''); }} className="w-full bg-[#111112] border border-[#2a2a2b] p-4 rounded-xl text-white focus:outline-none focus:border-[#eab676]">
+                <label className="text-xs font-black text-white/80 uppercase tracking-widest mb-2 block">{t('assistant.province')}</label>
+                <select value={province} onChange={e => { setProvince(e.target.value); setCity(''); setAltitude(null); setCteZone(''); }} className="w-full bg-[#111112] border-2 border-[#2a2a2b] font-bold p-4 rounded-xl text-white focus:outline-none focus:border-[#eab676]">
                   <option value="">{t('assistant.selectProv')}</option>
                   {provinces.map(p => <option key={p} value={p}>{p}</option>)}
                 </select>
               </div>
               
-              <div className={`transition-all duration-300 ${province ? 'opacity-100' : 'opacity-50 pointer-events-none'}`}>
-                <label className="text-xs font-bold text-white/40 uppercase tracking-widest mb-2 block">Municipality / City</label>
-                <select value={city} onChange={e => handleCitySelect(e.target.value)} className="w-full bg-[#111112] border border-[#2a2a2b] p-4 rounded-xl text-white focus:outline-none focus:border-[#eab676]">
-                  <option value="">Select City...</option>
+              <div className={`transition-all duration-300 ${province ? 'opacity-100' : 'opacity-40 pointer-events-none'}`}>
+                <label className="text-xs font-black text-white/80 uppercase tracking-widest mb-2 block">{t('assistant.city')}</label>
+                <select value={city} onChange={e => handleCitySelect(e.target.value)} className="w-full bg-[#111112] border-2 border-[#2a2a2b] font-bold p-4 rounded-xl text-white focus:outline-none focus:border-[#eab676]">
+                  <option value="">{t('assistant.selectCity')}</option>
                   {availableCities.map(c => <option key={c.n} value={c.n}>{c.n}</option>)}
                 </select>
               </div>
@@ -139,19 +139,19 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
             </div>
             <h2 className="text-2xl md:text-3xl font-black text-white mb-4 uppercase tracking-tight">{t('assistant.matTitle')}</h2>
             
-            <label className="text-xs font-bold text-[#eab676] uppercase tracking-widest mb-3 block">{t('assistant.matPref')}</label>
+            <label className="text-xs font-black text-[#eab676] uppercase tracking-widest mb-3 block">{t('assistant.matPref')}</label>
             <div className="grid grid-cols-2 gap-3 mb-8">
               {['pvc', 'alu', 'wood', 'guide'].map(m => (
-                <button key={m} onClick={() => setMaterial(m)} className={`p-4 rounded-xl border-2 font-bold uppercase tracking-wider text-xs md:text-sm transition-all ${material === m ? 'border-[#eab676] bg-[#eab676]/10 text-white' : 'border-[#2a2a2b] bg-[#111112] text-white/50 hover:border-[#3a3a3b]'}`}>
-                  {m === 'guide' ? t('assistant.guideMe') : m}
+                <button key={m} onClick={() => setMaterial(m)} className={`p-4 rounded-xl border-2 font-black uppercase tracking-wider text-xs md:text-sm transition-all ${material === m ? 'border-[#eab676] bg-[#eab676]/10 text-white' : 'border-[#2a2a2b] bg-[#111112] text-white/80 hover:border-[#4a4a4b] hover:text-white'}`}>
+                  {m === 'guide' ? t('assistant.guideMe') : (m === 'pvc' ? 'PVC' : (m === 'alu' ? 'Aluminium' : t('configurator.materials.wood', 'Wood')))}
                 </button>
               ))}
             </div>
 
-            <label className="text-xs font-bold text-[#eab676] uppercase tracking-widest mb-3 block">{t('assistant.budget')}</label>
+            <label className="text-xs font-black text-[#eab676] uppercase tracking-widest mb-3 block">{t('assistant.budget')}</label>
             <div className="grid grid-cols-3 gap-3 mb-10">
               {['low', 'med', 'premium'].map(b => (
-                <button key={b} onClick={() => setBudget(b)} className={`p-3 md:p-4 rounded-xl border-2 font-bold uppercase tracking-wider text-xs md:text-sm transition-all text-center ${budget === b ? 'border-[#eab676] bg-[#eab676]/10 text-white' : 'border-[#2a2a2b] bg-[#111112] text-white/50 hover:border-[#3a3a3b]'}`}>
+                <button key={b} onClick={() => setBudget(b)} className={`p-3 md:p-4 rounded-xl border-2 font-black uppercase tracking-wider text-xs md:text-sm transition-all text-center ${budget === b ? 'border-[#eab676] bg-[#eab676]/10 text-white' : 'border-[#2a2a2b] bg-[#111112] text-white/80 hover:border-[#4a4a4b] hover:text-white'}`}>
                   {t(`assistant.${b}`)}
                 </button>
               ))}
@@ -178,9 +178,9 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
                 { id: 't3', label: t('assistant.t3') },
                 { id: 't4', label: t('assistant.t4') },
               ].map(tObj => (
-                <button key={tObj.id} onClick={() => setTimeline(tObj.id)} className={`p-4 md:p-6 rounded-xl border-2 font-bold transition-all text-left text-sm md:text-base ${timeline === tObj.id ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676]' : 'border-[#2a2a2b] bg-[#111112] text-white/60 hover:border-[#3a3a3b]'}`}>
+                <button key={tObj.id} onClick={() => setTimeline(tObj.id)} className={`p-4 md:p-6 rounded-xl border-2 font-black transition-all text-left text-sm md:text-base ${timeline === tObj.id ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676]' : 'border-[#2a2a2b] bg-[#111112] text-white/80 hover:border-[#4a4a4b] hover:text-white'}`}>
                   {tObj.label}
-                  {tObj.id === 't1' && <div className="text-[10px] uppercase font-black tracking-widest mt-2 opacity-50">{t('assistant.t1Sub')}</div>}
+                  {tObj.id === 't1' && <div className="text-[10px] uppercase font-black tracking-widest mt-2 opacity-70 text-[#eab676]">{t('assistant.t1Sub')}</div>}
                 </button>
               ))}
             </div>
@@ -199,19 +199,19 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
             </div>
             <h2 className="text-2xl md:text-3xl font-black text-white mb-4 uppercase tracking-tight">{t('assistant.archTitle')}</h2>
             
-            <label className="text-xs font-bold text-[#eab676] uppercase tracking-widest mb-3 block">{t('assistant.houseType')}</label>
+            <label className="text-xs font-black text-[#eab676] uppercase tracking-widest mb-3 block">{t('assistant.houseType')}</label>
             <div className="grid grid-cols-2 gap-3 mb-8">
               {['villa', 'apt'].map(h => (
-                <button key={h} onClick={() => setHousing(h)} className={`p-4 rounded-xl border-2 font-bold uppercase tracking-wider text-xs md:text-sm transition-all ${housing === h ? 'border-[#eab676] bg-[#eab676]/10 text-white' : 'border-[#2a2a2b] bg-[#111112] text-white/50 hover:border-[#3a3a3b]'}`}>
+                <button key={h} onClick={() => setHousing(h)} className={`p-4 rounded-xl border-2 font-black uppercase tracking-wider text-xs md:text-sm transition-all ${housing === h ? 'border-[#eab676] bg-[#eab676]/10 text-white' : 'border-[#2a2a2b] bg-[#111112] text-white/80 hover:border-[#4a4a4b] hover:text-white'}`}>
                   {t(`assistant.${h}`)}
                 </button>
               ))}
             </div>
 
-            <label className="text-xs font-bold text-[#eab676] uppercase tracking-widest mb-3 block">{t('assistant.noisePol')}</label>
+            <label className="text-xs font-black text-[#eab676] uppercase tracking-widest mb-3 block">{t('assistant.noisePol')}</label>
             <div className="grid grid-cols-2 gap-3 mb-10">
               {['nHigh', 'nLow'].map(n => (
-                <button key={n} onClick={() => setNoise(n)} className={`p-4 rounded-xl border-2 font-bold uppercase tracking-wider text-xs md:text-sm transition-all ${noise === n ? 'border-[#eab676] bg-[#eab676]/10 text-white' : 'border-[#2a2a2b] bg-[#111112] text-white/50 hover:border-[#3a3a3b]'}`}>
+                <button key={n} onClick={() => setNoise(n)} className={`p-4 rounded-xl border-2 font-black uppercase tracking-wider text-xs md:text-sm transition-all ${noise === n ? 'border-[#eab676] bg-[#eab676]/10 text-white' : 'border-[#2a2a2b] bg-[#111112] text-white/80 hover:border-[#4a4a4b] hover:text-white'}`}>
                   {t(`assistant.${n}`)}
                 </button>
               ))}
@@ -243,7 +243,7 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
                    <Sparkles size={40} />
                  </div>
                  <h2 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter mb-2">{t('assistant.perfWin')}</h2>
-                 <p className="text-white/60 mb-8 max-w-md mx-auto text-sm md:text-base">{t('assistant.basedOn').replace('{{zone}}', cteZone).replace('{{noise}}', noise === 'nHigh' ? t('assistant.nHigh') : t('assistant.nLow'))}</p>
+                 <p className="text-white/90 font-medium mb-8 max-w-md mx-auto text-sm md:text-base leading-relaxed">{t('assistant.basedOn').replace('{{zone}}', cteZone).replace('{{noise}}', noise === 'nHigh' ? t('assistant.nHigh') : t('assistant.nLow'))}</p>
 
                  <div className="bg-[#111112] border-2 border-[#eab676]/50 rounded-2xl p-6 mb-8 mt-4 relative overflow-hidden text-left shadow-[0_0_40px_rgba(234,182,118,0.15)]">
                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#eab676]/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
@@ -254,8 +254,8 @@ export function AIGuidedAssistant({ onClose, onComplete }: Props) {
                        <h3 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tight">{CONFIG_SCHEMA.materials[recommendation.material as keyof typeof CONFIG_SCHEMA.materials]?.profiles.find(p=>p.id===recommendation.profile)?.name || recommendation.profile}</h3>
                        
                        <div className="mt-4 flex flex-wrap items-center gap-2 md:gap-3">
-                         <span className="bg-[#1a1a1b] border border-[#2a2a2b] font-black text-white/80 text-[9px] md:text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-lg">{t('assistant.base')}: {recommendation.material}</span>
-                         <span className="bg-[#1a1a1b] border border-[#2a2a2b] font-black text-[#eab676] text-[9px] md:text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-lg">{recommendation.glazing} {t('assistant.glaze')}</span>
+                         <span className="bg-[#1a1a1b] border-2 border-[#3a3a3b] font-black text-white text-[9px] md:text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-lg">{t('assistant.base')}: {recommendation.material}</span>
+                         <span className="bg-[#1a1a1b] border-2 border-[#3a3a3b] font-black text-[#eab676] text-[9px] md:text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-lg">{recommendation.glazing} {t('assistant.glaze')}</span>
                        </div>
                      </div>
                    </div>
