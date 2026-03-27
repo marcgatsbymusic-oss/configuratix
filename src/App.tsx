@@ -7,6 +7,10 @@ import { HomePage } from './pages/HomePage'
 import { ProductsPage } from './pages/ProductsPage'
 import { ProductDetailPage } from './pages/ProductDetailPage'
 import { AboutPage } from './pages/AboutPage'
+import { OutletPage } from './pages/OutletPage'
+import { ShopPage } from './pages/ShopPage'
+import { CheckoutPage } from './pages/CheckoutPage'
+import { CartDrawer } from './components/Shop/CartDrawer'
 import { MainConfigurator } from './components/SlateConfigurator/MainConfigurator'
 import './index.css'
 
@@ -41,12 +45,16 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/products" element={<ProductsPage />} />
                 <Route path="/products/:slug" element={<ProductDetailPage />} />
+                <Route path="/outlet" element={<OutletPage />} />
+                <Route path="/shop" element={<ShopPage />} />
+                <Route path="/checkout" element={<CheckoutPage />} />
                 <Route path="/configurator" element={<MainConfigurator />} />
                 <Route path="/slate-configurator" element={<MainConfigurator />} />
                 <Route path="/about/*" element={<AboutPage />} />
                 <Route path="/where-to-buy" element={<AboutPage />} />
               </Routes>
             </div>
+            <CartDrawer />
             <Footer />
           </div>
         </BrowserRouter>

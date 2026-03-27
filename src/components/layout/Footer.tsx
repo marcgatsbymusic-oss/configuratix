@@ -21,6 +21,7 @@ const FOOTER_COLS = [
       { keyKey: 'wood', href: '/products/windows/wood' },
       { keyKey: 'doors', href: '/products/doors/exterior' },
       { keyKey: 'shutters', href: '/products/shutters/roller' },
+      { label: 'OUTLET', href: '/outlet', isDirect: true },
     ],
   },
   {
@@ -59,12 +60,13 @@ export function Footer() {
       <div className="bg-[#1a1a1b] border-b border-[#2a2a2b]">
         <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
-            <p className="text-[#eab676] text-xs uppercase tracking-widest font-semibold mb-1">
-              {t('footer.newsletter.title')}
-            </p>
-            <p className="text-white/60 text-sm">
-              {t('footer.newsletter.desc')}
-            </p>
+            <h4 className="text-white text-lg font-bold mb-6 font-montserrat uppercase tracking-wider">{t('footer.products')}</h4>
+            <ul className="space-y-4">
+              <li><Link to="/products" className="text-gray-400 hover:text-white transition-colors">{t('footer.categories.windows')}</Link></li>
+              <li><Link to="/products" className="text-gray-400 hover:text-white transition-colors">{t('footer.categories.doors')}</Link></li>
+              <li><Link to="/products" className="text-gray-400 hover:text-white transition-colors">{t('footer.categories.facades')}</Link></li>
+              <li><Link to="/shop" className="text-[#fcd34d] hover:text-[#fbbf24] transition-colors font-bold tracking-widest uppercase">SHOP NOW</Link></li>
+            </ul>
           </div>
           <form className="flex w-full md:w-auto gap-0">
             <input
@@ -91,12 +93,12 @@ export function Footer() {
             </h4>
             <ul className="space-y-3">
               {col.links.map((link) => (
-                <li key={link.keyKey}>
+                <li key={link.keyKey || link.href}>
                   <Link
                     to={link.href}
-                    className="text-sm text-white/50 hover:text-white transition-colors duration-200"
+                    className={`text-sm transition-colors duration-200 ${link.isDirect ? 'text-[#fcd34d] font-bold hover:text-white uppercase drop-shadow-[0_0_8px_rgba(252,211,77,0.3)]' : 'text-white/50 hover:text-white'}`}
                   >
-                    {t(`footer.cols.${col.colKey}.${link.keyKey}`)}
+                    {link.isDirect ? link.label : (link.keyKey ? t(`footer.cols.${col.colKey}.${link.keyKey}`) : '')}
                   </Link>
                 </li>
               ))}

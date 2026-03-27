@@ -1,48 +1,65 @@
 import { create } from 'zustand';
-import type { ConfiguratorState } from '../components/SlateConfigurator/types';
+import { persist } from 'zustand/middleware';
 
 export interface CartItem {
-  id: string;
-  timestamp: string;
-  config: ConfiguratorState;
-  pricing: {
-    base: number;
-    hardware: number;
-    addons: number;
-    total: number;
-  };
-  quantity: number;
-  projectName?: string;
-  name: string;
-  price: number;
-  image: string;
-  details: string[];
+    id: number | string;
+    name: string;
+    type?: string;
+    material?: string;
+    width?: number;
+    height?: number;
+    price: number;
+    currency?: string;
+    image: string;
+    quantity: number;
+    config?: any;
+    pricing?: any;
+    details?: string[];
+    addedAt?: number;
 }
 
 interface CartStore {
-  items: CartItem[];
-  addItem: (item: Omit<CartItem, 'id' | 'timestamp'>) => void;
-  removeItem: (id: string) => void;
-  updateQuantity: (id: string, newQuantity: number) => void;
-  clearCart: () => void;
-  cartTotal: () => number;
+    items: CartItem[];
+    isCartOpen: boolean;
+    addItem: (item: CartItem) => void;
+    removeItem: (id: number | string) => void;
+    updateQuantity: (id: number | string, delta: number) => void;
+    toggleCart: () => void;
+    clearCart: () => void;
+    getCartTotal: () => number;
 }
 
-export const useCartStore = create<CartStore>((set, get) => ({
-  items: [],
-  addItem: (item) => set((state) => ({ 
-    items: [...state.items, { 
-      ...item, 
-      id: crypto.randomUUID(),
-      timestamp: new Date().toISOString()
-    }] 
-  })),
-  removeItem: (id) => set((state) => ({ 
-    items: state.items.filter(item => item.id !== id) 
-  })),
-  updateQuantity: (id, qty) => set((state) => ({
-    items: state.items.map(item => item.id === id ? { ...item, quantity: Math.max(1, qty) } : item)
-  })),
-  clearCart: () => set({ items: [] }),
-  cartTotal: () => get().items.reduce((sum, item) => sum + (item.pricing.total * item.quantity), 0)
-}));
+export const useCartStore = create<CartStore>()(
+  persist(
+    (set, get) => ({
+      items: [],
+      isCartOpen: false,
+      addItem: (newItem) => {
+        set((state) => {
+          const existing = state.items.find(i => i.id === newItem.id);
+          if (existing) {
+             return { items: state.items.map(i => i.id === newItem.id ? { ...i, quantity: i.quantity + newItem.quantity } : i) };
+          }
+          return { items: [...state.items, { ...newItem, addedAt: Date.now() }] };
+        });
+        set({ isCartOpen: true });
+      },
+      removeItem: (id) => set((state) => ({ items: state.items.filter(i => i.id !== id) })),
+      updateQuantity: (id, delta) => set((state) => ({
+        items: state.items.map(i => {
+          if (i.id === id) {
+             const newQ = Math.max(1, i.quantity + delta);
+             return { ...i, quantity: newQ };
+          }
+          return i;
+        })
+      })),
+      toggleCart: () => set((state) => ({ isCartOpen: !state.isCartOpen })),
+      clearCart: () => set({ items: [] }),
+      getCartTotal: () => get().items.reduce((total, item) => total + (item.price * item.quantity), 0)
+    }),
+    {
+      name: 'drutex-cart-storage',
+    }
+  )
+);

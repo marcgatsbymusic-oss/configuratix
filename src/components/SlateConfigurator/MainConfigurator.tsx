@@ -224,7 +224,7 @@ export function MainConfigurator() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
           onCheckout={() => {
-            alert('Initiating Checkout Sequence!');
+            window.location.href = '/checkout';
           }}
         />
       )}
@@ -955,11 +955,13 @@ export function MainConfigurator() {
                         }
                       } else {
                         addItem({ 
+                          id: Date.now().toString(),
                           config: state, 
                           pricing, 
                           quantity: 1,
                           name: `Window System (${state.material} ${state.profile})`,
                           price: pricing.total,
+                          currency: '€',
                           image: CONFIG_SCHEMA.materials[state.material].image,
                           details: [
                              `Dimensions: ${state.dimensions.width}x${state.dimensions.height}mm`,

@@ -1,0 +1,6 @@
+{
+  "url": "https://e-portal-backend.drutex.pl/pages/outlet/list/?product_name&product_type&openability&color_outside&color_inside&material&product_addons&limit=15&offset=0&order=product_name",
+  "method": "GET",
+  "postData": null,
+  "payload_preview": "{\"count\":293,\"next\":\"https://e-portal-backend.drutex.pl/pages/outlet/list/?color_inside=&color_outside=&limit=15&material=&offset=15&openability=&order=product_name&product_addons=&product_name=&product_type=\",\"previous\":null,\"results\":[{\"id\":129,\"product_name\":\"DUOLINE - 68\",\"openability\":\"Do wewnątrz\",\"color_outside\":\"RAL 7016 M - mat\",\"color_inside\":\"Biały\",\"height\":\"1000\",\"width\":\"1500\",\"material\":\"Drewno\",\"price_netto\":260.47,\"price_currency\":\"EUR\",\"reserved_when\":null,\"reservation_end\":null,\"image_hashes\":[\"4cfb04644229b05df7b83c98d9e58ee2\",\"aa55e4fc22d2ebf7c76eb6c9cc9165b7\",\"4e0a22b167173915b269e27342770e1f\"],\"product_type\":\"Okno\",\"product_addons\":\"---\"},{\"id\":449,\"product_name\":\"DUOLINE - 78\",\"openability\":\"Do wewnątrz\",\"color_outside\":\"RAL 7016 M - mat\",\"color_inside\":\"085 teak\",\"height\":\"2400\",\"width\":\"1100\",\"material\":\"Drewno\",\"price_netto\":518.11,\"price_currency\":\"EUR\",\"reserved_when\":null,\"reservation_end\":null,\"image_hashes\":[\"b51305becdd9e315776a89933d5a6896\",\"d9169f3557"
+}

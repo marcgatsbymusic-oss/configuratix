@@ -1,0 +1,21 @@
+{
+  "localStorageKeys": [
+    "lastExternalReferrer",
+    "lastExternalReferrerTime",
+    "_gcl_ls",
+    "radRandom",
+    "ucData",
+    "ucString"
+  ],
+  "sessionStorageKeys": [],
+  "localStorage": {
+    "lastExternalReferrer": "empty",
+    "lastExternalReferrerTime": "1774632824905",
+    "_gcl_ls": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"creationTimeMs\":1774632817036},\"expires\":1782408817036}}",
+    "radRandom": "df0727ac1b97c786ad8061a5d25c9de1e6ffa631e7bb2068111e1a1d6edf8ee1",
+    "ucData": "{\"gcm\":{\"adsDataRedaction\":false,\"adStorage\":\"granted\",\"adPersonalization\":\"granted\",\"adUserData\":\"granted\",\"analyticsStorage\":\"granted\"},\"consent\":{\"services\":{\"HkIVcNiuoZX\":{\"name\":\"Cloudflare\",\"consent\":true},\"HkPBYFofN\":{\"name\":\"Google Fonts\",\"consent\":true},\"SkPc5EjOsWm\":{\"name\":\"Google Syndication\",\"consent\":true},\"BJ59EidsWQ\":{\"name\":\"Google Tag Manager\",\"consent\":true},\"H1Vl5NidjWX\":{\"name\":\"Usercentrics Consent Management Platform\",\"consent\":true},\"LykAT-gy\":{\"name\":\"Conversion Linker\",\"consent\":true},\"9V8bg4D63\":{\"name\":\"DoubleClick Ad\",\"consent\":true},\"ko1w5PpFl\":{\"name\":\"Facebook Pixel\",\"consent\":true},\"XYQZBUojc\":{\"name\":\"Facebook Social Plugins\",\"consent\":true},\"S1_9Vsuj-Q\":{\"name\":\"Google Ads\",\"consent\":true},\"twMyStLkn\":{\"name\":\"Google Ads Conversion Tracking\",\"consent\":true},\"B1Hk_zoTX\":{\"name\":\"Google Ads Remarketing\",\"consent\":true},\"HkocEodjb7\":{\"name\":\"Google Analytics\",\"consent\":true}}},\"ui\":{\"language\":\"pl\"}}",
+    "ucString": "N4IgbgpgTgzglgewHYgFwEYA0ICucBq08yaIAzAHToAMAnBdSNgMbIAuUCANl9AJIATUswBstAGZkATOIAcAIwEBWWdQAsS2uiXqAhhKXpZS+WQFkyYqUfQCA7FKlKB4tbuZqBaqQNnpxulK0WrTyzEwgXLpIAOY4ujEQpAAOXBEwEGxscLFooHBCqOQQXACaAHLaABJ2ABb4SgAq8hGQsIgoRejoFPTWEWwAnslJRQDiACIACgBKIAC+2DjJArpsEAIAgmxo6HZ2aiLSfnbUZFi4K2sbAEKDpMh8SHDZulxTCRAAMgi6QixQCDXLY7DD7Q7HPZnC6AgCOeEBhQCXAy2BgbDWOBgpE2Xy+AH1NgBhIkAUSmjVJEwGw1GID4AFkpl8+ES+I0IrVdDBaqRZCJZGQ7LpxMoROJNCIRAIICI7EolMxZMxqNZ5EoDnZ0E4yAFNFJdLJdHZTCp5GpmD5uhsRfINkk0dAwHBmBBBNjUABtAC62BiyWYAGU4DEkG80MjUSAcusoO5siQiljoAsgA"
+  },
+  "sessionStorage": {},
+  "cookies": "i18n_redirected=pl; __ssds=0; __ssuzjsr0=a9be0cd8e; __uzmaj0=10ec2828-4cbe-4850-8743-b621f40f96b9; __uzmbj0=1774632815; __uzmlj0=dDKmXIz5EED8OjHCINbkKIOVkhrJ86RfgNuLXUM/vvk=; _fbp=fb.1.1774632816705.801348847346726579; _gcl_au=1.1.876087396.1774632817; _ga=GA1.1.1189510914.1774632816; __uzmcj0=415811317039; __uzmdj0=1774632825; __uzmfj0=7f900010ec2828-4cbe-4850-8743-b621f40f96b91-177463281539110127-00309bdd1aa3d81856213; uzmxj=7f9000b877176e-946d-4e5f-8931-e1eb35aed7911-177463281539110127-0e7bc8af5e2f439213; _ga_2DQC7M1MT8=GS2.1.s1774632816$o1$g0$t1774632824$j60$l0$h0"
+}

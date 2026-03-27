@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { Search, Globe, Menu, X, ChevronDown, ChevronRight, ChevronUp } from 'lucide-react'
+import { ShoppingCart, Search, Globe, Menu, X, ChevronDown, ChevronRight, ChevronUp } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { useCartStore } from '../../store/useCartStore'
 
 // The mega menu structure matching drutex.es categories
 const MEGA_MENU_CATEGORIES = [
@@ -91,6 +92,9 @@ const NAV_ITEMS = [
 
 export function Header() {
   const { t, i18n } = useTranslation()
+  const { items, toggleCart } = useCartStore()
+  const totalCartItems = items.reduce((sum, i) => sum + i.quantity, 0)
+  
   const [menuOpen, setMenuOpen] = useState(false)
   const [langMenuOpen, setLangMenuOpen] = useState(false)
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
@@ -180,6 +184,16 @@ export function Header() {
             </div>
 
             {/* Standard Nav Items */}
+            <NavLink
+                to="/shop"
+                className={({ isActive }) =>
+                  `text-sm font-black uppercase tracking-widest nav-link transition-colors duration-200 ${
+                    isActive ? 'text-[#eab676]' : 'text-[#fcd34d] hover:text-[#fbbf24]'
+                  }`
+                }
+            >
+                SHOP OUTLET
+            </NavLink>
             {NAV_ITEMS.map((item) => (
               <NavLink
                 key={item.i18nKey}
@@ -203,7 +217,18 @@ export function Header() {
             >
               {t('header.nav.configurator')}
             </Link>
-            <button className="text-white/60 hover:text-[#eab676] transition-colors duration-200 p-2 -ml-2"><Search size={18} /></button>
+            
+            {/* Global Shopping Cart */}
+            <button onClick={toggleCart} className="text-white/60 hover:text-[#eab676] transition-colors duration-200 p-2 relative">
+               <ShoppingCart size={18} />
+               {totalCartItems > 0 && (
+                  <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-[#eab676] text-black text-[9px] font-black h-4 w-4 flex flex-col items-center justify-center rounded-full shadow-md">
+                     {totalCartItems}
+                  </span>
+               )}
+            </button>
+
+            <button className="text-white/60 hover:text-[#eab676] transition-colors duration-200 p-2"><Search size={18} /></button>
             {/* Language Switcher */}
             <div className="relative">
               <button 
@@ -387,6 +412,13 @@ export function Header() {
           </div>
 
           {/* Standard nav links */}
+          <Link
+             to="/shop"
+             className="block py-3 text-sm font-black uppercase tracking-widest text-[#fcd34d] hover:text-[#fbbf24] transition-colors duration-200"
+             onClick={() => setMenuOpen(false)}
+          >
+             SHOP OUTLET
+          </Link>
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.i18nKey}
