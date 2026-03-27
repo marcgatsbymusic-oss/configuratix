@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, ChevronRight, ChevronLeft, ThermometerSnowflake, HandCoins, Ear, Loader2, Sparkles, CalendarCheck, PlayCircle, CloudRain, Sun, Home } from 'lucide-react';
+import { X, ChevronRight, ChevronLeft, ThermometerSnowflake, HandCoins, Ear, Loader2, Sparkles, CalendarCheck, PlayCircle, CloudRain, Sun, Home, MapPin } from 'lucide-react';
 import { CITIES_DB } from '../../data/spanishGeodata';
 import { calculateCTEZone } from '../../utils/cteCalculator';
 import { CONFIG_SCHEMA, WINDOW_TYPES } from './types';
@@ -23,6 +23,10 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
   const [showCityDropdown, setShowCityDropdown] = useState(false);
   const [altitude, setAltitude] = useState<number | null>(null);
   const [cteZone, setCteZone] = useState('');
+  const [isLocating, setIsLocating] = useState(false);
+  const [weatherData, setWeatherData] = useState<{ current: number, min: number, max: number, code: number } | null>(null);
+  const [weatherLoading, setWeatherLoading] = useState(false);
+  const [showExtraWeather, setShowExtraWeather] = useState(false);
 
   const [material, setMaterial] = useState('');
   const [budget, setBudget] = useState('');
@@ -63,13 +67,106 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
   const availableCities = CITIES_DB.filter(c => c.p === province);
   const filteredCities = availableCities.filter(c => c.n.toLowerCase().includes(citySearch.toLowerCase()));
 
-  const handleCitySelect = (cityName: string) => {
+  const fetchWeather = async (lat: number, lon: number) => {
+    setWeatherLoading(true);
+    try {
+      const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=temperature_2m_max,temperature_2m_min&timezone=auto`);
+      const data = await res.json();
+      if (data && data.current_weather && data.daily) {
+        setWeatherData({
+          current: data.current_weather.temperature,
+          code: data.current_weather.weathercode,
+          max: data.daily.temperature_2m_max[0],
+          min: data.daily.temperature_2m_min[0]
+        });
+      }
+    } catch (e) {
+      console.error("Failed to fetch weather", e);
+    } finally {
+      setWeatherLoading(false);
+    }
+  };
+
+  const handleCitySelect = async (cityName: string) => {
     const cData = CITIES_DB.find(c => c.n === cityName && c.p === province);
     if (cData) {
       setAltitude(cData.a);
       const zone = calculateCTEZone(province, cData.a);
       setCteZone(zone.combined);
+      
+      setWeatherLoading(true);
+      setShowExtraWeather(false);
+      try {
+        const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityName)}&count=1&language=en&format=json`);
+        const data = await res.json();
+        if (data.results && data.results.length > 0) {
+          const { latitude, longitude } = data.results[0];
+          fetchWeather(latitude, longitude);
+        } else {
+          setWeatherLoading(false);
+        }
+      } catch (e) {
+        console.error("Failed to fetch coordinates for weather", e);
+        setWeatherLoading(false);
+      }
     }
+  };
+
+  const handleUseLocation = () => {
+    if (!navigator.geolocation) {
+      alert(t('assistant.geoNotSupported', 'Geolocation is not supported by your browser.'));
+      return;
+    }
+    setIsLocating(true);
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      try {
+        const { latitude, longitude } = position.coords;
+        setShowExtraWeather(false);
+        fetchWeather(latitude, longitude);
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&addressdetails=1`);
+        const data = await res.json();
+        
+        if (data && data.address) {
+          const fetchedProvince = data.address.province || data.address.state || '';
+          const fetchedCity = data.address.city || data.address.town || data.address.village || data.address.municipality || '';
+          
+          if (fetchedProvince) {
+            const normalize = (str: string) => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+            const matchedProv = allProvinces.find(p => normalize(p) === normalize(fetchedProvince) || normalize(p).includes(normalize(fetchedProvince)) || normalize(fetchedProvince).includes(normalize(p)));
+            
+            if (matchedProv) {
+              setProvince(matchedProv);
+              setProvinceSearch(matchedProv);
+              setCitySearch('');
+              setAltitude(null);
+              setCteZone('');
+              
+              if (fetchedCity) {
+                const provCities = CITIES_DB.filter(c => c.p === matchedProv);
+                const matchedCity = provCities.find(c => normalize(c.n) === normalize(fetchedCity) || normalize(c.n).includes(normalize(fetchedCity)) || normalize(fetchedCity).includes(normalize(c.n)));
+                
+                if (matchedCity) {
+                  setCitySearch(matchedCity.n);
+                  setAltitude(matchedCity.a);
+                  const zone = calculateCTEZone(matchedProv, matchedCity.a);
+                  setCteZone(zone.combined);
+                }
+              }
+            } else {
+              alert(t('assistant.provNotFound', 'Could not accurately match your province in our database.'));
+            }
+          }
+        }
+      } catch (e) {
+        console.error("Geocoding failed", e);
+      } finally {
+        setIsLocating(false);
+      }
+    }, (error) => {
+      console.error(error);
+      setIsLocating(false);
+      alert(t('assistant.geoError', 'Unable to retrieve your location. Please ensure you have granted permission.'));
+    });
   };
 
   const climateData = useMemo(() => {
@@ -196,9 +293,12 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
               <ThermometerSnowflake size={32} />
             </div>
             <h2 className="text-2xl md:text-3xl font-black text-white mb-4 uppercase tracking-tight drop-shadow-md">{t('assistant.geoTitle')}</h2>
-            <p className="text-white font-medium mb-8 max-w-lg text-sm md:text-base leading-relaxed drop-shadow-sm">
-              {t('assistant.geoDesc')}
-            </p>
+            <div className="bg-white/10 border border-white/20 p-5 rounded-2xl mb-8 max-w-lg shadow-[0_0_25px_rgba(255,255,255,0.15)] relative overflow-hidden backdrop-blur-sm">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
+              <p className="text-white font-black text-sm md:text-lg leading-relaxed relative z-10 drop-shadow-md">
+                {t('assistant.geoDesc')}
+              </p>
+            </div>
 
             <div className="space-y-4 mb-8">
               <div>
@@ -270,6 +370,17 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
                   </ul>
                 )}
               </div>
+              
+              <div className="pt-2">
+                <button 
+                  onClick={handleUseLocation} 
+                  disabled={isLocating}
+                  className="flex items-center justify-center gap-3 w-full bg-[#1a1a1b] border-2 border-[#3a3a3b] hover:border-[#eab676] text-white p-4 rounded-xl font-black transition-all hover:scale-[1.01] active:scale-95 disabled:opacity-50 disabled:hover:border-[#3a3a3b] disabled:hover:scale-100"
+                >
+                  {isLocating ? <Loader2 className="animate-spin text-[#eab676]" size={20} /> : <MapPin size={20} className="text-[#eab676]" />}
+                  <span className="tracking-widest uppercase text-sm">{t('assistant.useMyLocation', 'USE MY LOCATION')}</span>
+                </button>
+              </div>
             </div>
 
             {cteZone && climateData && (
@@ -303,6 +414,46 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
                     <div className="text-sm font-black text-white">{climateData.precipitation} <span className="text-[10px] text-white/40">mm/yr</span></div>
                   </div>
                 </div>
+
+                {/* Live Weather Widget */}
+                {(weatherLoading || weatherData) && (
+                   <div className="mt-4 bg-[#1a1a1b] border border-[#2a2a2b] rounded-lg p-4 relative overflow-hidden transition-all duration-300">
+                     {weatherLoading ? (
+                       <div className="flex justify-center items-center py-2">
+                         <Loader2 className="animate-spin text-[#eab676]" size={20} />
+                         <span className="text-xs font-bold text-white/50 ml-2 uppercase tracking-widest">{t('assistant.loadingWeather', 'Loading Live Weather...')}</span>
+                       </div>
+                     ) : weatherData && (
+                       <>
+                         <div className="flex justify-between items-center">
+                           <div className="flex items-center gap-3">
+                             <div className="text-[#eab676] bg-[#eab676]/10 p-2 rounded-lg">
+                               <Sun size={24} />
+                             </div>
+                             <div>
+                               <div className="text-[10px] font-black text-white/50 uppercase tracking-widest">{t('assistant.liveWeather', 'Current Weather')}</div>
+                               <div className="text-xl font-black text-white">{weatherData.current}°C</div>
+                             </div>
+                           </div>
+                           <button onClick={() => setShowExtraWeather(!showExtraWeather)} className="text-[10px] font-black text-white/70 uppercase tracking-wider hover:text-white hover:border-[#eab676] transition-colors border border-[#3a3a3b] px-3 py-1.5 rounded-lg flex items-center gap-1.5 focus:outline-none">
+                             {t('assistant.addInfo', 'Additional Info')} 
+                             <span className="text-[#eab676]">{showExtraWeather ? '−' : '+'}</span>
+                           </button>
+                         </div>
+                         <div className={`grid grid-cols-2 gap-3 transition-all duration-500 overflow-hidden ${showExtraWeather ? 'mt-4 pt-4 border-t border-[#3a3a3b] max-h-40 opacity-100' : 'max-h-0 opacity-0 m-0 p-0 border-transparent'}`}>
+                           <div className="flex flex-col">
+                             <div className="text-[9px] font-black text-white/40 uppercase tracking-widest mb-1">{t('assistant.lowestTemp', 'Lowest Temperature')}</div>
+                             <div className="text-base font-black text-blue-400">{weatherData.min}°C</div>
+                           </div>
+                           <div className="flex flex-col">
+                             <div className="text-[9px] font-black text-white/40 uppercase tracking-widest mb-1">{t('assistant.highestTemp', 'Highest Temperature')}</div>
+                             <div className="text-base font-black text-red-500">{weatherData.max}°C</div>
+                           </div>
+                         </div>
+                       </>
+                     )}
+                   </div>
+                )}
               </div>
             )}
 
