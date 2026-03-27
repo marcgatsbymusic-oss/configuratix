@@ -24,7 +24,7 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
   const [altitude, setAltitude] = useState<number | null>(null);
   const [cteZone, setCteZone] = useState('');
   const [isLocating, setIsLocating] = useState(false);
-  const [weatherData, setWeatherData] = useState<{ current: number, min: number, max: number, code: number } | null>(null);
+  const [weatherData, setWeatherData] = useState<{ current: number, min: number, max: number, code: number, wind: number, windMax: number } | null>(null);
   const [weatherLoading, setWeatherLoading] = useState(false);
   const [showExtraWeather, setShowExtraWeather] = useState(false);
 
@@ -70,14 +70,16 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
   const fetchWeather = async (lat: number, lon: number) => {
     setWeatherLoading(true);
     try {
-      const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=temperature_2m_max,temperature_2m_min&timezone=auto`);
+      const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=temperature_2m_max,temperature_2m_min,wind_speed_10m_max&timezone=auto`);
       const data = await res.json();
       if (data && data.current_weather && data.daily) {
         setWeatherData({
           current: data.current_weather.temperature,
           code: data.current_weather.weathercode,
+          wind: data.current_weather.windspeed,
           max: data.daily.temperature_2m_max[0],
-          min: data.daily.temperature_2m_min[0]
+          min: data.daily.temperature_2m_min[0],
+          windMax: data.daily.wind_speed_10m_max[0]
         });
       }
     } catch (e) {
@@ -293,11 +295,11 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
               <ThermometerSnowflake size={32} />
             </div>
             <h2 className="text-2xl md:text-3xl font-black text-white mb-4 uppercase tracking-tight drop-shadow-md">{t('assistant.geoTitle')}</h2>
-            <div className="bg-white/10 border border-white/20 p-5 rounded-2xl mb-8 max-w-lg shadow-[0_0_25px_rgba(255,255,255,0.15)] relative overflow-hidden backdrop-blur-sm">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
-              <p className="text-white font-black text-sm md:text-lg leading-relaxed relative z-10 drop-shadow-md">
+            <div className="bg-black/40 border border-[#3a3a3b] p-6 rounded-2xl mb-8 max-w-lg relative overflow-hidden backdrop-blur-md">
+              <div className="absolute top-0 left-0 w-1 h-full bg-[#eab676]"></div>
+              <div className="font-medium text-sm md:text-base leading-relaxed relative z-10 whitespace-pre-wrap tracking-wide drop-shadow-md" style={{ color: '#ffffff' }}>
                 {t('assistant.geoDesc')}
-              </p>
+              </div>
             </div>
 
             <div className="space-y-4 mb-8">
@@ -440,7 +442,7 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
                              <span className="text-[#eab676]">{showExtraWeather ? '−' : '+'}</span>
                            </button>
                          </div>
-                         <div className={`grid grid-cols-2 gap-3 transition-all duration-500 overflow-hidden ${showExtraWeather ? 'mt-4 pt-4 border-t border-[#3a3a3b] max-h-40 opacity-100' : 'max-h-0 opacity-0 m-0 p-0 border-transparent'}`}>
+                         <div className={`grid grid-cols-2 gap-y-4 gap-x-3 transition-all duration-500 overflow-hidden ${showExtraWeather ? 'mt-4 pt-4 border-t border-[#3a3a3b] max-h-60 opacity-100' : 'max-h-0 opacity-0 m-0 p-0 border-transparent'}`}>
                            <div className="flex flex-col">
                              <div className="text-[9px] font-black text-white/40 uppercase tracking-widest mb-1">{t('assistant.lowestTemp', 'Lowest Temperature')}</div>
                              <div className="text-base font-black text-blue-400">{weatherData.min}°C</div>
@@ -448,6 +450,14 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
                            <div className="flex flex-col">
                              <div className="text-[9px] font-black text-white/40 uppercase tracking-widest mb-1">{t('assistant.highestTemp', 'Highest Temperature')}</div>
                              <div className="text-base font-black text-red-500">{weatherData.max}°C</div>
+                           </div>
+                           <div className="flex flex-col">
+                             <div className="text-[9px] font-black text-white/40 uppercase tracking-widest mb-1">{t('assistant.currentWind', 'Current Wind')}</div>
+                             <div className="text-base font-black text-slate-300">{weatherData.wind} km/h</div>
+                           </div>
+                           <div className="flex flex-col">
+                             <div className="text-[9px] font-black text-white/40 uppercase tracking-widest mb-1">{t('assistant.maxWind', 'Max Wind')}</div>
+                             <div className="text-base font-black text-slate-100">{weatherData.windMax} km/h</div>
                            </div>
                          </div>
                        </>

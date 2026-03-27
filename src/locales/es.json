@@ -400,8 +400,8 @@
     }
   },
   "assistant": {
-    "geoTitle": "Análisis Climático Geográfico",
-    "geoDesc": "Las ventanas están diseñadas estructuralmente pensando en diferentes climas. Dependiendo de dónde viva exactamente, el sistema calculará la calificación térmica precisa del CTE para garantizar el máximo aislamiento en invierno y refrigeración en verano.",
+    "geoTitle": "Coincidencia de Clima Local",
+    "geoDesc": "Clima a tu Medida\nNuestras ventanas están diseñadas específicamente para el clima de tu zona. Basándonos en tu ubicación exacta, calculamos el rendimiento térmico ideal para garantizar el máximo aislamiento en invierno y frescura en verano.\n\nTus beneficios:\n\nAhorro energético: Reduce el gasto en calefacción y aire acondicionado.\n\nConfort total: Despídete de las corrientes de aire y del calor sofocante.\n\nPrecisión local: Tecnología adaptada específicamente a tu ciudad.",
     "province": "Provincia",
     "city": "Municipio / Ciudad",
     "selectProv": "Seleccionar Provincia...",

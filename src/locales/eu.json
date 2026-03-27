@@ -343,8 +343,8 @@
     }
   },
   "assistant": {
-    "geoTitle": "Azterketa Klimatikoa",
-    "geoDesc": "Las ventanas están diseñadas estructuralmente pensando en diferentes climas. Dependiendo de dónde viva exactamente, el sistema calculará la calificación térmica precisa del CTE para garantizar el máximo aislamiento en invierno y refrigeración en verano.",
+    "geoTitle": "Tokiko Klimaren Bat-etortzea",
+    "geoDesc": "Zure neurrira egindako Klima\nGure leihoak zure inguruko klimarako berariaz diseinatuta daude. Zure kokapen zehatzean oinarrituta, neguan gehienezko isolamendua eta udan freskotasuna bermatzeko errendimendu termiko ezin hobea kalkulatzen dugu.\n\nZure abantailak:\n\nEnergia-aurrezkia: Murriztu berokuntza eta aire girotuaren gastua.\n\nErabateko erosotasuna: Agur esan aire-korronteei eta bero itogarriari.\n\nTokiko zehaztasuna: Bereziki zure hirira egokitutako teknologia.",
     "province": "Provincia",
     "city": "Municipio / Ciudad",
     "selectProv": "Seleccionar Provincia...",

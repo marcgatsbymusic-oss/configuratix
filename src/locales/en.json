@@ -400,8 +400,8 @@
     }
   },
   "assistant": {
-    "geoTitle": "Geographical Climate Analysis",
-    "geoDesc": "Windows are structurally designed with different climates in mind. Dependent upon exactly where you live, the system will calculate the precise CTE thermal rating to ensure maximum winter insulation and summer cooling.",
+    "geoTitle": "Local Climate Match",
+    "geoDesc": "Climate Tailored to You\nOur windows are designed specifically for the climate in your area. Based on your exact location, we calculate the ideal thermal performance to guarantee maximum insulation in winter and freshness in summer.\n\nYour benefits:\n\nEnergy savings: Reduce heating and air conditioning expenses.\n\nTotal comfort: Say goodbye to drafts and stifling heat.\n\nLocal precision: Technology specifically adapted to your city.",
     "province": "Province",
     "city": "Municipality / City",
     "selectProv": "Select Province...",

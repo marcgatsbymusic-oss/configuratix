@@ -400,8 +400,8 @@
     }
   },
   "assistant": {
-    "geoTitle": "Analyse Climatique Géographique",
-    "geoDesc": "Les fenêtres sont conçues pour différents climats. Selon votre emplacement, le système calcule le coefficient thermique CTE exact.",
+    "geoTitle": "Correspondance Climatique Locale",
+    "geoDesc": "Un climat sur mesure\nNos fenêtres sont conçues spécifiquement pour le climat de votre région. En fonction de votre emplacement exact, nous calculons la performance thermique idéale afin de garantir une isolation maximale en hiver et une fraîcheur optimale en été.\n\nVos avantages :\n\nÉconomies d'énergie : Réduisez les dépenses de chauffage et de climatisation.\n\nConfort total : Dites adieu aux courants d'air et à la chaleur étouffante.\n\nPrécision locale : Une technologie adaptée spécifiquement à votre ville.",
     "province": "Province",
     "city": "Municipalité / Ville",
     "selectProv": "Sélectionnez...",

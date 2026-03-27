@@ -349,8 +349,8 @@
     }
   },
   "assistant": {
-    "geoTitle": "Anàlisi Climàtica Geogràfica",
-    "geoDesc": "Las ventanas están diseñadas estructuralmente pensando en diferentes climas. Dependiendo de dónde viva exactamente, el sistema calculará la calificación térmica precisa del CTE para garantizar el máximo aislamiento en invierno y refrigeración en verano.",
+    "geoTitle": "Coincidència de Clima Local",
+    "geoDesc": "Clima a la teva mesura\nLes nostres finestres estan dissenyades específicament per al clima de la teva zona. Basant-nos en la teva ubicació exacta, calculem el rendiment tèrmic ideal per garantir el màxim aïllament a l'hivern i frescor a l'estiu.\n\nEls teus beneficis:\n\nEstalvi energètic: Redueix la despesa en calefacció i aire condicionat.\n\nConfort total: Acomiada't dels corrents d'aire i de la calor sufocant.\n\nPrecisió local: Tecnologia adaptada específicament a la teva ciutat.",
     "province": "Provincia",
     "city": "Municipio / Ciudad",
     "selectProv": "Seleccionar Provincia...",

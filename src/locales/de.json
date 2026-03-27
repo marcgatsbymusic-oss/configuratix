@@ -400,8 +400,8 @@
     }
   },
   "assistant": {
-    "geoTitle": "Geografische Klimaanalyse",
-    "geoDesc": "Fenster sind strukturell für verschiedene Klimazonen ausgelegt. Abhängig davon, wo Sie genau leben, berechnet das System die genaue CTE-Bewertung.",
+    "geoTitle": "Lokale Klimaübereinstimmung",
+    "geoDesc": "Ein Klima nach Maß\nUnsere Fenster sind speziell für das Klima in Ihrer Region konzipiert. Anhand Ihres genauen Standorts berechnen wir die ideale Wärmeleistung, um im Winter maximale Isolierung und im Sommer angenehme Frische zu gewährleisten.\n\nIhre Vorteile:\n\nEnergieeinsparung: Reduziert die Heiz- und Klimakosten.\n\nAbsoluter Komfort: Verabschieden Sie sich von Zugluft und drückender Hitze.\n\nLokale Präzision: Speziell auf Ihre Stadt abgestimmte Technologie.",
     "province": "Provinz",
     "city": "Gemeinde / Stadt",
     "selectProv": "Provinz wählen...",
