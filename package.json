@@ -13,13 +13,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-three/fiber": "^9.5.0",
+    "@react-three/xr": "^5.7.1",
     "@supabase/supabase-js": "^2.99.1",
+    "@types/three": "^0.183.1",
     "i18next": "^25.10.9",
     "lucide-react": "^0.577.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-i18next": "^16.6.6",
     "react-router-dom": "^7.13.1",
+    "three": "^0.183.2",
     "zustand": "^5.0.12"
   },
   "devDependencies": {

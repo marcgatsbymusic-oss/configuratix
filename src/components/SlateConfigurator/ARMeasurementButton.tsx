@@ -1,5 +1,6 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { X, Scan, CheckCircle2 } from 'lucide-react';
+import { WebXRScanner } from './WebXRScanner';
 
 interface Point { x: number; y: number }
 interface ARMeasurementButtonProps {
@@ -22,6 +23,18 @@ export function ARMeasurementButton({ onMeasureComplete }: ARMeasurementButtonPr
   const [analysisStatus, setAnalysisStatus] = useState<string | null>(null);
   const [zoomLevel, setZoomLevel] = useState<number>(1);
 
+  // WebXR Hardware State
+  const [isWebXRSupported, setIsWebXRSupported] = useState(false);
+  const [showWebXR, setShowWebXR] = useState(false);
+
+  useEffect(() => {
+    if (typeof navigator !== 'undefined' && 'xr' in navigator) {
+      (navigator as any).xr.isSessionSupported('immersive-ar').then((supported: boolean) => {
+        setIsWebXRSupported(supported);
+      });
+    }
+  }, []);
+
   const resizePoints = useCallback(() => {
     if (containerRef.current) {
       const { width, height } = containerRef.current.getBoundingClientRect();
@@ -36,6 +49,11 @@ export function ARMeasurementButton({ onMeasureComplete }: ARMeasurementButtonPr
   }, []);
 
   const startCamera = async () => {
+    if (isWebXRSupported) {
+      setShowWebXR(true);
+      return;
+    }
+    
     setIsScanning(true);
     try {
       const media = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
@@ -124,11 +142,18 @@ export function ARMeasurementButton({ onMeasureComplete }: ARMeasurementButtonPr
 
   return (
     <>
+      {showWebXR && (
+        <WebXRScanner 
+          onMeasureComplete={(w, h, t) => { onMeasureComplete(w, h, t); setShowWebXR(false); }} 
+          onClose={() => setShowWebXR(false)} 
+        />
+      )}
+      
       <button 
         onClick={startCamera}
         className="w-full bg-[#111112] text-indigo-400 border-2 border-indigo-400/30 px-4 py-3 rounded-xl flex items-center justify-center gap-2 font-black tracking-widest uppercase text-[10px] md:text-xs shadow-[0_0_15px_rgba(99,102,241,0.2)] hover:border-indigo-400 hover:bg-[#1a1a1b] transition-all active:scale-95"
       >
-        <Scan size={16} /> Beta: Smart AI Scanner
+        <Scan size={16} /> Beta: {isWebXRSupported ? 'SLAM AR Scanner' : 'Smart AI Scanner'}
       </button>
 
       {isScanning && (
