@@ -732,8 +732,14 @@ export function MainConfigurator() {
                   {isMobile && (
                     <div className="mt-8 flex justify-center w-full">
                       <ARMeasurementButton
-                        onMeasureComplete={(w, h) => {
+                        onMeasureComplete={(w, h, detectedType) => {
                           dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h }});
+                          if (detectedType) {
+                            dispatch({ type: 'SET_WINDOW_TYPE', payload: detectedType });
+                            dispatch({ type: 'SET_MATERIAL', payload: 'PVC' }); 
+                            dispatch({ type: 'SET_PROFILE', payload: 'iglo5' });
+                            if (!completedSteps.includes(3)) setCompletedSteps(prev => [...prev, 3]);
+                          }
                         }}
                       />
                     </div>
