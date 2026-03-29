@@ -44,22 +44,24 @@ export function ARPreviewButton({ dimensions }: { dimensions: { width: number, h
             {modelViewerLoaded ? (
               // @ts-ignore - model-viewer is a web component
               <model-viewer
-                src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" // Note: A .glb file is mandatory here. Astronaut kept until a window .glb is provided.
+                src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" // Note: Required valid src, but we hide it completely.
                 ios-src="/models/Fenetre_PVC_135_120.usdz"
                 alt="3D Window Preview"
-                shadow-intensity="1"
-                camera-controls auto-rotate ar
+                reveal="manual"
+                ar
                 style={{ width: '100%', height: '100%', backgroundColor: 'transparent' }}
               >
-                {/* Fallback Slot for devices mapping to Scene Viewer / Quick Look */}
-                <div slot="poster" className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+                {/* Fallback Slot acting as the permanent poster to hide the Astronaut */}
+                <div slot="poster" className="absolute inset-0 flex flex-col items-center justify-center bg-black/40">
+                  <Box size={48} className="text-indigo-500 mb-4 opacity-50" strokeWidth={1} />
+                  <div className="text-white font-black uppercase tracking-widest text-lg">AR Ready</div>
+                  <div className="text-white/50 text-xs mt-2 max-w-[250px] text-center font-bold">Launch the camera strictly to preview your window in real space.</div>
                 </div>
                 <button 
                   slot="ar-button" 
-                  className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white text-black font-black uppercase text-xs px-6 py-4 rounded-xl shadow-[0_4px_20px_rgba(255,255,255,0.3)] active:scale-95 transition-all w-max whitespace-nowrap"
+                  className="absolute bottom-10 left-1/2 -translate-x-1/2 bg-indigo-600 text-white font-black uppercase tracking-widest text-xs px-8 py-4 rounded-xl shadow-[0_4px_30px_rgba(79,70,229,0.5)] active:scale-95 transition-all w-max whitespace-nowrap"
                 >
-                  View full window in AR
+                  Launch AR Camera
                 </button>
               {/* @ts-ignore */}
               </model-viewer>
