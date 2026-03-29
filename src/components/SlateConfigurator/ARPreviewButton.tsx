@@ -44,8 +44,8 @@ export function ARPreviewButton({ dimensions }: { dimensions: { width: number, h
             {modelViewerLoaded ? (
               // @ts-ignore - model-viewer is a web component
               <model-viewer
-                src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" // Placeholder 3D Asset
-                ios-src="https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
+                src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" // Note: A .glb file is mandatory here. Astronaut kept until a window .glb is provided.
+                ios-src="/models/Fenetre_PVC_135_120.usdz"
                 alt="3D Window Preview"
                 shadow-intensity="1"
                 camera-controls auto-rotate ar
