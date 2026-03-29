@@ -33,30 +33,53 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | 
   }
 }
 
+import { AdminLayout } from './components/admin/AdminLayout'
+import { AdminDashboard } from './pages/admin/AdminDashboard'
+import { SetupOverview } from './pages/admin/SetupOverview'
+import { PricingManager } from './pages/admin/PricingManager'
+import { MatrixUploader } from './pages/admin/MatrixUploader'
+
+function StorefrontLayout() {
+  return (
+    <div className="flex flex-col min-h-screen bg-black">
+      <Header />
+      <div className="flex-1">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/products/:slug" element={<ProductDetailPage />} />
+          <Route path="/outlet" element={<OutletPage />} />
+          <Route path="/shop" element={<ShopPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/configurator" element={<MainConfigurator />} />
+          <Route path="/slate-configurator" element={<MainConfigurator />} />
+          <Route path="/about/*" element={<AboutPage />} />
+          <Route path="/where-to-buy" element={<AboutPage />} />
+        </Routes>
+      </div>
+      <CartDrawer />
+      <Footer />
+    </div>
+  )
+}
+
 function App() {
   return (
     <ErrorBoundary>
       <AuthProvider>
         <BrowserRouter>
-          <div className="flex flex-col min-h-screen bg-black">
-            <Header />
-            <div className="flex-1">
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/products" element={<ProductsPage />} />
-                <Route path="/products/:slug" element={<ProductDetailPage />} />
-                <Route path="/outlet" element={<OutletPage />} />
-                <Route path="/shop" element={<ShopPage />} />
-                <Route path="/checkout" element={<CheckoutPage />} />
-                <Route path="/configurator" element={<MainConfigurator />} />
-                <Route path="/slate-configurator" element={<MainConfigurator />} />
-                <Route path="/about/*" element={<AboutPage />} />
-                <Route path="/where-to-buy" element={<AboutPage />} />
-              </Routes>
-            </div>
-            <CartDrawer />
-            <Footer />
-          </div>
+          <Routes>
+            {/* Admin Dashboard Routes */}
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="setup" element={<SetupOverview />} />
+              <Route path="pricing" element={<PricingManager />} />
+              <Route path="upload" element={<MatrixUploader />} />
+            </Route>
+            
+            {/* Public Storefront Routes */}
+            <Route path="*" element={<StorefrontLayout />} />
+          </Routes>
         </BrowserRouter>
       </AuthProvider>
     </ErrorBoundary>

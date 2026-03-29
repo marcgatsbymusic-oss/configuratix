@@ -1,22 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Box, X } from 'lucide-react';
 
 export function ARPreviewButton({ dimensions }: { dimensions: { width: number, height: number } }) {
   const [showPreview, setShowPreview] = useState(false);
-  const [modelViewerLoaded, setModelViewerLoaded] = useState(false);
-
-  useEffect(() => {
-    // Dynamically inject Google's model-viewer script so we don't block the main thread
-    if (showPreview && !document.querySelector('script[src*="model-viewer"]')) {
-      const script = document.createElement('script');
-      script.type = 'module';
-      script.src = 'https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js';
-      script.onload = () => setModelViewerLoaded(true);
-      document.head.appendChild(script);
-    } else if (document.querySelector('script[src*="model-viewer"]')) {
-      setModelViewerLoaded(true);
-    }
-  }, [showPreview]);
+  const isIOS = typeof window !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
 
   return (
     <>
@@ -39,38 +26,30 @@ export function ARPreviewButton({ dimensions }: { dimensions: { width: number, h
             </button>
           </div>
           
-          <div className="flex-1 w-full h-full relative">
-            {/* The model-viewer component uses a standard generic window glb for placeholder AR viewing */}
-            {modelViewerLoaded ? (
-              // @ts-ignore - model-viewer is a web component
-              <model-viewer
-                src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" // Note: Required valid src, but we hide it completely.
-                ios-src="/models/Fenetre_PVC_135_120.usdz"
-                alt="3D Window Preview"
-                reveal="manual"
-                ar
-                style={{ width: '100%', height: '100%', backgroundColor: 'transparent' }}
-              >
-                {/* Fallback Slot acting as the permanent poster to hide the Astronaut */}
-                <div slot="poster" className="absolute inset-0 flex flex-col items-center justify-center bg-black/40">
-                  <Box size={48} className="text-indigo-500 mb-4 opacity-50" strokeWidth={1} />
-                  <div className="text-white font-black uppercase tracking-widest text-lg">AR Ready</div>
-                  <div className="text-white/50 text-xs mt-2 max-w-[250px] text-center font-bold">Launch the camera strictly to preview your window in real space.</div>
-                </div>
-                <button 
-                  slot="ar-button" 
-                  className="absolute bottom-10 left-1/2 -translate-x-1/2 bg-indigo-600 text-white font-black uppercase tracking-widest text-xs px-8 py-4 rounded-xl shadow-[0_4px_30px_rgba(79,70,229,0.5)] active:scale-95 transition-all w-max whitespace-nowrap"
+          <div className="flex-1 w-full h-full relative flex items-center justify-center">
+            {isIOS ? (
+              <div className="flex flex-col items-center justify-center px-6 text-center h-full w-full bg-[#111112]">
+                <Box size={64} className="text-indigo-500 mb-6 opacity-80 drop-shadow-[0_0_15px_rgba(99,102,241,0.5)]" strokeWidth={1} />
+                <h4 className="text-white font-black uppercase tracking-widest text-2xl mb-4">iOS AR Ready</h4>
+                <p className="text-white/60 text-sm mb-12 max-w-xs leading-relaxed font-medium">
+                  Your device supports native Apple AR Quick Look. Tap below to launch your camera and project the `.usdz` window blueprint.
+                </p>
+                <a 
+                  href="/models/Fenetre_PVC_135_120.usdz" 
+                  rel="ar" 
+                  className="bg-indigo-600 text-white font-black uppercase tracking-widest text-sm px-10 py-5 rounded-2xl shadow-[0_10px_40px_rgba(79,70,229,0.4)] hover:bg-indigo-500 active:scale-95 transition-all w-full max-w-[300px]"
                 >
-                  Launch AR Camera
-                </button>
-              {/* @ts-ignore */}
-              </model-viewer>
+                  Start AR Session
+                </a>
+              </div>
             ) : (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-white/50 font-bold uppercase tracking-widest text-xs flex flex-col items-center gap-3">
-                  <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
-                  Loading AR Engine...
-                </div>
+              <div className="flex flex-col items-center justify-center px-6 text-center h-full w-full bg-[#111112]">
+                 <Box size={48} className="text-rose-500 mb-6 opacity-50" strokeWidth={1} />
+                 <h4 className="text-white font-black uppercase tracking-widest text-xl mb-3">GLB File Required</h4>
+                 <p className="text-white/50 text-sm max-w-xs leading-relaxed bg-[#1a1a1b] p-6 rounded-2xl border border-white/5">
+                   Android and WebXR strictly require a <strong className="text-emerald-400 font-black">.glb</strong> 3D file to initialize the engine.<br/><br/>
+                   Currently, only the Apple format (.usdz) has been uploaded to the server.
+                 </p>
               </div>
             )}
             

@@ -87,7 +87,18 @@ async function run() {
       console.log(`Downloaded: ${filename}.png`);
     } catch (e) {
       console.log(`Failed primary: ${url} -> ${e.message}`);
-      fs.writeFileSync(dest, ""); // touch a blank file to avoid React crashing
+      try {
+        const fallbackUrl = fallbackProfiles[i];
+        if (fallbackUrl) {
+          await downloadFile(fallbackUrl, dest);
+          console.log(`Downloaded fallback: ${filename}.png`);
+        } else {
+          fs.writeFileSync(dest, "");
+        }
+      } catch (errFallback) {
+        console.log(`Failed fallback: ${fallbackProfiles[i]} -> ${errFallback.message}`);
+        fs.writeFileSync(dest, ""); // touch a blank file to avoid React crashing
+      }
     }
   }
 }
