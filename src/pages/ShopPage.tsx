@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import productsData from '../data/outlet_products.json';
-import { ShoppingCart, Heart, Search, ChevronLeft, ChevronRight, X, Maximize2, Filter, Image as ImageIcon } from 'lucide-react';
+import { ShoppingCart, Heart, ChevronLeft, ChevronRight, X, Maximize2, Image as ImageIcon } from 'lucide-react';
 import { useCartStore } from '../store/useCartStore';
 
 const ReservationTimer = ({ item, onExpire }: { item: any; onExpire: () => void }) => {
@@ -37,26 +37,63 @@ const safeProducts = Array.isArray(productsData) ? productsData : ((productsData
 export function ShopPage() {
   const { items, addItem, toggleCart } = useCartStore();
   
-  const [filterType, setFilterType] = useState('');
-  const [filterMaterial, setFilterMaterial] = useState('');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [inName, setInName] = useState('');
+  const [inType, setInType] = useState('');
+  const [inOpenability, setInOpenability] = useState('');
+  const [inOuterColor, setInOuterColor] = useState('');
+  const [inInnerColor, setInInnerColor] = useState('');
+  const [inMaterial, setInMaterial] = useState('');
+  const [inAddons, setInAddons] = useState('');
+  const [inWidthFrom, setInWidthFrom] = useState('');
+  const [inWidthTo, setInWidthTo] = useState('');
+  const [inHeightFrom, setInHeightFrom] = useState('');
+  const [inHeightTo, setInHeightTo] = useState('');
+
+  const [filters, setFilters] = useState({
+     name: '', type: '', openability: '', outerColor: '', innerColor: '', material: '', addons: '', wF: '', wT: '', hF: '', hT: ''
+  });
+
+  const clearFilters = () => {
+      setInName(''); setInType(''); setInOpenability(''); setInOuterColor(''); setInInnerColor(''); setInMaterial(''); setInAddons(''); setInWidthFrom(''); setInWidthTo(''); setInHeightFrom(''); setInHeightTo('');
+      setFilters({ name: '', type: '', openability: '', outerColor: '', innerColor: '', material: '', addons: '', wF: '', wT: '', hF: '', hT: '' });
+  };
+
+  const applyFilters = (e?: React.FormEvent) => {
+      e?.preventDefault();
+      setFilters({
+          name: inName, type: inType, openability: inOpenability, outerColor: inOuterColor, innerColor: inInnerColor, material: inMaterial, addons: inAddons, wF: inWidthFrom, wT: inWidthTo, hF: inHeightFrom, hT: inHeightTo
+      });
+  };
   
   const [quickViewProduct, setQuickViewProduct] = useState<any | null>(null);
   const [galleryIndex, setGalleryIndex] = useState(0);
 
-  // Extract unique filters
   const optType = [...new Set(safeProducts.map((p: any) => p.type))].filter(Boolean) as string[];
   const optMat = [...new Set(safeProducts.map((p: any) => p.material))].filter(Boolean) as string[];
+  const optOpen = [...new Set(safeProducts.map((p: any) => p.openability))].filter(Boolean) as string[];
+  const optOut = [...new Set(safeProducts.map((p: any) => p.outerColor))].filter(Boolean) as string[];
+  const optIn = [...new Set(safeProducts.map((p: any) => p.innerColor))].filter(Boolean) as string[];
 
-  // Reactive Grid
   const filteredProducts = useMemo(() => {
     return safeProducts.filter((p: any) => {
-      if (searchQuery && !p.name.toLowerCase().includes(searchQuery.toLowerCase())) return false;
-      if (filterType && p.type !== filterType) return false;
-      if (filterMaterial && p.material !== filterMaterial) return false;
+      if (filters.name && !p.name.toLowerCase().includes(filters.name.toLowerCase())) return false;
+      if (filters.type && p.type !== filters.type) return false;
+      if (filters.material && p.material !== filters.material) return false;
+      if (filters.openability && p.openability !== filters.openability) return false;
+      if (filters.outerColor && p.outerColor !== filters.outerColor) return false;
+      if (filters.innerColor && p.innerColor !== filters.innerColor) return false;
+      
+      const w = parseInt(p.width);
+      if (filters.wF && w < parseInt(filters.wF)) return false;
+      if (filters.wT && w > parseInt(filters.wT)) return false;
+
+      const h = parseInt(p.height);
+      if (filters.hF && h < parseInt(filters.hF)) return false;
+      if (filters.hT && h > parseInt(filters.hT)) return false;
+
       return true;
     });
-  }, [searchQuery, filterType, filterMaterial]);
+  }, [filters]);
 
   // Handlers
   const handleAddToCart = (e: React.MouseEvent, product: any) => {
@@ -104,62 +141,98 @@ export function ShopPage() {
         </div>
       </div>
 
-      <div className="max-w-screen-2xl mx-auto px-6 py-12 flex flex-col lg:flex-row gap-12">
+      <div className="max-w-screen-2xl mx-auto px-6 py-12">
         
-        {/* Shopify Sidebar Filters */}
-        <aside className="w-full lg:w-72 flex-shrink-0">
-          <div className="bg-white p-6 border border-gray-100 rounded-xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] sticky top-40">
-            <div className="flex items-center gap-2 mb-8 pb-4 border-b border-gray-100">
-               <Filter size={18} className="text-gray-400" />
-               <h3 className="font-bold text-sm tracking-widest uppercase text-black">Filter Attributes</h3>
-            </div>
-
-            <div className="space-y-8">
+        {/* Drutex Outlet Filter Matrix */}
+        <div className="bg-white mb-10 pb-6">
+           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-6 mb-4">
+              <span className="text-sm font-semibold text-gray-800">The purchased products are not covered by any warranty or statutory guarantee.</span>
+              <button className="hidden sm:block px-6 py-2 border border-black text-black font-bold text-xs tracking-wider uppercase hover:bg-black hover:text-white transition-colors mt-4 sm:mt-0">Add To Cart</button>
+           </div>
+           
+           <form onSubmit={applyFilters} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-8">
+              {/* Row 1 */}
               <div>
-                <label className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3 block">Search Collection</label>
-                <div className="relative">
-                  <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300" />
-                  <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Model name..." className="w-full pl-9 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:border-black focus:ring-1 focus:ring-black outline-none transition-all" />
-                </div>
+                 <label className="text-gray-400 text-[13px] font-medium block">Product name</label>
+                 <input type="text" value={inName} onChange={e => setInName(e.target.value)} className="w-full bg-transparent border-0 border-b border-gray-200 text-sm text-gray-800 py-2 px-0 focus:ring-0 focus:border-gray-400 outline-none transition-colors" />
+              </div>
+              <div>
+                 <label className="text-gray-400 text-[13px] font-medium block">Product type</label>
+                 <select value={inType} onChange={e => setInType(e.target.value)} className="w-full bg-transparent border-0 border-b border-gray-200 text-sm text-gray-800 py-2 px-0 focus:ring-0 focus:border-gray-400 outline-none transition-colors appearance-none cursor-pointer placeholder-gray-300">
+                    <option value="" className="text-gray-300"></option>
+                    {optType.map(o => <option key={o} value={o}>{o}</option>)}
+                 </select>
+              </div>
+              <div>
+                 <label className="text-gray-400 text-[13px] font-medium block">Openability</label>
+                 <select value={inOpenability} onChange={e => setInOpenability(e.target.value)} className="w-full bg-transparent border-0 border-b border-gray-200 text-sm text-gray-800 py-2 px-0 focus:ring-0 focus:border-gray-400 outline-none transition-colors appearance-none cursor-pointer">
+                    <option value=""></option>
+                    {optOpen.map(o => <option key={o} value={o}>{o}</option>)}
+                 </select>
               </div>
 
+              {/* Row 2 */}
               <div>
-                <label className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3 block">Product Type</label>
-                <div className="space-y-2 max-h-48 overflow-y-auto custom-scrollbar">
-                  <div className="flex items-center gap-3">
-                    <input type="radio" name="type" id="all-type" checked={filterType === ''} onChange={() => setFilterType('')} className="accent-black w-4 h-4" />
-                    <label htmlFor="all-type" className="text-sm font-medium text-gray-700 cursor-pointer">All Types</label>
-                  </div>
-                  {optType.map(o => (
-                    <div key={o} className="flex items-center gap-3">
-                      <input type="radio" name="type" id={`type-${o}`} checked={filterType === o} onChange={() => setFilterType(o)} className="accent-black w-4 h-4 cursor-pointer" />
-                      <label htmlFor={`type-${o}`} className="text-sm font-medium text-gray-600 cursor-pointer">{o}</label>
-                    </div>
-                  ))}
-                </div>
+                 <label className="text-gray-400 text-[13px] font-medium block">Outer Color</label>
+                 <select value={inOuterColor} onChange={e => setInOuterColor(e.target.value)} className="w-full bg-transparent border-0 border-b border-gray-200 text-sm text-gray-800 py-2 px-0 focus:ring-0 focus:border-gray-400 outline-none transition-colors appearance-none cursor-pointer truncate">
+                    <option value=""></option>
+                    {optOut.map(o => <option key={o} value={o}>{o}</option>)}
+                 </select>
+              </div>
+              <div>
+                 <label className="text-gray-400 text-[13px] font-medium block">Inner Color</label>
+                 <select value={inInnerColor} onChange={e => setInInnerColor(e.target.value)} className="w-full bg-transparent border-0 border-b border-gray-200 text-sm text-gray-800 py-2 px-0 focus:ring-0 focus:border-gray-400 outline-none transition-colors appearance-none cursor-pointer truncate">
+                    <option value=""></option>
+                    {optIn.map(o => <option key={o} value={o}>{o}</option>)}
+                 </select>
+              </div>
+              <div>
+                 <label className="text-gray-400 text-[13px] font-medium block">Material</label>
+                 <select value={inMaterial} onChange={e => setInMaterial(e.target.value)} className="w-full bg-transparent border-0 border-b border-gray-200 text-sm text-gray-800 py-2 px-0 focus:ring-0 focus:border-gray-400 outline-none transition-colors appearance-none cursor-pointer">
+                    <option value=""></option>
+                    {optMat.map(o => <option key={o} value={o}>{o}</option>)}
+                 </select>
               </div>
 
+              {/* Row 3 */}
               <div>
-                <label className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3 block">Frame Material</label>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-3">
-                    <input type="radio" name="mat" id="all-mat" checked={filterMaterial === ''} onChange={() => setFilterMaterial('')} className="accent-black w-4 h-4" />
-                    <label htmlFor="all-mat" className="text-sm font-medium text-gray-700 cursor-pointer">Any Material</label>
-                  </div>
-                  {optMat.map(o => (
-                    <div key={o} className="flex items-center gap-3">
-                      <input type="radio" name="mat" id={`mat-${o}`} checked={filterMaterial === o} onChange={() => setFilterMaterial(o)} className="accent-black w-4 h-4 cursor-pointer" />
-                      <label htmlFor={`mat-${o}`} className="text-sm font-medium text-gray-600 cursor-pointer">{o}</label>
-                    </div>
-                  ))}
-                </div>
+                 <label className="text-gray-400 text-[13px] font-medium block">Addons</label>
+                 <select value={inAddons} onChange={e => setInAddons(e.target.value)} className="w-full bg-transparent border-0 border-b border-gray-200 text-sm text-gray-800 py-2 px-0 focus:ring-0 focus:border-gray-400 outline-none transition-colors appearance-none cursor-pointer">
+                    <option value=""></option>
+                    <option value="Shutter">Shutter</option>
+                    <option value="Fest">Fest</option>
+                    <option value="None">None</option>
+                 </select>
               </div>
-            </div>
-          </div>
-        </aside>
+              <div>
+                 <label className="text-gray-400 text-[13px] font-medium block">Width from</label>
+                 <input type="number" value={inWidthFrom} onChange={e => setInWidthFrom(e.target.value)} className="w-full bg-transparent border-0 border-b border-gray-200 text-sm text-gray-800 py-2 px-0 focus:ring-0 focus:border-gray-400 outline-none transition-colors" />
+              </div>
+              <div>
+                 <label className="text-gray-400 text-[13px] font-medium block">Width to</label>
+                 <input type="number" value={inWidthTo} onChange={e => setInWidthTo(e.target.value)} className="w-full bg-transparent border-0 border-b border-gray-200 text-sm text-gray-800 py-2 px-0 focus:ring-0 focus:border-gray-400 outline-none transition-colors" />
+              </div>
+
+              {/* Row 4 */}
+              <div>
+                 <label className="text-gray-400 text-[13px] font-medium block">Height from</label>
+                 <input type="number" value={inHeightFrom} onChange={e => setInHeightFrom(e.target.value)} className="w-full bg-transparent border-0 border-b border-gray-200 text-sm text-gray-800 py-2 px-0 focus:ring-0 focus:border-gray-400 outline-none transition-colors" />
+              </div>
+              <div>
+                 <label className="text-gray-400 text-[13px] font-medium block">Height to</label>
+                 <input type="number" value={inHeightTo} onChange={e => setInHeightTo(e.target.value)} className="w-full bg-transparent border-0 border-b border-gray-200 text-sm text-gray-800 py-2 px-0 focus:ring-0 focus:border-gray-400 outline-none transition-colors" />
+              </div>
+
+           </form>
+
+           <div className="flex justify-end gap-4 mt-8">
+              <button type="button" onClick={clearFilters} className="px-6 py-2.5 border border-gray-300 text-gray-700 bg-white font-bold text-[11px] tracking-wider uppercase hover:border-yellow-400 hover:text-black transition-colors rounded-sm">Clear Form</button>
+              <button type="submit" onClick={applyFilters} className="px-8 py-2.5 bg-[#ffce2e] text-black font-bold text-[11px] tracking-wider uppercase hover:bg-yellow-400 transition-colors rounded-sm shadow-sm">Filter</button>
+           </div>
+        </div>
 
         {/* Product Grid */}
-        <main className="flex-1">
+        <main className="w-full">
           <div className="flex justify-between items-center mb-6">
             <span className="text-sm font-medium text-gray-500">Showing <b className="text-black">{filteredProducts.length}</b> variants</span>
           </div>
@@ -249,8 +322,8 @@ export function ShopPage() {
       {quickViewProduct && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-8 bg-black/95 backdrop-blur-xl animate-fade-in" onClick={() => setQuickViewProduct(null)}>
           
-          <button onClick={() => setQuickViewProduct(null)} className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors z-[210]">
-             <X size={40} strokeWidth={1.5} />
+          <button onClick={() => setQuickViewProduct(null)} className="absolute top-6 right-6 lg:top-8 lg:right-8 bg-black text-white p-2 rounded-full shadow-2xl border border-white/20 hover:scale-110 hover:bg-gray-900 transition-all z-[210]">
+             <X size={24} strokeWidth={2.5} />
           </button>
 
           <div 
@@ -282,11 +355,18 @@ export function ShopPage() {
                 )}
                 
                 {quickViewProduct.localImages?.[0] ? (
-                  <img 
-                    src={quickViewProduct.localImages[galleryIndex]} 
-                    alt="Massive Preview" 
-                    className="w-full h-full max-h-[85vh] object-contain drop-shadow-2xl" 
-                  />
+                  <>
+                    <img 
+                      src={quickViewProduct.localImages[galleryIndex]} 
+                      alt="Massive Preview" 
+                      className="w-full h-full max-h-[85vh] object-contain drop-shadow-2xl" 
+                    />
+                    { (quickViewProduct.localImages[galleryIndex].includes('ideal_neo_') || quickViewProduct.localImages[galleryIndex].includes('-ai')) && (
+                      <div className="absolute bottom-28 left-1/2 -translate-x-1/2 bg-black/70 border border-white/10 text-white/90 px-6 py-4 rounded-2xl font-semibold tracking-wide text-xs text-center backdrop-blur-xl z-20 shadow-2xl max-w-md w-[80%] sm:w-full animate-fade-in">
+                        <span className="text-[#eab676] mr-2">✦</span> This image has been processed using AI to eliminate the protective sticker for better visualization.
+                      </div>
+                    )}
+                  </>
                 ) : (
                   <div className="text-white/20 flex flex-col items-center">
                       <ImageIcon size={100} strokeWidth={1} className="mb-6" />

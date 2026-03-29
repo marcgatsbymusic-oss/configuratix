@@ -8,7 +8,7 @@ interface Props {
 }
 
 export function CartDashboard({ onClose, onCheckout }: Props) {
-  const { items, updateQuantity, removeItem, cartTotal } = useCartStore();
+  const { items, updateQuantity, removeItem, getCartTotal } = useCartStore();
   const { name, email } = useSessionStore();
 
   return (
@@ -59,7 +59,7 @@ export function CartDashboard({ onClose, onCheckout }: Props) {
                   </div>
                   
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 mt-4">
-                    {item.details.map((detail, dIdx) => (
+                    {item.details?.map((detail, dIdx) => (
                       <div key={dIdx} className="text-sm font-medium text-white/60 flex items-center gap-3 bg-[#111112] p-2 px-3 rounded-lg border border-[#2a2a2b]">
                         <div className="w-1.5 h-1.5 rounded-full bg-[#eab676] drop-shadow-[0_0_4px_rgba(234,182,118,0.5)]"></div> {detail}
                       </div>
@@ -95,7 +95,7 @@ export function CartDashboard({ onClose, onCheckout }: Props) {
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
               <div className="text-xs font-black text-[#eab676] uppercase tracking-[0.2em] mb-1">Total Project Value</div>
-              <div className="text-4xl md:text-5xl font-black text-white tracking-tighter drop-shadow-lg">€{cartTotal().toFixed(2)}</div>
+              <div className="text-4xl md:text-5xl font-black text-white tracking-tighter drop-shadow-lg">€{getCartTotal().toFixed(2)}</div>
             </div>
             
             <button onClick={onCheckout} className="w-full md:w-auto bg-[#eab676] !text-black px-14 py-5 rounded-2xl font-black text-xl uppercase tracking-widest hover:bg-[#ffc882] hover:scale-105 active:scale-95 transition-all shadow-[0_0_40px_rgba(234,182,118,0.4)] flex items-center justify-center gap-3">

@@ -34,6 +34,8 @@ interface ConfiguratorActions {
   validateDimensions: () => boolean
   recalculatePrice: () => void
   reset: () => void
+  saveConfiguration: () => Promise<string>
+  loadConfiguration: (id: string) => Promise<void>
 }
 
 type ConfiguratorStore = ConfiguratorStoreState & ConfiguratorActions
@@ -161,7 +163,22 @@ export const useConfiguratorStore = create<ConfiguratorStore>((set, get) => ({
     const { profileSystem, windowType, dimensions, options } = get()
     if (!profileSystem || !windowType) return
 
-    set({ isPricingLoading: true })
+    // --- Beta Functional Requirement: Dynamic Instant Pricing Engine ---
+    // Calculate an instant optimistic estimate based on area and modifiers
+    const areaM2 = (dimensions.width / 1000) * (dimensions.height / 1000)
+    let estimatedPrice = areaM2 * 150 // €150 per m2 base
+
+    if (options.glazing === 'triple') estimatedPrice *= 1.25
+    if (options.color_exterior !== 'white') estimatedPrice *= 1.15
+    if (options.security === 'rc2') estimatedPrice *= 1.30
+
+    const clientSidePrice: PriceResult = {
+      line_items: [{ label: 'Estimated Base Price', price_eur: Number(estimatedPrice.toFixed(2)) }],
+      total_eur: Number(estimatedPrice.toFixed(2))
+    }
+
+    // Set optimistic price instantly
+    set({ price: clientSidePrice, isPricingLoading: true })
 
     debouncedPriceCall(async () => {
       try {
@@ -186,4 +203,54 @@ export const useConfiguratorStore = create<ConfiguratorStore>((set, get) => ({
   },
 
   reset: () => set(initialState),
+
+  saveConfiguration: async () => {
+    const state = get()
+    const stateToSave = {
+      step: state.step,
+      productCategory: state.productCategory,
+      profileSystem: state.profileSystem,
+      windowType: state.windowType,
+      dimensions: state.dimensions,
+      dimensionBounds: state.dimensionBounds,
+      options: state.options,
+    }
+    
+    // Use any cast for supabase here to bypass the strict generated schema which does not have saved_configurations yet
+    const { data, error } = await (supabase as any)
+      .from('saved_configurations')
+      .insert({ config_state: stateToSave })
+      .select('id')
+      .single()
+
+    if (error) {
+      console.error('[Configurator] Failed to save configuration:', error)
+      throw error
+    }
+    
+    return data.id as string
+  },
+
+  loadConfiguration: async (id: string) => {
+    set({ isLoading: true })
+    const { data, error } = await (supabase as any)
+      .from('saved_configurations')
+      .select('config_state')
+      .eq('id', id)
+      .single()
+
+    if (error) {
+      console.error('[Configurator] Failed to load configuration:', error)
+      set({ isLoading: false })
+      return
+    }
+
+    if (data?.config_state) {
+      const savedState = data.config_state as Partial<ConfiguratorStoreState>
+      set({ ...savedState, isLoading: false })
+      get().recalculatePrice()
+    } else {
+      set({ isLoading: false })
+    }
+  },
 }))

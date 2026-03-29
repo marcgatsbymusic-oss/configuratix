@@ -37,8 +37,10 @@ function getInitialState(): ConfiguratorState {
   return initialState;
 }
 
-function configuratorReducer(state: ConfiguratorState, action: ConfiguratorAction): ConfiguratorState {
+function configuratorReducer(state: ConfiguratorState, action: ConfiguratorAction | { type: 'HYDRATE_STATE'; payload: ConfiguratorState }): ConfiguratorState {
   switch (action.type) {
+    case 'HYDRATE_STATE':
+      return { ...state, ...action.payload };
     case 'SET_DIMENSIONS':
       return { ...state, dimensions: { ...state.dimensions, ...action.payload } };
     case 'SET_MATERIAL': {

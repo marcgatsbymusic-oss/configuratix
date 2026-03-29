@@ -11,6 +11,10 @@ import { WindowTypeGraphic } from './WindowTypeGraphic';
 import { useCartStore } from '../../store/useCartStore';
 
 import { SaveToCartModal } from './SaveToCartModal';
+import { supabase } from '../../lib/supabase';
+import { Share2 } from 'lucide-react';
+import { ARMeasurementButton } from './ARMeasurementButton';
+import { ARPreviewButton } from './ARPreviewButton';
 import { ProfileCaptureModal } from './ProfileCaptureModal';
 import { CartDashboard } from './CartDashboard';
 import { useSessionStore } from '../../store/useSessionStore';
@@ -135,6 +139,43 @@ export function MainConfigurator() {
   const [showLeadModal, setShowLeadModal] = useState(false);
   const [showCartDashboard, setShowCartDashboard] = useState(false);
   const [showAIAssistant, setShowAIAssistant] = useState(false);
+
+  const [isSharing, setIsSharing] = useState(false);
+  const isMobile = typeof window !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const shareId = params.get('share_id');
+    if (shareId) {
+      // Use any to bypass schema for beta testing
+      (supabase as any).from('saved_configurations').select('config_state').eq('id', shareId).single().then(({ data, error }: { data: any, error: any }) => {
+        if (data?.config_state && !error) {
+          dispatch({ type: 'HYDRATE_STATE', payload: data.config_state });
+          setActiveStep(6);
+          setCompletedSteps([1,2,3,4,5,6]);
+        }
+      });
+    }
+  }, []);
+
+  const handleShareSystem = async () => {
+    setIsSharing(true);
+    try {
+      const { data, error } = await (supabase as any).from('saved_configurations')
+        .insert({ config_state: state })
+        .select('id').single();
+      if (data) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('share_id', data.id);
+        navigator.clipboard.writeText(url.toString());
+        alert('Configuration link copied to clipboard!');
+      } else {
+        console.error(error);
+        alert('Failed to save configuration');
+      }
+    } catch(e) { console.error(e); }
+    setIsSharing(false);
+  };
 
   const toggleHelp = (step: number) => {
     setExpandedHelpSection(prev => prev === step ? null : step);
@@ -687,6 +728,17 @@ export function MainConfigurator() {
                       </div>
                     </div>
                   </div>
+                  
+                  {isMobile && (
+                    <div className="mt-8 flex justify-center w-full">
+                      <ARMeasurementButton
+                        onMeasureComplete={(w, h) => {
+                          dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h }});
+                        }}
+                      />
+                    </div>
+                  )}
+
                   <div className="mt-8 flex justify-end">
                     <button 
                       onClick={() => advanceStep(6, 7)}
@@ -925,9 +977,21 @@ export function MainConfigurator() {
                   <div className="text-[10px] font-black text-[#eab676] uppercase tracking-[0.2em] mb-1">Total incl 21% VAT</div>
                   <div className="text-4xl font-black text-white tracking-tighter">€{finalPrice.toFixed(2)}</div>
                 </div>
-                <div className="mt-6 flex flex-col sm:flex-row gap-3">
-                  <button 
-                    onClick={() => {
+                <div className="mt-6 flex flex-col gap-3">
+                  {isMobile && (
+                    <ARPreviewButton dimensions={state.dimensions} />
+                  )}
+                  <div className="flex gap-2 w-full">
+                    <button
+                      onClick={handleShareSystem}
+                      disabled={isSharing}
+                      className="bg-[#1a1a1b] border-2 border-[#2a2a2b] w-14 shrink-0 flex items-center justify-center rounded-xl hover:bg-[#2a2a2b] hover:border-[#eab676] transition-all"
+                      title="Share Configuration"
+                    >
+                      <Share2 size={18} className={isSharing ? "animate-pulse text-[#eab676]" : "text-white/50 hover:text-white"} />
+                    </button>
+                    <button 
+                      onClick={() => {
                       if (orderStore.isActive) {
                         orderStore.saveCurrentAndNext({
                           config: state, 
@@ -977,6 +1041,7 @@ export function MainConfigurator() {
                   >
                     <ShoppingCart size={18} strokeWidth={2.5} /> {orderStore.isActive ? (orderStore.currentIndex === orderStore.items.length - 1 ? 'Finish Project' : `Save & Next (${orderStore.currentIndex + 1}/${orderStore.items.length})`) : t('configurator.summary.saveToCart', 'Save to Cart')} {!orderStore.isActive && items.length > 0 && `(${items.length})`}
                   </button>
+                  </div>
                 </div>
 
               </div>
@@ -988,4 +1053,4 @@ export function MainConfigurator() {
     </div>
     </>
   );
-};
+}
