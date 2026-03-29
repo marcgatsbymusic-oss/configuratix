@@ -13,23 +13,24 @@ export function ARMeasurementButton({ onMeasureComplete }: ARMeasurementButtonPr
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [points, setPoints] = useState<[Point, Point, Point, Point]>([
-    { x: 50, y: 150 },
-    { x: 250, y: 150 },
-    { x: 250, y: 350 },
-    { x: 50, y: 350 },
+    { x: 50, y: 250 },
+    { x: 250, y: 250 },
+    { x: 250, y: 450 },
+    { x: 50, y: 450 },
   ]);
   const [activePoint, setActivePoint] = useState<number | null>(null);
   const [analysisStatus, setAnalysisStatus] = useState<string | null>(null);
+  const [zoomLevel, setZoomLevel] = useState<number>(1);
 
   const resizePoints = useCallback(() => {
     if (containerRef.current) {
       const { width, height } = containerRef.current.getBoundingClientRect();
-      // Initialize handles centrally based on bounds
+      // Initialize handles centrally based on bounds with safer margins (prevent top cutoff)
       setPoints([
-        { x: width * 0.2, y: height * 0.2 },
-        { x: width * 0.8, y: height * 0.2 },
-        { x: width * 0.8, y: height * 0.6 },
-        { x: width * 0.2, y: height * 0.6 },
+        { x: width * 0.2, y: height * 0.3 },
+        { x: width * 0.8, y: height * 0.3 },
+        { x: width * 0.8, y: height * 0.7 },
+        { x: width * 0.2, y: height * 0.7 },
       ]);
     }
   }, []);
@@ -146,7 +147,8 @@ export function ARMeasurementButton({ onMeasureComplete }: ARMeasurementButtonPr
               autoPlay 
               playsInline 
               muted 
-              className="absolute inset-0 w-full h-full object-cover opacity-70"
+              className="absolute inset-0 w-full h-full object-cover opacity-70 transition-transform duration-200"
+              style={{ transform: `scale(${zoomLevel})` }}
             />
             
             <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
@@ -207,14 +209,31 @@ export function ARMeasurementButton({ onMeasureComplete }: ARMeasurementButtonPr
             )}
           </div>
           
-          <div className="p-6 bg-[#0a0a0b] border-t border-[#2a2a2b] flex flex-col gap-4 relative z-40 shadow-[0_-10px_50px_rgba(0,0,0,0.8)]">
-            <div className="text-center text-[11px] text-white/50 font-medium tracking-wide uppercase leading-relaxed">
-              Drag the 4 corners precisely over your physical window frame.<br/>Ensure good lighting before extracting.
+          <div className="p-6 bg-[#0a0a0b] border-t border-[#2a2a2b] flex flex-col gap-4 relative z-40 shadow-[0_-10px_50px_rgba(0,0,0,0.8)] pb-safe">
+            <div className="flex flex-col gap-2">
+              <label className="text-[10px] uppercase font-bold text-white/50 tracking-widest flex justify-between">
+                <span>Camera Zoom</span>
+                <span className="text-indigo-400">{zoomLevel.toFixed(1)}x</span>
+              </label>
+              <input 
+                type="range" 
+                min="1" 
+                max="4" 
+                step="0.1" 
+                value={zoomLevel} 
+                onChange={(e) => setZoomLevel(parseFloat(e.target.value))}
+                className="w-full accent-indigo-500 bg-[#1a1a1b] h-2 rounded-lg appearance-none outline-none"
+              />
             </div>
-            <div className="flex gap-4">
+          
+            <div className="text-center text-[10px] text-white/40 font-medium tracking-wide leading-relaxed">
+              Drag the 4 corners precisely over your physical window frame.
+            </div>
+            
+            <div className="flex gap-3 mt-2">
               <button 
                 onClick={stopCamera}
-                className="flex-[0.4] bg-[#1a1a1b] text-white/50 hover:text-white rounded-xl flex items-center justify-center transition-all border border-white/5 uppercase tracking-widest font-black text-[10px]"
+                className="flex-[0.3] bg-[#1a1a1b] text-white/50 hover:text-white rounded-xl flex items-center justify-center transition-all border border-white/5 uppercase tracking-widest font-black text-[10px]"
               >
                 <X size={20} />
               </button>
