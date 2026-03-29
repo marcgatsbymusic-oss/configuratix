@@ -985,7 +985,7 @@ export function MainConfigurator() {
                 </div>
                 <div className="mt-6 flex flex-col gap-3">
                   {isMobile && (
-                    <ARPreviewButton dimensions={state.dimensions} />
+                    <ARPreviewButton />
                   )}
                   <div className="flex gap-2 w-full">
                     <button
