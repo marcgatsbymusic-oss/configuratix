@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useConfigurator } from './useConfigurator';
 import { CONFIG_SCHEMA, WINDOW_TYPES, OPENING_TYPES, COLOR_LOCALE, GLASS_LOCALE } from './types';
-import { Ruler, Layers, Check, ChevronLeft, ChevronRight, ShoppingCart, HelpCircle, X } from 'lucide-react';
+import { Ruler, Layers, Check, ChevronLeft, ChevronRight, ShoppingCart, HelpCircle, X, Box } from 'lucide-react';
 import { FloatingHelpMenu } from './FloatingHelpMenu';
 import { ExitIntentModal } from './ExitIntentModal';
 import { MaterialHelp, WindowTypeHelp } from './HelpContents';
@@ -143,7 +143,14 @@ export function MainConfigurator() {
   const [showAIAssistant, setShowAIAssistant] = useState(false);
 
   const [isSharing, setIsSharing] = useState(false);
-  const isMobile = typeof window !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  const isIOS = typeof window !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+  const isAndroid = typeof window !== 'undefined' && /android/i.test(navigator.userAgent);
+  const isMobile = isIOS || isAndroid;
+
+  const appDomain = "fantastic-octo-giggle-five.vercel.app";
+  const glbUrl = `https://${appDomain}/models/window-scene.glb`;
+  const androidIntent = `intent://arvr.google.com/scene-viewer/1.1?file=${glbUrl}&mode=ar_preferred&title=Mammut+Window&link=https://${appDomain}&resizable=false#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;S.browser_fallback_url=https://developers.google.com/ar;end;`;
+  const arHref = isIOS ? "/models/window-scene.usdz" : androidIntent;
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -874,6 +881,13 @@ export function MainConfigurator() {
                      className={`px-3 py-1.5 text-[10px] uppercase font-bold tracking-wider rounded-md transition-all ${!show3D ? 'bg-[#eab676] !text-black' : 'text-white/50 hover:bg-[#2a2a2b]'}`}
                    >
                      2D Draft
+                   </button>
+                   <button 
+                     onClick={() => window.location.href = arHref}
+                     className="px-3 py-1.5 flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-wider rounded-md transition-all text-emerald-400 hover:bg-emerald-400/10 hover:text-emerald-300 ml-1 border-l border-[#2a2a2b] pl-4"
+                     title="View in AR"
+                   >
+                     <Box size={12} strokeWidth={2.5} /> AR
                    </button>
                 </div>
                 {show3D ? (

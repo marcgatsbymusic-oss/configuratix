@@ -31,11 +31,7 @@ export const NeedlePreview: React.FC<NeedlePreviewProps> = ({ state }) => {
         ref: engineRef,
         src: '/models/window-scene.glb',
         style: { width: '100%', height: '100%', display: 'block' }
-      }, (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-           <span className="text-white/40 text-xs font-bold uppercase tracking-widest animate-pulse">Loading 3D Engine...</span>
-        </div>
-      ))}
+      })}
     </div>
   );
 };
