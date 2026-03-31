@@ -7,6 +7,7 @@ import { FloatingHelpMenu } from './FloatingHelpMenu';
 import { ExitIntentModal } from './ExitIntentModal';
 import { MaterialHelp, WindowTypeHelp } from './HelpContents';
 import { BlueprintPreview } from './BlueprintPreview';
+import { NeedlePreview } from './NeedlePreview';
 import { WindowTypeGraphic } from './WindowTypeGraphic';
 import { useCartStore } from '../../store/useCartStore';
 
@@ -112,6 +113,7 @@ export function MainConfigurator() {
   const profileScrollRef = useRef<HTMLDivElement>(null);
   const hasProduct = typeof window !== 'undefined' && window.location.search.includes('product=');
   const [activeStep, setActiveStep] = useState<number | null>(hasProduct ? 3 : 0);
+  const [show3D, setShow3D] = useState(false);
   const [stepOrder, setStepOrder] = useState<number[]>([1,2,3,4,5,6,7,8]);
   const [completedSteps, setCompletedSteps] = useState<number[]>(hasProduct ? [1, 2] : []);
   const openStep = (step: number) => { setActiveStep(step); setStepOrder(prev => [step, ...prev.filter(s => s !== step)]); };
@@ -859,8 +861,26 @@ export function MainConfigurator() {
             <div className="bg-[#1a1a1b]/70 backdrop-blur-xl border border-white/60 shadow-2xl shadow-indigo-900/5 rounded-3xl overflow-hidden">
               
               {/* Dynamic SVG Fensternorm-Style Blueprint Area */}
-              <div className="bg-[#1a1a1b] w-full aspect-square flex items-center justify-center relative border-b border-[#eab676]/20 overflow-hidden">
-                <BlueprintPreview state={state} />
+              <div className="bg-[#1a1a1b] w-full aspect-square flex flex-col items-center justify-center relative border-b border-[#eab676]/20 overflow-hidden">
+                <div className="absolute top-4 left-4 z-30 bg-[#111112]/80 backdrop-blur-sm p-1 rounded-lg border border-[#2a2a2b] flex gap-1 shadow-md pointer-events-auto">
+                   <button 
+                     onClick={() => setShow3D(true)}
+                     className={`px-3 py-1.5 text-[10px] uppercase font-bold tracking-wider rounded-md transition-all ${show3D ? 'bg-indigo-600 !text-white' : 'text-white/50 hover:bg-[#2a2a2b]'}`}
+                   >
+                     3D Live
+                   </button>
+                   <button 
+                     onClick={() => setShow3D(false)}
+                     className={`px-3 py-1.5 text-[10px] uppercase font-bold tracking-wider rounded-md transition-all ${!show3D ? 'bg-[#eab676] !text-black' : 'text-white/50 hover:bg-[#2a2a2b]'}`}
+                   >
+                     2D Draft
+                   </button>
+                </div>
+                {show3D ? (
+                  <NeedlePreview state={state} />
+                ) : (
+                  <BlueprintPreview state={state} />
+                )}
               </div>
 
               {/* Data Breakdown */}
