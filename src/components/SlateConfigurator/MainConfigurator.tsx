@@ -149,8 +149,8 @@ export function MainConfigurator() {
 
   const appDomain = "fantastic-octo-giggle-five.vercel.app";
   const glbUrl = `https://${appDomain}/models/window-scene.glb`;
-  const androidIntent = `intent://arvr.google.com/scene-viewer/1.1?file=${glbUrl}&mode=ar_preferred&title=Mammut+Window&link=https://${appDomain}&resizable=false#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;S.browser_fallback_url=https://developers.google.com/ar;end;`;
-  const arHref = isIOS ? "/models/window-scene.usdz" : androidIntent;
+  const androidIntent = `intent://arvr.google.com/scene-viewer/1.1?file=${glbUrl}&mode=ar_preferred&title=Mammut+Window&link=https://${appDomain}&resizable=true#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;S.browser_fallback_url=https://developers.google.com/ar;end;`;
+  const arHref = isIOS ? "/models/window-scene.usdz#allowsContentScaling=1" : androidIntent;
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
