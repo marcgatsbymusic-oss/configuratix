@@ -1284,6 +1284,23 @@ export function MainConfigurator() {
 
         </div>
       </div>
+      
+      {/* Mobile Floating Sticky Footer for Prices */}
+      {completedSteps.length > 0 && activeStep !== 0 && (
+        <div className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-sm bg-[#1a1a1b]/95 backdrop-blur-xl rounded-2xl px-5 py-3 border border-[#eab676]/30 shadow-[0_10px_40px_rgba(0,0,0,0.8)] z-50 flex items-center justify-between">
+          <div className="flex flex-col">
+            <span className="text-[10px] text-[#eab676] font-black uppercase tracking-widest leading-none">Total (Incl VAT)</span>
+            <span className="text-xl text-white font-black leading-tight mt-1">€{finalPrice.toFixed(2)}</span>
+          </div>
+          <div className="w-px h-8 bg-white/10 mx-2"></div>
+          <button 
+            onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth'})} 
+            className="text-white font-bold text-xs uppercase tracking-widest bg-white/5 hover:bg-white/10 px-4 py-2 rounded-lg transition-colors"
+          >
+            Summary &rarr;
+          </button>
+        </div>
+      )}
     </div>
     </>
   );
