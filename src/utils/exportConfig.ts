@@ -4,13 +4,13 @@ import type { ConfiguratorState } from '../components/SlateConfigurator/types';
 // Helper function to synthesize a readable English data payload out of the raw Redux identifiers
 export function generateBlueprintPayload(state: ConfiguratorState, pricing: any) {
   // Resolve localized strings mapped against raw IDs
-  const materialName = state.material;
-  const profileName = CONFIG_SCHEMA.materials[state.material]?.profiles.find(p => p.id === state.profile)?.name || state.profile;
+  const materialName = state.category;
+  const profileName = CONFIG_SCHEMA.categories[state.category as keyof typeof CONFIG_SCHEMA.categories]?.profiles.find(p => p.id === state.profile)?.name || state.profile;
   const windowTypeName = WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.name || state.windowTypeId;
   const interiorColorName = COLOR_LOCALE.colors[state.interiorColor]?.name || state.interiorColor;
   const exteriorColorName = COLOR_LOCALE.colors[state.exteriorColor]?.name || state.exteriorColor;
-  const glazingName = GLASS_LOCALE[state.glazing] || state.glazing;
-  const glazingModifier = CONFIG_SCHEMA.glazing.find(g => g.id === state.glazing)?.priceMod || 1.0;
+  const glazingName = GLASS_LOCALE[state.glazingPackage] || state.glazingPackage;
+  const glazingModifier = CONFIG_SCHEMA.glazing.find(g => g.id === state.glazingPackage)?.priceMod || 1.0;
   
   const mappedAddons = state.addons.map(addonId => {
     const addonData = CONFIG_SCHEMA.addons.find(a => a.id === addonId);

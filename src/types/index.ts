@@ -30,11 +30,21 @@ export interface ProductCategory {
   imageUrl: string
 }
 
+export interface TechDetails {
+  soundInsulation: string
+  gaskets: string
+  thermalTransmittance: string
+  chambers: string
+  installationDepth: string
+  profileClass: string
+}
+
 export interface ProductSpec {
   label: string
   value: string
   unit?: string
 }
+
 
 export interface Product {
   id: string
@@ -46,6 +56,7 @@ export interface Product {
   material: ProductMaterial
   type: ProductType
   specs: ProductSpec[]
+  techDetails?: TechDetails
   images: string[]
   isNew?: boolean
   isFeatured?: boolean

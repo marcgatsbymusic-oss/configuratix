@@ -38,6 +38,7 @@ interface OrderStore {
   startOrder: (items: Omit<OrderItem, 'id' | 'savedConfig' | 'isConfigured'>[]) => void;
   saveCurrentAndNext: (configState: any) => void;
   skipCurrent: () => void;
+  goToPrevious: () => void;
   finishOrder: () => void;
   cancelOrder: () => void;
   setDiscount: (discount: number) => void;
@@ -88,6 +89,10 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
   
   skipCurrent: () => {
      set(state => ({ currentIndex: state.currentIndex + 1 }));
+  },
+
+  goToPrevious: () => {
+    set(state => ({ currentIndex: Math.max(0, state.currentIndex - 1) }));
   },
 
   finishOrder: () => {

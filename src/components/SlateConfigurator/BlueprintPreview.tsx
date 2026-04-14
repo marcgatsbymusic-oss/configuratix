@@ -1,25 +1,8 @@
 import React, { useState, useRef } from 'react';
 import type { ConfiguratorState } from './types';
-import { OPENING_TYPES, COLOR_LOCALE } from './types';
+import { COLOR_LOCALE } from './types';
 import { useTranslation } from 'react-i18next';
 import { Rotate3D } from 'lucide-react';
-
-const LAYOUT_MAP: Record<string, {x: number, y: number, w: number, h: number}[]> = {
-  '1-flugel': [{ x: 0, y: 0, w: 100, h: 100 }],
-  '1-flugel-oberlicht': [{ x: 0, y: 0, w: 100, h: 30 }, { x: 0, y: 30, w: 100, h: 70 }],
-  '1-flugel-unterlicht': [{ x: 0, y: 0, w: 100, h: 70 }, { x: 0, y: 70, w: 100, h: 30 }],
-  '2-flugel': [{ x: 0, y: 0, w: 50, h: 100 }, { x: 50, y: 0, w: 50, h: 100 }],
-  '2-flugel-oberlicht': [{ x: 0, y: 0, w: 100, h: 30 }, { x: 0, y: 30, w: 50, h: 70 }, { x: 50, y: 30, w: 50, h: 70 }],
-  '2-flugel-oberlicht-asym': [{ x: 0, y: 0, w: 100, h: 30 }, { x: 0, y: 30, w: 35, h: 70 }, { x: 35, y: 30, w: 65, h: 70 }],
-  '2-flugel-unterlicht': [{ x: 0, y: 0, w: 50, h: 70 }, { x: 50, y: 0, w: 50, h: 70 }, { x: 0, y: 70, w: 100, h: 30 }],
-  '2-flugel-unterlicht-asym': [{ x: 0, y: 0, w: 35, h: 70 }, { x: 35, y: 0, w: 65, h: 70 }, { x: 0, y: 70, w: 100, h: 30 }],
-  '3-flugel': [{ x: 0, y: 0, w: 33.33, h: 100 }, { x: 33.33, y: 0, w: 33.33, h: 100 }, { x: 66.66, y: 0, w: 33.34, h: 100 }],
-  '3-flugel-oberlicht': [{ x: 0, y: 0, w: 100, h: 30 }, { x: 0, y: 30, w: 33.33, h: 70 }, { x: 33.33, y: 30, w: 33.33, h: 70 }, { x: 66.66, y: 30, w: 33.34, h: 70 }],
-  '3-flugel-oberlicht-asym': [{ x: 0, y: 0, w: 100, h: 30 }, { x: 0, y: 30, w: 25, h: 70 }, { x: 25, y: 30, w: 50, h: 70 }, { x: 75, y: 30, w: 25, h: 70 }],
-  '3-flugel-unterlicht': [{ x: 0, y: 0, w: 33.33, h: 70 }, { x: 33.33, y: 0, w: 33.33, h: 70 }, { x: 66.66, y: 0, w: 33.34, h: 70 }, { x: 0, y: 70, w: 100, h: 30 }],
-  '3-flugel-unterlicht-asym': [{ x: 0, y: 0, w: 25, h: 70 }, { x: 25, y: 0, w: 50, h: 70 }, { x: 75, y: 0, w: 25, h: 70 }, { x: 0, y: 70, w: 100, h: 30 }],
-  '4-flugel': [{ x: 0, y: 0, w: 25, h: 100 }, { x: 25, y: 0, w: 25, h: 100 }, { x: 50, y: 0, w: 25, h: 100 }, { x: 75, y: 0, w: 25, h: 100 }]
-};
 
 interface BlueprintPreviewProps {
   state: ConfiguratorState;
@@ -70,7 +53,6 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
     setRotationY(snapped);
   };
 
-  const layout = LAYOUT_MAP[state.windowTypeId] || LAYOUT_MAP['1-flugel'];
   const SVG_W = 500;
   const SVG_H = 600;
   const DIM_PAD_BOTTOM = 60;
@@ -89,7 +71,6 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
 
   const offsetX = DIM_PAD_LEFT + (MAX_W - frameW) / 2;
   const offsetY = DIM_PAD_TOP + (MAX_H - frameH) / 2;
-  const F_THICK = Math.min(12, Math.min(frameW, frameH) * 0.08);
 
   const renderBlueprint = (isExterior: boolean) => {
     const colorId = isExterior ? state.exteriorColor : state.interiorColor;
@@ -127,65 +108,16 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
         <text x={SVG_W - 25} y={offsetY + frameH / 2} textAnchor="middle" fill="#1a1a1b" opacity="0.6" fontSize="16" transform={`rotate(90, ${SVG_W - 25}, ${offsetY + frameH / 2})`} className="font-sans font-bold">{realH}</text>
 
         <g transform={`translate(${offsetX}, ${offsetY})`}>
-          <rect x="0" y="0" width={frameW} height={frameH} fill={imgUrl ? `url(#${patternId})` : '#ffffff'} stroke="#3a3a3b" strokeWidth="2" />
-          <rect x={F_THICK} y={F_THICK} width={frameW - (F_THICK*2)} height={frameH - (F_THICK*2)} fill="#111112" stroke="#2a2a2b" strokeWidth="1" />
-
-          {layout.map((sash, i) => {
-            const sx = F_THICK + (sash.x / 100) * (frameW - (F_THICK*2));
-            const sy = F_THICK + (sash.y / 100) * (frameH - (F_THICK*2));
-            const sw = (sash.w / 100) * (frameW - (F_THICK*2));
-            const sh = (sash.h / 100) * (frameH - (F_THICK*2));
-            const openingId = state.sashOpenings[i] || 'o1';
-            const opening = OPENING_TYPES.find(o => o.id === openingId);
-            const isFixed = opening?.shortCode === 'F' || !opening;
-            const isDKL = opening?.shortCode === 'DKL';
-            const isDKR = opening?.shortCode === 'DKR';
-            const isDL = opening?.shortCode === 'DL';
-            const isDR = opening?.shortCode === 'DR';
-            const isK = opening?.shortCode === 'K';
-            const S_THICK = Math.min(10, Math.min(sw, sh) * 0.1);
-
-            return (
-              <g key={i}>
-                <rect x={sx} y={sy} width={sw} height={sh} fill={imgUrl ? `url(#${patternId})` : '#ffffff'} stroke="#3a3a3b" strokeWidth="1.5" />
-                <rect x={sx + S_THICK} y={sy + S_THICK} width={Math.max(1, sw - (S_THICK*2))} height={Math.max(1, sh - (S_THICK*2))} fill={isExterior ? "#0f172a" : "#cffafe"} stroke="#2a2a2b" strokeWidth="1" />
-
-                {!isFixed && (
-                  <g stroke="#eab676" strokeWidth="1.5" fill="none" opacity={isExterior ? "0.3" : "0.85"}>
-                    {(isDKL || isDL) && (
-                      <path d={`M${sx + S_THICK},${sy + S_THICK} L${sx + sw - S_THICK},${sy + sh / 2} L${sx + S_THICK},${sy + sh - S_THICK}`} transform={isExterior ? `translate(${sx*2 + sw}, 0) scale(-1, 1)` : ""} />
-                    )}
-                    {(isDKR || isDR) && (
-                      <path d={`M${sx + sw - S_THICK},${sy + S_THICK} L${sx + S_THICK},${sy + sh / 2} L${sx + sw - S_THICK},${sy + sh - S_THICK}`} transform={isExterior ? `translate(${sx*2 + sw}, 0) scale(-1, 1)` : ""} />
-                    )}
-                    {(isDKL || isDKR || isK) && (
-                      <path d={`M${sx + S_THICK},${sy + sh - S_THICK} L${sx + sw / 2},${sy + S_THICK} L${sx + sw - S_THICK},${sy + sh - S_THICK}`} strokeDasharray="5,4" />
-                    )}
-                  </g>
-                )}
-
-                {!isExterior && !isFixed && (isDKL || isDL) && (
-                  <g transform={`translate(${sx + sw - (S_THICK/2)}, ${sy + (sh / 2) - 20})`}>
-                    <rect x="-4" y="0" width="8" height="40" fill="#3a3a3b" stroke="#4a4a4b" strokeWidth="1" rx="2" />
-                    <rect x="-20" y="16" width="20" height="8" fill="#1a1a1b" stroke="#4a4a4b" strokeWidth="1" rx="4" />
-                  </g>
-                )}
-                {!isExterior && !isFixed && (isDKR || isDR) && (
-                  <g transform={`translate(${sx + (S_THICK/2)}, ${sy + (sh / 2) - 20})`}>
-                    <rect x="-4" y="0" width="8" height="40" fill="#3a3a3b" stroke="#4a4a4b" strokeWidth="1" rx="2" />
-                    <rect x="0" y="16" width="20" height="8" fill="#1a1a1b" stroke="#4a4a4b" strokeWidth="1" rx="4" />
-                  </g>
-                )}
-                {!isExterior && !isFixed && isK && (
-                  <g transform={`translate(${sx + (sw / 2) - 20}, ${sy + (S_THICK/2)})`}>
-                    <rect x="0" y="-4" width="40" height="8" fill="#3a3a3b" stroke="#4a4a4b" strokeWidth="1" rx="2" />
-                    <rect x="16" y="0" width="8" height="20" fill="#1a1a1b" stroke="#4a4a4b" strokeWidth="1" rx="4" />
-                  </g>
-                )}
-              </g>
-            );
-          })}
-          <image href="/assets/mammut-logo-icon.png" x={(frameW - Math.min(frameW, frameH) * 0.3) / 2} y={(frameH - Math.min(frameW, frameH) * 0.3) / 2} width={Math.min(frameW, frameH) * 0.3} height={Math.min(frameW, frameH) * 0.3} opacity="0.15" style={{ pointerEvents: 'none' }} />
+          {/* Direct replacement of 2D generative draft with the explicitly mapped Typology SVGs */}
+          {imgUrl && (
+             <rect x="0" y="0" width={frameW} height={frameH} fill={`url(#${patternId})`} />
+          )}
+          <image 
+             href={`/images/typologies/${state.windowTypeId}.svg`} 
+             x="0" y="0" width={frameW} height={frameH}
+             preserveAspectRatio="none"
+             opacity="0.9"
+          />
         </g>
       </svg>
     );

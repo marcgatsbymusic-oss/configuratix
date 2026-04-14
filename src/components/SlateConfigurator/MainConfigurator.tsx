@@ -8,7 +8,7 @@ import { ExitIntentModal } from './ExitIntentModal';
 import { MaterialHelp, WindowTypeHelp } from './HelpContents';
 import { BlueprintPreview } from './BlueprintPreview';
 import { NeedlePreview } from './NeedlePreview';
-import { WindowTypeGraphic } from './WindowTypeGraphic';
+
 import { useCartStore } from '../../store/useCartStore';
 
 import { SaveToCartModal } from './SaveToCartModal';
@@ -27,6 +27,7 @@ const TiltProfileCard = ({ profile, isActive, onClick, tags }: { profile: any, i
   const { t } = useTranslation();
   const cardRef = useRef<HTMLButtonElement>(null);
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const handlePointerMove = (e: React.PointerEvent<HTMLButtonElement>) => {
     if (!cardRef.current) return;
@@ -48,7 +49,7 @@ const TiltProfileCard = ({ profile, isActive, onClick, tags }: { profile: any, i
       onClick={onClick}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
-      className="group/btn relative w-56 shrink-0 snap-start bg-transparent text-left outline-none"
+      className="group/btn relative w-[280px] shrink-0 snap-start bg-transparent text-left outline-none h-full"
       style={{ perspective: '1200px' }}
     >
       <div 
@@ -69,15 +70,39 @@ const TiltProfileCard = ({ profile, isActive, onClick, tags }: { profile: any, i
             }}
           />
           <div className="absolute top-3 left-3 flex flex-col gap-1 items-start z-10" style={{ transform: 'translateZ(30px)' }}>
-            {tags.map((tag: any, i: number) => (
+            {(tags || []).map((tag: any, i: number) => (
               <span key={i} className={`text-[9px] font-bold text-white px-2 py-0.5 rounded shadow-sm tracking-wider uppercase ${tag.color === 'emerald' ? 'bg-emerald-500' : 'bg-blue-600'}`}>
                 {tag.text}
               </span>
             ))}
           </div>
+          {profile.technical && profile.technical.energyGrade && (
+            <div className="absolute top-3 right-3 flex items-center justify-center w-8 h-8 rounded-full border-2 border-white/10 shadow-lg z-20 font-black text-sm text-white" 
+                 style={{ transform: 'translateZ(40px)', background: profile.technical.energyGrade === 'A+' ? '#10b981' : profile.technical.energyGrade === 'A' ? '#84cc16' : profile.technical.energyGrade === 'B' ? '#eab308' : '#f97316' }}>
+               {profile.technical.energyGrade}
+            </div>
+          )}
         </div>
-        <div className="p-4 bg-[#1a1a1b] rounded-b-xl relative z-20" style={{ transform: 'translateZ(20px)' }}>
+        <div className="p-4 bg-[#1a1a1b] rounded-b-xl relative z-20 flex-grow flex flex-col" style={{ transform: 'translateZ(20px)' }}>
           <div className="font-bold text-lg text-white/90">{String(t(`configurator.profiles.${profile.id}`, profile.name))}</div>
+          {profile.technical && (
+             <div className="mt-3 border-t border-[#2a2a2b] pt-3 flex-grow flex flex-col justify-end">
+               <p className={`text-[10px] text-white/50 leading-relaxed mb-3 ${isExpanded ? 'line-clamp-none' : 'line-clamp-3'}`}>{profile.technical.description}</p>
+               <div className="grid grid-cols-2 gap-2 text-[10px] bg-[#111112] p-2 rounded-lg border border-[#2a2a2b]/50">
+                  <div className="flex flex-col col-span-2"><span className="text-white/40 uppercase tracking-widest text-[8px]">Thermal Transmittance</span><span className="font-bold text-[#eab676]">{profile.technical.uwValue} <span className="font-normal text-white/30 text-[8px]">W/(m²K)</span></span></div>
+                  {profile.technical.soundInsulation && <div className="flex flex-col col-span-2"><span className="text-white/40 uppercase tracking-widest text-[8px]">Sound Insulation</span><span className="font-bold text-white/90">{profile.technical.soundInsulation}</span></div>}
+                  <div className="flex flex-col"><span className="text-white/40 uppercase tracking-widest text-[8px]">Depth</span><span className="font-bold text-white/90">{profile.technical.profileDepth} <span className="font-normal text-white/30 text-[8px]">mm</span></span></div>
+                  {profile.technical.chambers && <div className="flex flex-col"><span className="text-white/40 uppercase tracking-widest text-[8px]">Chambers</span><span className="font-bold text-white/90">{profile.technical.chambers}</span></div>}
+                  <div className="flex flex-col"><span className="text-white/40 uppercase tracking-widest text-[8px]">Gaskets</span><span className="font-bold text-white/90">{profile.technical.gaskets}</span></div>
+               </div>
+               <button 
+                 onClick={(e) => { e.stopPropagation(); setIsExpanded(!isExpanded); }}
+                 className="mt-3 bg-[#eab676] text-black w-full py-1.5 rounded text-[10px] font-black uppercase tracking-widest hover:bg-white transition-colors"
+               >
+                 {isExpanded ? 'Less' : 'More'}
+               </button>
+             </div>
+          )}
         </div>
         {isActive && (
           <div className="absolute bottom-4 right-4 w-7 h-7 bg-[#eab676] !text-black rounded-full flex items-center justify-center text-white shadow-md z-30" style={{ transform: 'translateZ(40px)' }}>
@@ -90,31 +115,19 @@ const TiltProfileCard = ({ profile, isActive, onClick, tags }: { profile: any, i
 };
 
 
-const SashSymbol = ({ shortCode, className = "w-6 h-6" }: { shortCode: string, className?: string }) => {
-  return (
-    <svg viewBox="0 0 100 100" className={className} fill="none" stroke="currentColor" strokeWidth="4" strokeDasharray="6 8" strokeLinecap="round" strokeLinejoin="round" opacity="0.9">
-      <rect x="5" y="5" width="90" height="90" fill="none" strokeDasharray="none" strokeWidth="3" stroke="currentColor" opacity="0.4" />
-      {shortCode === 'F' && <path d="M 5,5 L 95,95 M 5,95 L 95,5" strokeDasharray="none" strokeWidth="2" opacity="0.5" />}
-      {shortCode === 'DKL' && <><polyline points="5,5 95,50 5,95" /><polyline points="5,95 50,5 95,95" /></>}
-      {shortCode === 'DKR' && <><polyline points="95,5 5,50 95,95" /><polyline points="5,95 50,5 95,95" /></>}
-      {shortCode === 'DL' && <polyline points="5,5 95,50 5,95" />}
-      {shortCode === 'DR' && <polyline points="95,5 5,50 95,95" />}
-      {shortCode === 'K' && <polyline points="5,95 50,5 95,95" />}
-    </svg>
-  );
-};
+
 
 export function MainConfigurator() {
   const { t, i18n } = useTranslation();
-  const { state, dispatch, pricing } = useConfigurator();
+  const { state, dispatch, pricing, activeLimits, activeColors, activeGlazing, activePanes, activeSpacers } = useConfigurator();
   const { items, addItem } = useCartStore();
   const orderStore = useOrderStore();
-  const materialScrollRef = useRef<HTMLDivElement>(null);
+  const categoryScrollRef = useRef<HTMLDivElement>(null);
   const profileScrollRef = useRef<HTMLDivElement>(null);
   const hasProduct = typeof window !== 'undefined' && window.location.search.includes('product=');
   const [activeStep, setActiveStep] = useState<number | null>(hasProduct ? 3 : 0);
   const [show3D, setShow3D] = useState(false);
-  const [stepOrder, setStepOrder] = useState<number[]>([1,2,3,4,5,6,7,8]);
+  const [stepOrder, setStepOrder] = useState<number[]>([1,2,3,7,5,6,8]);
   const [completedSteps, setCompletedSteps] = useState<number[]>(hasProduct ? [1, 2] : []);
   const openStep = (step: number) => { setActiveStep(step); setStepOrder(prev => [step, ...prev.filter(s => s !== step)]); };
   const advanceStep = (current: number, next: number) => { setTimeout(() => { setActiveStep(next); setCompletedSteps(prev => Array.from(new Set([...prev, current]))); setStepOrder(prev => { const n = prev.filter(s => s !== current); n.push(current); return n; }); }, 350); };
@@ -125,12 +138,33 @@ export function MainConfigurator() {
   useEffect(() => {
     if (orderStore.isActive && orderStore.items[orderStore.currentIndex]) {
       const item = orderStore.items[orderStore.currentIndex];
-      dispatch({ type: 'SET_MATERIAL', payload: item.material as any });
-      setTimeout(() => {
-        dispatch({ type: 'SET_PROFILE', payload: item.profile });
-        dispatch({ type: 'SET_GLAZING', payload: item.glazing });
-        // NOTE: we could apply opening types and blinds here if the payload supported it
-      }, 100);
+      
+      if (item.isConfigured && item.savedConfig?.config) {
+        // If they are going back to a previously configured item, restore the full state
+        const savedState = item.savedConfig.config;
+        dispatch({ type: 'SET_CATEGORY', payload: savedState.category });
+        setTimeout(() => {
+           dispatch({ type: 'SET_PROFILE', payload: savedState.profile });
+           dispatch({ type: 'SET_GLAZING_PACKAGE', payload: savedState.glazingPackage });
+           dispatch({ type: 'SET_DIMENSIONS', payload: savedState.dimensions });
+           dispatch({ type: 'SET_GLASS_OUTSIDE', payload: savedState.glassOutside });
+           dispatch({ type: 'SET_GLASS_MIDDLE', payload: savedState.glassMiddle });
+           dispatch({ type: 'SET_GLASS_INSIDE', payload: savedState.glassInside });
+           dispatch({ type: 'SET_INTERIOR_COLOR', payload: savedState.interiorColor });
+           dispatch({ type: 'SET_EXTERIOR_COLOR', payload: savedState.exteriorColor });
+           // Restore window type if present
+           if (savedState.windowTypeId) dispatch({ type: 'SET_WINDOW_TYPE', payload: savedState.windowTypeId });
+        }, 100);
+      } else {
+        // First time configuring this item, configure from wizard presets
+        dispatch({ type: 'SET_CATEGORY', payload: item.material as any });
+        setTimeout(() => {
+          dispatch({ type: 'SET_PROFILE', payload: item.profile });
+          dispatch({ type: 'SET_GLAZING_PACKAGE', payload: item.glazing });
+          // NOTE: we could apply opening types and blinds here if the payload supported it
+        }, 100);
+      }
+      
       setActiveStep(6); 
       setCompletedSteps([1, 2, 3, 4, 5]);
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -194,9 +228,9 @@ export function MainConfigurator() {
   const itemDiscount = orderStore.isActive && orderStore.items.length > 0 ? (orderStore.questionnaireDiscount / orderStore.items.length) : 0;
   const finalPrice = Math.max(0, pricing.total - itemDiscount);
 
-  const deliveryDays = state.material === 'PVC' ? 5 : 42;
+  const deliveryDays = state.category === 'Windows' ? 5 : 42;
   const deliveryDate = new Date();
-  if (state.material === 'PVC') {
+  if (state.category === 'Windows') {
     let d = deliveryDays;
     while(d > 0) {
       deliveryDate.setDate(deliveryDate.getDate() + 1);
@@ -216,13 +250,13 @@ export function MainConfigurator() {
           onClose={() => setShowAIAssistant(false)}
           onComplete={(recommendedMaterial, recommendedProfile, recommendedGlazing) => {
             setShowAIAssistant(false);
-            dispatch({ type: 'SET_MATERIAL', payload: recommendedMaterial as any });
+            dispatch({ type: 'SET_CATEGORY', payload: recommendedMaterial as any });
             
             setTimeout(() => {
               // @ts-ignore
               dispatch({ type: 'SET_PROFILE', payload: recommendedProfile });
               // @ts-ignore
-              dispatch({ type: 'SET_GLAZING', payload: recommendedGlazing });
+              dispatch({ type: 'SET_GLAZING_PACKAGE', payload: recommendedGlazing });
               
               setActiveStep(1); 
               setCompletedSteps([1, 2]); 
@@ -344,11 +378,11 @@ export function MainConfigurator() {
                 <div className="flex items-center gap-3 w-full relative">
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 1 ? 'bg-[#eab676]/20 text-[#eab676]' : 'bg-[#111112] text-white/40'}`}>1</div> 
  {completedSteps.includes(1) && <Check size={20} className="text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.4)]" strokeWidth={3} />}
-                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 1 ? 'text-white/90' : 'text-white/40'}`}>{t('configurator.steps.material')}</h2>
+                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 1 ? 'text-white/90' : 'text-white/40'}`}>{t('configurator.steps.category')}</h2>
                   <button onClick={(e) => { e.stopPropagation(); toggleHelp(1); }} className="text-white/40 hover:text-[#eab676] transition-colors ml-1" title="Toggle Help"><HelpCircle size={18} /></button>
                 </div>
                 {expandedHelpSection === 1 && <MaterialHelp onClose={() => setExpandedHelpSection(null)} />}
-                {activeStep !== 1 && <div className="text-xs font-bold text-[#eab676] bg-[#eab676]/10 px-3 py-1.5 rounded-full uppercase tracking-wider">{state.material}</div>}
+                {activeStep !== 1 && <div className="text-xs font-bold text-[#eab676] bg-[#eab676]/10 px-3 py-1.5 rounded-full uppercase tracking-wider">{state.category}</div>}
               </div>
               
               <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${activeStep === 1 ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
@@ -356,27 +390,27 @@ export function MainConfigurator() {
                   {/* Horizontal Slider */}
                   <div className="relative group pt-2">
                     <button 
-                      onClick={() => materialScrollRef.current?.scrollBy({ left: -300, behavior: 'smooth' })}
+                      onClick={() => categoryScrollRef.current?.scrollBy({ left: -300, behavior: 'smooth' })}
                       className="absolute left-2 top-1/2 -translate-y-1/2 z-20 text-amber-500 hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] bg-[#1a1a1b]/80 backdrop-blur-sm rounded-full p-1 opacity-0 group-hover:opacity-100 hidden md:block"
                     >
                       <ChevronLeft size={40} strokeWidth={2.5} />
                     </button>
                     
-                    <div ref={materialScrollRef} className="flex overflow-x-auto gap-5 py-4 px-2 snap-x hide-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                      {(Object.keys(CONFIG_SCHEMA.materials) as Array<keyof typeof CONFIG_SCHEMA.materials>).map(mat => (
+                    <div ref={categoryScrollRef} className="flex overflow-x-auto gap-5 py-4 px-2 snap-x hide-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                      {(Object.keys(CONFIG_SCHEMA.categories) as Array<keyof typeof CONFIG_SCHEMA.categories>).map(cat => (
                         <button
-                          key={mat}
-                          onClick={() => { dispatch({ type: 'SET_MATERIAL', payload: mat }); advanceStep(1, 2); }}
-                          className={`group/btn relative w-56 shrink-0 snap-start rounded-2xl border-2 text-left transition-all overflow-hidden bg-[#1a1a1b] shadow-sm hover:shadow-md ${(completedSteps.includes(1) && state.material === mat) ? 'border-[#eab676] ring-4 ring-[#eab676]/10 scale-[1.02]' : 'border-[#2a2a2b] hover:border-[#3a3a3b]'}`}
+                          key={cat}
+                          onClick={() => { dispatch({ type: 'SET_CATEGORY', payload: cat }); advanceStep(1, 2); }}
+                          className={`group/btn relative w-56 shrink-0 snap-start rounded-2xl border-2 text-left transition-all overflow-hidden bg-[#1a1a1b] shadow-sm hover:shadow-md ${(completedSteps.includes(1) && state.category === cat) ? 'border-[#eab676] ring-4 ring-[#eab676]/10 scale-[1.02]' : 'border-[#2a2a2b] hover:border-[#3a3a3b]'}`}
                         >
                           <div className="h-48 flex items-center justify-center bg-[#111112] p-4 border-b border-[#2a2a2b] overflow-hidden">
-                            <img src={CONFIG_SCHEMA.materials[mat].image} alt={mat} className="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-500 group-hover/btn:scale-110" />
+                            <img src={CONFIG_SCHEMA.categories[cat].image} alt={cat} className="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-500 group-hover/btn:scale-110" />
                           </div>
                           <div className="p-5">
-                            <div className="font-bold text-lg text-white/90">{t(`configurator.materials.${mat}`, mat)}</div>
+                            <div className="font-bold text-lg text-white/90">{t(`configurator.categories.${cat}`, cat)}</div>
                           </div>
                           
-                          {(completedSteps.includes(1) && state.material === mat) && (
+                          {(completedSteps.includes(1) && state.category === cat) && (
                             <div className="absolute top-3 right-3 w-7 h-7 bg-[#eab676] !text-black rounded-full flex items-center justify-center text-white shadow-md">
                               <Check size={14} strokeWidth={4} />
                             </div>
@@ -386,7 +420,7 @@ export function MainConfigurator() {
                     </div>
 
                     <button 
-                      onClick={() => materialScrollRef.current?.scrollBy({ left: 300, behavior: 'smooth' })}
+                      onClick={() => categoryScrollRef.current?.scrollBy({ left: 300, behavior: 'smooth' })}
                       className="absolute right-2 top-1/2 -translate-y-1/2 z-20 text-amber-500 hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] bg-[#1a1a1b]/80 backdrop-blur-sm rounded-full p-1 opacity-0 group-hover:opacity-100 hidden md:block"
                     >
                       <ChevronRight size={40} strokeWidth={2.5} />
@@ -407,43 +441,92 @@ export function MainConfigurator() {
                   <h2 className={`text-xl font-bold transition-colors ${activeStep === 2 ? 'text-white/90' : 'text-white/40'}`}>{t('configurator.steps.system')}</h2>
                   <button onClick={(e) => { e.stopPropagation(); toggleHelp(2); }} className="text-white/40 hover:text-[#eab676] transition-colors ml-1" title="Toggle Help"><HelpCircle size={18} /></button>
                 </div>
-                {state.profile && <div className="text-xs font-bold text-[#eab676] bg-[#eab676]/10 px-3 py-1.5 rounded-full uppercase tracking-wider transition-opacity">{CONFIG_SCHEMA.materials[state.material].profiles.find(p => p.id === state.profile)?.name || state.profile}</div>}
+                {state.profile && <div className="text-xs font-bold text-[#eab676] bg-[#eab676]/10 px-3 py-1.5 rounded-full uppercase tracking-wider transition-opacity">{CONFIG_SCHEMA.categories[state.category].profiles.find(p => p.id === state.profile)?.name || state.profile}</div>}
               </div>
               
               <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${activeStep === 2 ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
                 <div className="overflow-hidden">
                   <div className="pt-2">
-                    {CONFIG_SCHEMA.materials[state.material].profiles.length === 0 ? (
-                      <div className="text-sm text-white/50 font-medium italic p-5 bg-[#111112] border border-[#2a2a2b] rounded-xl text-center">No specific profiles available for this material.</div>
-                    ) : (
-                      <div className="relative group">
-                        <button 
-                          onClick={() => profileScrollRef.current?.scrollBy({ left: -300, behavior: 'smooth' })}
-                          className="absolute left-2 top-1/2 -translate-y-1/2 z-20 text-amber-500 hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] bg-[#1a1a1b]/80 backdrop-blur-sm rounded-full p-1 opacity-0 group-hover:opacity-100 hidden md:block"
-                        >
-                          <ChevronLeft size={40} strokeWidth={2.5} />
-                        </button>
+                    {(() => {
+                      const profiles = CONFIG_SCHEMA.categories[state.category].profiles;
+                      if (profiles.length === 0) return <div className="text-sm text-white/50 font-medium italic p-5 bg-[#111112] border border-[#2a2a2b] rounded-xl text-center">No specific profiles available for this category.</div>;
+                      
+                      const availableMaterials = Array.from(new Set(profiles.map(p => (p as any).material).filter(Boolean)));
+                      const visibleProfiles = state.materialFilter ? profiles.filter(p => (p as any).material === state.materialFilter) : profiles;
 
-                        <div ref={profileScrollRef} className="flex overflow-x-auto gap-5 py-4 px-2 snap-x hide-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                          {CONFIG_SCHEMA.materials[state.material].profiles.map(profile => (
-                            <TiltProfileCard 
-                              key={profile.id} 
-                              profile={profile} 
-                              tags={profile.tags}
-                              isActive={completedSteps.includes(2) && state.profile === profile.id}
-                              onClick={() => { dispatch({ type: 'SET_PROFILE', payload: profile.id }); advanceStep(2, 3); }}
-                            />
-                          ))}
-                        </div>
+                      const sortedProfiles = [...visibleProfiles].sort((a, b) => {
+                         const techA = (a as any).technical;
+                         const techB = (b as any).technical;
+                         if (!techA || !techB) return 0;
+                         if (state.sortByTracker === 'energy') return techA.uwValue - techB.uwValue;
+                         if (state.sortByTracker === 'depth') return techA.profileDepth - techB.profileDepth;
+                         return 0;
+                      });
 
-                        <button 
-                          onClick={() => profileScrollRef.current?.scrollBy({ left: 300, behavior: 'smooth' })}
-                          className="absolute right-2 top-1/2 -translate-y-1/2 z-20 text-amber-500 hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] bg-[#1a1a1b]/80 backdrop-blur-sm rounded-full p-1 opacity-0 group-hover:opacity-100 hidden md:block"
-                        >
-                          <ChevronRight size={40} strokeWidth={2.5} />
-                        </button>
-                      </div>
-                    )}
+                      return (
+                        <>
+                          <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+                            {availableMaterials.length > 0 && (
+                              <div className="flex gap-2 p-1 bg-[#111112] border border-[#2a2a2b] rounded-xl overflow-x-auto hide-scrollbar flex-grow md:flex-grow-0">
+                                 {availableMaterials.map(mat => (
+                                    <button 
+                                      key={String(mat)}
+                                      onClick={() => dispatch({ type: 'SET_MATERIAL_FILTER', payload: String(mat) })} 
+                                      className={`px-6 py-2.5 text-xs tracking-widest uppercase font-bold rounded-lg transition-all shadow-sm ${state.materialFilter === mat ? 'bg-[#1a1a1b] text-[#eab676] ring-1 ring-[#eab676]/30 shadow shadow-[#eab676]/10' : 'text-white/50 hover:text-white/80 hover:bg-[#2a2a2b]'}`}
+                                    >
+                                      {String(mat)}
+                                    </button>
+                                 ))}
+                              </div>
+                            )}
+                            <div className="flex items-center gap-3">
+                              <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Sort By:</span>
+                              <select 
+                                value={state.sortByTracker}
+                                onChange={(e) => dispatch({ type: 'SET_SORT_BY', payload: e.target.value as any })}
+                                className="bg-[#111112] text-white/90 text-sm font-medium border border-[#2a2a2b] rounded-lg px-4 py-2 outline-none hover:border-[#3a3a3b] focus:border-[#eab676]/50 transition-colors cursor-pointer"
+                              >
+                                <option value="default">Default Order</option>
+                                <option value="energy">Highest Energy Efficiency</option>
+                                <option value="depth">Thinnest Profile</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div className="relative group">
+                            <button 
+                              onClick={() => profileScrollRef.current?.scrollBy({ left: -300, behavior: 'smooth' })}
+                              className="absolute left-2 top-1/2 -translate-y-1/2 z-20 text-amber-500 hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] bg-[#1a1a1b]/80 backdrop-blur-sm rounded-full p-1 opacity-0 group-hover:opacity-100 hidden md:block"
+                            >
+                              <ChevronLeft size={40} strokeWidth={2.5} />
+                            </button>
+
+                            <div ref={profileScrollRef} className="flex overflow-x-auto gap-5 py-4 px-2 snap-x hide-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                              {sortedProfiles.length === 0 ? (
+                                <div className="text-sm text-white/50 font-medium italic p-5 text-center w-full">No profiles found.</div>
+                              ) : sortedProfiles.map(profile => (
+                                <TiltProfileCard 
+                                  key={profile.id} 
+                                  profile={profile} 
+                                  tags={profile.tags}
+                                  isActive={completedSteps.includes(2) && state.profile === profile.id}
+                                  onClick={() => { dispatch({ type: 'SET_PROFILE', payload: profile.id }); advanceStep(2, 3); }}
+                                />
+                              ))}
+                            </div>
+
+                            <button 
+                              onClick={() => profileScrollRef.current?.scrollBy({ left: 300, behavior: 'smooth' })}
+                              className="absolute right-2 top-1/2 -translate-y-1/2 z-20 text-amber-500 hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] bg-[#1a1a1b]/80 backdrop-blur-sm rounded-full p-1 opacity-0 group-hover:opacity-100 hidden md:block"
+                            >
+                              <ChevronRight size={40} strokeWidth={2.5} />
+                            </button>
+                          </div>
+                        </>
+                      );
+                    })()}
+                  </div>
+                  <div className="pt-6 mt-6 border-t border-[#2a2a2b] flex justify-start">
+                    <button onClick={(e) => { e.stopPropagation(); openStep(1); }} className="text-[11px] font-black uppercase tracking-widest text-[#eab676] bg-[#eab676]/10 px-4 py-2 rounded-lg hover:bg-[#eab676]/20 transition-colors flex items-center gap-2"><ChevronLeft size={14} /> {t('configurator.buttons.previous') || "Previous Step"}</button>
                   </div>
                 </div>
               </div>
@@ -462,89 +545,61 @@ export function MainConfigurator() {
                   <button onClick={(e) => { e.stopPropagation(); toggleHelp(3); }} className="text-white/40 hover:text-[#eab676] transition-colors ml-1" title="Toggle Help"><HelpCircle size={18} /></button>
                 </div>
                 {expandedHelpSection === 3 && <WindowTypeHelp onClose={() => setExpandedHelpSection(null)} />}
-                {activeStep !== 3 && <div className="text-xs font-bold text-[#eab676] bg-[#eab676]/10 px-3 py-1.5 rounded-full uppercase tracking-wider">{t(`configurator.windowTypes.${state.windowTypeId}`, WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.name || state.windowTypeId)}</div>}
+                {activeStep !== 3 && <div className="text-xs font-bold text-[#eab676] bg-[#eab676]/10 px-3 py-1.5 rounded-full uppercase tracking-wider">{String(t(`configurator.windowTypes.${state.windowTypeId}`, WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.name || state.windowTypeId))}</div>}
               </div>
               
               <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${activeStep === 3 ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
                 <div className="overflow-hidden">
-                  <div className="pt-2 grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    {WINDOW_TYPES.map(wt => (
-                      <button
-                        key={wt.id}
-                        onClick={() => { dispatch({ type: 'SET_WINDOW_TYPE', payload: wt.id }); advanceStep(3, 4); }}
-                        className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center justify-between gap-3 min-h-[140px] ${state.windowTypeId === wt.id ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676] shadow-md ring-4 ring-[#eab676]/10' : 'border-[#2a2a2b] hover:border-[#3a3a3b] shadow-sm hover:shadow-md group bg-[#1a1a1b]'}`}
-                      >
-                        <div className="w-full h-20 flex items-center justify-center relative p-2">
-                          <WindowTypeGraphic 
-                            id={wt.id} 
-                            className={`transition-all duration-300 ${state.windowTypeId === wt.id ? 'text-[#eab676] scale-110 drop-shadow-md opacity-100' : 'text-white/40 group-hover:text-white/50 group-hover:scale-105 opacity-80 group-hover:opacity-100 drop-shadow-sm'}`}
-                          />
-                        </div>
-                        <div className="font-bold text-xs text-center leading-tight whitespace-pre-wrap">{t(`configurator.windowTypes.${wt.id}`, wt.name)}</div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            {/* Step 4: Opening Types (Öffnungsart) */}
-            <section className={`bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-500 ${activeStep !== 4 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(4) }}>
-              <div 
-                className={`flex items-center justify-between cursor-pointer ${activeStep === 4 ? 'mb-6' : ''}`}
-                onClick={() => openStep(4)}
-              >
-                <div className="flex items-center gap-3">
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 4 ? 'bg-[#eab676]/20 text-[#eab676]' : 'bg-[#111112] text-white/40'}`}>4</div> 
- {completedSteps.includes(4) && <Check size={20} className="text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.4)]" strokeWidth={3} />}
-                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 4 ? 'text-white/90' : 'text-white/40'}`}>{t('configurator.steps.openingType')}</h2>
-                  <img src={WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.imgUrl} alt="Active Layout" className="w-14 h-14 object-contain ml-auto border border-white/10 rounded-lg p-1 bg-black/40 drop-shadow-md hidden sm:block" />
-                </div>
-                {activeStep !== 4 && <div className="text-xs font-bold text-[#eab676] bg-[#eab676]/10 px-3 py-1.5 rounded-full uppercase tracking-wider">{t('configurator.state.sashes', { count: state.sashOpenings.length })}</div>}
-              </div>
-              
-              <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${activeStep === 4 ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
-                <div className="overflow-hidden">
-                  <div className="pt-2 space-y-6">
-                    {(WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.sashes || 1) > 1 && (
-                      <div className="text-xs font-bold text-white/50 uppercase tracking-widest px-1">Configure each sash independently (Left to Right):</div>
-                    )}
-                    
-                    <div className="grid gap-6">
-                      {Array.from({ length: WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.sashes || 1 }).map((_, sashIndex) => (
-                        <div key={sashIndex} className="bg-[#111112] rounded-xl p-4 border border-[#2a2a2b]">
-                          <div className="text-sm font-bold text-white/80 mb-3 flex items-center gap-2">
-                            <span className="w-5 h-5 rounded bg-[#eab676]/20 text-[#eab676] flex items-center justify-center text-xs">{sashIndex + 1}</span>
-                            Sash {sashIndex + 1}
-                          </div>
-                          <div className="flex flex-wrap gap-3">
-                            {OPENING_TYPES.map(ot => (<button
-                                key={ot.id}
-                                onClick={() => { dispatch({ type: 'SET_SASH_OPENING', payload: { index: sashIndex, openingId: ot.shortCode } }); const count = WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.sashes || 1; if (sashIndex === count - 1) { advanceStep(4, 5); } }}
-                                className={`group flex flex-col items-center justify-center gap-3 p-3 w-32 rounded-xl border-2 transition-all ${(completedSteps.includes(4) && state.sashOpenings[sashIndex] === ot.shortCode) ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676] shadow-md shadow-[#eab676]/5 ring-1 ring-[#eab676]/50' : 'border-[#2a2a2b] bg-[#1a1a1b] text-white/50 hover:border-[#3a3a3b] hover:text-white/80'}`}
+                  <div className="pt-2">
+                    {[
+                      { title: "1-Sash Windows", prefix: 'F1' },
+                      { title: "2-Sash Windows", prefix: 'F2' },
+                      { title: "3-Sash Windows", prefix: 'F3' },
+                      { title: "4-Sash Windows", prefix: 'F4' },
+                      { title: "Doors", prefix: 'D' }
+                    ].map(group => {
+                      const items = WINDOW_TYPES.filter(w => w.id.startsWith(group.prefix));
+                      if (items.length === 0) return null;
+                      return (
+                        <div key={group.title} className="mb-8">
+                          <h3 className="text-sm font-bold text-white/50 uppercase tracking-widest mb-4">{group.title}</h3>
+                          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4">
+                            {items.map(wt => (
+                              <button
+                                key={wt.id}
+                                onClick={() => { dispatch({ type: 'SET_WINDOW_TYPE', payload: wt.id }); advanceStep(3, 7); }}
+                                className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center justify-between gap-3 h-[160px] ${state.windowTypeId === wt.id ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676] shadow-md ring-4 ring-[#eab676]/10' : 'border-[#2a2a2b] hover:border-[#3a3a3b] shadow-sm hover:shadow-md group bg-[#1a1a1b]'}`}
                               >
-                                <SashSymbol shortCode={ot.shortCode} className={`w-10 h-10 transition-colors ${(completedSteps.includes(4) && state.sashOpenings[sashIndex] === ot.shortCode) ? 'text-[#eab676]' : 'text-white/20 group-hover:text-white/40'}`} />
-                                <span className="text-[10px] sm:text-[11px] font-bold text-center leading-tight">
-                                  {t(`configurator.openingTypes.${ot.shortCode}`, ot.name)}
-                                </span>
-                              </button>))}
+                                <div className="w-full h-20 flex items-center justify-center relative p-2 overflow-hidden bg-[#111112]/50 rounded-lg">
+                                  {/* Auto-maps to /images/typologies/[ARTNR].png */}
+                                  <img 
+                                    src={wt.image} 
+                                    alt={wt.name} 
+                                    className={`object-contain max-h-full transition-all duration-300 ${state.windowTypeId === wt.id ? 'opacity-100 scale-110 drop-shadow-md' : 'opacity-50 group-hover:opacity-80 group-hover:scale-105'}`}
+                                    onError={(e) => {
+                                      // Fallback wireframe if image is not yet available in the public folder
+                                      (e.target as HTMLImageElement).onerror = null;
+                                      (e.target as HTMLImageElement).src = 'data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>';
+                                    }}
+                                  />
+                                </div>
+                                <div className="font-bold text-[10px] text-center leading-tight whitespace-pre-wrap">{wt.name}<br/><span className="text-white/30 truncate mt-1 block">[{wt.id}]</span></div>
+                              </button>
+                            ))}
                           </div>
                         </div>
-                      ))}
-                    </div>
-
-                    <div className="mt-8 flex justify-end">
-                      <button 
-                        onClick={() => advanceStep(4, 5)}
-                        className="px-6 py-3 bg-[#eab676] !text-black hover:bg-[#F3C47F] text-white font-bold rounded-xl shadow-lg shadow-[#eab676]/20 transition-all active:scale-95 text-sm uppercase tracking-wider"
-                      >
-                        {t('configurator.steps.color')}
-                      </button>
-                    </div>
+                      )
+                    })}
+                  </div>
+                  <div className="pt-6 mt-6 border-t border-[#2a2a2b] flex justify-start">
+                    <button onClick={(e) => { e.stopPropagation(); openStep(2); }} className="text-[11px] font-black uppercase tracking-widest text-[#eab676] bg-[#eab676]/10 px-4 py-2 rounded-lg hover:bg-[#eab676]/20 transition-colors flex items-center gap-2"><ChevronLeft size={14} /> {t('configurator.buttons.previous') || "Previous Step"}</button>
                   </div>
                 </div>
               </div>
             </section>
+
+            {/* Step 4: Opening Types REMOVED */}
+
 
             {/* Step 5: Color & Decor */}
             <section className={`bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-500 ${activeStep !== 5 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(5) }}>
@@ -601,8 +656,9 @@ export function MainConfigurator() {
 
                     {/* Color Grid */}
                     <div className="flex flex-wrap gap-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar p-2">
-                      {Object.keys(COLOR_LOCALE.colors)
+                       {Object.keys(COLOR_LOCALE.colors)
                         .filter(colorId => COLOR_LOCALE.colors[colorId].group === COLOR_LOCALE.colorGroups[colorTab === 'interior' ? state.interiorColorGroup : state.exteriorColorGroup])
+                        .filter(colorId => activeColors ? activeColors.includes(colorId) : true)
                         .map(colorId => {
                           const colorData = COLOR_LOCALE.colors[colorId];
                           const isActive = completedSteps.includes(5) && (colorTab === 'interior' ? state.interiorColor === colorId : state.exteriorColor === colorId);
@@ -634,6 +690,9 @@ export function MainConfigurator() {
                           );
                       })}
                     </div>
+                  </div>
+                  <div className="pt-6 mt-6 border-t border-[#2a2a2b] flex justify-start">
+                    <button onClick={(e) => { e.stopPropagation(); openStep(7); }} className="text-[11px] font-black uppercase tracking-widest text-[#eab676] bg-[#eab676]/10 px-4 py-2 rounded-lg hover:bg-[#eab676]/20 transition-colors flex items-center gap-2"><ChevronLeft size={14} /> {t('configurator.buttons.previous') || "Previous Step"}</button>
                   </div>
                 </div>
               </div>
@@ -670,8 +729,8 @@ export function MainConfigurator() {
                               value={state.dimensions.width || ''}
                               onChange={(e) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: Number(e.target.value) || 0, height: state.dimensions.height }})}
                               onBlur={(e) => {
-                                let val = Number(e.target.value) || CONFIG_SCHEMA.materials[state.material].minWidth;
-                                val = Math.max(CONFIG_SCHEMA.materials[state.material].minWidth, Math.min(CONFIG_SCHEMA.materials[state.material].maxWidth, val));
+                                let val = Number(e.target.value) || activeLimits.minWidth;
+                                val = Math.max(activeLimits.minWidth, Math.min(activeLimits.maxWidth, val));
                                 dispatch({ type: 'SET_DIMENSIONS', payload: { width: val, height: state.dimensions.height }});
                               }}
                               className="w-[60px] bg-transparent text-right font-black text-[#eab676] focus:outline-none"
@@ -684,16 +743,16 @@ export function MainConfigurator() {
                       
                       <input
                         type="range"
-                        min={CONFIG_SCHEMA.materials[state.material].minWidth}
-                        max={CONFIG_SCHEMA.materials[state.material].maxWidth}
+                        min={activeLimits.minWidth}
+                        max={activeLimits.maxWidth}
                         step="10"
                         value={state.dimensions.width}
                         onChange={(e) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: Number(e.target.value) } })}
                         className="w-full accent-indigo-600 mb-2 cursor-pointer"
                       />
                       <div className="flex justify-between items-center text-[10px] font-bold text-white/30">
-                        <span>{CONFIG_SCHEMA.materials[state.material].minWidth}</span>
-                        <span>{CONFIG_SCHEMA.materials[state.material].maxWidth}</span>
+                        <span>{activeLimits.minWidth}</span>
+                        <span>{activeLimits.maxWidth}</span>
                       </div>
                     </div>
 
@@ -710,8 +769,8 @@ export function MainConfigurator() {
                               value={state.dimensions.height || ''}
                               onChange={(e) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: state.dimensions.width, height: Number(e.target.value) || 0 }})}
                               onBlur={(e) => {
-                                let val = Number(e.target.value) || CONFIG_SCHEMA.materials[state.material].minHeight;
-                                val = Math.max(CONFIG_SCHEMA.materials[state.material].minHeight, Math.min(CONFIG_SCHEMA.materials[state.material].maxHeight, val));
+                                let val = Number(e.target.value) || activeLimits.minHeight;
+                                val = Math.max(activeLimits.minHeight, Math.min(activeLimits.maxHeight, val));
                                 dispatch({ type: 'SET_DIMENSIONS', payload: { width: state.dimensions.width, height: val }});
                               }}
                               className="w-[60px] bg-transparent text-right font-black text-[#eab676] focus:outline-none"
@@ -724,16 +783,16 @@ export function MainConfigurator() {
                       
                       <input
                         type="range"
-                        min={CONFIG_SCHEMA.materials[state.material].minHeight}
-                        max={CONFIG_SCHEMA.materials[state.material].maxHeight}
+                        min={activeLimits.minHeight}
+                        max={activeLimits.maxHeight}
                         step="10"
                         value={state.dimensions.height}
                         onChange={(e) => dispatch({ type: 'SET_DIMENSIONS', payload: { height: Number(e.target.value) } })}
                         className="w-full accent-indigo-600 mb-2 cursor-pointer"
                       />
                       <div className="flex justify-between items-center text-[10px] font-bold text-white/30">
-                        <span>{CONFIG_SCHEMA.materials[state.material].minHeight}</span>
-                        <span>{CONFIG_SCHEMA.materials[state.material].maxHeight}</span>
+                        <span>{activeLimits.minHeight}</span>
+                        <span>{activeLimits.maxHeight}</span>
                       </div>
                     </div>
                   </div>
@@ -745,7 +804,7 @@ export function MainConfigurator() {
                           dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h }});
                           if (detectedType) {
                             dispatch({ type: 'SET_WINDOW_TYPE', payload: detectedType });
-                            dispatch({ type: 'SET_MATERIAL', payload: 'PVC' }); 
+                            dispatch({ type: 'SET_CATEGORY', payload: 'Windows' }); 
                             dispatch({ type: 'SET_PROFILE', payload: 'iglo5' });
                             if (!completedSteps.includes(3)) setCompletedSteps(prev => [...prev, 3]);
                           }
@@ -754,12 +813,13 @@ export function MainConfigurator() {
                     </div>
                   )}
 
-                  <div className="mt-8 flex justify-end">
+                  <div className="mt-8 flex justify-between items-center w-full pt-6 border-t border-[#2a2a2b]">
+                    <button onClick={(e) => { e.stopPropagation(); openStep(5); }} className="text-[11px] font-black uppercase tracking-widest text-[#eab676] bg-[#eab676]/10 px-4 py-2 rounded-lg hover:bg-[#eab676]/20 transition-colors flex items-center gap-2"><ChevronLeft size={14} /> {t('configurator.buttons.previous') || "Previous Step"}</button>
                     <button 
-                      onClick={() => advanceStep(6, 7)}
+                      onClick={() => advanceStep(6, 8)}
                       className="px-6 py-3 bg-[#eab676] !text-black hover:bg-[#F3C47F] text-white font-bold rounded-xl shadow-lg shadow-[#eab676]/20 transition-all active:scale-95 text-sm uppercase tracking-wider"
                     >
-                      {t('configurator.steps.glazing')}
+                      {t('configurator.steps.options')}
                     </button>
                   </div>
                 </div>
@@ -778,25 +838,114 @@ export function MainConfigurator() {
                   <h2 className={`text-xl font-bold transition-colors ${activeStep === 7 ? 'text-white/90' : 'text-white/40'}`}>{t('configurator.steps.glazing')}</h2>
                   <button onClick={(e) => { e.stopPropagation(); toggleHelp(7); }} className="text-white/40 hover:text-[#eab676] transition-colors ml-1" title="Toggle Help"><HelpCircle size={18} /></button>
                 </div>
-                {activeStep !== 7 && <div className="text-xs font-bold text-[#eab676] bg-[#eab676]/10 px-3 py-1.5 rounded-full uppercase tracking-wider">{GLASS_LOCALE[state.glazing] || state.glazing}</div>}
+                {activeStep !== 7 && <div className="text-xs font-bold text-[#eab676] bg-[#eab676]/10 px-3 py-1.5 rounded-full uppercase tracking-wider">
+                  {(() => {
+                    const glazingList = activeGlazing || CONFIG_SCHEMA.glazing;
+                    const pkg = glazingList.find((g: any) => g.id === state.glazingPackage);
+                    return pkg?.name || GLASS_LOCALE[state.glazingPackage as keyof typeof GLASS_LOCALE] || state.glazingPackage;
+                  })()}
+                </div>}
               </div>
 
               <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${activeStep === 7 ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
                 <div className="overflow-hidden">
-                  <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {CONFIG_SCHEMA.glazing.map(gl => (
-                      <button
-                        key={gl.id}
-                        onClick={() => { dispatch({ type: 'SET_GLAZING', payload: gl.id }); advanceStep(7, 8); }}
-                        className={`p-4 rounded-xl border-2 text-left transition-all ${state.glazing === gl.id ? 'border-[#eab676] bg-[#eab676]/10 ring-4 ring-[#eab676]/10' : 'border-[#2a2a2b] hover:border-[#3a3a3b] shadow-sm hover:shadow-md'}`}
-                      >
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="font-bold text-sm text-white/90">{GLASS_LOCALE[gl.id] || gl.id}</div>
-                          <Layers size={18} className={state.glazing === gl.id ? 'text-[#eab676]' : 'text-white/30'}/>
+                  <div className="pt-2">
+                    <h3 className="text-sm font-bold text-white/50 uppercase tracking-widest mb-3">1. Select Filling Package</h3>
+                    {(() => {
+                      const items = activeGlazing || CONFIG_SCHEMA.glazing;
+                      // Determine unique groups based on string interpolation to avoid TS errors
+                      const groups = Array.from(new Set(items.map((i: any) => i.group ? String(i.group) : 'Standard Options')));
+                      
+                      return groups.map(groupName => {
+                        const groupItems = items.filter((i: any) => (i.group ? String(i.group) : 'Standard Options') === groupName);
+                        return (
+                          <div key={groupName} className="mb-8 last:mb-6">
+                            <h4 className="text-xs font-bold text-[#eab676] uppercase tracking-[0.2em] mb-4 border-b border-[#2a2a2b] pb-2">{groupName}</h4>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                              {groupItems.map((gl: any) => (
+                                <button
+                                  key={gl.id}
+                                  onClick={() => { dispatch({ type: 'SET_GLAZING_PACKAGE', payload: gl.id }); }}
+                                  className={`p-4 rounded-xl border-2 text-left transition-all flex flex-col ${state.glazingPackage === gl.id ? 'border-[#eab676] bg-[#eab676]/10 ring-4 ring-[#eab676]/10' : 'border-[#2a2a2b] hover:border-[#3a3a3b] shadow-sm hover:shadow-md bg-[#111112]'}`}
+                                >
+                                  <div className="flex items-center justify-between mb-2 w-full">
+                                    <div className="font-bold text-sm text-white/90 truncate mr-2" title={gl.name || GLASS_LOCALE[gl.id as keyof typeof GLASS_LOCALE] || gl.id}>{gl.name || GLASS_LOCALE[gl.id as keyof typeof GLASS_LOCALE] || gl.id}</div>
+                                    <Layers size={18} className={state.glazingPackage === gl.id ? 'text-[#eab676] shrink-0' : 'text-white/30 shrink-0'}/>
+                                  </div>
+                                  {gl.description2 && <div className="text-[10px] text-white/40 mb-2 truncate" title={gl.description2}>{gl.description2}</div>}
+                                  <div className="text-[10px] font-bold text-[#eab676]/60 uppercase tracking-widest mt-auto pt-1">Base Cost x {Number(gl.priceMod || 1).toFixed(2)}</div>
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      });
+                    })()}
+
+                    {activePanes && activePanes.length > 0 && (
+                      <div className="border-t border-[#2a2a2b] pt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                           <label className="block text-xs font-bold text-white/50 uppercase tracking-widest mb-2">Glass Outside</label>
+                           <select 
+                             value={state.glassOutside} 
+                             onChange={(e) => dispatch({ type: 'SET_GLASS_OUTSIDE', payload: e.target.value })}
+                             className="w-full bg-[#111112] border border-[#2a2a2b] rounded-lg p-3 text-white focus:border-[#eab676] focus:outline-none transition-colors"
+                           >
+                              {activePanes.map((p: any) => (
+                                 <option key={p.code} value={p.code}>{p.code} ({p.thickness}mm {p.glass_type})</option>
+                              ))}
+                           </select>
                         </div>
-                        <div className="text-[10px] font-bold text-white/50 uppercase tracking-widest">Base Cost x {gl.priceMod}</div>
-                      </button>
-                    ))}
+                        
+                        {(state.glazingPackage && state.glazingPackage.startsWith('3-')) && (
+                          <div>
+                             <label className="block text-xs font-bold text-white/50 uppercase tracking-widest mb-2">Glass Middle</label>
+                             <select 
+                               value={state.glassMiddle} 
+                               onChange={(e) => dispatch({ type: 'SET_GLASS_MIDDLE', payload: e.target.value })}
+                               className="w-full bg-[#111112] border border-[#2a2a2b] rounded-lg p-3 text-white focus:border-[#eab676] focus:outline-none transition-colors"
+                             >
+                                <option value="">None</option>
+                                {activePanes.map((p: any) => (
+                                   <option key={p.code} value={p.code}>{p.code} ({p.thickness}mm {p.glass_type})</option>
+                                ))}
+                             </select>
+                          </div>
+                        )}
+
+                        <div>
+                           <label className="block text-xs font-bold text-white/50 uppercase tracking-widest mb-2">Glass Inside</label>
+                           <select 
+                             value={state.glassInside} 
+                             onChange={(e) => dispatch({ type: 'SET_GLASS_INSIDE', payload: e.target.value })}
+                             className="w-full bg-[#111112] border border-[#2a2a2b] rounded-lg p-3 text-white focus:border-[#eab676] focus:outline-none transition-colors"
+                           >
+                              {activePanes.map((p: any) => (
+                                 <option key={p.code} value={p.code}>{p.code} ({p.thickness}mm {p.glass_type})</option>
+                              ))}
+                           </select>
+                        </div>
+
+                        {activeSpacers && activeSpacers.length > 0 && (
+                          <div>
+                             <label className="block text-xs font-bold text-white/50 uppercase tracking-widest mb-2">Spacer / Frame Type</label>
+                             <select 
+                               value={state.glassSpacer} 
+                               onChange={(e) => dispatch({ type: 'SET_GLASS_SPACER', payload: e.target.value })}
+                               className="w-full bg-[#111112] border border-[#2a2a2b] rounded-lg p-3 text-white focus:border-[#eab676] focus:outline-none transition-colors"
+                             >
+                                {activeSpacers.map((s: any) => (
+                                   <option key={s.code} value={s.code}>{s.code} ({s.thickness}mm Spacer)</option>
+                                ))}
+                             </select>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    <div className="mt-6 flex justify-between items-center w-full pt-6 border-t border-[#2a2a2b]">
+                       <button onClick={(e) => { e.stopPropagation(); openStep(3); }} className="text-[11px] font-black uppercase tracking-widest text-[#eab676] bg-[#eab676]/10 px-4 py-2 rounded-lg hover:bg-[#eab676]/20 transition-colors flex items-center gap-2"><ChevronLeft size={14} /> {t('configurator.buttons.previous') || "Previous Step"}</button>
+                       <button onClick={() => advanceStep(7, 5)} className="bg-[#eab676] hover:bg-[#d9a565] text-[#111112] font-black py-3 px-8 rounded-xl transition-colors">Confirm & Next Step</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -854,6 +1003,9 @@ export function MainConfigurator() {
                         </button>
                       );
                     })}
+                  </div>
+                  <div className="pt-6 mt-6 border-t border-[#2a2a2b] flex justify-start">
+                    <button onClick={(e) => { e.stopPropagation(); openStep(6); }} className="text-[11px] font-black uppercase tracking-widest text-[#eab676] bg-[#eab676]/10 px-4 py-2 rounded-lg hover:bg-[#eab676]/20 transition-colors flex items-center gap-2"><ChevronLeft size={14} /> {t('configurator.buttons.previous') || "Previous Step"}</button>
                   </div>
                 </div>
               </div>
@@ -920,8 +1072,8 @@ export function MainConfigurator() {
                                 value={state.dimensions.width || ''}
                                 onChange={(e) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: Number(e.target.value) || 0, height: state.dimensions.height }})}
                                 onBlur={(e) => {
-                                  let val = Number(e.target.value) || CONFIG_SCHEMA.materials[state.material].minWidth;
-                                  val = Math.max(CONFIG_SCHEMA.materials[state.material].minWidth, Math.min(CONFIG_SCHEMA.materials[state.material].maxWidth, val));
+                                  let val = Number(e.target.value) || CONFIG_SCHEMA.categories[state.category].minWidth;
+                                  val = Math.max(CONFIG_SCHEMA.categories[state.category].minWidth, Math.min(CONFIG_SCHEMA.categories[state.category].maxWidth, val));
                                   dispatch({ type: 'SET_DIMENSIONS', payload: { width: val, height: state.dimensions.height }});
                                 }}
                                 className="w-[55px] text-right bg-transparent text-sm font-black text-white/90 focus:outline-none"
@@ -943,8 +1095,8 @@ export function MainConfigurator() {
                                 value={state.dimensions.height || ''}
                                 onChange={(e) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: state.dimensions.width, height: Number(e.target.value) || 0 }})}
                                 onBlur={(e) => {
-                                  let val = Number(e.target.value) || CONFIG_SCHEMA.materials[state.material].minHeight;
-                                  val = Math.max(CONFIG_SCHEMA.materials[state.material].minHeight, Math.min(CONFIG_SCHEMA.materials[state.material].maxHeight, val));
+                                  let val = Number(e.target.value) || CONFIG_SCHEMA.categories[state.category].minHeight;
+                                  val = Math.max(CONFIG_SCHEMA.categories[state.category].minHeight, Math.min(CONFIG_SCHEMA.categories[state.category].maxHeight, val));
                                   dispatch({ type: 'SET_DIMENSIONS', payload: { width: state.dimensions.width, height: val }});
                                 }}
                                 className="w-[55px] text-right bg-transparent text-sm font-black text-white/90 focus:outline-none"
@@ -959,15 +1111,15 @@ export function MainConfigurator() {
 
                     <button onClick={() => openStep(1)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-[#111112] transition-colors">
                       <div className="flex items-center gap-2.5"><span className="w-5 h-5 rounded-md inline-flex items-center justify-center bg-[#2a2a2b] border border-white/5 shadow-inner text-[10px] font-black text-white/50 group-hover:bg-[#eab676] group-hover:text-black group-hover:border-[#eab676] transition-all duration-300 drop-shadow-sm">1</span><span className="text-white/50 group-hover:text-[#eab676] font-medium text-xs uppercase tracking-wider transition-colors">{t('configurator.summary.material')}</span></div> 
-                      <span className="font-bold text-white group-hover:text-[#eab676] transition-colors">{completedSteps.includes(1) ? state.material : '---'}</span>
+                      <span className="font-bold text-white group-hover:text-[#eab676] transition-colors">{completedSteps.includes(1) ? state.category : '---'}</span>
                     </button>
                     <button onClick={() => openStep(2)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-[#111112] transition-colors">
                       <div className="flex items-center gap-2.5"><span className="w-5 h-5 rounded-md inline-flex items-center justify-center bg-[#2a2a2b] border border-white/5 shadow-inner text-[10px] font-black text-white/50 group-hover:bg-[#eab676] group-hover:text-black group-hover:border-[#eab676] transition-all duration-300 drop-shadow-sm">2</span><span className="text-white/50 group-hover:text-[#eab676] font-medium text-xs uppercase tracking-wider transition-colors">{t('configurator.summary.system')}</span></div> 
-                      <span className="font-bold text-white group-hover:text-[#eab676] transition-colors truncate max-w-[150px] text-right">{completedSteps.includes(2) && state.profile ? (CONFIG_SCHEMA.materials[state.material].profiles.find(p => p.id === state.profile)?.name || state.profile) : '---'}</span>
+                      <span className="font-bold text-white group-hover:text-[#eab676] transition-colors truncate max-w-[150px] text-right">{completedSteps.includes(2) && state.profile ? (CONFIG_SCHEMA.categories[state.category].profiles.find(p => p.id === state.profile)?.name || state.profile) : '---'}</span>
                     </button>
                     <button onClick={() => openStep(3)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-[#111112] transition-colors">
                       <div className="flex items-center gap-2.5"><span className="w-5 h-5 rounded-md inline-flex items-center justify-center bg-[#2a2a2b] border border-white/5 shadow-inner text-[10px] font-black text-white/50 group-hover:bg-[#eab676] group-hover:text-black group-hover:border-[#eab676] transition-all duration-300 drop-shadow-sm">3</span><span className="text-white/50 group-hover:text-[#eab676] font-medium text-xs uppercase tracking-wider transition-colors">{t('configurator.summary.windowType')}</span></div> 
-                      <span className="font-bold text-white group-hover:text-[#eab676] transition-colors">{completedSteps.includes(3) ? t(`configurator.windowTypes.${state.windowTypeId}`, WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.name || state.windowTypeId) : '---'}</span>
+                      <span className="font-bold text-white group-hover:text-[#eab676] transition-colors">{completedSteps.includes(3) ? String(t(`configurator.windowTypes.${state.windowTypeId}`, WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.name || state.windowTypeId)) : '---'}</span>
                     </button>
                     <button onClick={() => openStep(4)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-[#111112] transition-colors">
                       <div className="flex items-center gap-2.5"><span className="w-5 h-5 rounded-md inline-flex items-center justify-center bg-[#2a2a2b] border border-white/5 shadow-inner text-[10px] font-black text-white/50 group-hover:bg-[#eab676] group-hover:text-black group-hover:border-[#eab676] transition-all duration-300 drop-shadow-sm">4</span><span className="text-white/50 group-hover:text-[#eab676] font-medium text-xs uppercase tracking-wider transition-colors">{t('configurator.steps.openingType')}</span></div> 
@@ -985,7 +1137,7 @@ export function MainConfigurator() {
                     </button>
                     <button onClick={() => openStep(7)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-[#111112] transition-colors">
                       <div className="flex items-center gap-2.5"><span className="w-5 h-5 rounded-md inline-flex items-center justify-center bg-[#2a2a2b] border border-white/5 shadow-inner text-[10px] font-black text-white/50 group-hover:bg-[#eab676] group-hover:text-black group-hover:border-[#eab676] transition-all duration-300 drop-shadow-sm">7</span><span className="text-white/50 group-hover:text-[#eab676] font-medium text-xs uppercase tracking-wider transition-colors">{t('configurator.summary.glazing')}</span></div> 
-                      <span className="font-bold text-[#eab676] group-hover:text-white bg-[#eab676]/10 group-hover:bg-[#eab676] !text-black px-2 py-0.5 rounded transition-colors truncate max-w-[150px] text-right">{GLASS_LOCALE[state.glazing] || state.glazing}</span>
+                      <span className="font-bold text-[#eab676] group-hover:text-white bg-[#eab676]/10 group-hover:bg-[#eab676] !text-black px-2 py-0.5 rounded transition-colors truncate max-w-[150px] text-right">{GLASS_LOCALE[state.glazingPackage] || state.glazingPackage}</span>
                     </button>
                     {state.addons.length > 0 && (
                       <button onClick={() => openStep(8)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-[#111112] transition-colors">
@@ -1000,15 +1152,48 @@ export function MainConfigurator() {
 
                 <div>
                   <h3 className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em] mb-4">{t('configurator.summary.financials')}</h3>
-                  <div className="space-y-3 text-sm">
-                    <div className="flex justify-between items-center"><span className="text-white/50 font-medium">{t('configurator.summary.baseFramework')}</span> <span className="font-bold text-white">€{pricing.base.toFixed(2)}</span></div>
-                    <div className="flex justify-between items-center"><span className="text-white/50 font-medium">{t('configurator.summary.hardwareAssembly')}</span> <span className="font-bold text-white">€{pricing.hardware.toFixed(2)}</span></div>
-                    <div className="flex justify-between items-center"><span className="text-white/50 font-medium">{t('configurator.summary.accessories')}</span> <span className="font-bold text-white">€{pricing.addons.toFixed(2)}</span></div>
-                    
+                  <div className="space-y-2.5 text-sm">
+                    <div className="flex justify-between items-center">
+                      <span className="text-white/50 font-medium">Frame (Cantor)</span>
+                      <span className="font-bold text-white">€{pricing.base.toFixed(2)}</span>
+                    </div>
+                    {(pricing as any).glazing > 0 && (
+                      <div className="flex justify-between items-center">
+                        <span className="text-white/50 font-medium">Glazing Package</span>
+                        <span className="font-bold text-white">€{(pricing as any).glazing.toFixed(2)}</span>
+                      </div>
+                    )}
+                    {pricing.colorModifier > 0 && (
+                      <div className="flex justify-between items-center">
+                        <span className="text-white/50 font-medium">Color Finish</span>
+                        <span className="font-bold text-white">€{pricing.colorModifier.toFixed(2)}</span>
+                      </div>
+                    )}
+                    {pricing.addons > 0 && (
+                      <div className="flex justify-between items-center">
+                        <span className="text-white/50 font-medium">{t('configurator.summary.accessories')}</span>
+                        <span className="font-bold text-white">€{pricing.addons.toFixed(2)}</span>
+                      </div>
+                    )}
                     <div className="h-px bg-white/10 my-2"></div>
-                    <div className="flex justify-between items-center"><span className="text-white/50 font-medium tracking-tight">Est. Delivery</span> <span className="font-black text-[#eab676] bg-[#eab676]/10 px-2 py-1 rounded text-[10px] uppercase tracking-widest">{formattedDelivery}</span></div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-white/50 font-medium">Subtotal (ex VAT)</span>
+                      <span className="font-bold text-white">€{((pricing as any).subtotal ?? pricing.total).toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-white/30 text-xs">
+                      <span>VAT 21%</span>
+                      <span>€{((pricing as any).vat ?? pricing.total * 0.21).toFixed(2)}</span>
+                    </div>
+                    <div className="h-px bg-white/10 my-2"></div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-white/50 font-medium tracking-tight">Est. Delivery</span>
+                      <span className="font-black text-[#eab676] bg-[#eab676]/10 px-2 py-1 rounded text-[10px] uppercase tracking-widest">{formattedDelivery}</span>
+                    </div>
                     {itemDiscount > 0 && (
-                      <div className="flex justify-between items-center text-emerald-400 mt-1"><span className="font-medium tracking-tight">Preset Discount</span> <span className="font-black">-€{itemDiscount.toFixed(2)}</span></div>
+                      <div className="flex justify-between items-center text-emerald-400 mt-1">
+                        <span className="font-medium tracking-tight">Preset Discount</span>
+                        <span className="font-black">-€{itemDiscount.toFixed(2)}</span>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -1030,6 +1215,15 @@ export function MainConfigurator() {
                     >
                       <Share2 size={18} className={isSharing ? "animate-pulse text-[#eab676]" : "text-white/50 hover:text-white"} />
                     </button>
+                    {orderStore.isActive && orderStore.currentIndex > 0 && (
+                      <button
+                        onClick={() => orderStore.goToPrevious()}
+                        className="bg-[#1a1a1b] border-2 border-[#2a2a2b] px-4 shrink-0 flex items-center justify-center rounded-xl hover:bg-[#2a2a2b] hover:border-[#eab676] text-[#eab676]/70 hover:text-[#eab676] transition-all font-bold text-sm tracking-widest uppercase"
+                        title="Go back to previous position"
+                      >
+                         <ChevronLeft size={18} className="mr-1" /> Back
+                      </button>
+                    )}
                     <button 
                       onClick={() => {
                       if (orderStore.isActive) {
@@ -1037,9 +1231,9 @@ export function MainConfigurator() {
                           config: state, 
                           pricing, 
                           quantity: orderStore.items[orderStore.currentIndex].quantity || 1,
-                          name: `${orderStore.items[orderStore.currentIndex].roomName} (${state.material} ${state.profile})`,
+                          name: `${orderStore.items[orderStore.currentIndex].roomName} (${state.category} ${state.profile})`,
                           price: finalPrice,
-                          image: CONFIG_SCHEMA.materials[state.material].image,
+                          image: CONFIG_SCHEMA.categories[state.category].image,
                           details: [
                              `Orientation: ${orderStore.items[orderStore.currentIndex].orientation || 'South'}`,
                              `Quantity: ${orderStore.items[orderStore.currentIndex].quantity || 1} units`,
@@ -1063,10 +1257,10 @@ export function MainConfigurator() {
                           config: state, 
                           pricing, 
                           quantity: 1,
-                          name: `Window System (${state.material} ${state.profile})`,
+                          name: `Window System (${state.category} ${state.profile})`,
                           price: pricing.total,
                           currency: '€',
-                          image: CONFIG_SCHEMA.materials[state.material].image,
+                          image: CONFIG_SCHEMA.categories[state.category].image,
                           details: [
                              `Dimensions: ${state.dimensions.width}x${state.dimensions.height}mm`,
                              `Color: ${state.interiorColor} (In) / ${state.exteriorColor} (Out)`,

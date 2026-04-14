@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <!-- Outer Frame Bevel -->
+    <linearGradient id="frameOuter" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8f9fa"/>
+      <stop offset="100%" stop-color="#e9ecef"/>
+    </linearGradient>
+    <linearGradient id="frameInner" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e9ecef"/>
+      <stop offset="100%" stop-color="#f8f9fa"/>
+    </linearGradient>
+    
+    <!-- Sash Bevel -->
+    <linearGradient id="sashOuter" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#dee2e6"/>
+    </linearGradient>
+
+    <!-- Glass Gradient -->
+    <linearGradient id="glass" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#c5d3df"/>
+      <stop offset="100%" stop-color="#a8bacb"/>
+    </linearGradient>
+
+    <!-- Handle Gradient -->
+    <linearGradient id="handleMetal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fff"/>
+      <stop offset="50%" stop-color="#ccc"/>
+      <stop offset="100%" stop-color="#999"/>
+    </linearGradient>
+
+    <filter id="drop-shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="2" dy="4" stdDeviation="4" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Wall/Background shadow -->
+  <rect x="20" y="20" width="360" height="360" fill="none" />
+
+  <!-- Outer Window Frame -->
+  <rect x="25" y="25" width="350" height="350" fill="url(#frameOuter)" stroke="#adb5bd" stroke-width="1.5" filter="url(#drop-shadow)"/>
+  <rect x="55" y="55" width="290" height="290" fill="#fff" stroke="#adb5bd" stroke-width="1.5"/>
+
+  <!-- Sash (Window Fluegel) -->
+  <rect x="58" y="58" width="284" height="284" fill="url(#sashOuter)" stroke="#ced4da" stroke-width="1"/>
+  
+  <!-- Sash Inner Edge (holding the glass) -->
+  <rect x="85" y="85" width="230" height="230" fill="url(#glass)" stroke="#868e96" stroke-width="1.5"/>
+
+  <!-- Glazing Bead Lines -->
+  <rect x="87" y="87" width="226" height="226" fill="none" stroke="#343a40" stroke-width="0.5" opacity="0.3"/>
+  <rect x="89" y="89" width="222" height="222" fill="none" stroke="#000" stroke-width="1" opacity="0.1"/>
+
+  <!-- Turn-Tilt Lines (Opening Indication): Hinge is on Left, Handle on Right -->
+  <g stroke="#6c757d" stroke-width="1" fill="none" opacity="0.8">
+    <!-- Turn (Dreh) lines: Hinge is on the left -->
+    <line x1="315" y1="85" x2="85" y2="200" />
+    <line x1="315" y1="315" x2="85" y2="200" />
+    <!-- Tilt (Kipp) lines: Hinge is on the bottom -->
+    <line x1="85" y1="315" x2="200" y2="85" />
+    <line x1="315" y1="315" x2="200" y2="85" />
+  </g>
+
+  <!-- Handle (Right side) -->
+  <g transform="translate(332, 180)">
+    <!-- Base Plate -->
+    <rect x="-6" y="0" width="10" height="40" rx="3" fill="url(#handleMetal)" stroke="#868e96" stroke-width="0.5"/>
+    <path d="M-5,5 L-5,35" stroke="#fff" stroke-width="1" opacity="0.5"/>
+    <!-- Handle Grip -->
+    <path d="M2,20 L2,60 C2,63 -2,63 -2,60 L-2,20 Z" fill="url(#handleMetal)" stroke="#868e96" stroke-width="0.5" filter="url(#drop-shadow)"/>
+  </g>
+
+  <!-- Hinge (Top Left) -->
+  <rect x="54" y="65" width="6" height="25" rx="1" fill="#fff" stroke="#adb5bd" stroke-width="1"/>
+  <!-- Hinge (Bottom Left) -->
+  <rect x="54" y="310" width="6" height="35" rx="1" fill="#fff" stroke="#adb5bd" stroke-width="1"/>
+
+  <!-- Dimension line for Handle (420) -->
+  <g stroke="#343a40" stroke-width="0.8" fill="none">
+    <!-- Horizontal tick at bottom frame edge -->
+    <line x1="75" y1="335" x2="95" y2="335" />
+    <!-- Horizontal tick at handle height (center of base plate Y=200) -->
+    <line x1="75" y1="200" x2="95" y2="200" />
+    <!-- Vertical measurement line -->
+    <line x1="85" y1="335" x2="85" y2="200" />
+    <!-- Text 420 (Rotated) -->
+    <text x="-267" y="81" transform="rotate(-90)" font-family="monospace" font-size="9" font-weight="bold" fill="#343a40" text-anchor="middle">420</text>
+  </g>
+
+  <!-- Panel Number indicator -->
+  <text x="200" y="205" font-family="-apple-system, system-ui, sans-serif" font-size="10" font-weight="bold" fill="#343a40" text-anchor="middle">1</text>
+  
+</svg>

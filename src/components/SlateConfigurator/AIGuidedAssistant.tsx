@@ -627,7 +627,7 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
                    <div className="flex justify-between items-start gap-4">
                      <div>
                        <div className="text-[10px] font-black text-[#eab676] uppercase tracking-[0.2em] mb-1">{t('assistant.recProf')}</div>
-                       <h3 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tight">{CONFIG_SCHEMA.materials[recommendation.material as keyof typeof CONFIG_SCHEMA.materials]?.profiles.find(p=>p.id===recommendation.profile)?.name || recommendation.profile}</h3>
+                       <h3 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tight">{CONFIG_SCHEMA.categories[recommendation.material as keyof typeof CONFIG_SCHEMA.categories]?.profiles.find((p: any) => p.id === recommendation.profile)?.name || recommendation.profile}</h3>
                        
                        <div className="mt-4 flex flex-wrap items-center gap-2 md:gap-3">
                          <span className="bg-[#1a1a1b] border-2 border-[#3a3a3b] font-black text-white text-[9px] md:text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-lg">{t('assistant.base')}: {recommendation.material}</span>

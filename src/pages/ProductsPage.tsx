@@ -1,10 +1,48 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, ChevronDown, List } from 'lucide-react'
 import { CATEGORIES, PRODUCTS } from '../data/products'
 import { useTranslation } from 'react-i18next'
+import { useState } from 'react'
 
 export function ProductsPage() {
   const { t } = useTranslation()
+  const [openSpecId, setOpenSpecId] = useState<string | null>(null)
+  const [sortBy, setSortBy] = useState<'default' | 'db' | 'uw' | 'chambers' | 'depth' | 'gaskets'>('default')
+
+  const sortedProducts = [...PRODUCTS].sort((a, b) => {
+    if (sortBy === 'default') return 0;
+    const aVal = a.techDetails;
+    const bVal = b.techDetails;
+    if (!aVal && !bVal) return 0;
+    if (!aVal) return 1;
+    if (!bVal) return -1;
+
+    switch (sortBy) {
+      case 'db':
+        const aDb = parseInt(aVal.soundInsulation.replace(/[^\d]/g, '') || '0')
+        const bDb = parseInt(bVal.soundInsulation.replace(/[^\d]/g, '') || '0')
+        return bDb - aDb; // Highest db first
+      case 'uw':
+        const aUw = parseFloat(aVal.thermalTransmittance.replace(/[^\d,.]/g, '').replace(',', '.')) || 99
+        const bUw = parseFloat(bVal.thermalTransmittance.replace(/[^\d,.]/g, '').replace(',', '.')) || 99
+        return aUw - bUw; // Lowest Uw first
+      case 'chambers':
+        const aC = parseInt(aVal.chambers) || 0;
+        const bC = parseInt(bVal.chambers) || 0;
+        return bC - aC; // Highest chambers first
+      case 'depth':
+        const aD = parseInt(aVal.installationDepth) || 0;
+        const bD = parseInt(bVal.installationDepth) || 0;
+        return aD - bD; // Thinnest first
+      case 'gaskets':
+        const aG = parseInt(aVal.gaskets) || 0;
+        const bG = parseInt(bVal.gaskets) || 0;
+        return bG - aG; // Highest gaskets first
+      default:
+        return 0;
+    }
+  });
+
   return (
     <main className="min-h-screen bg-black pt-28 pb-20">
       {/* ── Header ────────────────────────────────────────────── */}
@@ -34,19 +72,35 @@ export function ProductsPage() {
 
       {/* ── All Products Grid ─────────────────────────────────── */}
       <section className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-black uppercase mb-12 border-b border-[#2a2a2b] pb-4">
-          {t('products.allProducts')}
-        </h2>
+        <div className="flex flex-col md:flex-row items-center justify-between mb-8 border-b border-[#2a2a2b] pb-4">
+          <h2 className="text-3xl font-black uppercase">
+            {t('products.allProducts', 'All Products')}
+          </h2>
+          <div className="flex items-center gap-3 mt-4 md:mt-0">
+            <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Sort By:</span>
+            <select 
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as any)}
+              className="bg-[#111112] text-white/90 text-sm font-medium border border-[#2a2a2b] rounded-lg px-4 py-2 outline-none hover:border-[#3a3a3b] focus:border-[#eab676]/50 transition-colors cursor-pointer"
+            >
+              <option value="default">Default Order</option>
+              <option value="uw">Thermal Transmittance (Lowest Uw)</option>
+              <option value="db">Sound Insulation (Highest dB)</option>
+              <option value="chambers">Chambers (Highest to Lowest)</option>
+              <option value="depth">Installation Depth (Thinnest First)</option>
+              <option value="gaskets">Gaskets (Most to Least)</option>
+            </select>
+          </div>
+        </div>
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {PRODUCTS.map((p) => (
-            <Link
+          {sortedProducts.map((p) => (
+            <div
               key={p.id}
-              to={`/products/${p.slug}`}
               className="group flex flex-col bg-[#1a1a1b] border border-[#2a2a2b] hover:border-[#eab676]/40 transition-all duration-300"
             >
               {/* Product Image */}
-              <div className="aspect-[4/3] bg-[#111112] relative overflow-hidden flex items-center justify-center p-8">
+              <Link to={`/products/${p.slug}`} className="block relative aspect-[4/3] bg-[#111112] overflow-hidden flex items-center justify-center p-8">
                 {p.images && p.images[0] ? (
                   <img
                     src={p.images[0]}
@@ -63,36 +117,90 @@ export function ProductsPage() {
                 )}
                 {p.isNew && (
                   <span className="absolute top-4 left-4 z-10 bg-[#eab676] text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1">
-                    {t('products.new')}
+                    {t('products.new', 'NEW')}
                   </span>
                 )}
-              </div>
+              </Link>
 
               {/* Product Info */}
               <div className="p-6 flex flex-col flex-1">
-                <div className="mb-4">
+                <Link to={`/products/${p.slug}`} className="block mb-4 hover:opacity-80 transition-opacity">
                   <p className="text-[#eab676] text-[10px] font-semibold uppercase tracking-[0.2em] mb-1">
                     {p.category.name}
                   </p>
-                  <h3 className="text-2xl font-black uppercase">{p.name}</h3>
+                  <h3 className="text-2xl font-black uppercase text-white">{p.name}</h3>
                   <p className="text-white/50 text-sm mt-1 line-clamp-2">{p.tagline}</p>
-                </div>
+                </Link>
 
-                <div className="mt-auto pt-6 flex items-center justify-between border-t border-[#2a2a2b]">
-                  <div className="flex gap-4">
-                    {p.specs.slice(0, 2).map(spec => (
-                      <div key={spec.label}>
-                        <p className="text-[10px] text-white/40 uppercase tracking-wider">{spec.label}</p>
-                        <p className="text-sm font-semibold text-white/90">{spec.value} <span className="text-[10px] text-[#eab676]">{spec.unit}</span></p>
-                      </div>
-                    ))}
+                <div className="mt-auto pt-4 flex flex-col gap-3">
+                  {/* Action Buttons */}
+                  <div className="flex gap-2">
+                    <button 
+                      onClick={() => setOpenSpecId(openSpecId === p.id ? null : p.id)}
+                      className="flex-1 flex justify-center items-center gap-2 border border-[#2a2a2b] hover:border-[#eab676]/50 bg-[#111112] text-white/80 hover:text-white px-4 py-2.5 rounded text-xs font-bold uppercase tracking-widest transition-all"
+                    >
+                      <List size={14} className="text-[#eab676]" />
+                      Specifications
+                      <ChevronDown size={14} className={`transition-transform duration-300 ${openSpecId === p.id ? 'rotate-180 text-[#eab676]' : ''}`} />
+                    </button>
+                    
+                    <Link 
+                      to={`/products/${p.slug}`}
+                      className="flex-shrink-0 flex items-center justify-center gap-2 bg-[#eab676] text-black hover:bg-white px-5 py-2.5 rounded text-xs font-black uppercase tracking-widest transition-colors"
+                    >
+                      More
+                      <ArrowRight size={14} />
+                    </Link>
                   </div>
-                  <div className="w-8 h-8 rounded-full bg-[#2a2a2b] group-hover:bg-[#eab676] group-hover:text-black flex items-center justify-center transition-colors">
-                    <ArrowRight size={14} />
+
+                  {/* Specifications Dropdown */}
+                  <div className={`overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${openSpecId === p.id ? 'max-h-[800px] opacity-100 mt-2' : 'max-h-0 opacity-0'}`}>
+                    <div className="bg-[#111112] border border-[#2a2a2b] p-4 rounded-lg flex flex-col gap-3">
+                      {p.techDetails && (
+                        <div className="grid grid-cols-2 gap-y-3 gap-x-2">
+                          <div>
+                            <p className="text-[9px] text-[#eab676] uppercase tracking-widest mb-0.5">Uw Value</p>
+                            <p className="text-sm font-black text-white/90">{p.techDetails.thermalTransmittance}</p>
+                          </div>
+                          <div>
+                            <p className="text-[9px] text-[#eab676] uppercase tracking-widest mb-0.5">Sound Insulation</p>
+                            <p className="text-sm font-black text-white/90">{p.techDetails.soundInsulation}</p>
+                          </div>
+                          <div>
+                            <p className="text-[9px] text-[#eab676] uppercase tracking-widest mb-0.5">Depth</p>
+                            <p className="text-sm font-black text-white/90">{p.techDetails.installationDepth}</p>
+                          </div>
+                          <div>
+                            <p className="text-[9px] text-[#eab676] uppercase tracking-widest mb-0.5">Chambers</p>
+                            <p className="text-sm font-black text-white/90">{p.techDetails.chambers}</p>
+                          </div>
+                           <div>
+                            <p className="text-[9px] text-[#eab676] uppercase tracking-widest mb-0.5">Gaskets</p>
+                            <p className="text-sm font-black text-white/90">{p.techDetails.gaskets}</p>
+                          </div>
+                           <div>
+                            <p className="text-[9px] text-[#eab676] uppercase tracking-widest mb-0.5">Class</p>
+                            <p className="text-sm font-black text-white/90 uppercase">{p.techDetails.profileClass}</p>
+                          </div>
+                        </div>
+                      )}
+                      {!p.techDetails && p.specs.length > 0 && (
+                        <div className="grid grid-cols-2 gap-y-3 gap-x-2">
+                          {p.specs.map(spec => (
+                             <div key={spec.label}>
+                                <p className="text-[9px] text-[#eab676] uppercase tracking-widest mb-0.5">{spec.label}</p>
+                                <p className="text-sm font-black text-white/90">{spec.value} <span className="text-[10px] text-white/40">{spec.unit}</span></p>
+                             </div>
+                          ))}
+                        </div>
+                      )}
+                      
+                    </div>
                   </div>
+                  
                 </div>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </section>

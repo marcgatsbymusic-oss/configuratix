@@ -1,0 +1,39 @@
+[
+  {
+    "id": "GL-4-16-4",
+    "name": "4/16/4 (Double Glazing)",
+    "panes": 2,
+    "thickness": 24,
+    "uValue": 1.1,
+    "weight": 20,
+    "compatibleSystems": [
+      "I5",
+      "IE",
+      "IP"
+    ]
+  },
+  {
+    "id": "GL-4-18-4-18-4",
+    "name": "4/18/4/18/4 (Triple Glazing)",
+    "panes": 3,
+    "thickness": 48,
+    "uValue": 0.5,
+    "weight": 30,
+    "compatibleSystems": [
+      "IE"
+    ]
+  },
+  {
+    "id": "GL-4-12-4-12-4",
+    "name": "4/12/4/12/4 (Triple Glazing)",
+    "panes": 3,
+    "thickness": 36,
+    "uValue": 0.7,
+    "weight": 30,
+    "compatibleSystems": [
+      "I5",
+      "IE",
+      "IP"
+    ]
+  }
+]

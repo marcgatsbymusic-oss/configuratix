@@ -1,0 +1,2498 @@
+[
+  {
+    "id": "B100",
+    "name": "Profil Pośredni",
+    "sashes": 1,
+    "image": "/images/typologies/B100.svg"
+  },
+  {
+    "id": "B200",
+    "name": "Profil Pośredni 2-skrz. ze słupkiem ruchomym",
+    "sashes": 2,
+    "image": "/images/typologies/B200.svg"
+  },
+  {
+    "id": "B201",
+    "name": "Profil Pośredni 1-skrz. ze stałym naświetlem górnym",
+    "sashes": 2,
+    "image": "/images/typologies/B201.svg"
+  },
+  {
+    "id": "B300",
+    "name": "Profil Pośredni 2-skrz. ze stałym naświetlem górnym",
+    "sashes": 3,
+    "image": "/images/typologies/B300.svg"
+  },
+  {
+    "id": "BR",
+    "name": "Brama Segmentowa DRUTEX",
+    "sashes": 1,
+    "image": "/images/typologies/BR.svg"
+  },
+  {
+    "id": "BS1",
+    "name": "Barierka szklana pojedyncza",
+    "sashes": 1,
+    "image": "/images/typologies/BS1.svg"
+  },
+  {
+    "id": "BS2",
+    "name": "Barierka szklana podwójna",
+    "sashes": 2,
+    "image": "/images/typologies/BS2.svg"
+  },
+  {
+    "id": "BS3",
+    "name": "Barierka szklana potrójna",
+    "sashes": 3,
+    "image": "/images/typologies/BS3.svg"
+  },
+  {
+    "id": "BS4",
+    "name": "Barierka szklana poczwórna",
+    "sashes": 4,
+    "image": "/images/typologies/BS4.svg"
+  },
+  {
+    "id": "C",
+    "name": "Cassonetto",
+    "sashes": 1,
+    "image": "/images/typologies/C.svg"
+  },
+  {
+    "id": "CV202",
+    "name": "Cor Vision Plus (Lewe wiodące) Typ A",
+    "sashes": 2,
+    "image": "/images/typologies/CV202.svg"
+  },
+  {
+    "id": "CV203",
+    "name": "Cor Vision Plus (Prawe wiodące) Typ A",
+    "sashes": 2,
+    "image": "/images/typologies/CV203.svg"
+  },
+  {
+    "id": "D100",
+    "name": "Drzwi 1-skrzydłowe",
+    "sashes": 1,
+    "image": "/images/typologies/D100.svg"
+  },
+  {
+    "id": "D101",
+    "name": "Naświetle boczne",
+    "sashes": 1,
+    "image": "/images/typologies/D101.svg"
+  },
+  {
+    "id": "D102",
+    "name": "Fest w skrzydle drzwiowym",
+    "sashes": 1,
+    "image": "/images/typologies/D102.svg"
+  },
+  {
+    "id": "D105",
+    "name": "Naświetle górne",
+    "sashes": 1,
+    "image": "/images/typologies/D105.svg"
+  },
+  {
+    "id": "D200",
+    "name": "Drzwi 2-skrzydłowe",
+    "sashes": 2,
+    "image": "/images/typologies/D200.svg"
+  },
+  {
+    "id": "D201",
+    "name": "Drzwi z naświetlem górnym",
+    "sashes": 2,
+    "image": "/images/typologies/D201.svg"
+  },
+  {
+    "id": "D201P",
+    "name": "Drzwi jednoskrzydłowe z naświetlem górnym",
+    "sashes": 2,
+    "image": "/images/typologies/D201P.svg"
+  },
+  {
+    "id": "D211",
+    "name": "Drzwi z naświetlem bocznym lewym",
+    "sashes": 2,
+    "image": "/images/typologies/D211.svg"
+  },
+  {
+    "id": "D212",
+    "name": "Drzwi z naświetlem bocznym prawym",
+    "sashes": 2,
+    "image": "/images/typologies/D212.svg"
+  },
+  {
+    "id": "D300",
+    "name": "Drzwi 2-skrzydłowe z naświetlem górnym",
+    "sashes": 3,
+    "image": "/images/typologies/D300.svg"
+  },
+  {
+    "id": "D303",
+    "name": "Drzwi 1-skrzydłowe z naświetlem górnym i bocznym",
+    "sashes": 3,
+    "image": "/images/typologies/D303.svg"
+  },
+  {
+    "id": "D304",
+    "name": "Drzwi 1-skrzydłowe z naświetlem górnym i bocznym",
+    "sashes": 3,
+    "image": "/images/typologies/D304.svg"
+  },
+  {
+    "id": "D305",
+    "name": "Drzwi 1-skrzydłowe z naświetlem górnym i bocznym",
+    "sashes": 4,
+    "image": "/images/typologies/D305.svg"
+  },
+  {
+    "id": "D306",
+    "name": "Drzwi 1-skrzydłowe z naświetlem górnym i bocznym",
+    "sashes": 4,
+    "image": "/images/typologies/D306.svg"
+  },
+  {
+    "id": "D310",
+    "name": "Drzwi z naświetlem bocznym lewym i prawym",
+    "sashes": 3,
+    "image": "/images/typologies/D310.svg"
+  },
+  {
+    "id": "D400",
+    "name": "Drzwi z naświetlem lewym, prawym, górnym",
+    "sashes": 99,
+    "image": "/images/typologies/D400.svg"
+  },
+  {
+    "id": "D401",
+    "name": "Drzwi z naświetlem lewym, prawym, górnym",
+    "sashes": 4,
+    "image": "/images/typologies/D401.svg"
+  },
+  {
+    "id": "D412",
+    "name": "Drzwi 2-skrzydłowe z naświetlem górnym i bocznym",
+    "sashes": 4,
+    "image": "/images/typologies/D412.svg"
+  },
+  {
+    "id": "D413",
+    "name": "Drzwi 2-skrzydłowe z naświetlem górnym i bocznym",
+    "sashes": 4,
+    "image": "/images/typologies/D413.svg"
+  },
+  {
+    "id": "D414",
+    "name": "Drzwi 2-skrzydłowe z naświetlem górnym i bocznym",
+    "sashes": 99,
+    "image": "/images/typologies/D414.svg"
+  },
+  {
+    "id": "D415",
+    "name": "Drzwi 2-skrzydłowe z naświetlem górnym i bocznym",
+    "sashes": 99,
+    "image": "/images/typologies/D415.svg"
+  },
+  {
+    "id": "D416",
+    "name": "Drzwi 2-skrzydłowe z naświetlem bocznym",
+    "sashes": 4,
+    "image": "/images/typologies/D416.svg"
+  },
+  {
+    "id": "D418",
+    "name": "Drzwi 2-skrzydłowe z naświetlem górnym i bocznym",
+    "sashes": 99,
+    "image": "/images/typologies/D418.svg"
+  },
+  {
+    "id": "D419",
+    "name": "Drzwi 2-skrzydłowe z naświetlem górnym i bocznym",
+    "sashes": 99,
+    "image": "/images/typologies/D419.svg"
+  },
+  {
+    "id": "D511",
+    "name": "Drzwi 2-skrzydłowe z naświetlem bocznym lewym",
+    "sashes": 3,
+    "image": "/images/typologies/D511.svg"
+  },
+  {
+    "id": "D512",
+    "name": "Drzwi  2-skrzydłowe z naświetlem bocznym prawym",
+    "sashes": 3,
+    "image": "/images/typologies/D512.svg"
+  },
+  {
+    "id": "DS100",
+    "name": "Drzwi serwisowe 1-skrzydłowe",
+    "sashes": 1,
+    "image": "/images/typologies/DS100.svg"
+  },
+  {
+    "id": "DS200",
+    "name": "Drzwi serwisowe 2-skrzydłowe",
+    "sashes": 2,
+    "image": "/images/typologies/DS200.svg"
+  },
+  {
+    "id": "F100",
+    "name": "1-Sash Window",
+    "sashes": 1,
+    "image": "/images/typologies/F100.svg"
+  },
+  {
+    "id": "F101",
+    "name": "1-chamber window (Handle Right)",
+    "sashes": 1,
+    "image": "/images/typologies/F101.svg"
+  },
+  {
+    "id": "F102",
+    "name": "Okno 1 kwaterowe",
+    "sashes": 1,
+    "image": "/images/typologies/F102.svg"
+  },
+  {
+    "id": "F102E",
+    "name": "Okno 1 kwaterowe",
+    "sashes": 1,
+    "image": "/images/typologies/F102E.svg"
+  },
+  {
+    "id": "F102P",
+    "name": "Okno 1 kwaterowe",
+    "sashes": 1,
+    "image": "/images/typologies/F102P.svg"
+  },
+  {
+    "id": "F102Z",
+    "name": "Okno 1 kwaterowe",
+    "sashes": 1,
+    "image": "/images/typologies/F102Z.svg"
+  },
+  {
+    "id": "F103",
+    "name": "Okno 1 kwaterowe",
+    "sashes": 1,
+    "image": "/images/typologies/F103.svg"
+  },
+  {
+    "id": "F103E",
+    "name": "Okno 1 kwaterowe",
+    "sashes": 1,
+    "image": "/images/typologies/F103E.svg"
+  },
+  {
+    "id": "F103P",
+    "name": "Okno 1 kwaterowe",
+    "sashes": 1,
+    "image": "/images/typologies/F103P.svg"
+  },
+  {
+    "id": "F103Z",
+    "name": "Okno 1 kwaterowe",
+    "sashes": 1,
+    "image": "/images/typologies/F103Z.svg"
+  },
+  {
+    "id": "F104",
+    "name": "Okno 1 kwaterowe",
+    "sashes": 1,
+    "image": "/images/typologies/F104.svg"
+  },
+  {
+    "id": "F105",
+    "name": "Okno 1 kwaterowe",
+    "sashes": 1,
+    "image": "/images/typologies/F105.svg"
+  },
+  {
+    "id": "F105E",
+    "name": "Okno 1 kwaterowe",
+    "sashes": 1,
+    "image": "/images/typologies/F105E.svg"
+  },
+  {
+    "id": "F105P",
+    "name": "Okno 1 kwaterowe",
+    "sashes": 1,
+    "image": "/images/typologies/F105P.svg"
+  },
+  {
+    "id": "F106",
+    "name": "Okno 1 kwaterowe",
+    "sashes": 1,
+    "image": "/images/typologies/F106.svg"
+  },
+  {
+    "id": "F106P",
+    "name": "Okno 1 kwaterowe",
+    "sashes": 1,
+    "image": "/images/typologies/F106P.svg"
+  },
+  {
+    "id": "F106Z",
+    "name": "Okno 1 kwaterowe",
+    "sashes": 1,
+    "image": "/images/typologies/F106Z.svg"
+  },
+  {
+    "id": "F150",
+    "name": "Balkon 1 kwaterowy",
+    "sashes": 1,
+    "image": "/images/typologies/F150.svg"
+  },
+  {
+    "id": "F151",
+    "name": "Balkon 1 kwaterowy",
+    "sashes": 1,
+    "image": "/images/typologies/F151.svg"
+  },
+  {
+    "id": "F152",
+    "name": "Balkon 1 kwaterowy",
+    "sashes": 1,
+    "image": "/images/typologies/F152.svg"
+  },
+  {
+    "id": "F152E",
+    "name": "Balkon 1 kwaterowy",
+    "sashes": 1,
+    "image": "/images/typologies/F152E.svg"
+  },
+  {
+    "id": "F153",
+    "name": "Balkon 1 kwaterowy",
+    "sashes": 1,
+    "image": "/images/typologies/F153.svg"
+  },
+  {
+    "id": "F153E",
+    "name": "Balkon 1 kwaterowy",
+    "sashes": 1,
+    "image": "/images/typologies/F153E.svg"
+  },
+  {
+    "id": "F200",
+    "name": "Okno 2 kw. słupek stały",
+    "sashes": 2,
+    "image": "/images/typologies/F200.svg"
+  },
+  {
+    "id": "F200E",
+    "name": "Okno 2 kw. słupek stały",
+    "sashes": 2,
+    "image": "/images/typologies/F200E.svg"
+  },
+  {
+    "id": "F201",
+    "name": "Okno 2 kw. słupek stały",
+    "sashes": 2,
+    "image": "/images/typologies/F201.svg"
+  },
+  {
+    "id": "F202",
+    "name": "Okno 2 kw. słupek ruchomy",
+    "sashes": 2,
+    "image": "/images/typologies/F202.svg"
+  },
+  {
+    "id": "F202E",
+    "name": "Okno 2 kw. słupek ruchomy",
+    "sashes": 2,
+    "image": "/images/typologies/F202E.svg"
+  },
+  {
+    "id": "F203",
+    "name": "Okno 2 kw. słupek ruchomy",
+    "sashes": 2,
+    "image": "/images/typologies/F203.svg"
+  },
+  {
+    "id": "F203E",
+    "name": "Okno 2 kw. słupek ruchomy",
+    "sashes": 2,
+    "image": "/images/typologies/F203E.svg"
+  },
+  {
+    "id": "F204",
+    "name": "Okno 2 kw. słupek stały",
+    "sashes": 2,
+    "image": "/images/typologies/F204.svg"
+  },
+  {
+    "id": "F204E",
+    "name": "Okno 2 kw. słupek stały",
+    "sashes": 2,
+    "image": "/images/typologies/F204E.svg"
+  },
+  {
+    "id": "F205",
+    "name": "Okno 2 kw. słupek stały",
+    "sashes": 2,
+    "image": "/images/typologies/F205.svg"
+  },
+  {
+    "id": "F205E",
+    "name": "Okno 2 kw. słupek stały",
+    "sashes": 2,
+    "image": "/images/typologies/F205E.svg"
+  },
+  {
+    "id": "F206",
+    "name": "Okno 2 kw. słupek stały",
+    "sashes": 2,
+    "image": "/images/typologies/F206.svg"
+  },
+  {
+    "id": "F206P",
+    "name": "Okno 2 kwaterowe",
+    "sashes": 2,
+    "image": "/images/typologies/F206P.svg"
+  },
+  {
+    "id": "F207",
+    "name": "Okno 2 kw. słupek stały",
+    "sashes": 2,
+    "image": "/images/typologies/F207.svg"
+  },
+  {
+    "id": "F207P",
+    "name": "Okno 2 kwaterowe",
+    "sashes": 2,
+    "image": "/images/typologies/F207P.svg"
+  },
+  {
+    "id": "F208",
+    "name": "Okno 2 kw. słupek stały",
+    "sashes": 2,
+    "image": "/images/typologies/F208.svg"
+  },
+  {
+    "id": "F208P",
+    "name": "Okno 2 kwaterowe",
+    "sashes": 2,
+    "image": "/images/typologies/F208P.svg"
+  },
+  {
+    "id": "F209P",
+    "name": "Okno 2 kwaterowe",
+    "sashes": 2,
+    "image": "/images/typologies/F209P.svg"
+  },
+  {
+    "id": "F210",
+    "name": "Balkon 2 kwaterowy",
+    "sashes": 2,
+    "image": "/images/typologies/F210.svg"
+  },
+  {
+    "id": "F220E",
+    "name": "Balkon 2 kwaterowy",
+    "sashes": 2,
+    "image": "/images/typologies/F220E.svg"
+  },
+  {
+    "id": "F221E",
+    "name": "Balkon 2 kwaterowy",
+    "sashes": 2,
+    "image": "/images/typologies/F221E.svg"
+  },
+  {
+    "id": "F250",
+    "name": "Okno 2 kwaterowe",
+    "sashes": 2,
+    "image": "/images/typologies/F250.svg"
+  },
+  {
+    "id": "F251",
+    "name": "Okno 2 kwaterowe",
+    "sashes": 2,
+    "image": "/images/typologies/F251.svg"
+  },
+  {
+    "id": "F252",
+    "name": "Okno 2 kwaterowe",
+    "sashes": 2,
+    "image": "/images/typologies/F252.svg"
+  },
+  {
+    "id": "F253",
+    "name": "Okno 2 kwaterowe",
+    "sashes": 2,
+    "image": "/images/typologies/F253.svg"
+  },
+  {
+    "id": "F254",
+    "name": "Okno 2 kwaterowe",
+    "sashes": 2,
+    "image": "/images/typologies/F254.svg"
+  },
+  {
+    "id": "F254E",
+    "name": "Okno 2 kwaterowe",
+    "sashes": 2,
+    "image": "/images/typologies/F254E.svg"
+  },
+  {
+    "id": "F254P",
+    "name": "Okno 2 kwaterowe",
+    "sashes": 2,
+    "image": "/images/typologies/F254P.svg"
+  },
+  {
+    "id": "F255",
+    "name": "Okno 2 kwaterowe",
+    "sashes": 2,
+    "image": "/images/typologies/F255.svg"
+  },
+  {
+    "id": "F255E",
+    "name": "Okno 2 kwaterowe",
+    "sashes": 2,
+    "image": "/images/typologies/F255E.svg"
+  },
+  {
+    "id": "F255P",
+    "name": "Okno 2 kwaterowe",
+    "sashes": 2,
+    "image": "/images/typologies/F255P.svg"
+  },
+  {
+    "id": "F256P",
+    "name": "Okno 2 kwaterowe",
+    "sashes": 2,
+    "image": "/images/typologies/F256P.svg"
+  },
+  {
+    "id": "F264P",
+    "name": "Okno 2 kwaterowe",
+    "sashes": 2,
+    "image": "/images/typologies/F264P.svg"
+  },
+  {
+    "id": "F265P",
+    "name": "Okno 2 kwaterowe",
+    "sashes": 2,
+    "image": "/images/typologies/F265P.svg"
+  },
+  {
+    "id": "F266P",
+    "name": "Okno 2 kwaterowe",
+    "sashes": 2,
+    "image": "/images/typologies/F266P.svg"
+  },
+  {
+    "id": "F270",
+    "name": "Balkon 2 kw. słupek ruchomy",
+    "sashes": 2,
+    "image": "/images/typologies/F270.svg"
+  },
+  {
+    "id": "F270E",
+    "name": "Balkon 2 kw. słupek ruchomy",
+    "sashes": 2,
+    "image": "/images/typologies/F270E.svg"
+  },
+  {
+    "id": "F271",
+    "name": "Balkon 2 kw. słupek ruchomy",
+    "sashes": 2,
+    "image": "/images/typologies/F271.svg"
+  },
+  {
+    "id": "F271E",
+    "name": "Balkon 2 kw. słupek ruchomy",
+    "sashes": 2,
+    "image": "/images/typologies/F271E.svg"
+  },
+  {
+    "id": "F272",
+    "name": "Balkon 2 kw. słupek stały",
+    "sashes": 2,
+    "image": "/images/typologies/F272.svg"
+  },
+  {
+    "id": "F273",
+    "name": "Balkon 2 kw. słupek stały",
+    "sashes": 2,
+    "image": "/images/typologies/F273.svg"
+  },
+  {
+    "id": "F274",
+    "name": "Balkon 2 kw. słupek stały",
+    "sashes": 2,
+    "image": "/images/typologies/F274.svg"
+  },
+  {
+    "id": "F280",
+    "name": "Balkon 2 kw. słupek stały naświetle boczne",
+    "sashes": 2,
+    "image": "/images/typologies/F280.svg"
+  },
+  {
+    "id": "F281",
+    "name": "Balkon 2 kw. słupek stały naświetle boczne",
+    "sashes": 2,
+    "image": "/images/typologies/F281.svg"
+  },
+  {
+    "id": "F282",
+    "name": "Balkon 2 kw. słupek stały naświetle boczne",
+    "sashes": 2,
+    "image": "/images/typologies/F282.svg"
+  },
+  {
+    "id": "F282E",
+    "name": "Balkon 2 kw. słupek stały",
+    "sashes": 2,
+    "image": "/images/typologies/F282E.svg"
+  },
+  {
+    "id": "F283",
+    "name": "Balkon 2 kw. słupek stały naświetle boczne",
+    "sashes": 2,
+    "image": "/images/typologies/F283.svg"
+  },
+  {
+    "id": "F283E",
+    "name": "Balkon 2 kw. słupek stały",
+    "sashes": 2,
+    "image": "/images/typologies/F283E.svg"
+  },
+  {
+    "id": "F284",
+    "name": "Balkon 3 kw. słupek stały naświetle boczne",
+    "sashes": 3,
+    "image": "/images/typologies/F284.svg"
+  },
+  {
+    "id": "F285",
+    "name": "Balkon 3 kw. słupek stały naświetle boczne",
+    "sashes": 3,
+    "image": "/images/typologies/F285.svg"
+  },
+  {
+    "id": "F300",
+    "name": "Okno 3 kw. słupek stały",
+    "sashes": 3,
+    "image": "/images/typologies/F300.svg"
+  },
+  {
+    "id": "F300E",
+    "name": "Okno 3 kw. słupek stały",
+    "sashes": 3,
+    "image": "/images/typologies/F300E.svg"
+  },
+  {
+    "id": "F300P",
+    "name": "Okno 3 kwaterowe",
+    "sashes": 3,
+    "image": "/images/typologies/F300P.svg"
+  },
+  {
+    "id": "F301",
+    "name": "Okno 3 kw. słupek stały",
+    "sashes": 3,
+    "image": "/images/typologies/F301.svg"
+  },
+  {
+    "id": "F301E",
+    "name": "Okno 3 kw. słupek stały",
+    "sashes": 3,
+    "image": "/images/typologies/F301E.svg"
+  },
+  {
+    "id": "F301P",
+    "name": "Okno 3 kwaterowe",
+    "sashes": 3,
+    "image": "/images/typologies/F301P.svg"
+  },
+  {
+    "id": "F302",
+    "name": "Okno 3 kw. słupek ruchomy",
+    "sashes": 3,
+    "image": "/images/typologies/F302.svg"
+  },
+  {
+    "id": "F302E",
+    "name": "Okno 3 kw. słupek ruchomy",
+    "sashes": 3,
+    "image": "/images/typologies/F302E.svg"
+  },
+  {
+    "id": "F302P",
+    "name": "Okno 3 kwaterowe",
+    "sashes": 3,
+    "image": "/images/typologies/F302P.svg"
+  },
+  {
+    "id": "F303",
+    "name": "Okno 3 kw. słupek ruchomy",
+    "sashes": 3,
+    "image": "/images/typologies/F303.svg"
+  },
+  {
+    "id": "F303E",
+    "name": "Okno 3 kw. słupek ruchomy",
+    "sashes": 3,
+    "image": "/images/typologies/F303E.svg"
+  },
+  {
+    "id": "F304",
+    "name": "Okno 3 kw. słupek stały",
+    "sashes": 3,
+    "image": "/images/typologies/F304.svg"
+  },
+  {
+    "id": "F304E",
+    "name": "Okno 3 kw. słupek stały",
+    "sashes": 3,
+    "image": "/images/typologies/F304E.svg"
+  },
+  {
+    "id": "F307",
+    "name": "Okno 3 kw. słupek stały",
+    "sashes": 3,
+    "image": "/images/typologies/F307.svg"
+  },
+  {
+    "id": "F309",
+    "name": "Okno 3 kw. w pionie",
+    "sashes": 3,
+    "image": "/images/typologies/F309.svg"
+  },
+  {
+    "id": "F309EI",
+    "name": "Okno 3 kw.",
+    "sashes": 3,
+    "image": "/images/typologies/F309EI.svg"
+  },
+  {
+    "id": "F350",
+    "name": "Okno 3 kw. słupek stały",
+    "sashes": 3,
+    "image": "/images/typologies/F350.svg"
+  },
+  {
+    "id": "F351",
+    "name": "Okno 3 kw. słupek ruchomy",
+    "sashes": 3,
+    "image": "/images/typologies/F351.svg"
+  },
+  {
+    "id": "F352",
+    "name": "Okno 3 kw. słupek stały",
+    "sashes": 3,
+    "image": "/images/typologies/F352.svg"
+  },
+  {
+    "id": "F353",
+    "name": "Okno 3 kw. słupek ruchomy",
+    "sashes": 3,
+    "image": "/images/typologies/F353.svg"
+  },
+  {
+    "id": "F354",
+    "name": "Okno 3 kw.",
+    "sashes": 3,
+    "image": "/images/typologies/F354.svg"
+  },
+  {
+    "id": "F355",
+    "name": "Okno 3 kw.",
+    "sashes": 3,
+    "image": "/images/typologies/F355.svg"
+  },
+  {
+    "id": "F357",
+    "name": "Okno 3 kw. słupek stały",
+    "sashes": 3,
+    "image": "/images/typologies/F357.svg"
+  },
+  {
+    "id": "F358",
+    "name": "Okno 3 kw. słupek stały",
+    "sashes": 3,
+    "image": "/images/typologies/F358.svg"
+  },
+  {
+    "id": "F370",
+    "name": "Balkon 3 kw. słupek stały",
+    "sashes": 3,
+    "image": "/images/typologies/F370.svg"
+  },
+  {
+    "id": "F370EI",
+    "name": "Okno 3 kw.",
+    "sashes": 3,
+    "image": "/images/typologies/F370EI.svg"
+  },
+  {
+    "id": "F371",
+    "name": "Balkon 3 kw. słupek stały",
+    "sashes": 3,
+    "image": "/images/typologies/F371.svg"
+  },
+  {
+    "id": "F372",
+    "name": "Balkon 3 kw. słupek ruchomy",
+    "sashes": 3,
+    "image": "/images/typologies/F372.svg"
+  },
+  {
+    "id": "F373",
+    "name": "Balkon 3 kw. słupek ruchomy",
+    "sashes": 3,
+    "image": "/images/typologies/F373.svg"
+  },
+  {
+    "id": "F380",
+    "name": "Balkon 3 kw. słupek ruchomy",
+    "sashes": 3,
+    "image": "/images/typologies/F380.svg"
+  },
+  {
+    "id": "F380E",
+    "name": "Balkon 3 kw. słupek ruchomy",
+    "sashes": 3,
+    "image": "/images/typologies/F380E.svg"
+  },
+  {
+    "id": "F381E",
+    "name": "Balkon 3 kw. słupek ruchomy",
+    "sashes": 3,
+    "image": "/images/typologies/F381E.svg"
+  },
+  {
+    "id": "F384",
+    "name": "Balkon 3 kw. słupek stały",
+    "sashes": 3,
+    "image": "/images/typologies/F384.svg"
+  },
+  {
+    "id": "F400",
+    "name": "Okno 4 kw. słupek stały",
+    "sashes": 4,
+    "image": "/images/typologies/F400.svg"
+  },
+  {
+    "id": "F401",
+    "name": "Okno 4 kw. słupek ruchomy na środku",
+    "sashes": 4,
+    "image": "/images/typologies/F401.svg"
+  },
+  {
+    "id": "F402",
+    "name": "Okno 4 kw. słupek ruchomy z lewej",
+    "sashes": 4,
+    "image": "/images/typologies/F402.svg"
+  },
+  {
+    "id": "F403",
+    "name": "Okno 4 kw. słupek ruchomy z prawej",
+    "sashes": 4,
+    "image": "/images/typologies/F403.svg"
+  },
+  {
+    "id": "F450",
+    "name": "Okno 4 kw.",
+    "sashes": 4,
+    "image": "/images/typologies/F450.svg"
+  },
+  {
+    "id": "F450EI",
+    "name": "Okno 4 kw.",
+    "sashes": 4,
+    "image": "/images/typologies/F450EI.svg"
+  },
+  {
+    "id": "F451",
+    "name": "Okno 4 kw.",
+    "sashes": 4,
+    "image": "/images/typologies/F451.svg"
+  },
+  {
+    "id": "F452",
+    "name": "Okno 4 kw.",
+    "sashes": 4,
+    "image": "/images/typologies/F452.svg"
+  },
+  {
+    "id": "F453",
+    "name": "Okno 4 kw.",
+    "sashes": 4,
+    "image": "/images/typologies/F453.svg"
+  },
+  {
+    "id": "F457",
+    "name": "Okno 4 kw. słupek stały",
+    "sashes": 4,
+    "image": "/images/typologies/F457.svg"
+  },
+  {
+    "id": "FS202",
+    "name": "Drzwi harmonijkowe 2 kw. otw. na prawo",
+    "sashes": 2,
+    "image": "/images/typologies/FS202.svg"
+  },
+  {
+    "id": "FS202Z",
+    "name": "Drzwi harmonijkowe 2 kw. otw. na prawo",
+    "sashes": 2,
+    "image": "/images/typologies/FS202Z.svg"
+  },
+  {
+    "id": "FS220",
+    "name": "Drzwi harmonijkowe 2 kw. otw. na lewo",
+    "sashes": 2,
+    "image": "/images/typologies/FS220.svg"
+  },
+  {
+    "id": "FS220Z",
+    "name": "Drzwi harmonijkowe 2 kw. otw. na lewo",
+    "sashes": 2,
+    "image": "/images/typologies/FS220Z.svg"
+  },
+  {
+    "id": "FS303",
+    "name": "Drzwi harmonijkowe 3 kw. otw. na prawo",
+    "sashes": 3,
+    "image": "/images/typologies/FS303.svg"
+  },
+  {
+    "id": "FS303Z",
+    "name": "Drzwi harmonijkowe 3 kw. otw. na prawo",
+    "sashes": 3,
+    "image": "/images/typologies/FS303Z.svg"
+  },
+  {
+    "id": "FS312",
+    "name": "Drzwi harmonijkowe 3 kw. (1 kw. rozw + 2 kw. otw. na prawo)",
+    "sashes": 3,
+    "image": "/images/typologies/FS312.svg"
+  },
+  {
+    "id": "FS312Z",
+    "name": "Drzwi harmonijkowe 3 kw. (1 kw. rozw + 2 kw. otw. na prawo)",
+    "sashes": 3,
+    "image": "/images/typologies/FS312Z.svg"
+  },
+  {
+    "id": "FS321",
+    "name": "Drzwi harmonijkowe 3 kw. (2 kw. otw. na lewo + 1 kw. rozw.)",
+    "sashes": 3,
+    "image": "/images/typologies/FS321.svg"
+  },
+  {
+    "id": "FS321Z",
+    "name": "Drzwi harmonijkowe 3 kw. (2 kw. otw. na lewo + 1 kw. rozw.)",
+    "sashes": 3,
+    "image": "/images/typologies/FS321Z.svg"
+  },
+  {
+    "id": "FS330",
+    "name": "Drzwi harmonijkowe 3 kw. otw. na lewo",
+    "sashes": 3,
+    "image": "/images/typologies/FS330.svg"
+  },
+  {
+    "id": "FS330Z",
+    "name": "Drzwi harmonijkowe 3 kw. otw. na lewo",
+    "sashes": 3,
+    "image": "/images/typologies/FS330Z.svg"
+  },
+  {
+    "id": "FS404",
+    "name": "Drzwi harmonijkowe 4 kw. otw. na prawo",
+    "sashes": 4,
+    "image": "/images/typologies/FS404.svg"
+  },
+  {
+    "id": "FS404Z",
+    "name": "Drzwi harmonijkowe 4 kw. otw. na prawo",
+    "sashes": 4,
+    "image": "/images/typologies/FS404Z.svg"
+  },
+  {
+    "id": "FS413",
+    "name": "Drzwi harmonijkowe 4 kw. (1 kw. rozw + 3 kw. otw. na prawo)",
+    "sashes": 4,
+    "image": "/images/typologies/FS413.svg"
+  },
+  {
+    "id": "FS413Z",
+    "name": "Drzwi harmonijkowe 4 kw. (1 kw. rozw + 3 kw. otw. na prawo)",
+    "sashes": 4,
+    "image": "/images/typologies/FS413Z.svg"
+  },
+  {
+    "id": "FS422",
+    "name": "Drzwi harmonijkowe 4 kw. (2 kw. na lewo + 2 kw. na prawo)",
+    "sashes": 4,
+    "image": "/images/typologies/FS422.svg"
+  },
+  {
+    "id": "FS422Z",
+    "name": "Drzwi harmonijkowe 4 kw. (2 kw. na lewo + 2 kw. na prawo)",
+    "sashes": 4,
+    "image": "/images/typologies/FS422Z.svg"
+  },
+  {
+    "id": "FS431",
+    "name": "Drzwi harmonijkowe 4 kw. (3 kw. otw. na lewo + 1 kw. rozw.)",
+    "sashes": 4,
+    "image": "/images/typologies/FS431.svg"
+  },
+  {
+    "id": "FS431Z",
+    "name": "Drzwi harmonijkowe 4 kw. (3 kw. otw. na lewo + 1 kw. rozw.)",
+    "sashes": 4,
+    "image": "/images/typologies/FS431Z.svg"
+  },
+  {
+    "id": "FS440",
+    "name": "Drzwi harmonijkowe 4 kw. otw. na lewo",
+    "sashes": 4,
+    "image": "/images/typologies/FS440.svg"
+  },
+  {
+    "id": "FS440Z",
+    "name": "Drzwi harmonijkowe 4 kw. otw. na lewo",
+    "sashes": 4,
+    "image": "/images/typologies/FS440Z.svg"
+  },
+  {
+    "id": "FS505",
+    "name": "Drzwi harmonijkowe 5 kw. otw. na prawo",
+    "sashes": 99,
+    "image": "/images/typologies/FS505.svg"
+  },
+  {
+    "id": "FS505Z",
+    "name": "Drzwi harmonijkowe 5 kw. otw. na prawo",
+    "sashes": 99,
+    "image": "/images/typologies/FS505Z.svg"
+  },
+  {
+    "id": "FS514",
+    "name": "Drzwi harmonijkowe 5 kw. (1 kw. rozw + 4 kw. otw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS514.svg"
+  },
+  {
+    "id": "FS514Z",
+    "name": "Drzwi harmonijkowe 5 kw. (1 kw. rozw + 4 kw. otw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS514Z.svg"
+  },
+  {
+    "id": "FS523",
+    "name": "Drzwi harmonijkowe 5 kw. (2 kw. na lewo + 3 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS523.svg"
+  },
+  {
+    "id": "FS523Z",
+    "name": "Drzwi harmonijkowe 5 kw. (2 kw. na lewo + 3 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS523Z.svg"
+  },
+  {
+    "id": "FS532",
+    "name": "Drzwi harmonijkowe 5 kw. (3 kw. na lewo + 2 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS532.svg"
+  },
+  {
+    "id": "FS532Z",
+    "name": "Drzwi harmonijkowe 5 kw. (3 kw. na lewo + 2 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS532Z.svg"
+  },
+  {
+    "id": "FS541",
+    "name": "Drzwi harmonijkowe 5 kw. (4 kw. otw. na lewo + 1 kw. rozw.)",
+    "sashes": 99,
+    "image": "/images/typologies/FS541.svg"
+  },
+  {
+    "id": "FS541Z",
+    "name": "Drzwi harmonijkowe 5 kw. (4 kw. otw. na lewo + 1 kw. rozw.)",
+    "sashes": 99,
+    "image": "/images/typologies/FS541Z.svg"
+  },
+  {
+    "id": "FS550",
+    "name": "Drzwi harmonijkowe 5 kw. otw. na lewo",
+    "sashes": 99,
+    "image": "/images/typologies/FS550.svg"
+  },
+  {
+    "id": "FS550Z",
+    "name": "Drzwi harmonijkowe 5 kw. otw. na lewo",
+    "sashes": 99,
+    "image": "/images/typologies/FS550Z.svg"
+  },
+  {
+    "id": "FS606",
+    "name": "Drzwi harmonijkowe 6 kw. otw. na prawo",
+    "sashes": 99,
+    "image": "/images/typologies/FS606.svg"
+  },
+  {
+    "id": "FS606Z",
+    "name": "Drzwi harmonijkowe 6 kw. otw. na prawo",
+    "sashes": 99,
+    "image": "/images/typologies/FS606Z.svg"
+  },
+  {
+    "id": "FS615",
+    "name": "Drzwi harmonijkowe 6 kw. (1 kw. rozw + 5 kw. otw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS615.svg"
+  },
+  {
+    "id": "FS615Z",
+    "name": "Drzwi harmonijkowe 6 kw. (1 kw. rozw + 5 kw. otw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS615Z.svg"
+  },
+  {
+    "id": "FS624",
+    "name": "Drzwi harmonijkowe 6 kw. (2 kw. na lewo + 4 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS624.svg"
+  },
+  {
+    "id": "FS624Z",
+    "name": "Drzwi harmonijkowe 6 kw. (2 kw. na lewo + 4 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS624Z.svg"
+  },
+  {
+    "id": "FS633L",
+    "name": "Drzwi harmonijkowe 6 kw. (3 kw. na lewo + 3 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS633L.svg"
+  },
+  {
+    "id": "FS633LZ",
+    "name": "Drzwi harmonijkowe 6 kw. (3 kw. na lewo + 3 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS633LZ.svg"
+  },
+  {
+    "id": "FS633P",
+    "name": "Drzwi harmonijkowe 6 kw. (3 kw. na lewo + 3 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS633P.svg"
+  },
+  {
+    "id": "FS633PZ",
+    "name": "Drzwi harmonijkowe 6 kw. (3 kw. na lewo + 3 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS633PZ.svg"
+  },
+  {
+    "id": "FS642",
+    "name": "Drzwi harmonijkowe 6 kw. (4 kw. na lewo + 2 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS642.svg"
+  },
+  {
+    "id": "FS642Z",
+    "name": "Drzwi harmonijkowe 6 kw. (4 kw. na lewo + 2 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS642Z.svg"
+  },
+  {
+    "id": "FS651",
+    "name": "Drzwi harmonijkowe 6 kw. (5 kw. otw. na lewo + 1 kw. rozw.)",
+    "sashes": 99,
+    "image": "/images/typologies/FS651.svg"
+  },
+  {
+    "id": "FS651Z",
+    "name": "Drzwi harmonijkowe 6 kw. (5 kw. otw. na lewo + 1 kw. rozw.)",
+    "sashes": 99,
+    "image": "/images/typologies/FS651Z.svg"
+  },
+  {
+    "id": "FS660",
+    "name": "Drzwi harmonijkowe 6 kw. otw. na lewo",
+    "sashes": 99,
+    "image": "/images/typologies/FS660.svg"
+  },
+  {
+    "id": "FS660Z",
+    "name": "Drzwi harmonijkowe 6 kw. otw. na lewo",
+    "sashes": 99,
+    "image": "/images/typologies/FS660Z.svg"
+  },
+  {
+    "id": "FS707",
+    "name": "Drzwi harmonijkowe 7 kw. otw. na prawo",
+    "sashes": 99,
+    "image": "/images/typologies/FS707.svg"
+  },
+  {
+    "id": "FS707Z",
+    "name": "Drzwi harmonijkowe 7 kw. otw. na prawo",
+    "sashes": 99,
+    "image": "/images/typologies/FS707Z.svg"
+  },
+  {
+    "id": "FS716",
+    "name": "Drzwi harmonijkowe 7 kw. (1 kw. rozw + 6 kw. otw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS716.svg"
+  },
+  {
+    "id": "FS716Z",
+    "name": "Drzwi harmonijkowe 7 kw. (1 kw. rozw + 6 kw. otw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS716Z.svg"
+  },
+  {
+    "id": "FS725",
+    "name": "Drzwi harmonijkowe 7 kw. (2 kw. na lewo + 5 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS725.svg"
+  },
+  {
+    "id": "FS725Z",
+    "name": "Drzwi harmonijkowe 7 kw. (2 kw. na lewo + 5 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS725Z.svg"
+  },
+  {
+    "id": "FS752",
+    "name": "Drzwi harmonijkowe 7 kw. (5 kw. na lewo + 2 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS752.svg"
+  },
+  {
+    "id": "FS752Z",
+    "name": "Drzwi harmonijkowe 7 kw. (5 kw. na lewo + 2 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS752Z.svg"
+  },
+  {
+    "id": "FS761",
+    "name": "Drzwi harmonijkowe 7 kw. (6 kw. na lewo + 1 kw. rozw.)",
+    "sashes": 99,
+    "image": "/images/typologies/FS761.svg"
+  },
+  {
+    "id": "FS761Z",
+    "name": "Drzwi harmonijkowe 7 kw. (6 kw. na lewo + 1 kw. rozw.)",
+    "sashes": 99,
+    "image": "/images/typologies/FS761Z.svg"
+  },
+  {
+    "id": "FS770",
+    "name": "Drzwi harmonijkowe 7 kw. otw. na lewo",
+    "sashes": 99,
+    "image": "/images/typologies/FS770.svg"
+  },
+  {
+    "id": "FS770Z",
+    "name": "Drzwi harmonijkowe 7 kw. otw. na lewo",
+    "sashes": 99,
+    "image": "/images/typologies/FS770Z.svg"
+  },
+  {
+    "id": "FS808",
+    "name": "Drzwi harmonijkowe 8 kw. otw. na prawo",
+    "sashes": 99,
+    "image": "/images/typologies/FS808.svg"
+  },
+  {
+    "id": "FS808Z",
+    "name": "Drzwi harmonijkowe 8 kw. otw. na prawo",
+    "sashes": 99,
+    "image": "/images/typologies/FS808Z.svg"
+  },
+  {
+    "id": "FS817",
+    "name": "Drzwi harmonijkowe 8 kw. (1 kw. rozw + 7 kw. otw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS817.svg"
+  },
+  {
+    "id": "FS817Z",
+    "name": "Drzwi harmonijkowe 8 kw. (1 kw. rozw + 7 kw. otw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS817Z.svg"
+  },
+  {
+    "id": "FS826",
+    "name": "Drzwi harmonijkowe 8 kw. (2 kw. na lewo + 6 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS826.svg"
+  },
+  {
+    "id": "FS826Z",
+    "name": "Drzwi harmonijkowe 8 kw. (2 kw. na lewo + 6 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS826Z.svg"
+  },
+  {
+    "id": "FS835",
+    "name": "Drzwi harmonijkowe 8 kw. (3 kw. na lewo + 5 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS835.svg"
+  },
+  {
+    "id": "FS835Z",
+    "name": "Drzwi harmonijkowe 8 kw. (3 kw. na lewo + 5 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS835Z.svg"
+  },
+  {
+    "id": "FS844",
+    "name": "Drzwi harmonijkowe 8 kw. (4 kw. na lewo + 4 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS844.svg"
+  },
+  {
+    "id": "FS844Z",
+    "name": "Drzwi harmonijkowe 8 kw. (4 kw. na lewo + 4 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS844Z.svg"
+  },
+  {
+    "id": "FS853",
+    "name": "Drzwi harmonijkowe 8 kw. (5 kw. na lewo + 3 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS853.svg"
+  },
+  {
+    "id": "FS853Z",
+    "name": "Drzwi harmonijkowe 8 kw. (5 kw. na lewo + 3 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS853Z.svg"
+  },
+  {
+    "id": "FS862",
+    "name": "Drzwi harmonijkowe 8 kw. (6 kw. na lewo + 2 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS862.svg"
+  },
+  {
+    "id": "FS862Z",
+    "name": "Drzwi harmonijkowe 8 kw. (6 kw. na lewo + 2 kw. na prawo)",
+    "sashes": 99,
+    "image": "/images/typologies/FS862Z.svg"
+  },
+  {
+    "id": "FS871",
+    "name": "Drzwi harmonijkowe 8 kw. (7 kw. na lewo + 1 kw. rozw.)",
+    "sashes": 99,
+    "image": "/images/typologies/FS871.svg"
+  },
+  {
+    "id": "FS871Z",
+    "name": "Drzwi harmonijkowe 8 kw. (7 kw. otw. na lewo + 1 kw. rozw.)",
+    "sashes": 99,
+    "image": "/images/typologies/FS871Z.svg"
+  },
+  {
+    "id": "FS880",
+    "name": "Drzwi harmonijkowe 8 kw. otw. na lewo",
+    "sashes": 99,
+    "image": "/images/typologies/FS880.svg"
+  },
+  {
+    "id": "FS880Z",
+    "name": "Drzwi harmonijkowe 8 kw. otw. na lewo",
+    "sashes": 99,
+    "image": "/images/typologies/FS880Z.svg"
+  },
+  {
+    "id": "FSD303",
+    "name": "Drzwi harmonijkowe 3 kw. otw. na prawo",
+    "sashes": 3,
+    "image": "/images/typologies/FSD303.svg"
+  },
+  {
+    "id": "FSD312",
+    "name": "Drzwi harmonijkowe 3 kw. (1 kw. rozw + 2 kw. otw. na prawo)",
+    "sashes": 3,
+    "image": "/images/typologies/FSD312.svg"
+  },
+  {
+    "id": "FSD321",
+    "name": "Drzwi harmonijkowe 3 kw. (2 kw. otw. na lewo + 1 kw. rozw.)",
+    "sashes": 3,
+    "image": "/images/typologies/FSD321.svg"
+  },
+  {
+    "id": "FSD330",
+    "name": "Drzwi harmonijkowe 3 kw. otw. na lewo",
+    "sashes": 3,
+    "image": "/images/typologies/FSD330.svg"
+  },
+  {
+    "id": "FSD413",
+    "name": "Drzwi harmonijkowe 4 kw. (1 kw. rozw + 3 kw. otw. na prawo)",
+    "sashes": 4,
+    "image": "/images/typologies/FSD413.svg"
+  },
+  {
+    "id": "FSD431",
+    "name": "Drzwi harmonijkowe 4 kw. (3 kw. otw. na lewo + 1 kw. rozw.)",
+    "sashes": 4,
+    "image": "/images/typologies/FSD431.svg"
+  },
+  {
+    "id": "G",
+    "name": "Szyba / Wypełnienie / Panel drzwiowy",
+    "sashes": 1,
+    "image": "/images/typologies/G.svg"
+  },
+  {
+    "id": "H201",
+    "name": "HS schemat A (2 kw.) otw. na prawo",
+    "sashes": 2,
+    "image": "/images/typologies/H201.svg"
+  },
+  {
+    "id": "H201N",
+    "name": "HS schemat A (2 kw.) otw. na prawo z naświetlem",
+    "sashes": 3,
+    "image": "/images/typologies/H201N.svg"
+  },
+  {
+    "id": "H202",
+    "name": "HS schemat A (2 kw.) otw. na lewo",
+    "sashes": 2,
+    "image": "/images/typologies/H202.svg"
+  },
+  {
+    "id": "H202N",
+    "name": "HS schemat A (2 kw.) otw. na lewo z naświetlem",
+    "sashes": 3,
+    "image": "/images/typologies/H202N.svg"
+  },
+  {
+    "id": "H203",
+    "name": "HS schemat D (2 kw.) skrzydlo lewe wewn., prawe zewn.",
+    "sashes": 2,
+    "image": "/images/typologies/H203.svg"
+  },
+  {
+    "id": "H204",
+    "name": "HS schemat D (2 kw.) skrzydlo lewe zewn., prawe wewn.",
+    "sashes": 2,
+    "image": "/images/typologies/H204.svg"
+  },
+  {
+    "id": "H301",
+    "name": "HS schemat G1 (3 kw.) otw. na prawo",
+    "sashes": 3,
+    "image": "/images/typologies/H301.svg"
+  },
+  {
+    "id": "H302",
+    "name": "HS schemat G1 (3 kw.) otw. na lewo",
+    "sashes": 3,
+    "image": "/images/typologies/H302.svg"
+  },
+  {
+    "id": "H303",
+    "name": "HS schemat G3 (3 kw.) otw. na prawo",
+    "sashes": 3,
+    "image": "/images/typologies/H303.svg"
+  },
+  {
+    "id": "H304",
+    "name": "HS schemat G3 (3 kw.) otw. na lewo",
+    "sashes": 3,
+    "image": "/images/typologies/H304.svg"
+  },
+  {
+    "id": "H305",
+    "name": "HS schemat K (3 kw.)",
+    "sashes": 3,
+    "image": "/images/typologies/H305.svg"
+  },
+  {
+    "id": "H311",
+    "name": "HS schemat AG (3 kw.) otw. na praw (3-szynowy)",
+    "sashes": 3,
+    "image": "/images/typologies/H311.svg"
+  },
+  {
+    "id": "H312",
+    "name": "HS schemat AG (3 kw.) otw. na lewo (3-szynowy)",
+    "sashes": 3,
+    "image": "/images/typologies/H312.svg"
+  },
+  {
+    "id": "H401",
+    "name": "HS schemat C (4 kw.) - wiodące prawe",
+    "sashes": 4,
+    "image": "/images/typologies/H401.svg"
+  },
+  {
+    "id": "H401_DL",
+    "name": "HS schemat C (4 kw.) - wiodące prawe - DO USUNIĘCIA",
+    "sashes": 4,
+    "image": "/images/typologies/H401_DL.svg"
+  },
+  {
+    "id": "H401N",
+    "name": "HS schemat C (4 kw.) - wiodące prawe z naświetlem",
+    "sashes": 99,
+    "image": "/images/typologies/H401N.svg"
+  },
+  {
+    "id": "H402",
+    "name": "HS schemat C (4 kw.) - wiodące lewe",
+    "sashes": 4,
+    "image": "/images/typologies/H402.svg"
+  },
+  {
+    "id": "H402N",
+    "name": "HS schemat C (4 kw.) - wiodące lewe z naświetlem",
+    "sashes": 99,
+    "image": "/images/typologies/H402N.svg"
+  },
+  {
+    "id": "HM201",
+    "name": "HS schemat A Fix (2 kw.) otw. na prawo",
+    "sashes": 2,
+    "image": "/images/typologies/HM201.svg"
+  },
+  {
+    "id": "HM202",
+    "name": "HS schemat A Fix (2 kw.) otw. na lewo",
+    "sashes": 2,
+    "image": "/images/typologies/HM202.svg"
+  },
+  {
+    "id": "HM301",
+    "name": "HS schemat G1 Fix (3 kw.) otw. na prawo",
+    "sashes": 3,
+    "image": "/images/typologies/HM301.svg"
+  },
+  {
+    "id": "HM302",
+    "name": "HS schemat G1 Fix (3 kw.) otw. na lewo",
+    "sashes": 3,
+    "image": "/images/typologies/HM302.svg"
+  },
+  {
+    "id": "HM401",
+    "name": "HS schemat C Fix (4 kw.) otw. na prawo",
+    "sashes": 4,
+    "image": "/images/typologies/HM401.svg"
+  },
+  {
+    "id": "HM402",
+    "name": "HS schemat C Fix (4 kw.) otw. na lewo",
+    "sashes": 4,
+    "image": "/images/typologies/HM402.svg"
+  },
+  {
+    "id": "M1",
+    "name": "Moskitiera plisowana pojedyncza",
+    "sashes": 1,
+    "image": "/images/typologies/M1.svg"
+  },
+  {
+    "id": "M2",
+    "name": "Zestaw 2 moskitier plisowanych",
+    "sashes": 2,
+    "image": "/images/typologies/M2.svg"
+  },
+  {
+    "id": "M200",
+    "name": "MB SLIDE 2-skrzydłowe - WIODĄCE PRAWE",
+    "sashes": 2,
+    "image": "/images/typologies/M200.svg"
+  },
+  {
+    "id": "M201",
+    "name": "MB SLIDE 2-skrzydłowe- WIODĄCE LEWE",
+    "sashes": 2,
+    "image": "/images/typologies/M201.svg"
+  },
+  {
+    "id": "M210",
+    "name": "MB SLIDE 2-skrzydłowe - WIODĄCE PRAWE + FEST",
+    "sashes": 2,
+    "image": "/images/typologies/M210.svg"
+  },
+  {
+    "id": "M211",
+    "name": "MB SLIDE 2-skrzydłowe - WIODĄCE LEWE + FEST",
+    "sashes": 2,
+    "image": "/images/typologies/M211.svg"
+  },
+  {
+    "id": "M300",
+    "name": "MB SLIDE 3-skrzydłowe - WIODĄCE PRAWE",
+    "sashes": 3,
+    "image": "/images/typologies/M300.svg"
+  },
+  {
+    "id": "M301",
+    "name": "MB SLIDE 3-skrzydłowe - WIODĄCE LEWE",
+    "sashes": 3,
+    "image": "/images/typologies/M301.svg"
+  },
+  {
+    "id": "M310",
+    "name": "MB SLIDE 3-skrzydłowe - WIODĄCE PRAWE + FEST",
+    "sashes": 3,
+    "image": "/images/typologies/M310.svg"
+  },
+  {
+    "id": "M311",
+    "name": "MB SLIDE 3-skrzydłowe - WIODĄCE LEWE + FEST",
+    "sashes": 3,
+    "image": "/images/typologies/M311.svg"
+  },
+  {
+    "id": "M400",
+    "name": "MB SLIDE 4-skrzydłowe - WIODĄCE PRAWE",
+    "sashes": 4,
+    "image": "/images/typologies/M400.svg"
+  },
+  {
+    "id": "M401",
+    "name": "MB SLIDE 4-skrzydłowe - WIODĄCE LEWE",
+    "sashes": 4,
+    "image": "/images/typologies/M401.svg"
+  },
+  {
+    "id": "M410",
+    "name": "MB SLIDE 4-skrzydłowe - WIODĄCE PRAWE + FEST",
+    "sashes": 4,
+    "image": "/images/typologies/M410.svg"
+  },
+  {
+    "id": "M411",
+    "name": "MB SLIDE 4-skrzydłowe - WIODĄCE LEWE + FEST",
+    "sashes": 4,
+    "image": "/images/typologies/M411.svg"
+  },
+  {
+    "id": "MFR",
+    "name": "Moskitiera Flex-Screen",
+    "sashes": 1,
+    "image": "/images/typologies/MFR.svg"
+  },
+  {
+    "id": "MO",
+    "name": "Moskitiera drzwiowa",
+    "sashes": 1,
+    "image": "/images/typologies/MO.svg"
+  },
+  {
+    "id": "MR",
+    "name": "Moskitiera ramkowa",
+    "sashes": 1,
+    "image": "/images/typologies/MR.svg"
+  },
+  {
+    "id": "ND",
+    "name": "Narożnik drzwiowy",
+    "sashes": 1,
+    "image": "/images/typologies/ND.svg"
+  },
+  {
+    "id": "ND_ALU",
+    "name": "Narożnik drzwiowy Alu",
+    "sashes": 1,
+    "image": "/images/typologies/ND_ALU.svg"
+  },
+  {
+    "id": "ND_ALU_NAK",
+    "name": "Narożnik drzwiowy Alu panel nakładkowy",
+    "sashes": 1,
+    "image": "/images/typologies/ND_ALU_NAK.svg"
+  },
+  {
+    "id": "NF",
+    "name": "Narożnik okienny",
+    "sashes": 1,
+    "image": "/images/typologies/NF.svg"
+  },
+  {
+    "id": "NFL",
+    "name": "Narożnik Fold Line",
+    "sashes": 1,
+    "image": "/images/typologies/NFL.svg"
+  },
+  {
+    "id": "NH",
+    "name": "Narożnik HS \"C\"",
+    "sashes": 1,
+    "image": "/images/typologies/NH.svg"
+  },
+  {
+    "id": "NH_ALU",
+    "name": "Narożnik HS \"L\" Alu",
+    "sashes": 1,
+    "image": "/images/typologies/NH_ALU.svg"
+  },
+  {
+    "id": "NHW",
+    "name": "Narożnik HS \"W\"",
+    "sashes": 2,
+    "image": "/images/typologies/NHW.svg"
+  },
+  {
+    "id": "NHW_ALU",
+    "name": "Narożnik HS \"W\" Alu",
+    "sashes": 2,
+    "image": "/images/typologies/NHW_ALU.svg"
+  },
+  {
+    "id": "NS",
+    "name": "Narożnik SLIDE",
+    "sashes": 1,
+    "image": "/images/typologies/NS.svg"
+  },
+  {
+    "id": "NS_ALU",
+    "name": "Narożnik SLIDE",
+    "sashes": 1,
+    "image": "/images/typologies/NS_ALU.svg"
+  },
+  {
+    "id": "P100",
+    "name": "Stałe szklenie PSK",
+    "sashes": 1,
+    "image": "/images/typologies/P100.svg"
+  },
+  {
+    "id": "P101",
+    "name": "PSK  otw. na prawo",
+    "sashes": 1,
+    "image": "/images/typologies/P101.svg"
+  },
+  {
+    "id": "P102",
+    "name": "PSK  otw. na lewo",
+    "sashes": 1,
+    "image": "/images/typologies/P102.svg"
+  },
+  {
+    "id": "P103",
+    "name": "Stałe szklenie w skrzydle PSK",
+    "sashes": 1,
+    "image": "/images/typologies/P103.svg"
+  },
+  {
+    "id": "P201",
+    "name": "PSK  otw. na prawo",
+    "sashes": 2,
+    "image": "/images/typologies/P201.svg"
+  },
+  {
+    "id": "P202",
+    "name": "PSK  otw. na lewo",
+    "sashes": 2,
+    "image": "/images/typologies/P202.svg"
+  },
+  {
+    "id": "P203",
+    "name": "PSK  otw. na prawo UP + FF",
+    "sashes": 2,
+    "image": "/images/typologies/P203.svg"
+  },
+  {
+    "id": "P204",
+    "name": "PSK  otw. na lewo  FF + UP",
+    "sashes": 2,
+    "image": "/images/typologies/P204.svg"
+  },
+  {
+    "id": "P205",
+    "name": "PSK 2 skrz. ze sł. ruch., prawe skrzydło czynne",
+    "sashes": 2,
+    "image": "/images/typologies/P205.svg"
+  },
+  {
+    "id": "P206",
+    "name": "PSK 2 skrz. ze sł. ruch., lewe skrzydło czynne",
+    "sashes": 2,
+    "image": "/images/typologies/P206.svg"
+  },
+  {
+    "id": "P401",
+    "name": "Okno PSK 4 skrz. ze sł. ruch., prawe skrzydło czynne",
+    "sashes": 4,
+    "image": "/images/typologies/P401.svg"
+  },
+  {
+    "id": "P402",
+    "name": "Okno PSK 4 skrz. ze sł. ruch., lewe skrzydło czynne",
+    "sashes": 4,
+    "image": "/images/typologies/P402.svg"
+  },
+  {
+    "id": "PP100",
+    "name": "Stałe szklenie PSK",
+    "sashes": 1,
+    "image": "/images/typologies/PP100.svg"
+  },
+  {
+    "id": "PP101",
+    "name": "PSK na profilu pośrednim otw. na prawo",
+    "sashes": 1,
+    "image": "/images/typologies/PP101.svg"
+  },
+  {
+    "id": "PP102",
+    "name": "PSK na profilu pośrednim otw. na lewo",
+    "sashes": 1,
+    "image": "/images/typologies/PP102.svg"
+  },
+  {
+    "id": "PP103",
+    "name": "Stałe szklenie w skrzydle PSK",
+    "sashes": 1,
+    "image": "/images/typologies/PP103.svg"
+  },
+  {
+    "id": "PP201",
+    "name": "PSK na profilu pośrednim otw. na prawo",
+    "sashes": 2,
+    "image": "/images/typologies/PP201.svg"
+  },
+  {
+    "id": "PP202",
+    "name": "PSK na profilu pośrednim otw. na lewo",
+    "sashes": 2,
+    "image": "/images/typologies/PP202.svg"
+  },
+  {
+    "id": "PP203",
+    "name": "PSK na profilu pośrednim otw. na prawo UP + FF",
+    "sashes": 2,
+    "image": "/images/typologies/PP203.svg"
+  },
+  {
+    "id": "PP204",
+    "name": "PSK na profilu pośrednim otw. na lewo  FF + UP",
+    "sashes": 2,
+    "image": "/images/typologies/PP204.svg"
+  },
+  {
+    "id": "PP205",
+    "name": "PSK na profilu pośrednim 2 skrz. ze sł. ruch., prawe czynne",
+    "sashes": 2,
+    "image": "/images/typologies/PP205.svg"
+  },
+  {
+    "id": "PP206",
+    "name": "PSK na profilu pośrednim 2 skrz. ze sł. ruch., lewe czynne",
+    "sashes": 2,
+    "image": "/images/typologies/PP206.svg"
+  },
+  {
+    "id": "R1",
+    "name": "Roleta pojedyncza",
+    "sashes": 1,
+    "image": "/images/typologies/R1.svg"
+  },
+  {
+    "id": "R2",
+    "name": "Zestaw 2 rolet w jednej skrzynce",
+    "sashes": 2,
+    "image": "/images/typologies/R2.svg"
+  },
+  {
+    "id": "R3",
+    "name": "Zestaw 3 rolet w jednej skrzynce",
+    "sashes": 3,
+    "image": "/images/typologies/R3.svg"
+  },
+  {
+    "id": "S100",
+    "name": "Okno suwane na lewo",
+    "sashes": 1,
+    "image": "/images/typologies/S100.svg"
+  },
+  {
+    "id": "S101",
+    "name": "Okno suwane na prawo",
+    "sashes": 1,
+    "image": "/images/typologies/S101.svg"
+  },
+  {
+    "id": "S110",
+    "name": "Drzwi suwane na lewo",
+    "sashes": 1,
+    "image": "/images/typologies/S110.svg"
+  },
+  {
+    "id": "S111",
+    "name": "Drzwi suwane na prawo",
+    "sashes": 1,
+    "image": "/images/typologies/S111.svg"
+  },
+  {
+    "id": "S120",
+    "name": "Drzwi suwane na lewo",
+    "sashes": 1,
+    "image": "/images/typologies/S120.svg"
+  },
+  {
+    "id": "S121",
+    "name": "Drzwi suwane na prawo",
+    "sashes": 1,
+    "image": "/images/typologies/S121.svg"
+  },
+  {
+    "id": "S130",
+    "name": "Drzwi suwane na lewo",
+    "sashes": 1,
+    "image": "/images/typologies/S130.svg"
+  },
+  {
+    "id": "S131",
+    "name": "Drzwi suwane na prawo",
+    "sashes": 1,
+    "image": "/images/typologies/S131.svg"
+  },
+  {
+    "id": "S200",
+    "name": "Okno podnoszone ręcznie bez wspomagania",
+    "sashes": 2,
+    "image": "/images/typologies/S200.svg"
+  },
+  {
+    "id": "S201",
+    "name": "Okno suwane na lewo i prawo",
+    "sashes": 2,
+    "image": "/images/typologies/S201.svg"
+  },
+  {
+    "id": "S202",
+    "name": "Okno suwane na lewo",
+    "sashes": 2,
+    "image": "/images/typologies/S202.svg"
+  },
+  {
+    "id": "S203",
+    "name": "Okno suwane na prawo",
+    "sashes": 2,
+    "image": "/images/typologies/S203.svg"
+  },
+  {
+    "id": "S211",
+    "name": "Drzwi suwane na lewo i prawo",
+    "sashes": 2,
+    "image": "/images/typologies/S211.svg"
+  },
+  {
+    "id": "S212",
+    "name": "Drzwi suwane na lewo",
+    "sashes": 2,
+    "image": "/images/typologies/S212.svg"
+  },
+  {
+    "id": "S213",
+    "name": "Drzwi suwane na prawo",
+    "sashes": 2,
+    "image": "/images/typologies/S213.svg"
+  },
+  {
+    "id": "S221",
+    "name": "Drzwi suwane na lewo i prawo",
+    "sashes": 2,
+    "image": "/images/typologies/S221.svg"
+  },
+  {
+    "id": "S222",
+    "name": "Drzwi suwane na lewo",
+    "sashes": 2,
+    "image": "/images/typologies/S222.svg"
+  },
+  {
+    "id": "S223",
+    "name": "Drzwi suwane na prawo",
+    "sashes": 2,
+    "image": "/images/typologies/S223.svg"
+  },
+  {
+    "id": "S231",
+    "name": "Drzwi suwane na lewo i prawo",
+    "sashes": 2,
+    "image": "/images/typologies/S231.svg"
+  },
+  {
+    "id": "S232",
+    "name": "Drzwi suwane na lewo",
+    "sashes": 2,
+    "image": "/images/typologies/S232.svg"
+  },
+  {
+    "id": "S233",
+    "name": "Drzwi suwane na prawo",
+    "sashes": 2,
+    "image": "/images/typologies/S233.svg"
+  },
+  {
+    "id": "S300",
+    "name": "Okno suwane na lewo",
+    "sashes": 3,
+    "image": "/images/typologies/S300.svg"
+  },
+  {
+    "id": "S301",
+    "name": "Okno suwane na prawo",
+    "sashes": 3,
+    "image": "/images/typologies/S301.svg"
+  },
+  {
+    "id": "S302",
+    "name": "Okno suwane na lewo",
+    "sashes": 3,
+    "image": "/images/typologies/S302.svg"
+  },
+  {
+    "id": "S303",
+    "name": "Okno suwane na prawo",
+    "sashes": 3,
+    "image": "/images/typologies/S303.svg"
+  },
+  {
+    "id": "S310",
+    "name": "Drzwi suwane na lewo",
+    "sashes": 4,
+    "image": "/images/typologies/S310.svg"
+  },
+  {
+    "id": "S311",
+    "name": "Drzwi suwane na prawo",
+    "sashes": 4,
+    "image": "/images/typologies/S311.svg"
+  },
+  {
+    "id": "S320",
+    "name": "Drzwi suwane na lewo",
+    "sashes": 4,
+    "image": "/images/typologies/S320.svg"
+  },
+  {
+    "id": "S321",
+    "name": "Drzwi suwane na prawo",
+    "sashes": 4,
+    "image": "/images/typologies/S321.svg"
+  },
+  {
+    "id": "S330",
+    "name": "Drzwi suwane na lewo",
+    "sashes": 4,
+    "image": "/images/typologies/S330.svg"
+  },
+  {
+    "id": "S331",
+    "name": "Drzwi suwane na prawo",
+    "sashes": 4,
+    "image": "/images/typologies/S331.svg"
+  },
+  {
+    "id": "S400",
+    "name": "Okno suwane na lewo i prawo",
+    "sashes": 4,
+    "image": "/images/typologies/S400.svg"
+  },
+  {
+    "id": "S401N",
+    "name": "Okno suwane na lewo i prawo",
+    "sashes": 99,
+    "image": "/images/typologies/S401N.svg"
+  },
+  {
+    "id": "S402N",
+    "name": "Okno suwane na lewo i prawo",
+    "sashes": 99,
+    "image": "/images/typologies/S402N.svg"
+  },
+  {
+    "id": "S410",
+    "name": "Drzwi suwane na lewo i prawo",
+    "sashes": 4,
+    "image": "/images/typologies/S410.svg"
+  },
+  {
+    "id": "S411N",
+    "name": "Drzwi suwane na lewo i prawo",
+    "sashes": 99,
+    "image": "/images/typologies/S411N.svg"
+  },
+  {
+    "id": "S420",
+    "name": "Drzwi suwane na lewo i prawo",
+    "sashes": 4,
+    "image": "/images/typologies/S420.svg"
+  },
+  {
+    "id": "S421N",
+    "name": "Drzwi suwane na lewo i prawo",
+    "sashes": 99,
+    "image": "/images/typologies/S421N.svg"
+  },
+  {
+    "id": "S430",
+    "name": "Drzwi suwane na lewo i prawo",
+    "sashes": 4,
+    "image": "/images/typologies/S430.svg"
+  },
+  {
+    "id": "S431N",
+    "name": "Drzwi suwane na lewo i prawo",
+    "sashes": 99,
+    "image": "/images/typologies/S431N.svg"
+  },
+  {
+    "id": "SG1044L_5",
+    "name": "SLIDE GLASS SG1044L_5 (10-SKRZ. - WIODĄCE LEWE + FEST)",
+    "sashes": 99,
+    "image": "/images/typologies/SG1044L_5.svg"
+  },
+  {
+    "id": "SG1044P_5",
+    "name": "SLIDE GLASS SG1044P_5 (10-SKRZ. - WIODĄCE PRAWE + FEST)",
+    "sashes": 99,
+    "image": "/images/typologies/SG1044P_5.svg"
+  },
+  {
+    "id": "SG302_3",
+    "name": "SLIDE GLASS SG302_3 (3-SKRZ. - WIODĄCE PRAWE + FEST)",
+    "sashes": 3,
+    "image": "/images/typologies/SG302_3.svg"
+  },
+  {
+    "id": "SG320_3",
+    "name": "SLIDE GLASS SG320_3 (3-SKRZ. - WIODĄCE LEWE + FEST)",
+    "sashes": 3,
+    "image": "/images/typologies/SG320_3.svg"
+  },
+  {
+    "id": "SG403_4",
+    "name": "SLIDE GLASS SG403_4 (4-skrz. - WIODĄCE PRAWE + FEST)",
+    "sashes": 4,
+    "image": "/images/typologies/SG403_4.svg"
+  },
+  {
+    "id": "SG411L_3",
+    "name": "SLIDE GLASS SG411L_3 4-(SKRZ. - WIODĄCE LEWE + FEST)",
+    "sashes": 4,
+    "image": "/images/typologies/SG411L_3.svg"
+  },
+  {
+    "id": "SG411P_3",
+    "name": "SLIDE GLASS SG411P_3 (4-SKRZ. - WIODĄCE PRAWE + FEST)",
+    "sashes": 4,
+    "image": "/images/typologies/SG411P_3.svg"
+  },
+  {
+    "id": "SG430_4",
+    "name": "SLIDE GLASS SG430_4 (4-SKRZ. - WIODĄCE LEWE + FEST)",
+    "sashes": 4,
+    "image": "/images/typologies/SG430_4.svg"
+  },
+  {
+    "id": "SG504_5",
+    "name": "SLIDE GLASS SG504_5 (5-SKRZ. - WIODĄCE PRAWE + FEST)",
+    "sashes": 99,
+    "image": "/images/typologies/SG504_5.svg"
+  },
+  {
+    "id": "SG540_5",
+    "name": "SLIDE GLASS SG540_5 (5-SKRZ. - WIODĄCE LEWE + FEST)",
+    "sashes": 99,
+    "image": "/images/typologies/SG540_5.svg"
+  },
+  {
+    "id": "SG622L_3",
+    "name": "SLIDE GLASS SG622L_3 (6-skrz. - WIODĄCE LEWE + FEST)",
+    "sashes": 99,
+    "image": "/images/typologies/SG622L_3.svg"
+  },
+  {
+    "id": "SG622P_3",
+    "name": "SLIDE GLASS SG622P_3 (6-SKRZ. - WIODĄCE PRAWE + FEST)",
+    "sashes": 99,
+    "image": "/images/typologies/SG622P_3.svg"
+  },
+  {
+    "id": "SG833L_4",
+    "name": "SLIDE GLASS SG833L_4 (8-SKRZ. - WIODĄCE LEWE + FEST)",
+    "sashes": 99,
+    "image": "/images/typologies/SG833L_4.svg"
+  },
+  {
+    "id": "SG833P_4",
+    "name": "SLIDE GLASS SG833P_4 (8-SKRZ. - WIODĄCE PRAWE + FEST)",
+    "sashes": 99,
+    "image": "/images/typologies/SG833P_4.svg"
+  },
+  {
+    "id": "SL200",
+    "name": "Iglo Slide schemat D (2 kw.) skrzydlo lewe zewn, prawe wewn",
+    "sashes": 2,
+    "image": "/images/typologies/SL200.svg"
+  },
+  {
+    "id": "SL201",
+    "name": "Iglo Slide schemat D (2 kw.) skrzydlo lewe wewn, prawe zewn",
+    "sashes": 2,
+    "image": "/images/typologies/SL201.svg"
+  },
+  {
+    "id": "SL202",
+    "name": "Iglo Slide schemat A (2 kw.) otw. na prawo",
+    "sashes": 2,
+    "image": "/images/typologies/SL202.svg"
+  },
+  {
+    "id": "SL203",
+    "name": "Iglo Slide schemat A (2 kw.) otw. na lewo",
+    "sashes": 2,
+    "image": "/images/typologies/SL203.svg"
+  },
+  {
+    "id": "SL400",
+    "name": "Iglo Slide schemat F (4 kw.) - wiodace prawe",
+    "sashes": 4,
+    "image": "/images/typologies/SL400.svg"
+  },
+  {
+    "id": "SL401",
+    "name": "Iglo Slide schemat F (4 kw.) - wiodace lewe",
+    "sashes": 4,
+    "image": "/images/typologies/SL401.svg"
+  },
+  {
+    "id": "SL402",
+    "name": "Iglo Slide schemat C (4 kw.) - wiodące prawe",
+    "sashes": 4,
+    "image": "/images/typologies/SL402.svg"
+  },
+  {
+    "id": "SL403",
+    "name": "Iglo Slide schemat C (4 kw.) - wiodace lewe",
+    "sashes": 4,
+    "image": "/images/typologies/SL403.svg"
+  },
+  {
+    "id": "SLE100",
+    "name": "Stałe szklenie Iglo Edge Slide",
+    "sashes": 1,
+    "image": "/images/typologies/SLE100.svg"
+  },
+  {
+    "id": "SLE201",
+    "name": "Iglo Edge Slide A (2 kw.) otw. na prawo",
+    "sashes": 2,
+    "image": "/images/typologies/SLE201.svg"
+  },
+  {
+    "id": "SLE202",
+    "name": "Iglo Edge Slide A (2 kw.) otw. na lewo",
+    "sashes": 2,
+    "image": "/images/typologies/SLE202.svg"
+  },
+  {
+    "id": "SLE303",
+    "name": "Iglo Edge Slide G3 (3 kw.) otw. na prawo",
+    "sashes": 3,
+    "image": "/images/typologies/SLE303.svg"
+  },
+  {
+    "id": "SLE304",
+    "name": "Iglo Edge Slide G3 (3 kw.) otw. na lewo",
+    "sashes": 3,
+    "image": "/images/typologies/SLE304.svg"
+  },
+  {
+    "id": "SLE305",
+    "name": "Iglo Edge Slide K (3 kw.)",
+    "sashes": 3,
+    "image": "/images/typologies/SLE305.svg"
+  },
+  {
+    "id": "SLE401",
+    "name": "Iglo Edge Slide C (4 kw.) - wiodące prawe",
+    "sashes": 4,
+    "image": "/images/typologies/SLE401.svg"
+  },
+  {
+    "id": "SLE402",
+    "name": "Iglo Edge Slide C (4 kw.) - wiodące lewe",
+    "sashes": 4,
+    "image": "/images/typologies/SLE402.svg"
+  },
+  {
+    "id": "W100",
+    "name": "Drzwi wahadłowe 1-skrzydłowe",
+    "sashes": 1,
+    "image": "/images/typologies/W100.svg"
+  },
+  {
+    "id": "W200",
+    "name": "Drzwi wahadłowe 2-skrzydłowe",
+    "sashes": 2,
+    "image": "/images/typologies/W200.svg"
+  },
+  {
+    "id": "WJ",
+    "name": "Okno - wolna jednostka",
+    "sashes": 1,
+    "image": "/images/typologies/WJ.svg"
+  },
+  {
+    "id": "WJB",
+    "name": "Balkon - wolna jednostka",
+    "sashes": 1,
+    "image": "/images/typologies/WJB.svg"
+  },
+  {
+    "id": "WJDW",
+    "name": "Drzwi wejściowe - wolna jednostka",
+    "sashes": 1,
+    "image": "/images/typologies/WJDW.svg"
+  },
+  {
+    "id": "WJOZ",
+    "name": "Okno otw na zewn - wolna jednostka",
+    "sashes": 1,
+    "image": "/images/typologies/WJOZ.svg"
+  },
+  {
+    "id": "WJP",
+    "name": "Zestaw - wolna jednostka połączona",
+    "sashes": 1,
+    "image": "/images/typologies/WJP.svg"
+  },
+  {
+    "id": "WJPP",
+    "name": "Profil pośredni - wolna jednostka",
+    "sashes": 1,
+    "image": "/images/typologies/WJPP.svg"
+  },
+  {
+    "id": "WJPSK",
+    "name": "PSK - wolna jednostka",
+    "sashes": 1,
+    "image": "/images/typologies/WJPSK.svg"
+  },
+  {
+    "id": "WJPSKPP",
+    "name": "PSK PP - wolna jednostka",
+    "sashes": 1,
+    "image": "/images/typologies/WJPSKPP.svg"
+  },
+  {
+    "id": "Z1",
+    "name": "Żaluzja pojedyncza",
+    "sashes": 1,
+    "image": "/images/typologies/Z1.svg"
+  },
+  {
+    "id": "Z2",
+    "name": "Zestaw 2 żaluzji w jednej skrzynce",
+    "sashes": 2,
+    "image": "/images/typologies/Z2.svg"
+  },
+  {
+    "id": "Z201",
+    "name": "Zestaw (element łączący)",
+    "sashes": 2,
+    "image": "/images/typologies/Z201.svg"
+  },
+  {
+    "id": "Z202",
+    "name": "Zestaw (element łączący)",
+    "sashes": 2,
+    "image": "/images/typologies/Z202.svg"
+  },
+  {
+    "id": "Z205",
+    "name": "Zestaw (element łączący)",
+    "sashes": 2,
+    "image": "/images/typologies/Z205.svg"
+  },
+  {
+    "id": "Z206",
+    "name": "Zestaw (element łączący)",
+    "sashes": 2,
+    "image": "/images/typologies/Z206.svg"
+  },
+  {
+    "id": "Z3",
+    "name": "Zestaw 3 żaluzji w jednej skrzynce",
+    "sashes": 3,
+    "image": "/images/typologies/Z3.svg"
+  },
+  {
+    "id": "Z301",
+    "name": "Zestaw (element łączący)",
+    "sashes": 3,
+    "image": "/images/typologies/Z301.svg"
+  },
+  {
+    "id": "Z303",
+    "name": "Zestaw (element łączący)",
+    "sashes": 3,
+    "image": "/images/typologies/Z303.svg"
+  },
+  {
+    "id": "Z304",
+    "name": "Zestaw (element łączący)",
+    "sashes": 3,
+    "image": "/images/typologies/Z304.svg"
+  },
+  {
+    "id": "Z305",
+    "name": "Zestaw (element łączący)",
+    "sashes": 3,
+    "image": "/images/typologies/Z305.svg"
+  },
+  {
+    "id": "Z306",
+    "name": "Zestaw (element łączący)",
+    "sashes": 3,
+    "image": "/images/typologies/Z306.svg"
+  },
+  {
+    "id": "Z307",
+    "name": "Zestaw (element łączący)",
+    "sashes": 3,
+    "image": "/images/typologies/Z307.svg"
+  },
+  {
+    "id": "Z401",
+    "name": "Zestaw (element łączący)",
+    "sashes": 4,
+    "image": "/images/typologies/Z401.svg"
+  },
+  {
+    "id": "Z503",
+    "name": "Zestaw (element łączący)",
+    "sashes": 99,
+    "image": "/images/typologies/Z503.svg"
+  },
+  {
+    "id": "ZW",
+    "name": "Żaluzja wewnętrzna",
+    "sashes": 1,
+    "image": "/images/typologies/ZW.svg"
+  }
+]

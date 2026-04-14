@@ -1,0 +1,182 @@
+{
+  "igloedge": {
+    "name": "IGLO EDGE",
+    "description": "IGLO EDGEOur new, most technologically advanced window is distinguished by an excellent thermal insulation parameter of Uw = 0,66 W/(m2K)* and a modern, angular profile shape. The extremely good thermal insulation parameters are due, among other things, to the 7-chamber profile design and 3 EPDM gaskets, including the central gasket. Standard Equipment: double-chamber glazing package Ug = 0,5 W/(m2K)Swisspacer Ultimate plastic warm frameV-perfect weld4 anti-theft strikers according to the size of the sash and the hardware systemmicroventilationDUBLIN aluminium window handlehandle misplacement locking mechanismperimeter, glazing and central gaskets in black or greyfilling of the lower hardware groovesill trimwide selection of pvc veneer colours3 profile colours to choose from: white, brown or anthraciteSEE IGLO EDGE SLIDE TERRACE SYSTEM See video",
+    "technical": {
+      "soundInsulation": "36-47 dB",
+      "gaskets": "3",
+      "thermalTransmittance": "Uw = 0,66 W/(m2K)",
+      "chambers": "7",
+      "installationDepth": "82 mm",
+      "profileClass": "A class"
+    }
+  },
+  "igloenergy": {
+    "name": "IGLO ENERGY",
+    "description": "IGLO EnergyAn innovative and original 7-chamber A-class profile made exclusively of primary materials. The world's first system using a central gasket made of foamed EPDM to ensure the best energy efficiency parameters. Iglo Energy windows also stand out for their perfect parameters in terms of water tightness, microventilation and resistance to wind. Standard Equipment: double-chamber glazing package Ug = 0,5 W/(m2K)Swisspacer Ultimate plastic warm frame - as a free elective option4 anti-theft strikers according to the size of the sash and the hardware systemmicroventilationaluminium window handlehandle misplacement locking mechanismperimeter, glazing and central gaskets in black or greyfilling of the lower hardware groovesill trimwide selection of pvc veneer coloursprofile available in two colours: white, brown See video",
+    "technical": {
+      "soundInsulation": "dB = 37-46",
+      "gaskets": "3",
+      "thermalTransmittance": "Uw = 0,71 W/(m2K)",
+      "chambers": "7",
+      "installationDepth": "82 mm",
+      "profileClass": "A class"
+    }
+  },
+  "igloenergyclassic": {
+    "name": "IGLO ENERGY CLASSIC",
+    "description": "IGLO Energy ClassicA unique design where you can choose the square-shaped glazing bead to reflect the latest architectural trends. The remarkable thermal insulation parameters are ensured by the optimum 7-chamber profile structure, a specially designed sealing system made of foamed EPDM and glass packages with high thermal insulation parameters. Standard Equipment: double-chamber glazing package Ug = 0,5 W/(m2K)Swisspacer Ultimate plastic warm frame - as a free elective optionV-perfect weld4 anti-theft strikers according to the size of the sash and the hardware systemmicroventilationaluminium window handlehandle misplacement locking mechanismperimeter, glazing and central gaskets in black or greyfilling of the lower hardware groovesill trimwide selection of pvc veneer coloursThe profile is available in three colours: white, anthracite and bronze.",
+    "technical": {
+      "soundInsulation": "dB = 36-42",
+      "gaskets": "3",
+      "thermalTransmittance": "Uw = 0,73 W/(m2K)",
+      "chambers": "7",
+      "installationDepth": "82 mm",
+      "profileClass": "A class"
+    }
+  },
+  "igloenergyalucover": {
+    "name": "IGLO ENERGY ALU COVER",
+    "description": "IGLO ENERGY ALUCOVERExperience the fusion of cutting-edge thermal insulation performance and contemporary design with Iglo Energy Alucover.Embrace boundless creativity with an extensive palette of colors, empowering you to fashion a unique and personalized style for every interior or building facade.AS STANDARD: MACO MULTI-MATIC KS fittings with 4 anti-theft strikers with Silber-Look anticorrosion coating for long-lasting protection and smooth operation of the fitting sash lifter (lifting mishandling device - depending on window height) microventilation in tilt and turn windows hinge covers in 4 colours: white, silver, light brown, brown Dublin window handle 3-glazed (2-chamber) units infilled with argon gas, with Ug = 0.5 W/(m²K) Swisspacer Ultimate edge rectangular glazing bead V-Perfect weld 2 EPDM gaskets (external and internal) + 1 central gasket made of foamed EPDM, gaskets available in black gasket filling the lower fittings groove 2 mm full (closed) steel frame reinforcement, „c” shaped steel sash reinforcementli> RAL matt varnishb Lackierung RAL matt 5-chamber PVC under-sill trim with gasketSEE IGLO-HS ALUCOVER TERRACE SYSTEMALUMINIUM COVERCrafted with precision, the aluminium overlay not only enhances the window's resistance against external elements but also optimizes its structural integrity, ensuring a lasting and reliable solution.",
+    "technical": {
+      "soundInsulation": "42dB",
+      "gaskets": "3",
+      "thermalTransmittance": "Uw = 0,76 W/(m2K)",
+      "chambers": "2",
+      "installationDepth": "93 mm",
+      "profileClass": "A class"
+    }
+  },
+  "iglo5": {
+    "name": "IGLO5",
+    "description": "IGLO 5A 5-chamber system features very good thermal insulation parameters. Our innovative solution is based on a snow-white A-class profile made exclusively of primary materials to ensure the highest quality. These windows are perfect for both warm and cold climates. Standard: MACO MULTI-MATIC KS fittings with 2 anti-theft strikers with Silber-Look anticorrosion coating for long-lasting protection and smooth operation of the fitting sash lifter (lifting mishandling device - depending on window height microventilation in tilt and turn windows hinge covers in 4 colours: white, silver, light brown, brown aluminium handle 2-glazed (1-chamber) units infilled with argon gas with Ug = 1.1 W/(m²K) galvanised steel glass-pane spacer optional Swisspacer Ultimate glass-pane spacer 2 EPDM gaskets in black (external and internal) gasket filling the lower fittings groove 1.5 mm steel reinforcement for frame and sash (2 mm for balcony door sash), ,,c”-shaped profile core in white 5-chamber PVC under-sill trim with gasketThe profile is available in two colours: white and brown. See video",
+    "technical": {
+      "soundInsulation": "dB = 36-44",
+      "gaskets": "2",
+      "thermalTransmittance": "Uw = 0,89 W/(m2K)",
+      "chambers": "5",
+      "installationDepth": "70 mm",
+      "profileClass": "A class"
+    }
+  },
+  "iglo5classic": {
+    "name": "IGLO5 CLASSIC",
+    "description": "IGLO 5 ClassicWindows appreciated by Customers across the globe. They feature not only very good thermal insulation parameters but also excellent aesthetic values. With a wide range of Renolit veneers and numerous additional options, we can create the windows that will meet the expectations of the most demanding Customers. Standard: MACO MULTI-MATIC KS fittings with 2 anti-theft strikers with Silber-Look anticorrosion coating for long-lasting protection and smooth operation of the fitting sash lifter (lifting mishandling device - depending on window height microventilation in tilt and turn windows hinge covers in 4 colours: white, silver, light brown, brown aluminium handle 2-glazed (1-chamber) units infilled with argon gas with Ug = 1.1 W/(m²K) galvanised steel glass-pane spacer optional Swisspacer Ultimate glass-pane spacer 2 EPDM gaskets in black (external and internal) gasket filling the lower fittings groove 1.5 mm steel reinforcement for frame and sash (2 mm for balcony door sash), ,,c”-shaped profile core in white 5-chamber PVC under-sill trim with gasketThe profile is available in three colours: white, anthracite and bronze. See video",
+    "technical": {
+      "soundInsulation": "dB = 34-42",
+      "gaskets": "2",
+      "thermalTransmittance": "Uw = 0,83 W/(m2K)",
+      "chambers": "1",
+      "installationDepth": "70 mm",
+      "profileClass": "A class"
+    }
+  },
+  "iglolight": {
+    "name": "IGLO LIGHT",
+    "description": "IGLO LightThis 5-chamber and original system stands out for its high aesthetic values and thin frame and sash profiles. Compared to traditional systems, it has a 32% thinner movable post to improve the amount of daylight that reaches a room.AS STANDARD: MACO MULTI-MATIC KS fittings with 2 anti-theft strikers with Silber-Look anti-corrosion coating for long-lasting protection and smooth operation of the fitting sash lifter (lifting mishandling device - depending on window height) microventilation in tilt and turn windows hinge covers in 4 colours: white, silver, light brown, brown aluminium handle 2-glazed (1-chamber) units infilled with argon gas with Ug = 1.1 W/(m²K)Swisspacer Ultimate plastic warm frame - as a free elective option glass-pane spacer made of galvanised steel 2 EPDM gaskets in black (external and internal) gasket filling the lower fittings groove/li> 1.5 mm steel reinforcement for frame and sash (2mm for balcony door sash), „c”-shaped profile core in white 5-chamber PVC under-sill trim with gasketV-Perfect welding See video",
+    "technical": {
+      "soundInsulation": "dB = 34",
+      "gaskets": "2",
+      "thermalTransmittance": "Uw = 0,88 W/(m2K)",
+      "chambers": "5",
+      "installationDepth": "70 mm",
+      "profileClass": "N/A"
+    }
+  },
+  "igloext": {
+    "name": "IGLO EXT",
+    "description": "Iglo EXTBalcony windows and doors that open outwards stand out for their modern design and excellent thermal insulation performance.As standard, these windows have hidden fittings (invisible when closed), while balcony doors have door (surface) fittings. The Iglo EXT window and door system is ideal for those looking for modern design and high aesthetic values.AS STANDARD:double-chamber glazing package Ug=1,1W/(m2K)concealed MACO Multi-Power fittings in the window (invisible hinges when the window is closed), door fittings on balcony windowsor balcony doors, double roller DM20 bolt for full (airtight) locking or locking with trickle ventilationaluminium handle with double-sided insert2-glazed (1-chamber) units infilled with argon gas with Ug = 1.1 W/(m²K)Swisspacer Ultimate plastic warm frame - as a free elective option2 EPDM gaskets in black (external and internal)gasket filling the lower fittings groove1.5 mm full (closed), steel, „c”-shaped frame and sash reinforcement (2 mm for balcony door sashes)profile core in white5-chamber PVC under-sill trim with gasket",
+    "technical": {
+      "soundInsulation": "35dB",
+      "gaskets": "2",
+      "thermalTransmittance": "Uw = 0,89 W/(m2K)",
+      "chambers": "1",
+      "installationDepth": "70 mm",
+      "profileClass": "A class"
+    }
+  },
+  "iglopremier": {
+    "name": "IGLO PREMIER",
+    "description": "Iglo PremierOriginal outward opening casement or tilt windows are based on an extremely warm 5-chamber A-class profile made exclusively of primary material. The system comes with double sealing and reliable fittings to ensure high utility values for years to come.AS STANDARD:scissor hinges (invisible when the window is closed), double roller DM20 bolt for full (airtight) locking or locking with trickle ventilationdouble-chamber glazing package Ug=1,1W/(m2K)aluminium handle2-glazed (1-chamber) units infilled with argon gas with Ug = 1.1 W/(m²K)Swisspacer Ultimate plastic warm frame - as a free elective option2 EPDM gaskets in black (external and internal)gasket filling the lower fittings groove1.5 mm full (closed), steel, „c”-shaped frame and sash reinforcement (2 mm for balcony door sashes)profile core in white5-chamber PVC under-sill trim with gasket",
+    "technical": {
+      "soundInsulation": "35dB",
+      "gaskets": "2",
+      "thermalTransmittance": "Uw = 0,89 W/(m2K)",
+      "chambers": "5",
+      "installationDepth": "70 mm",
+      "profileClass": "A class"
+    }
+  },
+  "idealneoad": {
+    "name": "IDEAL NEO AD",
+    "description": "IDEAL NEO ADSlim and symmetrical profiles refer to current design trends and give lightness and elegance to the windows. Extremely narrow profile combinations mean even more light in the rooms. An attractive solution for both new built and renovation.B class profile..",
+    "technical": {
+      "soundInsulation": "dB = 36",
+      "gaskets": "2",
+      "thermalTransmittance": "Uw = 0,79 W/(m2K)",
+      "chambers": "N/A",
+      "installationDepth": "76 mm",
+      "profileClass": "B class"
+    }
+  },
+  "idealneomd": {
+    "name": "IDEAL NEO MD",
+    "description": "IDEAL NEO MDSlim and symmetrical profiles refer to current design trends and give lightness and elegance to the windows. Extremely narrow profile combinations mean even more light in the rooms. An attractive solution for both new built and renovation.B class profile..",
+    "technical": {
+      "soundInsulation": "dB = 36",
+      "gaskets": "N/A",
+      "thermalTransmittance": "Uw = 0,76 W/(m2K)",
+      "chambers": "N/A",
+      "installationDepth": "76 mm",
+      "profileClass": "B class"
+    }
+  },
+  "idealneomdfs": {
+    "name": "IDEAL NEO MD FS",
+    "description": "IDEAL NEO MD-FSis an extremely attractive design proposition for customers who value timeless style. A simple, symmetrical, cubist shape is the distinguishing feature of the system. Sharpes angles and geometric architecture, and at the same time visual lightness of the structure.",
+    "technical": {
+      "soundInsulation": "dB = 36",
+      "gaskets": "3",
+      "thermalTransmittance": "Uw = 0,73 W/(m2K)",
+      "chambers": "N/A",
+      "installationDepth": "76 mm",
+      "profileClass": "N/A"
+    }
+  },
+  "idealneomdmonoblock": {
+    "name": "IDEAL NEO MD MONOBLOCK",
+    "description": "IDEAL NEO MD MONOBLOCKMonoblock frames are designed for the construction of windows, which are installed in a layer of insulation. The wide range of Monoblock frames (76 mm, 122 mm, 142 mm, 162 mm) allows their appropriate selection depending on the thickness of the insulation. A special shelf (window sill) located from the outer side of the frame in an aesthetic manner masks the insulation around the perimeter of the window avoiding the formation of thermal bridges. The inner rebate of the Monoblock frame ensures aesthetic installation from the inside of the room without the need of gypsum treatment.76 mm122 mm142 mm162 mm",
+    "technical": {
+      "soundInsulation": "dB = 36",
+      "gaskets": "3",
+      "thermalTransmittance": "Uw = 0,76 W/(m2K)",
+      "chambers": "N/A",
+      "installationDepth": "162 mm",
+      "profileClass": "N/A"
+    }
+  },
+  "idealneomdrenovation": {
+    "name": "IDEAL NEO MD RENOVATION",
+    "description": "IDEAL NEO MD RENOVATIONThe renovation frame system is used for window installation without the need to dismantle old frames. The specificity of this type of windows is based on the use of special renovation frames with a so-called masking profile, which encompasses the wooden frame, creating a characteristic band from the inside, and on the outside we can use special housing profiles. The masking profiles in the framework have different widths (40 mm, 70 mm), but it is also possible to cut them for specific needs.40 mm (A)40 mm (B)70 mm",
+    "technical": {
+      "soundInsulation": "dB = 36",
+      "gaskets": "3",
+      "thermalTransmittance": "Uw = 0,76 W/(m2K)",
+      "chambers": "N/A",
+      "installationDepth": "76 mm",
+      "profileClass": "N/A"
+    }
+  },
+  "ideal7000nl": {
+    "name": "IDEAL 7000 NL",
+    "description": "IDEAL 7000 NLis the perfect solution for the Dutch market. Thanks to its 120 mm wide frame with external rebates, IDEAL 7000 NL provides an easy, fast and aesthetically pleasing way to install windows in a building made of facing brick (clinker) without additional masonry work.",
+    "technical": {
+      "soundInsulation": "dB = 36",
+      "gaskets": "2",
+      "thermalTransmittance": "Uw = 0,82 W/(m2K)",
+      "chambers": "N/A",
+      "installationDepth": "120 mm",
+      "profileClass": "N/A"
+    }
+  }
+}

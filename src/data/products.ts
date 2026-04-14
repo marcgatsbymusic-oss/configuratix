@@ -1,5 +1,5 @@
 import type { Product, ProductCategory } from '../types'
-
+import techSpecs from './technical_specs.json'
 export const CATEGORIES: ProductCategory[] = [
   {
     id: 'c1',
@@ -35,7 +35,7 @@ export const CATEGORIES: ProductCategory[] = [
   },
 ]
 
-export const PRODUCTS: Product[] = [
+const BASE_PRODUCTS: Product[] = [
   // ─── PVC WINDOWS ──────────────────────────────────────────────────────────
 
   {
@@ -484,3 +484,12 @@ export const PRODUCTS: Product[] = [
     images: ['/assets/iglo-hs-1.jpg'],
   },
 ]
+
+export const PRODUCTS: Product[] = BASE_PRODUCTS.map(p => {
+  const specKey = p.slug.replace(/-/g, '')
+  const data = (techSpecs as Record<string, any>)[specKey]
+  if (data && data.technical) {
+    return { ...p, techDetails: data.technical }
+  }
+  return p
+})
