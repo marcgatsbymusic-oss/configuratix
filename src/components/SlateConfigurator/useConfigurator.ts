@@ -1,6 +1,5 @@
 import { useReducer, useMemo } from 'react';
 import { CONFIG_SCHEMA, WINDOW_TYPES } from './types';
-import pricingGrids from '../../data/base_pricing_grids.json';
 import glazingOptions from '../../data/glazing.json';
 import iglo5Data from '../../data/iglo5_data.json';
 import type { ConfiguratorState, ConfiguratorAction, CategoryType } from './types';
