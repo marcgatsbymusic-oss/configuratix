@@ -4,7 +4,7 @@ import glazingOptions from '../../data/glazing.json';
 import iglo5Data from '../../data/iglo5_data.json';
 import type { ConfiguratorState, ConfiguratorAction, CategoryType } from './types';
 import { PROFILE_GLAZING_MAP } from '../../data/profileGlazing';
-import { calculatePrice } from '../../utils/pricingEngine';
+import { calculatePrice, resolveOpeningClass } from '../../utils/pricingEngine';
 
 const initialState: ConfiguratorState = {
   dimensions: { width: 1000, height: 1200 },
@@ -162,9 +162,11 @@ export function useConfigurator() {
       return item ? item.price : 0;
     });
 
-    // Determine opening type id to use for frame price lookup
-    // F100 is the most complete dataset — fallback when others aren't in Cantor yet
-    const openingTypeId = state.windowTypeId || 'F100';
+    // Resolve sash opening selections → Cantor opening class (DK | UR | F100 | PSK)
+    // This translates the user's sash choices (o1=fixed, o2/o3=DK, o6=kipp) into the
+    // correct matrix key. Do NOT use windowTypeId directly — it's a typology ID (F101,
+    // F202 etc.) not an opening class. Only F100 coincidentally shares both namespaces.
+    const openingTypeId = resolveOpeningClass(state.sashOpenings);
 
     // Run full engine: IDW frame interpolation + glazing + color + addons
     const breakdown = calculatePrice(
