@@ -31,6 +31,7 @@
 import { GLAZING_RATES, COLOR_SURCHARGE, type PriceAnchor } from '../data/cantorPricingData';
 import { CONFIG_SCHEMA } from '../components/SlateConfigurator/types';
 import cantorMatrices from '../data/cantorPricingMatrices.json';
+import iglo5Data from '../data/iglo5_data.json';
 
 // Full Cantor price matrix (extracted from PREISMAT via extractAllPricing.mjs)
 const FULL_MATRIX = cantorMatrices as Record<string, Record<string, Array<{w: number, h: number, price: number}>>>;
@@ -144,7 +145,13 @@ export function estimateFramePrice(
   width_mm: number,
   height_mm: number
 ): number {
-  const profileMatrix = FULL_MATRIX[profileId];
+  // Map frontend Product IDs to Cantor Matrix keys
+  const matrixKeyMap: Record<string, string> = {
+    'p5': 'iglo5',
+  };
+  
+  const mappedProfileId = matrixKeyMap[profileId] || profileId;
+  const profileMatrix = FULL_MATRIX[mappedProfileId];
 
   if (profileMatrix) {
     // Try opening class in priority order — stay within this profile's data only
@@ -184,7 +191,7 @@ export function calculateGrundpreis(
     const matrixName = material === 'PVC' ? 'PVC_F100' : 'AL_F100';
     const class1 = openingId; // maps to Cantor's hardware variant 'DK', 'F', etc.
     let class2 = systemKey; // maps to 'IG5', 'ALU'
-    if (systemKey === 'iglo5' || systemKey === 'I5S') class2 = 'IG5';
+    if (systemKey === 'iglo5' || systemKey === 'I5S' || systemKey === 'p5') class2 = 'IG5';
 
     // 2. Filter Supabase matrices
     const activeGrid = matrixData.filter(row => 
@@ -384,17 +391,34 @@ export function calculatePrice(
       color = estimateColorSurcharge(frame, interiorColor, exteriorColor);
   }
 
-  // 4. Calculate Rest of Equation
+  // 4. Calculate Generic Pricing Rules (Decoupled from hardcoded UI logic)
   const glazing = estimateGlazingCost(glazingId, width_mm, height_mm);
   
-  // Phase 2: Explicitly add Cantor Standard Unit Options ("Under-sill / transport strip 30mm")
-  // Matrix Base (460.00) + Transport Strip (6.00) = Minimum EK (466.00 EUR)
-  const transportStrip = 6.00;
+  // Natively imported Cantor rules (fallback to local config if Supabase unavailable)
+  const activeRules = (cantorRules && cantorRules.length > 0) 
+      ? cantorRules 
+      : iglo5Data.product_systems[0].pricing_rules;
+
+  let dynamicRulesSurcharge = 0;
+  
+  for (const rule of activeRules || []) {
+      if (rule.rule_type === 'LINEAR_WIDTH_SURCHARGE') {
+          // Typically Transport Strip (TS)
+          dynamicRulesSurcharge += (width_mm / 1000) * (rule.modifier || 0);
+      }
+      else if (rule.rule_type === 'AREA_SURCHARGE') {
+          // Typically Oversized Glass Penalty (PANE)
+          const areaSqm = (width_mm / 1000) * (height_mm / 1000);
+          if (areaSqm > (rule.threshold || 0)) {
+              dynamicRulesSurcharge += (areaSqm - (rule.threshold || 0)) * (rule.modifier || 0);
+          }
+      }
+  }
 
   const addons = addonPrices.reduce((sum, p) => sum + p, 0);
 
-  // Note: we bundle transportStrip directly into the visual "frame" price block since it is mandatory base architecture
-  const functionalFramePrice = frame + transportStrip;
+  // Note: Transport Strips and rules are bundled into Frame cost naturally
+  const functionalFramePrice = frame + dynamicRulesSurcharge;
 
   const subtotal = functionalFramePrice + glazing + color + addons;
   const vat = subtotal * 0.21;

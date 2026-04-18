@@ -42,6 +42,8 @@ import { QuotationsPage } from './pages/admin/QuotationsPage'
 import { QuotationDetailPage } from './pages/admin/QuotationDetailPage'
 import { FactoryQueuePage } from './pages/admin/FactoryQueuePage'
 
+import { DebugPricing } from './pages/DebugPricing'
+
 function StorefrontLayout() {
   return (
     <div className="flex flex-col min-h-screen bg-black">
@@ -58,6 +60,7 @@ function StorefrontLayout() {
           <Route path="/slate-configurator" element={<MainConfigurator />} />
           <Route path="/about/*" element={<AboutPage />} />
           <Route path="/where-to-buy" element={<AboutPage />} />
+          <Route path="/debug-pricing" element={<DebugPricing />} />
         </Routes>
       </div>
       <CartDrawer />

@@ -223,7 +223,7 @@ export function useConfigurator() {
                .from('cantor_systems')
                .select('*')
                .eq('cantor_key', systemLookupKey)
-               .single();
+               .maybeSingle();
 
            if (!sysErr && sysData) {
                setCantorSystem(sysData);
