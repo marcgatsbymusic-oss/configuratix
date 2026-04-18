@@ -1,0 +1,853 @@
+{
+  "product_systems": [
+    {
+      "cantor_key": "ALU",
+      "name": "Aluminium",
+      "type_class": "DEFAULT",
+      "pricing_group": "DEFAULT_GRP",
+      "base_price": 0,
+      "dimensional_constraints": {
+        "min_width": 200,
+        "max_width": 3000,
+        "min_height": 200,
+        "max_height": 3000
+      },
+      "pricing_rules": [
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "PMATALL(\"PANEL_PVC\",\"DRUTEX\",\"\",fn_getZubVarFeldS(1203,ES1010,901),1)",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "GRPRS * PMATALL(PROFILSATZ_TYPKLASSE+\"_DOD\",\"KOLOR\",fn_SystemCeny(),fn_CenaWarKolPanel(ES1100,ES1110,ES1120),1,fn_CenaGrKolPanel(ES1100,ES1110,ES1120))/100",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,74,11)+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,74,11))+(fn_CenaSzyby(ART_1200_SzybaS,74,11))+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,51,11)+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,51,11))+(fn_CenaSzyby(ART_1200_SzybaS,51,11))+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)*0.5),\r\n(((fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11))+(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)))*0.5))",
+          "modifier": 1
+        }
+      ],
+      "articles": [
+        {
+          "article_code": "B100",
+          "name": "Profil Pośredni",
+          "price_value": 0
+        },
+        {
+          "article_code": "B200",
+          "name": "Profil Pośredni 2-skrz. ze słupkiem ruchomym",
+          "price_value": 0
+        },
+        {
+          "article_code": "B201",
+          "name": "Profil Pośredni 1-skrz. ze stałym naświetlem górnym",
+          "price_value": 0
+        },
+        {
+          "article_code": "B202",
+          "name": "Okno balkonowe 1-skrz. z uchylnym naświetlem górnym",
+          "price_value": 0
+        },
+        {
+          "article_code": "B204",
+          "name": "Profil Pośredni 2-skrz. ze słupkiem stałym",
+          "price_value": 0
+        },
+        {
+          "article_code": "B300",
+          "name": "Profil Pośredni 2-skrz. ze stałym naświetlem górnym",
+          "price_value": 0
+        },
+        {
+          "article_code": "BR",
+          "name": "Brama Segmentowa DRUTEX",
+          "price_value": 0
+        },
+        {
+          "article_code": "BS1",
+          "name": "Barierka szklana pojedyncza",
+          "price_value": 0
+        },
+        {
+          "article_code": "BS2",
+          "name": "Barierka szklana podwójna",
+          "price_value": 0
+        },
+        {
+          "article_code": "BS3",
+          "name": "Barierka szklana potrójna",
+          "price_value": 0
+        },
+        {
+          "article_code": "BS4",
+          "name": "Barierka szklana poczwórna",
+          "price_value": 0
+        },
+        {
+          "article_code": "C",
+          "name": "Cassonetto",
+          "price_value": 0
+        },
+        {
+          "article_code": "CV200",
+          "name": "Cor Vision Plus (Lewe wiodące) Typ D",
+          "price_value": 0
+        },
+        {
+          "article_code": "CV201",
+          "name": "Cor Vision Plus (Prawe wiodące) Typ D",
+          "price_value": 0
+        },
+        {
+          "article_code": "CV202",
+          "name": "Cor Vision Plus (Lewe wiodące) Typ A",
+          "price_value": 0
+        },
+        {
+          "article_code": "CV203",
+          "name": "Cor Vision Plus (Prawe wiodące) Typ A",
+          "price_value": 0
+        },
+        {
+          "article_code": "CV402",
+          "name": "Cor Vision Plus (Lewe wiodące) Typ C",
+          "price_value": 0
+        },
+        {
+          "article_code": "CV403",
+          "name": "Cor Vision Plus (Prawe wiodące) Typ C",
+          "price_value": 0
+        },
+        {
+          "article_code": "D100",
+          "name": "Drzwi 1-skrzydłowe",
+          "price_value": 0
+        },
+        {
+          "article_code": "D101",
+          "name": "Naświetle boczne",
+          "price_value": 0
+        },
+        {
+          "article_code": "D102",
+          "name": "Fest w skrzydle drzwiowym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D103",
+          "name": "Drzwi 1-skrzydłowe",
+          "price_value": 0
+        },
+        {
+          "article_code": "D105",
+          "name": "Naświetle górne",
+          "price_value": 0
+        },
+        {
+          "article_code": "D200",
+          "name": "Drzwi 2-skrzydłowe",
+          "price_value": 0
+        },
+        {
+          "article_code": "D201",
+          "name": "Drzwi z naświetlem górnym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D201P",
+          "name": "Drzwi jednoskrzydłowe z naświetlem górnym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D211",
+          "name": "Drzwi z naświetlem bocznym lewym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D212",
+          "name": "Drzwi z naświetlem bocznym prawym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D300",
+          "name": "Drzwi 2-skrzydłowe z naświetlem górnym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D301",
+          "name": "Drzwi 1-skrzydłowe z naświetlem górnym i bocznym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D302",
+          "name": "Drzwi 1-skrzydłowe z naświetlem górnym i bocznym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D303",
+          "name": "Drzwi 1-skrzydłowe z naświetlem górnym i bocznym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D304",
+          "name": "Drzwi 1-skrzydłowe z naświetlem górnym i bocznym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D305",
+          "name": "Drzwi 1-skrzydłowe z naświetlem górnym i bocznym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D306",
+          "name": "Drzwi 1-skrzydłowe z naświetlem górnym i bocznym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D310",
+          "name": "Drzwi z naświetlem bocznym lewym i prawym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D400",
+          "name": "Drzwi z naświetlem lewym, prawym, górnym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D401",
+          "name": "Drzwi z naświetlem lewym, prawym, górnym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D410",
+          "name": "Drzwi 2-skrzydłowe z naświetlem górnym i bocznym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D411",
+          "name": "Drzwi 2-skrzydłowe z naświetlem górnym i bocznym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D412",
+          "name": "Drzwi 2-skrzydłowe z naświetlem górnym i bocznym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D413",
+          "name": "Drzwi 2-skrzydłowe z naświetlem górnym i bocznym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D414",
+          "name": "Drzwi 2-skrzydłowe z naświetlem górnym i bocznym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D415",
+          "name": "Drzwi 2-skrzydłowe z naświetlem górnym i bocznym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D416",
+          "name": "Drzwi 2-skrzydłowe z naświetlem bocznym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D417",
+          "name": "Drzwi 2-skrzydłowe z naświetlem górnym i bocznym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D418",
+          "name": "Drzwi 2-skrzydłowe z naświetlem górnym i bocznym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D419",
+          "name": "Drzwi 2-skrzydłowe z naświetlem górnym i bocznym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D511",
+          "name": "Drzwi 2-skrzydłowe z naświetlem bocznym lewym",
+          "price_value": 0
+        },
+        {
+          "article_code": "D512",
+          "name": "Drzwi  2-skrzydłowe z naświetlem bocznym prawym",
+          "price_value": 0
+        }
+      ]
+    },
+    {
+      "cantor_key": "ALU2",
+      "name": "Aluminium bez bikoloru",
+      "type_class": "DEFAULT",
+      "pricing_group": "DEFAULT_GRP",
+      "base_price": 0,
+      "dimensional_constraints": {
+        "min_width": 200,
+        "max_width": 3000,
+        "min_height": 200,
+        "max_height": 3000
+      },
+      "pricing_rules": [
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "PMATALL(\"PANEL_PVC\",\"DRUTEX\",\"\",fn_getZubVarFeldS(1203,ES1010,901),1)",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "GRPRS * PMATALL(PROFILSATZ_TYPKLASSE+\"_DOD\",\"KOLOR\",fn_SystemCeny(),fn_CenaWarKolPanel(ES1100,ES1110,ES1120),1,fn_CenaGrKolPanel(ES1100,ES1110,ES1120))/100",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,74,11)+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,74,11))+(fn_CenaSzyby(ART_1200_SzybaS,74,11))+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,51,11)+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,51,11))+(fn_CenaSzyby(ART_1200_SzybaS,51,11))+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)*0.5),\r\n(((fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11))+(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)))*0.5))",
+          "modifier": 1
+        }
+      ],
+      "articles": []
+    },
+    {
+      "cantor_key": "ALUPLAST1",
+      "name": "Profile główne (obustronne)",
+      "type_class": "DEFAULT",
+      "pricing_group": "DEFAULT_GRP",
+      "base_price": 0,
+      "dimensional_constraints": {
+        "min_width": 200,
+        "max_width": 3000,
+        "min_height": 200,
+        "max_height": 3000
+      },
+      "pricing_rules": [
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "PMATALL(\"PANEL_PVC\",\"DRUTEX\",\"\",fn_getZubVarFeldS(1203,ES1010,901),1)",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "GRPRS * PMATALL(PROFILSATZ_TYPKLASSE+\"_DOD\",\"KOLOR\",fn_SystemCeny(),fn_CenaWarKolPanel(ES1100,ES1110,ES1120),1,fn_CenaGrKolPanel(ES1100,ES1110,ES1120))/100",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,74,11)+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,74,11))+(fn_CenaSzyby(ART_1200_SzybaS,74,11))+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,51,11)+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,51,11))+(fn_CenaSzyby(ART_1200_SzybaS,51,11))+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)*0.5),\r\n(((fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11))+(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)))*0.5))",
+          "modifier": 1
+        }
+      ],
+      "articles": []
+    },
+    {
+      "cantor_key": "ALUPLAST2",
+      "name": "Listwy przyszybowe",
+      "type_class": "DEFAULT",
+      "pricing_group": "DEFAULT_GRP",
+      "base_price": 0,
+      "dimensional_constraints": {
+        "min_width": 200,
+        "max_width": 3000,
+        "min_height": 200,
+        "max_height": 3000
+      },
+      "pricing_rules": [
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "PMATALL(\"PANEL_PVC\",\"DRUTEX\",\"\",fn_getZubVarFeldS(1203,ES1010,901),1)",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "GRPRS * PMATALL(PROFILSATZ_TYPKLASSE+\"_DOD\",\"KOLOR\",fn_SystemCeny(),fn_CenaWarKolPanel(ES1100,ES1110,ES1120),1,fn_CenaGrKolPanel(ES1100,ES1110,ES1120))/100",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,74,11)+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,74,11))+(fn_CenaSzyby(ART_1200_SzybaS,74,11))+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,51,11)+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,51,11))+(fn_CenaSzyby(ART_1200_SzybaS,51,11))+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)*0.5),\r\n(((fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11))+(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)))*0.5))",
+          "modifier": 1
+        }
+      ],
+      "articles": []
+    },
+    {
+      "cantor_key": "ALUPLAST3",
+      "name": "Akcesoria jednostronne (bez uszczelki)",
+      "type_class": "DEFAULT",
+      "pricing_group": "DEFAULT_GRP",
+      "base_price": 0,
+      "dimensional_constraints": {
+        "min_width": 200,
+        "max_width": 3000,
+        "min_height": 200,
+        "max_height": 3000
+      },
+      "pricing_rules": [
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "PMATALL(\"PANEL_PVC\",\"DRUTEX\",\"\",fn_getZubVarFeldS(1203,ES1010,901),1)",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "GRPRS * PMATALL(PROFILSATZ_TYPKLASSE+\"_DOD\",\"KOLOR\",fn_SystemCeny(),fn_CenaWarKolPanel(ES1100,ES1110,ES1120),1,fn_CenaGrKolPanel(ES1100,ES1110,ES1120))/100",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,74,11)+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,74,11))+(fn_CenaSzyby(ART_1200_SzybaS,74,11))+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,51,11)+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,51,11))+(fn_CenaSzyby(ART_1200_SzybaS,51,11))+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)*0.5),\r\n(((fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11))+(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)))*0.5))",
+          "modifier": 1
+        }
+      ],
+      "articles": []
+    },
+    {
+      "cantor_key": "ALUPLAST4",
+      "name": "Akcesoria obustronne (bez uszczelki)",
+      "type_class": "DEFAULT",
+      "pricing_group": "DEFAULT_GRP",
+      "base_price": 0,
+      "dimensional_constraints": {
+        "min_width": 200,
+        "max_width": 3000,
+        "min_height": 200,
+        "max_height": 3000
+      },
+      "pricing_rules": [
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "PMATALL(\"PANEL_PVC\",\"DRUTEX\",\"\",fn_getZubVarFeldS(1203,ES1010,901),1)",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "GRPRS * PMATALL(PROFILSATZ_TYPKLASSE+\"_DOD\",\"KOLOR\",fn_SystemCeny(),fn_CenaWarKolPanel(ES1100,ES1110,ES1120),1,fn_CenaGrKolPanel(ES1100,ES1110,ES1120))/100",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,74,11)+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,74,11))+(fn_CenaSzyby(ART_1200_SzybaS,74,11))+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,51,11)+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,51,11))+(fn_CenaSzyby(ART_1200_SzybaS,51,11))+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)*0.5),\r\n(((fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11))+(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)))*0.5))",
+          "modifier": 1
+        }
+      ],
+      "articles": []
+    },
+    {
+      "cantor_key": "DRE",
+      "name": "Drewno (jeden kolor)",
+      "type_class": "DEFAULT",
+      "pricing_group": "DEFAULT_GRP",
+      "base_price": 0,
+      "dimensional_constraints": {
+        "min_width": 200,
+        "max_width": 3000,
+        "min_height": 200,
+        "max_height": 3000
+      },
+      "pricing_rules": [
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "PMATALL(\"PANEL_PVC\",\"DRUTEX\",\"\",fn_getZubVarFeldS(1203,ES1010,901),1)",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "GRPRS * PMATALL(PROFILSATZ_TYPKLASSE+\"_DOD\",\"KOLOR\",fn_SystemCeny(),fn_CenaWarKolPanel(ES1100,ES1110,ES1120),1,fn_CenaGrKolPanel(ES1100,ES1110,ES1120))/100",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,74,11)+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,74,11))+(fn_CenaSzyby(ART_1200_SzybaS,74,11))+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,51,11)+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,51,11))+(fn_CenaSzyby(ART_1200_SzybaS,51,11))+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)*0.5),\r\n(((fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11))+(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)))*0.5))",
+          "modifier": 1
+        }
+      ],
+      "articles": []
+    },
+    {
+      "cantor_key": "DRUTEX_SPR",
+      "name": "Szprosy",
+      "type_class": "DEFAULT",
+      "pricing_group": "DEFAULT_GRP",
+      "base_price": 0,
+      "dimensional_constraints": {
+        "min_width": 200,
+        "max_width": 3000,
+        "min_height": 200,
+        "max_height": 3000
+      },
+      "pricing_rules": [
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "PMATALL(\"PANEL_PVC\",\"DRUTEX\",\"\",fn_getZubVarFeldS(1203,ES1010,901),1)",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "GRPRS * PMATALL(PROFILSATZ_TYPKLASSE+\"_DOD\",\"KOLOR\",fn_SystemCeny(),fn_CenaWarKolPanel(ES1100,ES1110,ES1120),1,fn_CenaGrKolPanel(ES1100,ES1110,ES1120))/100",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,74,11)+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,74,11))+(fn_CenaSzyby(ART_1200_SzybaS,74,11))+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,51,11)+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,51,11))+(fn_CenaSzyby(ART_1200_SzybaS,51,11))+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)*0.5),\r\n(((fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11))+(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)))*0.5))",
+          "modifier": 1
+        }
+      ],
+      "articles": []
+    },
+    {
+      "cantor_key": "DRUTEX1",
+      "name": "Baza: biala, braz",
+      "type_class": "DEFAULT",
+      "pricing_group": "DEFAULT_GRP",
+      "base_price": 0,
+      "dimensional_constraints": {
+        "min_width": 200,
+        "max_width": 3000,
+        "min_height": 200,
+        "max_height": 3000
+      },
+      "pricing_rules": [
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "PMATALL(\"PANEL_PVC\",\"DRUTEX\",\"\",fn_getZubVarFeldS(1203,ES1010,901),1)",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "GRPRS * PMATALL(PROFILSATZ_TYPKLASSE+\"_DOD\",\"KOLOR\",fn_SystemCeny(),fn_CenaWarKolPanel(ES1100,ES1110,ES1120),1,fn_CenaGrKolPanel(ES1100,ES1110,ES1120))/100",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,74,11)+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,74,11))+(fn_CenaSzyby(ART_1200_SzybaS,74,11))+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,51,11)+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,51,11))+(fn_CenaSzyby(ART_1200_SzybaS,51,11))+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)*0.5),\r\n(((fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11))+(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)))*0.5))",
+          "modifier": 1
+        }
+      ],
+      "articles": []
+    },
+    {
+      "cantor_key": "DRUTEX2",
+      "name": "Baza: biala",
+      "type_class": "DEFAULT",
+      "pricing_group": "DEFAULT_GRP",
+      "base_price": 0,
+      "dimensional_constraints": {
+        "min_width": 200,
+        "max_width": 3000,
+        "min_height": 200,
+        "max_height": 3000
+      },
+      "pricing_rules": [
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "PMATALL(\"PANEL_PVC\",\"DRUTEX\",\"\",fn_getZubVarFeldS(1203,ES1010,901),1)",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "GRPRS * PMATALL(PROFILSATZ_TYPKLASSE+\"_DOD\",\"KOLOR\",fn_SystemCeny(),fn_CenaWarKolPanel(ES1100,ES1110,ES1120),1,fn_CenaGrKolPanel(ES1100,ES1110,ES1120))/100",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,74,11)+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,74,11))+(fn_CenaSzyby(ART_1200_SzybaS,74,11))+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,51,11)+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,51,11))+(fn_CenaSzyby(ART_1200_SzybaS,51,11))+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)*0.5),\r\n(((fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11))+(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)))*0.5))",
+          "modifier": 1
+        }
+      ],
+      "articles": []
+    },
+    {
+      "cantor_key": "DRUTEX3",
+      "name": "Baza: biala, braz, antracyt",
+      "type_class": "DEFAULT",
+      "pricing_group": "DEFAULT_GRP",
+      "base_price": 0,
+      "dimensional_constraints": {
+        "min_width": 200,
+        "max_width": 3000,
+        "min_height": 200,
+        "max_height": 3000
+      },
+      "pricing_rules": [
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "PMATALL(\"PANEL_PVC\",\"DRUTEX\",\"\",fn_getZubVarFeldS(1203,ES1010,901),1)",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "GRPRS * PMATALL(PROFILSATZ_TYPKLASSE+\"_DOD\",\"KOLOR\",fn_SystemCeny(),fn_CenaWarKolPanel(ES1100,ES1110,ES1120),1,fn_CenaGrKolPanel(ES1100,ES1110,ES1120))/100",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,74,11)+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,74,11))+(fn_CenaSzyby(ART_1200_SzybaS,74,11))+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,51,11)+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,51,11))+(fn_CenaSzyby(ART_1200_SzybaS,51,11))+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)*0.5),\r\n(((fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11))+(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)))*0.5))",
+          "modifier": 1
+        }
+      ],
+      "articles": []
+    },
+    {
+      "cantor_key": "DRUTEX4",
+      "name": "Baza: bialy, krem, antracyt",
+      "type_class": "DEFAULT",
+      "pricing_group": "DEFAULT_GRP",
+      "base_price": 0,
+      "dimensional_constraints": {
+        "min_width": 200,
+        "max_width": 3000,
+        "min_height": 200,
+        "max_height": 3000
+      },
+      "pricing_rules": [
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "PMATALL(\"PANEL_PVC\",\"DRUTEX\",\"\",fn_getZubVarFeldS(1203,ES1010,901),1)",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "GRPRS * PMATALL(PROFILSATZ_TYPKLASSE+\"_DOD\",\"KOLOR\",fn_SystemCeny(),fn_CenaWarKolPanel(ES1100,ES1110,ES1120),1,fn_CenaGrKolPanel(ES1100,ES1110,ES1120))/100",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,74,11)+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,74,11))+(fn_CenaSzyby(ART_1200_SzybaS,74,11))+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,51,11)+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,51,11))+(fn_CenaSzyby(ART_1200_SzybaS,51,11))+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)*0.5),\r\n(((fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11))+(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)))*0.5))",
+          "modifier": 1
+        }
+      ],
+      "articles": []
+    },
+    {
+      "cantor_key": "PROGI",
+      "name": "Progi",
+      "type_class": "DEFAULT",
+      "pricing_group": "DEFAULT_GRP",
+      "base_price": 0,
+      "dimensional_constraints": {
+        "min_width": 200,
+        "max_width": 3000,
+        "min_height": 200,
+        "max_height": 3000
+      },
+      "pricing_rules": [
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "PMATALL(\"PANEL_PVC\",\"DRUTEX\",\"\",fn_getZubVarFeldS(1203,ES1010,901),1)",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "GRPRS * PMATALL(PROFILSATZ_TYPKLASSE+\"_DOD\",\"KOLOR\",fn_SystemCeny(),fn_CenaWarKolPanel(ES1100,ES1110,ES1120),1,fn_CenaGrKolPanel(ES1100,ES1110,ES1120))/100",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,74,11)+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,74,11))+(fn_CenaSzyby(ART_1200_SzybaS,74,11))+(fn_CenaSzyby(ART_1200_SzybaW,74,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n((fn_CenaSzyby(ART_1200_SzybaZ,51,11)+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5),\r\n(((fn_CenaSzyby(ART_1200_SzybaZ,51,11))+(fn_CenaSzyby(ART_1200_SzybaS,51,11))+(fn_CenaSzyby(ART_1200_SzybaW,51,11)))*0.5))",
+          "modifier": 1
+        },
+        {
+          "description": "ART Rule",
+          "rule_type": "PERCENTAGE_SURCHARGE",
+          "formula_string": "IIF(ART_1200_IloscSzyb=2,\r\n(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)*0.5),\r\n(((fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11))+(fn_CenaRamki(ART_1200_Ramka+STRING(ART_1200_SzerRamki1),11)))*0.5))",
+          "modifier": 1
+        }
+      ],
+      "articles": []
+    }
+  ]
+}

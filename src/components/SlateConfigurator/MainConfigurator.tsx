@@ -1,8 +1,10 @@
 import { useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useConfigurator } from './useConfigurator';
-import { CONFIG_SCHEMA, WINDOW_TYPES, OPENING_TYPES, COLOR_LOCALE, GLASS_LOCALE } from './types';
-import { Ruler, Layers, Check, ChevronLeft, ChevronRight, ShoppingCart, HelpCircle, X, Box } from 'lucide-react';
+import { CONFIG_SCHEMA, WINDOW_TYPES, COLOR_LOCALE, GLASS_LOCALE } from './types';
+import { Ruler, Layers, Check, ChevronLeft, ChevronRight, ChevronUp, ChevronDown, ShoppingCart, HelpCircle, X, Box } from 'lucide-react';
+import { WindowTypeGraphic } from './WindowTypeGraphic';
+import { estimateFramePrice, resolveOpeningClass } from '../../utils/pricingEngine';
 import { FloatingHelpMenu } from './FloatingHelpMenu';
 import { ExitIntentModal } from './ExitIntentModal';
 import { MaterialHelp, WindowTypeHelp } from './HelpContents';
@@ -22,14 +24,32 @@ import { useSessionStore } from '../../store/useSessionStore';
 import { Sparkles } from 'lucide-react';
 import { AIGuidedAssistant } from './AIGuidedAssistant';
 import { useOrderStore } from '../../store/useOrderStore';
+import fittingVariants from '../../data/fitting_variants.json';
+
+// Maps a window type ARTNR → canonical default sash openings for the selector cards.
+// Matches Cantor FELDTAB ANSCHLAG conventions:
+//   ANSCHLAG=5 → o2 (DK left-hinged handle-right), ANSCHLAG=4 → o3 (DK right-hinged)
+//   ANSCHLAG=6/FF → o6 (Kipp/tilt only), ANSCHLAG=0 or fixed → o1
+function defaultSashOpeningsFor(id: string, sashes: number): string[] {
+  const code = (id || '').toUpperCase();
+  if (code === 'F100') return Array(sashes).fill('o3');
+  if (['F104', 'F104L'].includes(code)) return Array(sashes).fill('o2');
+  if (code === 'F104R') return Array(sashes).fill('o3');
+  if (['F105', 'F106'].includes(code)) return Array(sashes).fill('o6');
+  if (code.startsWith('F2')) return Array.from({ length: sashes }, (_, i) => i === 0 ? 'o1' : 'o2');
+  if (code.startsWith('F3')) return Array.from({ length: sashes }, (_, i) => i === 0 ? 'o1' : i === 1 ? 'o2' : 'o3');
+  if (code.startsWith('F4')) return Array.from({ length: sashes }, (_, i) => i < 2 ? 'o1' : i === 2 ? 'o2' : 'o3');
+  return Array(sashes).fill('o1');
+}
+
 
 const TiltProfileCard = ({ profile, isActive, onClick, tags }: { profile: any, isActive: boolean, onClick: () => void, tags: any[] }) => {
   const { t } = useTranslation();
-  const cardRef = useRef<HTMLButtonElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const handlePointerMove = (e: React.PointerEvent<HTMLButtonElement>) => {
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -44,7 +64,7 @@ const TiltProfileCard = ({ profile, isActive, onClick, tags }: { profile: any, i
   const handlePointerLeave = () => setRotation({ x: 0, y: 0 });
 
   return (
-    <button
+    <div
       ref={cardRef}
       onClick={onClick}
       onPointerMove={handlePointerMove}
@@ -110,7 +130,7 @@ const TiltProfileCard = ({ profile, isActive, onClick, tags }: { profile: any, i
           </div>
         )}
       </div>
-    </button>
+    </div>
   );
 };
 
@@ -127,7 +147,7 @@ export function MainConfigurator() {
   const hasProduct = typeof window !== 'undefined' && window.location.search.includes('product=');
   const [activeStep, setActiveStep] = useState<number | null>(hasProduct ? 3 : 0);
   const [show3D, setShow3D] = useState(false);
-  const [stepOrder, setStepOrder] = useState<number[]>([1,2,3,7,5,6,8]);
+  const [stepOrder, setStepOrder] = useState<number[]>([1,2,3,4,7,5,6,8]);
   const [completedSteps, setCompletedSteps] = useState<number[]>(hasProduct ? [1, 2] : []);
   const openStep = (step: number) => { setActiveStep(step); setStepOrder(prev => [step, ...prev.filter(s => s !== step)]); };
   const advanceStep = (current: number, next: number) => { setTimeout(() => { setActiveStep(next); setCompletedSteps(prev => Array.from(new Set([...prev, current]))); setStepOrder(prev => { const n = prev.filter(s => s !== current); n.push(current); return n; }); }, 350); };
@@ -454,14 +474,43 @@ export function MainConfigurator() {
                       const availableMaterials = Array.from(new Set(profiles.map(p => (p as any).material).filter(Boolean)));
                       const visibleProfiles = state.materialFilter ? profiles.filter(p => (p as any).material === state.materialFilter) : profiles;
 
-                      const sortedProfiles = [...visibleProfiles].sort((a, b) => {
-                         const techA = (a as any).technical;
-                         const techB = (b as any).technical;
-                         if (!techA || !techB) return 0;
-                         if (state.sortByTracker === 'energy') return techA.uwValue - techB.uwValue;
-                         if (state.sortByTracker === 'depth') return techA.profileDepth - techB.profileDepth;
-                         return 0;
-                      });
+                            const sortedArr = [...visibleProfiles].sort((a, b) => {
+                               if (state.sortByTracker === 'default') return 0;
+                               
+                               const techA = (a as any).technical;
+                               const techB = (b as any).technical;
+                               const dir = state.sortDirection === 'asc' ? 1 : -1;
+                               
+                               if (state.sortByTracker === 'price') {
+                                  const openingCls = resolveOpeningClass(state.sashOpenings);
+                                  const priceA = estimateFramePrice(a.id, openingCls, state.dimensions.width, state.dimensions.height);
+                                  const priceB = estimateFramePrice(b.id, openingCls, state.dimensions.width, state.dimensions.height);
+                                  return (priceA - priceB) * dir;
+                               }
+                               
+                               if (!techA || !techB) return 0;
+                               if (state.sortByTracker === 'energy') return (techA.uwValue - techB.uwValue) * dir;
+                               if (state.sortByTracker === 'depth') return (techA.profileDepth - techB.profileDepth) * dir;
+                               if (state.sortByTracker === 'sound') {
+                                  const parseDb = (str: string) => {
+                                     if (!str) return 0;
+                                     const nums = str.match(/\d+/g);
+                                     return nums ? Math.max(...nums.map(Number)) : 0;
+                                  };
+                                  const dbA = parseDb(techA.soundInsulation);
+                                  const dbB = parseDb(techB.soundInsulation);
+                                  return (dbA - dbB) * dir;
+                               }
+                               return 0;
+                            });
+
+                            // Pin the currently selected profile to the front
+                            const selectedIndex = sortedArr.findIndex(p => p.id === state.profile);
+                            if (selectedIndex > 0) {
+                               const selectedObj = sortedArr.splice(selectedIndex, 1)[0];
+                               sortedArr.unshift(selectedObj);
+                            }
+                            const sortedProfiles = sortedArr;
 
                       return (
                         <>
@@ -481,15 +530,28 @@ export function MainConfigurator() {
                             )}
                             <div className="flex items-center gap-3">
                               <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Sort By:</span>
-                              <select 
-                                value={state.sortByTracker}
-                                onChange={(e) => dispatch({ type: 'SET_SORT_BY', payload: e.target.value as any })}
-                                className="bg-[#111112] text-white/90 text-sm font-medium border border-[#2a2a2b] rounded-lg px-4 py-2 outline-none hover:border-[#3a3a3b] focus:border-[#eab676]/50 transition-colors cursor-pointer"
-                              >
-                                <option value="default">Default Order</option>
-                                <option value="energy">Highest Energy Efficiency</option>
-                                <option value="depth">Thinnest Profile</option>
-                              </select>
+                              <div className="flex items-center bg-[#111112] border border-[#2a2a2b] rounded-lg overflow-hidden transition-colors hover:border-[#3a3a3b] focus-within:border-[#eab676]/50">
+                                <select 
+                                  value={state.sortByTracker}
+                                  onChange={(e) => dispatch({ type: 'SET_SORT_BY', payload: e.target.value as any })}
+                                  className="bg-transparent text-white/90 text-sm font-medium px-4 py-2 outline-none cursor-pointer appearance-none pr-8 relative"
+                                  style={{ background: 'url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSI4IiB2aWV3Qm94PSIwIDAgMTQgOCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIwLjUiIGQ9Ik03IDhMMCAwbDE0IDB6Ii8+PC9zdmc+) right 12px center no-repeat' }}
+                                >
+                                  <option value="default" className="bg-[#111112] text-white">Default Order</option>
+                                  <option value="energy" className="bg-[#111112] text-white">Energy Efficiency</option>
+                                  <option value="sound" className="bg-[#111112] text-white">Sound Insulation</option>
+                                  <option value="depth" className="bg-[#111112] text-white">Profile Depth</option>
+                                  <option value="price" className="bg-[#111112] text-white">Price</option>
+                                </select>
+                                <div className="h-6 w-px bg-[#2a2a2b]"></div>
+                                <button 
+                                  onClick={() => dispatch({ type: 'SET_SORT_DIRECTION', payload: state.sortDirection === 'asc' ? 'desc' : 'asc' })}
+                                  className="px-3 py-2 text-white/50 hover:text-[#eab676] transition-colors"
+                                  title={`Toggle Direction (Current: ${state.sortDirection === 'asc' ? 'Lowest/Thinnest to Highest' : 'Highest/Thickest to Lowest'})`}
+                                >
+                                  {state.sortDirection === 'asc' ? <ChevronUp size={16} strokeWidth={3} /> : <ChevronDown size={16} strokeWidth={3} />}
+                                </button>
+                              </div>
                             </div>
                           </div>
                           <div className="relative group">
@@ -567,20 +629,14 @@ export function MainConfigurator() {
                             {items.map(wt => (
                               <button
                                 key={wt.id}
-                                onClick={() => { dispatch({ type: 'SET_WINDOW_TYPE', payload: wt.id }); advanceStep(3, 7); }}
+                                onClick={() => { dispatch({ type: 'SET_WINDOW_TYPE', payload: wt.id }); advanceStep(3, 5); }}
                                 className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center justify-between gap-3 h-[160px] ${state.windowTypeId === wt.id ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676] shadow-md ring-4 ring-[#eab676]/10' : 'border-[#2a2a2b] hover:border-[#3a3a3b] shadow-sm hover:shadow-md group bg-[#1a1a1b]'}`}
                               >
                                 <div className="w-full h-20 flex items-center justify-center relative p-2 overflow-hidden bg-[#111112]/50 rounded-lg">
-                                  {/* Auto-maps to /images/typologies/[ARTNR].png */}
-                                  <img 
-                                    src={wt.image} 
-                                    alt={wt.name} 
-                                    className={`object-contain max-h-full transition-all duration-300 ${state.windowTypeId === wt.id ? 'opacity-100 scale-110 drop-shadow-md' : 'opacity-50 group-hover:opacity-80 group-hover:scale-105'}`}
-                                    onError={(e) => {
-                                      // Fallback wireframe if image is not yet available in the public folder
-                                      (e.target as HTMLImageElement).onerror = null;
-                                      (e.target as HTMLImageElement).src = 'data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>';
-                                    }}
+                                  <WindowTypeGraphic 
+                                    id={wt.id}
+                                    sashOpenings={state.windowTypeId === wt.id ? state.sashOpenings : defaultSashOpeningsFor(wt.id, wt.sashes)}
+                                    className={`object-contain max-h-full transition-all duration-300 ${state.windowTypeId === wt.id ? 'opacity-100 scale-110 drop-shadow-[0_0_8px_rgba(234,182,118,0.5)] text-[#eab676]' : 'opacity-40 group-hover:opacity-100 group-hover:scale-105 text-white'}`}
                                   />
                                 </div>
                                 <div className="font-bold text-[10px] text-center leading-tight whitespace-pre-wrap">{wt.name}<br/><span className="text-white/30 truncate mt-1 block">[{wt.id}]</span></div>
@@ -598,8 +654,49 @@ export function MainConfigurator() {
               </div>
             </section>
 
-            {/* Step 4: Opening Types REMOVED */}
-
+            {/* Step 4: Unit Options */}
+            <section className={`bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-500 hidden`} style={{ order: stepOrder.indexOf(4) }}>
+              <div 
+                className={`flex items-center justify-between cursor-pointer ${activeStep === 4 ? 'mb-6' : ''}`}
+                onClick={() => openStep(4)}
+              >
+                <div className="flex items-center gap-3 w-full relative">
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 4 ? 'bg-[#eab676]/20 text-[#eab676]' : 'bg-[#111112] text-white/40'}`}>4</div> 
+                  {completedSteps.includes(4) && <Check size={20} className="text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.4)]" strokeWidth={3} />}
+                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 4 ? 'text-white/90' : 'text-white/40'}`}>Unit Options</h2>
+                  <button onClick={(e) => { e.stopPropagation(); toggleHelp(4); }} className="text-white/40 hover:text-[#eab676] transition-colors ml-1" title="Toggle Help"><HelpCircle size={18} /></button>
+                </div>
+                {activeStep !== 4 && <div className="text-xs font-bold text-[#eab676] bg-[#eab676]/10 px-3 py-1.5 rounded-full uppercase tracking-wider">{state.fittingVariant}</div>}
+              </div>
+              
+              <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${activeStep === 4 ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+                <div className="overflow-hidden">
+                  <div className="pt-2">
+                    <div className="mb-6">
+                      <label className="text-sm font-bold text-white/50 uppercase tracking-widest mb-4 block">Fitting variant 1</label>
+                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {fittingVariants.map((fv) => (
+                          <button
+                            key={fv.id}
+                            onClick={() => { dispatch({ type: 'SET_FITTING_VARIANT', payload: fv.id }); advanceStep(4, 5); }}
+                            className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center justify-between gap-3 h-[180px] ${state.fittingVariant === fv.id ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676] shadow-md ring-4 ring-[#eab676]/10' : 'border-[#2a2a2b] hover:border-[#3a3a3b] shadow-sm hover:shadow-md group bg-[#1a1a1b]'}`}
+                          >
+                            <div className="flex-1 w-full flex items-center justify-center p-2 rounded-lg bg-[#111112]/50">
+                              {fv.image ? <img src={fv.image} alt={fv.name} className={`h-full object-contain max-h-[80px] transition-opacity ${state.fittingVariant === fv.id ? 'opacity-100' : 'opacity-40 grayscale group-hover:opacity-75 group-hover:grayscale-0'}`} /> : <div className="w-10 h-10 border border-dashed rounded opacity-30"/>}
+                            </div>
+                            <div className="font-bold text-[10px] text-center leading-tight whitespace-pre-wrap">{fv.name}<br/><span className="text-white/30 truncate mt-1 block">[{fv.id}]</span></div>
+                          </button>
+                        ))}
+                      </div>
+                      <p className="text-[10px] text-white/30 italic mt-4">Determines the opening mechanism of the first sash.</p>
+                    </div>
+                  </div>
+                  <div className="pt-6 mt-6 border-t border-[#2a2a2b] flex justify-start">
+                    <button onClick={(e) => { e.stopPropagation(); openStep(3); }} className="text-[11px] font-black uppercase tracking-widest text-[#eab676] bg-[#eab676]/10 px-4 py-2 rounded-lg hover:bg-[#eab676]/20 transition-colors flex items-center gap-2"><ChevronLeft size={14} /> {t('configurator.buttons.previous') || "Previous Step"}</button>
+                  </div>
+                </div>
+              </div>
+            </section>
 
             {/* Step 5: Color & Decor */}
             <section className={`bg-[#1a1a1b] p-6 md:p-8 rounded-2xl shadow-sm border border-[#2a2a2b] transition-all duration-500 ${activeStep !== 5 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(5) }}>
@@ -692,7 +789,7 @@ export function MainConfigurator() {
                     </div>
                   </div>
                   <div className="pt-6 mt-6 border-t border-[#2a2a2b] flex justify-start">
-                    <button onClick={(e) => { e.stopPropagation(); openStep(7); }} className="text-[11px] font-black uppercase tracking-widest text-[#eab676] bg-[#eab676]/10 px-4 py-2 rounded-lg hover:bg-[#eab676]/20 transition-colors flex items-center gap-2"><ChevronLeft size={14} /> {t('configurator.buttons.previous') || "Previous Step"}</button>
+                    <button onClick={(e) => { e.stopPropagation(); openStep(3); }} className="text-[11px] font-black uppercase tracking-widest text-[#eab676] bg-[#eab676]/10 px-4 py-2 rounded-lg hover:bg-[#eab676]/20 transition-colors flex items-center gap-2"><ChevronLeft size={14} /> {t('configurator.buttons.previous') || "Previous Step"}</button>
                   </div>
                 </div>
               </div>
@@ -1119,12 +1216,14 @@ export function MainConfigurator() {
                     </button>
                     <button onClick={() => openStep(3)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-[#111112] transition-colors">
                       <div className="flex items-center gap-2.5"><span className="w-5 h-5 rounded-md inline-flex items-center justify-center bg-[#2a2a2b] border border-white/5 shadow-inner text-[10px] font-black text-white/50 group-hover:bg-[#eab676] group-hover:text-black group-hover:border-[#eab676] transition-all duration-300 drop-shadow-sm">3</span><span className="text-white/50 group-hover:text-[#eab676] font-medium text-xs uppercase tracking-wider transition-colors">{t('configurator.summary.windowType')}</span></div> 
-                      <span className="font-bold text-white group-hover:text-[#eab676] transition-colors">{completedSteps.includes(3) ? String(t(`configurator.windowTypes.${state.windowTypeId}`, WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.name || state.windowTypeId)) : '---'}</span>
+                      <span className="font-bold text-white group-hover:text-[#eab676] transition-colors truncate max-w-[150px] text-right" title={WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.name || state.windowTypeId}>
+                        {state.windowTypeId ? `[${state.windowTypeId}] ${WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.name || ''}` : '---'}
+                      </span>
                     </button>
-                    <button onClick={() => openStep(4)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-[#111112] transition-colors">
-                      <div className="flex items-center gap-2.5"><span className="w-5 h-5 rounded-md inline-flex items-center justify-center bg-[#2a2a2b] border border-white/5 shadow-inner text-[10px] font-black text-white/50 group-hover:bg-[#eab676] group-hover:text-black group-hover:border-[#eab676] transition-all duration-300 drop-shadow-sm">4</span><span className="text-white/50 group-hover:text-[#eab676] font-medium text-xs uppercase tracking-wider transition-colors">{t('configurator.steps.openingType')}</span></div> 
-                      <span className="font-bold text-white group-hover:text-[#eab676] transition-colors truncate max-w-[120px] text-right">
-                        {completedSteps.includes(4) ? state.sashOpenings.map(s => t(`configurator.openingTypes.${OPENING_TYPES.find(o => o.shortCode === s)?.name || s}`, OPENING_TYPES.find(o => o.shortCode === s)?.name || s)).join(', ') : '---'}
+                    <button onClick={() => openStep(4)} className="hidden w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-[#111112] transition-colors">
+                      <div className="flex items-center gap-2.5"><span className="w-5 h-5 rounded-md inline-flex items-center justify-center bg-[#2a2a2b] border border-white/5 shadow-inner text-[10px] font-black text-white/50 group-hover:bg-[#eab676] group-hover:text-black group-hover:border-[#eab676] transition-all duration-300 drop-shadow-sm">4</span><span className="text-white/50 group-hover:text-[#eab676] font-medium text-xs uppercase tracking-wider transition-colors">Unit Options</span></div> 
+                      <span className="font-bold text-white group-hover:text-[#eab676] transition-colors truncate max-w-[150px] text-right" title={fittingVariants.find(fv => fv.id === state.fittingVariant)?.name || state.fittingVariant}>
+                        {state.fittingVariant ? `[${state.fittingVariant}] ${fittingVariants.find(fv => fv.id === state.fittingVariant)?.name || ''}` : '---'}
                       </span>
                     </button>
                     <button onClick={() => { openStep(5); setColorTab('interior'); }} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-[#111112] transition-colors">

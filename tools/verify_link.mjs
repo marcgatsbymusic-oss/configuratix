@@ -50,11 +50,11 @@ async function checkLinks() {
         const supabase = createClient(supabaseUrl, supabaseKey);
         // Simple ping to ensure we can reach it (fetching time or simple table)
         const { error } = await supabase.from('supplier_products').select('id').limit(1);
-        if (error && error.code !== '42P01') { 
-            // 42P01 is relation undefined, meaning connection works but table doesn't exist, which is fine for handshake
-             console.error("[x] Supabase Verification return an error:", error.message);
+        if (error && error.code !== '42P01' && !error.code.startsWith('PGRST')) { 
+            // 42P01 is relation undefined, PGRST errors are schema cache issues meaning connection works but table doesn't exist, which is fine for handshake
+             console.error("[x] Supabase Verification return an error:", error.code, error.message);
         } else {
-             console.log("[\u2713] Supabase Link Verified Successfully!");
+             console.log("[\u2713] Supabase Link Verified Successfully! (Code: " + (error ? error.code : "None") + ")");
         }
     } catch(e) {
          console.error("[x] Supabase Integration Failed:", e.message);

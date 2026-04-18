@@ -23,6 +23,44 @@ export interface GlazingPackage {
 export type CategoryType = 'Windows' | 'Doors' | 'Terrace Systems' | 'Shutters' | 'Exterior Venetian Blinds' | 'Insect Screens' | 'Garage doors' | 'Facades / Winter Gardens' | 'Pergola';
 export type GlazingType = '2-pane' | '3-pane';
 
+// --- CANTOR DATA INTERFACES --- //
+export interface CantorSystem {
+  cantor_key: string;
+  name: string;
+  type_class: string;
+  pricing_group: string;
+  base_price: number;
+  min_width: number;
+  max_width: number;
+  min_height: number;
+  max_height: number;
+}
+export interface CantorPricingRule {
+  id: string;
+  system_key: string;
+  description: string;
+  rule_type: string;
+  formula_string: string;
+  modifier: number;
+}
+export interface CantorArticle {
+  article_code: string;
+  system_key: string;
+  name: string;
+  price_value: number;
+  matrix_column_index: number;
+}
+export interface CantorFormulaMatrix {
+  id: number;
+  matrix_name: string;
+  class_1: string;
+  class_2: string;
+  width: number;
+  height: number;
+  prices: number[];
+}
+// ------------------------------ //
+
 export interface ProfileTag {
   text: string;
   color: 'emerald' | 'blue';
@@ -55,10 +93,12 @@ export interface ConfiguratorState {
   dimensions: WindowDimensions;
   category: CategoryType;
   materialFilter: string | null;
-  sortByTracker: 'default' | 'energy' | 'depth';
+  sortByTracker: 'default' | 'energy' | 'depth' | 'sound' | 'price';
+  sortDirection: 'asc' | 'desc';
   profile: string;
   windowTypeId: string;
   sashOpenings: string[];
+  fittingVariant: string;
   interiorColorGroup: string;
   interiorColor: string;
   exteriorColorGroup: string;
@@ -75,10 +115,12 @@ export type ConfiguratorAction =
   | { type: 'SET_DIMENSIONS'; payload: Partial<WindowDimensions> }
   | { type: 'SET_CATEGORY'; payload: CategoryType }
   | { type: 'SET_MATERIAL_FILTER'; payload: string | null }
-  | { type: 'SET_SORT_BY'; payload: 'default' | 'energy' | 'depth' }
+  | { type: 'SET_SORT_BY'; payload: 'default' | 'energy' | 'depth' | 'sound' | 'price' }
+  | { type: 'SET_SORT_DIRECTION'; payload: 'asc' | 'desc' }
   | { type: 'SET_PROFILE'; payload: string }
   | { type: 'SET_WINDOW_TYPE'; payload: string }
   | { type: 'SET_SASH_OPENING'; payload: { index: number; openingId: string } }
+  | { type: 'SET_FITTING_VARIANT'; payload: string }
   | { type: 'SET_INTERIOR_COLOR_GROUP'; payload: string }
   | { type: 'SET_INTERIOR_COLOR'; payload: string }
   | { type: 'SET_EXTERIOR_COLOR_GROUP'; payload: string }
@@ -105,7 +147,29 @@ export const CONFIG_SCHEMA = {
   glazing: [
     { id: '2-24', name: '2-24 Double-glazed 24mm', priceMod: 1.0, group: 'Glazing Packages' },
     { id: '3-36', name: '3-36 Triple-glazed 36mm', priceMod: 1.15, group: 'Glazing Packages' },
-    { id: '3-48', name: '3-48 Triple-glazed 48mm', priceMod: 1.30, group: 'Glazing Packages' }
+    { id: '3-48', name: '3-48 Triple-glazed 48mm', priceMod: 1.30, group: 'Glazing Packages' },
+    
+    // Non Glazing Packages mapped from UI Matrix
+    { id: 'BS18', name: 'without glass, prepared for a package 18mm', priceMod: 0, group: 'Non Glazing' },
+    { id: 'BS20', name: 'without glass, prepared for a package 20mm', priceMod: 0, group: 'Non Glazing' },
+    { id: 'BS22', name: 'without glass, prepared for a package 22mm', priceMod: 0, group: 'Non Glazing' },
+    { id: 'BS24', name: 'without glass, prepared for a package 24mm', priceMod: 0, group: 'Non Glazing' },
+    { id: 'BS26', name: 'without glass, prepared for a package 26mm', priceMod: 0, group: 'Non Glazing' },
+    { id: 'BS28', name: 'without glass, prepared for a package 28mm', priceMod: 0, group: 'Non Glazing' },
+    { id: 'BS30', name: 'without glass, prepared for a package 30mm', priceMod: 0, group: 'Non Glazing' },
+    { id: 'BS32', name: 'without glass, prepared for a package 32mm', priceMod: 0, group: 'Non Glazing' },
+    { id: 'BS34', name: 'without glass, prepared for a package 34mm', priceMod: 0, group: 'Non Glazing' },
+    { id: 'BS36', name: 'without glass, prepared for a package 36mm', priceMod: 0, group: 'Non Glazing' },
+    { id: 'BS40', name: 'without glass, prepared for a package 40mm', priceMod: 0, group: 'Non Glazing' },
+    { id: 'CA100_36', name: 'Classic panel - single-sided CA100 - 36mm', priceMod: 0, group: 'Non Glazing' },
+    { id: 'DB100_36_V', name: 'V-type panel single-sided DB100 - 36mm Vertical milling', priceMod: 0, group: 'Non Glazing' },
+    { id: 'DB100_36_H', name: 'V-type panel single-sided DB100 36mm Horizontal milling', priceMod: 0, group: 'Non Glazing' },
+    { id: 'DB200_36_V', name: 'V-type panel double-sided DB200 36mm Vertical milling', priceMod: 0, group: 'Non Glazing' },
+    { id: 'DB200_36_H', name: 'V-type panel double-sided DB200 36mm Horizontal milling', priceMod: 0, group: 'Non Glazing' },
+    { id: 'DW100_3', name: 'Classic panel - single-sided DW100 - 36mm', priceMod: 0, group: 'Non Glazing' },
+    { id: 'PVC24', name: 'PVC board 24mm', priceMod: 0, group: 'Non Glazing' },
+    { id: 'PVC36', name: 'PVC board 36mm', priceMod: 0, group: 'Non Glazing' },
+    { id: 'PW24', name: 'PVC polycarbonate 24mm', priceMod: 0, group: 'Non Glazing' }
   ] as GlazingPackage[],
   addons: [
     { id: 'handle-premium', name: 'Premium Metal Handle', price: 45 },

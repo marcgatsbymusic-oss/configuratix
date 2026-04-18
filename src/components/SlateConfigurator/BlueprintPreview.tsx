@@ -3,6 +3,7 @@ import type { ConfiguratorState } from './types';
 import { COLOR_LOCALE } from './types';
 import { useTranslation } from 'react-i18next';
 import { Rotate3D } from 'lucide-react';
+import { WindowTypeGraphic } from './WindowTypeGraphic';
 
 interface BlueprintPreviewProps {
   state: ConfiguratorState;
@@ -53,6 +54,7 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
     setRotationY(snapped);
   };
 
+  // Dimension layout constants (in SVG user units)
   const SVG_W = 500;
   const SVG_H = 600;
   const DIM_PAD_BOTTOM = 60;
@@ -72,54 +74,68 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
   const offsetX = DIM_PAD_LEFT + (MAX_W - frameW) / 2;
   const offsetY = DIM_PAD_TOP + (MAX_H - frameH) / 2;
 
-  const renderBlueprint = (isExterior: boolean) => {
+  // Convert SVG frame box to % of the container for the overlay
+  // The SVG viewBox is SVG_W × SVG_H; the overlay div fills 100%
+  const overlayLeft   = `${(offsetX / SVG_W) * 100}%`;
+  const overlayTop    = `${(offsetY / SVG_H) * 100}%`;
+  const overlayWidth  = `${(frameW / SVG_W) * 100}%`;
+  const overlayHeight = `${(frameH / SVG_H) * 100}%`;
+
+  const renderFace = (isExterior: boolean) => {
     const colorId = isExterior ? state.exteriorColor : state.interiorColor;
     const colorData = COLOR_LOCALE.colors[colorId];
-    const imgUrl = colorData?.swatch?.match(/url\(['"]?(.*?)['"]?\)/)?.[1] || '';
+    const imgUrl = colorData?.swatch?.match(/url\(['"']?(.*?)['"']?\)/)?.[1] || '';
     const patternId = isExterior ? 'frame_texture_ext' : 'frame_texture_int';
 
     return (
-      <svg 
-        viewBox={`0 0 ${SVG_W} ${SVG_H}`}
-        className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none"
-        vectorEffect="non-scaling-stroke"
-        style={{ backfaceVisibility: 'hidden', transform: isExterior ? 'rotateY(180deg) translateZ(-1px)' : 'rotateY(0deg) translateZ(1px)' }}
+      <div
+        className="absolute inset-0"
+        style={{
+          backfaceVisibility: 'hidden',
+          transform: isExterior ? 'rotateY(180deg) translateZ(-1px)' : 'rotateY(0deg) translateZ(1px)',
+        }}
       >
-        <defs>
-          {imgUrl && (
-            <pattern id={patternId} width="200" height="200" patternUnits="userSpaceOnUse">
-              <image href={imgUrl} width="200" height="200" preserveAspectRatio="xMidYMid slice" />
-            </pattern>
-          )}
-        </defs>
+        {/* Dimension callout SVG (no window graphic here anymore) */}
+        <svg
+          viewBox={`0 0 ${SVG_W} ${SVG_H}`}
+          className="absolute inset-0 w-full h-full pointer-events-none select-none"
+          vectorEffect="non-scaling-stroke"
+        >
+          <defs>
+            {imgUrl && (
+              <pattern id={patternId} width="200" height="200" patternUnits="userSpaceOnUse">
+                <image href={imgUrl} width="200" height="200" preserveAspectRatio="xMidYMid slice" />
+              </pattern>
+            )}
+          </defs>
 
-        <line x1={offsetX} y1={SVG_H - DIM_PAD_BOTTOM + 20} x2={offsetX + frameW} y2={SVG_H - DIM_PAD_BOTTOM + 20} stroke="#2a2a2b" strokeWidth="1" />
-        <line x1={offsetX} y1={SVG_H - DIM_PAD_BOTTOM + 15} x2={offsetX} y2={SVG_H - DIM_PAD_BOTTOM + 25} stroke="#2a2a2b" strokeWidth="1" />
-        <line x1={offsetX + frameW} y1={SVG_H - DIM_PAD_BOTTOM + 15} x2={offsetX + frameW} y2={SVG_H - DIM_PAD_BOTTOM + 25} stroke="#2a2a2b" strokeWidth="1" />
-        <text x={offsetX + frameW / 2} y={SVG_H - DIM_PAD_BOTTOM + 12} textAnchor="middle" fill="#1a1a1b" opacity="0.6" fontSize="16" className="font-sans font-bold">{realW}</text>
+          {/* Measurements removed as requested */}
 
-        <text x={SVG_W / 2} y={SVG_H - 10} textAnchor="middle" fill="#1a1a1b" opacity="0.6" fontSize="14" className="font-sans font-black tracking-[0.2em] uppercase">
-          {isExterior ? t('configurator.blueprint.exteriorView', 'Exterior View') : t('configurator.blueprint.interiorView', 'Interior View')}
-        </text>
+          {/* View label */}
+          <text x={SVG_W / 2} y={SVG_H - 8} textAnchor="middle" fill="#555" fontSize="11" fontFamily="system-ui" fontWeight="700" letterSpacing="2">
+            {isExterior
+              ? t('configurator.blueprint.exteriorView', 'EXTERIOR VIEW').toUpperCase()
+              : t('configurator.blueprint.interiorView', 'INTERIOR VIEW').toUpperCase()}
+          </text>
+        </svg>
 
-        <line x1={SVG_W - 15} y1={offsetY} x2={SVG_W - 15} y2={offsetY + frameH} stroke="#2a2a2b" strokeWidth="1" />
-        <line x1={SVG_W - 20} y1={offsetY} x2={SVG_W - 10} y2={offsetY} stroke="#2a2a2b" strokeWidth="1" />
-        <line x1={SVG_W - 20} y1={offsetY + frameH} x2={SVG_W - 10} y2={offsetY + frameH} stroke="#2a2a2b" strokeWidth="1" />
-        <text x={SVG_W - 25} y={offsetY + frameH / 2} textAnchor="middle" fill="#1a1a1b" opacity="0.6" fontSize="16" transform={`rotate(90, ${SVG_W - 25}, ${offsetY + frameH / 2})`} className="font-sans font-bold">{realH}</text>
-
-        <g transform={`translate(${offsetX}, ${offsetY})`}>
-          {/* Direct replacement of 2D generative draft with the explicitly mapped Typology SVGs */}
-          {imgUrl && (
-             <rect x="0" y="0" width={frameW} height={frameH} fill={`url(#${patternId})`} />
-          )}
-          <image 
-             href={`/images/typologies/${state.windowTypeId}.svg`} 
-             x="0" y="0" width={frameW} height={frameH}
-             preserveAspectRatio="none"
-             opacity="0.9"
+        {/* Live WindowTypeGraphic overlay — perfectly positioned over the dimension frame */}
+        <div
+          className="absolute"
+          style={{
+            left: overlayLeft,
+            top: overlayTop,
+            width: overlayWidth,
+            height: overlayHeight,
+          }}
+        >
+          <WindowTypeGraphic
+            id={state.windowTypeId}
+            sashOpenings={state.sashOpenings}
+            className={isExterior ? 'scale-x-[-1]' : ''}
           />
-        </g>
-      </svg>
+        </div>
+      </div>
     );
   };
 
@@ -128,6 +144,7 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center relative p-8 bg-transparent" style={{ perspective: '1200px' }}>
       
+      {/* Interior / Exterior toggle */}
       <div className="absolute top-4 right-4 flex gap-1 z-20 bg-[#1a1a1b]/80 backdrop-blur rounded-lg p-1 shadow-sm border border-[#2a2a2b]">
         <button 
           onClick={() => setRotationY(0)} 
@@ -143,10 +160,12 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
         </button>
       </div>
 
+      {/* Drag hint */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-white/50 opacity-60 pointer-events-none">
         <Rotate3D size={14} /> {t('configurator.blueprint.dragToRotate', 'Drag to rotate freely in 3D')}
       </div>
 
+      {/* 3D flip container */}
       <div 
         className="w-full h-full flex-1 relative cursor-grab active:cursor-grabbing hover:scale-105 select-none touch-none"
         style={{ 
@@ -165,8 +184,8 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
         onTouchEnd={handleTouchEnd}
         onTouchCancel={handleTouchEnd}
       >
-        {renderBlueprint(false)}
-        {renderBlueprint(true)}
+        {renderFace(false)}
+        {renderFace(true)}
       </div>
     </div>
   );

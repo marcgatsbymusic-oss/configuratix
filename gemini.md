@@ -74,3 +74,8 @@ This is the structured, transformed JSON payload that will be synced to Supabase
 ```
 
 *(Note: Coding Phase 2 and 3 only begins once this payload shape is actively confirmed as final for insertion mapping)*
+
+## Configurator Sorting Mechanics
+*(For UI sorting implementations)*
+- **Supported Parameters:** Energy Efficiency (uwValue), Sound Insulation (parsed dB value), Profile Depth (mm), and Dynamic Estimated Price (via IDW Matrix Interpolation).
+- **Direction Toggle:** Bidirectional (Ascending/Descending) state parameter enabled across all profile rendering modules.

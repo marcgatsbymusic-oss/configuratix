@@ -38,6 +38,9 @@ import { AdminDashboard } from './pages/admin/AdminDashboard'
 import { SetupOverview } from './pages/admin/SetupOverview'
 import { PricingManager } from './pages/admin/PricingManager'
 import { MatrixUploader } from './pages/admin/MatrixUploader'
+import { QuotationsPage } from './pages/admin/QuotationsPage'
+import { QuotationDetailPage } from './pages/admin/QuotationDetailPage'
+import { FactoryQueuePage } from './pages/admin/FactoryQueuePage'
 
 function StorefrontLayout() {
   return (
@@ -72,6 +75,9 @@ function App() {
             {/* Admin Dashboard Routes */}
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
+              <Route path="quotations" element={<QuotationsPage />} />
+              <Route path="quotations/:id" element={<QuotationDetailPage />} />
+              <Route path="factory" element={<FactoryQueuePage />} />
               <Route path="setup" element={<SetupOverview />} />
               <Route path="pricing" element={<PricingManager />} />
               <Route path="upload" element={<MatrixUploader />} />

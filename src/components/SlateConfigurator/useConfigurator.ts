@@ -1,4 +1,5 @@
-import { useReducer, useMemo } from 'react';
+import { useReducer, useMemo, useEffect, useState } from 'react';
+import { supabase } from '../../lib/supabase';
 import { CONFIG_SCHEMA, WINDOW_TYPES } from './types';
 import glazingOptions from '../../data/glazing.json';
 import iglo5Data from '../../data/iglo5_data.json';
@@ -11,13 +12,15 @@ const initialState: ConfiguratorState = {
   category: 'Windows',
   materialFilter: 'PVC',
   sortByTracker: 'default',
+  sortDirection: 'asc',
   profile: 'iglo5',
   windowTypeId: 'F100',
-  sashOpenings: ['o2'], // Default: 1-sash Dreh-Kipp
-  interiorColorGroup: 'Metal Effect',
-  interiorColor: 'c209', // Basalt Grey
-  exteriorColorGroup: 'Metal Effect',
-  exteriorColor: 'c214', // Anthracite
+  sashOpenings: ['o3'], // Default F100 to Handle Left, Hinges Right (o3)
+  fittingVariant: 'FIX',
+  interiorColorGroup: 'Solid',
+  interiorColor: 'c197', // White
+  exteriorColorGroup: 'Solid',
+  exteriorColor: 'c197', // White
   glazingPackage: '2-24', // Default from DB extract 
   glassOutside: 'FL4',
   glassMiddle: '',
@@ -70,6 +73,9 @@ function configuratorReducer(state: ConfiguratorState, action: ConfiguratorActio
          };
       }
 
+      const selectedProfileInfo = limits.profiles?.find((p: any) => p.id === fallbackProfile);
+      const isPVC = selectedProfileInfo?.material === 'PVC';
+
       return {
         ...state,
         category: action.payload,
@@ -78,7 +84,13 @@ function configuratorReducer(state: ConfiguratorState, action: ConfiguratorActio
         dimensions: {
           width: Math.min(Math.max(state.dimensions.width, limits.minWidth), limits.maxWidth),
           height: Math.min(Math.max(state.dimensions.height, limits.minHeight), limits.maxHeight),
-        }
+        },
+        ...(isPVC ? {
+          interiorColorGroup: 'Solid',
+          interiorColor: 'c197',
+          exteriorColorGroup: 'Solid',
+          exteriorColor: 'c197'
+        } : {})
       };
     }
     case 'SET_PROFILE': {
@@ -93,13 +105,23 @@ function configuratorReducer(state: ConfiguratorState, action: ConfiguratorActio
            maxHeight: limitsOverrides.max_height
          };
       }
+
+      const selectedProfileInfo = limits.profiles?.find((p: any) => p.id === action.payload);
+      const isPVC = selectedProfileInfo?.material === 'PVC';
+
       return { 
         ...state, 
         profile: action.payload,
         dimensions: {
           width: Math.min(Math.max(state.dimensions.width, limits.minWidth), limits.maxWidth),
           height: Math.min(Math.max(state.dimensions.height, limits.minHeight), limits.maxHeight),
-        }
+        },
+        ...(isPVC ? {
+          interiorColorGroup: 'Solid',
+          interiorColor: 'c197',
+          exteriorColorGroup: 'Solid',
+          exteriorColor: 'c197'
+        } : {})
       };
     }
     case 'SET_MATERIAL_FILTER': {
@@ -110,22 +132,48 @@ function configuratorReducer(state: ConfiguratorState, action: ConfiguratorActio
           const profilesOpts = limits.profiles.filter((p: any) => p.material === newMaterial);
           if (profilesOpts.length > 0) firstProfileForMaterial = profilesOpts[0].id;
       }
-      return { ...state, materialFilter: newMaterial, profile: firstProfileForMaterial };
+      
+      const isPVC = newMaterial === 'PVC' || limits.profiles?.find((p: any) => p.id === firstProfileForMaterial)?.material === 'PVC';
+
+      return { 
+        ...state, 
+        materialFilter: newMaterial, 
+        profile: firstProfileForMaterial,
+        ...(isPVC ? {
+          interiorColorGroup: 'Solid',
+          interiorColor: 'c197',
+          exteriorColorGroup: 'Solid',
+          exteriorColor: 'c197'
+        } : {})
+      };
     }
     case 'SET_SORT_BY':
       return { ...state, sortByTracker: action.payload };
+    case 'SET_SORT_DIRECTION':
+      return { ...state, sortDirection: action.payload };
     case 'SET_WINDOW_TYPE': {
       const wt = WINDOW_TYPES.find(w => w.id === action.payload);
       if (!wt) return state;
-      // Auto-populate the sash openings array matching the new sash count
-      const newOpenings = Array.from({ length: wt.sashes }).map((_, i) => state.sashOpenings[i] || 'o2');
-      return { ...state, windowTypeId: action.payload, sashOpenings: newOpenings };
+      // Auto-populate the sash openings array based on the window type
+      let defaultCode = action.payload.toUpperCase().includes('F100') ? 'o3' : 'o2';
+      let newOpenings = Array.from({ length: wt.sashes }).map(() => defaultCode);
+      let newFittingVariant = state.fittingVariant;
+
+      if (action.payload.toUpperCase() === 'F104') {
+         defaultCode = 'o1';
+         newOpenings = ['o1'];
+         newFittingVariant = 'FIX';
+      }
+
+      return { ...state, windowTypeId: action.payload, sashOpenings: newOpenings, fittingVariant: newFittingVariant };
     }
     case 'SET_SASH_OPENING': {
       const updatedOpenings = [...state.sashOpenings];
       updatedOpenings[action.payload.index] = action.payload.openingId;
       return { ...state, sashOpenings: updatedOpenings };
     }
+    case 'SET_FITTING_VARIANT':
+      return { ...state, fittingVariant: action.payload };
     case 'SET_INTERIOR_COLOR_GROUP': return { ...state, interiorColorGroup: action.payload };
     case 'SET_INTERIOR_COLOR': return { ...state, interiorColor: action.payload };
     case 'SET_EXTERIOR_COLOR_GROUP': return { ...state, exteriorColorGroup: action.payload };
@@ -155,6 +203,98 @@ function configuratorReducer(state: ConfiguratorState, action: ConfiguratorActio
 export function useConfigurator() {
   const [state, dispatch] = useReducer(configuratorReducer, initialState, getInitialState);
 
+  // --- PHASE 2 CANTOR FETCH ENGINE ---
+  const [cantorSystem, setCantorSystem] = useState<any>(null);
+  const [cantorRules, setCantorRules] = useState<any[]>([]);
+  const [cantorMatrices, setCantorMatrices] = useState<any[]>([]);
+  const [isLoadingCantor, setIsLoadingCantor] = useState(false);
+
+  useEffect(() => {
+    // We only fetch Phase 2 Cantor data if configured. Otherwise fallback to IDW logic over profile/categories.
+    async function loadCantorDefinitions() {
+       let systemLookupKey = state.profile;
+       // Map arbitrary UI dropdown codes to Cantor SCHLUESSEL (e.g. 'iglo5' -> 'I5S', 'MB-86' -> 'ALU')
+       if (state.profile === 'iglo5') systemLookupKey = 'I5S'; 
+
+       setIsLoadingCantor(true);
+       try {
+           // 1. Fetch system & dimensions constraints
+           const { data: sysData, error: sysErr } = await supabase
+               .from('cantor_systems')
+               .select('*')
+               .eq('cantor_key', systemLookupKey)
+               .single();
+
+           if (!sysErr && sysData) {
+               setCantorSystem(sysData);
+
+               // 2. Fetch Pricing Rules for GRPRS modification
+               const { data: rulesData } = await supabase
+                   .from('cantor_pricing_rules')
+                   .select('*')
+                   .eq('system_key', systemLookupKey);
+                   
+               if (rulesData) setCantorRules(rulesData);
+           }
+
+           // 3. Fetch matrices for this specific system (independent of system table)
+           // 3. Fetch exact matrices for this specific system AND structure
+           let matrixClasses = [systemLookupKey, ''];
+           if (state.profile === 'iglo5') matrixClasses = ['IG5', 'SZP', 'I5S', ''];
+           
+           // Resolve Matrix Base mechanically based on UI Typology
+           const isPVC = cantorSystem?.type_class === 'S11' || state.profile.includes('iglo') || state.profile.includes('pvc');
+           const matPrefix = isPVC ? 'PVC' : 'AL';
+           // F104 maps internally to F100 matrix group in Cantor Database
+           let structClass = state.windowTypeId.toUpperCase().includes('F10') ? 'F100' : state.windowTypeId;
+           const targetMatrixName = `${matPrefix}_${structClass}`;
+
+           // Dynamically resolve target hardware class (e.g., 'F', 'DK', 'UR')
+           const targetClass1 = resolveOpeningClass(state.sashOpenings);
+
+           // Supabase natively caps requests to 1000 rows (PostgREST limit).
+           // Since PVC_F100 + IG5 + F contains ~2800 rows, we MUST paginate to gather the active interpolation grid.
+           let allMatrixData: any[] = [];
+           let offset = 0;
+           const batchSize = 1000;
+           let hasMore = true;
+
+           while (hasMore) {
+               const { data: chunk, error } = await supabase
+                   .from('cantor_formula_matrices')
+                   .select('*')
+                   .in('class_2', matrixClasses)
+                   .in('class_1', [targetClass1, 'KOLOR', '']) 
+                   .in('matrix_name', [targetMatrixName, `${matPrefix}_DOD`, `${cantorSystem?.type_class}_DOD`]) 
+                   .range(offset, offset + batchSize - 1);
+                   
+               if (error) {
+                   console.error("Matrix Paging Error", error);
+                   break;
+               }
+                   
+               if (chunk && chunk.length > 0) {
+                   allMatrixData = [...allMatrixData, ...chunk];
+                   if (chunk.length < batchSize) {
+                       hasMore = false; // We've reached the end
+                   } else {
+                       offset += batchSize;
+                   }
+               } else {
+                   hasMore = false;
+               }
+           }
+
+           if (allMatrixData.length > 0) setCantorMatrices(allMatrixData);
+       } catch (err) {
+           console.error("Cantor Sync Error", err);
+       }
+       setIsLoadingCantor(false);
+    }
+    loadCantorDefinitions();
+  }, [state.profile, state.windowTypeId]); // Dependency updated to trigger on Structure change
+  // -----------------------------------
+
   const pricing = useMemo(() => {
     // Resolve addon costs
     const addonPrices = state.addons.map(addonId => {
@@ -168,7 +308,7 @@ export function useConfigurator() {
     // F202 etc.) not an opening class. Only F100 coincidentally shares both namespaces.
     const openingTypeId = resolveOpeningClass(state.sashOpenings);
 
-    // Run full engine: IDW frame interpolation + glazing + color + addons
+    // Run full engine: Native Phase 2 GRPRS/Surcharge Logic + Fallback
     const breakdown = calculatePrice(
       state.profile,
       openingTypeId,
@@ -177,7 +317,10 @@ export function useConfigurator() {
       state.glazingPackage,
       state.interiorColor,
       state.exteriorColor,
-      addonPrices
+      addonPrices,
+      cantorSystem,
+      cantorRules,
+      cantorMatrices
     );
 
     return {
@@ -193,6 +336,17 @@ export function useConfigurator() {
   }, [state]);
 
   const activeLimits = useMemo(() => {
+    // If we loaded dimensions actively from Cantor Phase 2 Data, use those strictly!
+    if (cantorSystem && cantorSystem.min_width) {
+        return {
+           minWidth: cantorSystem.min_width,
+           maxWidth: cantorSystem.max_width,
+           minHeight: cantorSystem.min_height,
+           maxHeight: cantorSystem.max_height,
+        };
+    }
+
+    // Fallback to Phase 1 / Local Schema
     let limits = CONFIG_SCHEMA.categories[state.category] as any;
     if (state.profile === 'iglo5') {
        const overrides = iglo5Data.product_systems[0].dimensional_constraints;
@@ -205,7 +359,7 @@ export function useConfigurator() {
        };
     }
     return limits;
-  }, [state.category, state.profile]);
+  }, [state.category, state.profile, cantorSystem]);
 
   const activeColors = useMemo(() => {
     if (state.profile === 'iglo5') {

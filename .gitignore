@@ -24,3 +24,10 @@ dist-ssr
 *.sw?
 .vercel
 .env*.local
+
+# Large data dumps and DB script outputs
+matrix_data_dump.json
+variable_map_dump.json
+query*_*.json
+scripts/drutex_*.json
+scripts/pricing_matrices_*.json

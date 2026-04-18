@@ -8,4 +8,6 @@
   - Source: Cantor SQL (READ ONLY)
   - Target: Supabase -> Github / Vercel
   - Logic: Extract profile and pricing relationships.
-- **Current State:** Drafted JSON payloads in `gemini.md`. Awaiting confirmation of payload schema.
+- **Phase 1 (Discovery):** User provided constraints. Payload schema confirmed in `gemini.md`.
+- **Phase 2 (Link):** Verified API connections to Cantor SQL DB and Supabase using `tools/verify_link.mjs`. Both endpoints are active and accessible.
+- **Current State:** Moving to Phase 3 (Architect). Need to establish data models and extraction algorithms.

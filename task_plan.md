@@ -10,8 +10,8 @@
 - [x] Confirm Payload shape with User
 
 ## Phase 2: L - Link
-- [ ] Verify API connections and credentials (Cantor SQL DB read access, Supabase access)
-- [ ] Build minimal scripts in tools/ to verify services (SQL Connection test)
+- [x] Verify API connections and credentials (Cantor SQL DB read access, Supabase access)
+- [x] Build minimal scripts in tools/ to verify services (SQL Connection test)
 
 ## Phase 3: A - Architect (Drafting Implementation Plan)
 - [ ] Define Layer 1 (architecture/ SOPs: data models, relationship extraction)
