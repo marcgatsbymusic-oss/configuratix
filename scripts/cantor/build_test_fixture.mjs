@@ -56,6 +56,7 @@ function main() {
   // any size; the other matrices are category-style with a single (1,1) row.
   const keepTuples = [
     ['PVC_F100',  'F',            'IG5',     null],
+    ['PVC_F100',  'UR',           'IG5',     null],
     ['PVC_FACTOR','IG5',          '',        null],
     ['ALL_DOD',   'SZYBY',        'GABARYT', null],
     ['PVC_DOD',   'OSC',          'IG5',     null],

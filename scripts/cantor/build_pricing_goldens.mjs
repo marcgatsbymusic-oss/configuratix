@@ -36,7 +36,7 @@ async function fetchOrder(aufnr) {
   const positions = await sql.query(`
     SELECT POSNR, STCK, ARTNR, EINHBREITE, EINHHOEHE, PROFILFARBE,
            FL_PROFILNR, RA_PROFILNR, ARTIKELKLASSE, GESENDPREIS, POSPREIS,
-           VKPOSPREIS, EKPOSPREIS, PROFILSATZNAME
+           VKPOSPREIS, EKPOSPREIS, PROFILSATZNAME, FELDANZAHL
     FROM AUFPOS WHERE AUFNR = ${aufnr} ORDER BY POSNR
   `);
   const breakdown = await sql.query(`
@@ -62,6 +62,19 @@ function buildGolden(aufnr, head, pos, posBreakdown) {
     .filter(r => r.KEY1 === 'PANE' && r.KEYPREISART === 'E' && r.SORTKEY2?.startsWith('1;'))
     .reduce((s, r) => s + (r.PREIS || 0), 0);
 
+  const beschvarEK = posBreakdown.find(r => r.KEY1 === 'BESCHVAR' && r.KEYPREISART === 'E');
+  let beschvarStr = 'FIX';
+  let openingClass = 'F';
+  if (beschvarEK && beschvarEK.SORTKEY1) {
+    beschvarStr = beschvarEK.SORTKEY1;
+    // Map descriptive beschvar strings (e.g. 'UR-P', 'DK-L') to base opening codes expected by engine
+    if (beschvarStr.startsWith('UR') || beschvarStr.startsWith('DK')) {
+       openingClass = 'UR';
+    } else if (beschvarStr.startsWith('D')) {
+       openingClass = 'DK'; // Using DK for standard Dreh
+    }
+  }
+
   return {
     source: `AUFNR ${aufnr} / REFPOSNR ${pos.POSNR} (extracted from local Cantor DRUTEX_DEALER on ${new Date().toISOString().slice(0, 10)})`,
     cantorRaw: { head, position: pos, breakdown: posBreakdown },
@@ -69,11 +82,11 @@ function buildGolden(aufnr, head, pos, posBreakdown) {
       article: pos.ARTNR,
       profilsatz: pos.PROFILSATZNAME,
       materialart: 2,
-      beschvar: 'FIX',
+      beschvar: beschvarStr,
       width_mm: pos.EINHBREITE,
       height_mm: pos.EINHHOEHE,
-      sashCount: 1,
-      openings: ['F'],
+      sashCount: pos.FELDANZAHL || 1,
+      openings: Array(pos.FELDANZAHL || 1).fill(openingClass),
       color: { code: pos.PROFILFARBE || 'W-W' },
       frameProfile: pos.RA_PROFILNR,
       sashProfile: pos.FL_PROFILNR,

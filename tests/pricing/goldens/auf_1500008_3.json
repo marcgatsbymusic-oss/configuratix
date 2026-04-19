@@ -1,34 +1,48 @@
 {
-  "source": "AUFNR 1500041 / REFPOSNR 1 (extracted from local Cantor DRUTEX_DEALER on 2026-04-19)",
+  "source": "AUFNR 1500008 / REFPOSNR 3 (extracted from local Cantor DRUTEX_DEALER on 2026-04-19)",
   "cantorRaw": {
     "head": {
-      "AUFNR": 1500041,
+      "AUFNR": 1500008,
       "KDNR": 1008,
       "NAME1": "101test",
-      "EDATUM": "2026-04-19T00:00:00.000Z",
-      "GESPREISBRUTTO": 216.19,
-      "GESPREISNETTO": 178.67,
-      "VKFAKTORPREISZYK": 0.241
+      "EDATUM": "2026-04-07T00:00:00.000Z",
+      "GESPREISBRUTTO": 9008.5,
+      "GESPREISNETTO": 7445.04,
+      "VKFAKTORPREISZYK": 1
     },
     "position": {
-      "POSNR": 1,
+      "POSNR": 3,
       "STCK": 1,
-      "ARTNR": "F104",
-      "EINHBREITE": 2000,
-      "EINHHOEHE": 700,
+      "ARTNR": "F106",
+      "EINHBREITE": 1000,
+      "EINHHOEHE": 1200,
       "PROFILFARBE": "W-W",
       "FL_PROFILNR": "50011",
       "RA_PROFILNR": "50001",
       "ARTIKELKLASSE": "E",
-      "GESENDPREIS": 741.4,
-      "POSPREIS": 178.67,
-      "VKPOSPREIS": 178.67,
-      "EKPOSPREIS": 741.4,
-      "PROFILSATZNAME": "IG5"
+      "GESENDPREIS": 1062.4,
+      "POSPREIS": 1062.4,
+      "VKPOSPREIS": 1062.4,
+      "EKPOSPREIS": 1062.4,
+      "PROFILSATZNAME": "IG5",
+      "FELDANZAHL": 1
     },
     "breakdown": [
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
+        "KEY1": "ART",
+        "KEYPREISART": "E",
+        "SORTKEY1": "KO835",
+        "SORTKEY2": "0;1;4;11",
+        "PREISGRUPPE": "PVC_I5",
+        "PREIS": 0,
+        "LISTENPREIS": 0,
+        "PREISSCHEMAID": 59,
+        "ARTIKELID": 73873,
+        "ARTKLCODE": 1015
+      },
+      {
+        "REFPOSNR": 3,
         "KEY1": "ART",
         "KEYPREISART": "E",
         "SORTKEY1": "OPCJE",
@@ -41,7 +55,7 @@
         "ARTKLCODE": 2801
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "ART",
         "KEYPREISART": "E",
         "SORTKEY1": "OPCJE",
@@ -54,20 +68,20 @@
         "ARTKLCODE": 88
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "ART",
         "KEYPREISART": "E",
-        "SORTKEY1": "Pole_F",
+        "SORTKEY1": "Pole_S",
         "SORTKEY2": "0;1;3;8",
         "PREISGRUPPE": "PVC_I5",
         "PREIS": 0,
         "LISTENPREIS": 0,
         "PREISSCHEMAID": 0,
-        "ARTIKELID": 29456,
+        "ARTIKELID": 29348,
         "ARTKLCODE": 2810
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "ART",
         "KEYPREISART": "E",
         "SORTKEY1": "PROFILE",
@@ -80,11 +94,11 @@
         "ARTKLCODE": 2090
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "ART",
         "KEYPREISART": "E",
         "SORTKEY1": "TECH",
-        "SORTKEY2": "0;0;1;15",
+        "SORTKEY2": "0;0;1;18",
         "PREISGRUPPE": "PVC_I5",
         "PREIS": 0,
         "LISTENPREIS": 0,
@@ -93,7 +107,20 @@
         "ARTKLCODE": 1199
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
+        "KEY1": "ART",
+        "KEYPREISART": "V",
+        "SORTKEY1": "KO835",
+        "SORTKEY2": "0;1;4;11",
+        "PREISGRUPPE": "PVC_I5",
+        "PREIS": 0,
+        "LISTENPREIS": 0,
+        "PREISSCHEMAID": 59,
+        "ARTIKELID": 73873,
+        "ARTKLCODE": 1015
+      },
+      {
+        "REFPOSNR": 3,
         "KEY1": "ART",
         "KEYPREISART": "V",
         "SORTKEY1": "OPCJE",
@@ -106,7 +133,7 @@
         "ARTKLCODE": 2801
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "ART",
         "KEYPREISART": "V",
         "SORTKEY1": "OPCJE",
@@ -119,20 +146,20 @@
         "ARTKLCODE": 88
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "ART",
         "KEYPREISART": "V",
-        "SORTKEY1": "Pole_F",
+        "SORTKEY1": "Pole_S",
         "SORTKEY2": "0;1;3;8",
         "PREISGRUPPE": "PVC_I5",
         "PREIS": 0,
         "LISTENPREIS": 0,
         "PREISSCHEMAID": 0,
-        "ARTIKELID": 29456,
+        "ARTIKELID": 29348,
         "ARTKLCODE": 2810
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "ART",
         "KEYPREISART": "V",
         "SORTKEY1": "PROFILE",
@@ -145,11 +172,11 @@
         "ARTKLCODE": 2090
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "ART",
         "KEYPREISART": "V",
         "SORTKEY1": "TECH",
-        "SORTKEY2": "0;0;1;15",
+        "SORTKEY2": "0;0;1;18",
         "PREISGRUPPE": "PVC_I5",
         "PREIS": 0,
         "LISTENPREIS": 0,
@@ -158,59 +185,59 @@
         "ARTKLCODE": 1199
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "ARTIKEL",
         "KEYPREISART": "E",
-        "SORTKEY1": "F104",
+        "SORTKEY1": "F106",
         "SORTKEY2": "0;",
         "PREISGRUPPE": "PVC_I5",
-        "PREIS": 691,
-        "LISTENPREIS": 691,
+        "PREIS": 916,
+        "LISTENPREIS": 916,
         "PREISSCHEMAID": 41,
-        "ARTIKELID": 50721,
+        "ARTIKELID": 50723,
         "ARTKLCODE": 0
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "ARTIKEL",
         "KEYPREISART": "V",
-        "SORTKEY1": "F104",
+        "SORTKEY1": "F106",
         "SORTKEY2": "0;",
         "PREISGRUPPE": "PVC_I5",
-        "PREIS": 166.53,
-        "LISTENPREIS": 166.53,
+        "PREIS": 916,
+        "LISTENPREIS": 916,
         "PREISSCHEMAID": 41,
-        "ARTIKELID": 50721,
+        "ARTIKELID": 50723,
         "ARTKLCODE": 0
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "BESCHVAR",
         "KEYPREISART": "E",
-        "SORTKEY1": "FIX",
+        "SORTKEY1": "U",
         "SORTKEY2": "0;1;STANDARD",
         "PREISGRUPPE": "PVC_I5",
         "PREIS": 0,
         "LISTENPREIS": 0,
         "PREISSCHEMAID": 37,
-        "ARTIKELID": 28172,
+        "ARTIKELID": 29540,
         "ARTKLCODE": 0
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "BESCHVAR",
         "KEYPREISART": "V",
-        "SORTKEY1": "FIX",
+        "SORTKEY1": "U",
         "SORTKEY2": "0;1;STANDARD",
         "PREISGRUPPE": "PVC_I5",
         "PREIS": 0,
         "LISTENPREIS": 0,
         "PREISSCHEMAID": 37,
-        "ARTIKELID": 28172,
+        "ARTIKELID": 29540,
         "ARTKLCODE": 0
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "FELDFUEL",
         "KEYPREISART": "E",
         "SORTKEY1": "2-24",
@@ -223,7 +250,7 @@
         "ARTKLCODE": 0
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "FELDFUEL",
         "KEYPREISART": "V",
         "SORTKEY1": "2-24",
@@ -236,7 +263,7 @@
         "ARTKLCODE": 0
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "PANE",
         "KEYPREISART": "E",
         "SORTKEY1": "FL4",
@@ -249,46 +276,46 @@
         "ARTKLCODE": 0
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "PANE",
         "KEYPREISART": "E",
         "SORTKEY1": "FL4",
         "SORTKEY2": "1;1;1",
         "PREISGRUPPE": "SZYBY_DOP",
-        "PREIS": 25.2,
-        "LISTENPREIS": 25.2,
+        "PREIS": 21.6,
+        "LISTENPREIS": 21.6,
         "PREISSCHEMAID": 51,
         "ARTIKELID": 50099,
         "ARTKLCODE": 0
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "PANE",
         "KEYPREISART": "E",
-        "SORTKEY1": "T4",
+        "SORTKEY1": "SAT4",
         "SORTKEY2": "0;1;4",
         "PREISGRUPPE": "SZYBY_DOP",
         "PREIS": 0,
         "LISTENPREIS": 0,
         "PREISSCHEMAID": 51,
-        "ARTIKELID": 50098,
+        "ARTIKELID": 71208,
         "ARTKLCODE": 0
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "PANE",
         "KEYPREISART": "E",
-        "SORTKEY1": "T4",
+        "SORTKEY1": "SAT4",
         "SORTKEY2": "1;1;4",
         "PREISGRUPPE": "SZYBY_DOP",
-        "PREIS": 25.2,
-        "LISTENPREIS": 25.2,
+        "PREIS": 124.8,
+        "LISTENPREIS": 124.8,
         "PREISSCHEMAID": 51,
-        "ARTIKELID": 50098,
+        "ARTIKELID": 71208,
         "ARTKLCODE": 0
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "PANE",
         "KEYPREISART": "V",
         "SORTKEY1": "FL4",
@@ -301,46 +328,46 @@
         "ARTKLCODE": 0
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "PANE",
         "KEYPREISART": "V",
         "SORTKEY1": "FL4",
         "SORTKEY2": "1;1;1",
         "PREISGRUPPE": "SZYBY_DOP",
-        "PREIS": 6.07,
-        "LISTENPREIS": 6.07,
+        "PREIS": 21.6,
+        "LISTENPREIS": 21.6,
         "PREISSCHEMAID": 51,
         "ARTIKELID": 50099,
         "ARTKLCODE": 0
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "PANE",
         "KEYPREISART": "V",
-        "SORTKEY1": "T4",
+        "SORTKEY1": "SAT4",
         "SORTKEY2": "0;1;4",
         "PREISGRUPPE": "SZYBY_DOP",
         "PREIS": 0,
         "LISTENPREIS": 0,
         "PREISSCHEMAID": 51,
-        "ARTIKELID": 50098,
+        "ARTIKELID": 71208,
         "ARTKLCODE": 0
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "PANE",
         "KEYPREISART": "V",
-        "SORTKEY1": "T4",
+        "SORTKEY1": "SAT4",
         "SORTKEY2": "1;1;4",
         "PREISGRUPPE": "SZYBY_DOP",
-        "PREIS": 6.07,
-        "LISTENPREIS": 6.07,
+        "PREIS": 124.8,
+        "LISTENPREIS": 124.8,
         "PREISSCHEMAID": 51,
-        "ARTIKELID": 50098,
+        "ARTIKELID": 71208,
         "ARTKLCODE": 0
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "PROFILE",
         "KEYPREISART": "E",
         "SORTKEY1": "50001",
@@ -353,7 +380,7 @@
         "ARTKLCODE": 0
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "PROFILE",
         "KEYPREISART": "V",
         "SORTKEY1": "50001",
@@ -366,7 +393,7 @@
         "ARTKLCODE": 0
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "SPACER",
         "KEYPREISART": "E",
         "SORTKEY1": "S16",
@@ -379,7 +406,7 @@
         "ARTKLCODE": 0
       },
       {
-        "REFPOSNR": 1,
+        "REFPOSNR": 3,
         "KEY1": "SPACER",
         "KEYPREISART": "V",
         "SORTKEY1": "S16",
@@ -394,12 +421,12 @@
     ]
   },
   "input": {
-    "article": "F104",
+    "article": "F106",
     "profilsatz": "IG5",
     "materialart": 2,
-    "beschvar": "FIX",
-    "width_mm": 2000,
-    "height_mm": 700,
+    "beschvar": "U",
+    "width_mm": 1000,
+    "height_mm": 1200,
     "sashCount": 1,
     "openings": [
       "F"
@@ -425,11 +452,11 @@
     }
   },
   "expected": {
-    "ek_pln_baseSchema41": 691,
-    "vk_eur_baseSchema41_approx": 166.53,
-    "ek_pln_total_with_panes": 741.4,
-    "vk_eur_total_with_panes_approx": 178.67,
+    "ek_pln_baseSchema41": 916,
+    "vk_eur_baseSchema41_approx": 916,
+    "ek_pln_total_with_panes": 1062.4,
+    "vk_eur_total_with_panes_approx": 1062.4,
     "tolerance_eur": 0.5,
-    "panes_ek_delta": 50.4
+    "panes_ek_delta": 146.4
   }
 }

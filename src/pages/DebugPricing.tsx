@@ -4,10 +4,12 @@ import type { ConfiguratorInput } from '../utils/cantorPricing/input';
 
 export function DebugPricing() {
   const [typology, setTypology] = useState<string>('F100');
-  const [width, setWidth] = useState(3200);
-  const [height, setHeight] = useState(700);
-  const [profilsatz, setProfilsatz] = useState('IGECL');
-  const [colorCode, setColorCode] = useState('W-W');
+  const [opening, setOpening] = useState<string>('UR');
+  const [width, setWidth] = useState(1000);
+  const [height, setHeight] = useState(1000);
+  const [profilsatz, setProfilsatz] = useState('IG5');
+  const [colorType, setColorType] = useState('DEK-DEK');
+  const [colorCode, setColorCode] = useState('0006');
 
   const [result, setResult] = useState<PricingApiResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -19,12 +21,12 @@ export function DebugPricing() {
       article: typology,
       profilsatz,
       materialart: 2,
-      beschvar: 'FIX',
+      beschvar: opening === 'UR' ? 'UR-P' : 'FIX',
       width_mm: width,
       height_mm: height,
       sashCount: 1,
-      openings: ['F'],
-      color: { code: colorCode },
+      openings: [opening as "F" | "UR" | "U" | "D"],
+      color: { type: colorType, code: colorCode },
       frameProfile: '50001',
       sashProfile: '50011',
       glazing: { code: '2-24', panes: ['FL4', 'T4'], spacer: 'S16' },
@@ -61,6 +63,14 @@ export function DebugPricing() {
               </select>
             </div>
             <div>
+              <label className="block text-sm font-bold mb-2">Opening Type</label>
+              <select className="w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:border-[#eab676] focus:outline-none"
+                value={opening} onChange={e => setOpening(e.target.value)}>
+                <option value="F">FIX (Fixed glazing)</option>
+                <option value="UR">UR-P (Tilt & Turn)</option>
+              </select>
+            </div>
+            <div>
               <label className="block text-sm font-bold mb-2">Profile System</label>
               <select className="w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:border-[#eab676] focus:outline-none"
                 value={profilsatz} onChange={e => setProfilsatz(e.target.value)}>
@@ -81,11 +91,21 @@ export function DebugPricing() {
               <input type="number" className="w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:border-[#eab676] focus:outline-none"
                 value={height} onChange={e => setHeight(Number(e.target.value))} />
             </div>
-            <div className="col-span-2">
-              <label className="block text-sm font-bold mb-2">Color code</label>
+            <div>
+              <label className="block text-sm font-bold mb-2">Color Scheme</label>
+              <select className="w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:border-[#eab676] focus:outline-none"
+                value={colorType} onChange={e => setColorType(e.target.value)}>
+                <option value="W-W">W-W (White / White)</option>
+                <option value="DEK-DEK">DEK-DEK (Decor / Decor)</option>
+                <option value="W-DEK">W-DEK (White / Decor)</option>
+                <option value="DEK-W">DEK-W (Decor / White)</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-bold mb-2">Color code (e.g. 0006)</label>
               <input className="w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:border-[#eab676] focus:outline-none"
                 value={colorCode} onChange={e => setColorCode(e.target.value)} />
-              <div className="text-xs text-gray-500 mt-1">Phase A supports W-W only. Other colors will throw in fn_CenaDopKolor.</div>
+              <div className="text-xs text-gray-500 mt-1">Leave empty or "W-W" for defaults.</div>
             </div>
           </div>
 

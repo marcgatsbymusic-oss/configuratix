@@ -99,15 +99,29 @@ async function main() {
       .filter(b => b.KEY1 === 'PANE' && String(b.SORTKEY2).startsWith('1;'))
       .map(b => b.SORTKEY1))];
 
+    const beschvarRow = bd.find(b => b.KEY1 === 'BESCHVAR' && b.KEYPREISART === 'E');
+    let beschvarStr = 'FIX';
+    let openingClass = classifyOpening(p.ARTNR, sashCount)[0]; // Fallback to F
+    if (beschvarRow && beschvarRow.SORTKEY1) {
+      beschvarStr = beschvarRow.SORTKEY1;
+      if (beschvarStr.startsWith('UR') || beschvarStr.startsWith('DK')) {
+        openingClass = 'UR';
+      } else if (beschvarStr.startsWith('D') && !beschvarStr.startsWith('DK')) {
+        openingClass = 'DK'; 
+      } else if (beschvarStr.startsWith('FIX') || beschvarStr.startsWith('-')) {
+        openingClass = 'F';
+      }
+    }
+
     const input = {
       article: p.ARTNR,
       profilsatz: p.PROFILSATZNAME || 'IG5',
       materialart: String(p.PROFILSATZNAME || '').includes('MB') ? 3 : 2,
-      beschvar: 'FIX',
+      beschvar: beschvarStr,
       width_mm: p.EINHBREITE,
       height_mm: p.EINHHOEHE,
       sashCount,
-      openings: classifyOpening(p.ARTNR, sashCount),
+      openings: sashCount === 1 ? [openingClass] : classifyOpening(p.ARTNR, sashCount),
       color: { code: p.PROFILFARBE || 'W-W' },
       frameProfile: p.RA_PROFILNR || '50001',
       sashProfile: p.FL_PROFILNR || '50011',
@@ -129,7 +143,9 @@ async function main() {
     // breakdown Cantor itself derived). Base = ARTIKEL V PREIS; add pane
     // delta rows (SORTKEY2 starting with '1;') for V as well.
     const breakdown = bdByPos.get(`${p.AUFNR}/${p.POSNR}`) ?? [];
-    const cantorBase = breakdown.find(b => b.KEY1 === 'ARTIKEL' && b.KEYPREISART === 'V')?.PREIS ?? 0;
+    const cantorBase = breakdown
+      .filter(b => (b.KEY1 === 'ARTIKEL' || b.KEY1 === 'BESCHVAR') && b.KEYPREISART === 'V')
+      .reduce((s, b) => s + b.PREIS, 0);
     const cantorPanes = breakdown
       .filter(b => b.KEY1 === 'PANE' && b.KEYPREISART === 'V' && String(b.SORTKEY2).startsWith('1;'))
       .reduce((s, b) => s + b.PREIS, 0);

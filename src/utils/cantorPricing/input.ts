@@ -29,6 +29,7 @@ export interface ConfiguratorInput {
   // Frame profile
   frameProfile: string;          // AKTARTNRRA, e.g. "50001"
   sashProfile: string;           // AKTARTNRFL, e.g. "50011"
+  mullionProfile?: string;       // AKTARTNRST/K, e.g. "50021"
 
   // Glazing
   glazing: {

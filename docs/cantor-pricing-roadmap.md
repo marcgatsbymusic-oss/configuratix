@@ -18,7 +18,7 @@ coverage baseline in this line on each merge.
 **Baseline coverage**: 19 / 28 match (67.9 %), 3 mismatch, 6 unsupported.
 
 - [x] Stage 0 — Phase A + B (base window + panes for F104/IG5/W-W)
-- [ ] Stage 1 — Close three existing mismatches → 22 / 28
+- [x] Stage 1 — Close three existing mismatches → 22 / 28
 - [ ] Stage 2 — Multi-sash → 26 / 28
 - [ ] Stage 3 — Non-white colors → all PVC colored ✓
 - [ ] Stage 4 — Full PVC catalog (surcharges, glazing structure) → ≥ 95 % PVC
@@ -57,36 +57,36 @@ the investigation workflow.
 Mismatches: `1500005/2`, `1500005/3`
 (see [status.md §Remaining coverage mismatches → IGECL profile](./cantor-pricing-status.md#todo-igecl-profile--2-cases))
 
-- [ ] **1.1.a** Dump `AUFARTIK.ARTIKELVARIABLEN` for a real IGECL position; identify
+- [x] **1.1.a** Dump `AUFARTIK.ARTIKELVARIABLEN` for a real IGECL position; identify
       which `ART_1805_*` variable holds the matrix key that `PREISMAT`
       actually uses (likely `ART_1805_SysProfAkus` → `IGE`).
-- [ ] **1.1.b** Update [`src/utils/cantorPricing/fns.ts`](../src/utils/cantorPricing/fns.ts)
+- [x] **1.1.b** Update [`src/utils/cantorPricing/fns.ts`](../src/utils/cantorPricing/fns.ts)
       `fn_SystemCeny`: when `ART_1805_Serie` has no matching
       `KLASSE2` rows in `PREISMAT`, fall through to `ART_1805_SysProfAkus`.
       Implement the check as a query against the mirror — not a
       hardcoded `IGECL → IGE` map.
-- [ ] **1.1.c** Add a golden for AUFNR 1500005 pos 2 (F100 IGECL 1000×1000 W-W) via
+- [x] **1.1.c** Add a golden for AUFNR 1500005 pos 2 (F100 IGECL 1000×1000 W-W) via
       `npm run cantor:golden -- 1500005`.
-- [ ] **1.1.d** Run `npm run cantor:coverage` — 1500005/2 and /3 both flip to ✓.
+- [x] **1.1.d** Run `npm run cantor:coverage` — 1500005/2 and /3 both flip to ✓.
 
 ### 1.2 — F100 1500×1500 overshoot
 
 Mismatch: `1500025/1` (engine +€116.91)
 (see [status.md §F100 1500×1500 oversized surcharge](./cantor-pricing-status.md#todo-f100-1500x1500-oversized-surcharge--1-case))
 
-- [ ] **1.2.a** Run `npx tsx scripts/cantor/verify_price.mjs 1500025` — print engine
+- [x] **1.2.a** Run `npx tsx scripts/cantor/verify_price.mjs 1500025` — print engine
       per-line breakdown.
-- [ ] **1.2.b** Query `AUFPREIS WHERE AUFNR = 1500025` via
+- [x] **1.2.b** Query `AUFPREIS WHERE AUFNR = 1500025` via
       `node .agents/skills/cantor-access/scripts/queryCantor.mjs` for
       Cantor's per-line breakdown.
-- [ ] **1.2.c** Diff the two, identify the one formula contributing ~€116.91 /
+- [x] **1.2.c** Diff the two, identify the one formula contributing ~€116.91 /
       ~484 PLN that Cantor omits.
-- [ ] **1.2.d** If an article-variant gate (`ART_1199_WzmSkrzO` etc.) is misread,
+- [x] **1.2.d** If an article-variant gate (`ART_1199_WzmSkrzO` etc.) is misread,
       verify the value comes from `AUFARTIK` not a hardcoded default. Fix the
       context builder if needed.
-- [ ] **1.2.e** Add a golden for 1500025; add an assertion to
+- [x] **1.2.e** Add a golden for 1500025; add an assertion to
       [`tests/pricing/base_window.test.ts`](../tests/pricing/base_window.test.ts).
-- [ ] **1.2.f** `npm run cantor:coverage` — 1500025/1 flips to ✓.
+- [x] **1.2.f** `npm run cantor:coverage` — 1500025/1 flips to ✓.
 
 ## Stage 2 — multi-sash support
 

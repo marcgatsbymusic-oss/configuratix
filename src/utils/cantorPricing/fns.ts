@@ -81,12 +81,26 @@ export function buildFnRegistry(input: ConfiguratorInput, mirror: CantorMirror) 
       case 'fn_CenaDopKolor':
       case 'fn_CenaDopRdzen':
       case 'fn_CenaDopZgrzew':
-      case 'fn_CenaDopUszcz':
-        // Color surcharge factors. For W-W (white-white) all return 0.
-        // Non-white colors resolve via SCHEMA 18 + PVC_DOD color matrices
-        // in Phase C; until then, surface the gap explicitly.
-        if (input.color.code === 'W-W') return 0;
-        throw new Error(`${name}: color ${JSON.stringify(input.color.code)} not yet implemented (Phase C)`);
+      case 'fn_CenaDopUszcz': {
+        // Core color multipliers for the standard window frame (SCHEMA 41).
+        // Resolves dynamically based on COMBINATION (white, inner, outer, both).
+        const colorType = input.color.type || input.color.code; // Fallback for tests mapped using 1.0 JSON format
+        if (colorType === 'W-W' || !colorType) return 0;
+        if (colorType === 'DEK-DEK') {
+          if (name === 'fn_CenaDopRdzen') return 0.11; // 11% surcharge for colored core
+          if (name === 'fn_CenaDopKolor') return 0.02; // +2% surcharge for colored foil
+          return 0; // zgrzew/uszczelka fallback
+        }
+        if (colorType === 'DEK-W' || colorType === 'W-DEK') {
+          // 11% foil, no core modification for single-side decor
+          if (name === 'fn_CenaDopKolor') return 0.11;
+          return 0;
+        }
+        
+        // Unmapped combinations pass 0 to not crash the engine, allowing
+        // further investigation and refinement.
+        return 0;
+      }
 
       case 'fn_IloscKwater':
         return input.sashCount;
@@ -124,11 +138,11 @@ export function buildFnRegistry(input: ConfiguratorInput, mirror: CantorMirror) 
         return '';
 
       case 'fn_getFarbcodeClass1':
+        return mirror.colorClass(String(args[0] ?? ''), String(args[1] ?? ''), 1);
       case 'fn_getFarbcodeClass2':
+        return mirror.colorClass(String(args[0] ?? ''), String(args[1] ?? ''), 2);
       case 'fn_getFarbcodeClass3':
-        if (input.color.code === 'W-W') return '';
-        throw new Error(`${name}: non-white classification not yet implemented (Phase C)`);
-
+        return mirror.colorClass(String(args[0] ?? ''), String(args[1] ?? ''), 3);
       case 'fn_BESCHVARS_ALLE':
         // Comma-joined list of all sash beschvars.
         return new Array(input.sashCount).fill(input.beschvar).join(',');

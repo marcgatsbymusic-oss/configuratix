@@ -1,5 +1,5 @@
 {
-  "last_synced_at": "2026-04-19T11:37:34.801Z",
+  "last_synced_at": "2026-04-19T17:31:59.309Z",
   "source": {
     "server": "localhost",
     "database": "DRUTEX_DEALER"
@@ -44,12 +44,12 @@
       "sha256": "a70f5358d294908e23ecda2c5bbd198be4995edc7f8fb503be2cef2cf47266e4"
     },
     "AUFPOS": {
-      "row_count": 28,
-      "sha256": "1965bac9381febe3664213653b5fae3cd88f3dcfe6c48a1fcec3f694934e93f5"
+      "row_count": 31,
+      "sha256": "15f6cc728aa564c5bbce0ea83d5574f60022c4a92b42e8082ca94599454e346e"
     },
     "AUFARTIK": {
-      "row_count": 56,
-      "sha256": "7150208aaf1c2a7ddfaeb0824e5c854160aace759b819f965a8ee4e130c7e6a6"
+      "row_count": 92,
+      "sha256": "591f58e8a043cde5230adb1ae4784795bd79df6cde2e7952c4bf7a462631949a"
     },
     "GLASS_PANE": {
       "row_count": 214,
@@ -62,6 +62,22 @@
     "ARTVARBL": {
       "row_count": 2641,
       "sha256": "836193497e4ef66ecb8bf7e5b78622494549d791935b50bb5642e973013d9cab"
+    },
+    "FARBEN": {
+      "row_count": 1652,
+      "sha256": "be907f15243b807e127cdafbb4abdf5846a5cca6d0de8e8d7c45cb65d575520f"
+    },
+    "FARBKL": {
+      "row_count": 64,
+      "sha256": "43e5ec3d412baee39839164264fc6cdaba8550e11a53b2ab4f82e27efde64afa"
+    },
+    "FARBKOMBI": {
+      "row_count": 423,
+      "sha256": "ab881c2dd5f7e1a65a33dfa0ef9e0f0c125b61dc2ce1a8c055c13f0fbc90844d"
+    },
+    "FARBCODES": {
+      "row_count": 2705,
+      "sha256": "93bd8a53c3b8a86216dd920e851fe75651b7d9cdacf438b20ceeb7f3c3f2f39d"
     }
   }
 }

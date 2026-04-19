@@ -26,7 +26,8 @@ export function evaluateSchema(
   ctx: FormulaContext,
   mirror: CantorMirror,
 ): SchemaResult {
-  const rows: PreiseRow[] = mirror.loadSchema(schemaId, zyklus, preisart);
+  const rows = mirror.loadSchema(schemaId, zyklus, preisart);
+
   const lines: SchemaLine[] = [];
 
   // Reset accumulators at the start of each schema evaluation.
@@ -42,7 +43,7 @@ export function evaluateSchema(
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
       throw new Error(
-        `evaluateSchema(${schemaId}/${preisart}) formula #${row.LFDNR} (${row.FORMELTEXT ?? '?'}) failed: ${msg}`,
+        `evaluateSchema(${schemaId}/${preisart}) formula (${row.FORMELTEXT ?? '?'}) failed: ${msg}`,
       );
     }
     lines.push({
@@ -51,8 +52,20 @@ export function evaluateSchema(
       value,
       formel: row.FORMEL,
     });
-    ctx.GRPRS += value;
+    
+    // In Cantor, GRPRS exclusively accumulates "base price" lines (those without a PREISGRUPPE, 
+    // or specifically PVC_I5, etc) whereas DOD (surcharges) accumulate into AKTZUSCHLAG.
+    // We mock this by routing null pricing groups to GRPRS.
+    if (!row.PREISGRUPPE) {
+      ctx.GRPRS += value;
+    } else {
+      ctx.AKTZUSCHLAG[row.PREISGRUPPE] = (ctx.AKTZUSCHLAG[row.PREISGRUPPE] || 0) + value;
+    }
   }
 
-  return { lines, total: ctx.GRPRS };
+  // The engine expects result.total to encompass everything so we sum it back here.
+  const total = ctx.GRPRS + Object.values(ctx.AKTZUSCHLAG).reduce((a, b) => a + Number(b), 0);
+  return { lines, total };
 }
+
+

@@ -27,20 +27,29 @@ export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): Fo
   // Flagged for Phase C.
   const BRB = input.width_mm;
   const BRH = input.height_mm;
+  let FELDB = BRB;
+  let FELDH = BRH;
+
   if (input.sashCount > 1) {
-    throw new Error(
-      `buildContext: multi-sash (${input.sashCount}) not yet supported — ` +
-      `FELDB/FELDH need mullion offsets from PROFILINGDEDUCTION (Phase C).`,
-    );
+    const sashCount = input.sashCount;
+    // F2xx config uses 1 mullion for 2 sashes.
+    const mullions = sashCount - 1;
+    // The Web Configurator could eventually send AKTARTNRST if missing,
+    // but the engine defaults to the standard 84mm mullion profile if unprovided.
+    const mullionProfile = input.mullionProfile ?? '50021';
+    
+    const geo = mirror.profileGeometry(mullionProfile);
+    const mullionWidth = geo ? geo.width : 84; 
+    const totalMullionWidth = mullions * mullionWidth;
+    
+    FELDB = (BRB - totalMullionWidth) / sashCount;
   }
-  const FELDB = BRB;
-  const FELDH = BRH;
   // Glass dimensions: single row in AUFPOS doesn't expose GLASB, but Cantor
-  // computes it as BRB - 2*rabbet_side - mullion_fraction. For now we use BRB
+  // computes it as BRB - 2*rabbet_side - mullion_fraction. For now we use FELDB
   // which is correct for formulas that only reference GLASB via a coefficient
   // that is 0 in Phase A/B. Phase C must read rabbet from profile geometry.
-  const GLASB = BRB;
-  const GLASH = BRH;
+  const GLASB = FELDB;
+  const GLASH = FELDH;
 
   const vars = new Map<string, Value>();
   // Article-class
@@ -97,9 +106,16 @@ export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): Fo
 
   // The engine must respect the dynamic hardware request (openings) from the user
   // rather than blindly inheriting what the fallback database snapshot happened
-  // to be built with. For single-sash, opening[0] accurately dictates the hardware matrix.
+  // to be built with.
   if (input.sashCount === 1 && input.openings[0]) {
     vars.set('ART_1199_MacierzOku', input.openings[0]);
+  } else if (input.sashCount === 2 && input.openings.length === 2) {
+    // 2-sash windows usually concatenate opening types (e.g. "DKDK", "FF", "DKF")
+    vars.set('ART_1199_MacierzOku', input.openings.join(''));
+  } else if (input.sashCount > 2) {
+    // Windows with 3+ sashes typically don't have a monolithic hardware matrix
+    // in Cantor (MacierzOku = '-') and are priced per-sash via individual BESCHVAR components.
+    vars.set('ART_1199_MacierzOku', '-');
   }
 
   // The beschvar AUSFUEHRUNG lives in ARTKLCODE=2801 (OPCJE) — not currently

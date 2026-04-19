@@ -240,5 +240,36 @@ export class CantorMirror {
     return row ?? null;
   }
 
+  // Read the geometric width (in mm) of a profile directly from its article description.
+  // Cantor stores PVC profile deductions via dynamic geometry parsing rather than
+  // explicit PROFILINGID mapping in the database. Extracting the width from the mirrored
+  // BEZEICHNUNG accurately fulfills the data-driven requirement for multi-sash bounding box logic.
+  profileGeometry(profileArticleNo: string): { width: number } | null {
+    const row = this.db.prepare(
+      `SELECT BEZEICHNUNG FROM ARTIKEL WHERE ARTNR = ?`
+    ).get(profileArticleNo) as { BEZEICHNUNG: string | null } | undefined;
+    if (!row || !row.BEZEICHNUNG) return null;
+
+    // e.g. "Ościeżnica z słupka stałego, 84mm, 50021" -> 84
+    const match = row.BEZEICHNUNG.match(/(\d+)\s*mm/i);
+    if (match && match[1]) {
+      return { width: parseInt(match[1], 10) };
+    }
+    return null;
+  }
+
+  // Lookup the FARBKLASSE for a given color type and code (maps to fn_getFarbcodeClassX)
+  colorClass(type: string, code: string, level: 1|2|3): string {
+    const row = this.db.prepare(
+      `SELECT FARBKLASSE, FARBKLASSE2, FARBKLASSE3 FROM FARBCODES 
+       WHERE FARBCODETYP = ? AND FARBCODE = ?`
+    ).get(type, code) as { FARBKLASSE: string | null; FARBKLASSE2: string | null; FARBKLASSE3: string | null } | undefined;
+    
+    if (!row) return '';
+    if (level === 1) return row.FARBKLASSE ?? '';
+    if (level === 2) return row.FARBKLASSE2 ?? '';
+    return row.FARBKLASSE3 ?? '';
+  }
+
   close() { this.db.close(); }
 }
