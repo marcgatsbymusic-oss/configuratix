@@ -31,3 +31,10 @@ variable_map_dump.json
 query*_*.json
 scripts/drutex_*.json
 scripts/pricing_matrices_*.json
+
+# Cantor mirror (regenerate via `node scripts/cantor/sync_cantor_pricing.mjs`)
+src/data/cantor/cantor.sqlite
+src/data/cantor/cantor.sqlite-wal
+src/data/cantor/cantor.sqlite-shm
+src/data/cantor/_research/
+tmp_*.json

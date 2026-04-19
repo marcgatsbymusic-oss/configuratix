@@ -1,0 +1,59 @@
+{
+  "last_synced_at": "2026-04-19T11:04:00.435Z",
+  "source": {
+    "server": "localhost",
+    "database": "DRUTEX_DEALER"
+  },
+  "sync_script_version": "0.1.0",
+  "phase": "A",
+  "filters": {
+    "PREISMAT": "NUMMER = 2301",
+    "PREISE": "ZYKLUS = 2301"
+  },
+  "tables": {
+    "PREISMAT": {
+      "row_count": 1148955,
+      "sha256": "09509e6ac7390c7ff2725736655f079ec299ece592b3f4f62fb6f24552841e34"
+    },
+    "PREISE": {
+      "row_count": 664,
+      "sha256": "c6c6cb3682bf71c05d08b2eed12906ba9af2f34a3f4b0816851bb9bb53071c09"
+    },
+    "PREISSCHEMA": {
+      "row_count": 65,
+      "sha256": "4a67c696f63c0284cd5ef9a98ddeb18c91a83ada7bbe8dafe442d3a73dac53ec"
+    },
+    "PREISSCHEMAD": {
+      "row_count": 419,
+      "sha256": "3d9b14591ab4024119b82ac65c464f6ac73d8cc2b0b617c22efaf9fb5f6bca67"
+    },
+    "PREISGRUPPE": {
+      "row_count": 58,
+      "sha256": "a95997e5b2aa6e27e23cf39328411c0aeac21970770a00865be82fe533140144"
+    },
+    "PREISZYK": {
+      "row_count": 69,
+      "sha256": "71bb11319d4cd43c84ba1593f65841771b939a067a3ce6d9f2e5961f67ff866e"
+    },
+    "ARTIKEL": {
+      "row_count": 486,
+      "sha256": "8f0458e8c8da52505ac804852d35d1f0c04097d323a0a05d0b7f8d26fa9d9e14"
+    },
+    "ARTPREISE": {
+      "row_count": 17683,
+      "sha256": "a70f5358d294908e23ecda2c5bbd198be4995edc7f8fb503be2cef2cf47266e4"
+    },
+    "GLASS_PANE": {
+      "row_count": 214,
+      "sha256": "f0e903c5a5fff16f81f5d7b3088bfc39c6d5b154dcee8e058fb72cc4b763a05f"
+    },
+    "GLASS_SPACER": {
+      "row_count": 103,
+      "sha256": "99afb6eeb19534b56d5a4e33d24f9febf0d0ebbea87ed2174ed6b7a3a85ba3bd"
+    },
+    "ARTVARBL": {
+      "row_count": 2641,
+      "sha256": "836193497e4ef66ecb8bf7e5b78622494549d791935b50bb5642e973013d9cab"
+    }
+  }
+}

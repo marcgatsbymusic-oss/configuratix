@@ -10,7 +10,12 @@
     "dev": "vite --host",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "cantor:sync": "node scripts/cantor/sync_cantor_pricing.mjs",
+    "cantor:verify": "node scripts/cantor/verify_cantor_sync.mjs",
+    "cantor:golden": "node scripts/cantor/build_pricing_goldens.mjs"
   },
   "dependencies": {
     "@needle-tools/engine": "^5.0.0",
@@ -18,6 +23,7 @@
     "@react-three/xr": "^5.7.1",
     "@supabase/supabase-js": "^2.103.2",
     "@types/three": "^0.183.1",
+    "better-sqlite3": "^12.9.0",
     "canvas": "^3.2.3",
     "cheerio": "^1.2.0",
     "dotenv": "^17.4.2",
@@ -49,7 +55,8 @@
     "tailwindcss": "^4.2.1",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.56.1",
-    "vite": "^8.0.0"
+    "vite": "^8.0.0",
+    "vitest": "^4.1.4"
   },
   "optionalDependencies": {
     "msnodesqlv8": "^5.1.8"
