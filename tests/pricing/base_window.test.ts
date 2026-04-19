@@ -8,7 +8,11 @@ import { resolve } from 'node:path';
 import { readFileSync, existsSync } from 'node:fs';
 import { CantorMirror, priceConfiguration, type ConfiguratorInput } from '../../src/utils/cantorPricing';
 
-const DB_PATH = resolve(__dirname, '..', '..', 'src', 'data', 'cantor', 'cantor.sqlite');
+// Tests prefer the committed fixture (checked into git) so CI works without
+// access to the live Cantor SQL Server. Local dev can regenerate the full
+// mirror via `npm run cantor:sync` — either file is acceptable.
+const FIXTURE_PATH = resolve(__dirname, 'fixtures', 'cantor.fixture.sqlite');
+const FULL_PATH = resolve(__dirname, '..', '..', 'src', 'data', 'cantor', 'cantor.sqlite');
 const GOLDEN_PATH = resolve(__dirname, 'goldens', 'auf_1500041_1.json');
 
 interface Golden {
@@ -28,10 +32,14 @@ describe('AUFNR 1500041 — F104 IGLO5 white fixed', () => {
   let golden: Golden;
 
   beforeAll(() => {
-    if (!existsSync(DB_PATH)) {
-      throw new Error(`SQLite mirror missing at ${DB_PATH}. Run: npm run cantor:sync`);
+    const dbPath = existsSync(FIXTURE_PATH) ? FIXTURE_PATH : FULL_PATH;
+    if (!existsSync(dbPath)) {
+      throw new Error(
+        `No Cantor SQLite DB available at ${FIXTURE_PATH} or ${FULL_PATH}. ` +
+        `Run: npm run cantor:fixture (needs full mirror from npm run cantor:sync)`,
+      );
     }
-    mirror = new CantorMirror(DB_PATH);
+    mirror = new CantorMirror(dbPath);
     golden = JSON.parse(readFileSync(GOLDEN_PATH, 'utf8'));
   });
 

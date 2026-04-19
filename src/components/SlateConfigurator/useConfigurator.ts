@@ -5,7 +5,8 @@ import glazingOptions from '../../data/glazing.json';
 import iglo5Data from '../../data/iglo5_data.json';
 import type { ConfiguratorState, ConfiguratorAction, CategoryType } from './types';
 import { PROFILE_GLAZING_MAP } from '../../data/profileGlazing';
-import { calculatePrice, resolveOpeningClass } from '../../utils/pricingEngine';
+import { fetchPrice, type PricingApiResponse } from '../../utils/cantorPricing/pricingApi';
+import { stateToInput, DEFAULT_DEALER } from '../../utils/cantorPricing/configuratorAdapter';
 
 const initialState: ConfiguratorState = {
   dimensions: { width: 1000, height: 1200 },
@@ -203,137 +204,103 @@ function configuratorReducer(state: ConfiguratorState, action: ConfiguratorActio
 export function useConfigurator() {
   const [state, dispatch] = useReducer(configuratorReducer, initialState, getInitialState);
 
-  // --- PHASE 2 CANTOR FETCH ENGINE ---
+  // Constraints (min/max W×H) still come from cantor_systems on Supabase.
+  // The actual pricing now goes through the new Cantor formula interpreter
+  // via /api/price (Vite middleware in dev, Supabase Edge Function in prod).
   const [cantorSystem, setCantorSystem] = useState<any>(null);
-  const [cantorRules, setCantorRules] = useState<any[]>([]);
-  const [cantorMatrices, setCantorMatrices] = useState<any[]>([]);
-  const [isLoadingCantor, setIsLoadingCantor] = useState(false);
 
   useEffect(() => {
-    // We only fetch Phase 2 Cantor data if configured. Otherwise fallback to IDW logic over profile/categories.
-    async function loadCantorDefinitions() {
+    async function loadConstraints() {
        let systemLookupKey = state.profile;
-       // Map arbitrary UI dropdown codes to Cantor SCHLUESSEL (e.g. 'iglo5' -> 'I5S', 'MB-86' -> 'ALU')
-       if (state.profile === 'iglo5') systemLookupKey = 'I5S'; 
-
-       setIsLoadingCantor(true);
+       if (state.profile === 'iglo5') systemLookupKey = 'I5S';
        try {
-           // 1. Fetch system & dimensions constraints
-           const { data: sysData, error: sysErr } = await supabase
+           const { data, error } = await supabase
                .from('cantor_systems')
                .select('*')
                .eq('cantor_key', systemLookupKey)
                .maybeSingle();
-
-           if (!sysErr && sysData) {
-               setCantorSystem(sysData);
-
-               // 2. Fetch Pricing Rules for GRPRS modification
-               const { data: rulesData } = await supabase
-                   .from('cantor_pricing_rules')
-                   .select('*')
-                   .eq('system_key', systemLookupKey);
-                   
-               if (rulesData) setCantorRules(rulesData);
-           }
-
-           // 3. Fetch matrices for this specific system (independent of system table)
-           // 3. Fetch exact matrices for this specific system AND structure
-           let matrixClasses = [systemLookupKey, ''];
-           if (state.profile === 'iglo5') matrixClasses = ['IG5', 'SZP', 'I5S', ''];
-           
-           // Resolve Matrix Base mechanically based on UI Typology
-           const isPVC = cantorSystem?.type_class === 'S11' || state.profile.includes('iglo') || state.profile.includes('pvc');
-           const matPrefix = isPVC ? 'PVC' : 'AL';
-           // F104 maps internally to F100 matrix group in Cantor Database
-           let structClass = state.windowTypeId.toUpperCase().includes('F10') ? 'F100' : state.windowTypeId;
-           const targetMatrixName = `${matPrefix}_${structClass}`;
-
-           // Dynamically resolve target hardware class (e.g., 'F', 'DK', 'UR')
-           const targetClass1 = resolveOpeningClass(state.sashOpenings);
-
-           // Supabase natively caps requests to 1000 rows (PostgREST limit).
-           // Since PVC_F100 + IG5 + F contains ~2800 rows, we MUST paginate to gather the active interpolation grid.
-           let allMatrixData: any[] = [];
-           let offset = 0;
-           const batchSize = 1000;
-           let hasMore = true;
-
-           while (hasMore) {
-               const { data: chunk, error } = await supabase
-                   .from('cantor_formula_matrices')
-                   .select('*')
-                   .in('class_2', matrixClasses)
-                   .in('class_1', [targetClass1, 'KOLOR', '']) 
-                   .in('matrix_name', [targetMatrixName, `${matPrefix}_DOD`, `${cantorSystem?.type_class}_DOD`]) 
-                   .range(offset, offset + batchSize - 1);
-                   
-               if (error) {
-                   console.error("Matrix Paging Error", error);
-                   break;
-               }
-                   
-               if (chunk && chunk.length > 0) {
-                   allMatrixData = [...allMatrixData, ...chunk];
-                   if (chunk.length < batchSize) {
-                       hasMore = false; // We've reached the end
-                   } else {
-                       offset += batchSize;
-                   }
-               } else {
-                   hasMore = false;
-               }
-           }
-
-           if (allMatrixData.length > 0) setCantorMatrices(allMatrixData);
+           if (!error && data) setCantorSystem(data);
        } catch (err) {
-           console.error("Cantor Sync Error", err);
+           console.error('Cantor constraints fetch error', err);
        }
-       setIsLoadingCantor(false);
     }
-    loadCantorDefinitions();
-  }, [state.profile, state.windowTypeId]); // Dependency updated to trigger on Structure change
-  // -----------------------------------
+    loadConstraints();
+  }, [state.profile]);
 
-  const pricing = useMemo(() => {
-    // Resolve addon costs
-    const addonPrices = state.addons.map(addonId => {
-      const item = CONFIG_SCHEMA.addons.find(a => a.id === addonId);
-      return item ? item.price : 0;
-    });
+  // --- Pricing via the new Cantor formula interpreter ---
+  // Async because the engine runs Node-side (mirror is SQLite/Supabase). The
+  // adapter maps configurator state → ConfiguratorInput; the engine throws on
+  // configurations Phase A/B doesn't yet cover, which we surface as a
+  // priceError so the UI can show a clear message instead of a wrong number.
+  const VAT_RATE = 0.21;
+  type PricingShape = {
+    base: number;
+    glazing: number;
+    hardware: number;
+    addons: number;
+    colorModifier: number;
+    subtotal: number;
+    vat: number;
+    total: number;
+    currency: string;
+    error: string | null;
+    loading: boolean;
+    raw: PricingApiResponse | null;
+  };
+  const EMPTY_PRICING: PricingShape = {
+    base: 0, glazing: 0, hardware: 0, addons: 0, colorModifier: 0,
+    subtotal: 0, vat: 0, total: 0, currency: 'EUR',
+    error: null, loading: false, raw: null,
+  };
+  const [pricing, setPricing] = useState<PricingShape>(EMPTY_PRICING);
 
-    // Resolve sash opening selections → Cantor opening class (DK | UR | F100 | PSK)
-    // This translates the user's sash choices (o1=fixed, o2/o3=DK, o6=kipp) into the
-    // correct matrix key. Do NOT use windowTypeId directly — it's a typology ID (F101,
-    // F202 etc.) not an opening class. Only F100 coincidentally shares both namespaces.
-    const openingTypeId = resolveOpeningClass(state.sashOpenings);
+  const addonPrices = useMemo(() => state.addons.map(addonId => {
+    const item = CONFIG_SCHEMA.addons.find(a => a.id === addonId);
+    return item ? item.price : 0;
+  }), [state.addons]);
+  const addonsTotal = useMemo(() => addonPrices.reduce((s, p) => s + p, 0), [addonPrices]);
 
-    // Run full engine: Native Phase 2 GRPRS/Surcharge Logic + Fallback
-    const breakdown = calculatePrice(
-      state.profile,
-      openingTypeId,
-      state.dimensions.width,
-      state.dimensions.height,
-      state.glazingPackage,
-      state.interiorColor,
-      state.exteriorColor,
-      addonPrices,
-      cantorSystem,
-      cantorRules,
-      cantorMatrices
-    );
+  useEffect(() => {
+    const controller = new AbortController();
+    let cancelled = false;
+    setPricing(prev => ({ ...prev, loading: true, error: null }));
 
-    return {
-      base: breakdown.frame,
-      glazing: breakdown.glazing,
-      hardware: 0, // hardware is now folded into the Cantor frame price
-      addons: breakdown.addons,
-      colorModifier: breakdown.color,
-      subtotal: breakdown.subtotal,
-      vat: breakdown.vat,
-      total: breakdown.total
-    };
-  }, [state]);
+    let input;
+    try {
+      input = stateToInput(state, DEFAULT_DEALER);
+    } catch (e) {
+      const error = e instanceof Error ? e.message : String(e);
+      setPricing({ ...EMPTY_PRICING, error });
+      return () => controller.abort();
+    }
+
+    fetchPrice({ input })
+      .then(res => {
+        if (cancelled) return;
+        const base = res.vk_local;
+        const subtotal = base + addonsTotal;
+        setPricing({
+          base,
+          glazing: 0,                   // folded into base in the new engine
+          hardware: 0,                  // folded into base
+          addons: addonsTotal,
+          colorModifier: 0,             // folded into base; Phase C exposes per-line
+          subtotal,
+          vat: subtotal * VAT_RATE,
+          total: subtotal * (1 + VAT_RATE),
+          currency: res.currency,
+          error: null,
+          loading: false,
+          raw: res,
+        });
+      })
+      .catch(err => {
+        if (cancelled) return;
+        setPricing({ ...EMPTY_PRICING, error: err instanceof Error ? err.message : String(err) });
+      });
+
+    return () => { cancelled = true; controller.abort(); };
+  }, [state, addonsTotal]);
 
   const activeLimits = useMemo(() => {
     // If we loaded dimensions actively from Cantor Phase 2 Data, use those strictly!

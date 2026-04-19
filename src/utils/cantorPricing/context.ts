@@ -7,11 +7,40 @@ import type { ConfiguratorInput } from './input';
 import { buildFnRegistry } from './fns';
 
 export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): FormulaContext {
-  // Phase A: dimensions are passed through 1:1 from input. A future Phase will
-  // compute BRB/BRH/UMFANG from EINHBREITE plus profile geometry deductions —
-  // for the 1500041 golden, BRB == BRH == EINHBREITE so this is correct.
+  // Dimensions.
+  //
+  // Empirically verified across 10 real PVC orders (AUFNRs 1500030-1500041):
+  //   EINHBREITE == LOCHBREITE == UNITWIDTH_INCL_INST_ACCESSORY
+  // Cantor's `BRB` (Brutto-Breite) equals EINHBREITE directly for PVC — there
+  // is no frame-edge deduction between the unit dimension and BRB. BRB is the
+  // dimension the pricing matrices key on.
+  //
+  // `FELDB`/`FELDH` differ from BRB only for multi-sash windows (split by the
+  // mullion). For single-sash F104, FELDB == BRB. Multi-sash not yet covered
+  // (throws below) because the mullion offset depends on profile geometry
+  // which we don't yet read from PROFILINGDEDUCTION.
+  //
+  // `GLASB`/`GLASH` are smaller than BRB by the glazing rabbet (a profile-
+  // dependent offset). Today they're only referenced by the MB60-filling
+  // formula in SCHEMA 51, which multiplies by PREISFELD2=0 for standard PVC
+  // panes — so the approximation GLASB==BRB does not affect Phase A/B output.
+  // Flagged for Phase C.
   const BRB = input.width_mm;
   const BRH = input.height_mm;
+  if (input.sashCount > 1) {
+    throw new Error(
+      `buildContext: multi-sash (${input.sashCount}) not yet supported — ` +
+      `FELDB/FELDH need mullion offsets from PROFILINGDEDUCTION (Phase C).`,
+    );
+  }
+  const FELDB = BRB;
+  const FELDH = BRH;
+  // Glass dimensions: single row in AUFPOS doesn't expose GLASB, but Cantor
+  // computes it as BRB - 2*rabbet_side - mullion_fraction. For now we use BRB
+  // which is correct for formulas that only reference GLASB via a coefficient
+  // that is 0 in Phase A/B. Phase C must read rabbet from profile geometry.
+  const GLASB = BRB;
+  const GLASH = BRH;
 
   const vars = new Map<string, Value>();
   // Article-class
@@ -42,14 +71,14 @@ export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): Fo
   vars.set('BRH', BRH);
   vars.set('B', BRB);
   vars.set('H', BRH);
-  vars.set('FELDB', BRB);
-  vars.set('FELDH', BRH);
-  vars.set('ECHTEFELDBREITE', BRB);
-  vars.set('ECHTEFELDHOEHE', BRH);
-  vars.set('FLH', BRH);
+  vars.set('FELDB', FELDB);
+  vars.set('FELDH', FELDH);
+  vars.set('ECHTEFELDBREITE', FELDB);
+  vars.set('ECHTEFELDHOEHE', FELDH);
+  vars.set('FLH', FELDH);
   vars.set('UMFANG', 2 * (BRB + BRH));
-  vars.set('GLASB', BRB);
-  vars.set('GLASH', BRH);
+  vars.set('GLASB', GLASB);
+  vars.set('GLASH', GLASH);
   vars.set('FELDNRNUM', 1);
 
   // Article-variant resolved fields (from input mapping; in Phase B we'll
