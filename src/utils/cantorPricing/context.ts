@@ -94,6 +94,14 @@ export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): Fo
     );
   }
   for (const [k, v] of articleVars) vars.set(k, v);
+
+  // The engine must respect the dynamic hardware request (openings) from the user
+  // rather than blindly inheriting what the fallback database snapshot happened
+  // to be built with. For single-sash, opening[0] accurately dictates the hardware matrix.
+  if (input.sashCount === 1 && input.openings[0]) {
+    vars.set('ART_1199_MacierzOku', input.openings[0]);
+  }
+
   // The beschvar AUSFUEHRUNG lives in ARTKLCODE=2801 (OPCJE) — not currently
   // mirrored with its variables. Default to STANDARD which matches every
   // PVC FIX order in our golden set; override once we mirror 2801 vars.
