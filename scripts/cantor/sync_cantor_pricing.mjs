@@ -173,7 +173,7 @@ const TABLES = [
     // config-bearing rows. Limit to ARTKLCODE 1805 (INFO) and 1199 (TECH)
     // which carry the fields pricing formulas reference (ART_1805_MatrixName,
     // ART_1805_ETyp, ART_1805_MatArt, ART_1199_MacierzOku, ...).
-    query: `SELECT PHASEA_COLS FROM AUFARTIK WHERE ARTKLCODE IN (1805, 1199) AND ARTIKELVARIABLEN IS NOT NULL AND ARTIKELVARIABLEN <> ''`,
+    query: `SELECT PHASEA_COLS FROM AUFARTIK WHERE ARTKLCODE IN (1805, 1199, 1850) AND ARTIKELVARIABLEN IS NOT NULL AND ARTIKELVARIABLEN <> ''`,
   },
   {
     name: 'GLASS_PANE',

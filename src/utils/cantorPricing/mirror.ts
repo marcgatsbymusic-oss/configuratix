@@ -166,6 +166,24 @@ export class CantorMirror {
     return m;
   }
 
+  // Parses Cantor's ESFELD semicolon-separated string:
+  //   "1000=-;1005=2/2023;1040=IGE;"
+  // into Map<ART_artklCode_esCode, value>.
+  private static parseEsfeld(s: string | null, artklCode: number): Map<string, string> {
+    const m = new Map<string, string>();
+    if (!s) return m;
+    for (const piece of s.split(';')) {
+      if (!piece) continue;
+      const idx = piece.indexOf('=');
+      if (idx !== -1) {
+        const esCode = piece.substring(0, idx);
+        const val = piece.substring(idx + 1);
+        m.set(`ART_${artklCode}_${esCode}`, val);
+      }
+    }
+    return m;
+  }
+
   // Resolve an article's Cantor-side ARTIKELVARIABLEN by finding the most
   // recent real AUFPOS row matching (ARTNR, PROFILSATZNAME) and reading the
   // paired AUFARTIK ARTKLCODE=1805 INFO row. This is the Cantor-faithful
@@ -184,13 +202,14 @@ export class CantorMirror {
     ).get(artnr, profilsatz) as { AUFNR: number; POSNR: number } | undefined;
     if (!pos) return new Map();
     const rows = this.db.prepare(
-      `SELECT ARTIKELVARIABLEN, ARTIKELVARIABLEN2
+      `SELECT ARTKLCODE, ARTIKELVARIABLEN, ARTIKELVARIABLEN2, ESFELD
        FROM AUFARTIK WHERE AUFNR = ? AND REFPOSNR = ?`,
-    ).all(pos.AUFNR, pos.POSNR) as Array<{ ARTIKELVARIABLEN: string | null; ARTIKELVARIABLEN2: string | null }>;
+    ).all(pos.AUFNR, pos.POSNR) as Array<{ ARTKLCODE: number; ARTIKELVARIABLEN: string | null; ARTIKELVARIABLEN2: string | null; ESFELD: string | null }>;
     const merged = new Map<string, string>();
     for (const r of rows) {
       for (const [k, v] of CantorMirror.parseVariables(r.ARTIKELVARIABLEN)) merged.set(k, v);
       for (const [k, v] of CantorMirror.parseVariables(r.ARTIKELVARIABLEN2)) merged.set(k, v);
+      for (const [k, v] of CantorMirror.parseEsfeld(r.ESFELD, r.ARTKLCODE)) merged.set(k, v);
     }
     return merged;
   }

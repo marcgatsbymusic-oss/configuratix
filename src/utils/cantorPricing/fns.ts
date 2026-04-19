@@ -30,12 +30,15 @@ export function buildFnRegistry(input: ConfiguratorInput, mirror: CantorMirror) 
   return (name: string, args: Value[]): Value | undefined => {
     switch (name) {
       case 'fn_SystemCeny':
-        // Cantor's system-pricing code for the current profile. Read from
-        // ART_1805_Serie (normalized to "IG5" when raw value is "IGL" per
-        // observed formula branches). If AUFARTIK has no row for this
-        // (article, profilsatz) combination, fall back to the input's
-        // profilsatz — they match for the systems we support.
-        return articleVars.get('ART_1805_Serie') ?? input.profilsatz;
+        // Cantor's system-pricing code for the current profile. 
+        // The core matrix key is explicitly encoded as ESCODE 1040 (SystemProfili) 
+        // on ARTKLCODE 1850 (ARTNR 'F') inside the ESFELD string.
+        // "IGECL" is just the series alias (ART_1805_Serie); pricing matrices
+        // native to Cantor are bucketed under the base system "IGE", which
+        // this 1850.1040 variable exposes.
+        return articleVars.get('ART_1850_1040') 
+            ?? articleVars.get('ART_1805_Serie') 
+            ?? input.profilsatz;
 
       case 'fn_SystemCenyAlu':
         // ALU equivalent — Phase D.
