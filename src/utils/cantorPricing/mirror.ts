@@ -195,11 +195,23 @@ export class CantorMirror {
     // ART_1805_*, ARTKLCODE 1199 (TECH) has ART_1199_*, ARTKLCODE 2090
     // (PROFILE) has ART_090_* / ART_AD_* / ART_RA_* etc., ARTKLCODE 2801
     // (OPCJE) has ART_x801_*. Formulas may reference any of these.
-    const pos = this.db.prepare(
+    let pos = this.db.prepare(
       `SELECT AUFNR, POSNR FROM AUFPOS
        WHERE ARTNR = ? AND PROFILSATZNAME = ?
        ORDER BY AUFNR DESC, POSNR DESC LIMIT 1`,
     ).get(artnr, profilsatz) as { AUFNR: number; POSNR: number } | undefined;
+
+    // If the snapshot lacks this exact combination (e.g. F104 + IGECL), fallback to F100
+    // for this profile. F100 shares the same core ART_* variables (like SystemProfili)
+    // and makes the engine resilient without needing a gigabyte db dump of every permutation.
+    if (!pos && artnr !== 'F100') {
+      pos = this.db.prepare(
+        `SELECT AUFNR, POSNR FROM AUFPOS
+         WHERE ARTNR = 'F100' AND PROFILSATZNAME = ?
+         ORDER BY AUFNR DESC, POSNR DESC LIMIT 1`,
+      ).get(profilsatz) as { AUFNR: number; POSNR: number } | undefined;
+    }
+
     if (!pos) return new Map();
     const rows = this.db.prepare(
       `SELECT ARTKLCODE, ARTIKELVARIABLEN, ARTIKELVARIABLEN2, ESFELD
