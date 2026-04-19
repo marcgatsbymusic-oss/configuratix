@@ -16,7 +16,8 @@
     "cantor:sync": "node scripts/cantor/sync_cantor_pricing.mjs",
     "cantor:verify": "node scripts/cantor/verify_cantor_sync.mjs",
     "cantor:golden": "node scripts/cantor/build_pricing_goldens.mjs",
-    "cantor:fixture": "node scripts/cantor/build_test_fixture.mjs"
+    "cantor:fixture": "node scripts/cantor/build_test_fixture.mjs",
+    "cantor:coverage": "node scripts/cantor/coverage_replay.mjs"
   },
   "dependencies": {
     "@needle-tools/engine": "^5.0.0",
