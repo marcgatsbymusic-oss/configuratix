@@ -40,10 +40,15 @@ export interface ConfiguratorInput {
   // Threshold / hardware
   schwelle: 0 | 1;               // 1 if door threshold present (0 for windows)
 
-  // Pricing context
+  // Pricing context. Either `pricelistKurzbez` or `currency` must be set:
+  //   - explicit KURZBEZ locks to one historical pricelist (useful for
+  //     reproducing past orders against a specific factor)
+  //   - `currency` lets the engine auto-select the active PREISZYK row for
+  //     (currency, today) so pricelist rollovers don't require code changes
   dealer: {
-    kundenNr: number;            // Cantor KDNR; used by fn_PRICE_GROUPS
-    pricelistKurzbez: string;    // PREISZYK.KURZBEZ, e.g. "EUR23004"
-    land: string;                // LAND code, e.g. "CH"
+    kundenNr: number;
+    pricelistKurzbez?: string;
+    currency?: string;
+    land: string;
   };
 }

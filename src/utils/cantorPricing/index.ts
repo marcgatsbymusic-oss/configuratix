@@ -39,9 +39,16 @@ export function priceConfiguration(input: ConfiguratorInput, mirror: CantorMirro
   // dealer-currency VK.
   const panes = evaluatePanes(input, 'E', mirror);
 
-  const zyk = mirror.preiszyk(input.dealer.pricelistKurzbez);
+  // Pricelist resolution: explicit KURZBEZ wins (for reproducing historical
+  // orders). Otherwise auto-pick the active pricelist for the dealer's
+  // currency on the current date — no hardcoded KURZBEZ required.
+  const zyk = input.dealer.pricelistKurzbez
+    ? mirror.preiszyk(input.dealer.pricelistKurzbez)
+    : mirror.activePreiszyk(input.dealer.currency ?? 'EUR');
   if (!zyk) {
-    throw new Error(`PREISZYK row not found: ${input.dealer.pricelistKurzbez}`);
+    throw new Error(
+      `No PREISZYK row resolved: ${input.dealer.pricelistKurzbez ?? `active ${input.dealer.currency ?? 'EUR'} pricelist`}`,
+    );
   }
 
   const ek_pln_total = ekResult.total + panes.total;

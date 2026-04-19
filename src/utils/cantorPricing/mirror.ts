@@ -150,5 +150,64 @@ export class CantorMirror {
     return m;
   }
 
+  // Parses Cantor's ARTIKELVARIABLEN pipe-separated string:
+  //   "ART_1805_ETyp\\3\\FE|ART_1805_MatrixName\\3\\F100|..."
+  // into a Map<variableName, value>. The middle token is VARTYP (1=int,
+  // 2=decimal, 3=string) which we currently drop — all callers treat the
+  // value as a string anyway.
+  private static parseVariables(s: string | null): Map<string, string> {
+    const m = new Map<string, string>();
+    if (!s) return m;
+    for (const piece of s.split('|')) {
+      if (!piece) continue;
+      const parts = piece.split('\\');
+      if (parts.length >= 3) m.set(parts[0], parts.slice(2).join('\\'));
+    }
+    return m;
+  }
+
+  // Resolve an article's Cantor-side ARTIKELVARIABLEN by finding the most
+  // recent real AUFPOS row matching (ARTNR, PROFILSATZNAME) and reading the
+  // paired AUFARTIK ARTKLCODE=1805 INFO row. This is the Cantor-faithful
+  // way to learn ART_1805_MatrixName, ART_1805_ETyp etc. for any article
+  // that has ever been priced.
+  articleVariablesFor(artnr: string, profilsatz: string): Map<string, string> {
+    // Merge every AUFARTIK row paired with the newest matching AUFPOS so we
+    // pick up all ART_<klCode>_<name> variables — ARTKLCODE 1805 (INFO) has
+    // ART_1805_*, ARTKLCODE 1199 (TECH) has ART_1199_*, ARTKLCODE 2090
+    // (PROFILE) has ART_090_* / ART_AD_* / ART_RA_* etc., ARTKLCODE 2801
+    // (OPCJE) has ART_x801_*. Formulas may reference any of these.
+    const pos = this.db.prepare(
+      `SELECT AUFNR, POSNR FROM AUFPOS
+       WHERE ARTNR = ? AND PROFILSATZNAME = ?
+       ORDER BY AUFNR DESC, POSNR DESC LIMIT 1`,
+    ).get(artnr, profilsatz) as { AUFNR: number; POSNR: number } | undefined;
+    if (!pos) return new Map();
+    const rows = this.db.prepare(
+      `SELECT ARTIKELVARIABLEN, ARTIKELVARIABLEN2
+       FROM AUFARTIK WHERE AUFNR = ? AND REFPOSNR = ?`,
+    ).all(pos.AUFNR, pos.POSNR) as Array<{ ARTIKELVARIABLEN: string | null; ARTIKELVARIABLEN2: string | null }>;
+    const merged = new Map<string, string>();
+    for (const r of rows) {
+      for (const [k, v] of CantorMirror.parseVariables(r.ARTIKELVARIABLEN)) merged.set(k, v);
+      for (const [k, v] of CantorMirror.parseVariables(r.ARTIKELVARIABLEN2)) merged.set(k, v);
+    }
+    return merged;
+  }
+
+  // Return the PREISZYK row active for (currency, date). Picks the newest
+  // GUELTIGKEIT <= date. Replaces hardcoded pricelistKurzbez.
+  activePreiszyk(currency: string, onDate: Date = new Date()): PreiszykRow | null {
+    const iso = onDate.toISOString();
+    const row = this.db.prepare(
+      `SELECT KURZBEZ, WAEHRUNG, ZYKLUS, FAKTOR, BASISWAEHRUNG, SEKUNDAERWAEHRUNG
+       FROM PREISZYK
+       WHERE WAEHRUNG = ? AND GUELTIGFUERVK = 1 AND GUELTIGKEIT <= ?
+       ORDER BY GUELTIGKEIT DESC
+       LIMIT 1`,
+    ).get(currency, iso) as PreiszykRow | undefined;
+    return row ?? null;
+  }
+
   close() { this.db.close(); }
 }

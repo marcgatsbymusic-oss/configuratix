@@ -118,10 +118,12 @@ export function stateToInput(
   };
 }
 
-// Default dealer for the current single-tenant deployment. When we
-// onboard more dealers this comes from auth/session.
+// Default dealer for the current single-tenant deployment. When we onboard
+// more dealers this comes from auth/session. Currency (not pricelistKurzbez)
+// is the natural primary key — the engine auto-picks the active PREISZYK
+// row for (currency, today), so pricelist rollovers don't need a code change.
 export const DEFAULT_DEALER: ConfiguratorInput['dealer'] = {
   kundenNr: 1008,
-  pricelistKurzbez: 'EUR23011',
+  currency: 'EUR',
   land: 'CH',
 };

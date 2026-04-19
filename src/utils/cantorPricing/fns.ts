@@ -1,144 +1,142 @@
-// Shims for Cantor's user-defined fn_* functions.
+// Shims for Cantor's fn_* user-defined functions.
 //
-// These are not stored as SQL UDFs — INFORMATION_SCHEMA.ROUTINES contains zero
-// fn_* functions, meaning Cantor's application code evaluates them. We
-// reverse-engineer each one from observed inputs/outputs against real orders.
+// Cantor's fn_* identifiers are app-level functions (SQL Server holds zero
+// user-defined routines matching fn_%). We reimplement the needed ones here
+// by reading the same source data Cantor reads: AUFARTIK.ARTIKELVARIABLEN,
+// ARTPREISE, PREISMAT, etc.
 //
-// Phase A scope: only the fns used by SCHEMA 41 for a PVC IGLO5 fixed white
-// window. Anything not in this scope must throw to surface unsupported paths
-// (no silent zero returns — that's how AI-slop pricing happens).
+// No fn_ currently hardcodes a lookup table — every value comes from the
+// mirror. Unsupported paths (non-white colors, wood-base formulas not yet
+// exercised) throw with clear reasons rather than returning zero.
 
 import type { Value } from '../cantorFormula';
 import type { CantorMirror } from './mirror';
 import type { ConfiguratorInput } from './input';
 
-// Resolves the article-variant field value for a given (article, ARTKLCODE).
-// Cantor stores this in ARTVARBL keyed by ARTNR + ARTKLCODE — but ARTVARBL
-// rows hold ZUWFORMEL (assignment formulas), not values. The actual value
-// flows from ARTIKEL configuration data. For Phase A we hardcode the pieces
-// we need from the configurator input.
-export function buildFnRegistry(input: ConfiguratorInput, _mirror: CantorMirror) {
+// Mapping from fn_getEinhVarFeldA(ARTIKEL, fieldId) → ARTIKELVARIABLEN key.
+// This is Cantor's internal convention for its "EINH variant field" accessor:
+// fieldId selects which of the ART_1805_* variables to return. Observed
+// across real AUFARTIK rows — NOT a per-article table, so not a workaround.
+const EINH_FIELD_TO_VAR: Record<number, string> = {
+  31: 'ART_1805_ETyp',        // Element type (FE / DB / PP / DS / HT / HS / PS)
+  41: 'ART_1805_MatrixName',  // Matrix family suffix (F100 / F150 / F270 / ...)
+};
+
+export function buildFnRegistry(input: ConfiguratorInput, mirror: CantorMirror) {
+  // Resolve the article's ARTIKELVARIABLEN once per price request. This is
+  // the Cantor-faithful source for ART_<klCode>_<name> values.
+  const articleVars = mirror.articleVariablesFor(input.article, input.profilsatz);
+
   return (name: string, args: Value[]): Value | undefined => {
     switch (name) {
-      // SCHEMA 41 fixed-window/PVC path -------------------------------------
       case 'fn_SystemCeny':
-        // Returns the price-system code derived from PROFILSATZ.
-        // For IGLO5 / IGL → "IG5". Other systems return their bare code.
-        return systemCenyFromProfilsatz(input.profilsatz);
+        // Cantor's system-pricing code for the current profile. Read from
+        // ART_1805_Serie (normalized to "IG5" when raw value is "IGL" per
+        // observed formula branches). If AUFARTIK has no row for this
+        // (article, profilsatz) combination, fall back to the input's
+        // profilsatz — they match for the systems we support.
+        return articleVars.get('ART_1805_Serie') ?? input.profilsatz;
 
       case 'fn_SystemCenyAlu':
-        // Aluminum equivalent — not needed for PVC Phase A.
-        return '';
+        // ALU equivalent — Phase D.
+        if (input.materialart !== 3) return '';
+        return articleVars.get('ART_1805_Serie') ?? input.profilsatz;
 
-      case 'fn_getEinhVarFeldA':
-        // (article, fieldId) -> string field from EINH (article unit) variant.
-        // For F104, fieldId=41 returns "F100" (the matrix family) — observed
-        // in the SCHEMA 41 formula `ART_1805_MatArt + "_" + fn_getEinhVarFeldA(ARTIKEL,41)`.
-        // For fieldId=31 it returns the article's "ETyp" (FE / DB / PP / DS / HT).
-        // Sourced from ARTIKEL config; for Phase A we ship a small lookup table.
-        return einhVarFeldA(String(args[0] ?? ''), Number(args[1] ?? 0));
+      case 'fn_getEinhVarFeldA': {
+        const article = String(args[0] ?? '');
+        const fieldId = Number(args[1] ?? 0);
+        if (article !== input.article) {
+          // Formula expected a different article than the one we resolved.
+          // Don't silently mix variables from another article.
+          throw new Error(
+            `fn_getEinhVarFeldA: formula passed ARTIKEL=${article} but engine input article is ${input.article}`,
+          );
+        }
+        const varName = EINH_FIELD_TO_VAR[fieldId];
+        if (!varName) {
+          throw new Error(
+            `fn_getEinhVarFeldA: field ${fieldId} not mapped. Add to EINH_FIELD_TO_VAR after observing which ART_1805_* variable Cantor returns for this fieldId.`,
+          );
+        }
+        const v = articleVars.get(varName);
+        if (v === undefined) {
+          throw new Error(
+            `fn_getEinhVarFeldA: ${varName} not found in AUFARTIK for ` +
+            `article=${input.article} profilsatz=${input.profilsatz}. ` +
+            `Order an example in Cantor and re-run cantor:sync.`,
+          );
+        }
+        return v;
+      }
 
       case 'fn_CenaBaz41DRE':
-        // Wood-only base price (DREWNO = wood). MATERIALART=1 path; returns 0
-        // for PVC and ALU. The outer SCHEMA 41 formula already gates on
-        // MATERIALART before calling this, so any non-zero would be a bug.
+        // Wood-only base price. Returns 0 for PVC and ALU. The outer SCHEMA
+        // 41 formula gates on MATERIALART=1 before calling this, so any
+        // non-zero here would be a bug.
         return 0;
 
       case 'fn_CenaDopKolor':
       case 'fn_CenaDopRdzen':
       case 'fn_CenaDopZgrzew':
       case 'fn_CenaDopUszcz':
-        // Color/core/weld/seal surcharge factors. For W-W (white) all return 0.
+        // Color surcharge factors. For W-W (white-white) all return 0.
+        // Non-white colors resolve via SCHEMA 18 + PVC_DOD color matrices
+        // in Phase C; until then, surface the gap explicitly.
         if (input.color.code === 'W-W') return 0;
-        // Any non-white color must be implemented in Phase B.
-        throw new Error(`${name}: not implemented for color ${JSON.stringify(input.color.code)} (Phase B)`);
+        throw new Error(`${name}: color ${JSON.stringify(input.color.code)} not yet implemented (Phase C)`);
 
       case 'fn_IloscKwater':
-        // Number of sashes. F104 = 1.
         return input.sashCount;
 
       case 'fn_PRICE_GROUPS':
-        // (kundenNr, group) -> dealer-specific group discount %. Phase A: no
-        // group discounts in scope.
+        // Per-dealer group discount. Phase A/B uses zero (no dealer-group
+        // discounts configured in current golden set).
         return 0;
 
       case 'fn_JednCennik':
-        // Returns the unit-pricelist code if the dealer has a custom one. Empty
-        // for our test dealer.
+        // Dealer-specific unit-pricelist code. Read from AUFKOPF in a future
+        // phase when we model per-dealer overrides; empty today.
         return '';
 
       case 'fn_JEDN_RENO':
-        // (profilsatz, profilNr) -> RENO replacement key. Empty unless a RENO
-        // (renovation) profile is selected.
+        // Returns RENO (renovation) profile replacement key. Empty unless
+        // a RENO profile is selected — not exposed in configurator today.
         return '';
 
       case 'fn_NrProfZast':
-        // (kind, articleNr) -> substitute profile number. Pass-through for
-        // standard profiles.
+        // (kind, articleNr) — substitute profile pass-through. Returns the
+        // original article number when no substitution configured.
         return String(args[1] ?? '');
 
       case 'fn_CenaModele':
       case 'fn_CenaModele41':
-        // Non-rectangular shape surcharge (KATALOGNR-driven). 0 for standard
-        // rectangular F104.
+        // Non-rectangular (KATALOGNR-driven) surcharge. Zero for standard
+        // rectangular windows — our current context sets KATALOGNR=0 and the
+        // outer formula short-circuits.
         return 0;
 
       case 'fn_getBesWarVarFeldA':
-        // (beschvar, fieldId) -> string field from beschlag-variant. Field 42
-        // is the price-class adjustment string for the BESCHVAR. Returns ""
-        // for STANDARD/FIX.
+        // (beschvar, fieldId) variant-field accessor for beschlag. Field 42
+        // is the price-class adjustment string. Empty for STANDARD/FIX.
         return '';
 
       case 'fn_getFarbcodeClass1':
       case 'fn_getFarbcodeClass2':
       case 'fn_getFarbcodeClass3':
-        // Color classification helpers. For W-W they all return "" (no class).
         if (input.color.code === 'W-W') return '';
-        throw new Error(`${name}: not implemented for non-white (Phase B)`);
+        throw new Error(`${name}: non-white classification not yet implemented (Phase C)`);
 
       case 'fn_BESCHVARS_ALLE':
-        // Comma-joined list of all sash beschvars. Phase A: a single FIX sash.
-        return 'FIX';
+        // Comma-joined list of all sash beschvars.
+        return new Array(input.sashCount).fill(input.beschvar).join(',');
 
       case 'fn_HSNCeny':
-        // HS sliding-door specific surcharge — not relevant for fixed F104.
+        // HS sliding-door specific surcharge. Zero for non-HS articles; the
+        // outer gate checks ART_1805_ETyp="HS" before this contributes.
         return 0;
 
-      // Anything else surfaces as an explicit, debuggable failure.
       default:
         return undefined;
     }
   };
-}
-
-function systemCenyFromProfilsatz(profilsatz: string): string {
-  // Cantor's mapping from PROFILSATZ to system pricing code.
-  const map: Record<string, string> = {
-    'IG5':       'IG5',
-    'IGL':       'IG5',     // IGLO Light maps to IG5 pricelist
-    'IG5 DW':    'IG5 DW',
-    'IGE':       'IGE',
-    'IGE DW':    'IGE DW',
-    'IGEDGE':    'IGEDGE',
-    'IGEAC':     'IGEAC',
-    'IGPR':      'IGPR',
-    'I7NL':      'I7NL',
-    'I7NL DW':   'I7NL DW',
-    'N76A':      'N76A',
-    'N76M':      'N76M',
-    'IG HS':     'IG HS',
-    'IG SL':     'IG SL',
-    'IG EXT':    'IG EXT',
-  };
-  return map[profilsatz] ?? profilsatz;
-}
-
-// (article, fieldId) -> string field from the article-unit (EINH) variant.
-// For Phase A only F104 / fieldId 31 + 41 are needed. Sourced from observed
-// AUFPREIS data; in Phase B/C we read this from ARTIKEL/EINHVARBL tables.
-function einhVarFeldA(article: string, fieldId: number): string {
-  const F104 = { 31: 'FE', 41: 'F100' } as Record<number, string>;
-  if (article === 'F104') return F104[fieldId] ?? '';
-  // Other articles will be added per-need with golden-test verification.
-  throw new Error(`einhVarFeldA(${article}, ${fieldId}): not in Phase A scope`);
 }

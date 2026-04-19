@@ -78,6 +78,31 @@ function main() {
         ).all(matrix, k1, k2);
         rows.push(...chunk);
       }
+    } else if (t.name === 'AUFPOS') {
+      // Keep only positions matching the goldens (article × profilsatz combos).
+      const combos = new Set();
+      for (const fn of readdirSync(GOLDEN_DIR)) {
+        if (!fn.endsWith('.json')) continue;
+        const g = JSON.parse(readFileSync(resolve(GOLDEN_DIR, fn), 'utf8'));
+        combos.add(`${g.input.article}|${g.input.profilsatz}`);
+      }
+      rows = src.prepare(`SELECT * FROM AUFPOS`).all().filter(
+        r => combos.has(`${r.ARTNR}|${r.PROFILSATZNAME}`),
+      );
+    } else if (t.name === 'AUFARTIK') {
+      // Keep only AUFARTIK rows paired with retained AUFPOS positions.
+      const posKeys = new Set();
+      const combos = new Set();
+      for (const fn of readdirSync(GOLDEN_DIR)) {
+        if (!fn.endsWith('.json')) continue;
+        const g = JSON.parse(readFileSync(resolve(GOLDEN_DIR, fn), 'utf8'));
+        combos.add(`${g.input.article}|${g.input.profilsatz}`);
+      }
+      const posRows = src.prepare(`SELECT AUFNR, POSNR FROM AUFPOS WHERE ARTNR || '|' || PROFILSATZNAME IN (${[...combos].map(() => '?').join(',')})`).all(...combos);
+      for (const p of posRows) posKeys.add(`${p.AUFNR}/${p.POSNR}`);
+      rows = src.prepare(`SELECT * FROM AUFARTIK`).all().filter(
+        r => posKeys.has(`${r.AUFNR}/${r.REFPOSNR}`),
+      );
     } else if (t.name === 'ARTPREISE') {
       // Only the pane articles referenced by goldens + associated schemas.
       const artIds = new Set();

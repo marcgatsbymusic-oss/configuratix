@@ -81,18 +81,23 @@ export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): Fo
   vars.set('GLASH', GLASH);
   vars.set('FELDNRNUM', 1);
 
-  // Article-variant resolved fields (from input mapping; in Phase B we'll
-  // source these from ARTVARBL/EINHVARBL formula evaluation).
-  vars.set('ART_1199_MacierzOku', macierzOkuFromOpenings(input.openings));
-  vars.set('ART_1805_MatArt', matArtCode(input.materialart));
-  vars.set('ART_1199_WzmSkrzO', 'N');
-  vars.set('ART_1199_WzmSkrzD', 'N');
-  vars.set('ART_1199_WersjaHiO', 'N');
-  vars.set('ART_x801_SystemOkuc', 'STD');
-  vars.set('ART_x801_Wzm_Ram', '0');
-  vars.set('ART_x801_KlasaBezp', '');
-  vars.set('ART_x801_OtwNaZewn', 0);
-  vars.set('AUSFUEHRUNG', 'STANDARD');
+  // Article-variant resolved fields come from Cantor's AUFARTIK row for this
+  // (article, profilsatz) combination. Every ART_<klCode>_<name> variable a
+  // formula might reference is populated from there — no per-article lookup
+  // tables in code. If Cantor has no prior order for this combination, we
+  // can't resolve the variables and must throw with a clear reason.
+  const articleVars = mirror.articleVariablesFor(input.article, input.profilsatz);
+  if (articleVars.size === 0) {
+    throw new Error(
+      `buildContext: no AUFARTIK rows for article=${input.article} profilsatz=${input.profilsatz}. ` +
+      `Order one example in Cantor (any dimensions) and re-run cantor:sync so ART_* variables resolve.`,
+    );
+  }
+  for (const [k, v] of articleVars) vars.set(k, v);
+  // The beschvar AUSFUEHRUNG lives in ARTKLCODE=2801 (OPCJE) — not currently
+  // mirrored with its variables. Default to STANDARD which matches every
+  // PVC FIX order in our golden set; override once we mirror 2801 vars.
+  if (!vars.has('AUSFUEHRUNG')) vars.set('AUSFUEHRUNG', 'STANDARD');
 
   // Color (W-W = white interior + white exterior, no surcharge)
   vars.set('SYSTEMFARBE_FL', input.color.code);
@@ -148,19 +153,10 @@ export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): Fo
   };
 }
 
-function matArtCode(mat: 1 | 2 | 3): string {
-  return ({ 1: 'HO', 2: 'PVC', 3: 'AL' } as const)[mat];
-}
-
+// TYPKLASSE is the material-class key. For PVC it happens to equal the
+// material code ("PVC"); for wood ("HO") and aluminum ("AL") it matches too.
+// Sourcing from AUFARTIK when available; this is the fallback when the
+// variable is referenced outside the article-scoped context.
 function typklasse(mat: 1 | 2 | 3): string {
   return ({ 1: 'HO', 2: 'PVC', 3: 'AL' } as const)[mat];
-}
-
-// Maps per-sash opening behaviours to Cantor's MacierzOku ("hardware matrix")
-// classification. For F104 single fixed sash the opening matrix is "F".
-function macierzOkuFromOpenings(openings: ConfiguratorInput['openings']): string {
-  if (openings.length === 0 || openings.every(o => o === 'F')) return 'F';
-  if (openings.length === 1) return openings[0];
-  // Multi-sash combos use richer codes (e.g., "DK,DK") — Phase B.
-  return openings.join(',');
 }
