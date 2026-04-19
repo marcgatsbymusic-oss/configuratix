@@ -88,12 +88,23 @@ export function buildFnRegistry(input: ConfiguratorInput, mirror: CantorMirror) 
         if (colorType === 'W-W' || !colorType) return 0;
         if (colorType === 'DEK-DEK') {
           if (name === 'fn_CenaDopRdzen') return 0.11; // 11% surcharge for colored core
-          if (name === 'fn_CenaDopKolor') return 0.02; // +2% surcharge for colored foil
+          if (name === 'fn_CenaDopKolor') {
+            const colorClass = mirror.colorClass('DEK', input.color.code, 1);
+            if (colorClass === 'Dek_gr_II') return 0.07;
+            if (colorClass === 'Dek_gr_III') return 0.10;
+            return 0.02; // Default to Group I
+          }
           return 0; // zgrzew/uszczelka fallback
         }
         if (colorType === 'DEK-W' || colorType === 'W-DEK') {
-          // 11% foil, no core modification for single-side decor
-          if (name === 'fn_CenaDopKolor') return 0.11;
+          // Single-side decor inherits foil surcharge based on class
+          // Group I total is usually 11%, Group II is 16%, Group III is 19%
+          if (name === 'fn_CenaDopKolor') {
+            const colorClass = mirror.colorClass('DEK', input.color.code, 1);
+            if (colorClass === 'Dek_gr_II') return 0.16;
+            if (colorClass === 'Dek_gr_III') return 0.19;
+            return 0.11; // Default to Group I
+          }
           return 0;
         }
         
