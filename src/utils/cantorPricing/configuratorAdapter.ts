@@ -42,8 +42,8 @@ const PROFILE_TO_PROFILSATZ: Record<string, { profilsatz: string; materialart: 1
   igloext:            { profilsatz: 'IG EXT', materialart: 2 },
   iglo5dw:            { profilsatz: 'IG5 DW', materialart: 2 },
   igloedge:           { profilsatz: 'IGEDGE', materialart: 2 },
-  igloenergy:         { profilsatz: 'IGE',    materialart: 2 },
-  igloenergyclassic:  { profilsatz: 'IGE',    materialart: 2 },
+  igloenergy:         { profilsatz: 'IGECL',  materialart: 2 },
+  igloenergyclassic:  { profilsatz: 'IGECL',  materialart: 2 },
   igloenergyalucover: { profilsatz: 'IGEAC',  materialart: 2 },
   // Aluminum (Phase D)
   mb45:               { profilsatz: 'MB45',   materialart: 3 },
@@ -54,10 +54,10 @@ const PROFILE_TO_PROFILSATZ: Record<string, { profilsatz: string; materialart: 1
 };
 
 // Configurator typology ID → Cantor article number.
-// F100 (configurator) is the single-sash typology; Cantor codes it as F104.
+// F100 (configurator) is the single-sash typology; Cantor codes it as F100 for general use.
 const WINDOWTYPE_TO_ARTNR: Record<string, string> = {
-  F100: 'F104',
-  F101: 'F104',
+  F100: 'F100',
+  F101: 'F100',
 };
 
 // Sash opening UI codes to Cantor opening behaviour.

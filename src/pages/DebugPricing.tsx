@@ -3,10 +3,10 @@ import { fetchPrice, type PricingApiResponse } from '../utils/cantorPricing/pric
 import type { ConfiguratorInput } from '../utils/cantorPricing/input';
 
 export function DebugPricing() {
-  const [typology, setTypology] = useState<'F104'>('F104');
+  const [typology, setTypology] = useState<string>('F100');
   const [width, setWidth] = useState(3200);
   const [height, setHeight] = useState(700);
-  const [profilsatz, setProfilsatz] = useState('IG5');
+  const [profilsatz, setProfilsatz] = useState('IGECL');
   const [colorCode, setColorCode] = useState('W-W');
 
   const [result, setResult] = useState<PricingApiResponse | null>(null);
@@ -55,18 +55,20 @@ export function DebugPricing() {
             <div>
               <label className="block text-sm font-bold mb-2">Typology</label>
               <select className="w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:border-[#eab676] focus:outline-none"
-                value={typology} onChange={e => setTypology(e.target.value as 'F104')}>
+                value={typology} onChange={e => setTypology(e.target.value)}>
                 <option value="F104">F104 (single-sash window)</option>
+                <option value="F100">F100 (single-sash window)</option>
               </select>
             </div>
             <div>
               <label className="block text-sm font-bold mb-2">Profile System</label>
               <select className="w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:border-[#eab676] focus:outline-none"
                 value={profilsatz} onChange={e => setProfilsatz(e.target.value)}>
-                <option>IG5</option>
-                <option>IGE</option>
-                <option>IGL</option>
-                <option>IGEDGE</option>
+                <option value="IG5">IG5</option>
+                <option value="IGECL">IGECL (Iglo Energy)</option>
+                <option value="IGE">IGE</option>
+                <option value="IGL">IGL</option>
+                <option value="IGEDGE">IGEDGE</option>
               </select>
             </div>
             <div>
