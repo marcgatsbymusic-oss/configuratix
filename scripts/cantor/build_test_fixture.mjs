@@ -57,6 +57,10 @@ function main() {
   const keepTuples = [
     ['PVC_F100',  'F',            'IG5',     null],
     ['PVC_F100',  'UR',           'IG5',     null],
+    ['PVC_F200',  'F_F',          'IG5',     null],
+    ['PVC_F200',  'UR_UR',        'IG5',     null],
+    ['PVC_F200',  'R_R',          'IG5',     null],
+    ['PVC_F200',  'UR_R',         'IG5',     null],
     ['PVC_FACTOR','IG5',          '',        null],
     ['ALL_DOD',   'SZYBY',        'GABARYT', null],
     ['PVC_DOD',   'OSC',          'IG5',     null],

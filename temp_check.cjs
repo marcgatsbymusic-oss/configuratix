@@ -1,1 +1,0 @@
-const data = JSON.parse(require('fs').readFileSync('aufartik_1500045.json', 'utf16le').replace(/^\uFEFF/, '')); const terms = ['KwadratK', '4ZA', '3-40', 'bialy']; data.forEach(d => { terms.forEach(t => { if (d.ARTIKELVARIABLEN.includes(t)) { console.log('Found ' + t + ' in GRUPPE ' + d.GRUPPE + ' ARTKLCODE ' + d.ARTKLCODE + '\n' + d.ARTIKELVARIABLEN + '\n---'); } }) }); 

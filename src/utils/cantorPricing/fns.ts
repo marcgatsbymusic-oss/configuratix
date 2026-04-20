@@ -54,12 +54,6 @@ export function buildFnRegistry(input: ConfiguratorInput, mirror: CantorMirror) 
           );
         }
         
-        // ART_1805_MatrixName is the family suffix used by PMATALL (e.g. PVC_F200).
-        if (fieldId === 41) {
-          if (article === 'F401') return 'F400';
-          return article;
-        }
-
         const varName = EINH_FIELD_TO_VAR[fieldId];
         if (!varName) {
           throw new Error(`fn_getEinhVarFeldA: field ${fieldId} not mapped.`);

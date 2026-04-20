@@ -1,5 +1,5 @@
 {
-  "last_synced_at": "2026-04-19T17:31:59.309Z",
+  "last_synced_at": "2026-04-20T16:49:13.445Z",
   "source": {
     "server": "localhost",
     "database": "DRUTEX_DEALER"
@@ -12,44 +12,44 @@
   },
   "tables": {
     "PREISMAT": {
-      "row_count": 1148955,
-      "sha256": "09509e6ac7390c7ff2725736655f079ec299ece592b3f4f62fb6f24552841e34"
+      "row_count": 1155208,
+      "sha256": "6cb1e1d263c6b572b19406fe07699179a5af54abb9b86567e60ae40ef9f5ad9f"
     },
     "PREISE": {
-      "row_count": 664,
-      "sha256": "c6c6cb3682bf71c05d08b2eed12906ba9af2f34a3f4b0816851bb9bb53071c09"
+      "row_count": 692,
+      "sha256": "7606a88592729269686ab4257b4684842cccf1c6db84005bbbcce6e70b3f1c57"
     },
     "PREISSCHEMA": {
       "row_count": 65,
-      "sha256": "4a67c696f63c0284cd5ef9a98ddeb18c91a83ada7bbe8dafe442d3a73dac53ec"
+      "sha256": "547b62685d83680f7c0b43bcee3b25986aa3ee9e1affd2724b3144862f295f26"
     },
     "PREISSCHEMAD": {
-      "row_count": 419,
-      "sha256": "3d9b14591ab4024119b82ac65c464f6ac73d8cc2b0b617c22efaf9fb5f6bca67"
+      "row_count": 422,
+      "sha256": "2dc5888217ea0a00ccbd15ddb011641a7950df7992dbc8731094a2df60b9e919"
     },
     "PREISGRUPPE": {
       "row_count": 58,
-      "sha256": "a95997e5b2aa6e27e23cf39328411c0aeac21970770a00865be82fe533140144"
+      "sha256": "10424a41498b05f5bdf7e108782b2ca7616628ff243c0fcd689d97d648ee133d"
     },
     "PREISZYK": {
-      "row_count": 69,
-      "sha256": "71bb11319d4cd43c84ba1593f65841771b939a067a3ce6d9f2e5961f67ff866e"
+      "row_count": 73,
+      "sha256": "544f49e5454fe2794116bf74eb59191930135e15aac9ab9f9f703ff061968e72"
     },
     "ARTIKEL": {
       "row_count": 486,
-      "sha256": "8f0458e8c8da52505ac804852d35d1f0c04097d323a0a05d0b7f8d26fa9d9e14"
+      "sha256": "550d98b6168f023b820217e595d91d6c337d7620111f76d07d93a13f064e5f65"
     },
     "ARTPREISE": {
-      "row_count": 17683,
-      "sha256": "a70f5358d294908e23ecda2c5bbd198be4995edc7f8fb503be2cef2cf47266e4"
+      "row_count": 17760,
+      "sha256": "75fbe30f1a9040b539e14c0d8732e97249e508a8094d1ae430428a5d4e0d4f0b"
     },
     "AUFPOS": {
-      "row_count": 31,
-      "sha256": "15f6cc728aa564c5bbce0ea83d5574f60022c4a92b42e8082ca94599454e346e"
+      "row_count": 32,
+      "sha256": "c502d58375330406f914414cdc85c2df5a6e53101a868589e66fbe70e566bd2d"
     },
     "AUFARTIK": {
-      "row_count": 92,
-      "sha256": "591f58e8a043cde5230adb1ae4784795bd79df6cde2e7952c4bf7a462631949a"
+      "row_count": 95,
+      "sha256": "8980b852b73ec7b43557227b7a16ede5da4a28705a25223d3749919b90529222"
     },
     "GLASS_PANE": {
       "row_count": 214,
@@ -60,8 +60,8 @@
       "sha256": "99afb6eeb19534b56d5a4e33d24f9febf0d0ebbea87ed2174ed6b7a3a85ba3bd"
     },
     "ARTVARBL": {
-      "row_count": 2641,
-      "sha256": "836193497e4ef66ecb8bf7e5b78622494549d791935b50bb5642e973013d9cab"
+      "row_count": 2642,
+      "sha256": "f5f2f125b4a987e7e1ac66f992fda2cfa3b80aed9c70c70a33fd9d79abe461a6"
     },
     "FARBEN": {
       "row_count": 1652,
@@ -78,6 +78,10 @@
     "FARBCODES": {
       "row_count": 2705,
       "sha256": "93bd8a53c3b8a86216dd920e851fe75651b7d9cdacf438b20ceeb7f3c3f2f39d"
+    },
+    "FELDFUEL": {
+      "row_count": 374,
+      "sha256": "99fa0625479b0f2c932afd0956c5e57ffe3b7ec0abe00c054b6c746603f4efd2"
     }
   }
 }

@@ -270,5 +270,24 @@ export class CantorMirror {
     return row.FARBKLASSE3 ?? '';
   }
 
+  // Retrieve glazing package configuration from the newly synced FELDFUEL table.
+  // This enables dynamic SCHEMA 45 pricing based on actual configurations instead of hardcoded defaults.
+  glazingInfo(artnr: string): { width_mm: number; panes: number; weight: number; description: string; spacerOne: number; glassThicknessOne: number } | null {
+    const row = this.db.prepare(
+      `SELECT EINBAUSTAERKE, SCHEIBENANZAHL, GEWICHT, ARTIKELTEXT1, SCHEIBENZWRAUM1, GLASSTAERKE1
+       FROM FELDFUEL WHERE ARTNR = ?`
+    ).get(artnr) as any;
+    if (!row) return null;
+
+    return {
+      width_mm: row.EINBAUSTAERKE ?? 0,
+      panes: parseInt(row.SCHEIBENANZAHL) || 1,
+      weight: row.GEWICHT ?? 0,
+      description: row.ARTIKELTEXT1 ?? artnr,
+      spacerOne: row.SCHEIBENZWRAUM1 ?? 0,
+      glassThicknessOne: row.GLASSTAERKE1 ?? 0
+    };
+  }
+
   close() { this.db.close(); }
 }

@@ -18,6 +18,7 @@ export interface ConfiguratorInput {
   // Sashes
   sashCount: number;             // F104 = 1
   openings: ('F' | 'DK' | 'UR' | 'R' | 'U')[];   // per-sash opening behaviour
+  sashes?: { beschvar: string }[];
 
   // Color
   color: {
@@ -36,7 +37,10 @@ export interface ConfiguratorInput {
     code: string;                // e.g. "2-24" (2 panes, 24mm cavity)
     panes: (string | undefined)[]; // e.g. ["FL4", "T4", "ADB6H"]
     spacer: string;              // e.g. "S16"
+    zatepienie?: boolean;
   };
+
+  accessories?: { code: string, quantity: number }[];
 
   // Hardware / specific customizations
   hardware?: {

@@ -1001,8 +1001,8 @@
     "height_mm": 1300,
     "sashCount": 2,
     "openings": [
-      "F",
-      "F"
+      "R",
+      "UR"
     ],
     "color": {
       "code": "W-W"
@@ -1010,18 +1010,37 @@
     "frameProfile": "50001",
     "sashProfile": "50011",
     "glazing": {
-      "code": "2-24",
+      "code": "3-40",
       "panes": [
-        "FL4",
-        "T4"
+        "FL6",
+        "T4",
+        "ADB6H"
       ],
-      "spacer": "S16"
+      "spacer": "S16",
+      "zatepienie": true
     },
     "schwelle": 0,
     "dealer": {
       "kundenNr": 1008,
       "pricelistKurzbez": "EUR23011",
       "land": "CH"
+    },
+    "sashes": [
+      {
+        "beschvar": "R-L"
+      },
+      {
+        "beschvar": "UR-P"
+      }
+    ],
+    "accessories": [
+      {
+        "code": "KO935K",
+        "quantity": 2
+      }
+    ],
+    "hardware": {
+      "safetyClass": "4ZA"
     }
   },
   "expected": {
