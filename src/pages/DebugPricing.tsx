@@ -11,6 +11,18 @@ export function DebugPricing() {
   const [colorType, setColorType] = useState('DEK-DEK');
   const [colorCode, setColorCode] = useState('0006');
 
+  // Glazing Options
+  const [glazingCode, setGlazingCode] = useState('2-24');
+  const [pane1, setPane1] = useState('FL4');
+  const [pane2, setPane2] = useState('T4');
+  const [pane3, setPane3] = useState('');
+  
+  // Hardware Options
+  const [safetyClass, setSafetyClass] = useState('');
+  const [handleType, setHandleType] = useState('');
+  const [handleColor, setHandleColor] = useState('');
+  const [coverColor, setCoverColor] = useState('');
+
   const [result, setResult] = useState<PricingApiResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -29,7 +41,13 @@ export function DebugPricing() {
       color: { type: colorType, code: colorCode },
       frameProfile: '50001',
       sashProfile: '50011',
-      glazing: { code: '2-24', panes: ['FL4', 'T4'], spacer: 'S16' },
+      glazing: { code: glazingCode, panes: [pane1, pane2, pane3].filter(Boolean), spacer: 'S16' },
+      hardware: {
+        safetyClass: safetyClass || undefined,
+        handleType: handleType || undefined,
+        handleColor: handleColor || undefined,
+        coverColor: coverColor || undefined
+      },
       schwelle: 0,
       dealer: { kundenNr: 1008, pricelistKurzbez: 'EUR23011', land: 'CH' },
     };
@@ -41,7 +59,7 @@ export function DebugPricing() {
         .catch(e => { setError(e.message); setLoading(false); });
     }, 200);
     return () => clearTimeout(t);
-  }, [typology, width, height, profilsatz, colorCode]);
+  }, [typology, width, height, profilsatz, colorCode, glazingCode, pane1, pane2, pane3, safetyClass, handleType, handleColor, coverColor]);
 
   return (
     <div className="min-h-screen bg-black text-white p-10 pt-32">
@@ -106,6 +124,58 @@ export function DebugPricing() {
               <input className="w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:border-[#eab676] focus:outline-none"
                 value={colorCode} onChange={e => setColorCode(e.target.value)} />
               <div className="text-xs text-gray-500 mt-1">Leave empty or "W-W" for defaults.</div>
+            </div>
+
+            <div className="col-span-2 border-t border-gray-800 pt-4 mt-2">
+              <h3 className="text-[#eab676] font-bold mb-4">Glazing Options</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold mb-1 text-gray-400">Package Code (e.g. 2-24, 3-40)</label>
+                  <input className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                    value={glazingCode} onChange={e => setGlazingCode(e.target.value)} />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold mb-1 text-gray-400">Pane 1 (Outside) (e.g. T4)</label>
+                  <input className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                    value={pane1} onChange={e => setPane1(e.target.value)} />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold mb-1 text-gray-400">Pane 2 (Middle) (e.g. FL6)</label>
+                  <input className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                    value={pane2} onChange={e => setPane2(e.target.value)} />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold mb-1 text-gray-400">Pane 3 (Inside) (e.g. ADB6H)</label>
+                  <input className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                    value={pane3} onChange={e => setPane3(e.target.value)} />
+                </div>
+              </div>
+            </div>
+
+            <div className="col-span-2 border-t border-gray-800 pt-4 mt-2 mb-2">
+              <h3 className="text-[#eab676] font-bold mb-4">Hardware Options</h3>
+              <div className="grid grid-cols-2 gap-4">
+               <div>
+                  <label className="block text-xs font-bold mb-1 text-gray-400">Safety Class (e.g. 4ZA, RC2)</label>
+                  <input className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                    value={safetyClass} onChange={e => setSafetyClass(e.target.value)} placeholder="STD" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold mb-1 text-gray-400">Handle Type (e.g. KwadratK)</label>
+                  <input className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                    value={handleType} onChange={e => setHandleType(e.target.value)} placeholder="STD" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold mb-1 text-gray-400">Handle Color (e.g. bialy, braz)</label>
+                  <input className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                    value={handleColor} onChange={e => setHandleColor(e.target.value)} placeholder="bialy" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold mb-1 text-gray-400">Cover Color (e.g. bialy)</label>
+                  <input className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                    value={coverColor} onChange={e => setCoverColor(e.target.value)} placeholder="bialy" />
+                </div>
+              </div>
             </div>
           </div>
 

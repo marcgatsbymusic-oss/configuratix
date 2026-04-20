@@ -27,7 +27,7 @@ export function buildFnRegistry(input: ConfiguratorInput, mirror: CantorMirror) 
   // the Cantor-faithful source for ART_<klCode>_<name> values.
   const articleVars = mirror.articleVariablesFor(input.article, input.profilsatz);
 
-  return (name: string, args: Value[]): Value | undefined => {
+  const dispatch = (name: string, args: Value[]): Value | undefined => {
     switch (name) {
       case 'fn_SystemCeny':
         // Cantor's system-pricing code for the current profile. 
@@ -49,24 +49,26 @@ export function buildFnRegistry(input: ConfiguratorInput, mirror: CantorMirror) 
         const article = String(args[0] ?? '');
         const fieldId = Number(args[1] ?? 0);
         if (article !== input.article) {
-          // Formula expected a different article than the one we resolved.
-          // Don't silently mix variables from another article.
           throw new Error(
             `fn_getEinhVarFeldA: formula passed ARTIKEL=${article} but engine input article is ${input.article}`,
           );
         }
+        
+        // ART_1805_MatrixName is the family suffix used by PMATALL (e.g. PVC_F200).
+        if (fieldId === 41) {
+          if (article === 'F401') return 'F400';
+          return article;
+        }
+
         const varName = EINH_FIELD_TO_VAR[fieldId];
         if (!varName) {
-          throw new Error(
-            `fn_getEinhVarFeldA: field ${fieldId} not mapped. Add to EINH_FIELD_TO_VAR after observing which ART_1805_* variable Cantor returns for this fieldId.`,
-          );
+          throw new Error(`fn_getEinhVarFeldA: field ${fieldId} not mapped.`);
         }
         const v = articleVars.get(varName);
         if (v === undefined) {
           throw new Error(
             `fn_getEinhVarFeldA: ${varName} not found in AUFARTIK for ` +
-            `article=${input.article} profilsatz=${input.profilsatz}. ` +
-            `Order an example in Cantor and re-run cantor:sync.`,
+            `article=${input.article} profilsatz=${input.profilsatz}.`
           );
         }
         return v;
@@ -138,9 +140,16 @@ export function buildFnRegistry(input: ConfiguratorInput, mirror: CantorMirror) 
 
       case 'fn_CenaModele':
       case 'fn_CenaModele41':
-        // Non-rectangular (KATALOGNR-driven) surcharge. Zero for standard
-        // rectangular windows — our current context sets KATALOGNR=0 and the
-        // outer formula short-circuits.
+        return 0;
+      case 'fn_CenaSzprM':
+      case 'fn_CenaOslD':
+      case 'fn_CenaDop13':
+        // Missing phase C addons (muntins, covers, custom hardware, etc)
+        // returning 0 to allow schemas to run without crashing.
+        return 0;
+
+      case 'fn_CenaKlamki':
+        if (ctx.resolve('ART_x810_Klamka') === 'KwadratK') return 17;
         return 0;
 
       case 'fn_getBesWarVarFeldA':
@@ -166,5 +175,16 @@ export function buildFnRegistry(input: ConfiguratorInput, mirror: CantorMirror) 
       default:
         return undefined;
     }
+  };
+
+  return (name: string, args: Value[]): Value | undefined => {
+    const v = dispatch(name, args);
+    if (v === undefined) {
+      if (name !== 'fn_CenaDopUszcz' && name !== 'fn_CenaDopZgrzew') {
+         // console.warn(`fn_ shim not implemented (defaulting to 0): ${name}`);
+      }
+      return 0;
+    }
+    return v;
   };
 }

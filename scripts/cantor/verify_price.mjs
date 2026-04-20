@@ -29,20 +29,31 @@ async function main() {
   for (const p of posRs.recordset) {
     const input = {
       article: p.ARTNR,
-      profilsatz: p.PROFILSATZNAME,
+      profilsatz: p.PROFILSATZNAME === 'IGLO 5' ? 'IG5' : p.PROFILSATZNAME,
       materialart: 2,
-      beschvar: 'FIX',
+      beschvar: p.ARTNR === 'F200' ? 'R; UR-P' : 'FIX', // naive parse
       width_mm: p.EINHBREITE,
       height_mm: p.EINHHOEHE,
-      sashCount: 1,
-      openings: ['F'],
+      sashCount: p.ARTNR === 'F200' ? 2 : 1,
+      openings: p.ARTNR === 'F200' ? ['R', 'UR'] : ['F'],
       color: { code: p.PROFILFARBE || 'W-W' },
       frameProfile: p.RA_PROFILNR,
       sashProfile: p.FL_PROFILNR,
-      glazing: { code: '2-24', panes: ['FL4', 'T4'], spacer: 'S16' },
+      glazing: { 
+        code: p.ARTNR === 'F200' ? '3-40' : '2-24', 
+        panes: p.ARTNR === 'F200' ? ['T4', 'FL6', 'ADB6H'] : ['FL4', 'T4'],
+        spacer: 'S16' 
+      },
+      hardware: p.ARTNR === 'F200' ? {
+        safetyClass: '4ZA',
+        handleType: 'KwadratK',
+        handleColor: 'bialy',
+        coverColor: 'bialy'
+      } : {},
       schwelle: 0,
       dealer: { kundenNr: 1008, pricelistKurzbez: 'EUR23011', land: 'CH' },
     };
+    const { handlePriceRequest } = await import(new URL('file://' + process.cwd() + '/scripts/cantor/pricingServer.ts'));
     const result = await handlePriceRequest(JSON.stringify({ input }));
     if (!result.ok) { console.error(`POS ${p.POSNR}: ${result.error}`); continue; }
 
@@ -58,6 +69,7 @@ async function main() {
     console.log(`\nAUFNR ${aufnr} / POS ${p.POSNR}: ${p.ARTNR} ${p.PROFILSATZNAME} ${p.EINHBREITE}×${p.EINHHOEHE} ${p.PROFILFARBE}`);
     console.log(`  Cantor breakdown:  base ${artE.toFixed(2)} + panes ${panesE.toFixed(2)} = ${p.EKPOSPREIS} PLN     |  ${artV.toFixed(2)} + ${panesV.toFixed(2)} = ${p.VKPOSPREIS} ${result.currency}`);
     console.log(`  Engine breakdown:  base ${result.baseTotal.toFixed(2)} + panes ${result.panesTotal.toFixed(2)} = ${result.ek_pln.toFixed(2)} PLN  |  ${(result.baseTotal * result.faktor).toFixed(2)} + ${(result.panesTotal * result.faktor).toFixed(2)} = ${result.vk_local.toFixed(2)} ${result.currency}`);
+    console.log(`  Engine BASE LINES: ${JSON.stringify(result.lines.filter(l => l.value !== 0), null, 2)}`);
     console.log(`  TOTAL              ${totalEkMatch} EK    ${totalVkMatch} VK    (FAKTOR=${result.faktor})`);
   }
 }

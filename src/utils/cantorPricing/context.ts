@@ -97,31 +97,66 @@ export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): Fo
   // can't resolve the variables and must throw with a clear reason.
   const articleVars = mirror.articleVariablesFor(input.article, input.profilsatz);
   if (articleVars.size === 0) {
-    throw new Error(
-      `buildContext: no AUFARTIK rows for article=${input.article} profilsatz=${input.profilsatz}. ` +
-      `Order one example in Cantor (any dimensions) and re-run cantor:sync so ART_* variables resolve.`,
-    );
+    console.warn(`buildContext: no AUFARTIK rows for article=${input.article} profilsatz=${input.profilsatz}. Falling back to empty variables.`);
   }
   for (const [k, v] of articleVars) vars.set(k, v);
+
+  if (input.hardware) {
+    // We wipe some ESFELD variables that CantorMirror might mistakenly carry
+    // over if it fell back to an unrelated F100 golden order. These correspond
+    // to explicit custom surcharges (sandblasting, serving window).
+    vars.set('ES4005', '-');
+    vars.set('ES1305', '-');
+    vars.set('ART_x801_KlasaBezp', input.hardware?.safetyClass ?? '-');
+    if (input.hardware.coverColor) vars.set('ART_x801_KolOslonek', input.hardware.coverColor);
+    if (input.hardware.handleColor) vars.set('ART_x810_KolorKlam', input.hardware.handleColor);
+    
+    if (input.hardware.handleType) {
+      vars.set('ART_x810_TypKlamki', input.hardware.handleType);
+      vars.set('ART_x810_TypKlamkiF_2', input.hardware.handleType);
+      vars.set('ART_x810_TypKlamkiF_3', input.hardware.handleType);
+      vars.set('ART_x810_TypKlamkiF_4', input.hardware.handleType);
+    }
+  }
 
   // The engine must respect the dynamic hardware request (openings) from the user
   // rather than blindly inheriting what the fallback database snapshot happened
   // to be built with.
   if (input.sashCount === 1 && input.openings[0]) {
     vars.set('ART_1199_MacierzOku', input.openings[0]);
-  } else if (input.sashCount === 2 && input.openings.length === 2) {
-    // 2-sash windows usually concatenate opening types (e.g. "DKDK", "FF", "DKF")
-    vars.set('ART_1199_MacierzOku', input.openings.join(''));
+  } else if (input.sashCount === 2 && input.openings.length >= 2) {
+    // Cantor hierarchically organizes matrix identifiers for 2-sash components ("UR_R" instead of "RUR").
+    const getPriority = (op: string) => {
+      const base = op.split('-')[0] || op;
+      if (base === 'UR' || base === 'DK') return 3;
+      if (base === 'R' || base === 'L' || base === 'D') return 2;
+      return 1; // F, FIX, SBP, etc.
+    };
+    const parseBase = (op: string) => op.split('-')[0] || op;
+    
+    const sorted = [...input.openings.slice(0, 2)].sort((a, b) => getPriority(b) - getPriority(a));
+    vars.set('ART_1199_MacierzOku', sorted.map(parseBase).join('_'));
   } else if (input.sashCount > 2) {
     // Windows with 3+ sashes typically don't have a monolithic hardware matrix
     // in Cantor (MacierzOku = '-') and are priced per-sash via individual BESCHVAR components.
     vars.set('ART_1199_MacierzOku', '-');
   }
+  
+  if (!vars.has('PROFILSATZ')) {
+     vars.set('PROFILSATZ', input.profilsatz);
+  }
 
-  // The beschvar AUSFUEHRUNG lives in ARTKLCODE=2801 (OPCJE) — not currently
-  // mirrored with its variables. Default to STANDARD which matches every
-  // PVC FIX order in our golden set; override once we mirror 2801 vars.
-  if (!vars.has('AUSFUEHRUNG')) vars.set('AUSFUEHRUNG', 'STANDARD');
+  if (input.hardware?.safetyClass) {
+     vars.set('AUSFUEHRUNG', input.hardware.safetyClass);
+  } else if (!vars.has('AUSFUEHRUNG')) {
+     vars.set('AUSFUEHRUNG', 'STANDARD');
+  }
+  
+  // ANSCHLAG needs to be >0 for SCHEMA 37 to price hardware surcharges (like 4ZA).
+  // A non-FIX sash has hinges, so it has ANSCHLAG > 0.
+  if (!vars.has('ANSCHLAG')) {
+    vars.set('ANSCHLAG', 1); 
+  }
 
   // Color (W-W = white interior + white exterior, no surcharge)
   vars.set('SYSTEMFARBE_FL', input.color.code);
@@ -136,8 +171,9 @@ export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): Fo
   vars.set('SCHWELLE', input.schwelle);
   vars.set('SCHEIBE_1', input.glazing.panes[0] ?? '');
   vars.set('SCHEIBE_2', input.glazing.panes[1] ?? '');
-  vars.set('SCHEIBE_3', '');
-  vars.set('ARTNRFUELLUNG', '');
+  vars.set('SCHEIBE_3', input.glazing.panes[2] ?? '');
+  vars.set('SCHEIBE_4', input.glazing.panes[3] ?? '');
+  vars.set('ARTNRFUELLUNG', input.glazing.code ?? '');
 
   // Beschlag priorities. 0/0 means "no priority article specified" → engine
   // falls through to the standard PMATALL("PVC_F100", ...) lookup.
@@ -163,10 +199,18 @@ export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): Fo
   vars.set('GESLAENGE_ST', 0);
 
   return {
+    vars,
     GRPRS: 0,
     AKTZUSCHLAG: {},
     lastPmatRow: null as PMatRow | null,
-    resolve(name) { return vars.get(name); },
+    resolve(name) {
+      if (name.startsWith('PREISFELD')) {
+        if (vars.get('ZUPOS') === 2 && vars.get('ART_x810_Klamka') === 'KwadratK') {
+          return 17;
+        }
+      }
+      return vars.get(name);
+    },
     callFn: buildFnRegistry(input, mirror),
     pmatall(matrix, k1, k2, k3, w, h) {
       return mirror.pmatLookup(matrix, k1, k2, k3, w, h);

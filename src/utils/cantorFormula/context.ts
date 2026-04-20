@@ -29,6 +29,7 @@ export interface PMatRow {
 }
 
 export interface FormulaContext {
+  vars: Map<string, any>;
   resolve(name: string): Value | undefined;
   GRPRS: number;
   AKTZUSCHLAG: Record<number, number>;

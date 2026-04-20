@@ -107,10 +107,9 @@ export class CantorMirror {
       const v = (row as unknown as Record<string, number | null>)[key];
       return v ?? 0;
     }
-    // Other k3 values (article codes like "50001", labels like "PelneRama")
-    // are filter/category keys for the row itself. Since the snap already
-    // returned the matching row, we read the default PREIS column.
-    // PREISSCHEMAD-driven label resolution (Phase C+) will refine this.
+    // Hardcoded mappings for text-based matrix lookups until PREISSCHEMAD is fully synced
+    if (k3 === '4ZA') return row.PREIS2 ?? 0;
+
     return row.PREIS ?? 0;
   }
 

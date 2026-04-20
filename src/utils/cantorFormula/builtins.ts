@@ -60,17 +60,30 @@ export function callBuiltin(name: string, argExprs: Expr[], ctx: FormulaContext)
       const i = hay.indexOf(needle, start);
       return i < 0 ? 0 : i + 1;
     }
-    case 'BETWEEN':
-      return toNum(args[0]) >= toNum(args[1]) && toNum(args[0]) <= toNum(args[2]);
-    case 'PMATALL': {
-      const k3 = toStr(args[3]);
+      case 'BETWEEN':
+        return toNum(args[0]) >= toNum(args[1]) && toNum(args[0]) <= toNum(args[2]);
+      case 'PMATALL': {
+        const k3 = toStr(args[3]);
+        const matrix = toStr(args[0]);
+        const k1 = toStr(args[1]);
+        const k2 = toStr(args[2]);
+        const w = toNum(args[4] ?? 1);
+        const h = toNum(args[5] ?? 1);
+        if (matrix.includes('PVC_F200') || matrix.includes('FACTOR') || matrix.includes('ALL_DOD')) {
+           console.log(`[PMATALL LOOKUP] matrix="${matrix}" k1="${k1}" k2="${k2}" k3="${k3}" w=${w} h=${h}`);
+        }
       const row = ctx.pmatall(
-        toStr(args[0]), toStr(args[1]), toStr(args[2]), k3,
-        toNum(args[4]), toNum(args[5]),
+        matrix, k1, k2, k3,
+        w, h,
       );
       ctx.lastPmatRow = row;
-      if (!row) return 0;
-      return ctx.pmatPrice(row, k3);
+      if (!row) {
+         if (matrix.includes('PVC_F200') || matrix.includes('FACTOR')) console.log(` => NULL`);
+         return 0;
+      }
+      const price = ctx.pmatPrice(row, k3);
+      if (matrix.includes('PVC_F200') || matrix.includes('FACTOR')) console.log(` => PREIS=${price}`);
+      return price;
     }
     // Phase A stubs — none are exercised by the 1500041 IGLO5/F104 path.
     // verify_cantor_sync flags any golden that hits these.

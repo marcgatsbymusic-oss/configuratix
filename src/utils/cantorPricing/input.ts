@@ -34,8 +34,16 @@ export interface ConfiguratorInput {
   // Glazing
   glazing: {
     code: string;                // e.g. "2-24" (2 panes, 24mm cavity)
-    panes: string[];             // e.g. ["FL4", "T4"]
+    panes: (string | undefined)[]; // e.g. ["FL4", "T4", "ADB6H"]
     spacer: string;              // e.g. "S16"
+  };
+
+  // Hardware / specific customizations
+  hardware?: {
+    safetyClass?: string;  // e.g., '4ZA'
+    handleType?: string;   // e.g., 'KwadratK'
+    handleColor?: string;  // e.g., 'bialy'
+    coverColor?: string;   // e.g., 'bialy'
   };
 
   // Threshold / hardware

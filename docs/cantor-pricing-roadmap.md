@@ -221,14 +221,20 @@ Remaining work: the per-article surcharge formulas (see
       threshold, non-standard frame profile, coupling, reinforcement…).
 - [ ] **4.1.c** Implement any new `fn_*` needed — data-driven.
 
-### 4.2 — glazing structure & SCHEMA 45
+### 4.2 — glazing structure (FELDFUEL) & SCHEMA 45
 
-- [ ] **4.2.a** Mirror `GLASS_BOM`, `GLASS_GAS`, `GLASS_BOM_EXCH_GROUPS`
+- [ ] **4.2.a** Sync `FELDFUEL` table via [`sync_cantor_pricing.mjs`](../scripts/cantor/sync_cantor_pricing.mjs) to extract available glazing options (`ARTNR`, `ARTIKELTEXT1`, `EINBAUSTAERKE` etc.).
+- [ ] **4.2.b** Mirror `GLASS_BOM`, `GLASS_GAS`, `GLASS_BOM_EXCH_GROUPS`
       via [`sync_cantor_pricing.mjs`](../scripts/cantor/sync_cantor_pricing.mjs).
-- [ ] **4.2.b** Evaluate SCHEMA 45 (FELDFUEL glazing structure pricing) in
-      [`index.ts`](../src/utils/cantorPricing/index.ts).
-- [ ] **4.2.c** Goldens: "2-24", "3-32", "3-44", "BS24"
+- [ ] **4.2.c** Create a data export or API endpoint listing valid glazing options to populate the Configurator dropdown.
+- [ ] **4.2.d** Update the `SlateConfigurator` state to allow users to select from the glazing catalog, falling back to a default `2-24.` package, and pass the selected `ARTNR` payload.
+- [ ] **4.2.e** Update engine context binding (`src/utils/cantorPricing/context.ts`) to read the chosen glazing code and its full definition from the mirrored `FELDFUEL` rather than hardcoding `2-24.`.
+- [ ] **4.2.f** Evaluate SCHEMA 45 (FELDFUEL glazing structure pricing) in
+      [`index.ts`](../src/utils/cantorPricing/index.ts). This requires resolving the internal properties (spacer thickness, glass panes) for `PMATALL` lookup.
+- [ ] **4.2.g** Goldens: "2-24", "3-32", "3-44", "BS24"
       (the package the 1500031 order exposed).
+
+*(Note: See [`cantor-glazing-options.md`](./cantor-glazing-options.md) for the exhaustive, raw list of all 374 glazing packages extracted from DRUTEX_DEALER database.)*
 
 ### 4.3 — other formula primitives
 
