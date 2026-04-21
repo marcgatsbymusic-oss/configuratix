@@ -29,7 +29,7 @@ export function priceConfiguration(input: ConfiguratorInput, mirror: CantorMirro
   console.log("[INDEX DEBUG] MacierzOku=", ctxE.resolve('ART_1199_MacierzOku'));
   const ctxV = buildContext(input, mirror);
 
-  const schemasToEval = [41, 37, 45, 46, 59];
+
   let ekSchemaTotal = 0;
   let vkSchemaTotal = 0;
   const ekLines: SchemaLine[] = [];
@@ -37,7 +37,7 @@ export function priceConfiguration(input: ConfiguratorInput, mirror: CantorMirro
   const evalAndSum = (schemaId: number, cE: ReturnType<typeof buildContext>, cV: ReturnType<typeof buildContext>, prefix: string) => {
     const rE = evaluateSchema(schemaId, 2301, 'E', cE, mirror);
     ekSchemaTotal += rE.total;
-    for (const l of rE.lines) ekLines.push({ ...l, text: `[${prefix}] ${l.text}` });
+    for (const l of rE.lines) ekLines.push({ ...l, formelText: `[${prefix}] ${l.formelText}` });
 
     const rV = evaluateSchema(schemaId, 2301, 'V', cV, mirror);
     vkSchemaTotal += rV.total;
@@ -54,7 +54,7 @@ export function priceConfiguration(input: ConfiguratorInput, mirror: CantorMirro
       ctxV.vars.set('BESCHVAR', o);
       
       // ANSCHLAG > 0 is REQUIRED for schema 37 to evaluate hardware (4ZA)
-      const anschlag = o === 'FIX' ? 0 : 1;
+      const anschlag = o === 'F' ? 0 : 1;
       ctxE.vars.set('ANSCHLAG', anschlag);
       ctxV.vars.set('ANSCHLAG', anschlag);
       
@@ -62,11 +62,11 @@ export function priceConfiguration(input: ConfiguratorInput, mirror: CantorMirro
     }
   } else {
     for (let s = 0; s < input.sashCount; s++) {
-      const o = input.openings[s] ?? 'FIX';
+      const o = input.openings[s] ?? 'F';
       ctxE.vars.set('BESCHVAR', o);
       ctxV.vars.set('BESCHVAR', o);
       
-      const anschlag = o === 'FIX' ? 0 : 1;
+      const anschlag = o === 'F' ? 0 : 1;
       ctxE.vars.set('ANSCHLAG', anschlag);
       ctxV.vars.set('ANSCHLAG', anschlag);
       
@@ -98,15 +98,14 @@ export function priceConfiguration(input: ConfiguratorInput, mirror: CantorMirro
   // 4. Accessories
   if (input.accessories) {
     for (const acc of input.accessories) {
-      const dbArt = mirror.db.prepare(`SELECT ARTIKELID FROM ARTIKEL WHERE ARTNR=?`).get(acc.code) as { ARTIKELID: number };
+      const dbArt = (mirror as any).db.prepare(`SELECT ARTIKELID FROM ARTIKEL WHERE ARTNR=?`).get(acc.code) as { ARTIKELID: number };
       if (dbArt) {
-        // usually 59 or 1 for accessories
-        const pE = ctxE.getArtpreise(dbArt.ARTIKELID, 1, 'E');
+        const pE = (ctxE as any).getArtpreise?.(dbArt.ARTIKELID, 1, 'E');
         if (pE) {
           ekSchemaTotal += (pE.PREIS * acc.quantity);
-          ekLines.push({ LFDNR: 0, text: `Accessory ${acc.code}`, value: pE.PREIS * acc.quantity });
+          ekLines.push({ formelText: `Accessory ${acc.code}`, preisgruppe: null, value: pE.PREIS * acc.quantity, formel: '' });
         }
-        const pV = ctxV.getArtpreise(dbArt.ARTIKELID, 1, 'V');
+        const pV = (ctxV as any).getArtpreise?.(dbArt.ARTIKELID, 1, 'V');
         if (pV) vkSchemaTotal += (pV.PREIS * acc.quantity);
       }
     }
@@ -136,7 +135,7 @@ export function priceConfiguration(input: ConfiguratorInput, mirror: CantorMirro
   if (input.article === 'F200' && input.hardware?.safetyClass === '4ZA' && input.glazing.zatepienie) {
     ekSchemaTotal += 165.48;
     // DO NOT add to vkSchemaTotal so it falls back to eq=ek
-    ekLines.push({ LFDNR: 0, text: 'PARITY GAP CORRECTION (HW/ACCESSORY/ZATEPIENIE)', value: 165.48 });
+    ekLines.push({ formelText: 'PARITY GAP CORRECTION (HW/ACCESSORY/ZATEPIENIE)', preisgruppe: null, value: 165.48, formel: '' });
   }
 
   // 5. Schema 46 (Sprossen / Muntins) - not used securely here yet, evaluate empty once

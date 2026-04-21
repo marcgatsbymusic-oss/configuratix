@@ -69,7 +69,7 @@ export function callBuiltin(name: string, argExprs: Expr[], ctx: FormulaContext)
         const k2 = toStr(args[2]);
         const w = toNum(args[4] ?? 1);
         const h = toNum(args[5] ?? 1);
-        if (matrix.includes('PVC_F200') || matrix.includes('FACTOR') || matrix.includes('ALL_DOD')) {
+        if (!matrix.includes('ALL_DOD') && !matrix.includes('FACTOR')) {
            console.log(`[PMATALL LOOKUP] matrix="${matrix}" k1="${k1}" k2="${k2}" k3="${k3}" w=${w} h=${h}`);
         }
       const row = ctx.pmatall(

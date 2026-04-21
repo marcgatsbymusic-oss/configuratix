@@ -25,22 +25,9 @@ import { Sparkles } from 'lucide-react';
 import { AIGuidedAssistant } from './AIGuidedAssistant';
 import { useOrderStore } from '../../store/useOrderStore';
 import fittingVariants from '../../data/fitting_variants.json';
+import { getDefaultSashOpenings } from '../../utils/windowOpenings';
 
-// Maps a window type ARTNR → canonical default sash openings for the selector cards.
-// Matches Cantor FELDTAB ANSCHLAG conventions:
-//   ANSCHLAG=5 → o2 (DK left-hinged handle-right), ANSCHLAG=4 → o3 (DK right-hinged)
-//   ANSCHLAG=6/FF → o6 (Kipp/tilt only), ANSCHLAG=0 or fixed → o1
-function defaultSashOpeningsFor(id: string, sashes: number): string[] {
-  const code = (id || '').toUpperCase();
-  if (code === 'F100') return Array(sashes).fill('o3');
-  if (['F104', 'F104L'].includes(code)) return Array(sashes).fill('o2');
-  if (code === 'F104R') return Array(sashes).fill('o3');
-  if (['F105', 'F106'].includes(code)) return Array(sashes).fill('o6');
-  if (code.startsWith('F2')) return Array.from({ length: sashes }, (_, i) => i === 0 ? 'o1' : 'o2');
-  if (code.startsWith('F3')) return Array.from({ length: sashes }, (_, i) => i === 0 ? 'o1' : i === 1 ? 'o2' : 'o3');
-  if (code.startsWith('F4')) return Array.from({ length: sashes }, (_, i) => i < 2 ? 'o1' : i === 2 ? 'o2' : 'o3');
-  return Array(sashes).fill('o1');
-}
+
 
 
 const TiltProfileCard = ({ profile, isActive, onClick, tags }: { profile: any, isActive: boolean, onClick: () => void, tags: any[] }) => {
@@ -635,7 +622,7 @@ export function MainConfigurator() {
                                 <div className="w-full h-20 flex items-center justify-center relative p-2 overflow-hidden bg-[#111112]/50 rounded-lg">
                                   <WindowTypeGraphic 
                                     id={wt.id}
-                                    sashOpenings={state.windowTypeId === wt.id ? state.sashOpenings : defaultSashOpeningsFor(wt.id, wt.sashes)}
+                                    sashOpenings={state.windowTypeId === wt.id ? state.sashOpenings : getDefaultSashOpenings(wt.id, wt.sashes)}
                                     className={`object-contain max-h-full transition-all duration-300 ${state.windowTypeId === wt.id ? 'opacity-100 scale-110 drop-shadow-[0_0_8px_rgba(234,182,118,0.5)] text-[#eab676]' : 'opacity-40 group-hover:opacity-100 group-hover:scale-105 text-white'}`}
                                   />
                                 </div>

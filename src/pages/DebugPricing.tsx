@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { fetchPrice, type PricingApiResponse } from '../utils/cantorPricing/pricingApi';
 import type { ConfiguratorInput } from '../utils/cantorPricing/input';
 import { CONFIG_SCHEMA, WINDOW_TYPES, COLOR_LOCALE } from '../components/SlateConfigurator/types';
-import fittingVariants from '../data/fitting_variants.json';export function DebugPricing() {
+export function DebugPricing() {
   const [typology, setTypology] = useState<string>('F100');
   const [isTypologyOpen, setIsTypologyOpen] = useState(false);
   const [opening, setOpening] = useState<string>('UR');
@@ -41,7 +41,7 @@ import fittingVariants from '../data/fitting_variants.json';export function Debu
       width_mm: width,
       height_mm: height,
       sashCount: 1,
-      openings: [opening as "F" | "UR" | "U" | "D"],
+      openings: [opening as any],
       color: { type: colorType, code: colorCode },
       frameProfile: '50001',
       sashProfile: '50011',

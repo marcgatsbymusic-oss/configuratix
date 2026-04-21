@@ -28,7 +28,7 @@
  *   Use resolveOpeningClass() for this translation.
  */
 
-import { GLAZING_RATES, COLOR_SURCHARGE, type PriceAnchor } from '../data/cantorPricingData';
+import { COLOR_SURCHARGE, type PriceAnchor } from '../data/cantorPricingData';
 import { CONFIG_SCHEMA } from '../components/SlateConfigurator/types';
 import cantorMatrices from '../data/cantorPricingMatrices.json';
 import iglo5Data from '../data/iglo5_data.json';
@@ -286,7 +286,7 @@ export function calculateCantorSurcharge(
 // ---------------------------------------------------------------------------
 // Glazing Cost
 // ---------------------------------------------------------------------------
-export function estimateGlazingCost(glazingId: string, width_mm: number, height_mm: number): number {
+export function estimateGlazingCost(_glazingId: string, _width_mm: number, _height_mm: number): number {
   // Cantor Phase 1 Alignment: Extracted frame completely empty.
   return 0;
 }

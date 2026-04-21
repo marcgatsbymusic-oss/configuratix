@@ -143,12 +143,15 @@ export function buildFnRegistry(input: ConfiguratorInput, mirror: CantorMirror) 
         return 0;
 
       case 'fn_CenaKlamki':
-        if (ctx.resolve('ART_x810_Klamka') === 'KwadratK') return 17;
+        if (articleVars.get('ART_x810_Klamka') === 'KwadratK') return 17;
         return 0;
 
       case 'fn_getBesWarVarFeldA':
-        // (beschvar, fieldId) variant-field accessor for beschlag. Field 42
-        // is the price-class adjustment string. Empty for STANDARD/FIX.
+        return '';
+
+      case 'fn_getEinhVarFeldA':
+        if (String(args[1]) === '41') return articleVars.get('ART_1805_MatrixName') ?? '';
+        return '';
         return '';
 
       case 'fn_getFarbcodeClass1':

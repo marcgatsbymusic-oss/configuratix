@@ -5,7 +5,7 @@
 
 import { parse, evalExpr, toNum } from '../cantorFormula';
 import type { FormulaContext } from '../cantorFormula';
-import type { CantorMirror, PreiseRow } from './mirror';
+import type { CantorMirror } from './mirror';
 
 export interface SchemaLine {
   formelText: string | null;
@@ -59,7 +59,7 @@ export function evaluateSchema(
     if (!row.PREISGRUPPE) {
       ctx.GRPRS += value;
     } else {
-      ctx.AKTZUSCHLAG[row.PREISGRUPPE] = (ctx.AKTZUSCHLAG[row.PREISGRUPPE] || 0) + value;
+      (ctx.AKTZUSCHLAG as any)[row.PREISGRUPPE as string] = ((ctx.AKTZUSCHLAG as any)[row.PREISGRUPPE as string] || 0) + value;
     }
   }
 

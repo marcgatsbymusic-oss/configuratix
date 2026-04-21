@@ -178,19 +178,14 @@ export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): Fo
 
   if (input.glazing?.code) {
     vars.set('ARTNRFUELLUNG', input.glazing.code);
-    const glazingDbArray = mirror.glazingInfo(input.glazing.code);
-    if (glazingDbArray?.length) {
-      const g = glazingDbArray[0];
-      vars.set('ANZAHL_SCHEIBEN', g.SCHEIBENANZAHL ?? 0);
-      
+    const g = mirror.glazingInfo(input.glazing.code);
+    if (g) {
+      vars.set('ANZAHL_SCHEIBEN', g.panes);
       const setGVar = (k: string, v: string | number | null) => { if (v != null) vars.set(k, v); };
 
-      setGVar('EINBAUSTAERKE', g.EINBAUSTAERKE);
-      setGVar('SCHEIBE_GLASDICKE_1', g.GLASSTAERKE1);
-      setGVar('SCHEIBE_GLASDICKE_2', g.GLASSTAERKE2);
-      setGVar('SCHEIBE_GLASDICKE_3', g.GLASSTAERKE3);
-      setGVar('ABSTANDH_STAERKE_1', g.SCHEIBENZWRAUM1);
-      setGVar('ABSTANDH_STAERKE_2', g.SCHEIBENZWRAUM2);
+      setGVar('EINBAUSTAERKE', g.width_mm);
+      setGVar('SCHEIBE_GLASDICKE_1', g.glassThicknessOne);
+      setGVar('ABSTANDH_STAERKE_1', g.spacerOne);
       
       // Default pane types (glass)
       vars.set('SCHEIBE_TYP_1', 1);
@@ -204,16 +199,13 @@ export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): Fo
         vars.set('ES1203', 'J');
         vars.set('ES1204', 'J');
       }
+
+      const paneCode = g.glassThicknessOne === 4 ? 'FL4' : 'FL' + g.glassThicknessOne;
+      vars.set('SCHEIBE_1', input.glazing.panes[0] ?? (g.panes >= 1 ? paneCode : ''));
+      vars.set('SCHEIBE_2', input.glazing.panes[1] ?? (g.panes >= 2 ? paneCode : ''));
+      vars.set('SCHEIBE_3', input.glazing.panes[2] ?? (g.panes >= 3 ? paneCode : ''));
+      vars.set('SCHEIBE_4', input.glazing.panes[3] ?? (g.panes >= 4 ? paneCode : ''));
     }
-  } else if (glazingData) {
-    const paneCode = glazingData.glassThicknessOne === 4 ? 'FL4' : 'FL' + glazingData.glassThicknessOne;
-    vars.set('SCHEIBE_1', input.glazing.panes[0] ?? (glazingData.panes >= 1 ? paneCode : ''));
-    vars.set('SCHEIBE_2', input.glazing.panes[1] ?? (glazingData.panes >= 2 ? paneCode : ''));
-    vars.set('SCHEIBE_3', input.glazing.panes[2] ?? (glazingData.panes >= 3 ? paneCode : ''));
-    vars.set('SCHEIBE_4', input.glazing.panes[3] ?? (glazingData.panes >= 4 ? paneCode : ''));
-    vars.set('ANZAHL_SCHEIBEN', glazingData.panes);
-    vars.set('ABSTANDH_STAERKE_1', glazingData.spacerOne);
-    vars.set('ABSTANDH_STAERKE_2', glazingData.spacerOne);
   } else {
     vars.set('SCHEIBE_1', input.glazing.panes[0] ?? '');
     vars.set('SCHEIBE_2', input.glazing.panes[1] ?? '');
@@ -256,7 +248,13 @@ export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): Fo
           return 17;
         }
       }
-      return vars.get(name);
+      const v = vars.get(name);
+      if (v !== undefined) return v;
+      if (name === 'MATERIALART') return 2;
+      if (name === 'PROFILSATZ_TYPKLASSE') return 'PVC';
+      if (name === 'AUFTYP') return 'A';
+      if (name.startsWith('ES')) return '-';
+      return 0;
     },
     callFn: buildFnRegistry(input, mirror),
     pmatall(matrix, k1, k2, k3, w, h) {

@@ -23,6 +23,7 @@ export interface ConfiguratorInput {
   // Color
   color: {
     code: 'W-W' | string;        // bicolor code observed in AUFPOS.PROFILFARBE
+    type?: string;               // color scheme type mapping (e.g. W-W)
     interiorRal?: string;
     exteriorRal?: string;
   };

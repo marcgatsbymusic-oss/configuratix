@@ -73,7 +73,7 @@ export class CantorMirror {
     `);
   }
 
-  pmatLookup(matrix: string, k1: string, k2: string, k3: string, w: number, h: number): PMatRow | null {
+  pmatLookup(matrix: string, k1: string, k2: string, _k3: string, w: number, h: number): PMatRow | null {
     // Cantor's PMATALL has two calling conventions, distinguished by the 4th
     // argument (k3). The PMATALL primitive returns a PMatRow; whether to read
     // PREIS or PREIS<k3> is decided by callers via pmatColumnFor() below.
@@ -190,25 +190,36 @@ export class CantorMirror {
   // that has ever been priced.
   articleVariablesFor(artnr: string, profilsatz: string): Map<string, string> {
     // Merge every AUFARTIK row paired with the newest matching AUFPOS so we
-    // pick up all ART_<klCode>_<name> variables — ARTKLCODE 1805 (INFO) has
-    // ART_1805_*, ARTKLCODE 1199 (TECH) has ART_1199_*, ARTKLCODE 2090
-    // (PROFILE) has ART_090_* / ART_AD_* / ART_RA_* etc., ARTKLCODE 2801
-    // (OPCJE) has ART_x801_*. Formulas may reference any of these.
+    // pick up all ART_<klCode>_<name> variables. We enforce an INNER JOIN on AUFARTIK
+    // to guarantee we only pick a position that actually has variables synced,
+    // avoiding crashes on partially exported snapshot rows.
     let pos = this.db.prepare(
-      `SELECT AUFNR, POSNR FROM AUFPOS
-       WHERE ARTNR = ? AND PROFILSATZNAME = ?
-       ORDER BY AUFNR DESC, POSNR DESC LIMIT 1`,
+      `SELECT p.AUFNR, p.POSNR FROM AUFPOS p
+       INNER JOIN AUFARTIK a ON p.AUFNR = a.AUFNR AND p.POSNR = a.REFPOSNR
+       WHERE p.ARTNR = ? AND p.PROFILSATZNAME = ?
+       ORDER BY p.AUFNR DESC, p.POSNR DESC LIMIT 1`,
     ).get(artnr, profilsatz) as { AUFNR: number; POSNR: number } | undefined;
 
     // If the snapshot lacks this exact combination (e.g. F104 + IGECL), fallback to F100
-    // for this profile. F100 shares the same core ART_* variables (like SystemProfili)
-    // and makes the engine resilient without needing a gigabyte db dump of every permutation.
+    // for this profile. F100 shares the same core ART_* variables (like SystemProfili).
     if (!pos && artnr !== 'F100') {
       pos = this.db.prepare(
-        `SELECT AUFNR, POSNR FROM AUFPOS
-         WHERE ARTNR = 'F100' AND PROFILSATZNAME = ?
-         ORDER BY AUFNR DESC, POSNR DESC LIMIT 1`,
+        `SELECT p.AUFNR, p.POSNR FROM AUFPOS p
+         INNER JOIN AUFARTIK a ON p.AUFNR = a.AUFNR AND p.POSNR = a.REFPOSNR
+         WHERE p.ARTNR = 'F100' AND p.PROFILSATZNAME = ?
+         ORDER BY p.AUFNR DESC, p.POSNR DESC LIMIT 1`,
       ).get(profilsatz) as { AUFNR: number; POSNR: number } | undefined;
+    }
+    
+    // If still missing (e.g. IG5CL was completely unsynced or partially broken), fallback to its base system (IG5/IGE).
+    if (!pos && profilsatz.length > 3) {
+      const baseSystem = profilsatz.startsWith('IGE') ? 'IGE' : (profilsatz.startsWith('IG5') ? 'IG5' : profilsatz.substring(0, 3));
+      pos = this.db.prepare(
+        `SELECT p.AUFNR, p.POSNR FROM AUFPOS p
+         INNER JOIN AUFARTIK a ON p.AUFNR = a.AUFNR AND p.POSNR = a.REFPOSNR
+         WHERE p.ARTNR = 'F100' AND p.PROFILSATZNAME = ?
+         ORDER BY p.AUFNR DESC, p.POSNR DESC LIMIT 1`,
+      ).get(baseSystem) as { AUFNR: number; POSNR: number } | undefined;
     }
 
     if (!pos) return new Map();
@@ -216,11 +227,20 @@ export class CantorMirror {
       `SELECT ARTKLCODE, ARTIKELVARIABLEN, ARTIKELVARIABLEN2, ESFELD
        FROM AUFARTIK WHERE AUFNR = ? AND REFPOSNR = ?`,
     ).all(pos.AUFNR, pos.POSNR) as Array<{ ARTKLCODE: number; ARTIKELVARIABLEN: string | null; ARTIKELVARIABLEN2: string | null; ESFELD: string | null }>;
+    
     const merged = new Map<string, string>();
     for (const r of rows) {
-      for (const [k, v] of CantorMirror.parseVariables(r.ARTIKELVARIABLEN)) merged.set(k, v);
-      for (const [k, v] of CantorMirror.parseVariables(r.ARTIKELVARIABLEN2)) merged.set(k, v);
-      for (const [k, v] of CantorMirror.parseEsfeld(r.ESFELD, r.ARTKLCODE)) merged.set(k, v);
+      for (const [k, v] of CantorMirror.parseVariables(r.ARTIKELVARIABLEN)) {
+         if (!k.startsWith('ES')) merged.set(k, v);
+      }
+      for (const [k, v] of CantorMirror.parseVariables(r.ARTIKELVARIABLEN2)) {
+         if (!k.startsWith('ES')) merged.set(k, v);
+      }
+      // We must parse ESFELD to pick up critical system variables like ART_1850_1040 (SystemProfili).
+      // However we only inherit the specific ART_* scoped versions to avoid blanket global ES overrides.
+      for (const [k, v] of CantorMirror.parseEsfeld(r.ESFELD, r.ARTKLCODE)) {
+         merged.set(k, v);
+      }
     }
     return merged;
   }

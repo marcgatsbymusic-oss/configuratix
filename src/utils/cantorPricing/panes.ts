@@ -36,6 +36,7 @@ export function evaluatePanes(
   const out: PaneLine[] = [];
   let total = 0;
   for (const code of input.glazing.panes) {
+    if (!code) continue;
     const articleId = mirror.paneArticleId(code);
     if (articleId === null) {
       throw new Error(`Unknown pane code ${JSON.stringify(code)} (no row in GLASS_PANE)`);

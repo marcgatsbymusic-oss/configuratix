@@ -22,8 +22,12 @@ export type Expr =
   | { type: 'in'; left: Expr; list: Expr[] };
 
 class Parser {
-  private pos = 0;
-  constructor(private toks: Token[]) {}
+  private pos: number;
+  private toks: Token[];
+  constructor(toks: Token[]) {
+    this.pos = 0;
+    this.toks = toks;
+  }
 
   private peek(off = 0): Token | undefined { return this.toks[this.pos + off]; }
   private consume(): Token { return this.toks[this.pos++]; }

@@ -7,6 +7,7 @@ import type { ConfiguratorState, ConfiguratorAction, CategoryType } from './type
 import { PROFILE_GLAZING_MAP } from '../../data/profileGlazing';
 import { fetchPrice, type PricingApiResponse } from '../../utils/cantorPricing/pricingApi';
 import { stateToInput, DEFAULT_DEALER } from '../../utils/cantorPricing/configuratorAdapter';
+import { getDefaultSashOpenings } from '../../utils/windowOpenings';
 
 const initialState: ConfiguratorState = {
   dimensions: { width: 1000, height: 1200 },
@@ -155,14 +156,12 @@ function configuratorReducer(state: ConfiguratorState, action: ConfiguratorActio
     case 'SET_WINDOW_TYPE': {
       const wt = WINDOW_TYPES.find(w => w.id === action.payload);
       if (!wt) return state;
+      
       // Auto-populate the sash openings array based on the window type
-      let defaultCode = action.payload.toUpperCase().includes('F100') ? 'o3' : 'o2';
-      let newOpenings = Array.from({ length: wt.sashes }).map(() => defaultCode);
+      const newOpenings = getDefaultSashOpenings(action.payload, wt.sashes);
       let newFittingVariant = state.fittingVariant;
 
-      if (action.payload.toUpperCase() === 'F104') {
-         defaultCode = 'o1';
-         newOpenings = ['o1'];
+      if (action.payload.toUpperCase().includes('F104')) {
          newFittingVariant = 'FIX';
       }
 

@@ -275,8 +275,8 @@ export const WindowTypeGraphic: React.FC<WindowTypeGraphicProps> = ({
   const F  = 4.5;    // Fixed outer frame thickness
   const G  = 0.4;    // Gap between frames
   const S  = 6.0;    // Moveable sash frame thickness
-  const INSET_B = 0.5; // Stroke bevel thickness
-
+  // const INSET_B = 0.5; // Stroke bevel thickness
+  
   // Total container available for cells internal area
   const IW = VW - (F * 2);
   const IH = VH - (F * 2);
@@ -284,7 +284,7 @@ export const WindowTypeGraphic: React.FC<WindowTypeGraphicProps> = ({
   const GLASS_COLOR = '#b8cfe0';
   const FRAME_COLOR = '#ffffff';
   const DARK_BORDER = '#959695';   // For the frame demarcations
-  const BEVEL       = '#dadada';   // Optional subtle 3d hint
+  // const BEVEL       = '#dadada';   // Optional subtle 3d hint
 
   return (
     <svg
