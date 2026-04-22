@@ -7,7 +7,7 @@ export function DebugPricing() {
   // 1) & 2) Profile System & Typology
   const [typology, setTypology] = useState<string>('F100');
   const [isTypologyOpen, setIsTypologyOpen] = useState(false);
-  const [opening, setOpening] = useState<string>('UR');
+  const [opening] = useState<string>('UR');
   const [profilsatz, setProfilsatz] = useState('IG5');
 
   // 3) Dimensions
@@ -20,7 +20,6 @@ export function DebugPricing() {
   const [pane2, setPane2] = useState('T4');
   const [pane3, setPane3] = useState('');
   const [frameStyle, setFrameStyle] = useState('S');
-  const [isFrameStyleOpen, setIsFrameStyleOpen] = useState(false);
 
   // 5) Joinery colors
   const [colorType, setColorType] = useState('DEK-DEK');
@@ -158,10 +157,6 @@ export function DebugPricing() {
     acc[group].push({ code: cantorCode, name: val.name, originalKey: key, swatchUrl: bgUrl });
     return acc;
   }, {});
-
-  const flatColors = Object.values(groupedColors).flat() as {code: string, name: string, swatchUrl: string}[];
-  const activeColorObj = flatColors.find(c => c.code === colorCode);
-  const isTripleGlazed = glazingCode.startsWith('3-');
 
   const PANE_OPTIONS = [
     { code: 'FL4', name: 'Float 4mm' },
