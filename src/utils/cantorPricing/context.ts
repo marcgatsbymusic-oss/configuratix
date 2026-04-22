@@ -131,18 +131,18 @@ export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): Fo
   // The engine must respect the dynamic hardware request (openings) from the user
   // rather than blindly inheriting what the fallback database snapshot happened
   // to be built with.
+  const parseBase = (op: string) => op.split('-')[0] || op;
+  
   if (input.sashCount === 1 && input.openings[0]) {
-    vars.set('ART_1199_MacierzOku', input.openings[0]);
+    vars.set('ART_1199_MacierzOku', parseBase(input.openings[0]));
   } else if (input.sashCount === 2 && input.openings.length >= 2) {
     // Cantor hierarchically organizes matrix identifiers for 2-sash components ("UR_R" instead of "RUR").
     const getPriority = (op: string) => {
-      const base = op.split('-')[0] || op;
+      const base = parseBase(op);
       if (base === 'UR' || base === 'DK') return 3;
       if (base === 'R' || base === 'L' || base === 'D') return 2;
       return 1; // F, FIX, SBP, etc.
     };
-    const parseBase = (op: string) => op.split('-')[0] || op;
-    
     const sorted = [...input.openings.slice(0, 2)].sort((a, b) => getPriority(b) - getPriority(a));
     vars.set('ART_1199_MacierzOku', sorted.map(parseBase).join('_'));
   } else if (input.sashCount > 2) {

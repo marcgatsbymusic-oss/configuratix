@@ -82,7 +82,7 @@ export function callBuiltin(name: string, argExprs: Expr[], ctx: FormulaContext)
          return 0;
       }
       const price = ctx.pmatPrice(row, k3);
-      if (matrix.includes('PVC_F200') || matrix.includes('FACTOR')) console.log(` => PREIS=${price}`);
+      console.log(`[PMATALL LOOKUP] matrix="${matrix}" k1="${k1}" k2="${k2}" k3="${k3}" w=${w} h=${h} => PREIS=${price}`);
       return price;
     }
     // Phase A stubs — none are exercised by the 1500041 IGLO5/F104 path.
