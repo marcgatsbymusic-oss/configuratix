@@ -1,7 +1,17 @@
 import { useEffect, useState } from 'react';
 import { fetchPrice, type PricingApiResponse } from '../utils/cantorPricing/pricingApi';
 import type { ConfiguratorInput } from '../utils/cantorPricing/input';
-import { CONFIG_SCHEMA, WINDOW_TYPES, COLOR_LOCALE } from '../components/SlateConfigurator/types';
+import { CONFIG_SCHEMA, WINDOW_TYPES, COLOR_LOCALE, SINGLE_PANES, PROFILE_GLAZING_LIMITS } from '../components/SlateConfigurator/types';
+import { WindowVisualizer } from '../components/SlateConfigurator/WindowVisualizer';
+
+const getPaneImage = (paneCode: string) => {
+  if (!paneCode) return null;
+  if (paneCode.includes('B1') || paneCode.includes('B2') || paneCode.includes('VSG') || paneCode.includes('33.1') || paneCode.includes('33.2')) return 'segura-331.webp';
+  if (paneCode.includes('M4') || paneCode.includes('SAT')) return 'segura-332-mat.webp';
+  if (paneCode.includes('ADB')) return 'antisol-blue-6.webp';
+  if (paneCode.includes('SR')) return 'float-6.webp';
+  return 'float-4.webp'; // fallback for FL, T, etc.
+};
 
 export function DebugPricing() {
   // 1) & 2) Profile System & Typology
@@ -15,11 +25,10 @@ export function DebugPricing() {
   const [height, setHeight] = useState(1000);
 
   // 4) Glazing Options
-  const [glazingCode, setGlazingCode] = useState('2-24');
-  const [pane1, setPane1] = useState('FL4');
-  const [pane2, setPane2] = useState('T4');
-  const [pane3, setPane3] = useState('');
-  const [frameStyle, setFrameStyle] = useState('S');
+  const [infills, setInfills] = useState([
+    { code: '2-24', pane1: 'FL4', pane2: 'T4', pane3: '', frameStyle: 'S', width: '', height: '' },
+    { code: '2-24', pane1: 'FL4', pane2: 'T4', pane3: '', frameStyle: 'S', width: '', height: '' }
+  ]);
 
   // 5) Joinery colors
   const [colorType, setColorType] = useState('DEK-DEK');
@@ -42,12 +51,12 @@ export function DebugPricing() {
 
   // 7) Profile options
   const [frameProfile, setFrameProfile] = useState('50001');
-  const [weld, setWeld] = useState('');
-  const [glazingBeadStyle, setGlazingBeadStyle] = useState('');
-  const [frameReinforcement, setFrameReinforcement] = useState('');
+  const [weld, setWeld] = useState('standard');
+  const [glazingBeadStyle, setGlazingBeadStyle] = useState('Z');
+  const [frameReinforcement, setFrameReinforcement] = useState('standard');
 
-  // 9) Seals
-  const [gasketsColor, setGasketsColor] = useState('');
+  // 8) Seals
+  const [sealColor, setSealColor] = useState('');
 
   // 10) Shutter options
   const [rollerBlindType, setRollerBlindType] = useState('');
@@ -89,14 +98,11 @@ export function DebugPricing() {
   const [soundproofMat, setSoundproofMat] = useState('');
 
   // 17) Dowel holes
-  const [dowelLeft, setDowelLeft] = useState(false);
-  const [dowelRight, setDowelRight] = useState(false);
-  const [dowelTop, setDowelTop] = useState(false);
-  const [dowelBottom, setDowelBottom] = useState(false);
+  const [dowelHoles, setDowelHoles] = useState('');
 
   // 18) Grilles/Door infills
-  const [grillesType, setGrillesType] = useState('');
-  const [muntinPattern, setMuntinPattern] = useState('');
+  const [grilleType, setGrilleType] = useState('');
+  const [grilleFields, setGrilleFields] = useState(4);
 
 
   const [result, setResult] = useState<PricingApiResponse | null>(null);
@@ -114,13 +120,33 @@ export function DebugPricing() {
       height_mm: height,
       sashCount: 1,
       openings: [opening as any],
-      color: { type: colorType, code: colorCode },
+      windowUnit: windowUnit || undefined,
+      model: model || undefined,
+      color: { 
+        type: colorType, 
+        code: colorCode, 
+        exteriorRal: colorCode, 
+        interiorRal: interiorColorCode || undefined,
+        overwriteCoreColor,
+        coreColor: coreColor || undefined
+      },
       frameProfile: frameProfile || '50001',
       sashProfile: '50011',
-      glazing: { 
-        code: glazingCode, 
-        panes: glazingCode.startsWith('3-') ? [pane1, pane2, pane3].filter(Boolean) : [pane1, pane2].filter(Boolean), 
-        spacer: frameStyle || 'S' 
+      infills: (typology.match(/^F2[0-5][0-9]$/) ? infills : [infills[0]]).map(inf => ({
+        code: inf.code,
+        panes: inf.code.startsWith('3-') ? [inf.pane1, inf.pane2, inf.pane3].filter(Boolean) : [inf.pane1, inf.pane2].filter(Boolean),
+        spacer: inf.frameStyle || 'S',
+        width_mm: inf.width ? Number(inf.width) : undefined,
+        height_mm: inf.height ? Number(inf.height) : undefined
+      })),
+      options: {
+        grilleType: grilleType || undefined,
+        grilleFields: grilleType ? grilleFields : undefined,
+        sealColor: sealColor || undefined,
+        beadStyle: glazingBeadStyle as 'Z'|'P',
+        weldType: weld as 'standard'|'v-perfect',
+        frameReinforcement: frameReinforcement as 'standard'|'full',
+        dowelHoles: dowelHoles || undefined,
       },
       hardware: {
         safetyClass: safetyClass || undefined,
@@ -140,9 +166,10 @@ export function DebugPricing() {
     }, 200);
     return () => clearTimeout(t);
   }, [
-    typology, width, height, profilsatz, colorType, colorCode, glazingCode, 
-    pane1, pane2, pane3, frameStyle, safetyClass, handleType, handleColor, 
-    coverColor, opening, frameProfile
+    typology, width, height, profilsatz, colorType, colorCode, JSON.stringify(infills), 
+    safetyClass, handleType, handleColor, 
+    coverColor, opening, frameProfile, interiorColorCode, overwriteCoreColor,
+    coreColor, windowUnit, model
   ]);
 
   // Group colors for dropdowns
@@ -157,17 +184,6 @@ export function DebugPricing() {
     acc[group].push({ code: cantorCode, name: val.name, originalKey: key, swatchUrl: bgUrl });
     return acc;
   }, {});
-
-  const PANE_OPTIONS = [
-    { code: 'FL4', name: 'Float 4mm' },
-    { code: 'FL6', name: 'Float 6mm' },
-    { code: 'T4', name: 'Thermoline 4mm' },
-    { code: 'ADB6H', name: 'Antisol Dark Blue 6mm' },
-    { code: 'M4', name: 'Matte 4mm' },
-    { code: '33.1', name: 'Safe 33.1' },
-    { code: '44.4', name: 'Anti-burglary 44.4' },
-    { code: 'VSG', name: 'VSG standard' }
-  ];
 
   const HARDWARE_COLORS = [
     { code: 'bialy', name: 'White (biały)' },
@@ -319,18 +335,8 @@ export function DebugPricing() {
             <div className="text-gray-600 font-bold text-2xl">+</div>
 
             {/* Image of the window opening/type */}
-            <div className="h-32 flex-1 flex justify-start">
-              <img 
-                src={`/assets/windowtypes/${typology}.jpg`} 
-                alt={typology} 
-                className="max-h-32 object-contain bg-white rounded p-2"
-                onError={(e) => { 
-                  e.currentTarget.style.display = 'none'; 
-                  if (!e.currentTarget.parentElement?.querySelector('.fallback')) {
-                    e.currentTarget.parentElement!.innerHTML += `<div class="fallback h-32 w-48 flex items-center justify-center border border-gray-600 rounded bg-gray-800 text-white font-bold">${typology}</div>`;
-                  }
-                }}
-              />
+            <div className="flex-[2] flex justify-center w-full max-w-sm">
+              <WindowVisualizer width={width} height={height} typology={typology} infills={infills} />
             </div>
           </div>
 
@@ -435,63 +441,132 @@ export function DebugPricing() {
 
           <hr className="border-gray-800 my-2" />
 
-          {/* 4) Glazing Options */}
-          <div>
-            <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">4) Glazing Options</h3>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Package Code</label>
-                <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
-                  value={glazingCode} onChange={e => setGlazingCode(e.target.value)}>
-                  <optgroup label="Standard Glazing">
-                    {CONFIG_SCHEMA.glazing.filter(g => g.group !== 'Non Glazing').map(g => (
-                        <option key={g.id} value={g.id}>{g.id} ({g.name})</option>
-                    ))}
-                  </optgroup>
-                  <optgroup label="Non Glazing / Blinds">
-                    {CONFIG_SCHEMA.glazing.filter(g => g.group === 'Non Glazing').map(g => (
-                        <option key={g.id} value={g.id}>{g.id} ({g.name})</option>
-                    ))}
-                  </optgroup>
-                </select>
+          {/* 4) Glazing Options / Infills */}
+          {(typology.match(/^F2[0-5][0-9]$/) ? [0, 1] : [0]).map((infillIdx) => {
+            const inf = infills[infillIdx];
+            const updateInf = (field: string, val: string | number) => {
+              const newInf = [...infills];
+              newInf[infillIdx] = { ...newInf[infillIdx], [field]: val };
+              setInfills(newInf);
+            };
+            return (
+              <div key={infillIdx}>
+                <h3 className="text-[#eab676] font-bold mt-6 mb-4 uppercase tracking-wider text-sm">
+                  4) Glazing Options / Infill {typology.match(/^F2[0-5][0-9]$/) ? infillIdx + 1 : ''}
+                </h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Package Code</label>
+                    <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                      value={inf.code} onChange={e => updateInf('code', e.target.value)}>
+                      <optgroup label="Standard Glazing">
+                        {CONFIG_SCHEMA.glazing
+                          .filter(g => g.group !== 'Non Glazing')
+                          .filter(g => {
+                            const limits = PROFILE_GLAZING_LIMITS[profilsatz] || PROFILE_GLAZING_LIMITS['DEFAULT'];
+                            return limits.packages.includes(g.id);
+                          })
+                          .map(g => (
+                            <option key={g.id} value={g.id}>{g.id} ({g.name})</option>
+                        ))}
+                      </optgroup>
+                      <optgroup label="Non Glazing / Blinds">
+                        {CONFIG_SCHEMA.glazing.filter(g => g.group === 'Non Glazing').map(g => (
+                            <option key={g.id} value={g.id}>{g.id} ({g.name})</option>
+                        ))}
+                      </optgroup>
+                    </select>
+                  </div>
+                  
+                  {typology.match(/^F2[0-5][0-9]$/) && (
+                    <div className="flex gap-4">
+                      <div className="flex-1">
+                        <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">Width (mm)</label>
+                        <input type="number" className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                          value={inf.width} onChange={e => updateInf('width', e.target.value)} placeholder="Auto" />
+                      </div>
+                      <div className="flex-1">
+                        <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">Height (mm)</label>
+                        <input type="number" className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                          value={inf.height} onChange={e => updateInf('height', e.target.value)} placeholder="Auto" />
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex-1">
+                      <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Pane 1 (Outside)</label>
+                      <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                        value={inf.pane1} onChange={e => updateInf('pane1', e.target.value)}>
+                        <option value="">-- None --</option>
+                        {SINGLE_PANES.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
+                      </select>
+                    </div>
+                    {inf.pane1 && (
+                      <div className="flex-none bg-white border border-gray-800 rounded overflow-hidden flex items-center justify-center min-w-[60px] max-w-[60px]">
+                        <img src={`/assets/glass/thumbs/${getPaneImage(inf.pane1)}`} alt={`Pane ${inf.pane1}`} className="max-h-16 w-full object-cover mix-blend-multiply" />
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex-1">
+                      <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">c) Pane 2 (Middle)</label>
+                      <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                        value={inf.pane2} onChange={e => updateInf('pane2', e.target.value)}>
+                        <option value="">-- None --</option>
+                        {SINGLE_PANES.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
+                      </select>
+                    </div>
+                    {inf.pane2 && (
+                      <div className="flex-none bg-white border border-gray-800 rounded overflow-hidden flex items-center justify-center min-w-[60px] max-w-[60px]">
+                        <img src={`/assets/glass/thumbs/${getPaneImage(inf.pane2)}`} alt={`Pane ${inf.pane2}`} className="max-h-16 w-full object-cover mix-blend-multiply" />
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex-1">
+                      <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">d) Pane 3 (Inside)</label>
+                      <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                        value={inf.pane3} onChange={e => updateInf('pane3', e.target.value)} disabled={inf.code.startsWith('2-')}>
+                        <option value="">-- None --</option>
+                        {SINGLE_PANES.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
+                      </select>
+                    </div>
+                    {inf.pane3 && inf.code.startsWith('3-') && (
+                      <div className="flex-none bg-white border border-gray-800 rounded overflow-hidden flex items-center justify-center min-w-[60px] max-w-[60px]">
+                        <img src={`/assets/glass/thumbs/${getPaneImage(inf.pane3)}`} alt={`Pane ${inf.pane3}`} className="max-h-16 w-full object-cover mix-blend-multiply" />
+                      </div>
+                    )}
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 gap-4 mt-4">           
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex-1">
+                      <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">e) Frame Style (Spacer / Frame Style)</label>
+                      <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                        value={inf.frameStyle} onChange={e => updateInf('frameStyle', e.target.value)}>
+                        <option value="">-- None --</option>
+                        {FRAME_STYLES.map(fs => <option key={fs.code} value={fs.code}>{fs.code} - {fs.name}</option>)}
+                      </select>
+                    </div>
+                    {inf.frameStyle && (
+                      <div className="flex-none bg-white border border-gray-800 rounded overflow-hidden flex items-center justify-center min-w-[120px] max-w-[120px]">
+                        <img 
+                          src={`/assets/spacers/${inf.frameStyle === 'U' ? 'U.webp' : inf.frameStyle + '.jpg'}`} 
+                          alt={`Spacer ${inf.frameStyle}`} 
+                          className="max-h-24 w-full object-contain mix-blend-multiply" 
+                          onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
-              <div>
-                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Pane 1 (Outside)</label>
-                <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
-                  value={pane1} onChange={e => setPane1(e.target.value)}>
-                  <option value="">-- None --</option>
-                  {PANE_OPTIONS.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">c) Pane 2 (Middle)</label>
-                <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
-                  value={pane2} onChange={e => setPane2(e.target.value)}>
-                  <option value="">-- None --</option>
-                  {PANE_OPTIONS.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">d) Pane 3 (Inside)</label>
-                <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
-                  value={pane3} onChange={e => setPane3(e.target.value)}>
-                  <option value="">-- None --</option>
-                  {PANE_OPTIONS.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
-                </select>
-              </div>
-              
-              <div className="relative">
-                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">e) Frame Style (Spacer / Frame Style)</label>
-                <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
-                  value={frameStyle} onChange={e => setFrameStyle(e.target.value)}>
-                  <option value="">-- None --</option>
-                  {FRAME_STYLES.map(fs => <option key={fs.code} value={fs.code}>{fs.code} - {fs.name}</option>)}
-                </select>
-              </div>
-            </div>
-          </div>
+            );
+          })}
 
           <hr className="border-gray-800 my-2" />
 
@@ -582,16 +657,48 @@ export function DebugPricing() {
             <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">7) ---Profile options---</h3>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Frame profile (options)</label>
+                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Frame profile</label>
                 <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
                   value={frameProfile} onChange={e => setFrameProfile(e.target.value)}>
                    <option value="50001">50001 (Standard Frame)</option>
                    <option value="50002">50002 (Renovation Frame)</option>
                 </select>
               </div>
-              <GenericSelect label="b) Weld (options)" value={weld} onChange={setWeld} />
-              <GenericSelect label="c) Glazing bead style (options)" value={glazingBeadStyle} onChange={setGlazingBeadStyle} />
-              <GenericSelect label="d) Frame reinforcement (options)" value={frameReinforcement} onChange={setFrameReinforcement} />
+              <div>
+                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Weld type</label>
+                <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                  value={weld} onChange={e => setWeld(e.target.value)}>
+                   <option value="standard">Standard Weld</option>
+                   <option value="v-perfect">V-Perfect (Invisible)</option>
+                </select>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex-1">
+                  <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">c) Glazing bead style</label>
+                  <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                    value={glazingBeadStyle} onChange={e => setGlazingBeadStyle(e.target.value)}>
+                     <option value="Z">Rounded (Z)</option>
+                     <option value="P">Rectangular (P)</option>
+                  </select>
+                </div>
+                {glazingBeadStyle && (
+                  <div className="flex-none bg-white border border-gray-800 rounded overflow-hidden flex items-center justify-center min-w-[120px] max-w-[120px]">
+                    <img 
+                      src={`/assets/beads/bead_${glazingBeadStyle}.png`} 
+                      alt={`Bead ${glazingBeadStyle}`} 
+                      className="max-h-24 w-full object-contain mix-blend-multiply" 
+                    />
+                  </div>
+                )}
+              </div>
+              <div>
+                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">d) Frame reinforcement</label>
+                <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                  value={frameReinforcement} onChange={e => setFrameReinforcement(e.target.value)}>
+                   <option value="standard">Standard / U-shape</option>
+                   <option value="full">Full Closed Steel</option>
+                </select>
+              </div>
             </div>
           </div>
 
@@ -600,8 +707,28 @@ export function DebugPricing() {
           {/* 8) Seals */}
           <div>
             <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">8) ---Seals---</h3>
-            <div className="grid grid-cols-2 gap-4">
-              <GenericSelect label="a) Gaskets color (options)" value={gasketsColor} onChange={setGasketsColor} />
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex-1">
+                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Gaskets color</label>
+                <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                  value={sealColor} onChange={e => setSealColor(e.target.value)}>
+                   <option value="">Default / Standard</option>
+                   <option value="mix">Mix</option>
+                   <option value="czarny/sz">Out black / in grey</option>
+                   <option value="czarny">Black</option>
+                   <option value="szary">Gray</option>
+                   <option value="szary/czar">Out grey / in black</option>
+                </select>
+              </div>
+              {sealColor && (
+                <div className="flex-none bg-white border border-gray-800 rounded overflow-hidden flex items-center justify-center min-w-[120px] max-w-[120px]">
+                  <img 
+                    src={`/assets/seals/${sealColor === 'czarny/sz' ? 'czarny_szary' : sealColor === 'szary/czar' ? 'szary_czarny' : sealColor}.png`} 
+                    alt={sealColor} 
+                    className="max-h-24 w-full object-contain mix-blend-multiply" 
+                  />
+                </div>
+              )}
             </div>
           </div>
 
@@ -697,35 +824,48 @@ export function DebugPricing() {
 
           {/* 16) Dowel holes */}
           <div>
-            <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">16) ---Dowel holes--- (options)</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              <label className="flex items-center gap-2 text-sm text-gray-300">
-                <input type="checkbox" checked={dowelLeft} onChange={e => setDowelLeft(e.target.checked)} className="rounded border-gray-700 bg-black text-[#eab676] focus:ring-[#eab676]" />
-                a) Left
-              </label>
-              <label className="flex items-center gap-2 text-sm text-gray-300">
-                <input type="checkbox" checked={dowelRight} onChange={e => setDowelRight(e.target.checked)} className="rounded border-gray-700 bg-black text-[#eab676] focus:ring-[#eab676]" />
-                b) Right
-              </label>
-              <label className="flex items-center gap-2 text-sm text-gray-300">
-                <input type="checkbox" checked={dowelTop} onChange={e => setDowelTop(e.target.checked)} className="rounded border-gray-700 bg-black text-[#eab676] focus:ring-[#eab676]" />
-                c) Top
-              </label>
-              <label className="flex items-center gap-2 text-sm text-gray-300">
-                <input type="checkbox" checked={dowelBottom} onChange={e => setDowelBottom(e.target.checked)} className="rounded border-gray-700 bg-black text-[#eab676] focus:ring-[#eab676]" />
-                d) Bottom
-              </label>
+            <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">16) ---Dowel holes---</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Dowel holes</label>
+                <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                  value={dowelHoles} onChange={e => setDowelHoles(e.target.value)}>
+                   <option value="">None</option>
+                   <option value="O_14-16">Standard Holes (14-16mm)</option>
+                   <option value="ADJUFIX_14/18">Adjufix 14/18</option>
+                </select>
+              </div>
             </div>
           </div>
 
           <hr className="border-gray-800 my-2" />
 
-          {/* 17) Grilles/Door infills */}
+          {/* 17) Grilles / Muntins */}
           <div>
-            <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">17) ---Grilles/Door infills---</h3>
+            <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">17) ---Grilles & Muntins---</h3>
             <div className="grid grid-cols-2 gap-4">
-              <GenericSelect label="a) Type of grilles / Decorative door infill (for a unit) (options)" value={grillesType} onChange={setGrillesType} />
-              <GenericSelect label="b) Muntin bar pattern / Fillings (options)" value={muntinPattern} onChange={setMuntinPattern} />
+              <div>
+                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Grille Type</label>
+                <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                  value={grilleType} onChange={e => setGrilleType(e.target.value)}>
+                   <option value="">None</option>
+                   <optgroup label="Internal Grilles (Międzyszybowe)">
+                     <option value="SPR08">SPR08 (8mm Internal)</option>
+                     <option value="SPR18">SPR18 (18mm Internal)</option>
+                     <option value="SPR26">SPR26 (26mm Internal)</option>
+                     <option value="SPR45">SPR45 (45mm Internal)</option>
+                   </optgroup>
+                   <optgroup label="Stick-on Grilles (Naklejane)">
+                     <option value="SPRN27">SPRN27 (27mm Stick-on)</option>
+                     <option value="SPRN45">SPRN45 (45mm Stick-on)</option>
+                   </optgroup>
+                </select>
+              </div>
+              <div>
+                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Number of Fields</label>
+                <input type="number" className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm disabled:opacity-50"
+                  value={grilleFields} onChange={e => setGrilleFields(Number(e.target.value))} disabled={!grilleType} min={1} max={30} />
+              </div>
             </div>
           </div>
 

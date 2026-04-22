@@ -1009,16 +1009,6 @@
     },
     "frameProfile": "50001",
     "sashProfile": "50011",
-    "glazing": {
-      "code": "3-40",
-      "panes": [
-        "FL6",
-        "T4",
-        "ADB6H"
-      ],
-      "spacer": "S16",
-      "zatepienie": true
-    },
     "schwelle": 0,
     "dealer": {
       "kundenNr": 1008,
@@ -1041,7 +1031,19 @@
     ],
     "hardware": {
       "safetyClass": "4ZA"
-    }
+    },
+    "infills": [
+      {
+        "code": "3-40",
+        "panes": [
+          "FL6",
+          "T4",
+          "ADB6H"
+        ],
+        "spacer": "S16",
+        "zatepienie": true
+      }
+    ]
   },
   "expected": {
     "ek_pln_baseSchema41": 1579,

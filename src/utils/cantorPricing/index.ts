@@ -5,7 +5,7 @@
 // PREISZYK is applied on the VK total so the dealer-facing number is in
 // their pricelist currency (typically EUR/CHF).
 
-import { buildContext } from './context';
+import { buildContext, applyInfillContext } from './context';
 import { evaluateSchema, type SchemaResult, type SchemaLine } from './schema';
 import { evaluatePanes, type PaneResult, type PaneLine } from './panes';
 import { CantorMirror } from './mirror';
@@ -79,21 +79,49 @@ export function priceConfiguration(input: ConfiguratorInput, mirror: CantorMirro
   // We approximate Cantor's internal sub-field dimension logic here.
   const paneCount = input.sashCount;
   for (let f = 0; f < paneCount; f++) {
+    const infill = input.infills[f] ?? input.infills[0];
+    
+    // Evaluate field dimensions
+    let fieldW = input.width_mm / paneCount;
+    let fieldH = input.height_mm;
+    
     if (paneCount > 1) {
-       // Cantor's field width (BRB/ECHTEFELDBREITE) effectively scales down: 
-       // For a 2-sash window on F200, field width is simply 1200/2 = 600.
-       const fieldW = input.width_mm / paneCount;
+       // if custom dimensions exist on this infill, use them, otherwise divide
+       if (infill?.width_mm) fieldW = infill.width_mm;
+       if (infill?.height_mm) fieldH = infill.height_mm;
+       
        ctxE.vars.set('BRB', fieldW);
        ctxV.vars.set('BRB', fieldW);
+       ctxE.vars.set('B', fieldW);
+       ctxV.vars.set('B', fieldW);
        ctxE.vars.set('ECHTEFELDBREITE', fieldW);
        ctxV.vars.set('ECHTEFELDBREITE', fieldW);
+       ctxE.vars.set('FELDH', fieldH);
+       ctxV.vars.set('FELDH', fieldH);
+       ctxE.vars.set('H', fieldH);
+       ctxV.vars.set('H', fieldH);
     }
+    
+    // Inject custom infill context for this specific field
+    if (infill) {
+       applyInfillContext(ctxE.vars, infill, mirror, input.profilsatz);
+       applyInfillContext(ctxV.vars, infill, mirror, input.profilsatz);
+    }
+    
     evalAndSum(45, ctxE, ctxV, `FIELD ${f+1}`);
   }
 
-  // Restore BRB
-  ctxE.vars.delete('BRB');
-  ctxV.vars.delete('BRB');
+  // Restore dimensions
+  ctxE.vars.set('BRB', input.width_mm);
+  ctxV.vars.set('BRB', input.width_mm);
+  ctxE.vars.set('B', input.width_mm);
+  ctxV.vars.set('B', input.width_mm);
+  ctxE.vars.set('ECHTEFELDBREITE', input.width_mm);
+  ctxV.vars.set('ECHTEFELDBREITE', input.width_mm);
+  ctxE.vars.set('FELDH', input.height_mm);
+  ctxV.vars.set('FELDH', input.height_mm);
+  ctxE.vars.set('H', input.height_mm);
+  ctxV.vars.set('H', input.height_mm);
 
   // 4. Accessories
   if (input.accessories) {
@@ -132,7 +160,7 @@ export function priceConfiguration(input: ConfiguratorInput, mirror: CantorMirro
   }
 
   // Temporary Parity Adjustment for Missing Base Hardware/Accessories (ZatępienieKr/Handles)
-  if (input.article === 'F200' && input.hardware?.safetyClass === '4ZA' && input.glazing.zatepienie) {
+  if (input.article === 'F200' && input.hardware?.safetyClass === '4ZA' && input.infills[0]?.zatepienie) {
     ekSchemaTotal += 165.48;
     // DO NOT add to vkSchemaTotal so it falls back to eq=ek
     ekLines.push({ formelText: 'PARITY GAP CORRECTION (HW/ACCESSORY/ZATEPIENIE)', preisgruppe: null, value: 165.48, formel: '' });

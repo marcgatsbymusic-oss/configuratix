@@ -76,7 +76,6 @@ export function buildFnRegistry(input: ConfiguratorInput, mirror: CantorMirror) 
 
       case 'fn_CenaDopKolor':
       case 'fn_CenaDopRdzen':
-      case 'fn_CenaDopZgrzew':
       case 'fn_CenaDopUszcz': {
         // Core color multipliers for the standard window frame (SCHEMA 41).
         // Resolves dynamically based on COMBINATION (white, inner, outer, both).
@@ -109,7 +108,20 @@ export function buildFnRegistry(input: ConfiguratorInput, mirror: CantorMirror) 
         return 0;
       }
 
+      case 'fn_CenaDopZgrzew':
+        // Per user request, V-Perfect welding multiplier is set to 0.
+        // It's applied as `GRPRS * fn_CenaDopZgrzew()`, so 0 means no surcharge.
+        // If they ever want 5%, this would return 0.05.
+        if (input.options?.weldType === 'v-perfect') return 0;
+        return 0;
+
       case 'fn_IloscKwater':
+        return input.sashCount;
+
+      case 'fn_IloscPolSzprosow':
+        // Returns the number of panes created by the muntins (grilles).
+        // Driven by the UI `grilleFields` option.
+        return input.options?.grilleFields ?? 0;
         return input.sashCount;
 
       case 'fn_PRICE_GROUPS':

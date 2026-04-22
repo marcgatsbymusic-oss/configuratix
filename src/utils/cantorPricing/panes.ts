@@ -12,7 +12,7 @@
 // The engine sums them to the total pane surcharge.
 
 import { evaluateSchema } from './schema';
-import { buildContext } from './context';
+import { buildContext, applyInfillContext } from './context';
 import type { CantorMirror } from './mirror';
 import type { ConfiguratorInput } from './input';
 
@@ -35,25 +35,48 @@ export function evaluatePanes(
 ): PaneResult {
   const out: PaneLine[] = [];
   let total = 0;
-  for (const code of input.glazing.panes) {
-    if (!code) continue;
-    const articleId = mirror.paneArticleId(code);
-    if (articleId === null) {
-      throw new Error(`Unknown pane code ${JSON.stringify(code)} (no row in GLASS_PANE)`);
+  const paneCount = input.sashCount;
+  for (let f = 0; f < paneCount; f++) {
+    const infill = input.infills[f] ?? input.infills[0];
+    if (!infill?.panes) continue;
+    
+    // Evaluate field dimensions for panes
+    let fieldW = input.width_mm / paneCount;
+    let fieldH = input.height_mm;
+    
+    if (paneCount > 1) {
+       if (infill.width_mm) fieldW = infill.width_mm;
+       if (infill.height_mm) fieldH = infill.height_mm;
     }
-    const fields = mirror.artpreiseFields(articleId, 51);
-    if (fields.size === 0) {
-      throw new Error(`No ARTPREISE rows for pane ${code} (ARTIKELID=${articleId}, PREISSCHEMAID=51)`);
+    
+    for (const code of infill.panes) {
+      if (!code) continue;
+      const articleId = mirror.paneArticleId(code);
+      if (articleId === null) {
+        throw new Error(`Unknown pane code ${JSON.stringify(code)} (no row in GLASS_PANE)`);
+      }
+      const fields = mirror.artpreiseFields(articleId, 51);
+      if (fields.size === 0) {
+        throw new Error(`No ARTPREISE rows for pane ${code} (ARTIKELID=${articleId}, PREISSCHEMAID=51)`);
+      }
+  
+      const ctx = buildContext(input, mirror);
+      if (paneCount > 1) {
+         ctx.vars.set('BRB', fieldW);
+         ctx.vars.set('B', fieldW);
+         ctx.vars.set('ECHTEFELDBREITE', fieldW);
+         ctx.vars.set('FELDH', fieldH);
+         ctx.vars.set('H', fieldH);
+      }
+      applyInfillContext(ctx.vars, infill, mirror, input.profilsatz);
+      ctx.preisfeldSource = (n: number) => fields.get(n) ?? 0;
+  
+      const result = evaluateSchema(51, 2301, preisart, ctx, mirror);
+      const pf: Record<number, number> = {};
+      for (const [k, v] of fields) pf[k] = v;
+      out.push({ code, articleId, value: result.total, preisfelds: pf });
+      total += result.total;
     }
-
-    const ctx = buildContext(input, mirror);
-    ctx.preisfeldSource = (n: number) => fields.get(n) ?? 0;
-
-    const result = evaluateSchema(51, 2301, preisart, ctx, mirror);
-    const pf: Record<number, number> = {};
-    for (const [k, v] of fields) pf[k] = v;
-    out.push({ code, articleId, value: result.total, preisfelds: pf });
-    total += result.total;
   }
   return { lines: out, total };
 }

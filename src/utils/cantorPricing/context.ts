@@ -6,6 +6,46 @@ import type { CantorMirror } from './mirror';
 import type { ConfiguratorInput } from './input';
 import { buildFnRegistry } from './fns';
 
+export function applyInfillContext(vars: Map<string, Value>, infill: ConfiguratorInput['infills'][0], mirror: CantorMirror, profilsatz: string) {
+  if (!infill?.code) return;
+  vars.set('ARTNRFUELLUNG', infill.code);
+  const g = mirror.glazingInfo(infill.code);
+  
+  if (g) {
+    vars.set('ANZAHL_SCHEIBEN', g.panes);
+    const setGVar = (k: string, v: string | number | null) => { if (v != null) vars.set(k, v); };
+
+    setGVar('EINBAUSTAERKE', g.width_mm);
+    setGVar('SCHEIBE_GLASDICKE_1', g.glassThicknessOne);
+    setGVar('ABSTANDH_STAERKE_1', g.spacerOne);
+    
+    // Default pane types (glass)
+    vars.set('SCHEIBE_TYP_1', 1);
+    vars.set('SCHEIBE_TYP_2', 1);
+    vars.set('SCHEIBE_TYP_3', 1);
+    vars.set('SCHEIBE_TYP_4', 1);
+    
+    if (infill.zatepienie) {
+      vars.set('ES1201', 'J');
+      vars.set('ES1202', 'J');
+      vars.set('ES1203', 'J');
+      vars.set('ES1204', 'J');
+    }
+
+    const paneCode = g.glassThicknessOne === 4 ? 'FL4' : 'FL' + g.glassThicknessOne;
+    vars.set('SCHEIBE_1', infill.panes[0] ?? (g.panes >= 1 ? paneCode : ''));
+    vars.set('SCHEIBE_2', infill.panes[1] ?? (g.panes >= 2 ? paneCode : ''));
+    vars.set('SCHEIBE_3', infill.panes[2] ?? (g.panes >= 3 ? paneCode : ''));
+    vars.set('SCHEIBE_4', infill.panes[3] ?? (g.panes >= 4 ? paneCode : ''));
+  } else {
+    vars.set('SCHEIBE_1', infill.panes[0] ?? '');
+    vars.set('SCHEIBE_2', infill.panes[1] ?? '');
+    vars.set('SCHEIBE_3', infill.panes[2] ?? '');
+    vars.set('SCHEIBE_4', infill.panes[3] ?? '');
+    vars.set('ANZAHL_SCHEIBEN', infill.panes.filter(p => !!p).length);
+  }
+}
+
 export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): FormulaContext {
   // Dimensions.
   //
@@ -62,6 +102,8 @@ export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): Fo
   vars.set('PROFILSATZ_TYPKLASSE', typklasse(input.materialart));
   vars.set('TYPKLASSE', typklasse(input.materialart));
   vars.set('KATALOGNR', 0);                   // 0 = standard rectangular shape
+  if (input.windowUnit) vars.set('UNIT_TYPE', input.windowUnit);
+  if (input.model) vars.set('MODEL_TYPE', input.model);
 
   // Profile choices
   vars.set('AKTARTNRRA', input.frameProfile);
@@ -76,7 +118,7 @@ export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): Fo
   vars.set('ARTNRRAU', input.frameProfile);
 
   // Glazing
-  const glazingCode = input.glazing.code ?? '2-24.';
+  const glazingCode = input.infills[0]?.code ?? '2-24.';
 
   // Dimensions
   vars.set('BRB', BRB);
@@ -88,7 +130,11 @@ export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): Fo
   vars.set('ECHTEFELDBREITE', FELDB);
   vars.set('ECHTEFELDHOEHE', FELDH);
   vars.set('SCHWELLE', input.schwelle);
-  vars.set('ARTNRFUELLUNG', glazingCode);
+  // Helper function application is moved above buildContext
+
+  if (input.infills[0]?.code) {
+    applyInfillContext(vars, input.infills[0], mirror, input.profilsatz);
+  }
 
   if (input.hardware?.safetyClass) {
     vars.set('AUSFUEHRUNG', input.hardware.safetyClass);
@@ -128,6 +174,36 @@ export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): Fo
     }
   }
 
+  if (input.options) {
+    if (input.options.grilleType) {
+      vars.set('ARTNRSP', input.options.grilleType);
+      vars.set('AKTARTNRSP', input.options.grilleType);
+      vars.set('ES2905', 'J');
+      vars.set('ES2910', input.options.grilleFields ?? 0);
+      
+      // Standard grille colors (white) to prevent empty variable lookups in SPR formulas
+      vars.set('FARBCODE_SP_A', 'W-W');
+      vars.set('FARBCODE_SP_I', 'W-W');
+      vars.set('SYSTEMFARBE_SP', 'W-W');
+    }
+    
+    if (input.options.sealColor) {
+      vars.set('ES1201', input.options.sealColor);
+    }
+    
+    if (input.options.beadStyle) {
+      vars.set('ART_1199_GL_Stil', input.options.beadStyle);
+    }
+    
+    if (input.options.frameReinforcement === 'full') {
+      vars.set('ART_x801_Wzm_Ram', '2');
+    }
+    
+    if (input.options.dowelHoles) {
+      vars.set('ES1291', input.options.dowelHoles);
+    }
+  }
+
   // The engine must respect the dynamic hardware request (openings) from the user
   // rather than blindly inheriting what the fallback database snapshot happened
   // to be built with.
@@ -160,6 +236,14 @@ export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): Fo
   } else if (!vars.has('AUSFUEHRUNG')) {
      vars.set('AUSFUEHRUNG', 'STANDARD');
   }
+
+  // Fallbacks for critical dimension/type fields needed by SCHEMA formulas
+  if (!vars.has('ART_1805_MatArt')) {
+    vars.set('ART_1805_MatArt', 'PVC');
+  }
+  if (!vars.has('ART_1805_ETyp')) {
+    vars.set('ART_1805_ETyp', 'FE');
+  }
   
   // ANSCHLAG needs to be >0 for SCHEMA 37 to price hardware surcharges (like 4ZA).
   // A non-FIX sash has hinges, so it has ANSCHLAG > 0.
@@ -176,43 +260,12 @@ export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): Fo
   vars.set('FARBCODE_RA_I', input.color.interiorRal ?? '');
   vars.set('FARBCODEGRUPPE_TECHNIK_RA_A', '');
 
-  if (input.glazing?.code) {
-    vars.set('ARTNRFUELLUNG', input.glazing.code);
-    const g = mirror.glazingInfo(input.glazing.code);
-    if (g) {
-      vars.set('ANZAHL_SCHEIBEN', g.panes);
-      const setGVar = (k: string, v: string | number | null) => { if (v != null) vars.set(k, v); };
-
-      setGVar('EINBAUSTAERKE', g.width_mm);
-      setGVar('SCHEIBE_GLASDICKE_1', g.glassThicknessOne);
-      setGVar('ABSTANDH_STAERKE_1', g.spacerOne);
-      
-      // Default pane types (glass)
-      vars.set('SCHEIBE_TYP_1', 1);
-      vars.set('SCHEIBE_TYP_2', 1);
-      vars.set('SCHEIBE_TYP_3', 1);
-      vars.set('SCHEIBE_TYP_4', 1);
-      
-      if (input.glazing.zatepienie) {
-        vars.set('ES1201', 'J');
-        vars.set('ES1202', 'J');
-        vars.set('ES1203', 'J');
-        vars.set('ES1204', 'J');
-      }
-
-      const paneCode = g.glassThicknessOne === 4 ? 'FL4' : 'FL' + g.glassThicknessOne;
-      vars.set('SCHEIBE_1', input.glazing.panes[0] ?? (g.panes >= 1 ? paneCode : ''));
-      vars.set('SCHEIBE_2', input.glazing.panes[1] ?? (g.panes >= 2 ? paneCode : ''));
-      vars.set('SCHEIBE_3', input.glazing.panes[2] ?? (g.panes >= 3 ? paneCode : ''));
-      vars.set('SCHEIBE_4', input.glazing.panes[3] ?? (g.panes >= 4 ? paneCode : ''));
-    }
-  } else {
-    vars.set('SCHEIBE_1', input.glazing.panes[0] ?? '');
-    vars.set('SCHEIBE_2', input.glazing.panes[1] ?? '');
-    vars.set('SCHEIBE_3', input.glazing.panes[2] ?? '');
-    vars.set('SCHEIBE_4', input.glazing.panes[3] ?? '');
-    vars.set('ANZAHL_SCHEIBEN', input.glazing.panes.filter(p => !!p).length);
+  if (input.color.overwriteCoreColor && input.color.coreColor) {
+    vars.set('GRUNDKOERPER_FARBE', input.color.coreColor);
+    vars.set('FARBCODE_GRUNDKOERPER', input.color.coreColor);
   }
+
+  // Legacy input.glazing block deleted, handled by applyInfillContext
 
   // Beschlag priorities. 0/0 means "no priority article specified" → engine
   // falls through to the standard PMATALL("PVC_F100", ...) lookup.

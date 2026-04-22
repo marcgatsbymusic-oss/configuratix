@@ -12,6 +12,43 @@ export interface WindowDimensions {
   height: number; // mm
 }
 
+export const SINGLE_PANES = [
+  // Float
+  { code: 'FL4', name: 'Float 4mm' },
+  { code: 'FL6', name: 'Float 6mm' },
+  { code: 'FL8', name: 'Float 8mm' },
+  { code: 'FL10', name: 'Float 10mm' },
+  // Thermo (Low-E)
+  { code: 'T4', name: 'Thermoline 4mm' },
+  { code: 'T6', name: 'Thermoline 6mm' },
+  { code: 'T8', name: 'Thermoline 8mm' },
+  { code: 'T10', name: 'Thermoline 10mm' },
+  // Safe / Laminated
+  { code: 'B1', name: 'Safe 33.1' },
+  { code: 'TB1', name: 'Thermo Safe 33.1 th' },
+  { code: 'B2', name: 'Safe 33.2' },
+  { code: 'TB2', name: 'Thermo Safe 33.2 th' },
+  { code: '44.4', name: 'Anti-burglary 44.4' },
+  { code: 'TA4', name: 'Thermo Anti-burglary 44.4 th' },
+  { code: 'TB4', name: 'Thermo Anti-burglary 44.2 th' },
+  { code: 'VSG', name: 'VSG Standard' },
+  // Acoustic
+  { code: 'SR9', name: 'Acoustic 44.2 SR' },
+  { code: 'TSR9', name: 'Thermo Acoustic 44.2 SR th' },
+  // Obscured / Tinted
+  { code: 'M4', name: 'Matte 4mm' },
+  { code: 'M8.2', name: 'Matte 8.2mm' },
+  { code: 'ADB6H', name: 'Antisol Dark Blue 6mm (Tempered)' },
+  { code: 'SAT4', name: 'Satin 4mm' }
+];
+
+export const PROFILE_GLAZING_LIMITS: Record<string, { min: number; max: number; packages: string[] }> = {
+  'IG5': { min: 24, max: 40, packages: ['2-24', '2-26', '2-36', '2-40', '3-36', '3-40'] },
+  'IGE': { min: 36, max: 48, packages: ['3-36', '3-40', '3-48'] },
+  // Fallback limits for all other unknown profiles
+  'DEFAULT': { min: 18, max: 68, packages: ['2-24', '2-26', '2-36', '2-40', '3-36', '3-40', '3-48', '4-58', '4-68'] }
+};
+
 export interface GlazingPackage {
   id: string;
   name?: string;
@@ -146,8 +183,14 @@ export const CONFIG_SCHEMA = {
   },
   glazing: [
     { id: '2-24', name: '2-24 Double-glazed 24mm', priceMod: 1.0, group: 'Glazing Packages' },
+    { id: '2-26', name: '2-26 Double-glazed 26mm', priceMod: 1.05, group: 'Glazing Packages' },
+    { id: '2-36', name: '2-36 Double-glazed 36mm', priceMod: 1.08, group: 'Glazing Packages' },
+    { id: '2-40', name: '2-40 Double-glazed 40mm', priceMod: 1.1, group: 'Glazing Packages' },
     { id: '3-36', name: '3-36 Triple-glazed 36mm', priceMod: 1.15, group: 'Glazing Packages' },
+    { id: '3-40', name: '3-40 Triple-glazed 40mm', priceMod: 1.2, group: 'Glazing Packages' },
     { id: '3-48', name: '3-48 Triple-glazed 48mm', priceMod: 1.30, group: 'Glazing Packages' },
+    { id: '4-58', name: '4-58 Quad-glazed 58mm', priceMod: 1.60, group: 'Glazing Packages' },
+    { id: '4-68', name: '4-68 Quad-glazed 68mm', priceMod: 1.80, group: 'Glazing Packages' },
     
     // Non Glazing Packages mapped from UI Matrix
     { id: 'BS18', name: 'without glass, prepared for a package 18mm', priceMod: 0, group: 'Non Glazing' },

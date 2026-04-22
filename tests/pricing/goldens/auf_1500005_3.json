@@ -514,20 +514,22 @@
     },
     "frameProfile": "70001",
     "sashProfile": "70013",
-    "glazing": {
-      "code": "2-24",
-      "panes": [
-        "FL4",
-        "T4"
-      ],
-      "spacer": "S16"
-    },
     "schwelle": 0,
     "dealer": {
       "kundenNr": 1004,
       "pricelistKurzbez": "EUR23011",
       "land": "CH"
-    }
+    },
+    "infills": [
+      {
+        "code": "2-24",
+        "panes": [
+          "FL4",
+          "T4"
+        ],
+        "spacer": "S16"
+      }
+    ]
   },
   "expected": {
     "ek_pln_baseSchema41": 1172,
