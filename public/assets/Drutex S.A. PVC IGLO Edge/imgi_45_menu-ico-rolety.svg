@@ -1,21 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="50" height="50" viewBox="0 0 50 50">
-  <defs>
-    <clipPath id="clip-Icon_menu_2">
-      <rect width="50" height="50"/>
-    </clipPath>
-  </defs>
-  <g id="Icon_menu_2" data-name="Icon menu – 2" clip-path="url(#clip-Icon_menu_2)">
-    <g id="Group_1332" data-name="Group 1332" transform="translate(-1 0.75)">
-      <path id="Path_688" data-name="Path 688" d="M-19203.133-5283.381l-5.187-2.4,1.5-5,4.25-.375" transform="translate(19233.258 5303.507)" fill="none" stroke="#dadada" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-      <path id="Path_689" data-name="Path 689" d="M-19203.293-5299.839c-.1-.082-8.574-3.661-8.574-3.661v-5.367l5.58-1.382,17.842,4.121v26.3" transform="translate(19225.82 5316.833)" fill="none" stroke="#dadada" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-      <path id="Path_690" data-name="Path 690" d="M-19214.084-5258.855l3.15-3.322v26.51l2.219-2.054" transform="translate(19244.396 5278.855)" fill="none" stroke="#dadada" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-      <path id="Path_692" data-name="Path 692" d="M-19155.5-5285.407v24.458l2.539,1.119v-24.416" transform="translate(19170.365 5299.074)" fill="none" stroke="#dadada" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-      <path id="Path_693" data-name="Path 693" d="M-19186.844-5261.683l-11.988-5.317" transform="translate(19217.016 5288.352)" fill="none" stroke="#dadada" stroke-linecap="round" stroke-width="1"/>
-      <path id="Path_695" data-name="Path 695" d="M-19186.846-5244.586l-11.988-5.413" transform="translate(19216.488 5276.299)" fill="none" stroke="#dadada" stroke-linecap="round" stroke-width="1"/>
-      <path id="Path_697" data-name="Path 697" d="M-19186.553-5228.265l-12.279-5.8h0" transform="translate(19216.867 5265.008)" fill="none" stroke="#dadada" stroke-linecap="round" stroke-width="1"/>
-      <path id="Path_698" data-name="Path 698" d="M-19186.943-5219.5l-11.891-6" transform="translate(19216.59 5261.07)" fill="none" stroke="#dadada" stroke-linecap="round" stroke-width="1"/>
-      <path id="Path_699" data-name="Path 699" d="M-19197.5-5255.166v20.054" transform="translate(19227.813 5278.3)" fill="none" stroke="#dadada" stroke-linecap="round" stroke-width="1.5"/>
-    </g>
-    <path id="Path_929" data-name="Path 929" d="M-17776-5135.571l-2.572-1.143-5.428,1.143v6l9.125,3.634L-17773-5132l8.125-.937Z" transform="translate(17797 5144)" fill="#dadada"/>
-  </g>
-</svg>
+version https://git-lfs.github.com/spec/v1
+oid sha256:2accbd6b653a51ee80a57f05d23890a775700155f47aba6516b76f38bc04c1b2
+size 2595

@@ -1,16 +1,3 @@
-<svg id="en" xmlns="http://www.w3.org/2000/svg" width="54.336" height="31.7" viewBox="0 0 54.336 31.7">
-  <rect id="Rectangle_511" data-name="Rectangle 511" width="54.336" height="31.7" fill="#fff"/>
-  <path id="Path_996" data-name="Path 996" d="M311.157,118.162,329.113,108.1v-1.4h-1.242L307.4,118.162Z" transform="translate(-274.777 -106.7)" fill="#bd0034"/>
-  <path id="Path_997" data-name="Path 997" d="M334.8,303.4l18.806,10.517v-2.1L338.557,303.4Z" transform="translate(-299.269 -282.525)" fill="#bd0034"/>
-  <path id="Path_998" data-name="Path 998" d="M0,111.612l16.078,9.053h3.767L0,109.5Z" transform="translate(0 -109.203)" fill="#bd0034"/>
-  <path id="Path_999" data-name="Path 999" d="M18.986,303.4,0,314.034v.191H3.428L22.753,303.4Z" transform="translate(0 -282.525)" fill="#bd0034"/>
-  <path id="Path_1000" data-name="Path 1000" d="M316.728,106.7H297.7v10.655Z" transform="translate(-266.106 -106.7)" fill="#1a237b"/>
-  <path id="Path_1001" data-name="Path 1001" d="M58.943,106.7H40l18.943,10.655Z" transform="translate(-35.755 -106.7)" fill="#1a237b"/>
-  <path id="Path_1002" data-name="Path 1002" d="M403.3,153.38V146.1l-12.9,7.28Z" transform="translate(-348.968 -141.919)" fill="#1a237b"/>
-  <path id="Path_1003" data-name="Path 1003" d="M403.3,310.585V303.4H390.4Z" transform="translate(-348.968 -282.525)" fill="#1a237b"/>
-  <path id="Path_1004" data-name="Path 1004" d="M50.1,320.929H67.972V310.9Z" transform="translate(-44.783 -289.229)" fill="#1a237b"/>
-  <path id="Path_1005" data-name="Path 1005" d="M297.7,320.929h17.925L297.7,310.9Z" transform="translate(-266.106 -289.229)" fill="#1a237b"/>
-  <path id="Path_1006" data-name="Path 1006" d="M0,303.4v7.514L13.351,303.4Z" transform="translate(0 -282.525)" fill="#1a237b"/>
-  <path id="Path_1007" data-name="Path 1007" d="M0,151.235H13.351L0,143.7Z" transform="translate(0 -139.773)" fill="#1a237b"/>
-  <path id="Path_1008" data-name="Path 1008" d="M24.876,106.7v13.34H0v5.646H24.876V138.4h5.041V125.686h24.42V120.04H29.917V106.7Z" transform="translate(0 -106.7)" fill="#bd0034"/>
-</svg>
+version https://git-lfs.github.com/spec/v1
+oid sha256:c7efaa29df4ffa97c79af2a8dbd4fb81dfb5cedd6473ed0ba47481ec83c453d1
+size 2076

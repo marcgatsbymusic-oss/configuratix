@@ -1,22 +1,3 @@
-<svg width="100%" height="100%" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Outer white frame -->
-        <rect x="0" y="0" width="200" height="200" fill="#fcfcfc" stroke="#e0e0e0" stroke-width="1" />
-        <!-- Inner glass area with inset bevel effect using polygon paths -->
-        <rect x="15" y="15" width="170" height="170" fill="#a4c2d6" />
-        
-        <!-- Top bevel shadow -->
-        <path d="M15 15 L185 15 L180 20 L20 20 Z" fill="rgba(0,0,0,0.15)" />
-        <!-- Left bevel shadow -->
-        <path d="M15 15 L15 185 L20 180 L20 20 Z" fill="rgba(0,0,0,0.08)" />
-        <!-- Bottom bevel highlight -->
-        <path d="M15 185 L185 185 L180 180 L20 180 Z" fill="rgba(255,255,255,0.7)" />
-        <!-- Right bevel highlight -->
-        <path d="M185 15 L185 185 L180 180 L180 20 Z" fill="rgba(255,255,255,0.4)" />
-        
-        <!-- Fine inset border line -->
-        <rect x="15" y="15" width="170" height="170" fill="none" stroke="#888888" stroke-width="0.5" />
-    
-            <line x1="50" y1="100" x2="150" y2="100" stroke="#333333" stroke-width="1" />
-            <line x1="100" y1="50" x2="100" y2="150" stroke="#333333" stroke-width="1" />
-            <text x="103" y="97" font-weight="bold" font-family="Arial, sans-serif" font-size="12" fill="#333333">1</text>
-        </svg>
+version https://git-lfs.github.com/spec/v1
+oid sha256:673dbd91c7f6dedd4592fbbc917441743bbc2ffbc4935b2d61f4284dec7a9f77
+size 1347

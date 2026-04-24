@@ -1,14 +1,3 @@
-<svg id="iconfinder_2634450_ensign_flag_kingdom_nation_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="49.777" height="29.04" viewBox="0 0 49.777 29.04">
-  <defs>
-    <clipPath id="clip-path">
-      <rect id="Rectangle_511" data-name="Rectangle 511" width="49.777" height="29.04" fill="#fff"/>
-    </clipPath>
-  </defs>
-  <g id="Mask_Group_6" data-name="Mask Group 6" clip-path="url(#clip-path)">
-    <g id="XMLID_1_" transform="translate(0 0)">
-      <rect id="XMLID_4_" width="49.777" height="29.04" fill="#c4202b"/>
-      <rect id="XMLID_3_" width="49.777" height="14.515" fill="#fff"/>
-      <path id="XMLID_2_" d="M0,11.324v29.03L21.777,25.839Z" transform="translate(0 -11.324)" fill="#29467d"/>
-    </g>
-  </g>
-</svg>
+version https://git-lfs.github.com/spec/v1
+oid sha256:2f948b21e60e96f6723a6be62c3f4e4aec8c7024d5209acbe7be11d80b039c8e
+size 781

@@ -1,18 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="50" height="50" viewBox="0 0 50 50">
-  <defs>
-    <clipPath id="clip-taras">
-      <rect width="50" height="50"/>
-    </clipPath>
-  </defs>
-  <g id="taras" clip-path="url(#clip-taras)">
-    <path id="Path_674" data-name="Path 674" d="M-18720.666-4649.751v27.606l-36.166-2.629v-24.978l36.166-5.916" transform="translate(18763.332 4663.661)" fill="none" stroke="#dadada" stroke-linecap="round" stroke-width="2"/>
-    <path id="Path_675" data-name="Path 675" d="M-18736.781-4652.444l-17.055,2.738v24.068l17.055,1.195Z" transform="translate(18777 4663.206)" fill="none" stroke="#dadada" stroke-width="1"/>
-    <path id="Path_676" data-name="Path 676" d="M-18724.4-4648.426l-15.982,2.356v21.2l15.982.828Z" transform="translate(18749.24 4661.736)" fill="none" stroke="#dadada" stroke-width="1"/>
-    <path id="Path_932" data-name="Path 932" d="M-17706.176-5123.751l-3.828,1.99" transform="translate(17726.85 5151.428)" fill="none" stroke="#dadada" stroke-linecap="round" stroke-width="1"/>
-    <path id="Path_935" data-name="Path 935" d="M-17702.35-5123.751l-7.654,4.627" transform="translate(17742.43 5144.391)" fill="none" stroke="#dadada" stroke-linecap="round" stroke-width="1"/>
-    <path id="Path_933" data-name="Path 933" d="M-17700.123-5123.751l-9.881,4.9" transform="translate(17720.799 5155.526)" fill="none" stroke="#dadada" stroke-linecap="round" stroke-width="1"/>
-    <path id="Path_937" data-name="Path 937" d="M-17702.35-5123.751l-7.654,4.627" transform="translate(17736.086 5156.82)" fill="none" stroke="#dadada" stroke-linecap="round" stroke-width="1"/>
-    <path id="Path_936" data-name="Path 936" d="M-17695.055-5126.75l-14.951,8.33" transform="translate(17735.137 5152.253)" fill="none" stroke="#dadada" stroke-linecap="round" stroke-width="1"/>
-    <path id="Path_938" data-name="Path 938" d="M-17713.8-5104.952v.97l33.027,2.292v-1.069Z" transform="translate(17721.619 5144.837)" fill="#dadada"/>
-  </g>
-</svg>
+version https://git-lfs.github.com/spec/v1
+oid sha256:58c3514b3303fa9ad423bc0dc2539e5af493e9ff99e92878ebc49b92a6f146fa
+size 2035
