@@ -391,5 +391,66 @@
     "inter1": "Recomendado: Asistente Guiado Inteligente",
     "inter2": "Llevarme directamente al configurador",
     "inter2Sub": "(Configuración Compleja)"
+  },
+  "partner": {
+    "layout": {
+      "dashboard": "Tauler",
+      "leads": "Oportunitats",
+      "profile": "Perfil de Botiga",
+      "settings": "Configuració",
+      "portal": "Portal de Socis",
+      "signOut": "Tancar Sessió"
+    },
+    "dashboard": {
+      "title": "Tauler",
+      "subtitle": "Benvingut de nou. Això és el que passa a la teva botiga.",
+      "showQr": "Mostrar QR",
+      "totalScans": "Escanejos",
+      "activeLeads": "Oportunitats Actives",
+      "estCommissions": "Comissions Est.",
+      "fromLastMonth": "des del mes passat",
+      "newThisWeek": "nous aquesta setmana",
+      "leadsPending": "tancaments pendents",
+      "recentActivity": "Activitat Recent"
+    },
+    "leads": {
+      "title": "Oportunitats",
+      "subtitle": "Segueix el progrés i les comissions.",
+      "exportCsv": "Exportar CSV",
+      "searchId": "Cercar ID...",
+      "filterStatus": "Filtrar",
+      "cols": {
+        "id": "ID Client",
+        "date": "Data",
+        "source": "Origen",
+        "status": "Estat",
+        "budget": "Pressupost",
+        "actions": "Accions"
+      }
+    },
+    "profile": {
+      "title": "Perfil de Botiga",
+      "subtitle": "Gestiona els detalls i la marca.",
+      "basicInfo": "Informació Bàsica",
+      "storeName": "Nom de Botiga",
+      "storeType": "Tipus",
+      "address": "Adreça",
+      "email": "Email",
+      "phone": "Telèfon",
+      "saveChanges": "Desar",
+      "cobranding": "Co-Branding",
+      "cobrandingDesc": "Puja el teu logo per a la pàgina de clients.",
+      "clickToUpload": "Fes clic per pujar",
+      "fileTypes": "SVG, PNG o JPG (màx 2MB)",
+      "networkGroup": "Grup de Xarxa",
+      "networkDesc": "Ets independent. Enllaça't si ets part d'una cadena.",
+      "linkChain": "Enllaçar a Cadena",
+      "types": {
+        "hardware": "Ferreteria",
+        "pharmacy": "Farmàcia",
+        "restaurant": "Restaurant",
+        "other": "Altre"
+      }
+    }
   }
 }

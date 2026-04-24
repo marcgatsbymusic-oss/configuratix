@@ -442,5 +442,66 @@
     "inter1": "Empfohlen: Intelligenter Verkaufsassi",
     "inter2": "Direkt zum Konfigurator",
     "inter2Sub": "(Komplex)"
+  },
+  "partner": {
+    "layout": {
+      "dashboard": "Dashboard",
+      "leads": "Leads & Pipeline",
+      "profile": "Shop-Profil",
+      "settings": "Einstellungen",
+      "portal": "Partnerportal",
+      "signOut": "Abmelden"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "subtitle": "Willkommen zurück. Das passiert in Ihrem Shop.",
+      "showQr": "QR anzeigen",
+      "totalScans": "Gesamte Scans",
+      "activeLeads": "Aktive Leads",
+      "estCommissions": "Geschätzte Provisionen",
+      "fromLastMonth": "seit letztem Monat",
+      "newThisWeek": "neu diese Woche",
+      "leadsPending": "ausstehende Abschlüsse",
+      "recentActivity": "Letzte Aktivität"
+    },
+    "leads": {
+      "title": "Leads & Pipeline",
+      "subtitle": "Verfolgen Sie Fortschritte und Provisionen.",
+      "exportCsv": "CSV exportieren",
+      "searchId": "ID suchen...",
+      "filterStatus": "Status filtern",
+      "cols": {
+        "id": "Kunden-ID",
+        "date": "Datum",
+        "source": "Quelle",
+        "status": "Status",
+        "budget": "Budget",
+        "actions": "Aktionen"
+      }
+    },
+    "profile": {
+      "title": "Shop-Profil",
+      "subtitle": "Details und Co-Branding verwalten.",
+      "basicInfo": "Grundinformationen",
+      "storeName": "Shop-Name",
+      "storeType": "Typ",
+      "address": "Adresse",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "saveChanges": "Speichern",
+      "cobranding": "Co-Branding",
+      "cobrandingDesc": "Logo für Kunden-Landingpage hochladen.",
+      "clickToUpload": "Klicken zum Hochladen",
+      "fileTypes": "SVG, PNG oder JPG (max 2MB)",
+      "networkGroup": "Netzwerkgruppe",
+      "networkDesc": "Unabhängiger Partner. Bei Kette verknüpfen.",
+      "linkChain": "Mit Kette verknüpfen",
+      "types": {
+        "hardware": "Baumarkt",
+        "pharmacy": "Apotheke",
+        "restaurant": "Restaurant",
+        "other": "Andere"
+      }
+    }
   }
 }

@@ -442,5 +442,66 @@
     "inter1": "Recomendado: Asistente Guiado Inteligente",
     "inter2": "Llevarme directamente al configurador",
     "inter2Sub": "(Configuración Compleja)"
+  },
+  "partner": {
+    "layout": {
+      "dashboard": "Panel",
+      "leads": "Oportunidades",
+      "profile": "Perfil de Tienda",
+      "settings": "Ajustes",
+      "portal": "Portal de Socios",
+      "signOut": "Cerrar Sesión"
+    },
+    "dashboard": {
+      "title": "Panel",
+      "subtitle": "Bienvenido. Esto es lo que sucede en tu tienda.",
+      "showQr": "Mostrar QR",
+      "totalScans": "Escaneos",
+      "activeLeads": "Oportunidades Activas",
+      "estCommissions": "Comisiones Est.",
+      "fromLastMonth": "desde el mes pasado",
+      "newThisWeek": "nuevos esta semana",
+      "leadsPending": "cierres pendientes",
+      "recentActivity": "Actividad Reciente"
+    },
+    "leads": {
+      "title": "Oportunidades",
+      "subtitle": "Sigue el progreso y las comisiones.",
+      "exportCsv": "Exportar CSV",
+      "searchId": "Buscar ID...",
+      "filterStatus": "Filtrar",
+      "cols": {
+        "id": "ID Cliente",
+        "date": "Fecha",
+        "source": "Origen",
+        "status": "Estado",
+        "budget": "Presupuesto",
+        "actions": "Acciones"
+      }
+    },
+    "profile": {
+      "title": "Perfil de Tienda",
+      "subtitle": "Gestiona los detalles y la marca.",
+      "basicInfo": "Información Básica",
+      "storeName": "Nombre de Tienda",
+      "storeType": "Tipo",
+      "address": "Dirección",
+      "email": "Email",
+      "phone": "Teléfono",
+      "saveChanges": "Guardar",
+      "cobranding": "Co-Branding",
+      "cobrandingDesc": "Sube tu logo para la página de clientes.",
+      "clickToUpload": "Haz clic para subir",
+      "fileTypes": "SVG, PNG o JPG (máx 2MB)",
+      "networkGroup": "Grupo de Red",
+      "networkDesc": "Eres independiente. Enlázate si eres parte de una cadena.",
+      "linkChain": "Enlazar a Cadena",
+      "types": {
+        "hardware": "Ferretería",
+        "pharmacy": "Farmacia",
+        "restaurant": "Restaurante",
+        "other": "Otro"
+      }
+    }
   }
 }

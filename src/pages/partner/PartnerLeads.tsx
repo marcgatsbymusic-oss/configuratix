@@ -1,4 +1,5 @@
 import { Search, Filter, Download, MoreVertical } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 const mockLeads = [
   { id: 'WIN-2025-0891', date: '2025-04-24', status: 'In Progress', budget: '€4,500', tier: 'Tier 1 (Poster)' },
@@ -8,16 +9,18 @@ const mockLeads = [
 ]
 
 export function PartnerLeads() {
+  const { t } = useTranslation()
+
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight text-white">Leads & Pipeline</h2>
-          <p className="text-gray-400 mt-1">Track your customers' progress and estimated commissions.</p>
+          <h2 className="text-3xl font-bold tracking-tight text-white">{t('partner.leads.title')}</h2>
+          <p className="text-gray-400 mt-1">{t('partner.leads.subtitle')}</p>
         </div>
         <button className="bg-[#111] border border-gray-800 hover:bg-gray-800 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors">
           <Download className="w-5 h-5" />
-          Export CSV
+          {t('partner.leads.exportCsv')}
         </button>
       </div>
 
@@ -28,13 +31,13 @@ export function PartnerLeads() {
             <Search className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
             <input 
               type="text" 
-              placeholder="Search ID..." 
+              placeholder={t('partner.leads.searchId')}
               className="w-full bg-black border border-gray-800 rounded-lg pl-10 pr-4 py-2 text-sm text-white focus:outline-none focus:border-[#eab676] transition-colors"
             />
           </div>
           <button className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
             <Filter className="w-4 h-4" />
-            Filter by Status
+            {t('partner.leads.filterStatus')}
           </button>
         </div>
 
@@ -43,12 +46,12 @@ export function PartnerLeads() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-gray-800 text-xs uppercase tracking-wider text-gray-500 bg-[#0a0a0a]">
-                <th className="px-6 py-4 font-semibold">Customer ID</th>
-                <th className="px-6 py-4 font-semibold">Scan Date</th>
-                <th className="px-6 py-4 font-semibold">Scan Source</th>
-                <th className="px-6 py-4 font-semibold">Status</th>
-                <th className="px-6 py-4 font-semibold">Est. Budget</th>
-                <th className="px-6 py-4 font-semibold text-right">Actions</th>
+                <th className="px-6 py-4 font-semibold">{t('partner.leads.cols.id')}</th>
+                <th className="px-6 py-4 font-semibold">{t('partner.leads.cols.date')}</th>
+                <th className="px-6 py-4 font-semibold">{t('partner.leads.cols.source')}</th>
+                <th className="px-6 py-4 font-semibold">{t('partner.leads.cols.status')}</th>
+                <th className="px-6 py-4 font-semibold">{t('partner.leads.cols.budget')}</th>
+                <th className="px-6 py-4 font-semibold text-right">{t('partner.leads.cols.actions')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-800/50">

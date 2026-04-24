@@ -442,5 +442,66 @@
     "inter1": "Recommended: Intelligent Guided Assistant",
     "inter2": "Take me directly to the configurator",
     "inter2Sub": "(Complex Setup)"
+  },
+  "partner": {
+    "layout": {
+      "dashboard": "Dashboard",
+      "leads": "Leads & Pipeline",
+      "profile": "Store Profile",
+      "settings": "Settings",
+      "portal": "Partner Portal",
+      "signOut": "Sign Out"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "subtitle": "Welcome back. Here's what's happening at your store.",
+      "showQr": "Show In-Store QR",
+      "totalScans": "Total Scans",
+      "activeLeads": "Active Leads",
+      "estCommissions": "Est. Commissions",
+      "fromLastMonth": "from last month",
+      "newThisWeek": "new this week",
+      "leadsPending": "leads pending closure",
+      "recentActivity": "Recent Activity"
+    },
+    "leads": {
+      "title": "Leads & Pipeline",
+      "subtitle": "Track your customers' progress and estimated commissions.",
+      "exportCsv": "Export CSV",
+      "searchId": "Search ID...",
+      "filterStatus": "Filter by Status",
+      "cols": {
+        "id": "Customer ID",
+        "date": "Scan Date",
+        "source": "Scan Source",
+        "status": "Status",
+        "budget": "Est. Budget",
+        "actions": "Actions"
+      }
+    },
+    "profile": {
+      "title": "Store Profile",
+      "subtitle": "Manage your store details and co-branding settings.",
+      "basicInfo": "Basic Information",
+      "storeName": "Store Name",
+      "storeType": "Store Type",
+      "address": "Address",
+      "email": "Email",
+      "phone": "Phone",
+      "saveChanges": "Save Changes",
+      "cobranding": "Co-Branding",
+      "cobrandingDesc": "Upload your logo to appear on the customer landing page when they scan your QR codes.",
+      "clickToUpload": "Click to upload logo",
+      "fileTypes": "SVG, PNG, or JPG (max. 2MB)",
+      "networkGroup": "Network Group",
+      "networkDesc": "Your store is an independent partner. If you belong to a larger chain, you can link your account.",
+      "linkChain": "Link to Chain/Group",
+      "types": {
+        "hardware": "Hardware Store",
+        "pharmacy": "Pharmacy",
+        "restaurant": "Restaurant",
+        "other": "Other"
+      }
+    }
   }
 }

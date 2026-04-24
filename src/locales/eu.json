@@ -385,5 +385,66 @@
     "inter1": "Recomendado: Asistente Guiado Inteligente",
     "inter2": "Llevarme directamente al configurador",
     "inter2Sub": "(Configuración Compleja)"
+  },
+  "partner": {
+    "layout": {
+      "dashboard": "Panela",
+      "leads": "Aukerak",
+      "profile": "Dendaren Profila",
+      "settings": "Ezarpenak",
+      "portal": "Bazkideen Ataria",
+      "signOut": "Saioa Itxi"
+    },
+    "dashboard": {
+      "title": "Panela",
+      "subtitle": "Ongi etorri berriro.",
+      "showQr": "Erakutsi QR",
+      "totalScans": "Eskaneatzeak",
+      "activeLeads": "Aukera Aktiboak",
+      "estCommissions": "Est. Komisioak",
+      "fromLastMonth": "azken hilabetetik",
+      "newThisWeek": "aste honetan berriak",
+      "leadsPending": "itxi gabe",
+      "recentActivity": "Azken Jarduera"
+    },
+    "leads": {
+      "title": "Aukerak",
+      "subtitle": "Jarraitu aurrerapena eta komisioak.",
+      "exportCsv": "Esportatu CSV",
+      "searchId": "Bilatu ID...",
+      "filterStatus": "Iragazi",
+      "cols": {
+        "id": "Bezero ID",
+        "date": "Data",
+        "source": "Iturria",
+        "status": "Egoera",
+        "budget": "Aurrekontua",
+        "actions": "Ekintzak"
+      }
+    },
+    "profile": {
+      "title": "Dendaren Profila",
+      "subtitle": "Kudeatu xehetasunak.",
+      "basicInfo": "Oinarrizko Informazioa",
+      "storeName": "Dendaren Izena",
+      "storeType": "Mota",
+      "address": "Helbidea",
+      "email": "Posta",
+      "phone": "Telefonoa",
+      "saveChanges": "Gorde",
+      "cobranding": "Co-Branding",
+      "cobrandingDesc": "Igo zure logoa.",
+      "clickToUpload": "Egin klik igotzeko",
+      "fileTypes": "SVG, PNG edo JPG",
+      "networkGroup": "Sarea",
+      "networkDesc": "Bazkide independentea zara.",
+      "linkChain": "Estekatu Sareari",
+      "types": {
+        "hardware": "Burdindegia",
+        "pharmacy": "Farmazia",
+        "restaurant": "Jatetxea",
+        "other": "Beste bat"
+      }
+    }
   }
 }

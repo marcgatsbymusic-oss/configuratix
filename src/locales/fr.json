@@ -442,5 +442,66 @@
     "inter1": "Recommandé: Assistant Intelligent",
     "inter2": "Aller au configurateur",
     "inter2Sub": "(Complexe)"
+  },
+  "partner": {
+    "layout": {
+      "dashboard": "Tableau de bord",
+      "leads": "Opportunités",
+      "profile": "Profil du Magasin",
+      "settings": "Paramètres",
+      "portal": "Portail Partenaire",
+      "signOut": "Déconnexion"
+    },
+    "dashboard": {
+      "title": "Tableau de bord",
+      "subtitle": "Bienvenue. Voici ce qui se passe.",
+      "showQr": "Afficher le QR",
+      "totalScans": "Scans Totaux",
+      "activeLeads": "Opportunités Actives",
+      "estCommissions": "Commissions Est.",
+      "fromLastMonth": "depuis le mois dernier",
+      "newThisWeek": "nouveaux cette semaine",
+      "leadsPending": "clôtures en attente",
+      "recentActivity": "Activité Récente"
+    },
+    "leads": {
+      "title": "Opportunités",
+      "subtitle": "Suivez les progrès et commissions.",
+      "exportCsv": "Exporter CSV",
+      "searchId": "Chercher ID...",
+      "filterStatus": "Filtrer",
+      "cols": {
+        "id": "ID Client",
+        "date": "Date",
+        "source": "Source",
+        "status": "Statut",
+        "budget": "Budget",
+        "actions": "Actions"
+      }
+    },
+    "profile": {
+      "title": "Profil",
+      "subtitle": "Gérer les détails et le co-branding.",
+      "basicInfo": "Informations de Base",
+      "storeName": "Nom du Magasin",
+      "storeType": "Type",
+      "address": "Adresse",
+      "email": "Email",
+      "phone": "Téléphone",
+      "saveChanges": "Enregistrer",
+      "cobranding": "Co-Branding",
+      "cobrandingDesc": "Uploadez votre logo.",
+      "clickToUpload": "Cliquez pour uploader",
+      "fileTypes": "SVG, PNG ou JPG (max 2MB)",
+      "networkGroup": "Réseau",
+      "networkDesc": "Partenaire indépendant. Lier à une chaîne.",
+      "linkChain": "Lier à la chaîne",
+      "types": {
+        "hardware": "Quincaillerie",
+        "pharmacy": "Pharmacie",
+        "restaurant": "Restaurant",
+        "other": "Autre"
+      }
+    }
   }
 }

@@ -442,5 +442,66 @@
     "inter1": "Recomendado: Asistente Guiado Inteligente",
     "inter2": "Llevarme directamente al configurador",
     "inter2Sub": "(Configuración Compleja)"
+  },
+  "partner": {
+    "layout": {
+      "dashboard": "Painel",
+      "leads": "Leads e Funil",
+      "profile": "Perfil da Loja",
+      "settings": "Configurações",
+      "portal": "Portal do Parceiro",
+      "signOut": "Sair"
+    },
+    "dashboard": {
+      "title": "Painel",
+      "subtitle": "Bem-vindo de volta.",
+      "showQr": "Mostrar QR",
+      "totalScans": "Total de Scans",
+      "activeLeads": "Leads Ativos",
+      "estCommissions": "Comissões Est.",
+      "fromLastMonth": "do mês passado",
+      "newThisWeek": "novos esta semana",
+      "leadsPending": "fechamentos pendentes",
+      "recentActivity": "Atividade Recente"
+    },
+    "leads": {
+      "title": "Leads e Funil",
+      "subtitle": "Acompanhe o progresso e as comissões.",
+      "exportCsv": "Exportar CSV",
+      "searchId": "Buscar ID...",
+      "filterStatus": "Filtrar",
+      "cols": {
+        "id": "ID Cliente",
+        "date": "Data",
+        "source": "Origem",
+        "status": "Status",
+        "budget": "Orçamento",
+        "actions": "Ações"
+      }
+    },
+    "profile": {
+      "title": "Perfil",
+      "subtitle": "Gerencie os detalhes e a marca.",
+      "basicInfo": "Informação Básica",
+      "storeName": "Nome da Loja",
+      "storeType": "Tipo",
+      "address": "Endereço",
+      "email": "Email",
+      "phone": "Telefone",
+      "saveChanges": "Salvar",
+      "cobranding": "Co-Branding",
+      "cobrandingDesc": "Faça upload do seu logotipo.",
+      "clickToUpload": "Clique para fazer upload",
+      "fileTypes": "SVG, PNG ou JPG (máx 2MB)",
+      "networkGroup": "Rede",
+      "networkDesc": "Parceiro independente. Vincular a rede.",
+      "linkChain": "Vincular a Rede",
+      "types": {
+        "hardware": "Loja de Ferragens",
+        "pharmacy": "Farmácia",
+        "restaurant": "Restaurante",
+        "other": "Outro"
+      }
+    }
   }
 }
