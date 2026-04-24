@@ -44,6 +44,11 @@ import { FactoryQueuePage } from './pages/admin/FactoryQueuePage'
 
 import { DebugPricing } from './pages/DebugPricing'
 
+import { PartnerLayout } from './components/partner/PartnerLayout'
+import { PartnerDashboard } from './pages/partner/PartnerDashboard'
+import { PartnerLeads } from './pages/partner/PartnerLeads'
+import { PartnerProfile } from './pages/partner/PartnerProfile'
+
 function StorefrontLayout() {
   return (
     <div className="flex flex-col min-h-screen bg-black">
@@ -84,6 +89,13 @@ function App() {
               <Route path="setup" element={<SetupOverview />} />
               <Route path="pricing" element={<PricingManager />} />
               <Route path="upload" element={<MatrixUploader />} />
+            </Route>
+
+            {/* Partner Portal Routes */}
+            <Route path="/partner" element={<PartnerLayout />}>
+              <Route index element={<PartnerDashboard />} />
+              <Route path="leads" element={<PartnerLeads />} />
+              <Route path="profile" element={<PartnerProfile />} />
             </Route>
             
             {/* Public Storefront Routes */}

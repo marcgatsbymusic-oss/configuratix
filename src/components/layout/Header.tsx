@@ -144,17 +144,17 @@ export function Header() {
             Debug
           </Link>
           {[
-            { key: 'partnerPortal', defaultText: 'Partner Portal' },
-            { key: 'cooperation', defaultText: 'Cooperation' },
-            { key: 'contact', defaultText: 'Contact' }
+            { key: 'partnerPortal', defaultText: 'Partner Portal', href: '/partner' },
+            { key: 'cooperation', defaultText: 'Cooperation', href: '#' },
+            { key: 'contact', defaultText: 'Contact', href: '#' }
           ].map((item) => (
-            <a
+            <Link
               key={item.key}
-              href="#"
+              to={item.href}
               className="text-[10px] uppercase tracking-widest text-[#888888] hover:text-[#eab676] transition-colors duration-200"
             >
               {t(`header.topBar.${item.key}`)}
-            </a>
+            </Link>
           ))}
         </div>
       </div>
