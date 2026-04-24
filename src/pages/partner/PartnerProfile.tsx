@@ -19,7 +19,7 @@ export function PartnerProfile() {
               {t('partner.profile.basicInfo')}
             </h3>
             
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-400">{t('partner.profile.storeName')}</label>
                 <input 
@@ -50,7 +50,7 @@ export function PartnerProfile() {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-400 flex items-center gap-2">
                   <Mail className="w-4 h-4" /> {t('partner.profile.email')}
