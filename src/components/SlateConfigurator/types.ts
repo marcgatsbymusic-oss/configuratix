@@ -42,11 +42,41 @@ export const SINGLE_PANES = [
   { code: 'SAT4', name: 'Satin 4mm' }
 ];
 
+const IGLO_ACOUSTIC_PACKAGES = [
+  'T4/18/FL8', 'FL6/16/T4', 'B1/16/T4', 'B1/16/TB1', 'TB1/18/FL', 'A4/16/T4', 'A4/16/TB1', 'T8/20/SR9'
+];
+
+const IGLO_STANDARD_PACKAGES = [
+  '2-18', '2-20', '2-22', '2-24', '2-26', '2-28', '2-30', '2-32', '2-34', '2-36', '2-40',
+  '3-24', '3-28', '3-32', '3-34', '3-36', '3-40',
+  ...IGLO_ACOUSTIC_PACKAGES
+];
+
 export const PROFILE_GLAZING_LIMITS: Record<string, { min: number; max: number; packages: string[] }> = {
-  'IG5': { min: 24, max: 40, packages: ['2-24', '2-26', '2-36', '2-40', '3-36', '3-40'] },
-  'IGE': { min: 36, max: 48, packages: ['3-36', '3-40', '3-48'] },
+  '50011': { min: 18, max: 40, packages: IGLO_STANDARD_PACKAGES },
+  '1100': { min: 18, max: 40, packages: IGLO_STANDARD_PACKAGES },
+  '1101': { min: 18, max: 40, packages: IGLO_STANDARD_PACKAGES },
+  '1103': { min: 18, max: 40, packages: IGLO_STANDARD_PACKAGES },
+  '1110': { min: 18, max: 40, packages: IGLO_STANDARD_PACKAGES },
+  '1200': { min: 18, max: 40, packages: IGLO_STANDARD_PACKAGES },
+  '1300': { min: 18, max: 40, packages: IGLO_STANDARD_PACKAGES },
+  '1310': { min: 18, max: 40, packages: IGLO_STANDARD_PACKAGES },
+  '1360': { min: 18, max: 40, packages: IGLO_STANDARD_PACKAGES },
+  '1400': { min: 18, max: 40, packages: IGLO_STANDARD_PACKAGES },
+  '1500': { min: 18, max: 40, packages: IGLO_STANDARD_PACKAGES },
+  '1600': { min: 18, max: 40, packages: IGLO_STANDARD_PACKAGES },
+  'IG5': { min: 18, max: 40, packages: IGLO_STANDARD_PACKAGES },
+  'IG5CL': { min: 18, max: 40, packages: IGLO_STANDARD_PACKAGES },
+  'IG5 PP PSK': { min: 18, max: 40, packages: IGLO_STANDARD_PACKAGES },
+  'IGE': { min: 18, max: 48, packages: IGLO_STANDARD_PACKAGES },
+  'IGECL': { min: 18, max: 48, packages: IGLO_STANDARD_PACKAGES },
+  'IGL': { min: 18, max: 40, packages: IGLO_STANDARD_PACKAGES },
+  'IGP': { min: 18, max: 40, packages: IGLO_STANDARD_PACKAGES },
   // Fallback limits for all other unknown profiles
-  'DEFAULT': { min: 18, max: 68, packages: ['2-24', '2-26', '2-36', '2-40', '3-36', '3-40', '3-48', '4-58', '4-68'] }
+  'DEFAULT': { min: 18, max: 68, packages: [
+    '2-18', '2-20', '2-22', '2-24', '2-26', '2-28', '2-30', '2-32', '2-34', '2-36', '2-40',
+    '3-24', '3-28', '3-32', '3-34', '3-36', '3-40', '3-48', '4-58', '4-68'
+  ] }
 };
 
 export interface GlazingPackage {
@@ -55,6 +85,7 @@ export interface GlazingPackage {
   priceMod?: number;
   group?: string;
   description2?: string;
+  fixedPanes?: string[];
 }
 
 export type CategoryType = 'Windows' | 'Doors' | 'Terrace Systems' | 'Shutters' | 'Exterior Venetian Blinds' | 'Insect Screens' | 'Garage doors' | 'Facades / Winter Gardens' | 'Pergola';
@@ -182,15 +213,36 @@ export const CONFIG_SCHEMA = {
     'Pergola': { basePricePerSqm: 900, minWidth: 2000, maxWidth: 6000, minHeight: 2500, maxHeight: 3500, image: '/assets/materials/wood_aluminium_teak-a.png', profiles: websiteCatalog['Pergola'] as ProfileSystem[] }
   },
   glazing: [
+    { id: '2-18', name: '2-18 Double-glazed 18mm', priceMod: 1.0, group: 'Glazing Packages' },
+    { id: '2-20', name: '2-20 Double-glazed 20mm', priceMod: 1.0, group: 'Glazing Packages' },
+    { id: '2-22', name: '2-22 Double-glazed 22mm', priceMod: 1.0, group: 'Glazing Packages' },
     { id: '2-24', name: '2-24 Double-glazed 24mm', priceMod: 1.0, group: 'Glazing Packages' },
     { id: '2-26', name: '2-26 Double-glazed 26mm', priceMod: 1.05, group: 'Glazing Packages' },
+    { id: '2-28', name: '2-28 Double-glazed 28mm', priceMod: 1.05, group: 'Glazing Packages' },
+    { id: '2-30', name: '2-30 Double-glazed 30mm', priceMod: 1.06, group: 'Glazing Packages' },
+    { id: '2-32', name: '2-32 Double-glazed 32mm', priceMod: 1.07, group: 'Glazing Packages' },
+    { id: '2-34', name: '2-34 Double-glazed 34mm', priceMod: 1.07, group: 'Glazing Packages' },
     { id: '2-36', name: '2-36 Double-glazed 36mm', priceMod: 1.08, group: 'Glazing Packages' },
     { id: '2-40', name: '2-40 Double-glazed 40mm', priceMod: 1.1, group: 'Glazing Packages' },
+    { id: '3-24', name: '3-24 Triple-glazed 24mm', priceMod: 1.1, group: 'Glazing Packages' },
+    { id: '3-28', name: '3-28 Triple-glazed 28mm', priceMod: 1.12, group: 'Glazing Packages' },
+    { id: '3-32', name: '3-32 Triple-glazed 32mm', priceMod: 1.13, group: 'Glazing Packages' },
+    { id: '3-34', name: '3-34 Triple-glazed 34mm', priceMod: 1.14, group: 'Glazing Packages' },
     { id: '3-36', name: '3-36 Triple-glazed 36mm', priceMod: 1.15, group: 'Glazing Packages' },
     { id: '3-40', name: '3-40 Triple-glazed 40mm', priceMod: 1.2, group: 'Glazing Packages' },
     { id: '3-48', name: '3-48 Triple-glazed 48mm', priceMod: 1.30, group: 'Glazing Packages' },
     { id: '4-58', name: '4-58 Quad-glazed 58mm', priceMod: 1.60, group: 'Glazing Packages' },
     { id: '4-68', name: '4-68 Quad-glazed 68mm', priceMod: 1.80, group: 'Glazing Packages' },
+    
+    // Fixed / Acoustic Glazing Packages
+    { id: 'T4/18/FL8', name: 'T4/18/FL8 Ug=1.1', group: 'Fixed Pane Packages', fixedPanes: ['T4', '', 'FL8'] },
+    { id: 'FL6/16/T4', name: 'FL6/16/T4 6/16/4 th Ug=1.1, Rw=40dB', group: 'Fixed Pane Packages', fixedPanes: ['FL6', '', 'T4'] },
+    { id: 'B1/16/T4', name: 'B1/16/T4 33.1/16/4 th Ug=1.1, Rw=40dB', group: 'Fixed Pane Packages', fixedPanes: ['B1', '', 'T4'] },
+    { id: 'B1/16/TB1', name: 'B1/16/TB1 33.1/16/33.1 th Ug=1.1, Rw=40dB', group: 'Fixed Pane Packages', fixedPanes: ['B1', '', 'TB1'] },
+    { id: 'TB1/18/FL', name: 'TB1/18/FL 33.1 th/18/8 Ug=1.1, Rw=41dB', group: 'Fixed Pane Packages', fixedPanes: ['TB1', '', 'FL8'] },
+    { id: 'A4/16/T4', name: 'A4/16/T4 44.4/16/4 th Ug=1.1, Rw=41dB', group: 'Fixed Pane Packages', fixedPanes: ['A4', '', 'T4'] },
+    { id: 'A4/16/TB1', name: 'A4/16/TB1 44.4/16/33.1 th Ug=1.1, Rw=43dB', group: 'Fixed Pane Packages', fixedPanes: ['A4', '', 'TB1'] },
+    { id: 'T8/20/SR9', name: 'T8/20/SR9 8 th/20/44.2 SR Ug=1.1, Rw=46dB', group: 'Fixed Pane Packages', fixedPanes: ['T8', '', 'SR9'] },
     
     // Non Glazing Packages mapped from UI Matrix
     { id: 'BS18', name: 'without glass, prepared for a package 18mm', priceMod: 0, group: 'Non Glazing' },

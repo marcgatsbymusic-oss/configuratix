@@ -1,5 +1,11 @@
 ## Appendix: Glazing Options
 
+### Standard Selection for IGLO Systems
+Based on Cantor constraints, the standard glazing packages for all IGLO-related systems (IG5, IGE, IGL, IGP, etc.) are restricted to the following 17 options:
+- **Double-glazed**: 2-18, 2-20, 2-22, 2-24, 2-26, 2-28, 2-30, 2-32, 2-34, 2-36, 2-40
+- **Triple-glazed**: 3-24, 3-28, 3-32, 3-34, 3-36, 3-40
+
+
 | Glazing Code (ARTNR) | Description (ARTIKELTEXT1) |
 |---|---|
 | 000 |  |

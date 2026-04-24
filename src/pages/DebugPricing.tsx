@@ -1,15 +1,33 @@
 import { useEffect, useState } from 'react';
 import { fetchPrice, type PricingApiResponse } from '../utils/cantorPricing/pricingApi';
 import type { ConfiguratorInput } from '../utils/cantorPricing/input';
-import { CONFIG_SCHEMA, WINDOW_TYPES, COLOR_LOCALE, SINGLE_PANES, PROFILE_GLAZING_LIMITS } from '../components/SlateConfigurator/types';
+import { CONFIG_SCHEMA, WINDOW_TYPES, COLOR_LOCALE, PROFILE_GLAZING_LIMITS } from '../components/SlateConfigurator/types';
 import { WindowVisualizer } from '../components/SlateConfigurator/WindowVisualizer';
+import glazingOptions from '../data/cantor_glazing_options.json';
+import shutterLookups from '../data/shutter_lookups.json';
 
 const getPaneImage = (paneCode: string) => {
   if (!paneCode) return null;
-  if (paneCode.includes('B1') || paneCode.includes('B2') || paneCode.includes('VSG') || paneCode.includes('33.1') || paneCode.includes('33.2')) return 'segura-331.webp';
-  if (paneCode.includes('M4') || paneCode.includes('SAT')) return 'segura-332-mat.webp';
-  if (paneCode.includes('ADB')) return 'antisol-blue-6.webp';
-  if (paneCode.includes('SR')) return 'float-6.webp';
+  const code = paneCode.toUpperCase();
+  
+  if (code.includes('M8.2') || code.includes('MB2') || code.includes('MAT')) return 'segura-332-mat.webp';
+  if (code.includes('B1') || code.includes('B2') || code.includes('33.1') || code.includes('33.2') || code.includes('44.1') || code.includes('44.2') || code.includes('44.4')) return 'segura-331.webp';
+  if (code.includes('ADB')) return 'antisol-blue-6.webp';
+  if (code.includes('AB4')) return 'antisol-brown-4.webp';
+  if (code.includes('AB6') || code.includes('ANB') || code.includes('RB6') || code.includes('RFB')) return 'antisol-brown-6.webp';
+  if (code.includes('AZ4') || code.includes('ANZ')) return 'antisol-green-4.webp';
+  if (code.includes('AZ6')) return 'antisol-green-6.webp';
+  if (code.includes('AS6') || code.includes('ANS')) return 'antisol-grey-6.webp';
+  if (code.includes('OCH')) return 'chinchilla-4.webp';
+  if (code.includes('OCA')) return 'ornamento-cathedral.webp';
+  if (code.includes('ODT')) return 'ornamento-delta.webp';
+  if (code.includes('OMC')) return 'ornamento-master.webp';
+  if (code.includes('OSI')) return 'ornamento-silvit.webp';
+  if (code.includes('OPR')) return 'waterfall-105.webp';
+  if (code.includes('RFN') || code.includes('RN6')) return 'stopsol-blue-6.webp';
+  if (code.includes('MS4')) return 'mirastar.webp';
+  if (code.includes('FL6') || code.includes('SR') || code.includes('H02') || code.includes('T6')) return 'float-6.webp';
+  
   return 'float-4.webp'; // fallback for FL, T, etc.
 };
 
@@ -18,7 +36,7 @@ export function DebugPricing() {
   const [typology, setTypology] = useState<string>('F100');
   const [isTypologyOpen, setIsTypologyOpen] = useState(false);
   const [opening] = useState<string>('UR');
-  const [profilsatz, setProfilsatz] = useState('IG5');
+  const [profilsatz, setProfilsatz] = useState('1100'); // Maps to IG5
 
   // 3) Dimensions
   const [width, setWidth] = useState(1000);
@@ -26,26 +44,24 @@ export function DebugPricing() {
 
   // 4) Glazing Options
   const [infills, setInfills] = useState([
-    { code: '2-24', pane1: 'FL4', pane2: 'T4', pane3: '', frameStyle: 'S', width: '', height: '' },
-    { code: '2-24', pane1: 'FL4', pane2: 'T4', pane3: '', frameStyle: 'S', width: '', height: '' }
+    { code: '2-24', pane1: 'T4', pane2: '', pane3: 'FL4', frameStyle: 'S', width: '', height: '' },
+    { code: '2-24', pane1: 'T4', pane2: '', pane3: 'FL4', frameStyle: 'S', width: '', height: '' }
   ]);
 
   // 5) Joinery colors
-  const [colorType, setColorType] = useState('DEK-DEK');
+  const [colorType, setColorType] = useState('W-W');
   const [colorCode, setColorCode] = useState('0006');
-  const [isColorCodeOpen, setIsColorCodeOpen] = useState(false);
   const [interiorColorCode, setInteriorColorCode] = useState('');
-  const [isInteriorColorCodeOpen, setIsInteriorColorCodeOpen] = useState(false);
   const [overwriteCoreColor, setOverwriteCoreColor] = useState(false);
   const [coreColor, setCoreColor] = useState('');
-  const [isCoreColorOpen, setIsCoreColorOpen] = useState(false);
 
   // 6) Window options
-  const [windowUnit, setWindowUnit] = useState('');
+  const [windowUnit] = useState('');
   const [safetyClass, setSafetyClass] = useState('');
   const [model, setModel] = useState('');
+  const [isModelOpen, setIsModelOpen] = useState(false);
   const [hardwareSystem, setHardwareSystem] = useState('');
-  const [handleType, setHandleType] = useState('');
+  const [handleType, setHandleType] = useState('-');
   const [handleColor, setHandleColor] = useState('');
   const [coverColor, setCoverColor] = useState('');
 
@@ -58,47 +74,56 @@ export function DebugPricing() {
   // 8) Seals
   const [sealColor, setSealColor] = useState('');
 
-  // 10) Shutter options
+  // 9) Shutter options
+  const [includeShutter, setIncludeShutter] = useState(false);
   const [rollerBlindType, setRollerBlindType] = useState('');
   const [windowScreen, setWindowScreen] = useState('');
+  const [windowScreenLocation, setWindowScreenLocation] = useState('');
 
-  // 11) Pancerz
+  // 10) Pancerz
   const [curtainType, setCurtainType] = useState('');
   const [finsPerforation, setFinsPerforation] = useState('');
   const [curtainColor, setCurtainColor] = useState('');
   const [bottomSlatColor, setBottomSlatColor] = useState('');
+  const [windowScreenBottomSlatColor, setWindowScreenBottomSlatColor] = useState('');
 
-  // 12) Service - Field I
+  // 11) Service - Field I
   const [driveType, setDriveType] = useState('');
   const [controlSide, setControlSide] = useState('');
 
-  // 13) Service
+  // 12) Service
   const [doorChecksTypeI, setDoorChecksTypeI] = useState('');
-  const [imposeArbour, setImposeArbour] = useState('');
+  const [imposeArbour, setImposeArbour] = useState(false);
 
-  // 14) Box
+  // 13) Box
   const [boxType, setBoxType] = useState('');
   const [outerBoxColor, setOuterBoxColor] = useState('');
   const [otherBoxColor, setOtherBoxColor] = useState('');
   const [plasterCarrier, setPlasterCarrier] = useState('');
-  const [flushMountedSlatIn, setFlushMountedSlatIn] = useState('');
-  const [flushMountedSlatOut, setFlushMountedSlatOut] = useState('');
+  const [flushMountedSlatIn, setFlushMountedSlatIn] = useState(false);
+  const [flushMountedSlatColorIn, setFlushMountedSlatColorIn] = useState('');
+  const [flushMountedSlatOut, setFlushMountedSlatOut] = useState(false);
+  const [flushMountedSlatColorOut, setFlushMountedSlatColorOut] = useState('');
   const [review, setReview] = useState('');
   const [sideCoverCapColor, setSideCoverCapColor] = useState('');
 
-  // 15) Guide rails
+  // 14) Guide rails
   const [guideRailsColor, setGuideRailsColor] = useState('');
   const [guideRailsCutting, setGuideRailsCutting] = useState('');
   const [extremeLeftGuideRail, setExtremeLeftGuideRail] = useState('');
   const [extremeRightGuideRail, setExtremeRightGuideRail] = useState('');
   const [guideRailsTypes, setGuideRailsTypes] = useState('');
 
-  // 16) Other
-  const [guideRailGasketing, setGuideRailGasketing] = useState('');
-  const [soundproofMat, setSoundproofMat] = useState('');
+  // 15) Other
+  const [guideRailGasketing, setGuideRailGasketing] = useState(false);
+  const [soundproofMat, setSoundproofMat] = useState(false);
 
   // 17) Dowel holes
   const [dowelHoles, setDowelHoles] = useState('');
+  const [dowelLeft, setDowelLeft] = useState(true);
+  const [dowelRight, setDowelRight] = useState(true);
+  const [dowelTop, setDowelTop] = useState(false);
+  const [dowelBottom, setDowelBottom] = useState(false);
 
   // 18) Grilles/Door infills
   const [grilleType, setGrilleType] = useState('');
@@ -113,7 +138,7 @@ export function DebugPricing() {
   useEffect(() => {
     const input: ConfiguratorInput = {
       article: typology,
-      profilsatz,
+      profilsatz: PRODUKTSYSTEM_MAP[profilsatz] || profilsatz,
       materialart: 2,
       beschvar: opening === 'UR' ? 'UR-P' : 'FIX',
       width_mm: width,
@@ -134,7 +159,7 @@ export function DebugPricing() {
       sashProfile: '50011',
       infills: (typology.match(/^F2[0-5][0-9]$/) ? infills : [infills[0]]).map(inf => ({
         code: inf.code,
-        panes: inf.code.startsWith('3-') ? [inf.pane1, inf.pane2, inf.pane3].filter(Boolean) : [inf.pane1, inf.pane2].filter(Boolean),
+        panes: inf.code.startsWith('3-') ? [inf.pane1, inf.pane2, inf.pane3].filter(Boolean) : [inf.pane1, inf.pane3].filter(Boolean),
         spacer: inf.frameStyle || 'S',
         width_mm: inf.width ? Number(inf.width) : undefined,
         height_mm: inf.height ? Number(inf.height) : undefined
@@ -185,14 +210,90 @@ export function DebugPricing() {
     return acc;
   }, {});
 
-  const HARDWARE_COLORS = [
-    { code: 'bialy', name: 'White (biały)' },
-    { code: 'braz', name: 'Brown (brąz)' },
-    { code: 'srebrny', name: 'Silver (srebrny)' },
-    { code: 'tytan', name: 'Titanium (tytan)' },
-    { code: 'szampan', name: 'Champagne (szampan)' },
-    { code: 'zloty', name: 'Gold (złoty)' },
-    { code: 'F9', name: 'F9 (Titanium / Silver)' }
+  const HANDLE_COLOR_OPTIONS: Record<string, string> = {
+    'white': 'White',
+    'ral9016': 'RAL 9016 (Pure White)',
+    'ral9001': 'RAL 9001 (Cream)',
+    'brown': 'Brown',
+    'ral8019': 'RAL 8019 (Dark Brown)',
+    'czarny': 'Black',
+    'ral9005': 'RAL 9005 (Black)',
+    'antracyt': 'Anthracite',
+    'ral7016': 'RAL 7016 (Anthracite)',
+    'silver': 'Silver',
+    'f1': 'F1 (Silver)',
+    'f2': 'F2 (Champagne)',
+    'f4': 'F4 (Old Gold / Bronze)',
+    'f9': 'F9 (Titanium)',
+    'olive': 'Olive',
+    'default': 'Default (Stainless Steel)'
+  };
+
+  const COVER_COLOR_OPTIONS: Record<string, string> = {
+    'bialy': 'White (biały)',
+    'braz': 'Brown (brąz)',
+    'jasnybraz': 'Light Brown (jasny brąz)',
+    'srebrny': 'Silver (srebrny)',
+    'antracyt': 'Anthracite (antracyt)',
+    'czarny': 'Black (czarny)',
+    'Szampanski': 'Champagne (szampański)',
+    'Tytan': 'Titanium (tytan)',
+    'kremowy': 'Cream (kremowy)'
+  };
+
+  const IMAGE_COLOR_MAP: Record<string, string> = {}; // Tokens already match file suffixes
+
+  const HANDLE_COLOR_MAP: Record<string, string[]> = {
+    'Atlanta': ['white', 'brown', 'f1', 'f2', 'f4', 'f9'],
+    'ALU_A': ['ral9016', 'ral9001', 'brown', 'ral8019', 'ral9005', 'ral7016', 'f1', 'f4', 'f9', 'olive'],
+    'ALU_AK': ['white', 'ral9016', 'ral9001', 'brown', 'ral9005', 'ral7016', 'silver', 'f9', 'olive'],
+    'ALU_AP': ['white', 'brown', 'silver', 'olive'],
+    'ALU_B': ['ral9016', 'ral9001', 'brown', 'ral8019', 'ral9005', 'ral7016', 'f1', 'f4', 'f9', 'olive'],
+    'ALU_BK': ['white', 'brown', 'silver', 'olive'],
+    'Kwadrat': ['ral9016', 'ral9001', 'ral8019', 'ral9005', 'ral7016', 'f1', 'f4', 'f9'],
+    'KwadratK': ['ral9016', 'ral9001', 'ral8019', 'ral9005', 'ral7016', 'f1', 'f4', 'f9'],
+    'Mistral': ['ral9001', 'ral9005', 'ral7016', 'f9'],
+    'MistralK': ['f9'],
+    'Dublin': ['white', 'brown', 'ral9005', 'ral7016', 'silver'],
+    'DublinK': ['white', 'brown', 'ral9005', 'ral7016', 'silver'],
+    'DublinP': ['white', 'brown', 'ral9005', 'ral7016', 'silver'],
+    'MA_1010': ['default'],
+    'AtlantaK': ['white', 'brown', 'f1', 'f2', 'f4', 'f9'],
+    'AtlantaP': ['white', 'brown', 'f1', 'f2', 'f4', 'f9'],
+    'Toulon': ['white', 'brown', 'f1', 'f2', 'f4', 'f9'],
+    'ToulonSF': ['white', 'brown', 'f1', 'f2', 'f4', 'f9'],
+    'Hamburg': ['white', 'brown', 'f1', 'f2', 'f4', 'f9'],
+    'HamburgSF': ['white', 'brown', 'f1', 'f2', 'f4', 'f9'],
+    'Tokyo': ['white', 'brown', 'f1', 'f2', 'f4', 'f9'],
+    '-': []
+  };
+
+  const HANDLE_OPTIONS = [
+    { code: '-', name: 'No holes for spindle and mounting screws' },
+    { code: 'ALU_A', name: 'Aluminum handle I5 / IL (FKS model 1006)' },
+    { code: 'ALU_AK', name: 'Aluminum handle I5 / IL with key (FKS model 1006A)' },
+    { code: 'ALU_AP', name: 'Aluminum handle I5 with a button (FKS model 1006D)' },
+    { code: 'Atlanta', name: 'Hoppe handle Secustic Atlanta' },
+    { code: 'Kwadrat', name: 'Aluminium handle Square' },
+    { code: 'KwadratK', name: 'Aluminium handle Square with key' },
+    { code: 'Mistral', name: 'Aluminium handle Mistral' },
+    { code: 'MistralK', name: 'Aluminium handle Mistral with key' },
+    { code: 'AtlantaK', name: 'Hoppe handle Secustic Atlanta with key' },
+    { code: 'AtlantaP', name: 'Hoppe handle Secustic Atlanta with button' },
+    { code: 'Toulon', name: 'Hoppe handle Secustic Toulon' },
+    { code: 'ToulonSF', name: 'Hoppe handle Secuforte Toulon' },
+    { code: 'Hamburg', name: 'Hoppe handle Secustic Hamburg' },
+    { code: 'HamburgSF', name: 'Hoppe handle Secuforte Hamburg' },
+    { code: 'Tokyo', name: 'Hoppe Tokyo handle + KISI (child safety lock)' },
+    { code: 'ALU_B', name: 'Aluminium handle IE' },
+    { code: 'ALU_BK', name: 'Aluminum handle IE with key - (FKS model 1007A)' },
+    { code: 'Dublin', name: 'Aluminum handle DUBLIN' },
+    { code: 'DublinK', name: 'Aluminum handle DUBLIN with key' },
+    { code: 'DublinP', name: 'Aluminum handle DUBLIN with button' },
+    { code: 'ALUR', name: 'Flat window handle (roller shutter)' },
+    { code: 'ATESTK', name: 'Window handle with key - ATEST' },
+    { code: 'ALUW', name: 'Aluminum pull handle "conductor"' },
+    { code: 'MA_1010', name: 'MA 1010 stainless steel window handle' }
   ];
 
   const FRAME_STYLES = [
@@ -214,36 +315,202 @@ export function DebugPricing() {
     }
   ];
 
-  const PROFILE_SYSTEMS = [
+  const WINDOW_MODELS = [
+    { group: "1 Cut", options: [
+      { code: "S100", name: "Chamfer of the upper left corner" },
+      { code: "S101", name: "Chamfer of the upper left corner to any height" },
+      { code: "S200", name: "Chamfer of the upper right corner" },
+      { code: "S201", name: "Chamfer of the upper right corner to any height" },
+      { code: "TS100", name: "Upper-Left corner – cutting" }
+    ]},
+    { group: "2 Cuts", options: [
+      { code: "S300", name: "Cut of the upper corners" }
+    ]},
+    { group: "Triangles", options: [
+      { code: "T100", name: "Rectangular triangle" },
+      { code: "T200", name: "Isosceles triangle / triangle with tilted tip" }
+    ]},
+    { group: "Arches", options: [
+      { code: "L100", name: "Segmental arch" },
+      { code: "L101", name: "Segmental arch to the top" },
+      { code: "L200", name: "Full arch" },
+      { code: "L201", name: "Full arch to the top" },
+      { code: "L300", name: "Sharp arch" }
+    ]},
+    { group: "Various", options: [
+      { code: "K100", name: "Circle" },
+      { code: "S500", name: "Chamfer of the selected corners" }
+    ]}
+  ];
+
+  const PRODUCT_CATEGORIES = [
     {
-      group: "Available Systems",
-      options: [
-        { val: "CVP", label: "CVP" },
-        { val: "IG5", label: "IGLO 5" },
-        { val: "IG5 PP PSK", label: "IGLO 5 PP PSK" },
-        { val: "IG5CL", label: "IGLO 5 CLASSIC" },
-        { val: "IGE", label: "IGLO ENERGY" },
-        { val: "IGECL", label: "IGLO ENERGY CLASSIC" },
-        { val: "MB86N", label: "MB-86N" }
+      group: "WINDOWS",
+      subgroups: [
+        {
+          name: "PVC WINDOWS",
+          options: [
+            { val: "1600", label: "IGLO EDGE (new)" },
+            { val: "1300", label: "IGLO ENERGY" },
+            { val: "1310", label: "IGLO ENERGY CLASSIC" },
+            { val: "1360", label: "IGLO ENERGY ALUCOVER" },
+            { val: "1100", label: "IGLO 5" },
+            { val: "1110", label: "IGLO 5 CLASSIC" },
+            { val: "1200", label: "IGLO LIGHT" },
+            { val: "1400", label: "IGLO EXT" },
+            { val: "1500", label: "IGLO PREMIER" },
+            { val: "1700", label: "IDEAL NEO 76 AD" },
+            { val: "1710", label: "IDEAL NEO 76 MD" },
+            { val: "1720", label: "IDEAL NEO 76 MD RENO" },
+            { val: "1730", label: "IDEAL NEO 76 MD MONO" },
+            { val: "1750", label: "IDEAL 7000 NL" },
+            { val: "1756", label: "IDEAL 7000 NL (OKNA OTW NA ZEWN)" }
+          ]
+        },
+        {
+          name: "ALUMINIUM WINDOWS",
+          options: [
+            { val: "3350", label: "MB-86N SI" },
+            { val: "3200", label: "MB-79N SI" },
+            { val: "3150", label: "MB-70HI / MB-70" },
+            { val: "3100", label: "MB-45" }
+          ]
+        },
+        {
+          name: "WOODEN WINDOWS",
+          options: [
+            { val: "2100", label: "SOFTLINE 68" },
+            { val: "2200", label: "SOFTLINE 78" },
+            { val: "2300", label: "SOFTLINE 88" }
+          ]
+        },
+        {
+          name: "WOOD-ALUMINIUM WINDOWS",
+          options: [
+            { val: "2600", label: "DUOLINE 68" },
+            { val: "2700", label: "DUOLINE 78" },
+            { val: "2800", label: "DUOLINE 88" }
+          ]
+        }
+      ]
+    },
+    {
+      group: "DOORS",
+      subgroups: [
+        {
+          name: "PVC DOORS",
+          options: [
+            { val: "1103", label: "IGLO 5" },
+            { val: "1603", label: "IGLO EDGE (new)" },
+            { val: "1303", label: "IGLO ENERGY" },
+            { val: "1703", label: "IDEAL NEO 76 AD (DRZWI WEJŚCIOWE)" },
+            { val: "1713", label: "IDEAL NEO 76 MD (FRONT DOOR)" },
+            { val: "1723", label: "IDEAL NEO 76 MD RENO (DRZWI WEJŚCIOWE)" },
+            { val: "1733", label: "IDEAL NEO 76 MD MONO (DRZWI WEJŚCIOWE)" },
+            { val: "1753", label: "IDEAL 7000 NL (DRZWI WEJŚCIOWE)" }
+          ]
+        },
+        {
+          name: "ALUMINIUM DOORS",
+          options: [
+            { val: "4044", label: "D-ART Line (new)" },
+            { val: "3353", label: "MB-86N SI" },
+            { val: "3203", label: "MB-79N SI+" },
+            { val: "3153", label: "MB-70HI / MB-70" },
+            { val: "3103", label: "MB-45" },
+            { val: "3603", label: "MB-78EI Fire-Doors" },
+            { val: "3450", label: "PIVOT" }
+          ]
+        },
+        {
+          name: "WOODEN DOORS",
+          options: [
+            { val: "2103", label: "SOFTLINE 68" },
+            { val: "2203", label: "SOFTLINE 78" },
+            { val: "2303", label: "SOFTLINE 88" }
+          ]
+        }
+      ]
+    },
+    {
+      group: "TERRACE SYSTEMS",
+      subgroups: [
+        {
+          name: "LIFT AND SLIDE HS",
+          options: [
+            { val: "1004", label: "IGLO-HS" },
+            { val: "1014", label: "IGLO-HS ALUCOVER" },
+            { val: "3804", label: "MB-77HS HI" },
+            { val: "3854", label: "MB-77HS HI MONORAIL" },
+            { val: "3900", label: "MB-59HS HI" },
+            { val: "2104", label: "SOFTLINE HS (68)" },
+            { val: "2604", label: "DUOLINE HS (68)" }
+          ]
+        },
+        {
+          name: "SLIDE",
+          options: [
+            { val: "1007", label: "IGLO EDGE SLIDE (new)" },
+            { val: "1005", label: "IGLO SLIDE" },
+            { val: "3814", label: "MB-SLIDE" },
+            { val: "3904", label: "COR VISION (new) / COR VISION PLUS" }
+          ]
+        },
+        {
+          name: "FOLDING DOORS",
+          options: [
+            { val: "3909", label: "MB-86 FOLD LINE HD" },
+            { val: "2108", label: "SOFTLINE 68" }
+          ]
+        },
+        {
+          name: "TILT AND SLIDE PSK",
+          options: [
+            { val: "1301", label: "IGLO ENERGY PSK" },
+            { val: "1311", label: "IGLO ENERGY CLASSIC PSK" },
+            { val: "1101", label: "IGLO 5 PSK" },
+            { val: "1701", label: "IDEAL NEO 76 AD PSK" },
+            { val: "1711", label: "IDEAL NEO 76 MD PSK" },
+            { val: "1721", label: "IDEAL NEO 76 MD RENO PSK" },
+            { val: "1731", label: "IDEAL NEO 76 MD MONO PSK" },
+            { val: "1751", label: "IDEAL 7000 NL PSK" }
+          ]
+        }
       ]
     }
   ];
 
+  const PRODUKTSYSTEM_MAP: Record<string, string> = {
+    "1100": "IG5",
+    "1101": "IG5 PP PSK",
+    "1103": "IG5",
+    "1110": "IG5CL",
+    "1300": "IGE",
+    "1310": "IGECL",
+    "3350": "MB86N",
+    "3904": "CVP"
+  };
+
   // Helper for generic unmapped dropdowns
-  const GenericSelect = ({ label, value, onChange }: { label: string, value: string, onChange: (v: string) => void }) => (
+  const GenericSelect = ({ label, value, onChange, options }: { label: string, value: string, onChange: (v: string) => void, options?: {value: string, label: string}[] }) => (
     <div>
       <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">{label}</label>
       <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm focus:border-[#eab676] focus:outline-none"
         value={value} onChange={e => onChange(e.target.value)}>
-        <option value="">-- Select option --</option>
-        <option value="opt1">Option 1</option>
-        <option value="opt2">Option 2</option>
+        <option value="">Lack (-)</option>
+        {options ? options.map(o => <option key={o.value} value={o.value}>{o.label}</option>) : (
+          <>
+            <option value="opt1">Standard Option 1</option>
+            <option value="opt2">Standard Option 2</option>
+          </>
+        )}
       </select>
     </div>
   );
 
   // Helper for color dropdowns with swatches
-  const ColorSelect = ({ label, value, onChange, isOpen, setIsOpen, groupedOptions }: { label: string, value: string, onChange: (v: string) => void, isOpen: boolean, setIsOpen: (v: boolean) => void, groupedOptions: any }) => {
+  const ColorSelect = ({ label, value, onChange, groupedOptions }: { label: string, value: string, onChange: (v: string) => void, groupedOptions: any }) => {
+    const [isOpen, setIsOpen] = useState(false);
     const flatOpts = Object.values(groupedOptions).flat() as any[];
     const activeOpt = flatOpts.find(o => o.code === value);
 
@@ -348,11 +615,16 @@ export function DebugPricing() {
                 onClick={() => setIsTypologyOpen(!isTypologyOpen)}
                 className="w-full bg-black border border-gray-700 rounded-lg p-3 text-white cursor-pointer flex items-center justify-between hover:border-[#eab676] transition-colors h-[68px]"
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 group">
                    <img 
                      src={`/assets/windowtypes/${typology}.jpg`} 
-                     className="w-10 h-10 object-contain rounded bg-white shrink-0 p-1"
-                     onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement!.children[1].classList.remove('hidden'); }}
+                     className="w-10 h-10 object-contain rounded bg-black border border-gray-700 shrink-0 p-1 transition-transform duration-300 ease-in-out group-hover:scale-[2.5] group-hover:z-50 origin-left relative"
+                     onError={(e) => { 
+                       const t = e.currentTarget;
+                       if (!t.dataset.retriedPng) { t.dataset.retriedPng = 'true'; t.src = `/assets/windowtypes/${typology}.png`; }
+                       else if (!t.dataset.retriedSvg) { t.dataset.retriedSvg = 'true'; t.src = `/assets/windowtypes/${typology}.svg`; }
+                       else { t.style.display = 'none'; t.parentElement!.children[1].classList.remove('hidden'); }
+                     }}
                      alt={typology} 
                    />
                    <div className="w-10 h-10 rounded border border-gray-600 shadow-inner shrink-0 hidden items-center justify-center bg-gray-800 text-[10px]">{typology}</div>
@@ -383,12 +655,17 @@ export function DebugPricing() {
                                   <div 
                                     key={id} 
                                     onClick={() => { setTypology(id); setIsTypologyOpen(false); }} 
-                                    className="p-3 hover:bg-[#eab676]/20 cursor-pointer flex items-center gap-4 border-b border-gray-800 transition-colors"
+                                    className="p-3 hover:bg-[#eab676]/20 cursor-pointer flex items-center gap-4 border-b border-gray-800 transition-colors group"
                                   >
                                      <img 
                                        src={`/assets/windowtypes/${id}.jpg`} 
-                                       className="w-16 h-16 object-contain rounded bg-white p-1 shrink-0"
-                                       onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement!.children[1].classList.remove('hidden'); }}
+                                       className="w-16 h-16 object-contain rounded bg-black border border-gray-700 p-1 shrink-0 transition-transform duration-300 ease-in-out group-hover:scale-[2.5] group-hover:z-50 origin-left relative"
+                                       onError={(e) => { 
+                                         const t = e.currentTarget;
+                                         if (!t.dataset.retriedPng) { t.dataset.retriedPng = 'true'; t.src = `/assets/windowtypes/${id}.png`; }
+                                         else if (!t.dataset.retriedSvg) { t.dataset.retriedSvg = 'true'; t.src = `/assets/windowtypes/${id}.svg`; }
+                                         else { t.style.display = 'none'; t.parentElement!.children[1].classList.remove('hidden'); }
+                                       }}
                                        alt={id} 
                                      />
                                      <div className="w-16 h-16 rounded border border-gray-600 shadow-inner shrink-0 hidden items-center justify-center bg-gray-800 font-bold">{id}</div>
@@ -411,15 +688,17 @@ export function DebugPricing() {
 
             {/* 2) Profile System */}
             <div>
-              <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">2) Profile System</label>
+              <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">2) Profile System / Category</label>
               <select className="w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:border-[#eab676] focus:outline-none h-[68px]"
                 value={profilsatz} onChange={e => setProfilsatz(e.target.value)}>
-                {PROFILE_SYSTEMS.map((psGroup, idx) => (
-                  <optgroup key={idx} label={psGroup.group}>
-                    {psGroup.options.map(opt => (
-                      <option key={opt.val} value={opt.val}>{opt.val} — {opt.label}</option>
-                    ))}
-                  </optgroup>
+                {PRODUCT_CATEGORIES.map((category) => (
+                  category.subgroups.map((subgroup, subIdx) => (
+                    <optgroup key={`${category.group}-${subIdx}`} label={`${category.group} — ${subgroup.name}`}>
+                      {subgroup.options.map(opt => (
+                        <option key={opt.val} value={opt.val}>{opt.val} — {opt.label}</option>
+                      ))}
+                    </optgroup>
+                  ))
                 ))}
               </select>
             </div>
@@ -449,6 +728,9 @@ export function DebugPricing() {
               newInf[infillIdx] = { ...newInf[infillIdx], [field]: val };
               setInfills(newInf);
             };
+            
+            const schemaPkg = CONFIG_SCHEMA.glazing.find(g => g.id === inf.code);
+            const isFixed = !!schemaPkg?.fixedPanes;
             return (
               <div key={infillIdx}>
                 <h3 className="text-[#eab676] font-bold mt-6 mb-4 uppercase tracking-wider text-sm">
@@ -458,10 +740,49 @@ export function DebugPricing() {
                   <div>
                     <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Package Code</label>
                     <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
-                      value={inf.code} onChange={e => updateInf('code', e.target.value)}>
+                      value={inf.code} onChange={e => {
+                        const newCode = e.target.value;
+                        const newInf = [...infills];
+                        const updatedInf = { ...newInf[infillIdx], code: newCode };
+                        
+                        // Apply Cantor standard presets based on package type
+                        const selectedSchema = CONFIG_SCHEMA.glazing.find(g => g.id === newCode);
+                        if (selectedSchema?.fixedPanes) {
+                          updatedInf.pane1 = selectedSchema.fixedPanes[0] || '';
+                          updatedInf.pane2 = selectedSchema.fixedPanes[1] || '';
+                          updatedInf.pane3 = selectedSchema.fixedPanes[2] || '';
+                        } else if (newCode.startsWith('2-')) {
+                          updatedInf.pane1 = 'T4';
+                          updatedInf.pane3 = 'FL4';
+                          updatedInf.pane2 = '';
+                        } else if (newCode.startsWith('3-')) {
+                          updatedInf.pane1 = 'T4';
+                          updatedInf.pane2 = 'FL4';
+                          updatedInf.pane3 = 'T4';
+                        } else {
+                          // Non-glazing
+                          updatedInf.pane1 = '';
+                          updatedInf.pane2 = '';
+                          updatedInf.pane3 = '';
+                        }
+                        
+                        newInf[infillIdx] = updatedInf;
+                        setInfills(newInf);
+                      }}>
                       <optgroup label="Standard Glazing">
                         {CONFIG_SCHEMA.glazing
-                          .filter(g => g.group !== 'Non Glazing')
+                          .filter(g => g.group !== 'Non Glazing' && g.group !== 'Fixed Pane Packages')
+                          .filter(g => {
+                            const limits = PROFILE_GLAZING_LIMITS[profilsatz] || PROFILE_GLAZING_LIMITS['DEFAULT'];
+                            return limits.packages.includes(g.id);
+                          })
+                          .map(g => (
+                            <option key={g.id} value={g.id}>{g.id} ({g.name})</option>
+                        ))}
+                      </optgroup>
+                      <optgroup label="Fixed Pane Packages">
+                        {CONFIG_SCHEMA.glazing
+                          .filter(g => g.group === 'Fixed Pane Packages')
                           .filter(g => {
                             const limits = PROFILE_GLAZING_LIMITS[profilsatz] || PROFILE_GLAZING_LIMITS['DEFAULT'];
                             return limits.packages.includes(g.id);
@@ -493,48 +814,50 @@ export function DebugPricing() {
                     </div>
                   )}
                   
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <div className="flex-1">
-                      <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Pane 1 (Outside)</label>
-                      <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
-                        value={inf.pane1} onChange={e => updateInf('pane1', e.target.value)}>
-                        <option value="">-- None --</option>
-                        {SINGLE_PANES.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
-                      </select>
-                    </div>
-                    {inf.pane1 && (
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <div className="flex-1">
+                        <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Glass Outside</label>
+                        <select disabled={isFixed} className={`w-full bg-black border border-gray-800 rounded p-2 text-white text-sm ${isFixed ? 'opacity-50 cursor-not-allowed' : ''}`}
+                          value={inf.pane1} onChange={e => updateInf('pane1', e.target.value)}>
+                          <option value="">-- None --</option>
+                          {glazingOptions.outside.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
+                        </select>
+                      </div>
+                      {inf.pane1 && (
                       <div className="flex-none bg-white border border-gray-800 rounded overflow-hidden flex items-center justify-center min-w-[60px] max-w-[60px]">
                         <img src={`/assets/glass/thumbs/${getPaneImage(inf.pane1)}`} alt={`Pane ${inf.pane1}`} className="max-h-16 w-full object-cover mix-blend-multiply" />
                       </div>
                     )}
                   </div>
                   
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <div className="flex-1">
-                      <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">c) Pane 2 (Middle)</label>
-                      <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
-                        value={inf.pane2} onChange={e => updateInf('pane2', e.target.value)}>
-                        <option value="">-- None --</option>
-                        {SINGLE_PANES.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
-                      </select>
-                    </div>
-                    {inf.pane2 && (
-                      <div className="flex-none bg-white border border-gray-800 rounded overflow-hidden flex items-center justify-center min-w-[60px] max-w-[60px]">
-                        <img src={`/assets/glass/thumbs/${getPaneImage(inf.pane2)}`} alt={`Pane ${inf.pane2}`} className="max-h-16 w-full object-cover mix-blend-multiply" />
+                    {inf.code.startsWith('3-') && (
+                      <div className="flex flex-col sm:flex-row gap-4">
+                        <div className="flex-1">
+                          <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">c) Glass Middle</label>
+                          <select disabled={isFixed} className={`w-full bg-black border border-gray-800 rounded p-2 text-white text-sm ${isFixed ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            value={inf.pane2} onChange={e => updateInf('pane2', e.target.value)}>
+                            <option value="">-- None --</option>
+                            {glazingOptions.middle.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
+                          </select>
+                        </div>
+                        {inf.pane2 && (
+                          <div className="flex-none bg-white border border-gray-800 rounded overflow-hidden flex items-center justify-center min-w-[60px] max-w-[60px]">
+                            <img src={`/assets/glass/thumbs/${getPaneImage(inf.pane2)}`} alt={`Pane ${inf.pane2}`} className="max-h-16 w-full object-cover mix-blend-multiply" />
+                          </div>
+                        )}
                       </div>
                     )}
-                  </div>
                   
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <div className="flex-1">
-                      <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">d) Pane 3 (Inside)</label>
-                      <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                        value={inf.pane3} onChange={e => updateInf('pane3', e.target.value)} disabled={inf.code.startsWith('2-')}>
-                        <option value="">-- None --</option>
-                        {SINGLE_PANES.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
-                      </select>
-                    </div>
-                    {inf.pane3 && inf.code.startsWith('3-') && (
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <div className="flex-1">
+                        <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">d) Glass Inside</label>
+                        <select disabled={isFixed} className={`w-full bg-black border border-gray-800 rounded p-2 text-white text-sm ${isFixed ? 'opacity-50 cursor-not-allowed' : ''}`}
+                          value={inf.pane3} onChange={e => updateInf('pane3', e.target.value)}>
+                          <option value="">-- None --</option>
+                          {glazingOptions.inside.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
+                        </select>
+                      </div>
+                      {inf.pane3 && (
                       <div className="flex-none bg-white border border-gray-800 rounded overflow-hidden flex items-center justify-center min-w-[60px] max-w-[60px]">
                         <img src={`/assets/glass/thumbs/${getPaneImage(inf.pane3)}`} alt={`Pane ${inf.pane3}`} className="max-h-16 w-full object-cover mix-blend-multiply" />
                       </div>
@@ -584,15 +907,19 @@ export function DebugPricing() {
                   <option value="DEK-W">DEK-W (Decor / White)</option>
                 </select>
               </div>
-              <ColorSelect label="b) Exterior color code" value={colorCode} onChange={setColorCode} isOpen={isColorCodeOpen} setIsOpen={setIsColorCodeOpen} groupedOptions={groupedColors} />
-              <ColorSelect label="c) Interior color code" value={interiorColorCode} onChange={setInteriorColorCode} isOpen={isInteriorColorCodeOpen} setIsOpen={setIsInteriorColorCodeOpen} groupedOptions={groupedColors} />
+              {colorType !== 'W-W' && (
+                <>
+                  <ColorSelect label="b) Exterior color code" value={colorCode} onChange={setColorCode} groupedOptions={groupedColors} />
+                  <ColorSelect label="c) Interior color code" value={interiorColorCode} onChange={setInteriorColorCode} groupedOptions={groupedColors} />
+                </>
+              )}
               <div className="flex flex-col justify-end">
                 <label className="flex items-center gap-2 text-sm text-gray-300 pb-2">
                   <input type="checkbox" checked={overwriteCoreColor} onChange={e => setOverwriteCoreColor(e.target.checked)} className="rounded border-gray-700 bg-black text-[#eab676] focus:ring-[#eab676]" />
                   d) Overwrite the default core colour
                 </label>
               </div>
-              <ColorSelect label="e) Core color" value={coreColor} onChange={setCoreColor} isOpen={isCoreColorOpen} setIsOpen={setIsCoreColorOpen} groupedOptions={groupedColors} />
+              <ColorSelect label="e) Core color" value={coreColor} onChange={setCoreColor} groupedOptions={groupedColors} />
             </div>
           </div>
 
@@ -602,7 +929,7 @@ export function DebugPricing() {
           <div>
             <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">6) ---Window options---</h3>
             <div className="grid grid-cols-2 gap-4">
-              <GenericSelect label="a) Window options - unit" value={windowUnit} onChange={setWindowUnit} />
+              {/* a) Window options - unit (removed) */}
               
               <div>
                 <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Fitting safety class (options)</label>
@@ -616,18 +943,162 @@ export function DebugPricing() {
                 </select>
               </div>
 
-              <GenericSelect label="c) Model (options)" value={model} onChange={setModel} />
+              <div className="relative">
+                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">c) Model (options)</label>
+                <div 
+                  onClick={() => setIsModelOpen(!isModelOpen)}
+                  className="w-full bg-black border border-gray-700 rounded-lg p-3 text-white cursor-pointer flex items-center justify-between hover:border-[#eab676] transition-colors h-[68px]"
+                >
+                  <div className="flex items-center gap-3">
+                     {model ? (
+                       <>
+                         <img 
+                           src={`/assets/models/${model}.png`} 
+                           className="w-10 h-10 object-contain rounded bg-white shrink-0 p-1"
+                           onError={(e) => { 
+                             const t = e.currentTarget;
+                             if (!t.dataset.retriedJpg) { t.dataset.retriedJpg = 'true'; t.src = `/assets/models/${model}.jpg`; }
+                             else { t.style.display = 'none'; t.parentElement!.children[1].classList.remove('hidden'); }
+                           }}
+                           alt={model} 
+                         />
+                         <div className="w-10 h-10 rounded border border-gray-600 shadow-inner shrink-0 hidden flex items-center justify-center bg-gray-800 text-[10px] font-bold">{model}</div>
+                         <div className="flex flex-col">
+                           <span className="font-bold text-sm leading-tight text-white">{model}</span>
+                           <span className="text-[10px] text-gray-400 truncate max-w-[120px]">
+                              {WINDOW_MODELS.flatMap(g => g.options).find(o => o.code === model)?.name || 'Custom Model'}
+                           </span>
+                         </div>
+                       </>
+                     ) : (
+                       <span className="text-gray-500 text-sm">-- Standard (Rectangle) --</span>
+                     )}
+                  </div>
+                  <span className="text-gray-500 text-xs">▼</span>
+                </div>
+                
+                {isModelOpen && (
+                  <>
+                    <div className="fixed inset-0 z-40" onClick={() => setIsModelOpen(false)}></div>
+                    <div className="absolute top-full left-0 w-full md:w-[400px] mt-1 bg-[#151515] border border-gray-700 rounded-lg shadow-2xl z-50 pb-1 max-h-[400px] overflow-y-auto">
+                      <div 
+                        onClick={() => { setModel(''); setIsModelOpen(false); }} 
+                        className="p-3 hover:bg-[#eab676]/20 cursor-pointer border-b border-gray-800 transition-colors flex items-center gap-3"
+                      >
+                         <div className="w-12 h-12 rounded border border-gray-600 bg-gray-800 flex items-center justify-center text-xs font-bold shrink-0 text-gray-500">STD</div>
+                         <span className="font-bold text-sm text-gray-300">Standard (Rectangle)</span>
+                      </div>
+
+                      {WINDOW_MODELS.map((group, gIdx) => (
+                        <div key={gIdx}>
+                          <div className="p-2 border-b border-gray-800 bg-[#0a0a0a] sticky top-0 z-10 text-xs text-[#eab676] font-bold uppercase tracking-widest shadow-sm">
+                            {group.group}
+                          </div>
+                          {group.options.map(opt => (
+                            <div 
+                              key={opt.code} 
+                              onClick={() => { setModel(opt.code); setIsModelOpen(false); }} 
+                              className="p-3 hover:bg-[#eab676]/20 cursor-pointer flex items-center gap-4 border-b border-gray-800 transition-colors"
+                            >
+                               <img 
+                                 src={`/assets/models/${opt.code}.png`} 
+                                 className="w-12 h-12 object-contain rounded bg-white p-1 shrink-0"
+                                 onError={(e) => { 
+                                   const t = e.currentTarget;
+                                   if (!t.dataset.retriedJpg) { t.dataset.retriedJpg = 'true'; t.src = `/assets/models/${opt.code}.jpg`; }
+                                   else { t.style.display = 'none'; t.parentElement!.children[1].classList.remove('hidden'); }
+                                 }}
+                                 alt={opt.code} 
+                               />
+                               <div className="w-12 h-12 rounded border border-gray-600 shadow-inner shrink-0 hidden items-center justify-center bg-gray-800 font-bold text-xs">{opt.code}</div>
+                               <div className="flex flex-col">
+                                 <span className="font-bold text-white mb-0.5 text-sm">{opt.code}</span>
+                                 <span className="text-[11px] text-gray-400 leading-tight">{opt.name}</span>
+                               </div>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
               <GenericSelect label="d) Hardware system (options)" value={hardwareSystem} onChange={setHardwareSystem} />
               
-              <div>
-                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">e) Handle type (options)</label>
-                <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
-                  value={handleType} onChange={e => setHandleType(e.target.value)}>
-                   <option value="">STD (Standard)</option>
-                   <option value="-">- (No holes)</option>
-                   <option value="Kwadrat">Kwadrat (Aluminium handle Square)</option>
-                   <option value="Atlanta">Atlanta (Hoppe handle Secustic Atlanta)</option>
-                </select>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex-1">
+                  <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">e) Handle type (options)</label>
+                  <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                    value={handleType} onChange={e => setHandleType(e.target.value)}>
+                     {HANDLE_OPTIONS.map(h => <option key={h.code} value={h.code}>{h.code}, {h.name}</option>)}
+                  </select>
+                </div>
+                {handleType && handleType !== '-' && (
+                  <div className="flex-none bg-white border border-gray-800 rounded overflow-hidden flex items-center justify-center min-w-[80px] max-w-[80px] h-[80px]">
+                    <img 
+                      src={(() => {
+                        const getSrc = (c: string) => {
+                          const hoppeSeries = ['AtlantaK', 'AtlantaP', 'Toulon', 'ToulonSF', 'Hamburg', 'HamburgSF', 'Tokyo'];
+                          const aliasType = hoppeSeries.includes(handleType) ? 'Atlanta' : (handleType === 'ALU_B' ? 'ALU_A' : handleType);
+
+                          if (aliasType === 'Kwadrat') return `/assets/handles/kwadrat-${c}.png`;
+                          if (aliasType === 'Mistral') return `/assets/handles/mistral-${c}.png`;
+                          if (aliasType === 'MistralK') return `/assets/handles/mistral-${c}-key.png`;
+                          return `/assets/handles/${aliasType}_${c}.webp`;
+                        };
+                        return getSrc(handleColor ? (IMAGE_COLOR_MAP[handleColor] || handleColor) : 'white');
+                      })()} 
+                      alt={`Handle ${handleType}`} 
+                      className="max-h-full max-w-full object-contain mix-blend-multiply p-1" 
+                      onError={(e) => {
+                        const t = e.currentTarget;
+                        const getSrc = (c: string) => {
+                          const hoppeSeries = ['AtlantaK', 'AtlantaP', 'Toulon', 'ToulonSF', 'Hamburg', 'HamburgSF', 'Tokyo'];
+                          const aliasType = hoppeSeries.includes(handleType) ? 'Atlanta' : (handleType === 'ALU_B' ? 'ALU_A' : handleType);
+
+                          if (aliasType === 'Kwadrat') return `/assets/handles/kwadrat-${c}.png`;
+                          if (aliasType === 'Mistral') return `/assets/handles/mistral-${c}.png`;
+                          if (aliasType === 'MistralK') return `/assets/handles/mistral-${c}-key.png`;
+                          return `/assets/handles/${aliasType}_${c}.webp`;
+                        };
+                        
+                        const fallbacks = [
+                          getSrc('white'),
+                          getSrc('ral9016'),
+                          getSrc('ral9001'),
+                          getSrc('f1'),
+                          getSrc('silver'),
+                          getSrc('f4'),
+                          // Explicit Standard/White Fallbacks per Handle
+                          handleType === 'Kwadrat' ? '/assets/handles/kwadrat-ral9016.png' :
+                          handleType === 'KwadratK' ? '/assets/handles/KwadratK_ral9016.webp' :
+                          handleType === 'Mistral' ? '/assets/handles/mistral-ral9001.png' :
+                          handleType === 'MistralK' ? '/assets/handles/mistral-f9-key.png' :
+                          handleType === 'ALU_A' || handleType === 'ALU_B' ? '/assets/handles/ALU_A_ral9016.webp' :
+                          handleType === 'ALU_AK' || handleType === 'ALU_BK' ? `/assets/handles/${handleType}_white.webp` :
+                          handleType === 'ALU_AP' ? '/assets/handles/ALU_AP_white.webp' :
+                          handleType === 'MA_1010' ? '/assets/handles/MA_1010_default.webp' :
+                          `/assets/handles/${handleType}_white.webp` // Generic Hoppe/Dublin
+                        ];
+
+                        let currentIdx = parseInt(t.dataset.fallbackIdx || '-1');
+                        let nextIdx = currentIdx + 1;
+                        
+                        while (nextIdx < fallbacks.length) {
+                          const targetSrc = fallbacks[nextIdx];
+                          // If the current src already resolves to this fallback, skip it to prevent browser ignoring the assignment
+                          if (!t.src.endsWith(targetSrc)) {
+                            t.dataset.fallbackIdx = nextIdx.toString();
+                            t.src = targetSrc;
+                            return;
+                          }
+                          nextIdx++;
+                        }
+                        // If we exhaust all fallbacks, do nothing (broken image)
+                      }}
+                    />
+                  </div>
+                )}
               </div>
               
               <div>
@@ -635,7 +1106,7 @@ export function DebugPricing() {
                 <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
                   value={handleColor} onChange={e => setHandleColor(e.target.value)}>
                    <option value="">-- Default --</option>
-                   {HARDWARE_COLORS.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}
+                   {(HANDLE_COLOR_MAP[handleType] || []).map(c => <option key={c} value={c}>{HANDLE_COLOR_OPTIONS[c] || c}</option>)}
                 </select>
               </div>
               
@@ -644,7 +1115,7 @@ export function DebugPricing() {
                 <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
                   value={coverColor} onChange={e => setCoverColor(e.target.value)}>
                    <option value="">-- Default --</option>
-                   {HARDWARE_COLORS.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}
+                   {Object.entries(COVER_COLOR_OPTIONS).map(([code, name]) => <option key={code} value={code}>{name}</option>)}
                 </select>
               </div>
             </div>
@@ -664,13 +1135,24 @@ export function DebugPricing() {
                    <option value="50002">50002 (Renovation Frame)</option>
                 </select>
               </div>
-              <div>
-                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Weld type</label>
-                <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
-                  value={weld} onChange={e => setWeld(e.target.value)}>
-                   <option value="standard">Standard Weld</option>
-                   <option value="v-perfect">V-Perfect (Invisible)</option>
-                </select>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex-1">
+                  <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Weld type</label>
+                  <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                    value={weld} onChange={e => setWeld(e.target.value)}>
+                     <option value="standard">Standard Weld</option>
+                     <option value="v-perfect">V-Perfect (Invisible)</option>
+                  </select>
+                </div>
+                {weld && (
+                  <div className="flex-none bg-white border border-gray-800 rounded overflow-hidden flex items-center justify-center min-w-[120px] max-w-[120px]">
+                    <img 
+                      src={`/assets/welds/${weld}_weld.png`} 
+                      alt={`Weld ${weld}`} 
+                      className="max-h-24 w-full object-contain mix-blend-multiply" 
+                    />
+                  </div>
+                )}
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1">
@@ -713,19 +1195,25 @@ export function DebugPricing() {
                 <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
                   value={sealColor} onChange={e => setSealColor(e.target.value)}>
                    <option value="">Default / Standard</option>
-                   <option value="mix">Mix</option>
-                   <option value="czarny/sz">Out black / in grey</option>
-                   <option value="czarny">Black</option>
-                   <option value="szary">Gray</option>
-                   <option value="szary/czar">Out grey / in black</option>
+                   <option value="czarny">Black (czarny)</option>
+                   <option value="czarny/sz">out black / in grey (czarny/sz)</option>
+                   <option value="mix">Mix (mix)</option>
+                   <option value="szary">Gray (szary)</option>
+                   <option value="szary/czar">Out grey / in black (szary/czar)</option>
                 </select>
               </div>
               {sealColor && (
                 <div className="flex-none bg-white border border-gray-800 rounded overflow-hidden flex items-center justify-center min-w-[120px] max-w-[120px]">
                   <img 
-                    src={`/assets/seals/${sealColor === 'czarny/sz' ? 'czarny_szary' : sealColor === 'szary/czar' ? 'szary_czarny' : sealColor}.png`} 
+                    src={`/assets/seals/${sealColor === 'czarny/sz' ? 'czarny_sz' : sealColor === 'szary/czar' ? 'szary_czar' : sealColor}.png`} 
                     alt={sealColor} 
                     className="max-h-24 w-full object-contain mix-blend-multiply" 
+                    onError={(e) => { 
+                      const t = e.currentTarget;
+                      const base = `/assets/seals/${sealColor === 'czarny/sz' ? 'czarny_sz' : sealColor === 'szary/czar' ? 'szary_czar' : sealColor}`;
+                      if (!t.dataset.retriedJpg) { t.dataset.retriedJpg = 'true'; t.src = `${base}.jpg`; }
+                      else { t.style.display = 'none'; t.parentElement!.classList.add('hidden'); }
+                    }}
                   />
                 </div>
               )}
@@ -736,88 +1224,157 @@ export function DebugPricing() {
 
           {/* 9) Shutter options */}
           <div>
-            <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">9) ---Shutter options---</h3>
-            <div className="grid grid-cols-2 gap-4">
-              <GenericSelect label="a) Roller blind Type (options)" value={rollerBlindType} onChange={setRollerBlindType} />
-              <GenericSelect label="b) Window screen (options)" value={windowScreen} onChange={setWindowScreen} />
+            <div className="flex items-center gap-3 mb-4">
+              <input type="checkbox" id="includeShutter" className="w-5 h-5 accent-[#eab676]" checked={includeShutter} onChange={e => setIncludeShutter(e.target.checked)} />
+              <label htmlFor="includeShutter" className="text-[#eab676] font-bold uppercase tracking-wider text-sm cursor-pointer select-none">9) ---Shutter options--- (Include Shutter)</label>
             </div>
-          </div>
-
-          <hr className="border-gray-800 my-2" />
-
-          {/* 10) Pancerz */}
-          <div>
-            <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">10) ---Pancerz---</h3>
-            <div className="grid grid-cols-2 gap-4">
-              <GenericSelect label="a) Curtain type (options)" value={curtainType} onChange={setCurtainType} />
-              <GenericSelect label="b) Fins perforation (options)" value={finsPerforation} onChange={setFinsPerforation} />
-              <GenericSelect label="c) Curtain color (options)" value={curtainColor} onChange={setCurtainColor} />
-              <GenericSelect label="d) Bottom slat colour (options)" value={bottomSlatColor} onChange={setBottomSlatColor} />
+            
+            {includeShutter && (
+              <div className="space-y-6 border-l-2 border-[#eab676]/30 pl-4 ml-2">
+                <div className="grid grid-cols-2 gap-4">
+              <GenericSelect label="a) Roller blind Type (options)" value={rollerBlindType} onChange={setRollerBlindType} options={shutterLookups.rollerBlindTypes} />
+              <GenericSelect label="b) Window screen (options)" value={windowScreen} onChange={setWindowScreen} options={shutterLookups.windowScreens} />
+              {windowScreen && (
+                <GenericSelect label="c) Window screen location" value={windowScreenLocation} onChange={setWindowScreenLocation} options={shutterLookups.windowScreenLocations} />
+              )}
             </div>
-          </div>
+            {/* End of Section 9 Grid */}
 
-          <hr className="border-gray-800 my-2" />
+            <hr className="border-gray-800 my-2" />
 
-          {/* 11) Service - Field I */}
-          <div>
-            <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">11) ---Service - Field I---</h3>
-            <div className="grid grid-cols-2 gap-4">
-              <GenericSelect label="a) Drive Type (options)" value={driveType} onChange={setDriveType} />
-              <GenericSelect label="b) Control side (options)" value={controlSide} onChange={setControlSide} />
+            {/* 10) Pancerz */}
+            <div>
+              <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">10) ---Pancerz---</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <GenericSelect label="a) Curtain type (options)" value={curtainType} onChange={setCurtainType} options={shutterLookups.curtainTypes} />
+                <GenericSelect label="b) Fins perforation (options)" value={finsPerforation} onChange={setFinsPerforation} options={shutterLookups.finsPerforations} />
+                <ColorSelect label="c) Curtain color (options)" value={curtainColor} onChange={setCurtainColor} groupedOptions={groupedColors} />
+                <ColorSelect label="d) Bottom slat colour (options)" value={bottomSlatColor} onChange={setBottomSlatColor} groupedOptions={groupedColors} />
+                <ColorSelect label="e) Window screen bottom slat colour" value={windowScreenBottomSlatColor} onChange={setWindowScreenBottomSlatColor} groupedOptions={groupedColors} />
+              </div>
             </div>
-          </div>
 
-          <hr className="border-gray-800 my-2" />
+            <hr className="border-gray-800 my-2" />
 
-          {/* 12) Service */}
-          <div>
-            <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">12) ---Service---</h3>
-            <div className="grid grid-cols-2 gap-4">
-              <GenericSelect label="a) Door checks Type I (options)" value={doorChecksTypeI} onChange={setDoorChecksTypeI} />
-              <GenericSelect label="b) Impose 60mm arbour (options)" value={imposeArbour} onChange={setImposeArbour} />
+            {/* 11) Service - Field I */}
+            <div>
+              <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">11) ---Service - Field I---</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Drive Type (options)</label>
+                  <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm" value={driveType} onChange={e => setDriveType(e.target.value)}>
+                     {shutterLookups.driveTypes.map(o => (
+                       <option key={o.value} value={o.value}>{o.label}</option>
+                     ))}
+                  </select>
+                </div>
+                <GenericSelect label="b) Control side (options)" value={controlSide} onChange={setControlSide} options={shutterLookups.controlSides} />
+              </div>
             </div>
-          </div>
 
-          <hr className="border-gray-800 my-2" />
+            <hr className="border-gray-800 my-2" />
 
-          {/* 13) Box */}
-          <div>
-            <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">13) ---Box---</h3>
-            <div className="grid grid-cols-2 gap-4">
-              <GenericSelect label="a) Box Type (options)" value={boxType} onChange={setBoxType} />
-              <GenericSelect label="b) Outer box colour (options)" value={outerBoxColor} onChange={setOuterBoxColor} />
-              <GenericSelect label="c) otherr box colour (options)" value={otherBoxColor} onChange={setOtherBoxColor} />
-              <GenericSelect label="d) Plaster carrier (options)" value={plasterCarrier} onChange={setPlasterCarrier} />
-              <GenericSelect label="e) Flush-mounted slat (in) (options)" value={flushMountedSlatIn} onChange={setFlushMountedSlatIn} />
-              <GenericSelect label="f) Flush-mounted slat (out) (options)" value={flushMountedSlatOut} onChange={setFlushMountedSlatOut} />
-              <GenericSelect label="g) Review (options)" value={review} onChange={setReview} />
-              <GenericSelect label="h) Side cover cap colour (options)" value={sideCoverCapColor} onChange={setSideCoverCapColor} />
+            {/* 12) Service */}
+            <div>
+              <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">12) ---Service---</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <GenericSelect label="a) Door checks Type I (options)" value={doorChecksTypeI} onChange={setDoorChecksTypeI} options={shutterLookups.doorChecks} />
+                <div>
+                  <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Impose 60mm arbour</label>
+                  <label className="flex items-center gap-2 text-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800">
+                    <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={imposeArbour} onChange={e => setImposeArbour(e.target.checked)} />
+                    Enable 60mm Arbour
+                  </label>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <hr className="border-gray-800 my-2" />
+            <hr className="border-gray-800 my-2" />
 
-          {/* 14) Guide rails */}
-          <div>
-            <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">14) ---Guide rails---</h3>
-            <div className="grid grid-cols-2 gap-4">
-              <GenericSelect label="a) Guide rails colour (options)" value={guideRailsColor} onChange={setGuideRailsColor} />
-              <GenericSelect label="b) Guide rails cutting (options)" value={guideRailsCutting} onChange={setGuideRailsCutting} />
-              <GenericSelect label="c) Extreme left guide rail (options)" value={extremeLeftGuideRail} onChange={setExtremeLeftGuideRail} />
-              <GenericSelect label="d) Extreme right guide rail (options)" value={extremeRightGuideRail} onChange={setExtremeRightGuideRail} />
-              <GenericSelect label="e) Guide rails Types (options)" value={guideRailsTypes} onChange={setGuideRailsTypes} />
+            {/* 13) Box */}
+            <div>
+              <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">13) ---Box---</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <GenericSelect label="a) Box Type (options)" value={boxType} onChange={setBoxType} options={shutterLookups.boxTypes} />
+                <ColorSelect label="b) Outer box colour (options)" value={outerBoxColor} onChange={setOuterBoxColor} groupedOptions={groupedColors} />
+                <ColorSelect label="c) other box colour (options)" value={otherBoxColor} onChange={setOtherBoxColor} groupedOptions={groupedColors} />
+                <GenericSelect label="d) Plaster carrier (options)" value={plasterCarrier} onChange={setPlasterCarrier} options={shutterLookups.plasterCarriers} />
+                
+                <div>
+                  <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">e) Flush-mounted slat (in)</label>
+                  <label className="flex items-center gap-2 text-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800">
+                    <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={flushMountedSlatIn} onChange={e => setFlushMountedSlatIn(e.target.checked)} />
+                    Enable Flush-mounted Slat (In)
+                  </label>
+                </div>
+                
+                {flushMountedSlatIn && (
+                  <ColorSelect label="e.1) Flush-mounted slat colour (in)" value={flushMountedSlatColorIn} onChange={setFlushMountedSlatColorIn} groupedOptions={groupedColors} />
+                )}
+                
+                <div>
+                  <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">f) Flush-mounted slat (out)</label>
+                  <label className="flex items-center gap-2 text-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800">
+                    <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={flushMountedSlatOut} onChange={e => setFlushMountedSlatOut(e.target.checked)} />
+                    Enable Flush-mounted Slat (Out)
+                  </label>
+                </div>
+                
+                {flushMountedSlatOut && (
+                  <ColorSelect label="f.1) Flush-mounted slat colour (out)" value={flushMountedSlatColorOut} onChange={setFlushMountedSlatColorOut} groupedOptions={groupedColors} />
+                )}
+                
+                <GenericSelect label="g) Review (options)" value={review} onChange={setReview} options={shutterLookups.reviews} />
+                <ColorSelect label="h) Side cover cap colour" value={sideCoverCapColor} onChange={setSideCoverCapColor} groupedOptions={groupedColors} />
+              </div>
             </div>
-          </div>
 
-          <hr className="border-gray-800 my-2" />
+            <hr className="border-gray-800 my-2" />
 
-          {/* 15) Other */}
-          <div>
-            <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">15) ---Other---</h3>
-            <div className="grid grid-cols-2 gap-4">
-              <GenericSelect label="a) Guide rail gasketing (options)" value={guideRailGasketing} onChange={setGuideRailGasketing} />
-              <GenericSelect label="b) Soundproof mat + gasket (options)" value={soundproofMat} onChange={setSoundproofMat} />
+            {/* 14) Guide rails */}
+            <div>
+              <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">14) ---Guide rails---</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <ColorSelect label="a) Guide rails colour (options)" value={guideRailsColor} onChange={setGuideRailsColor} groupedOptions={groupedColors} />
+                <GenericSelect label="b) Guide rails cutting (options)" value={guideRailsCutting} onChange={setGuideRailsCutting} options={shutterLookups.guideRailsCuttings} />
+                <GenericSelect label="c) Extreme left guide rail" value={extremeLeftGuideRail} onChange={setExtremeLeftGuideRail} options={[{value: 'STD', label: 'Standard'}]} />
+                <GenericSelect label="d) Extreme right guide rail" value={extremeRightGuideRail} onChange={setExtremeRightGuideRail} options={[{value: 'STD', label: 'Standard'}]} />
+                <div>
+                  <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">e) Guide rails Types</label>
+                  <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm" value={guideRailsTypes} onChange={e => setGuideRailsTypes(e.target.value)}>
+                     {shutterLookups.guideRailsTypes.map(o => (
+                       <option key={o.value} value={o.value}>{o.label}</option>
+                     ))}
+                  </select>
+                </div>
+              </div>
             </div>
+
+            <hr className="border-gray-800 my-2" />
+
+            {/* 15) Other */}
+            <div>
+              <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">15) ---Other---</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Guide rail gasketing</label>
+                  <label className="flex items-center gap-2 text-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800">
+                    <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={guideRailGasketing} onChange={e => setGuideRailGasketing(e.target.checked)} />
+                    Enable Guide Rail Gasketing
+                  </label>
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Soundproof mat + gasket</label>
+                  <label className="flex items-center gap-2 text-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800">
+                    <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={soundproofMat} onChange={e => setSoundproofMat(e.target.checked)} />
+                    Enable Soundproof Mat + Gasket
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+              </div>
+            )}
           </div>
 
           <hr className="border-gray-800 my-2" />
@@ -830,12 +1387,35 @@ export function DebugPricing() {
                 <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Dowel holes</label>
                 <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
                   value={dowelHoles} onChange={e => setDowelHoles(e.target.value)}>
-                   <option value="">None</option>
-                   <option value="O_14-16">Standard Holes (14-16mm)</option>
-                   <option value="ADJUFIX_14/18">Adjufix 14/18</option>
+                   <option value="">Lack (-)</option>
+                   <option value="O_06">6mm assembly holes (O_06)</option>
+                   <option value="O_10">10mm assembly holes (O_10)</option>
+                   <option value="ADJUFIX_M16">Assembly holes ADJUFIX 14mm/M16</option>
+                   <option value="ADJUFIX_18">Assembly holes ADJUFIX 14mm/18mm</option>
                 </select>
               </div>
             </div>
+            
+            {dowelHoles && dowelHoles !== '' && (
+              <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <label className="flex items-center gap-2 text-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800 hover:border-gray-600 transition-colors">
+                  <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={dowelLeft} onChange={e => setDowelLeft(e.target.checked)} />
+                  Left
+                </label>
+                <label className="flex items-center gap-2 text-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800 hover:border-gray-600 transition-colors">
+                  <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={dowelRight} onChange={e => setDowelRight(e.target.checked)} />
+                  Right
+                </label>
+                <label className="flex items-center gap-2 text-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800 hover:border-gray-600 transition-colors">
+                  <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={dowelTop} onChange={e => setDowelTop(e.target.checked)} />
+                  Top
+                </label>
+                <label className="flex items-center gap-2 text-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800 hover:border-gray-600 transition-colors">
+                  <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={dowelBottom} onChange={e => setDowelBottom(e.target.checked)} />
+                  Bottom
+                </label>
+              </div>
+            )}
           </div>
 
           <hr className="border-gray-800 my-2" />

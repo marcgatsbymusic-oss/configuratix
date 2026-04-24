@@ -6,7 +6,7 @@ import type { CantorMirror } from './mirror';
 import type { ConfiguratorInput } from './input';
 import { buildFnRegistry } from './fns';
 
-export function applyInfillContext(vars: Map<string, Value>, infill: ConfiguratorInput['infills'][0], mirror: CantorMirror, profilsatz: string) {
+export function applyInfillContext(vars: Map<string, Value>, infill: ConfiguratorInput['infills'][0], mirror: CantorMirror, _profilsatz: string) {
   if (!infill?.code) return;
   vars.set('ARTNRFUELLUNG', infill.code);
   const g = mirror.glazingInfo(infill.code);
@@ -118,7 +118,7 @@ export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): Fo
   vars.set('ARTNRRAU', input.frameProfile);
 
   // Glazing
-  const glazingCode = input.infills[0]?.code ?? '2-24.';
+  // Glazing Code previously here
 
   // Dimensions
   vars.set('BRB', BRB);

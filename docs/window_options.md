@@ -46,6 +46,13 @@ The gasket color (Black, Grey) and type are captured in variable `ES1201`.
 *   **Pricing Formula:** `PMATALL("AL_DOD","USZCZ",fn_SystemCeny(),"120884",1,1) * (GESLAENGE_FL/1000)`
 *   *Calculation:* Base price per linear meter * Total Sash Perimeter length (`GESLAENGE_FL` in meters).
 
+### Available Seal Options
+*   **czarny:** Black
+*   **czarny/sz:** Out black / in grey
+*   **mix:** Mix
+*   **szary:** Gray (PVCAP - 25.02.2026 (-))
+*   **szary/czar:** Out grey / in black (PVCAP 25.02.2026 (-))
+
 ---
 
 ## 4. Glazing / Infill (Dynamic Multi-Sash Arrays)
@@ -89,8 +96,53 @@ Modern invisible welds (like V-Perfect) are calculated as a global multiplier ag
 
 ---
 
-## 5. Dowel Holes / Installation Prep (`Dyblowanie`)
+## 6. Dowel Holes / Installation Prep (`Dyblowanie`)
 
-If the factory pre-drills installation holes (e.g., `ES1291` = `O_14-16` or `ADJUFIX_14/18`), a flat fee or per-hole fee is applied via the `DYBLE` matrix.
+If the factory pre-drills installation holes (e.g., `ES1291` = `O_06` or `ADJUFIX_M16`), a flat fee or per-hole fee is applied via the `DYBLE` matrix.
 *   Formula: `PMATALL("PVC_DOD","DYBLE","",ES1291,1,1)`
 *   Specific customer groups (e.g., `KUNDENNR` matrix) get percentage discounts (`1-fn_PRICE_GROUPS`) on these drilling fees.
+
+### Available Hole Options
+*   **-**: Lack
+*   **O_06**: 6mm assembly holes
+*   **O_10**: 10mm assembly holes
+*   **ADJUFIX_M16**: Assembly holes ADJUFIX 14mm/M16
+*   **ADJUFIX_18**: Assembly holes ADJUFIX 14mm/18mm
+
+### Positional Configuration
+When dowel holes are selected, the user must specify which sides of the frame should be drilled:
+*   **Left** (`dowelLeft`)
+*   **Right** (`dowelRight`)
+*   **Top** (`dowelTop`)
+*   **Bottom** (`dowelBottom`)
+
+---
+
+## 7. Model (options) / Window Shapes
+
+This defines the physical shape/geometry of the window beyond the standard rectangular form. These models can involve custom cuts, angles, arches, or circles.
+
+### 1 Cut
+*   **S100:** Chamfer of the upper left corner
+*   **S101:** Chamfer of the upper left corner to any height
+*   **S200:** Chamfer of the upper right corner
+*   **S201:** Chamfer of the upper right corner to any height
+*   **TS100:** Upper-Left corner – cutting
+
+### 2 Cuts
+*   **S300:** Cut of the upper corners
+
+### Triangles
+*   **T100:** Rectangular triangle
+*   **T200:** Isosceles triangle / triangle with tilted tip
+
+### Arches
+*   **L100:** Segmental arch
+*   **L101:** Segmental arch to the top
+*   **L200:** Full arch
+*   **L201:** Full arch to the top
+*   **L300:** Sharp arch
+
+### Various
+*   **K100:** Circle
+*   **S500:** Chamfer of the selected corners

@@ -137,6 +137,12 @@ export function Header() {
       {/* Top utility bar */}
       <div className="border-b border-[#2a2a2b]">
         <div className="max-w-7xl mx-auto px-6 flex justify-end gap-6 py-1.5">
+          <Link
+            to="/debug-pricing"
+            className="text-[10px] uppercase tracking-widest text-[#888888] hover:text-[#eab676] transition-colors duration-200 font-bold"
+          >
+            Debug
+          </Link>
           {[
             { key: 'partnerPortal', defaultText: 'Partner Portal' },
             { key: 'cooperation', defaultText: 'Cooperation' },

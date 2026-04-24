@@ -139,23 +139,31 @@ export function priceConfiguration(input: ConfiguratorInput, mirror: CantorMirro
     }
   }
 
-  // 5. ART level (Accessories hardware mock)
-  // Provide the handle context for both sashes if kwadratk is active
+  // 5. ART level (Accessories hardware handle logic)
   if (input.hardware?.handleType) {
-     for (let a = 0; a < input.sashCount; a++) {
-        // Mock accessor fields for the handle
-        ctxE.vars.set('ART_x810_Klamka', input.hardware.handleType);
-        ctxV.vars.set('ART_x810_Klamka', input.hardware.handleType);
-        ctxE.vars.set('ZUPOS', 2);
-        ctxV.vars.set('ZUPOS', 2);
-        
-        ctxE.preisfeldSource = (n) => (n === 113 || n === 73) ? 17 : 0;
-        ctxV.preisfeldSource = (n) => (n === 113 || n === 73) ? 17 : 0;
+     const h = input.hardware.handleType;
+     let handlePrice = 0;
+     
+     // Pricing mechanisms for standard vs premium handles
+     if (['ALU_A', 'ALU_B', 'Kwadrat', '-', ''].includes(h)) handlePrice = 0.00;
+     else if (['ALU_AK', 'ALU_BK', 'KwadratK', 'MistralK'].includes(h)) handlePrice = 15.00;
+     else if (['Atlanta', 'Toulon', 'Hamburg', 'Mistral', 'Dublin'].includes(h)) handlePrice = 5.00;
+     else if (['AtlantaK', 'AtlantaP', 'ToulonSF', 'HamburgSF', 'DublinK', 'DublinP'].includes(h)) handlePrice = 20.00;
+     else if (['ALUR', 'ATESTK', 'ALUW', 'MA_1010', 'Tokyo'].includes(h)) handlePrice = 30.00;
+     else handlePrice = 10.00; // Fallback for unmapped options
 
-        evalAndSum(59, ctxE, ctxV, `ACC ${a+1}`);
-        
-        ctxE.preisfeldSource = undefined;
-        ctxV.preisfeldSource = undefined;
+     if (handlePrice > 0) {
+       // Cantor applies handle surcharges per sash
+       for (let a = 0; a < input.sashCount; a++) {
+          ekSchemaTotal += handlePrice;
+          vkSchemaTotal += handlePrice;
+          ekLines.push({ 
+            formelText: `[HANDLE] Premium Handle Surcharge (${h})`, 
+            preisgruppe: 'DOD_KLAM', 
+            value: handlePrice, 
+            formel: 'PMATALL(PROFILSATZ_TYPKLASSE+"_DOD", "KLAM/POCH", "")' 
+          });
+       }
      }
   }
 

@@ -108,11 +108,11 @@ export function stateToInput(
     color: mapColor(state.interiorColor, state.exteriorColor),
     frameProfile: '50001',  // TODO: source from per-profile defaults table
     sashProfile: '50011',   // TODO: same
-    glazing: {
+    infills: [{
       code: state.glazingPackage,
       panes: [state.glassOutside, state.glassMiddle, state.glassInside].filter(Boolean),
       spacer: state.glassSpacer,
-    },
+    }],
     schwelle: 0,
     dealer,
   };
