@@ -119,9 +119,14 @@ export function PartnerDashboard() {
               <X className="w-6 h-6" />
             </button>
             
-            <div className="text-center mb-8">
+            <div className="text-center mb-6">
               <h3 className="text-2xl font-bold text-white mb-2">Scan Me</h3>
               <p className="text-gray-400 text-sm">Customers scanning this code will be linked to your partner account.</p>
+              {window.location.hostname === 'localhost' && (
+                <div className="mt-4 p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg text-amber-400 text-xs text-left">
+                  <strong>Testing Note:</strong> You are on <code>localhost</code>. Scanning this with a mobile phone won't work because your phone can't access your computer's internal network. <strong>Test this on your live Vercel URL instead!</strong>
+                </div>
+              )}
             </div>
             
             <div className="bg-black border border-gray-800 rounded-xl p-4 flex justify-center aspect-square mb-6">
