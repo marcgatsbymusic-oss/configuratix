@@ -573,7 +573,7 @@ export function PartnerLanding() {
       {/* NAV */}
       <nav>
         <a href="#" className="flex items-center gap-3 decoration-transparent">
-          <div className="text-xl font-bold tracking-[0.2em] text-[#eab676] font-['Montserrat']">MAMMUT</div>
+          <div className="text-xl font-bold tracking-[0.2em] text-[#eab676] font-['Montserrat'] flex items-center">MAMMUT<span className="text-white text-[15px] font-normal ml-2 tracking-normal">Drutex</span></div>
         </a>
         <a href="tel:+34XXXXXXXXX" className="nav-phone">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -590,9 +590,9 @@ export function PartnerLanding() {
         </video>
         <div className="hero-overlay"></div>
         <div className="hero-content">
-          <div className="hero-eyebrow">Mammut · Recomendado por Ferretería 88 · Cercedilla</div>
+          <div className="hero-eyebrow">Mammut Drutex · Recomendado por Ferretería 88 · Cercedilla</div>
           <h1>Ventanas y puertas <em>a medida</em> para tu hogar</h1>
-          <p>Mammut trae a Cercedilla lo mejor en ventanas y puertas de PVC, aluminio y madera. Más de 20 años de experiencia, instalación incluida y presupuesto sin compromiso.</p>
+          <p>Mammut Drutex trae a Cercedilla lo mejor en ventanas y puertas de PVC, aluminio y madera. Más de 20 años de experiencia, instalación incluida y presupuesto sin compromiso.</p>
           <div className="hero-ctas">
             <a href="tel:+34XXXXXXXXX" className="btn-primary">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -742,7 +742,7 @@ export function PartnerLanding() {
         <div className="section-inner">
           <div className="section-header reveal">
             <div className="section-tag">Por qué elegirnos</div>
-            <h2 className="section-title">Calidad Mammut,<br/>instalada en tu Sierra</h2>
+            <h2 className="section-title">Calidad Mammut Drutex,<br/>instalada en tu Sierra</h2>
           </div>
           <div className="why-grid">
             <div className="why-item reveal">
@@ -945,7 +945,7 @@ export function PartnerLanding() {
       <footer>
         <div className="footer-inner">
           <div>
-            <div className="text-xl font-bold tracking-[0.2em] text-[#eab676] font-['Montserrat']">MAMMUT</div>
+            <div className="text-xl font-bold tracking-[0.2em] text-[#eab676] font-['Montserrat'] flex items-center">MAMMUT<span className="text-white text-[15px] font-normal ml-2 tracking-normal">Drutex</span></div>
             <div className="text-[13px] mt-2 text-gray-400">Ventanas y puertas · Distribuidor oficial en Cercedilla vía Ferretería 88</div>
           </div>
           <div className="footer-links">
@@ -955,7 +955,7 @@ export function PartnerLanding() {
             <a href="https://maps.google.com" target="_blank" rel="noreferrer">Cómo llegar</a>
           </div>
         </div>
-        <div className="footer-bottom">© 2025 Mammut · Distribuidor oficial en Cercedilla, Madrid · Partner: Ferretería 88 · Todos los derechos reservados</div>
+        <div className="footer-bottom">© 2025 Mammut Drutex · Distribuidor oficial en Cercedilla, Madrid · Partner: Ferretería 88 · Todos los derechos reservados</div>
       </footer>
 
       {/* FLOATING PHONE BUTTON */}
