@@ -24,7 +24,7 @@ export function PartnerProfile() {
                 <label className="text-sm font-medium text-gray-400">{t('partner.profile.storeName')}</label>
                 <input 
                   type="text" 
-                  defaultValue="John Doe Hardware"
+                  defaultValue="Ferreteria 88"
                   className="w-full bg-black border border-gray-800 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[#eab676] transition-colors"
                 />
               </div>
@@ -57,7 +57,7 @@ export function PartnerProfile() {
                 </label>
                 <input 
                   type="email" 
-                  defaultValue="contact@johndoehardware.com"
+                  defaultValue="info@ferreteria88.com"
                   className="w-full bg-black border border-gray-800 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[#eab676] transition-colors"
                 />
               </div>

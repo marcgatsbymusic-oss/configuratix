@@ -11,10 +11,10 @@ export function PartnerDashboard() {
           <h2 className="text-3xl font-bold tracking-tight text-white">{t('partner.dashboard.title')}</h2>
           <p className="text-gray-400 mt-1">{t('partner.dashboard.subtitle')}</p>
         </div>
-        <button className="bg-[#eab676] hover:bg-[#d9a05b] text-black px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors">
+        <a href="/landing/5689" target="_blank" rel="noopener noreferrer" className="bg-[#eab676] hover:bg-[#d9a05b] text-black px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors">
           <QrCode className="w-5 h-5" />
           {t('partner.dashboard.showQr')}
-        </button>
+        </a>
       </div>
 
       {/* KPI Cards */}
@@ -25,9 +25,9 @@ export function PartnerDashboard() {
               <p className="text-sm font-medium text-gray-400">{t('partner.dashboard.totalScans')}</p>
               <h3 className="text-3xl font-bold text-white mt-1">124</h3>
             </div>
-            <div className="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center">
+            <a href="/landing/5689" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-blue-500/10 hover:bg-blue-500/20 rounded-lg flex items-center justify-center transition-colors cursor-pointer">
               <QrCode className="w-6 h-6 text-blue-400" />
-            </div>
+            </a>
           </div>
           <div className="mt-4 flex items-center text-sm">
             <span className="text-emerald-400 flex items-center gap-1 font-medium">

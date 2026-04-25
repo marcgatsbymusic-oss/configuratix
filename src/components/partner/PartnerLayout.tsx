@@ -98,10 +98,10 @@ export function PartnerLayout() {
             </div>
 
             <div className="hidden md:flex items-center gap-2 border-l border-gray-800 pl-4 ml-2">
-              <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center text-sm font-bold text-[#eab676]">
-                JD
+              <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-white p-1">
+                <img src="/partners/cadena88-logo-grande.png" alt="Ferreteria 88" className="w-full h-auto object-contain" />
               </div>
-              <span className="text-sm text-gray-300">John Doe Hardware</span>
+              <span className="text-sm text-gray-300">Ferreteria 88</span>
             </div>
           </div>
         </header>

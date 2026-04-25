@@ -48,6 +48,7 @@ import { PartnerLayout } from './components/partner/PartnerLayout'
 import { PartnerDashboard } from './pages/partner/PartnerDashboard'
 import { PartnerLeads } from './pages/partner/PartnerLeads'
 import { PartnerProfile } from './pages/partner/PartnerProfile'
+import { PartnerLanding } from './pages/partner/PartnerLanding'
 
 function StorefrontLayout() {
   return (
@@ -97,6 +98,8 @@ function App() {
               <Route path="leads" element={<PartnerLeads />} />
               <Route path="profile" element={<PartnerProfile />} />
             </Route>
+            {/* Partner Landing Page (Dummy) */}
+            <Route path="/landing/:partnerId" element={<PartnerLanding />} />
             
             {/* Public Storefront Routes */}
             <Route path="*" element={<StorefrontLayout />} />
