@@ -1,20 +1,28 @@
-import { BarChart3, QrCode, TrendingUp, Users } from 'lucide-react'
+import { useState } from 'react'
+import { BarChart3, QrCode, TrendingUp, Users, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
 export function PartnerDashboard() {
   const { t } = useTranslation()
+  const [showQrModal, setShowQrModal] = useState(false)
+
+  const landingUrl = `${window.location.origin}/landing/5689`
+  const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(landingUrl)}&color=eab676&bgcolor=111111`
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 relative">
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-3xl font-bold tracking-tight text-white">{t('partner.dashboard.title')}</h2>
           <p className="text-gray-400 mt-1">{t('partner.dashboard.subtitle')}</p>
         </div>
-        <a href="/landing/5689" target="_blank" rel="noopener noreferrer" className="bg-[#eab676] hover:bg-[#d9a05b] text-black px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors">
+        <button 
+          onClick={() => setShowQrModal(true)}
+          className="bg-[#eab676] hover:bg-[#d9a05b] text-black px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors"
+        >
           <QrCode className="w-5 h-5" />
           {t('partner.dashboard.showQr')}
-        </a>
+        </button>
       </div>
 
       {/* KPI Cards */}
@@ -25,9 +33,12 @@ export function PartnerDashboard() {
               <p className="text-sm font-medium text-gray-400">{t('partner.dashboard.totalScans')}</p>
               <h3 className="text-3xl font-bold text-white mt-1">124</h3>
             </div>
-            <a href="/landing/5689" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-blue-500/10 hover:bg-blue-500/20 rounded-lg flex items-center justify-center transition-colors cursor-pointer">
+            <button 
+              onClick={() => setShowQrModal(true)}
+              className="w-12 h-12 bg-blue-500/10 hover:bg-blue-500/20 rounded-lg flex items-center justify-center transition-colors cursor-pointer"
+            >
               <QrCode className="w-6 h-6 text-blue-400" />
-            </a>
+            </button>
           </div>
           <div className="mt-4 flex items-center text-sm">
             <span className="text-emerald-400 flex items-center gap-1 font-medium">
@@ -96,6 +107,50 @@ export function PartnerDashboard() {
           ))}
         </div>
       </div>
+
+      {/* QR Code Modal */}
+      {showQrModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-[#111] border border-gray-800 rounded-2xl max-w-sm w-full p-8 relative shadow-2xl animate-in zoom-in-95 duration-200">
+            <button 
+              onClick={() => setShowQrModal(false)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-white mb-2">Scan Me</h3>
+              <p className="text-gray-400 text-sm">Customers scanning this code will be linked to your partner account.</p>
+            </div>
+            
+            <div className="bg-black border border-gray-800 rounded-xl p-4 flex justify-center aspect-square mb-6">
+              <img 
+                src={qrImageUrl} 
+                alt="Partner QR Code" 
+                className="w-full h-full object-contain"
+              />
+            </div>
+            
+            <div className="flex flex-col gap-3">
+              <a 
+                href="/landing/5689" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-[#eab676] hover:bg-[#d9a05b] text-black text-center py-3 rounded-xl font-medium transition-colors"
+              >
+                Open Landing Page
+              </a>
+              <button 
+                onClick={() => setShowQrModal(false)}
+                className="bg-transparent border border-gray-700 text-gray-300 hover:bg-gray-800 py-3 rounded-xl font-medium transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
