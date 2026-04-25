@@ -26,7 +26,7 @@ const ReservationTimer = ({ item, onExpire }: { item: any; onExpire: () => void 
   const secs = Math.floor((timeLeft % 60000) / 1000).toString().padStart(2, '0');
 
   return (
-    <div className="absolute top-0 left-0 right-0 bg-blue-600 text-white text-[10px] text-center font-black uppercase tracking-widest py-2 z-20 shadow-lg">
+    <div className="absolute top-0 left-0 right-0 bg-blue-600 text-mammut-white text-[10px] text-center font-black uppercase tracking-widest py-2 z-20 shadow-lg">
        Reserved: {mins}:{secs}
     </div>
   );
@@ -120,7 +120,7 @@ export function ShopPage() {
   const totalCartItems = items.reduce((acc, curr) => acc + curr.quantity, 0);
 
   return (
-    <div className="bg-gray-50 min-h-screen font-sans selection:bg-black selection:text-white pt-24 pb-32">
+    <div className="bg-gray-50 min-h-screen font-sans selection:bg-mammut-black selection:text-mammut-white pt-24 pb-32">
       
       {/* Premium Header Menu */}
       <div className="bg-white border-b border-gray-100 sticky top-16 z-40 shadow-sm">
@@ -133,7 +133,7 @@ export function ShopPage() {
           <button onClick={toggleCart} className="relative p-2 text-gray-800 hover:text-black hover:bg-gray-50 rounded-full transition-colors">
             <ShoppingCart size={24} />
             {totalCartItems > 0 && (
-              <span className="absolute top-0 right-0 transform translate-x-1/3 -translate-y-1/3 bg-black text-white text-[10px] font-bold h-5 w-5 flex items-center justify-center rounded-full border-2 border-white shadow-sm">
+              <span className="absolute top-0 right-0 transform translate-x-1/3 -translate-y-1/3 bg-mammut-black text-mammut-white text-[10px] font-bold h-5 w-5 flex items-center justify-center rounded-full border-2 border-white shadow-sm">
                 {totalCartItems}
               </span>
             )}
@@ -147,7 +147,7 @@ export function ShopPage() {
         <div className="bg-white mb-10 pb-6">
            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-6 mb-4">
               <span className="text-sm font-semibold text-gray-800">The purchased products are not covered by any warranty or statutory guarantee.</span>
-              <button className="hidden sm:block px-6 py-2 border border-black text-black font-bold text-xs tracking-wider uppercase hover:bg-black hover:text-white transition-colors mt-4 sm:mt-0">Add To Cart</button>
+              <button className="hidden sm:block px-6 py-2 border border-black text-black font-bold text-xs tracking-wider uppercase hover:bg-mammut-black hover:text-mammut-white transition-colors mt-4 sm:mt-0">Add To Cart</button>
            </div>
            
            <form onSubmit={applyFilters} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-8">
@@ -273,7 +273,7 @@ export function ShopPage() {
                     <button 
                       onClick={(e) => handleAddToCart(e, product)}
                       disabled={items.some(i => i.id === product.id)}
-                      className="w-full bg-black text-white text-xs font-bold uppercase tracking-widest py-3.5 rounded-lg opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all hover:bg-gray-800 shadow-lg disabled:opacity-100 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed disabled:transform-none"
+                      className="w-full bg-mammut-black text-mammut-white text-xs font-bold uppercase tracking-widest py-3.5 rounded-lg opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all hover:bg-gray-800 shadow-lg disabled:opacity-100 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed disabled:transform-none"
                     >
                       {items.some(i => i.id === product.id) ? 'In Cart' : 'Quick Add'}
                     </button>
@@ -284,7 +284,7 @@ export function ShopPage() {
                 <div className="p-5 flex flex-col flex-1 border-t border-gray-50">
                    <div className="flex justify-between items-start mb-2">
                      <h2 className="text-sm font-extrabold text-black uppercase tracking-tight">{product.name}</h2>
-                     <span className="text-sm font-black text-[#eab676] bg-[#fcd34d]/10 px-2 py-0.5 rounded">{product.price} €</span>
+                     <span className="text-sm font-black text-mammut-gold bg-[#fcd34d]/10 px-2 py-0.5 rounded">{product.price} €</span>
                    </div>
                    <div className="text-xs text-gray-400 font-medium space-x-2 truncate mb-4">
                       <span>{product.type}</span>
@@ -320,9 +320,9 @@ export function ShopPage() {
 
       {/* Extreme Full-Screen Quick View Modal */}
       {quickViewProduct && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-8 bg-black/95 backdrop-blur-xl animate-fade-in" onClick={() => setQuickViewProduct(null)}>
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-8 bg-mammut-black/95 backdrop-blur-xl animate-fade-in" onClick={() => setQuickViewProduct(null)}>
           
-          <button onClick={() => setQuickViewProduct(null)} className="absolute top-6 right-6 lg:top-8 lg:right-8 bg-black text-white p-2 rounded-full shadow-2xl border border-white/20 hover:scale-110 hover:bg-gray-900 transition-all z-[210]">
+          <button onClick={() => setQuickViewProduct(null)} className="absolute top-6 right-6 lg:top-8 lg:right-8 bg-mammut-black text-mammut-white p-2 rounded-full shadow-2xl border border-white/20 hover:scale-110 hover:bg-gray-900 transition-all z-[210]">
              <X size={24} strokeWidth={2.5} />
           </button>
 
@@ -345,10 +345,10 @@ export function ShopPage() {
                 )}
                 {quickViewProduct.localImages?.length > 1 && (
                     <>
-                        <button onClick={prevImage} className="absolute left-6 lg:left-12 p-5 bg-white/10 hover:bg-white text-white hover:text-black rounded-full backdrop-blur transition-all border border-white/20 hover:scale-110 z-10">
+                        <button onClick={prevImage} className="absolute left-6 lg:left-12 p-5 bg-white/10 hover:bg-white text-mammut-white hover:text-black rounded-full backdrop-blur transition-all border border-white/20 hover:scale-110 z-10">
                             <ChevronLeft size={36} strokeWidth={1.5} />
                         </button>
-                        <button onClick={nextImage} className="absolute right-6 lg:right-12 p-5 bg-white/10 hover:bg-white text-white hover:text-black rounded-full backdrop-blur transition-all border border-white/20 hover:scale-110 z-10">
+                        <button onClick={nextImage} className="absolute right-6 lg:right-12 p-5 bg-white/10 hover:bg-white text-mammut-white hover:text-black rounded-full backdrop-blur transition-all border border-white/20 hover:scale-110 z-10">
                             <ChevronRight size={36} strokeWidth={1.5} />
                         </button>
                     </>
@@ -362,20 +362,20 @@ export function ShopPage() {
                       className="w-full h-full max-h-[85vh] object-contain drop-shadow-2xl" 
                     />
                     { (quickViewProduct.localImages[galleryIndex].includes('ideal_neo_') || quickViewProduct.localImages[galleryIndex].includes('-ai')) && (
-                      <div className="absolute bottom-28 left-1/2 -translate-x-1/2 bg-black/70 border border-white/10 text-white/90 px-6 py-4 rounded-2xl font-semibold tracking-wide text-xs text-center backdrop-blur-xl z-20 shadow-2xl max-w-md w-[80%] sm:w-full animate-fade-in">
-                        <span className="text-[#eab676] mr-2">✦</span> This image has been processed using AI to eliminate the protective sticker for better visualization.
+                      <div className="absolute bottom-28 left-1/2 -translate-x-1/2 bg-mammut-black/70 border border-white/10 text-mammut-white/90 px-6 py-4 rounded-2xl font-semibold tracking-wide text-xs text-center backdrop-blur-xl z-20 shadow-2xl max-w-md w-[80%] sm:w-full animate-fade-in">
+                        <span className="text-mammut-gold mr-2">✦</span> This image has been processed using AI to eliminate the protective sticker for better visualization.
                       </div>
                     )}
                   </>
                 ) : (
-                  <div className="text-white/20 flex flex-col items-center">
+                  <div className="text-mammut-white/20 flex flex-col items-center">
                       <ImageIcon size={100} strokeWidth={1} className="mb-6" />
                       <span className="text-xl font-medium tracking-widest uppercase">Asset Unavailable</span>
                   </div>
                 )}
                 
                 {quickViewProduct.localImages?.length > 1 && (
-                    <div className="absolute bottom-12 left-1/2 -translate-x-1/2 bg-black/50 border border-white/20 text-white px-6 py-2.5 rounded-full font-bold tracking-widest text-sm backdrop-blur">
+                    <div className="absolute bottom-12 left-1/2 -translate-x-1/2 bg-mammut-black/50 border border-white/20 text-mammut-white px-6 py-2.5 rounded-full font-bold tracking-widest text-sm backdrop-blur">
                         {galleryIndex + 1} / {quickViewProduct.localImages.length}
                     </div>
                 )}
@@ -396,7 +396,7 @@ export function ShopPage() {
                       {quickViewProduct.name}
                    </h2>
                    
-                   <div className="text-3xl font-black text-[#eab676] mb-10 pb-10 border-b border-gray-100">
+                   <div className="text-3xl font-black text-mammut-gold mb-10 pb-10 border-b border-gray-100">
                       {quickViewProduct.price} €
                    </div>
 
@@ -441,7 +441,7 @@ export function ShopPage() {
                   <button 
                      onClick={(e) => handleAddToCart(e, quickViewProduct)}
                      disabled={items.some(i => i.id === quickViewProduct.id)}
-                     className="w-full bg-black text-white text-sm font-bold uppercase tracking-widest py-5 rounded-xl transition-all hover:bg-gray-800 hover:-translate-y-1 shadow-2xl shadow-black/30 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                     className="w-full bg-mammut-black text-mammut-white text-sm font-bold uppercase tracking-widest py-5 rounded-xl transition-all hover:bg-gray-800 hover:-translate-y-1 shadow-2xl shadow-black/30 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                   >
                      <ShoppingCart size={20} /> {items.some(i => i.id === quickViewProduct.id) ? 'Added to Cart' : 'Add to Cart — ' + quickViewProduct.price + ' €'}
                   </button>

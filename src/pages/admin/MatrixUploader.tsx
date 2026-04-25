@@ -30,7 +30,7 @@ export function MatrixUploader() {
   }
 
   return (
-    <div className="space-y-8 animate-fade-in text-white pt-4 px-4 font-sans max-w-4xl mx-auto">
+    <div className="space-y-8 animate-fade-in text-mammut-white pt-4 px-4 font-sans max-w-4xl mx-auto">
       <div className="flex flex-col items-center justify-center text-center">
         <h2 className="text-3xl font-light tracking-tight">Upload Price Matrix</h2>
         <p className="text-zinc-400 mt-2 max-w-lg">
@@ -40,7 +40,7 @@ export function MatrixUploader() {
       </div>
 
       <div 
-        className="mt-8 border-2 border-dashed border-zinc-700 hover:border-[#eab676] rounded-2xl bg-zinc-900/50 p-12 flex flex-col items-center justify-center transition-colors cursor-pointer"
+        className="mt-8 border-2 border-dashed border-zinc-700 hover:border-mammut-gold rounded-2xl bg-zinc-900/50 p-12 flex flex-col items-center justify-center transition-colors cursor-pointer"
         onDragOver={(e) => e.preventDefault()}
         onDrop={handleDrop}
         onClick={() => document.getElementById('matrix-upload')?.click()}
@@ -61,7 +61,7 @@ export function MatrixUploader() {
       {file && !success && (
         <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 flex items-center justify-between mt-6">
           <div className="flex items-center space-x-4">
-            <FileSpreadsheet className="text-[#eab676]" size={32} />
+            <FileSpreadsheet className="text-mammut-gold" size={32} />
             <div>
               <p className="font-medium text-lg">{file.name}</p>
               <p className="text-sm text-zinc-500">{(file.size / 1024).toFixed(2)} KB</p>
@@ -70,7 +70,7 @@ export function MatrixUploader() {
           <button 
             onClick={handleUpload}
             disabled={uploading}
-            className="bg-[#eab676] hover:bg-[#d9a465] text-zinc-950 px-6 py-2 rounded-lg font-medium transition-colors disabled:opacity-50"
+            className="bg-mammut-gold hover:bg-[#d9a465] text-zinc-950 px-6 py-2 rounded-lg font-medium transition-colors disabled:opacity-50"
           >
             {uploading ? 'Processing...' : 'Process Upload'}
           </button>
@@ -84,7 +84,7 @@ export function MatrixUploader() {
           <p className="text-zinc-400 mt-2 mb-4">The matrix has been linked to the corresponding setup.</p>
           <button 
             onClick={() => { setFile(null); setSuccess(false) }}
-            className="text-sm text-[#eab676] hover:underline"
+            className="text-sm text-mammut-gold hover:underline"
           >
             Upload another file
           </button>

@@ -115,7 +115,7 @@ export function OutletPage() {
 
   const getSortIcon = (key: string) => {
     if (!sortConfig || sortConfig.key !== key) return <ChevronDown size={14} className="opacity-0 group-hover:opacity-40 transition-opacity ml-1" />;
-    return sortConfig.direction === 'asc' ? <ChevronDown size={14} className="text-[#fcd34d] ml-1" /> : <ChevronUp size={14} className="text-[#fcd34d] ml-1" />;
+    return sortConfig.direction === 'asc' ? <ChevronDown size={14} className="text-yellow-400 ml-1" /> : <ChevronUp size={14} className="text-yellow-400 ml-1" />;
   };
 
   return (
@@ -246,7 +246,7 @@ export function OutletPage() {
                     <td className="py-4 px-3 text-sm text-gray-600 max-w-[120px] truncate" title={product.innerColor}>{product.innerColor}</td>
                     <td className="py-4 px-3 text-sm text-gray-600">{product.width}</td>
                     <td className="py-4 px-3 text-sm text-gray-600">{product.height}</td>
-                    <td className="py-4 px-3 text-sm text-gray-600 font-extrabold text-[#eab676]">{product.material}</td>
+                    <td className="py-4 px-3 text-sm text-gray-600 font-extrabold text-mammut-gold">{product.material}</td>
                     <td className="py-4 px-3 text-sm font-black text-gray-900">{product.netPrice}</td>
                     <td className="py-4 px-5 text-center border-l border-gray-100">
                       <button 
@@ -286,7 +286,7 @@ export function OutletPage() {
                     <button
                       key={i}
                       onClick={() => setCurrentPage(i + 1)}
-                      className={`w-8 h-8 rounded text-sm font-semibold transition-colors ${currentPage === i + 1 ? 'bg-black text-white' : 'bg-transparent text-gray-600 hover:bg-gray-200'}`}
+                      className={`w-8 h-8 rounded text-sm font-semibold transition-colors ${currentPage === i + 1 ? 'bg-mammut-black text-mammut-white' : 'bg-transparent text-gray-600 hover:bg-gray-200'}`}
                     >
                       {i + 1}
                     </button>
@@ -309,7 +309,7 @@ export function OutletPage() {
 
       {/* Modal for Multiple Images */}
       {expandedProduct && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm animate-fade-in" onClick={() => setExpandedProduct(null)}>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-mammut-black/60 backdrop-blur-sm animate-fade-in" onClick={() => setExpandedProduct(null)}>
           <div 
             className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden flex flex-col max-h-[90vh]"
             onClick={(e) => e.stopPropagation()}
@@ -342,8 +342,8 @@ export function OutletPage() {
                    )}
                    <img src={expandedProduct.localImages[galleryIndex]} alt={`${expandedProduct.name} View ${galleryIndex + 1}`} className="w-full h-full object-contain pointer-events-none" />
                    {expandedProduct.localImages.length > 1 && (
-                     <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black/60 px-5 py-2 rounded-full backdrop-blur-sm shadow-xl">
-                        <span className="text-white text-xs font-bold tracking-widest">{galleryIndex + 1} / {expandedProduct.localImages.length}</span>
+                     <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-mammut-black/60 px-5 py-2 rounded-full backdrop-blur-sm shadow-xl">
+                        <span className="text-mammut-white text-xs font-bold tracking-widest">{galleryIndex + 1} / {expandedProduct.localImages.length}</span>
                      </div>
                    )}
                 </div>
@@ -360,7 +360,7 @@ export function OutletPage() {
             </div>
             <div className="bg-white px-8 py-5 border-t border-gray-100 flex justify-between items-center text-sm font-bold text-gray-800">
                 <span className="opacity-50 uppercase tracking-widest">DRUTEX OUTLET DIRECT</span>
-                <span className="text-2xl text-[#eab676]">{expandedProduct.netPrice} {expandedProduct.currency}</span>
+                <span className="text-2xl text-mammut-gold">{expandedProduct.netPrice} {expandedProduct.currency}</span>
             </div>
           </div>
         </div>

@@ -57,3 +57,15 @@ When we are ready to implement this, we will:
 2. Build a reusable `<WindowPreview dimensions={{width, height}} typology="F200" />` component.
 3. Calculate percentage-based offsets for mullions (e.g., if a 2-sash window is selected, place a vertical dimension line showing `width / 2` for each sash).
 4. Integrate this preview component into the left-hand visualizer panel of the configurator UI.
+
+## Day/Night Theme Overlay Strategy
+
+To support both a Day Version (Light Mode) and Night Version (Dark Mode), the graphics strategy utilizes CSS variable inversion alongside standard Tailwind v4 variants.
+
+1. **Static Typology Backgrounds**: 
+   - Typology base images (PNGs with transparency) naturally sit on top of the container's background. 
+   - Because the configurator container uses `bg-mammut-dark` or `bg-mammut-darker`, inversion to light mode variables automatically provides a white or light-gray backdrop.
+2. **Dynamic React Overlays**:
+   - The dimension lines (borders), ticks, and text overlays must adapt. 
+   - By mapping `--color-black` to `var(--theme-bg-base)` and `--color-white` to `var(--theme-text-base)` in `index.css`, utility classes like `border-black` and `text-black` will automatically flip colors depending on the active `data-theme`.
+   - Hardcoded utility classes (like `bg-[#111112]`) must be migrated to semantic variables (e.g. `bg-mammut-darker`) so they can seamlessly respond to the light mode toggle.

@@ -54,13 +54,13 @@ export function SetupOverview() {
   if (loading) return <div>Loading setup...</div>
 
   return (
-    <div className="space-y-8 animate-fade-in text-white pt-4 px-4 font-sans">
+    <div className="space-y-8 animate-fade-in text-mammut-white pt-4 px-4 font-sans">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-light tracking-tight">Window Setup</h2>
           <p className="text-zinc-400 mt-2">Manage Profile Systems, Window Types, and Structural Constraints.</p>
         </div>
-        <button className="bg-[#eab676] hover:bg-[#d9a465] text-zinc-950 px-6 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2">
+        <button className="bg-mammut-gold hover:bg-[#d9a465] text-zinc-950 px-6 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2">
           <Wrench size={18} />
           <span>New Profile</span>
         </button>
@@ -83,10 +83,10 @@ export function SetupOverview() {
                   onClick={() => toggleExpand(system.id)}
                 >
                   <div className="flex items-center space-x-4">
-                    <button className="text-zinc-500 hover:text-white transition-colors">
+                    <button className="text-zinc-500 hover:text-mammut-white transition-colors">
                       {isExpanded ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
                     </button>
-                    <Layers className="text-[#eab676]" size={20} />
+                    <Layers className="text-mammut-gold" size={20} />
                     <div className="flex flex-col">
                       <span className="font-medium text-lg">{system.name}</span>
                       <span className="text-sm text-zinc-500 uppercase tracking-widest">{system.material}</span>
@@ -106,13 +106,13 @@ export function SetupOverview() {
                       types.map(type => (
                         <div key={type.id} className="flex items-center justify-between p-3 rounded-lg bg-zinc-900/50 border border-zinc-800 hover:bg-zinc-800 transition-colors">
                           <div className="flex items-center space-x-3">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#eab676]"></span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-mammut-gold"></span>
                             <span className="font-medium">{type.label}</span>
                             <span className="text-xs px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-400">
                               {type.sash_count} Sash • {type.opening_type}
                             </span>
                           </div>
-                          <button className="text-sm text-[#eab676] hover:underline">
+                          <button className="text-sm text-mammut-gold hover:underline">
                             Edit Constraints
                           </button>
                         </div>

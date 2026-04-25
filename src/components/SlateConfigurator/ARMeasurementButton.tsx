@@ -151,16 +151,16 @@ export function ARMeasurementButton({ onMeasureComplete }: ARMeasurementButtonPr
       
       <button 
         onClick={startCamera}
-        className="w-full bg-[#111112] text-indigo-400 border-2 border-indigo-400/30 px-4 py-3 rounded-xl flex items-center justify-center gap-2 font-black tracking-widest uppercase text-[10px] md:text-xs shadow-[0_0_15px_rgba(99,102,241,0.2)] hover:border-indigo-400 hover:bg-[#1a1a1b] transition-all active:scale-95"
+        className="w-full bg-mammut-darker text-indigo-400 border-2 border-indigo-400/30 px-4 py-3 rounded-xl flex items-center justify-center gap-2 font-black tracking-widest uppercase text-[10px] md:text-xs shadow-[0_0_15px_rgba(99,102,241,0.2)] hover:border-indigo-400 hover:bg-mammut-dark transition-all active:scale-95"
       >
         <Scan size={16} /> Beta: {isWebXRSupported ? 'SLAM AR Scanner' : 'Smart AI Scanner'}
       </button>
 
       {isScanning && (
-        <div className="fixed inset-0 z-[100] bg-black flex flex-col pointer-events-auto">
+        <div className="fixed inset-0 z-[100] bg-mammut-black flex flex-col pointer-events-auto">
           <div 
             ref={containerRef}
-            className="flex-1 relative overflow-hidden bg-black touch-none select-none"
+            className="flex-1 relative overflow-hidden bg-mammut-black touch-none select-none"
             onMouseMove={handlePointerMove}
             onMouseUp={handlePointerEnd}
             onMouseLeave={handlePointerEnd}
@@ -211,14 +211,14 @@ export function ARMeasurementButton({ onMeasureComplete }: ARMeasurementButtonPr
                 onMouseDown={(e) => handlePointerStart(e, i)}
                 onTouchStart={(e) => handlePointerStart(e, i)}
               >
-                <div className={`w-8 h-8 rounded-full border-[3px] shadow-[0_0_15px_rgba(99,102,241,0.8)] backdrop-blur-sm transition-transform ${activePoint === i ? 'scale-125 border-white bg-white/20' : 'border-indigo-400 bg-black/40'}`} />
+                <div className={`w-8 h-8 rounded-full border-[3px] shadow-[0_0_15px_rgba(99,102,241,0.8)] backdrop-blur-sm transition-transform ${activePoint === i ? 'scale-125 border-white bg-white/20' : 'border-indigo-400 bg-mammut-black/40'}`} />
               </div>
             ))}
             
             {analysisStatus === 'scanning' && (
               <div className="absolute inset-x-0 top-[20%] flex flex-col items-center justify-center z-30 pointer-events-none">
                 <Scan size={56} className="text-indigo-400 mb-4 animate-[spin_3s_linear_infinite]" />
-                <div className="bg-black/90 text-indigo-400 font-black px-8 py-4 rounded-2xl uppercase tracking-[0.2em] border border-indigo-500/50 shadow-[0_0_40px_rgba(79,70,229,0.5)]">
+                <div className="bg-mammut-black/90 text-indigo-400 font-black px-8 py-4 rounded-2xl uppercase tracking-[0.2em] border border-indigo-500/50 shadow-[0_0_40px_rgba(79,70,229,0.5)]">
                   Running Geometry AI...
                 </div>
               </div>
@@ -234,9 +234,9 @@ export function ARMeasurementButton({ onMeasureComplete }: ARMeasurementButtonPr
             )}
           </div>
           
-          <div className="p-6 bg-[#0a0a0b] border-t border-[#2a2a2b] flex flex-col gap-4 relative z-40 shadow-[0_-10px_50px_rgba(0,0,0,0.8)] pb-safe">
+          <div className="p-6 bg-[#0a0a0b] border-t border-mammut-border flex flex-col gap-4 relative z-40 shadow-[0_-10px_50px_rgba(0,0,0,0.8)] pb-safe">
             <div className="flex flex-col gap-2">
-              <label className="text-[10px] uppercase font-bold text-white/50 tracking-widest flex justify-between">
+              <label className="text-[10px] uppercase font-bold text-mammut-white/50 tracking-widest flex justify-between">
                 <span>Camera Zoom</span>
                 <span className="text-indigo-400">{zoomLevel.toFixed(1)}x</span>
               </label>
@@ -247,25 +247,25 @@ export function ARMeasurementButton({ onMeasureComplete }: ARMeasurementButtonPr
                 step="0.1" 
                 value={zoomLevel} 
                 onChange={(e) => setZoomLevel(parseFloat(e.target.value))}
-                className="w-full accent-indigo-500 bg-[#1a1a1b] h-2 rounded-lg appearance-none outline-none"
+                className="w-full accent-indigo-500 bg-mammut-dark h-2 rounded-lg appearance-none outline-none"
               />
             </div>
           
-            <div className="text-center text-[10px] text-white/40 font-medium tracking-wide leading-relaxed">
+            <div className="text-center text-[10px] text-mammut-white/40 font-medium tracking-wide leading-relaxed">
               Drag the 4 corners precisely over your physical window frame.
             </div>
             
             <div className="flex gap-3 mt-2">
               <button 
                 onClick={stopCamera}
-                className="flex-[0.3] bg-[#1a1a1b] text-white/50 hover:text-white rounded-xl flex items-center justify-center transition-all border border-white/5 uppercase tracking-widest font-black text-[10px]"
+                className="flex-[0.3] bg-mammut-dark text-mammut-white/50 hover:text-mammut-white rounded-xl flex items-center justify-center transition-all border border-white/5 uppercase tracking-widest font-black text-[10px]"
               >
                 <X size={20} />
               </button>
               <button 
                 disabled={!!analysisStatus}
                 onClick={analyzeAndComplete}
-                className="flex-1 bg-indigo-600 text-white hover:bg-indigo-500 py-4 rounded-xl flex items-center justify-center gap-2 text-sm font-black uppercase tracking-widest shadow-[0_0_20px_rgba(79,70,229,0.3)] disabled:opacity-50 transition-all active:scale-[0.98]"
+                className="flex-1 bg-indigo-600 text-mammut-white hover:bg-indigo-500 py-4 rounded-xl flex items-center justify-center gap-2 text-sm font-black uppercase tracking-widest shadow-[0_0_20px_rgba(79,70,229,0.3)] disabled:opacity-50 transition-all active:scale-[0.98]"
               >
                 <Scan size={18} /> Analyze Frame
               </button>

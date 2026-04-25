@@ -22,7 +22,7 @@ export const NeedlePreview: React.FC<NeedlePreviewProps> = ({ state }) => {
   }, [state]);
 
   return (
-    <div className="w-full h-full relative bg-[#111112]">
+    <div className="w-full h-full relative bg-mammut-darker">
       {/* 
         This is the actual Needle Engine container.
         We point it to the .glb web project that should be generated via Unity/Blender.

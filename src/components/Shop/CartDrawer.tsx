@@ -15,7 +15,7 @@ export function CartDrawer() {
 
   return (
     <div className="fixed inset-0 z-[500] flex justify-end font-sans">
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm animate-fade-in" onClick={toggleCart} />
+      <div className="absolute inset-0 bg-mammut-black/40 backdrop-blur-sm animate-fade-in" onClick={toggleCart} />
       
       <div className="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col animate-slide-left z-10 border-l border-gray-100">
         
@@ -82,11 +82,11 @@ export function CartDrawer() {
            <div className="bg-gray-50 p-6 border-t border-gray-200 shadow-[0_-4px_10px_-4px_rgba(0,0,0,0.05)]">
               <div className="flex justify-between items-center mb-6">
                  <span className="text-sm font-bold text-gray-500 uppercase tracking-widest">Subtotal</span>
-                 <span className="text-2xl font-black text-[#eab676]">{getCartTotal().toFixed(2)} €</span>
+                 <span className="text-2xl font-black text-mammut-gold">{getCartTotal().toFixed(2)} €</span>
               </div>
               <p className="text-xs text-gray-500 mb-6 font-medium">Taxes and shipping are explicitly calculated at checkout validation.</p>
               
-              <button onClick={handleCheckout} className="w-full bg-black text-white py-4 rounded-xl text-sm font-bold uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-gray-800 hover:-translate-y-1 transition-all shadow-xl shadow-black/20">
+              <button onClick={handleCheckout} className="w-full bg-mammut-black text-mammut-white py-4 rounded-xl text-sm font-bold uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-gray-800 hover:-translate-y-1 transition-all shadow-xl shadow-black/20">
                  Proceed to Checkout <ArrowRight size={18} />
               </button>
            </div>

@@ -52,16 +52,16 @@ function HandlesSlider() {
   const visible = HANDLES.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE)
 
   return (
-    <section className="py-16 border-b border-[#2a2a2b]" style={{ background: 'linear-gradient(180deg, #0e0e0f 0%, #161617 100%)' }}>
+    <section className="py-16 border-b border-mammut-border" style={{ background: 'linear-gradient(180deg, #0e0e0f 0%, #161617 100%)' }}>
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-2">{t('productDetail.handlesTitle')}</h2>
-        <p className="!text-white/50 text-sm mb-10 max-w-2xl">
+        <h2 className="text-3xl font-black text-mammut-white uppercase tracking-widest mb-2">{t('productDetail.handlesTitle')}</h2>
+        <p className="!text-mammut-white/50 text-sm mb-10 max-w-2xl">
           {t('productDetail.handlesDesc')}
         </p>
         <div className="relative flex items-center gap-4">
           <button
             onClick={() => setPage(p => (p - 1 + totalPages) % totalPages)}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-[#3a3a3b] text-white/60 hover:text-[#eab676] hover:border-[#eab676] transition-colors duration-200"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-mammut-border text-mammut-white/60 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
             aria-label="Previous"
           >
             <ChevronLeft size={20} />
@@ -69,10 +69,10 @@ function HandlesSlider() {
           <div className="flex-1 grid grid-cols-5 gap-4">
             {visible.map(handle => (
               <div key={handle.name} className="flex flex-col items-center gap-3">
-                <div className="w-full aspect-square flex items-end justify-center overflow-hidden bg-[#111112]">
+                <div className="w-full aspect-square flex items-end justify-center overflow-hidden bg-mammut-darker">
                   <img src={handle.image} alt={handle.label} className="w-full h-full object-contain hover:scale-105 transition-transform duration-300" />
                 </div>
-                <p className="!text-white/70 text-[11px] text-center leading-tight px-1">{handle.label}</p>
+                <p className="!text-mammut-white/70 text-[11px] text-center leading-tight px-1">{handle.label}</p>
               </div>
             ))}
             {Array.from({ length: PER_PAGE - visible.length }).map((_, i) => (
@@ -81,7 +81,7 @@ function HandlesSlider() {
           </div>
           <button
             onClick={() => setPage(p => (p + 1) % totalPages)}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-[#3a3a3b] text-white/60 hover:text-[#eab676] hover:border-[#eab676] transition-colors duration-200"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-mammut-border text-mammut-white/60 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
             aria-label="Next"
           >
             <ChevronRight size={20} />
@@ -219,7 +219,7 @@ function AdditionalOptionSlider({ items }: { items: { name: string; image: strin
       {totalPages > 1 && (
         <button
           onClick={() => setPage(p => (p - 1 + totalPages) % totalPages)}
-          className="flex-shrink-0 w-8 h-8 flex items-center justify-center border border-[#3a3a3b] text-white/60 hover:text-[#eab676] hover:border-[#eab676] transition-colors duration-200"
+          className="flex-shrink-0 w-8 h-8 flex items-center justify-center border border-mammut-border text-mammut-white/60 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
           aria-label="Previous"
         >
           <ChevronLeft size={16} />
@@ -229,14 +229,14 @@ function AdditionalOptionSlider({ items }: { items: { name: string; image: strin
       <div className="flex-1 grid grid-cols-3 gap-4">
         {visible.map((item, i) => (
           <div key={i} className="flex flex-col items-center gap-2">
-            <div className="w-full aspect-square bg-[#111112] border border-[#2a2a2b] overflow-hidden flex items-center justify-center p-3">
+            <div className="w-full aspect-square bg-mammut-darker border border-mammut-border overflow-hidden flex items-center justify-center p-3">
               <img
                 src={item.image}
                 alt={item.name}
                 className="w-full h-full object-contain hover:scale-105 transition-transform duration-300"
               />
             </div>
-            <p className="!text-white/60 text-[11px] text-center leading-tight px-1 whitespace-pre-line">{item.name}</p>
+            <p className="!text-mammut-white/60 text-[11px] text-center leading-tight px-1 whitespace-pre-line">{item.name}</p>
           </div>
         ))}
         {Array.from({ length: AO_PER_PAGE - visible.length }).map((_, i) => (
@@ -247,7 +247,7 @@ function AdditionalOptionSlider({ items }: { items: { name: string; image: strin
       {totalPages > 1 && (
         <button
           onClick={() => setPage(p => (p + 1) % totalPages)}
-          className="flex-shrink-0 w-8 h-8 flex items-center justify-center border border-[#3a3a3b] text-white/60 hover:text-[#eab676] hover:border-[#eab676] transition-colors duration-200"
+          className="flex-shrink-0 w-8 h-8 flex items-center justify-center border border-mammut-border text-mammut-white/60 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
           aria-label="Next"
         >
           <ChevronRight size={16} />
@@ -275,25 +275,25 @@ function AdditionalOptionsSection() {
   const { t } = useTranslation()
 
   return (
-    <section className="py-16 border-b border-[#2a2a2b]" style={{ background: 'linear-gradient(180deg, #111112 0%, #0e0e0f 100%)' }}>
+    <section className="py-16 border-b border-mammut-border" style={{ background: 'linear-gradient(180deg, #111112 0%, #0e0e0f 100%)' }}>
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-2">{t('productDetail.optionsTitle')}</h2>
-        <p className="!text-white/50 text-sm mb-12 max-w-2xl">
+        <h2 className="text-3xl font-black text-mammut-white uppercase tracking-widest mb-2">{t('productDetail.optionsTitle')}</h2>
+        <p className="!text-mammut-white/50 text-sm mb-12 max-w-2xl">
           {t('productDetail.optionsDesc')}
         </p>
 
         <div className="space-y-10">
           {ADDITIONAL_OPTIONS.map(group => (
-            <div key={group.id} className="flex gap-8 border-b border-[#2a2a2b] pb-10 last:border-0 last:pb-0">
+            <div key={group.id} className="flex gap-8 border-b border-mammut-border pb-10 last:border-0 last:pb-0">
               {/* Left: info panel */}
               <div className="w-56 flex-shrink-0">
-                <h3 className="text-white font-black text-lg uppercase leading-tight mb-2">{group.title}</h3>
-                <p className="!text-white/50 text-xs leading-relaxed mb-4">{group.description}</p>
+                <h3 className="text-mammut-white font-black text-lg uppercase leading-tight mb-2">{group.title}</h3>
+                <p className="!text-mammut-white/50 text-xs leading-relaxed mb-4">{group.description}</p>
                 <a
                   href={group.seeAllHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block bg-[#eab676] text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 hover:bg-[#F3C47F] transition-colors"
+                  className="inline-block bg-mammut-gold text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 hover:bg-[#F3C47F] transition-colors"
                 >
                   {t('productDetail.seeAll')}
                 </a>
@@ -314,10 +314,10 @@ function GlazingSection({ glassOptions }: { glassOptions: GlassOption[] }) {
   const [selected, setSelected] = useState<GlassOption>(glassOptions[0])
 
   return (
-    <section className="py-16 border-b border-[#2a2a2b]">
+    <section className="py-16 border-b border-mammut-border">
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-2">{t('productDetail.glassTitle')}</h2>
-        <p className="!text-white text-sm mb-10 max-w-2xl">
+        <h2 className="text-3xl font-black text-mammut-white uppercase tracking-widest mb-2">{t('productDetail.glassTitle')}</h2>
+        <p className="!text-mammut-white text-sm mb-10 max-w-2xl">
           {t('productDetail.glassDesc')}
         </p>
         <div className="flex flex-col lg:flex-row gap-8">
@@ -350,7 +350,7 @@ function GlazingSection({ glassOptions }: { glassOptions: GlassOption[] }) {
           </div>
 
           {/* Large preview panel */}
-          <div className="lg:w-[45%] flex-shrink-0 bg-[#1a1a1b] overflow-hidden">
+          <div className="lg:w-[45%] flex-shrink-0 bg-mammut-dark overflow-hidden">
             <img
               key={selected.id}
               src={selected.largeImage}
@@ -379,9 +379,9 @@ export function ProductDetailPage() {
 
   if (!detailData && !basicData) {
     return (
-      <main className="min-h-screen bg-black pt-32 px-6 text-center">
-        <h1 className="text-3xl font-black uppercase text-[#eab676]">{t('productDetail.notFound')}</h1>
-        <Link to="/products" className="mt-6 inline-flex text-sm text-white/60 hover:text-white uppercase tracking-widest transition-colors">
+      <main className="min-h-screen bg-mammut-black pt-32 px-6 text-center">
+        <h1 className="text-3xl font-black uppercase text-mammut-gold">{t('productDetail.notFound')}</h1>
+        <Link to="/products" className="mt-6 inline-flex text-sm text-mammut-white/60 hover:text-mammut-white uppercase tracking-widest transition-colors">
           {t('productDetail.return')}
         </Link>
       </main>
@@ -391,11 +391,11 @@ export function ProductDetailPage() {
   // --- STANDARD LAYOUT BACKBACK (for non-Iglo-Edge products currently) ---
   if (!isDetailed && basicData) {
     return (
-      <main className="bg-black min-h-screen pt-24 px-6 text-center pb-20">
-        <h1 className="text-4xl font-black uppercase mb-4 text-white">{basicData.name}</h1>
-        <p className="text-[#eab676] mb-8">{basicData.tagline}</p>
-        <p className="text-white/60 max-w-2xl mx-auto mb-10">{basicData.description}</p>
-        <Link to={`/configurator?product=${basicData.slug}`} className="bg-[#eab676] text-black px-8 py-4 font-bold uppercase tracking-widest hover:bg-[#F3C47F] transition-colors">
+      <main className="bg-mammut-black min-h-screen pt-24 px-6 text-center pb-20">
+        <h1 className="text-4xl font-black uppercase mb-4 text-mammut-white">{basicData.name}</h1>
+        <p className="text-mammut-gold mb-8">{basicData.tagline}</p>
+        <p className="text-mammut-white/60 max-w-2xl mx-auto mb-10">{basicData.description}</p>
+        <Link to={`/configurator?product=${basicData.slug}`} className="bg-mammut-gold text-black px-8 py-4 font-bold uppercase tracking-widest hover:bg-[#F3C47F] transition-colors">
           {t('productDetail.configure', { name: basicData.name })}
         </Link>
       </main>
@@ -408,11 +408,11 @@ export function ProductDetailPage() {
   const selectedColor = detailData.colors.find(c => c.id === selectedColorId)
 
   return (
-    <main className="bg-[#111112] min-h-screen pt-16">
+    <main className="bg-mammut-darker min-h-screen pt-16">
       
       {/* 1. Hero Section (Full Width, matches the top section requested by user) */}
       <section className="relative h-[80vh] min-h-[600px] flex items-end justify-center pb-8 lg:pb-12 overflow-hidden">
-        <div className="absolute inset-0 bg-black z-0">
+        <div className="absolute inset-0 bg-mammut-black z-0">
           <video 
             src="/assets/iglo-edge-header-cover.mp4"
             autoPlay 
@@ -433,7 +433,7 @@ export function ProductDetailPage() {
           </p>
 
           {/* Thin gold divider */}
-          <div className="w-full border-t border-[#eab676]/40 mb-10" />
+          <div className="w-full border-t border-mammut-gold/40 mb-10" />
           
           {/* Spec boxes — evenly distributed, gracefully wrapping on mobile */}
           <div className="w-full flex flex-wrap justify-center items-start gap-4 md:gap-6">
@@ -442,7 +442,7 @@ export function ProductDetailPage() {
                 {/* Box with interrupted border: full border + background color strips at top/bottom center to create gap effect */}
                 <div className="relative flex items-center justify-center w-full" style={{ height: '56px' }}>
                   {/* Full border */}
-                  <div className="absolute inset-0 border border-[#eab676]" />
+                  <div className="absolute inset-0 border border-mammut-gold" />
                   {/* Horizontal gap interruptions — thin bg strips at top and bottom center */}
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-[1px]" style={{ background: '#111112' }} />
                   <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-[1px]" style={{ background: '#111112' }} />
@@ -458,7 +458,7 @@ export function ProductDetailPage() {
       </section>
 
       {/* 2. Drutex Product Overview — mirrors the drutex.eu layout */}
-      <section className="border-b border-[#2a2a2b]" style={{ background: 'linear-gradient(180deg, #111112 0%, #161617 100%)' }}>
+      <section className="border-b border-mammut-border" style={{ background: 'linear-gradient(180deg, #111112 0%, #161617 100%)' }}>
 
         {/* Row A: Description + bullets (left) | Window photo (right) */}
         <div className="max-w-7xl mx-auto px-6 pt-20 pb-12">
@@ -466,8 +466,8 @@ export function ProductDetailPage() {
 
             {/* Left: text block */}
             <div>
-              <span className="bg-[#eab676] text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">{t('productDetail.standardEquipment')}</span>
-              <h2 className="text-4xl font-black text-white uppercase mb-6 leading-tight">
+              <span className="bg-mammut-gold text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">{t('productDetail.standardEquipment')}</span>
+              <h2 className="text-4xl font-black text-mammut-white uppercase mb-6 leading-tight">
                 IGLO EDGE
               </h2>
               <p className="product-overview-description leading-relaxed mb-8">
@@ -479,16 +479,16 @@ export function ProductDetailPage() {
                     <span className="mt-1 w-4 h-4 flex-shrink-0 rounded-full flex items-center justify-center" style={{ background: '#eab676' }}>
                       <Check size={10} className="text-black" />
                     </span>
-                    <span className="text-white/70 text-sm leading-snug">{t(`igloEdge.equipment.${i}`)}</span>
+                    <span className="text-mammut-white/70 text-sm leading-snug">{t(`igloEdge.equipment.${i}`)}</span>
                   </li>
                 ))}
               </ul>
               {/* Video CTA */}
               <button
                 onClick={() => setVideoOpen(true)}
-                className="flex items-center gap-3 text-sm text-white/70 hover:text-[#eab676] transition-colors duration-200 group"
+                className="flex items-center gap-3 text-sm text-mammut-white/70 hover:text-mammut-gold transition-colors duration-200 group"
               >
-                <span className="w-10 h-10 flex items-center justify-center border border-[#eab676] text-[#eab676] group-hover:bg-[#eab676] group-hover:text-black transition-all duration-200">
+                <span className="w-10 h-10 flex items-center justify-center border border-mammut-gold text-mammut-gold group-hover:bg-mammut-gold group-hover:text-black transition-all duration-200">
                   <Play size={16} fill="currentColor" />
                 </span>
                 <span className="uppercase tracking-widest font-semibold text-xs">{t('productDetail.seeVideo')}</span>
@@ -496,7 +496,7 @@ export function ProductDetailPage() {
             </div>
 
             {/* Right: window-opening video */}
-            <div className="overflow-hidden border border-[#2a2a2b] bg-[#0e0e0f]">
+            <div className="overflow-hidden border border-mammut-border bg-[#0e0e0f]">
               <video
                 src="/assets/iglo-edge-okno-window-opening.mp4"
                 autoPlay
@@ -512,7 +512,7 @@ export function ProductDetailPage() {
 
         {/* Row B: 3D flip card — front = profile photo, back = technical drawing */}
         <div className="max-w-7xl mx-auto px-6 pb-20">
-          <p className="text-white/70 text-xs uppercase tracking-widest mb-4 text-center">{t('productDetail.hoverDrawing')}</p>
+          <p className="text-mammut-white/70 text-xs uppercase tracking-widest mb-4 text-center">{t('productDetail.hoverDrawing')}</p>
           <div
             style={{
               perspective: '1200px',
@@ -535,14 +535,14 @@ export function ProductDetailPage() {
               {/* Front: profile cross-section photo */}
               <div
                 style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
-                className="absolute inset-0 bg-[#1a1a1b] border border-[#2a2a2b] flex items-center justify-center p-10"
+                className="absolute inset-0 bg-mammut-dark border border-mammut-border flex items-center justify-center p-10"
               >
                 <img
                   src={detailData.profileImage}
                   alt="IGLO EDGE profile cross-section"
                   className="w-full h-full object-contain"
                 />
-                <span className="absolute bottom-4 right-4 text-[10px] text-white/30 uppercase tracking-widest">{t('productDetail.profile')}</span>
+                <span className="absolute bottom-4 right-4 text-[10px] text-mammut-white/30 uppercase tracking-widest">{t('productDetail.profile')}</span>
               </div>
 
               {/* Back: technical drawing */}
@@ -569,13 +569,13 @@ export function ProductDetailPage() {
       {/* Video modal */}
       {videoOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-mammut-black/90 backdrop-blur-sm"
           onClick={() => setVideoOpen(false)}
         >
           <div className="relative w-full max-w-4xl mx-6" onClick={e => e.stopPropagation()}>
             <button
               onClick={() => setVideoOpen(false)}
-              className="absolute -top-10 right-0 text-white/70 hover:text-[#eab676] transition-colors"
+              className="absolute -top-10 right-0 text-mammut-white/70 hover:text-mammut-gold transition-colors"
             >
               <X size={24} />
             </button>
@@ -590,18 +590,18 @@ export function ProductDetailPage() {
       )}
 
       {/* 3. Profile Specs Section */}
-      <section className="max-w-7xl mx-auto px-6 py-24 border-b border-[#2a2a2b]">
+      <section className="max-w-7xl mx-auto px-6 py-24 border-b border-mammut-border">
         <div className="max-w-2xl">
-          <span className="bg-[#eab676] text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">{t('productDetail.newGeneration')}</span>
-          <h2 className="text-4xl font-black text-white uppercase mb-6 leading-tight">
+          <span className="bg-mammut-gold text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">{t('productDetail.newGeneration')}</span>
+          <h2 className="text-4xl font-black text-mammut-white uppercase mb-6 leading-tight">
             {t('productDetail.uncompromising')}
           </h2>
           <ul className="space-y-4">
             {detailData.keySpecs.map(spec => (
-              <li key={spec.label} className="flex items-center gap-3 border-b border-[#2a2a2b] pb-3">
-                <Check size={16} className="text-[#eab676] shrink-0" />
-                <span className="text-white/70 text-sm">{t(`igloEdge.specs.${spec.label}`)}</span>
-                <span className="text-white font-bold text-sm ml-auto">{spec.value}</span>
+              <li key={spec.label} className="flex items-center gap-3 border-b border-mammut-border pb-3">
+                <Check size={16} className="text-mammut-gold shrink-0" />
+                <span className="text-mammut-white/70 text-sm">{t(`igloEdge.specs.${spec.label}`)}</span>
+                <span className="text-mammut-white font-bold text-sm ml-auto">{spec.value}</span>
               </li>
             ))}
           </ul>
@@ -609,16 +609,16 @@ export function ProductDetailPage() {
       </section>
 
       {/* 3. Interactive Color Swatch Section */}
-      <section className="bg-[#1a1a1b] border-b border-[#2a2a2b] py-24">
+      <section className="bg-mammut-dark border-b border-mammut-border py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-4">{t('productDetail.colorsTitle')}</h2>
-            <p className="!text-white/50 max-w-2xl mx-auto">{t('productDetail.colorsDesc', { count: detailData.colors.length, name: detailData.name })}</p>
+            <h2 className="text-3xl font-black text-mammut-white uppercase tracking-widest mb-4">{t('productDetail.colorsTitle')}</h2>
+            <p className="!text-mammut-white/50 max-w-2xl mx-auto">{t('productDetail.colorsDesc', { count: detailData.colors.length, name: detailData.name })}</p>
           </div>
 
           <div className="grid lg:grid-cols-12 gap-12">
             {/* Window Preview (Left) */}
-            <div className="lg:col-span-5 bg-[#111112] border border-[#2a2a2b] flex flex-col items-center justify-center p-12 min-h-[500px] relative overflow-hidden">
+            <div className="lg:col-span-5 bg-mammut-darker border border-mammut-border flex flex-col items-center justify-center p-12 min-h-[500px] relative overflow-hidden">
               
               {/* Dynamic Window Frame Render */}
               <div className="relative w-full max-w-sm flex items-center justify-center mb-8 px-4">
@@ -629,16 +629,16 @@ export function ProductDetailPage() {
                 />
               </div>
               
-              <div className="absolute text-white/20 text-xs font-bold tracking-widest z-30 bg-black/50 px-3 py-1 uppercase rounded-sm backdrop-blur-sm -bottom-4">{t('productDetail.preview')}</div>
+              <div className="absolute text-mammut-white/20 text-xs font-bold tracking-widest z-30 bg-mammut-black/50 px-3 py-1 uppercase rounded-sm backdrop-blur-sm -bottom-4">{t('productDetail.preview')}</div>
               
               <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center text-xs z-40">
-                <span className="text-white/40 uppercase tracking-widest border border-white/10 px-3 py-1 bg-black/80 rounded-sm">{t('productDetail.selectedFinish')}</span>
-                <span className="text-[#eab676] font-black uppercase tracking-widest drop-shadow-md">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</span>
+                <span className="text-mammut-white/40 uppercase tracking-widest border border-white/10 px-3 py-1 bg-mammut-black/80 rounded-sm">{t('productDetail.selectedFinish')}</span>
+                <span className="text-mammut-gold font-black uppercase tracking-widest drop-shadow-md">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</span>
               </div>
             </div>
 
             {/* Color Selector (Right) */}
-            <div className="lg:col-span-7 bg-[#111112] border border-[#2a2a2b] p-8 lg:p-12">
+            <div className="lg:col-span-7 bg-mammut-darker border border-mammut-border p-8 lg:p-12">
               <ColorSwatch 
                 colors={detailData.colors}
                 selectedColorId={selectedColorId}
@@ -662,10 +662,10 @@ export function ProductDetailPage() {
           padding: '24px 0',
         }}
       >
-        <div className="relative z-10 text-white" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7)' }}>
-          <p className="!text-white text-sm font-normal opacity-90 mb-1">{t('productDetail.selectedColor')}</p>
-          <p className="!text-white text-lg font-bold tracking-wide">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</p>
-          <p className="!text-white text-xs opacity-80 mt-0.5 tracking-widest">{selectedColor?.id}</p>
+        <div className="relative z-10 text-mammut-white" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7)' }}>
+          <p className="!text-mammut-white text-sm font-normal opacity-90 mb-1">{t('productDetail.selectedColor')}</p>
+          <p className="!text-mammut-white text-lg font-bold tracking-wide">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</p>
+          <p className="!text-mammut-white text-xs opacity-80 mt-0.5 tracking-widest">{selectedColor?.id}</p>
         </div>
       </div>
 
@@ -679,16 +679,16 @@ export function ProductDetailPage() {
       <AdditionalOptionsSection />
 
       {/* Floating Action Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-md border-t border-[#2a2a2b] p-4 z-40 transform translate-y-0 transition-transform">
+      <div className="fixed bottom-0 left-0 right-0 bg-mammut-black/95 backdrop-blur-md border-t border-mammut-border p-4 z-40 transform translate-y-0 transition-transform">
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           <div className="hidden md:block">
-            <span className="text-white font-black tracking-widest uppercase mr-4">{detailData.name}</span>
-            <span className="text-white/40 text-xs uppercase tracking-widest">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</span>
+            <span className="text-mammut-white font-black tracking-widest uppercase mr-4">{detailData.name}</span>
+            <span className="text-mammut-white/40 text-xs uppercase tracking-widest">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</span>
           </div>
           <div className="flex w-full md:w-auto gap-4">
              <Link 
                to={`/configurator?product=${detailData.slug}&color=${selectedColor?.hex?.replace('#', '')}`}
-               className="flex-1 md:flex-none bg-[#eab676] text-black px-8 py-3 text-xs font-bold uppercase tracking-widest hover:bg-[#F3C47F] transition-colors text-center"
+               className="flex-1 md:flex-none bg-mammut-gold text-black px-8 py-3 text-xs font-bold uppercase tracking-widest hover:bg-[#F3C47F] transition-colors text-center"
              >
                {t('productDetail.configureQuote')}
              </Link>

@@ -15,27 +15,27 @@ export function PartnerLeads() {
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight text-white">{t('partner.leads.title')}</h2>
+          <h2 className="text-3xl font-bold tracking-tight text-mammut-white">{t('partner.leads.title')}</h2>
           <p className="text-gray-400 mt-1">{t('partner.leads.subtitle')}</p>
         </div>
-        <button className="bg-[#111] border border-gray-800 hover:bg-gray-800 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors">
+        <button className="bg-mammut-darker border border-gray-800 hover:bg-gray-800 text-mammut-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors">
           <Download className="w-5 h-5" />
           {t('partner.leads.exportCsv')}
         </button>
       </div>
 
-      <div className="bg-[#111] border border-gray-800 rounded-xl overflow-hidden">
+      <div className="bg-mammut-darker border border-gray-800 rounded-xl overflow-hidden">
         {/* Table Header Controls */}
-        <div className="p-4 border-b border-gray-800 flex items-center justify-between bg-[#151515]">
+        <div className="p-4 border-b border-gray-800 flex items-center justify-between bg-mammut-dark">
           <div className="relative w-64">
             <Search className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
             <input 
               type="text" 
               placeholder={t('partner.leads.searchId')}
-              className="w-full bg-black border border-gray-800 rounded-lg pl-10 pr-4 py-2 text-sm text-white focus:outline-none focus:border-[#eab676] transition-colors"
+              className="w-full bg-mammut-black border border-gray-800 rounded-lg pl-10 pr-4 py-2 text-sm text-mammut-white focus:outline-none focus:border-mammut-gold transition-colors"
             />
           </div>
-          <button className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
+          <button className="flex items-center gap-2 text-sm text-gray-400 hover:text-mammut-white transition-colors">
             <Filter className="w-4 h-4" />
             {t('partner.leads.filterStatus')}
           </button>
@@ -45,7 +45,7 @@ export function PartnerLeads() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-gray-800 text-xs uppercase tracking-wider text-gray-500 bg-[#0a0a0a]">
+              <tr className="border-b border-gray-800 text-xs uppercase tracking-wider text-gray-500 bg-mammut-black">
                 <th className="px-6 py-4 font-semibold">{t('partner.leads.cols.id')}</th>
                 <th className="px-6 py-4 font-semibold">{t('partner.leads.cols.date')}</th>
                 <th className="px-6 py-4 font-semibold">{t('partner.leads.cols.source')}</th>
@@ -71,9 +71,9 @@ export function PartnerLeads() {
                       {lead.status}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-sm font-medium text-white">{lead.budget}</td>
+                  <td className="px-6 py-4 text-sm font-medium text-mammut-white">{lead.budget}</td>
                   <td className="px-6 py-4 text-right">
-                    <button className="text-gray-500 hover:text-white p-1 rounded transition-colors">
+                    <button className="text-gray-500 hover:text-mammut-white p-1 rounded transition-colors">
                       <MoreVertical className="w-5 h-5" />
                     </button>
                   </td>

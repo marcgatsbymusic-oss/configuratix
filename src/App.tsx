@@ -52,7 +52,7 @@ import { PartnerLanding } from './pages/partner/PartnerLanding'
 
 function StorefrontLayout() {
   return (
-    <div className="flex flex-col min-h-screen bg-black">
+    <div className="flex flex-col min-h-screen bg-mammut-black">
       <Header />
       <div className="flex-1">
         <Routes>

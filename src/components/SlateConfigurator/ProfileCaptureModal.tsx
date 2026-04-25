@@ -73,33 +73,33 @@ export function ProfileCaptureModal({ onClose, onComplete }: Props) {
     }
   };
 
-  const inputClass = 'w-full bg-[#111112] border border-[#2a2a2b] rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-[#eab676]/60 transition-colors text-sm';
-  const labelClass = 'block text-[10px] font-bold text-white/40 uppercase tracking-widest mb-2';
+  const inputClass = 'w-full bg-mammut-darker border border-mammut-border rounded-xl px-4 py-3 text-mammut-white placeholder-white/20 focus:outline-none focus:border-mammut-gold/60 transition-colors text-sm';
+  const labelClass = 'block text-[10px] font-bold text-mammut-white/40 uppercase tracking-widest mb-2';
 
   if (submitted) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-        <div className="bg-[#1a1a1b] border border-[#eab676]/30 w-full max-w-lg rounded-3xl shadow-[0_0_50px_rgba(234,182,118,0.1)] overflow-hidden">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-mammut-black/80 backdrop-blur-sm animate-fade-in">
+        <div className="bg-mammut-dark border border-mammut-gold/30 w-full max-w-lg rounded-3xl shadow-[0_0_50px_rgba(234,182,118,0.1)] overflow-hidden">
           <div className="p-10 text-center flex flex-col items-center gap-6">
             <div className="w-20 h-20 rounded-full bg-emerald-500/20 flex items-center justify-center">
               <CheckCircle size={40} className="text-emerald-400" strokeWidth={1.5} />
             </div>
             <div>
-              <h2 className="text-2xl font-black text-white mb-2">Quotation Submitted!</h2>
-              <p className="text-white/50 text-sm leading-relaxed">
+              <h2 className="text-2xl font-black text-mammut-white mb-2">Quotation Submitted!</h2>
+              <p className="text-mammut-white/50 text-sm leading-relaxed">
                 Your quotation has been received. We will review it and get back to you shortly.
               </p>
             </div>
             {quotationNumber && (
-              <div className="bg-[#111112] border border-[#2a2a2b] rounded-2xl px-8 py-4 text-center">
-                <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mb-1">Quotation Reference</p>
-                <p className="text-3xl font-black text-[#eab676] tracking-wider">{quotationNumber}</p>
+              <div className="bg-mammut-darker border border-mammut-border rounded-2xl px-8 py-4 text-center">
+                <p className="text-[10px] font-bold text-mammut-white/30 uppercase tracking-widest mb-1">Quotation Reference</p>
+                <p className="text-3xl font-black text-mammut-gold tracking-wider">{quotationNumber}</p>
               </div>
             )}
-            <p className="text-xs text-white/30">A confirmation will be sent to <span className="text-white/60">{form.email}</span></p>
+            <p className="text-xs text-mammut-white/30">A confirmation will be sent to <span className="text-mammut-white/60">{form.email}</span></p>
             <button
               onClick={() => { onComplete(); onClose(); }}
-              className="w-full bg-[#eab676] !text-black py-4 rounded-xl font-black uppercase tracking-widest hover:bg-[#ffc882] transition-colors"
+              className="w-full bg-mammut-gold !text-black py-4 rounded-xl font-black uppercase tracking-widest hover:bg-[#ffc882] transition-colors"
             >
               Done
             </button>
@@ -110,21 +110,21 @@ export function ProfileCaptureModal({ onClose, onComplete }: Props) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-      <div className="bg-[#1a1a1b] border border-[#eab676]/20 w-full max-w-2xl rounded-3xl shadow-[0_0_50px_rgba(234,182,118,0.08)] overflow-hidden" onClick={(e) => e.stopPropagation()}>
-        <button onClick={onClose} className="absolute right-5 top-5 p-2 rounded-full hover:bg-white/10 text-white/40 hover:text-white transition-colors z-10">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-mammut-black/80 backdrop-blur-sm animate-fade-in">
+      <div className="bg-mammut-dark border border-mammut-gold/20 w-full max-w-2xl rounded-3xl shadow-[0_0_50px_rgba(234,182,118,0.08)] overflow-hidden" onClick={(e) => e.stopPropagation()}>
+        <button onClick={onClose} className="absolute right-5 top-5 p-2 rounded-full hover:bg-white/10 text-mammut-white/40 hover:text-mammut-white transition-colors z-10">
           <X size={18} />
         </button>
 
         {/* Header */}
-        <div className="px-8 pt-8 pb-6 border-b border-[#2a2a2b]">
+        <div className="px-8 pt-8 pb-6 border-b border-mammut-border">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-[#eab676]/15 rounded-2xl flex items-center justify-center">
-              <Send size={22} className="text-[#eab676]" strokeWidth={1.5} />
+            <div className="w-12 h-12 bg-mammut-gold/15 rounded-2xl flex items-center justify-center">
+              <Send size={22} className="text-mammut-gold" strokeWidth={1.5} />
             </div>
             <div>
-              <h2 className="text-xl font-black text-white">Request a Quotation</h2>
-              <p className="text-sm text-white/40">Fill in your details and we'll prepare a formal quote for {items.length} window{items.length !== 1 ? 's' : ''}.</p>
+              <h2 className="text-xl font-black text-mammut-white">Request a Quotation</h2>
+              <p className="text-sm text-mammut-white/40">Fill in your details and we'll prepare a formal quote for {items.length} window{items.length !== 1 ? 's' : ''}.</p>
             </div>
           </div>
         </div>
@@ -169,9 +169,9 @@ export function ProfileCaptureModal({ onClose, onComplete }: Props) {
               <label className={labelClass}><Globe size={10} className="inline mr-1" />Country</label>
               <select value={form.country} onChange={(e) => update('country', e.target.value)}
                 className={`${inputClass} cursor-pointer`}>
-                <option value="" className="bg-[#111112]">Select country...</option>
+                <option value="" className="bg-mammut-darker">Select country...</option>
                 {COUNTRIES.map((c) => (
-                  <option key={c} value={c} className="bg-[#111112] text-white">{c}</option>
+                  <option key={c} value={c} className="bg-mammut-darker text-mammut-white">{c}</option>
                 ))}
               </select>
             </div>
@@ -186,18 +186,18 @@ export function ProfileCaptureModal({ onClose, onComplete }: Props) {
           </div>
 
           {/* Order Summary */}
-          <div className="bg-[#111112] border border-[#2a2a2b] rounded-2xl p-4">
-            <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mb-3">Order Summary</p>
+          <div className="bg-mammut-darker border border-mammut-border rounded-2xl p-4">
+            <p className="text-[10px] font-bold text-mammut-white/30 uppercase tracking-widest mb-3">Order Summary</p>
             <div className="space-y-2">
               {items.map((item, i) => (
                 <div key={item.id} className="flex items-center justify-between text-sm">
-                  <span className="text-white/60">{i + 1}. {item.name} {item.width && item.height ? `· ${item.width}×${item.height}mm` : ''}</span>
-                  <span className="text-white font-bold">€{item.price.toFixed(2)}</span>
+                  <span className="text-mammut-white/60">{i + 1}. {item.name} {item.width && item.height ? `· ${item.width}×${item.height}mm` : ''}</span>
+                  <span className="text-mammut-white font-bold">€{item.price.toFixed(2)}</span>
                 </div>
               ))}
-              <div className="border-t border-[#2a2a2b] pt-2 mt-2 flex justify-between font-black text-white">
+              <div className="border-t border-mammut-border pt-2 mt-2 flex justify-between font-black text-mammut-white">
                 <span>Total</span>
-                <span className="text-[#eab676]">€{getCartTotal().toFixed(2)}</span>
+                <span className="text-mammut-gold">€{getCartTotal().toFixed(2)}</span>
               </div>
             </div>
           </div>
@@ -207,12 +207,12 @@ export function ProfileCaptureModal({ onClose, onComplete }: Props) {
           )}
 
           <button type="submit" disabled={submitting}
-            className="w-full bg-[#eab676] !text-black py-4 rounded-xl font-black uppercase tracking-widest hover:bg-[#ffc882] transition-colors shadow-[0_0_20px_rgba(234,182,118,0.2)] disabled:opacity-60 flex items-center justify-center gap-3">
+            className="w-full bg-mammut-gold !text-black py-4 rounded-xl font-black uppercase tracking-widest hover:bg-[#ffc882] transition-colors shadow-[0_0_20px_rgba(234,182,118,0.2)] disabled:opacity-60 flex items-center justify-center gap-3">
             <Send size={18} />
             {submitting ? 'Submitting...' : 'Submit Quotation Request'}
           </button>
 
-          <p className="text-center text-[10px] text-white/20">
+          <p className="text-center text-[10px] text-mammut-white/20">
             Valid for 30 days. No payment required at this stage.
           </p>
         </form>

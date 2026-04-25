@@ -113,11 +113,11 @@ export function WebXRScanner({ onMeasureComplete, onClose }: WebXRScannerProps) 
   };
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black">
+    <div className="fixed inset-0 z-[100] bg-mammut-black">
       <div className="absolute top-4 left-4 z-50 pointer-events-auto">
         <button 
           onClick={onClose}
-          className="bg-black/50 p-3 rounded-full text-white backdrop-blur border border-white/10"
+          className="bg-mammut-black/50 p-3 rounded-full text-mammut-white backdrop-blur border border-white/10"
         >
           <X size={20} />
         </button>
@@ -126,24 +126,24 @@ export function WebXRScanner({ onMeasureComplete, onClose }: WebXRScannerProps) 
       <div className="absolute top-4 right-4 z-50 pointer-events-auto">
         <ARButton 
           sessionInit={{ requiredFeatures: ['hit-test'] }}
-          className="!bg-indigo-600 !text-white !font-black !px-6 !py-3 !rounded-xl !tracking-widest !uppercase !text-xs !border-0"
+          className="!bg-indigo-600 !text-mammut-white !font-black !px-6 !py-3 !rounded-xl !tracking-widest !uppercase !text-xs !border-0"
         >
           START SLAM
         </ARButton>
       </div>
 
       <div className="absolute bottom-6 inset-x-4 z-50 flex flex-col items-center gap-4 pointer-events-auto">
-        <div className="bg-black/70 backdrop-blur-md px-6 py-3 rounded-xl border border-white/5 text-center shadow-xl">
-          <h4 className="text-white font-black uppercase tracking-widest text-xs mb-1">
+        <div className="bg-mammut-black/70 backdrop-blur-md px-6 py-3 rounded-xl border border-white/5 text-center shadow-xl">
+          <h4 className="text-mammut-white font-black uppercase tracking-widest text-xs mb-1">
             Pins placed: <span className="text-emerald-400">{points.length}/4</span>
           </h4>
-          <p className="text-white/50 text-[10px]">Tap the blue ring on your wall to drop physical anchor pins.</p>
+          <p className="text-mammut-white/50 text-[10px]">Tap the blue ring on your wall to drop physical anchor pins.</p>
         </div>
         
         {points.length >= 2 && (
           <button 
             onClick={handleFinish}
-            className="w-full bg-emerald-600 text-white font-black uppercase tracking-widest py-4 rounded-2xl shadow-[0_10px_30px_rgba(52,211,153,0.3)] flex items-center justify-center gap-2"
+            className="w-full bg-emerald-600 text-mammut-white font-black uppercase tracking-widest py-4 rounded-2xl shadow-[0_10px_30px_rgba(52,211,153,0.3)] flex items-center justify-center gap-2"
           >
             <Check size={18} /> Confirm Dimensions
           </button>

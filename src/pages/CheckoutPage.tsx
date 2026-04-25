@@ -40,10 +40,10 @@ export function CheckoutPage() {
                       </div>
                       <div className="flex justify-between items-center">
                           <span className="text-sm font-bold text-gray-500 uppercase tracking-widest">Est. Delivery</span>
-                          <span className="text-sm font-black text-[#eab676]">14 - 21 Business Days</span>
+                          <span className="text-sm font-black text-mammut-gold">14 - 21 Business Days</span>
                       </div>
                    </div>
-                   <button onClick={() => navigate('/shop')} className="bg-black text-white hover:bg-gray-800 transition-colors px-12 py-4 rounded-xl text-sm font-bold uppercase tracking-widest shadow-xl shadow-black/20">
+                   <button onClick={() => navigate('/shop')} className="bg-mammut-black text-mammut-white hover:bg-gray-800 transition-colors px-12 py-4 rounded-xl text-sm font-bold uppercase tracking-widest shadow-xl shadow-black/20">
                       Continue Shopping
                    </button>
                </div>
@@ -67,11 +67,11 @@ export function CheckoutPage() {
                    </button>
                    
                    <div className="flex items-center gap-4 mb-8">
-                       <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black ${step >= 1 ? 'bg-black text-white shadow-lg shadow-black/30' : 'bg-gray-200 text-gray-400'}`}>1</div>
-                       <div className={`h-1 flex-1 rounded ${step >= 2 ? 'bg-black' : 'bg-gray-200'}`}></div>
-                       <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black ${step >= 2 ? 'bg-black text-white shadow-lg shadow-black/30' : 'bg-gray-200 text-gray-400'}`}>2</div>
-                       <div className={`h-1 flex-1 rounded ${step >= 3 ? 'bg-black' : 'bg-gray-200'}`}></div>
-                       <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black ${step >= 3 ? 'bg-black text-white shadow-lg shadow-black/30' : 'bg-gray-200 text-gray-400'}`}>3</div>
+                       <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black ${step >= 1 ? 'bg-mammut-black text-mammut-white shadow-lg shadow-black/30' : 'bg-gray-200 text-gray-400'}`}>1</div>
+                       <div className={`h-1 flex-1 rounded ${step >= 2 ? 'bg-mammut-black' : 'bg-gray-200'}`}></div>
+                       <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black ${step >= 2 ? 'bg-mammut-black text-mammut-white shadow-lg shadow-black/30' : 'bg-gray-200 text-gray-400'}`}>2</div>
+                       <div className={`h-1 flex-1 rounded ${step >= 3 ? 'bg-mammut-black' : 'bg-gray-200'}`}></div>
+                       <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black ${step >= 3 ? 'bg-mammut-black text-mammut-white shadow-lg shadow-black/30' : 'bg-gray-200 text-gray-400'}`}>3</div>
                    </div>
 
                    {step === 1 && (
@@ -85,7 +85,7 @@ export function CheckoutPage() {
                                <input type="text" placeholder="City" className="w-full p-4 border border-gray-200 rounded-xl bg-white focus:border-black outline-none transition-colors" />
                                <input type="text" placeholder="Postal Code" className="w-full p-4 border border-gray-200 rounded-xl bg-white focus:border-black outline-none transition-colors" />
                            </div>
-                           <button onClick={() => setStep(2)} className="w-full bg-black text-white hover:bg-gray-800 transition-all hover:-translate-y-1 block mt-8 px-8 py-5 rounded-xl text-sm font-bold uppercase tracking-widest shadow-xl shadow-black/20 text-center">
+                           <button onClick={() => setStep(2)} className="w-full bg-mammut-black text-mammut-white hover:bg-gray-800 transition-all hover:-translate-y-1 block mt-8 px-8 py-5 rounded-xl text-sm font-bold uppercase tracking-widest shadow-xl shadow-black/20 text-center">
                               Proceed to Payment
                            </button>
                        </div>
@@ -129,7 +129,7 @@ export function CheckoutPage() {
                             <div key={item.id} className="flex gap-4">
                                 <div className="w-16 h-20 bg-white border border-gray-100 shadow-sm rounded-lg p-1.5 relative">
                                    <img src={item.image} alt={item.name} className="w-full h-full object-contain" />
-                                   <span className="absolute -top-2 -right-2 bg-black text-white text-[10px] w-5 h-5 flex flex-col items-center justify-center rounded-full font-bold shadow-md">{item.quantity}</span>
+                                   <span className="absolute -top-2 -right-2 bg-mammut-black text-mammut-white text-[10px] w-5 h-5 flex flex-col items-center justify-center rounded-full font-bold shadow-md">{item.quantity}</span>
                                 </div>
                                 <div className="flex-1">
                                    <h4 className="text-xs font-extrabold uppercase text-black mb-1">{item.name}</h4>
@@ -156,7 +156,7 @@ export function CheckoutPage() {
                         )}
                         <div className="pt-4 border-t border-gray-200 flex justify-between items-center">
                             <span className="text-sm font-extrabold text-black uppercase tracking-widest">Total</span>
-                            <span className="text-2xl font-black text-[#eab676]">{total.toFixed(2)} €</span>
+                            <span className="text-2xl font-black text-mammut-gold">{total.toFixed(2)} €</span>
                         </div>
                      </div>
                   </div>

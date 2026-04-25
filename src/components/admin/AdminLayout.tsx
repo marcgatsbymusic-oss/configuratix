@@ -5,6 +5,7 @@ import {
   LayoutDashboard, Settings, DollarSign, Upload, LogOut,
   FileText, Factory, Eye, EyeOff, Lock
 } from 'lucide-react'
+import { ThemeToggle } from '../common/ThemeToggle'
 
 // ─── Local-access credentials (dev bypass ─ no Supabase required) ───────────
 const LOCAL_ADMIN_EMAIL    = 'admin@shadow.bo'
@@ -64,10 +65,10 @@ function AdminLoginScreen({ onLocalLogin }: { onLocalLogin: (e: string, p: strin
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-10">
-          <div className="w-16 h-16 bg-[#eab676]/10 border border-[#eab676]/20 rounded-2xl flex items-center justify-center mx-auto mb-5">
-            <Lock size={28} className="text-[#eab676]" strokeWidth={1.5} />
+          <div className="w-16 h-16 bg-mammut-gold/10 border border-mammut-gold/20 rounded-2xl flex items-center justify-center mx-auto mb-5">
+            <Lock size={28} className="text-mammut-gold" strokeWidth={1.5} />
           </div>
-          <h1 className="text-3xl font-black text-white tracking-tight">Back Office</h1>
+          <h1 className="text-3xl font-black text-mammut-white tracking-tight">Back Office</h1>
           <p className="text-zinc-500 text-sm mt-2">Sign in with your admin credentials</p>
         </div>
 
@@ -78,7 +79,7 @@ function AdminLoginScreen({ onLocalLogin }: { onLocalLogin: (e: string, p: strin
             </label>
             <input
               type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm placeholder-zinc-600 focus:outline-none focus:border-[#eab676]/60 transition-colors"
+              className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-mammut-white text-sm placeholder-zinc-600 focus:outline-none focus:border-mammut-gold/60 transition-colors"
               placeholder="admin@shadow.bo"
             />
           </div>
@@ -90,7 +91,7 @@ function AdminLoginScreen({ onLocalLogin }: { onLocalLogin: (e: string, p: strin
               <input
                 type={showPassword ? 'text' : 'password'} required value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm placeholder-zinc-600 focus:outline-none focus:border-[#eab676]/60 transition-colors pr-12"
+                className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-mammut-white text-sm placeholder-zinc-600 focus:outline-none focus:border-mammut-gold/60 transition-colors pr-12"
                 placeholder="••••••••"
               />
               <button type="button" onClick={() => setShow(!showPassword)}
@@ -107,7 +108,7 @@ function AdminLoginScreen({ onLocalLogin }: { onLocalLogin: (e: string, p: strin
           )}
 
           <button type="submit" disabled={loading}
-            className="w-full bg-[#eab676] text-zinc-950 py-3.5 rounded-xl font-black uppercase tracking-widest hover:bg-[#ffc882] transition-colors disabled:opacity-60 mt-2">
+            className="w-full bg-mammut-gold text-zinc-950 py-3.5 rounded-xl font-black uppercase tracking-widest hover:bg-[#ffc882] transition-colors disabled:opacity-60 mt-2">
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
@@ -138,7 +139,7 @@ export function AdminLayout() {
   if (loading && !authed) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-zinc-950">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#eab676]" />
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-mammut-gold" />
       </div>
     )
   }
@@ -155,10 +156,10 @@ export function AdminLayout() {
       {/* Sidebar */}
       <aside className="w-64 bg-zinc-900 border-r border-zinc-800 flex flex-col shrink-0">
         <div className="h-16 flex items-center px-6 border-b border-zinc-800 gap-3">
-          <div className="w-7 h-7 bg-[#eab676]/20 rounded-lg flex items-center justify-center shrink-0">
-            <Lock size={14} className="text-[#eab676]" />
+          <div className="w-7 h-7 bg-mammut-gold/20 rounded-lg flex items-center justify-center shrink-0">
+            <Lock size={14} className="text-mammut-gold" />
           </div>
-          <h1 className="text-[#eab676] font-black text-lg tracking-wider uppercase">Back Office</h1>
+          <h1 className="text-mammut-gold font-black text-lg tracking-wider uppercase">Back Office</h1>
         </div>
 
         <nav className="flex-1 py-5 px-3 space-y-1 overflow-y-auto">
@@ -167,8 +168,8 @@ export function AdminLayout() {
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-sm font-medium ${
                   isActive
-                    ? 'bg-[#eab676] text-zinc-950 shadow-sm'
-                    : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
+                    ? 'bg-mammut-gold text-zinc-950 shadow-sm'
+                    : 'text-zinc-400 hover:text-mammut-white hover:bg-zinc-800'
                 }`
               }>
               <Icon size={18} />
@@ -186,7 +187,7 @@ export function AdminLayout() {
               if (authed) { localSignOut(); navigate('/') }
               else { signOut(); navigate('/') }
             }}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-zinc-500 hover:text-white hover:bg-zinc-800 transition-all text-sm"
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-zinc-500 hover:text-mammut-white hover:bg-zinc-800 transition-all text-sm"
           >
             <LogOut size={18} />
             <span>Log Out</span>
@@ -195,7 +196,10 @@ export function AdminLayout() {
       </aside>
 
       {/* Content */}
-      <main className="flex-1 overflow-y-auto bg-zinc-950 p-8">
+      <main className="flex-1 overflow-y-auto bg-zinc-950 p-8 relative">
+        <div className="absolute top-6 right-6">
+          <ThemeToggle />
+        </div>
         <Outlet />
       </main>
     </div>

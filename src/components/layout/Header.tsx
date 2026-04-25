@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 import { ShoppingCart, Search, Globe, Menu, X, ChevronDown, ChevronRight, ChevronUp } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useCartStore } from '../../store/useCartStore'
+import { ThemeToggle } from '../common/ThemeToggle'
 
 // The mega menu structure matching drutex.es categories
 const MEGA_MENU_CATEGORIES = [
@@ -131,15 +132,15 @@ export function Header() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-black/95 backdrop-blur-sm shadow-lg shadow-black/50' : 'bg-black'
+        scrolled ? 'bg-mammut-black/95 backdrop-blur-sm shadow-lg shadow-black/50' : 'bg-mammut-black'
       }`}
     >
       {/* Top utility bar */}
-      <div className="border-b border-[#2a2a2b]">
+      <div className="border-b border-mammut-border">
         <div className="max-w-7xl mx-auto px-6 flex justify-end gap-6 py-1.5">
           <Link
             to="/debug-pricing"
-            className="text-[10px] uppercase tracking-widest text-[#888888] hover:text-[#eab676] transition-colors duration-200 font-bold"
+            className="text-[10px] uppercase tracking-widest text-mammut-grey-light hover:text-mammut-gold transition-colors duration-200 font-bold"
           >
             Debug
           </Link>
@@ -151,7 +152,7 @@ export function Header() {
             <Link
               key={item.key}
               to={item.href}
-              className="text-[10px] uppercase tracking-widest text-[#888888] hover:text-[#eab676] transition-colors duration-200"
+              className="text-[10px] uppercase tracking-widest text-mammut-grey-light hover:text-mammut-gold transition-colors duration-200"
             >
               {t(`header.topBar.${item.key}`)}
             </Link>
@@ -169,7 +170,7 @@ export function Header() {
               alt="Mammut Icon" 
               className="w-10 h-10 object-contain"
             />
-            <span className="text-white font-black text-lg tracking-[0.2em] uppercase group-hover:text-[#eab676] transition-colors duration-200">
+            <span className="text-mammut-white font-black text-lg tracking-[0.2em] uppercase group-hover:text-mammut-gold transition-colors duration-200">
               MAMMUT
             </span>
           </Link>
@@ -183,7 +184,7 @@ export function Header() {
               onMouseEnter={handleMouseEnterProducts}
               onMouseLeave={handleMouseLeaveProducts}
             >
-              <button className={`flex items-center gap-1 text-sm uppercase tracking-widest transition-colors duration-200 nav-link ${megaMenuOpen ? 'text-[#eab676]' : 'text-white/80'}`}>
+              <button className={`flex items-center gap-1 text-sm uppercase tracking-widest transition-colors duration-200 nav-link ${megaMenuOpen ? 'text-mammut-gold' : 'text-mammut-white/80'}`}>
                 {t('header.nav.products')}
                 <ChevronDown size={14} className={`transition-transform duration-200 ${megaMenuOpen ? 'rotate-180' : ''}`} />
               </button>
@@ -194,7 +195,7 @@ export function Header() {
                 to="/shop"
                 className={({ isActive }) =>
                   `text-sm font-black uppercase tracking-widest nav-link transition-colors duration-200 ${
-                    isActive ? 'text-[#eab676]' : 'text-[#fcd34d] hover:text-[#fbbf24]'
+                    isActive ? 'text-mammut-gold' : 'text-yellow-400 hover:text-yellow-500'
                   }`
                 }
             >
@@ -206,7 +207,7 @@ export function Header() {
                 to={item.href}
                 className={({ isActive }) =>
                   `text-sm uppercase tracking-widest nav-link transition-colors duration-200 ${
-                    isActive ? 'text-[#eab676]' : 'text-white/80 hover:text-[#eab676]'
+                    isActive ? 'text-mammut-gold' : 'text-mammut-white/80 hover:text-mammut-gold'
                   }`
                 }
               >
@@ -219,26 +220,27 @@ export function Header() {
           <div className="flex items-center gap-4">
             <Link
               to="/configurator"
-              className="hidden lg:flex items-center gap-2 border border-[#eab676] text-[#eab676] text-xs uppercase tracking-widest px-4 py-2 hover:bg-[#eab676] hover:text-black transition-all duration-200 font-semibold"
+              className="hidden lg:flex items-center gap-2 border border-mammut-gold text-mammut-gold text-xs uppercase tracking-widest px-4 py-2 hover:bg-mammut-gold hover:text-black transition-all duration-200 font-semibold"
             >
               {t('header.nav.configurator')}
             </Link>
             
             {/* Global Shopping Cart */}
-            <button onClick={toggleCart} className="text-white/60 hover:text-[#eab676] transition-colors duration-200 p-2 relative">
+            <button onClick={toggleCart} className="text-mammut-white/60 hover:text-mammut-gold transition-colors duration-200 p-2 relative">
                <ShoppingCart size={18} />
                {totalCartItems > 0 && (
-                  <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-[#eab676] text-black text-[9px] font-black h-4 w-4 flex flex-col items-center justify-center rounded-full shadow-md">
+                  <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-mammut-gold text-black text-[9px] font-black h-4 w-4 flex flex-col items-center justify-center rounded-full shadow-md">
                      {totalCartItems}
                   </span>
                )}
             </button>
 
-            <button className="text-white/60 hover:text-[#eab676] transition-colors duration-200 p-2"><Search size={18} /></button>
+            <button className="text-mammut-white/60 hover:text-mammut-gold transition-colors duration-200 p-2"><Search size={18} /></button>
+            <ThemeToggle />
             {/* Language Switcher */}
             <div className="relative">
               <button 
-                className="text-white/60 hover:text-[#eab676] transition-colors duration-200 p-2"
+                className="text-mammut-white/60 hover:text-mammut-gold transition-colors duration-200 p-2"
                 onClick={() => {
                   setLangMenuOpen((prev) => !prev);
                   setMenuOpen(false);
@@ -248,7 +250,7 @@ export function Header() {
                 <Globe size={18} />
               </button>
               {langMenuOpen && (
-                 <div className="absolute right-0 top-10 w-32 bg-[#1a1a1b] border border-[#2a2a2b] shadow-xl py-2 z-50 rounded">
+                 <div className="absolute right-0 top-10 w-32 bg-mammut-dark border border-mammut-border shadow-xl py-2 z-50 rounded">
                    {[
                      { code: 'en', label: 'English' },
                      { code: 'es', label: 'Español' },
@@ -266,7 +268,7 @@ export function Header() {
                          i18n.changeLanguage(lng.code);
                          setLangMenuOpen(false);
                        }}
-                       className={`block w-full text-left px-4 py-2 text-xs uppercase tracking-widest transition-colors ${i18n.language === lng.code ? 'text-[#eab676] bg-white/5' : 'text-white/60 hover:bg-white/5 hover:text-white'}`}
+                       className={`block w-full text-left px-4 py-2 text-xs uppercase tracking-widest transition-colors ${i18n.language === lng.code ? 'text-mammut-gold bg-white/5' : 'text-mammut-white/60 hover:bg-white/5 hover:text-mammut-white'}`}
                      >
                        {lng.label}
                      </button>
@@ -275,7 +277,7 @@ export function Header() {
               )}
             </div>
             <button
-              className="lg:hidden text-white/60 hover:text-[#eab676] transition-colors duration-200 p-2 -mr-2"
+              className="lg:hidden text-mammut-white/60 hover:text-mammut-gold transition-colors duration-200 p-2 -mr-2"
               onClick={() => {
                 setMenuOpen(!menuOpen);
                 setLangMenuOpen(false);
@@ -288,17 +290,17 @@ export function Header() {
 
         {/* --- FULL WIDTH MEGA MENU DROPDOWN --- */}
         <div 
-          className={`absolute top-full left-0 w-full bg-[#111112] border-y border-[#2a2a2b] shadow-2xl transition-all duration-300 origin-top overflow-hidden
+          className={`absolute top-full left-0 w-full bg-mammut-darker border-y border-mammut-border shadow-2xl transition-all duration-300 origin-top overflow-hidden
                      ${megaMenuOpen ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-0 pointer-events-none'}`}
           onMouseEnter={handleMouseEnterProducts}
           onMouseLeave={handleMouseLeaveProducts}
         >
           <div className="max-w-[1400px] mx-auto flex h-[500px]">
             {/* Sidebar (Categories) */}
-            <div className="w-[300px] bg-[#161617] border-r border-[#2a2a2b] py-4 overflow-y-auto">
+            <div className="w-[300px] bg-mammut-darker border-r border-mammut-border py-4 overflow-y-auto">
               <Link 
                 to="/products"
-                className="flex items-center gap-3 px-8 text-white/40 hover:text-white uppercase tracking-widest text-[10px] font-bold mb-4"
+                className="flex items-center gap-3 px-8 text-mammut-white/40 hover:text-mammut-white uppercase tracking-widest text-[10px] font-bold mb-4"
               >
                 {t('header.megaMenu.viewAll')} <ChevronRight size={12} />
               </Link>
@@ -310,8 +312,8 @@ export function Header() {
                       onMouseEnter={() => setActiveMegaCategory(cat.id)}
                       className={`w-full text-left px-8 py-3 text-xs tracking-[0.2em] uppercase font-semibold transition-colors
                                 ${activeMegaCategory === cat.id 
-                                  ? 'bg-[#1a1a1b] text-[#eab676] border-l-2 border-[#eab676]' 
-                                  : 'text-white/60 hover:bg-[#1a1a1b] hover:text-white border-l-2 border-transparent'}`}
+                                  ? 'bg-mammut-dark text-mammut-gold border-l-2 border-mammut-gold' 
+                                  : 'text-mammut-white/60 hover:bg-mammut-dark hover:text-mammut-white border-l-2 border-transparent'}`}
                     >
                       {t(`header.megaMenu.cats.${cat.id}`)}
                     </button>
@@ -321,12 +323,12 @@ export function Header() {
             </div>
 
             {/* Right Pane (Items) */}
-            <div className="flex-1 bg-[#1a1a1b] p-10 overflow-y-auto">
+            <div className="flex-1 bg-mammut-dark p-10 overflow-y-auto">
               {activeCategoryData && activeCategoryData.columns.length > 0 ? (
                 <div className="grid grid-cols-4 gap-8">
                   {activeCategoryData.columns.map((col, idx) => (
                     <div key={idx}>
-                      <h4 className="text-white text-[11px] font-bold uppercase tracking-widest border-b border-[#2a2a2b] pb-2 mb-4">
+                      <h4 className="text-mammut-white text-[11px] font-bold uppercase tracking-widest border-b border-mammut-border pb-2 mb-4">
                         {t(`header.megaMenu.cols.${col.colKey}`)}
                       </h4>
                       <ul className="space-y-3">
@@ -336,10 +338,10 @@ export function Header() {
                               to={item.href}
                               className="group flex flex-col"
                             >
-                              <span className="text-sm font-semibold text-white/70 group-hover:text-[#eab676] transition-colors flex items-center gap-2">
+                              <span className="text-sm font-semibold text-mammut-white/70 group-hover:text-mammut-gold transition-colors flex items-center gap-2">
                                 {item.label}
                                 {item.isNew && (
-                                  <span className="bg-[#eab676] text-black text-[9px] uppercase tracking-widest px-1.5 py-0.5 font-bold">
+                                  <span className="bg-mammut-gold text-black text-[9px] uppercase tracking-widest px-1.5 py-0.5 font-bold">
                                     {t('header.megaMenu.new')}
                                   </span>
                                 )}
@@ -352,7 +354,7 @@ export function Header() {
                   ))}
                 </div>
               ) : (
-                <div className="h-full flex flex-col items-center justify-center text-white/30 text-sm italic">
+                <div className="h-full flex flex-col items-center justify-center text-mammut-white/30 text-sm italic">
                   <p>{t('header.megaMenu.comingSoon', { category: t(`header.megaMenu.cats.${activeCategoryData?.id}`) })}</p>
                 </div>
               )}
@@ -363,11 +365,11 @@ export function Header() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="lg:hidden bg-[#1a1a1b] border-t border-[#2a2a2b] py-6 px-6 space-y-1 max-h-[80vh] overflow-y-auto">
+        <div className="lg:hidden bg-mammut-dark border-t border-mammut-border py-6 px-6 space-y-1 max-h-[80vh] overflow-y-auto">
           {/* Products accordion */}
           <div>
             <button
-              className="w-full flex items-center justify-between py-3 text-sm uppercase tracking-widest text-[#eab676] font-bold"
+              className="w-full flex items-center justify-between py-3 text-sm uppercase tracking-widest text-mammut-gold font-bold"
               onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
             >
               {t('header.nav.products')}
@@ -375,10 +377,10 @@ export function Header() {
             </button>
 
             {mobileProductsOpen && (
-              <div className="ml-2 mb-2 space-y-3 border-l border-[#2a2a2b] pl-4">
+              <div className="ml-2 mb-2 space-y-3 border-l border-mammut-border pl-4">
                 <Link
                   to="/products"
-                  className="block text-xs uppercase tracking-widest text-white/40 hover:text-[#eab676] py-1 transition-colors"
+                  className="block text-xs uppercase tracking-widest text-mammut-white/40 hover:text-mammut-gold py-1 transition-colors"
                   onClick={() => setMenuOpen(false)}
                 >
                   {t('header.megaMenu.viewAll')} â†’
@@ -387,7 +389,7 @@ export function Header() {
                   <div key={cat.id}>
                     <Link
                       to={cat.href}
-                      className="block text-xs uppercase tracking-widest text-white/70 hover:text-[#eab676] font-semibold py-1 transition-colors"
+                      className="block text-xs uppercase tracking-widest text-mammut-white/70 hover:text-mammut-gold font-semibold py-1 transition-colors"
                       onClick={() => setMenuOpen(false)}
                     >
                       {t(`header.megaMenu.cats.${cat.id}`)}
@@ -399,12 +401,12 @@ export function Header() {
                             <Link
                               key={item.href}
                               to={item.href}
-                              className="flex items-center gap-2 text-[11px] text-white/40 hover:text-[#eab676] py-0.5 transition-colors"
+                              className="flex items-center gap-2 text-[11px] text-mammut-white/40 hover:text-mammut-gold py-0.5 transition-colors"
                               onClick={() => setMenuOpen(false)}
                             >
                               {item.label}
                               {item.isNew && (
-                                <span className="bg-[#eab676] text-black text-[8px] uppercase tracking-widest px-1 font-bold">{t('header.megaMenu.new')}</span>
+                                <span className="bg-mammut-gold text-black text-[8px] uppercase tracking-widest px-1 font-bold">{t('header.megaMenu.new')}</span>
                               )}
                             </Link>
                           ))
@@ -420,7 +422,7 @@ export function Header() {
           {/* Standard nav links */}
           <Link
              to="/shop"
-             className="block py-3 text-sm font-black uppercase tracking-widest text-[#fcd34d] hover:text-[#fbbf24] transition-colors duration-200"
+             className="block py-3 text-sm font-black uppercase tracking-widest text-yellow-400 hover:text-yellow-500 transition-colors duration-200"
              onClick={() => setMenuOpen(false)}
           >
              SHOP OUTLET
@@ -429,7 +431,7 @@ export function Header() {
             <Link
               key={item.i18nKey}
               to={item.href}
-              className="block py-3 text-sm uppercase tracking-widest text-white/70 hover:text-[#eab676] transition-colors duration-200"
+              className="block py-3 text-sm uppercase tracking-widest text-mammut-white/70 hover:text-mammut-gold transition-colors duration-200"
               onClick={() => setMenuOpen(false)}
             >
               {t(`header.nav.${item.i18nKey}`)}
@@ -439,7 +441,7 @@ export function Header() {
           <div className="pt-2">
             <Link
               to="/configurator"
-              className="block border border-[#eab676] text-[#eab676] text-xs uppercase tracking-widest px-4 py-3 text-center hover:bg-[#eab676] hover:text-black transition-all duration-200 font-semibold"
+              className="block border border-mammut-gold text-mammut-gold text-xs uppercase tracking-widest px-4 py-3 text-center hover:bg-mammut-gold hover:text-black transition-all duration-200 font-semibold"
               onClick={() => setMenuOpen(false)}
             >
               {t('header.nav.configurator')}

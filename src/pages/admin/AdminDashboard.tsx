@@ -29,7 +29,7 @@ export function AdminDashboard() {
   }, [])
 
   return (
-    <div className="space-y-8 animate-fade-in text-white pt-4 px-4 font-sans">
+    <div className="space-y-8 animate-fade-in text-mammut-white pt-4 px-4 font-sans">
       <h2 className="text-3xl font-light tracking-tight">Overview</h2>
       <p className="text-zinc-400">Welcome to the complete company control panel.</p>
 
@@ -41,7 +41,7 @@ export function AdminDashboard() {
             <FileText className="text-amber-400" size={24} />
           </div>
           <div className="mt-4">
-            <span className="text-4xl font-light text-white">{stats.pending}</span>
+            <span className="text-4xl font-light text-mammut-white">{stats.pending}</span>
             <p className="text-sm text-amber-400/60 mt-1">Awaiting review</p>
           </div>
         </button>
@@ -53,7 +53,7 @@ export function AdminDashboard() {
             <Factory className="text-emerald-400" size={24} />
           </div>
           <div className="mt-4">
-            <span className="text-4xl font-light text-white">{stats.factory}</span>
+            <span className="text-4xl font-light text-mammut-white">{stats.factory}</span>
             <p className="text-sm text-emerald-400/60 mt-1">Ready for Cantor upload</p>
           </div>
         </button>
@@ -61,7 +61,7 @@ export function AdminDashboard() {
         <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <h3 className="text-zinc-400">Profile Systems</h3>
-            <Package className="text-[#eab676]" size={24} />
+            <Package className="text-mammut-gold" size={24} />
           </div>
           <div className="mt-4">
             <span className="text-4xl font-light">{stats.profiles}</span>
@@ -72,7 +72,7 @@ export function AdminDashboard() {
         <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <h3 className="text-zinc-400">Pricing Matrices</h3>
-            <SquareChartGantt className="text-[#eab676]" size={24} />
+            <SquareChartGantt className="text-mammut-gold" size={24} />
           </div>
           <div className="mt-4">
             <span className="text-4xl font-light">{stats.matrices}</span>

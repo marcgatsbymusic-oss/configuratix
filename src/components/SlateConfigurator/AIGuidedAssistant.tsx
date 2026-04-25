@@ -291,12 +291,12 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
       case 1:
         return (
           <div className="animate-fade-in">
-            <div className="w-16 h-16 bg-[#eab676]/20 text-[#eab676] rounded-full flex items-center justify-center mb-6 drop-shadow-[0_0_15px_rgba(234,182,118,0.2)]">
+            <div className="w-16 h-16 bg-mammut-gold/20 text-mammut-gold rounded-full flex items-center justify-center mb-6 drop-shadow-[0_0_15px_rgba(234,182,118,0.2)]">
               <ThermometerSnowflake size={32} />
             </div>
-            <h2 className="text-2xl md:text-3xl font-black text-white mb-4 uppercase tracking-tight drop-shadow-md">{t('assistant.geoTitle')}</h2>
-            <div className="bg-black/40 border border-[#3a3a3b] p-6 rounded-2xl mb-8 max-w-lg relative overflow-hidden backdrop-blur-md">
-              <div className="absolute top-0 left-0 w-1 h-full bg-[#eab676]"></div>
+            <h2 className="text-2xl md:text-3xl font-black text-mammut-white mb-4 uppercase tracking-tight drop-shadow-md">{t('assistant.geoTitle')}</h2>
+            <div className="bg-mammut-black/40 border border-mammut-border p-6 rounded-2xl mb-8 max-w-lg relative overflow-hidden backdrop-blur-md">
+              <div className="absolute top-0 left-0 w-1 h-full bg-mammut-gold"></div>
               <div className="font-medium text-sm md:text-base leading-relaxed relative z-10 whitespace-pre-wrap tracking-wide drop-shadow-md" style={{ color: '#ffffff' }}>
                 {t('assistant.geoDesc')}
               </div>
@@ -304,7 +304,7 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
 
             <div className="space-y-4 mb-8">
               <div>
-                <label className="text-xs font-black text-white uppercase tracking-widest mb-2 block">{t('assistant.province')}</label>
+                <label className="text-xs font-black text-mammut-white uppercase tracking-widest mb-2 block">{t('assistant.province')}</label>
                 <div className="relative">
                   <input 
                     type="text"
@@ -313,10 +313,10 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
                     onFocus={() => setShowProvinceDropdown(true)}
                     onBlur={() => setTimeout(() => setShowProvinceDropdown(false), 200)}
                     placeholder={t('assistant.selectProv', 'Search Province...')}
-                    className="w-full bg-[#111112] border-2 border-[#3a3a3b] font-black p-4 rounded-xl text-white focus:outline-none focus:border-[#eab676]"
+                    className="w-full bg-mammut-darker border-2 border-mammut-border font-black p-4 rounded-xl text-mammut-white focus:outline-none focus:border-mammut-gold"
                   />
                   {showProvinceDropdown && (
-                    <ul className="absolute z-50 w-full mt-2 bg-[#1a1a1b] border-2 border-[#2a2a2b] rounded-xl max-h-60 overflow-y-auto shadow-[0_10px_40px_rgba(0,0,0,0.8)]">
+                    <ul className="absolute z-50 w-full mt-2 bg-mammut-dark border-2 border-mammut-border rounded-xl max-h-60 overflow-y-auto shadow-[0_10px_40px_rgba(0,0,0,0.8)]">
                       {filteredProvinces.length > 0 ? filteredProvinces.map(p => (
                         <li 
                           key={p}
@@ -328,12 +328,12 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
                             setAltitude(null); 
                             setCteZone(''); 
                           }}
-                          className="p-4 text-white/90 hover:bg-[#eab676] hover:text-black font-black cursor-pointer transition-colors border-b border-[#2a2a2b] last:border-0"
+                          className="p-4 text-mammut-white/90 hover:bg-mammut-gold hover:text-black font-black cursor-pointer transition-colors border-b border-mammut-border last:border-0"
                         >
                           {p}
                         </li>
                       )) : (
-                        <li className="p-4 text-white/50 italic text-center text-sm font-bold">No matching provinces found</li>
+                        <li className="p-4 text-mammut-white/50 italic text-center text-sm font-bold">No matching provinces found</li>
                       )}
                     </ul>
                   )}
@@ -341,7 +341,7 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
               </div>
               
               <div className={`transition-all duration-300 relative ${province ? 'opacity-100' : 'opacity-40 pointer-events-none'}`}>
-                <label className="text-xs font-black text-white uppercase tracking-widest mb-2 block">{t('assistant.city')}</label>
+                <label className="text-xs font-black text-mammut-white uppercase tracking-widest mb-2 block">{t('assistant.city')}</label>
                 <input 
                   type="text"
                   value={citySearch}
@@ -349,11 +349,11 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
                   onFocus={() => setShowCityDropdown(true)}
                   onBlur={() => setTimeout(() => setShowCityDropdown(false), 200)}
                   placeholder={t('assistant.selectCity')}
-                  className="w-full bg-[#111112] border-2 border-[#3a3a3b] font-black p-4 rounded-xl text-white focus:outline-none focus:border-[#eab676]"
+                  className="w-full bg-mammut-darker border-2 border-mammut-border font-black p-4 rounded-xl text-mammut-white focus:outline-none focus:border-mammut-gold"
                 />
                 
                 {showCityDropdown && province && (
-                  <ul className="absolute z-50 w-full mt-2 bg-[#1a1a1b] border-2 border-[#2a2a2b] rounded-xl max-h-60 overflow-y-auto shadow-[0_10px_40px_rgba(0,0,0,0.8)]">
+                  <ul className="absolute z-50 w-full mt-2 bg-mammut-dark border-2 border-mammut-border rounded-xl max-h-60 overflow-y-auto shadow-[0_10px_40px_rgba(0,0,0,0.8)]">
                     {filteredCities.length > 0 ? filteredCities.map(c => (
                       <li 
                         key={c.n}
@@ -362,12 +362,12 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
                           setShowCityDropdown(false); 
                           handleCitySelect(c.n); 
                         }}
-                        className="p-4 text-white/90 hover:bg-[#eab676] hover:text-black font-black cursor-pointer transition-colors border-b border-[#2a2a2b] last:border-0"
+                        className="p-4 text-mammut-white/90 hover:bg-mammut-gold hover:text-black font-black cursor-pointer transition-colors border-b border-mammut-border last:border-0"
                       >
                         {c.n}
                       </li>
                     )) : (
-                      <li className="p-4 text-white/50 italic text-center text-sm font-bold">No matching municipalities found</li>
+                      <li className="p-4 text-mammut-white/50 italic text-center text-sm font-bold">No matching municipalities found</li>
                     )}
                   </ul>
                 )}
@@ -377,86 +377,86 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
                 <button 
                   onClick={handleUseLocation} 
                   disabled={isLocating}
-                  className="flex items-center justify-center gap-3 w-full bg-[#1a1a1b] border-2 border-[#3a3a3b] hover:border-[#eab676] text-white p-4 rounded-xl font-black transition-all hover:scale-[1.01] active:scale-95 disabled:opacity-50 disabled:hover:border-[#3a3a3b] disabled:hover:scale-100"
+                  className="flex items-center justify-center gap-3 w-full bg-mammut-dark border-2 border-mammut-border hover:border-mammut-gold text-mammut-white p-4 rounded-xl font-black transition-all hover:scale-[1.01] active:scale-95 disabled:opacity-50 disabled:hover:border-mammut-border disabled:hover:scale-100"
                 >
-                  {isLocating ? <Loader2 className="animate-spin text-[#eab676]" size={20} /> : <MapPin size={20} className="text-[#eab676]" />}
+                  {isLocating ? <Loader2 className="animate-spin text-mammut-gold" size={20} /> : <MapPin size={20} className="text-mammut-gold" />}
                   <span className="tracking-widest uppercase text-sm">{t('assistant.useMyLocation', 'USE MY LOCATION')}</span>
                 </button>
               </div>
             </div>
 
             {cteZone && climateData && (
-              <div className="bg-[#111112] border border-[#eab676]/20 rounded-xl p-5 mb-8 animate-fade-in shadow-[0_0_30px_rgba(234,182,118,0.05)]">
+              <div className="bg-mammut-darker border border-mammut-gold/20 rounded-xl p-5 mb-8 animate-fade-in shadow-[0_0_30px_rgba(234,182,118,0.05)]">
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4 pb-4 border-b border-white/5">
                   <div>
-                    <div className="text-xs font-black text-[#eab676] uppercase tracking-[0.2em] mb-1">{t('assistant.topoEngine', 'Topographical Engine')}</div>
-                    <div className="text-white/90 font-bold text-sm">{t('assistant.altitude', 'Altitude')}: <span className="text-white font-black">{altitude}m</span></div>
+                    <div className="text-xs font-black text-mammut-gold uppercase tracking-[0.2em] mb-1">{t('assistant.topoEngine', 'Topographical Engine')}</div>
+                    <div className="text-mammut-white/90 font-bold text-sm">{t('assistant.altitude', 'Altitude')}: <span className="text-mammut-white font-black">{altitude}m</span></div>
                   </div>
                   <div className="text-right">
-                    <div className="text-[10px] font-black text-white/60 uppercase tracking-[0.2em] mb-1">{t('assistant.cteZone', 'CTE DB-HE CLIMATE ZONE')}</div>
-                    <div className="text-4xl font-black text-[#eab676] uppercase tracking-widest leading-none drop-shadow-md">{cteZone}</div>
+                    <div className="text-[10px] font-black text-mammut-white/60 uppercase tracking-[0.2em] mb-1">{t('assistant.cteZone', 'CTE DB-HE CLIMATE ZONE')}</div>
+                    <div className="text-4xl font-black text-mammut-gold uppercase tracking-widest leading-none drop-shadow-md">{cteZone}</div>
                   </div>
                 </div>
 
                 {/* Climate Data Extraction */}
                 <div className="grid grid-cols-3 gap-3">
-                  <div className="bg-[#1a1a1b] border border-[#2a2a2b] p-3 rounded-lg flex flex-col items-center text-center">
-                    <Sun size={20} className="text-[#eab676] mb-2" />
-                    <div className="text-[9px] font-black text-white/50 uppercase tracking-wider mb-1">Radiation</div>
-                    <div className="text-sm font-black text-white">{climateData.radiation} <span className="text-[10px] text-white/40">kWh/m²</span></div>
+                  <div className="bg-mammut-dark border border-mammut-border p-3 rounded-lg flex flex-col items-center text-center">
+                    <Sun size={20} className="text-mammut-gold mb-2" />
+                    <div className="text-[9px] font-black text-mammut-white/50 uppercase tracking-wider mb-1">Radiation</div>
+                    <div className="text-sm font-black text-mammut-white">{climateData.radiation} <span className="text-[10px] text-mammut-white/40">kWh/m²</span></div>
                   </div>
-                  <div className="bg-[#1a1a1b] border border-[#2a2a2b] p-3 rounded-lg flex flex-col items-center text-center">
+                  <div className="bg-mammut-dark border border-mammut-border p-3 rounded-lg flex flex-col items-center text-center">
                     <ThermometerSnowflake size={20} className="text-blue-400 mb-2" />
-                    <div className="text-[9px] font-black text-white/50 uppercase tracking-wider mb-1">Avg Temp</div>
-                    <div className="text-sm font-black text-white">{climateData.avgTemp} <span className="text-[10px] text-white/40">°C</span></div>
+                    <div className="text-[9px] font-black text-mammut-white/50 uppercase tracking-wider mb-1">Avg Temp</div>
+                    <div className="text-sm font-black text-mammut-white">{climateData.avgTemp} <span className="text-[10px] text-mammut-white/40">°C</span></div>
                   </div>
-                  <div className="bg-[#1a1a1b] border border-[#2a2a2b] p-3 rounded-lg flex flex-col items-center text-center">
+                  <div className="bg-mammut-dark border border-mammut-border p-3 rounded-lg flex flex-col items-center text-center">
                     <CloudRain size={20} className="text-slate-400 mb-2" />
-                    <div className="text-[9px] font-black text-white/50 uppercase tracking-wider mb-1">Precipitation</div>
-                    <div className="text-sm font-black text-white">{climateData.precipitation} <span className="text-[10px] text-white/40">mm/yr</span></div>
+                    <div className="text-[9px] font-black text-mammut-white/50 uppercase tracking-wider mb-1">Precipitation</div>
+                    <div className="text-sm font-black text-mammut-white">{climateData.precipitation} <span className="text-[10px] text-mammut-white/40">mm/yr</span></div>
                   </div>
                 </div>
 
                 {/* Live Weather Widget */}
                 {(weatherLoading || weatherData) && (
-                   <div className="mt-4 bg-[#1a1a1b] border border-[#2a2a2b] rounded-lg p-4 relative overflow-hidden transition-all duration-300">
+                   <div className="mt-4 bg-mammut-dark border border-mammut-border rounded-lg p-4 relative overflow-hidden transition-all duration-300">
                      {weatherLoading ? (
                        <div className="flex justify-center items-center py-2">
-                         <Loader2 className="animate-spin text-[#eab676]" size={20} />
-                         <span className="text-xs font-bold text-white/50 ml-2 uppercase tracking-widest">{t('assistant.loadingWeather', 'Loading Live Weather...')}</span>
+                         <Loader2 className="animate-spin text-mammut-gold" size={20} />
+                         <span className="text-xs font-bold text-mammut-white/50 ml-2 uppercase tracking-widest">{t('assistant.loadingWeather', 'Loading Live Weather...')}</span>
                        </div>
                      ) : weatherData && (
                        <>
                          <div className="flex justify-between items-center">
                            <div className="flex items-center gap-3">
-                             <div className="text-[#eab676] bg-[#eab676]/10 p-2 rounded-lg">
+                             <div className="text-mammut-gold bg-mammut-gold/10 p-2 rounded-lg">
                                <Sun size={24} />
                              </div>
                              <div>
-                               <div className="text-[10px] font-black text-white/50 uppercase tracking-widest">{t('assistant.liveWeather', 'Current Weather')}</div>
-                               <div className="text-xl font-black text-white">{weatherData.current}°C</div>
+                               <div className="text-[10px] font-black text-mammut-white/50 uppercase tracking-widest">{t('assistant.liveWeather', 'Current Weather')}</div>
+                               <div className="text-xl font-black text-mammut-white">{weatherData.current}°C</div>
                              </div>
                            </div>
-                           <button onClick={() => setShowExtraWeather(!showExtraWeather)} className="text-[10px] font-black text-white/70 uppercase tracking-wider hover:text-white hover:border-[#eab676] transition-colors border border-[#3a3a3b] px-3 py-1.5 rounded-lg flex items-center gap-1.5 focus:outline-none">
+                           <button onClick={() => setShowExtraWeather(!showExtraWeather)} className="text-[10px] font-black text-mammut-white/70 uppercase tracking-wider hover:text-mammut-white hover:border-mammut-gold transition-colors border border-mammut-border px-3 py-1.5 rounded-lg flex items-center gap-1.5 focus:outline-none">
                              {t('assistant.addInfo', 'Additional Info')} 
-                             <span className="text-[#eab676]">{showExtraWeather ? '−' : '+'}</span>
+                             <span className="text-mammut-gold">{showExtraWeather ? '−' : '+'}</span>
                            </button>
                          </div>
-                         <div className={`grid grid-cols-2 gap-y-4 gap-x-3 transition-all duration-500 overflow-hidden ${showExtraWeather ? 'mt-4 pt-4 border-t border-[#3a3a3b] max-h-60 opacity-100' : 'max-h-0 opacity-0 m-0 p-0 border-transparent'}`}>
+                         <div className={`grid grid-cols-2 gap-y-4 gap-x-3 transition-all duration-500 overflow-hidden ${showExtraWeather ? 'mt-4 pt-4 border-t border-mammut-border max-h-60 opacity-100' : 'max-h-0 opacity-0 m-0 p-0 border-transparent'}`}>
                            <div className="flex flex-col">
-                             <div className="text-[9px] font-black text-white/40 uppercase tracking-widest mb-1">{t('assistant.lowestTemp', 'Lowest Temperature')}</div>
+                             <div className="text-[9px] font-black text-mammut-white/40 uppercase tracking-widest mb-1">{t('assistant.lowestTemp', 'Lowest Temperature')}</div>
                              <div className="text-base font-black text-blue-400">{weatherData.min}°C</div>
                            </div>
                            <div className="flex flex-col">
-                             <div className="text-[9px] font-black text-white/40 uppercase tracking-widest mb-1">{t('assistant.highestTemp', 'Highest Temperature')}</div>
+                             <div className="text-[9px] font-black text-mammut-white/40 uppercase tracking-widest mb-1">{t('assistant.highestTemp', 'Highest Temperature')}</div>
                              <div className="text-base font-black text-red-500">{weatherData.max}°C</div>
                            </div>
                            <div className="flex flex-col">
-                             <div className="text-[9px] font-black text-white/40 uppercase tracking-widest mb-1">{t('assistant.currentWind', 'Current Wind')}</div>
+                             <div className="text-[9px] font-black text-mammut-white/40 uppercase tracking-widest mb-1">{t('assistant.currentWind', 'Current Wind')}</div>
                              <div className="text-base font-black text-slate-300">{weatherData.wind} km/h</div>
                            </div>
                            <div className="flex flex-col">
-                             <div className="text-[9px] font-black text-white/40 uppercase tracking-widest mb-1">{t('assistant.maxWind', 'Max Wind')}</div>
+                             <div className="text-[9px] font-black text-mammut-white/40 uppercase tracking-widest mb-1">{t('assistant.maxWind', 'Max Wind')}</div>
                              <div className="text-base font-black text-slate-100">{weatherData.windMax} km/h</div>
                            </div>
                          </div>
@@ -467,7 +467,7 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
               </div>
             )}
 
-            <button disabled={!cteZone} onClick={() => setStep(2)} className="w-full bg-[#eab676] !text-black py-4 rounded-xl font-black uppercase tracking-widest transition-all disabled:opacity-20 disabled:hover:scale-100 disabled:cursor-not-allowed hover:bg-[#ffc882] hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-[#eab676]/20 flex items-center justify-center gap-2">
+            <button disabled={!cteZone} onClick={() => setStep(2)} className="w-full bg-mammut-gold !text-black py-4 rounded-xl font-black uppercase tracking-widest transition-all disabled:opacity-20 disabled:hover:scale-100 disabled:cursor-not-allowed hover:bg-[#ffc882] hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-[#eab676]/20 flex items-center justify-center gap-2">
               {t('assistant.next', 'Next Step')} <ChevronRight size={20} />
             </button>
           </div>
@@ -476,30 +476,30 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
       case 2:
         return (
           <div className="animate-fade-in">
-             <div className="w-16 h-16 bg-[#eab676]/20 text-[#eab676] rounded-full flex items-center justify-center mb-6 drop-shadow-[0_0_15px_rgba(234,182,118,0.2)]">
+             <div className="w-16 h-16 bg-mammut-gold/20 text-mammut-gold rounded-full flex items-center justify-center mb-6 drop-shadow-[0_0_15px_rgba(234,182,118,0.2)]">
               <HandCoins size={32} />
             </div>
-            <h2 className="text-2xl md:text-3xl font-black text-white mb-4 uppercase tracking-tight">{t('assistant.matTitle')}</h2>
+            <h2 className="text-2xl md:text-3xl font-black text-mammut-white mb-4 uppercase tracking-tight">{t('assistant.matTitle')}</h2>
             
-            <label className="text-xs font-black text-[#eab676] uppercase tracking-widest mb-3 block">{t('assistant.matPref')}</label>
+            <label className="text-xs font-black text-mammut-gold uppercase tracking-widest mb-3 block">{t('assistant.matPref')}</label>
             <div className="grid grid-cols-2 gap-3 mb-8">
               {['pvc', 'alu', 'wood', 'guide'].map(m => (
-                <button key={m} onClick={() => setMaterial(m)} className={`p-4 rounded-xl border-2 font-black uppercase tracking-wider text-xs md:text-sm transition-all ${material === m ? 'border-[#eab676] bg-[#eab676]/10 text-white' : 'border-[#3a3a3b] bg-[#111112] text-[#f4f4f5] hover:border-[#6a6a6b] hover:text-white'}`}>
+                <button key={m} onClick={() => setMaterial(m)} className={`p-4 rounded-xl border-2 font-black uppercase tracking-wider text-xs md:text-sm transition-all ${material === m ? 'border-mammut-gold bg-mammut-gold/10 text-mammut-white' : 'border-mammut-border bg-mammut-darker text-[#f4f4f5] hover:border-[#6a6a6b] hover:text-mammut-white'}`}>
                   {m === 'guide' ? t('assistant.guideMe') : (m === 'pvc' ? 'PVC' : (m === 'alu' ? 'Aluminium' : t('configurator.materials.wood', 'Wood')))}
                 </button>
               ))}
             </div>
 
-            <label className="text-xs font-black text-[#eab676] uppercase tracking-widest mb-3 block">{t('assistant.budget')}</label>
+            <label className="text-xs font-black text-mammut-gold uppercase tracking-widest mb-3 block">{t('assistant.budget')}</label>
             <div className="grid grid-cols-3 gap-3 mb-10">
               {['low', 'med', 'premium'].map(b => (
-                <button key={b} onClick={() => setBudget(b)} className={`p-3 md:p-4 rounded-xl border-2 font-black uppercase tracking-wider text-xs md:text-sm transition-all text-center ${budget === b ? 'border-[#eab676] bg-[#eab676]/10 text-white' : 'border-[#3a3a3b] bg-[#111112] text-[#f4f4f5] hover:border-[#6a6a6b] hover:text-white'}`}>
+                <button key={b} onClick={() => setBudget(b)} className={`p-3 md:p-4 rounded-xl border-2 font-black uppercase tracking-wider text-xs md:text-sm transition-all text-center ${budget === b ? 'border-mammut-gold bg-mammut-gold/10 text-mammut-white' : 'border-mammut-border bg-mammut-darker text-[#f4f4f5] hover:border-[#6a6a6b] hover:text-mammut-white'}`}>
                   {t(`assistant.${b}`)}
                 </button>
               ))}
             </div>
 
-            <button disabled={!material || !budget} onClick={() => setStep(3)} className="w-full bg-[#eab676] !text-black py-4 rounded-xl font-black uppercase tracking-widest transition-all disabled:opacity-20 flex items-center justify-center gap-2">
+            <button disabled={!material || !budget} onClick={() => setStep(3)} className="w-full bg-mammut-gold !text-black py-4 rounded-xl font-black uppercase tracking-widest transition-all disabled:opacity-20 flex items-center justify-center gap-2">
               Next Step <ChevronRight size={20} />
             </button>
           </div>
@@ -508,10 +508,10 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
       case 3:
         return (
           <div className="animate-fade-in">
-             <div className="w-16 h-16 bg-[#eab676]/20 text-[#eab676] rounded-full flex items-center justify-center mb-6 drop-shadow-[0_0_15px_rgba(234,182,118,0.2)]">
+             <div className="w-16 h-16 bg-mammut-gold/20 text-mammut-gold rounded-full flex items-center justify-center mb-6 drop-shadow-[0_0_15px_rgba(234,182,118,0.2)]">
               <CalendarCheck size={32} />
             </div>
-            <h2 className="text-2xl md:text-3xl font-black text-white mb-4 uppercase tracking-tight">{t('assistant.timeTitle')}</h2>
+            <h2 className="text-2xl md:text-3xl font-black text-mammut-white mb-4 uppercase tracking-tight">{t('assistant.timeTitle')}</h2>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
               {[
@@ -520,10 +520,10 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
                 { id: 't3', label: t('assistant.t3') },
                 { id: 't4', label: t('assistant.t4') },
               ].map(tObj => (
-                <button key={tObj.id} onClick={() => setTimeline(tObj.id)} className={`p-4 md:p-6 rounded-xl border-2 font-black transition-all text-left text-sm md:text-base ${timeline === tObj.id ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676]' : 'border-[#3a3a3b] bg-[#111112] text-[#f4f4f5] hover:border-[#6a6a6b] hover:text-white'}`}>
+                <button key={tObj.id} onClick={() => setTimeline(tObj.id)} className={`p-4 md:p-6 rounded-xl border-2 font-black transition-all text-left text-sm md:text-base ${timeline === tObj.id ? 'border-mammut-gold bg-mammut-gold/10 text-mammut-gold' : 'border-mammut-border bg-mammut-darker text-[#f4f4f5] hover:border-[#6a6a6b] hover:text-mammut-white'}`}>
                   {tObj.label}
                   {tObj.id === 't1' && (
-                    <div className="text-[10px] uppercase font-black tracking-widest mt-2 opacity-100 text-[#eab676]">
+                    <div className="text-[10px] uppercase font-black tracking-widest mt-2 opacity-100 text-mammut-gold">
                       {t('assistant.deliveryEst', 'Est. Delivery:')} {getDeliveryEstimate()}
                     </div>
                   )}
@@ -531,7 +531,7 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
               ))}
             </div>
 
-            <button disabled={!timeline} onClick={() => setStep(4)} className="w-full bg-[#eab676] !text-black py-4 rounded-xl font-black uppercase tracking-widest transition-all disabled:opacity-20 flex items-center justify-center gap-2">
+            <button disabled={!timeline} onClick={() => setStep(4)} className="w-full bg-mammut-gold !text-black py-4 rounded-xl font-black uppercase tracking-widest transition-all disabled:opacity-20 flex items-center justify-center gap-2">
               {t('assistant.next')} <ChevronRight size={20} />
             </button>
           </div>
@@ -540,53 +540,53 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
       case 4:
         return (
           <div className="animate-fade-in">
-             <div className="w-16 h-16 bg-[#eab676]/20 text-[#eab676] rounded-full flex items-center justify-center mb-6 drop-shadow-[0_0_15px_rgba(234,182,118,0.2)]">
+             <div className="w-16 h-16 bg-mammut-gold/20 text-mammut-gold rounded-full flex items-center justify-center mb-6 drop-shadow-[0_0_15px_rgba(234,182,118,0.2)]">
               <Ear size={32} />
             </div>
-            <h2 className="text-2xl md:text-3xl font-black text-white mb-4 uppercase tracking-tight">{t('assistant.archTitle')}</h2>
+            <h2 className="text-2xl md:text-3xl font-black text-mammut-white mb-4 uppercase tracking-tight">{t('assistant.archTitle')}</h2>
             
-            <label className="text-xs font-black text-[#eab676] uppercase tracking-widest mb-3 block">{t('assistant.houseType')}</label>
+            <label className="text-xs font-black text-mammut-gold uppercase tracking-widest mb-3 block">{t('assistant.houseType')}</label>
             <div className="grid grid-cols-2 gap-3 mb-8">
               {['villa', 'apt'].map(h => (
-                <button key={h} onClick={() => setHousing(h)} className={`p-4 rounded-xl border-2 font-black uppercase tracking-wider text-xs md:text-sm transition-all ${housing === h ? 'border-[#eab676] bg-[#eab676]/10 text-white' : 'border-[#3a3a3b] bg-[#111112] text-[#f4f4f5] hover:border-[#6a6a6b] hover:text-white'}`}>
+                <button key={h} onClick={() => setHousing(h)} className={`p-4 rounded-xl border-2 font-black uppercase tracking-wider text-xs md:text-sm transition-all ${housing === h ? 'border-mammut-gold bg-mammut-gold/10 text-mammut-white' : 'border-mammut-border bg-mammut-darker text-[#f4f4f5] hover:border-[#6a6a6b] hover:text-mammut-white'}`}>
                   {t(`assistant.${h}`)}
                 </button>
               ))}
             </div>
 
-            <label className="text-xs font-black text-[#eab676] uppercase tracking-widest mb-3 block">{t('assistant.noisePol')}</label>
+            <label className="text-xs font-black text-mammut-gold uppercase tracking-widest mb-3 block">{t('assistant.noisePol')}</label>
             <div className="grid grid-cols-2 gap-3 mb-10">
               {['nHigh', 'nLow'].map(n => (
-                <button key={n} onClick={() => setNoise(n)} className={`p-4 rounded-xl border-2 font-black uppercase tracking-wider text-xs md:text-sm transition-all ${noise === n ? 'border-[#eab676] bg-[#eab676]/10 text-white' : 'border-[#3a3a3b] bg-[#111112] text-[#f4f4f5] hover:border-[#6a6a6b] hover:text-white'}`}>
+                <button key={n} onClick={() => setNoise(n)} className={`p-4 rounded-xl border-2 font-black uppercase tracking-wider text-xs md:text-sm transition-all ${noise === n ? 'border-mammut-gold bg-mammut-gold/10 text-mammut-white' : 'border-mammut-border bg-mammut-darker text-[#f4f4f5] hover:border-[#6a6a6b] hover:text-mammut-white'}`}>
                   {t(`assistant.${n}`)}
                 </button>
               ))}
             </div>
 
-            <div className="my-6 pt-6 border-t border-[#2a2a2b]">
-              <h3 className="text-base font-black text-white uppercase tracking-widest mb-4">Project Scope (Counts)</h3>
+            <div className="my-6 pt-6 border-t border-mammut-border">
+              <h3 className="text-base font-black text-mammut-white uppercase tracking-widest mb-4">Project Scope (Counts)</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="flex justify-between items-center bg-[#111112] border border-[#2a2a2b] p-3 rounded-xl">
-                  <span className="text-xs font-bold text-white uppercase tracking-wider">Windows</span>
-                  <input type="number" min="0" value={windowsCount} onChange={e => setWindowsCount(Number(e.target.value))} className="w-16 bg-[#1a1a1b] border border-[#3a3a3b] text-center font-black rounded p-1 text-[#eab676]" />
+                <div className="flex justify-between items-center bg-mammut-darker border border-mammut-border p-3 rounded-xl">
+                  <span className="text-xs font-bold text-mammut-white uppercase tracking-wider">Windows</span>
+                  <input type="number" min="0" value={windowsCount} onChange={e => setWindowsCount(Number(e.target.value))} className="w-16 bg-mammut-dark border border-mammut-border text-center font-black rounded p-1 text-mammut-gold" />
                 </div>
-                <div className="flex justify-between items-center bg-[#111112] border border-[#2a2a2b] p-3 rounded-xl">
-                  <span className="text-xs font-bold text-white uppercase tracking-wider">Balcony Doors</span>
-                  <input type="number" min="0" value={balconyCount} onChange={e => setBalconyCount(Number(e.target.value))} className="w-16 bg-[#1a1a1b] border border-[#3a3a3b] text-center font-black rounded p-1 text-[#eab676]" />
+                <div className="flex justify-between items-center bg-mammut-darker border border-mammut-border p-3 rounded-xl">
+                  <span className="text-xs font-bold text-mammut-white uppercase tracking-wider">Balcony Doors</span>
+                  <input type="number" min="0" value={balconyCount} onChange={e => setBalconyCount(Number(e.target.value))} className="w-16 bg-mammut-dark border border-mammut-border text-center font-black rounded p-1 text-mammut-gold" />
                 </div>
-                <div className="flex justify-between items-center bg-[#111112] border border-[#2a2a2b] p-3 rounded-xl">
-                  <span className="text-xs font-bold text-white uppercase tracking-wider">Sliding Doors</span>
-                  <input type="number" min="0" value={slidingCount} onChange={e => setSlidingCount(Number(e.target.value))} className="w-16 bg-[#1a1a1b] border border-[#3a3a3b] text-center font-black rounded p-1 text-[#eab676]" />
+                <div className="flex justify-between items-center bg-mammut-darker border border-mammut-border p-3 rounded-xl">
+                  <span className="text-xs font-bold text-mammut-white uppercase tracking-wider">Sliding Doors</span>
+                  <input type="number" min="0" value={slidingCount} onChange={e => setSlidingCount(Number(e.target.value))} className="w-16 bg-mammut-dark border border-mammut-border text-center font-black rounded p-1 text-mammut-gold" />
                 </div>
                 {housing === 'villa' && (
                   <>
-                    <div className="flex justify-between items-center bg-[#111112] border border-[#2a2a2b] p-3 rounded-xl">
-                      <span className="text-xs font-bold text-white uppercase tracking-wider">House Doors</span>
-                      <input type="number" min="0" value={houseDoorCount} onChange={e => setHouseDoorCount(Number(e.target.value))} className="w-16 bg-[#1a1a1b] border border-[#3a3a3b] text-center font-black rounded p-1 text-[#eab676]" />
+                    <div className="flex justify-between items-center bg-mammut-darker border border-mammut-border p-3 rounded-xl">
+                      <span className="text-xs font-bold text-mammut-white uppercase tracking-wider">House Doors</span>
+                      <input type="number" min="0" value={houseDoorCount} onChange={e => setHouseDoorCount(Number(e.target.value))} className="w-16 bg-mammut-dark border border-mammut-border text-center font-black rounded p-1 text-mammut-gold" />
                     </div>
-                    <div className="flex justify-between items-center bg-[#111112] border border-[#2a2a2b] p-3 rounded-xl">
-                      <span className="text-xs font-bold text-white uppercase tracking-wider">Garage Doors</span>
-                      <input type="number" min="0" value={garageDoorCount} onChange={e => setGarageDoorCount(Number(e.target.value))} className="w-16 bg-[#1a1a1b] border border-[#3a3a3b] text-center font-black rounded p-1 text-[#eab676]" />
+                    <div className="flex justify-between items-center bg-mammut-darker border border-mammut-border p-3 rounded-xl">
+                      <span className="text-xs font-bold text-mammut-white uppercase tracking-wider">Garage Doors</span>
+                      <input type="number" min="0" value={garageDoorCount} onChange={e => setGarageDoorCount(Number(e.target.value))} className="w-16 bg-mammut-dark border border-mammut-border text-center font-black rounded p-1 text-mammut-gold" />
                     </div>
                   </>
                 )}
@@ -605,12 +605,12 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
             {isProcessing ? (
               <div className="flex flex-col items-center gap-6">
                 <div className="relative w-24 h-24">
-                  <div className="absolute inset-0 rounded-full border-4 border-[#2a2a2b] border-t-[#eab676] animate-spin"></div>
-                  <Loader2 size={40} className="absolute inset-0 m-auto text-[#eab676] animate-pulse" />
+                  <div className="absolute inset-0 rounded-full border-4 border-mammut-border border-t-[#eab676] animate-spin"></div>
+                  <Loader2 size={40} className="absolute inset-0 m-auto text-mammut-gold animate-pulse" />
                 </div>
                  <div>
-                   <h2 className="text-2xl font-black text-white uppercase tracking-widest mb-2">{t('assistant.analyzing')}</h2>
-                   <p className="text-[#eab676] font-bold text-sm tracking-widest uppercase animate-pulse">{t('assistant.computing')}</p>
+                   <h2 className="text-2xl font-black text-mammut-white uppercase tracking-widest mb-2">{t('assistant.analyzing')}</h2>
+                   <p className="text-mammut-gold font-bold text-sm tracking-widest uppercase animate-pulse">{t('assistant.computing')}</p>
                 </div>
               </div>
             ) : recommendation && (
@@ -618,23 +618,23 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
                  <div className="w-20 h-20 bg-emerald-500/20 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(16,185,129,0.2)]">
                    <Sparkles size={40} />
                  </div>
-                 <h2 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter mb-2">{t('assistant.perfWin')}</h2>
-                 <p className="text-white font-medium mb-8 max-w-md mx-auto text-sm md:text-base leading-relaxed">{t('assistant.basedOn').replace('{{zone}}', cteZone).replace('{{noise}}', noise === 'nHigh' ? t('assistant.nHigh') : t('assistant.nLow'))}</p>
+                 <h2 className="text-3xl md:text-4xl font-black text-mammut-white uppercase tracking-tighter mb-2">{t('assistant.perfWin')}</h2>
+                 <p className="text-mammut-white font-medium mb-8 max-w-md mx-auto text-sm md:text-base leading-relaxed">{t('assistant.basedOn').replace('{{zone}}', cteZone).replace('{{noise}}', noise === 'nHigh' ? t('assistant.nHigh') : t('assistant.nLow'))}</p>
 
-                 <div className="bg-[#111112] border-2 border-[#eab676]/50 rounded-2xl p-6 mb-8 mt-4 relative overflow-hidden text-left shadow-[0_0_40px_rgba(234,182,118,0.15)]">
-                   <div className="absolute top-0 right-0 w-32 h-32 bg-[#eab676]/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
+                 <div className="bg-mammut-darker border-2 border-mammut-gold/50 rounded-2xl p-6 mb-8 mt-4 relative overflow-hidden text-left shadow-[0_0_40px_rgba(234,182,118,0.15)]">
+                   <div className="absolute top-0 right-0 w-32 h-32 bg-mammut-gold/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
                    
                    <div className="flex justify-between items-start gap-4">
                      <div>
-                       <div className="text-[10px] font-black text-[#eab676] uppercase tracking-[0.2em] mb-1">{t('assistant.recProf')}</div>
-                       <h3 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tight">{CONFIG_SCHEMA.categories[recommendation.material as keyof typeof CONFIG_SCHEMA.categories]?.profiles.find((p: any) => p.id === recommendation.profile)?.name || recommendation.profile}</h3>
+                       <div className="text-[10px] font-black text-mammut-gold uppercase tracking-[0.2em] mb-1">{t('assistant.recProf')}</div>
+                       <h3 className="text-2xl md:text-3xl font-black text-mammut-white uppercase tracking-tight">{CONFIG_SCHEMA.categories[recommendation.material as keyof typeof CONFIG_SCHEMA.categories]?.profiles.find((p: any) => p.id === recommendation.profile)?.name || recommendation.profile}</h3>
                        
                        <div className="mt-4 flex flex-wrap items-center gap-2 md:gap-3">
-                         <span className="bg-[#1a1a1b] border-2 border-[#3a3a3b] font-black text-white text-[9px] md:text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-lg">{t('assistant.base')}: {recommendation.material}</span>
-                         <span className="bg-[#1a1a1b] border-2 border-[#3a3a3b] font-black text-[#eab676] text-[9px] md:text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-lg">{recommendation.glazing} {t('assistant.glaze')}</span>
+                         <span className="bg-mammut-dark border-2 border-mammut-border font-black text-mammut-white text-[9px] md:text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-lg">{t('assistant.base')}: {recommendation.material}</span>
+                         <span className="bg-mammut-dark border-2 border-mammut-border font-black text-mammut-gold text-[9px] md:text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-lg">{recommendation.glazing} {t('assistant.glaze')}</span>
                          
                          {recommendation.profile === 'igloedge' && (
-                            <button onClick={() => setShowVideo(true)} className="bg-[#eab676]/10 border-2 border-[#eab676]/30 text-[#eab676] hover:bg-[#eab676] hover:text-black font-black text-[9px] md:text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors shadow-lg">
+                            <button onClick={() => setShowVideo(true)} className="bg-mammut-gold/10 border-2 border-mammut-gold/30 text-mammut-gold hover:bg-mammut-gold hover:text-black font-black text-[9px] md:text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors shadow-lg">
                               <PlayCircle size={14} /> {t('assistant.prodVideo', 'Product Video')}
                             </button>
                          )}
@@ -643,7 +643,7 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
                    </div>
                  </div>
 
-                 <button onClick={() => setStep(6)} className="w-full bg-[#eab676] !text-black py-4 md:py-5 rounded-2xl font-black text-sm md:text-lg uppercase tracking-widest hover:bg-[#ffc882] hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(234,182,118,0.4)] flex items-center justify-center gap-2">
+                 <button onClick={() => setStep(6)} className="w-full bg-mammut-gold !text-black py-4 md:py-5 rounded-2xl font-black text-sm md:text-lg uppercase tracking-widest hover:bg-[#ffc882] hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(234,182,118,0.4)] flex items-center justify-center gap-2">
                     {t('assistant.continueOrder', 'Continue with order')} <ChevronRight size={20} />
                  </button>
               </div>
@@ -655,18 +655,18 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
         const item = itemConfigList[currentItemIndex];
         return (
           <div className="animate-fade-in-up">
-            <h2 className="text-xl md:text-3xl font-black mb-4 uppercase tracking-widest text-[#eab676]">{t('assistant.startConfig', 'Start Configuration')}</h2>
-            <p className="text-white/60 font-bold mb-8 text-sm md:text-base leading-relaxed">
+            <h2 className="text-xl md:text-3xl font-black mb-4 uppercase tracking-widest text-mammut-gold">{t('assistant.startConfig', 'Start Configuration')}</h2>
+            <p className="text-mammut-white/60 font-bold mb-8 text-sm md:text-base leading-relaxed">
               {t('assistant.configIntro', "Let's start configuring your items. You can save this and change it later. We will configure each item one by one.")}
             </p>
-            <div className="bg-[#111112] border border-[#2a2a2b] p-6 rounded-2xl mb-8 flex flex-col items-center justify-center text-center">
-               <div className="w-16 h-16 bg-[#eab676]/10 text-[#eab676] rounded-full flex items-center justify-center mb-4">
+            <div className="bg-mammut-darker border border-mammut-border p-6 rounded-2xl mb-8 flex flex-col items-center justify-center text-center">
+               <div className="w-16 h-16 bg-mammut-gold/10 text-mammut-gold rounded-full flex items-center justify-center mb-4">
                   <Home size={32} />
                </div>
-               <div className="text-white font-black text-xl mb-1">Item {currentItemIndex + 1} of {itemConfigList.length}</div>
-               <div className="text-[#eab676] font-bold text-sm uppercase tracking-widest">{item?.itemType?.replace('_', ' ')}</div>
+               <div className="text-mammut-white font-black text-xl mb-1">Item {currentItemIndex + 1} of {itemConfigList.length}</div>
+               <div className="text-mammut-gold font-bold text-sm uppercase tracking-widest">{item?.itemType?.replace('_', ' ')}</div>
             </div>
-            <button onClick={() => setStep(7)} className="w-full bg-[#eab676] !text-black py-4 rounded-xl font-black uppercase tracking-widest hover:scale-[1.02] transition-transform flex justify-center items-center gap-2">
+            <button onClick={() => setStep(7)} className="w-full bg-mammut-gold !text-black py-4 rounded-xl font-black uppercase tracking-widest hover:scale-[1.02] transition-transform flex justify-center items-center gap-2">
               Begin <ChevronRight size={20} />
             </button>
           </div>
@@ -676,39 +676,39 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
         const commonRooms = ['Main Bedroom', 'Bedroom', 'Living Room', 'Dining Room', 'Kitchen', 'Hall', 'Bathroom', 'Office'];
         return (
           <div className="animate-fade-in-up">
-            <h2 className="text-xl md:text-3xl font-black mb-4 uppercase tracking-widest text-[#eab676]">Room & Basics</h2>
-            <p className="text-white/60 font-bold mb-8 text-sm md:text-base leading-relaxed">Item {currentItemIndex + 1}/{itemConfigList.length}</p>
+            <h2 className="text-xl md:text-3xl font-black mb-4 uppercase tracking-widest text-mammut-gold">Room & Basics</h2>
+            <p className="text-mammut-white/60 font-bold mb-8 text-sm md:text-base leading-relaxed">Item {currentItemIndex + 1}/{itemConfigList.length}</p>
             
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
                {commonRooms.map(r => (
-                 <button key={r} onClick={() => setCurrentRoomName(r)} className={`p-3 rounded-xl border-2 font-black text-xs transition-all ${currentRoomName === r ? 'border-[#eab676] bg-[#eab676]/10 text-white' : 'border-[#2a2a2b] bg-[#111112] text-white/50 hover:border-[#3a3a3b]'}`}>{r}</button>
+                 <button key={r} onClick={() => setCurrentRoomName(r)} className={`p-3 rounded-xl border-2 font-black text-xs transition-all ${currentRoomName === r ? 'border-mammut-gold bg-mammut-gold/10 text-mammut-white' : 'border-mammut-border bg-mammut-darker text-mammut-white/50 hover:border-mammut-border'}`}>{r}</button>
                ))}
             </div>
             <div className="mb-6">
-               <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-2">Or type custom name:</p>
-               <input type="text" value={currentRoomName} onChange={e => setCurrentRoomName(e.target.value)} placeholder="e.g. Master Bath" className="w-full bg-[#111112] border border-[#3a3a3b] p-4 rounded-xl text-white font-bold focus:outline-none focus:border-[#eab676]" />
+               <p className="text-xs font-bold text-mammut-white/40 uppercase tracking-widest mb-2">Or type custom name:</p>
+               <input type="text" value={currentRoomName} onChange={e => setCurrentRoomName(e.target.value)} placeholder="e.g. Master Bath" className="w-full bg-mammut-darker border border-mammut-border p-4 rounded-xl text-mammut-white font-bold focus:outline-none focus:border-mammut-gold" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-               <div className="bg-[#111112] border border-[#2a2a2b] p-4 rounded-xl">
-                  <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Quantity (Units)</p>
+               <div className="bg-mammut-darker border border-mammut-border p-4 rounded-xl">
+                  <p className="text-xs font-bold text-mammut-white/40 uppercase tracking-widest mb-3">Quantity (Units)</p>
                   <div className="flex items-center gap-4">
-                     <button onClick={() => setCurrentQuantity(Math.max(1, currentQuantity - 1))} className="w-10 h-10 rounded-lg bg-[#1a1a1b] border border-[#3a3a3b] text-white font-black hover:border-[#eab676] transition-colors">-</button>
-                     <span className="text-xl font-black text-[#eab676] w-8 text-center">{currentQuantity}</span>
-                     <button onClick={() => setCurrentQuantity(currentQuantity + 1)} className="w-10 h-10 rounded-lg bg-[#1a1a1b] border border-[#3a3a3b] text-white font-black hover:border-[#eab676] transition-colors">+</button>
+                     <button onClick={() => setCurrentQuantity(Math.max(1, currentQuantity - 1))} className="w-10 h-10 rounded-lg bg-mammut-dark border border-mammut-border text-mammut-white font-black hover:border-mammut-gold transition-colors">-</button>
+                     <span className="text-xl font-black text-mammut-gold w-8 text-center">{currentQuantity}</span>
+                     <button onClick={() => setCurrentQuantity(currentQuantity + 1)} className="w-10 h-10 rounded-lg bg-mammut-dark border border-mammut-border text-mammut-white font-black hover:border-mammut-gold transition-colors">+</button>
                   </div>
                </div>
-               <div className="bg-[#111112] border border-[#2a2a2b] p-4 rounded-xl">
-                  <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Orientation</p>
-                  <div className="flex bg-[#1a1a1b] rounded-lg border border-[#3a3a3b] overflow-hidden">
+               <div className="bg-mammut-darker border border-mammut-border p-4 rounded-xl">
+                  <p className="text-xs font-bold text-mammut-white/40 uppercase tracking-widest mb-3">Orientation</p>
+                  <div className="flex bg-mammut-dark rounded-lg border border-mammut-border overflow-hidden">
                     {['North', 'South', 'East', 'West'].map(dir => (
-                      <button key={dir} onClick={() => setCurrentOrientation(dir)} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider transition-colors ${currentOrientation === dir ? 'bg-[#eab676] text-black' : 'text-white/50 hover:bg-[#2a2a2b] hover:text-white'}`}>
+                      <button key={dir} onClick={() => setCurrentOrientation(dir)} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider transition-colors ${currentOrientation === dir ? 'bg-mammut-gold text-black' : 'text-mammut-white/50 hover:bg-[#2a2a2b] hover:text-mammut-white'}`}>
                         {dir}
                       </button>
                     ))}
                   </div>
                </div>
             </div>
-            <button disabled={!currentRoomName} onClick={() => setStep(8)} className="w-full bg-[#eab676] !text-black py-4 rounded-xl font-black uppercase tracking-widest disabled:opacity-20 flex justify-center items-center gap-2">
+            <button disabled={!currentRoomName} onClick={() => setStep(8)} className="w-full bg-mammut-gold !text-black py-4 rounded-xl font-black uppercase tracking-widest disabled:opacity-20 flex justify-center items-center gap-2">
               Next <ChevronRight size={20} />
             </button>
           </div>
@@ -717,17 +717,17 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
       case 8: {
         return (
           <div className="animate-fade-in-up">
-            <h2 className="text-xl md:text-3xl font-black mb-4 uppercase tracking-widest text-[#eab676]">Select Style</h2>
-            <p className="text-white/60 font-bold mb-8 text-sm md:text-base leading-relaxed">Item {currentItemIndex + 1}/{itemConfigList.length} - {currentRoomName}</p>
+            <h2 className="text-xl md:text-3xl font-black mb-4 uppercase tracking-widest text-mammut-gold">Select Style</h2>
+            <p className="text-mammut-white/60 font-bold mb-8 text-sm md:text-base leading-relaxed">Item {currentItemIndex + 1}/{itemConfigList.length} - {currentRoomName}</p>
             
             <div className="grid grid-cols-2 gap-4 mb-8">
                {WINDOW_TYPES.map(wt => (
-                 <button key={wt.id} onClick={() => setCurrentWindowType(wt.id)} className={`p-4 rounded-xl border-2 font-black text-sm flex-col flex items-center gap-2 transition-all ${currentWindowType === wt.id ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676]' : 'border-[#2a2a2b] bg-[#111112] text-white/50 hover:border-[#3a3a3b]'}`}>
+                 <button key={wt.id} onClick={() => setCurrentWindowType(wt.id)} className={`p-4 rounded-xl border-2 font-black text-sm flex-col flex items-center gap-2 transition-all ${currentWindowType === wt.id ? 'border-mammut-gold bg-mammut-gold/10 text-mammut-gold' : 'border-mammut-border bg-mammut-darker text-mammut-white/50 hover:border-mammut-border'}`}>
                    {wt.name}
                  </button>
                ))}
             </div>
-            <button disabled={!currentWindowType} onClick={() => setStep(9)} className="w-full bg-[#eab676] !text-black py-4 rounded-xl font-black uppercase tracking-widest disabled:opacity-20 flex justify-center items-center gap-2">
+            <button disabled={!currentWindowType} onClick={() => setStep(9)} className="w-full bg-mammut-gold !text-black py-4 rounded-xl font-black uppercase tracking-widest disabled:opacity-20 flex justify-center items-center gap-2">
               Next <ChevronRight size={20} />
             </button>
           </div>
@@ -736,17 +736,17 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
       case 9: {
         return (
           <div className="animate-fade-in-up">
-            <h2 className="text-xl md:text-3xl font-black mb-4 uppercase tracking-widest text-[#eab676]">Select Openings</h2>
-            <p className="text-white/60 font-bold mb-8 text-sm md:text-base leading-relaxed">Item {currentItemIndex + 1}/{itemConfigList.length} - {currentRoomName}</p>
+            <h2 className="text-xl md:text-3xl font-black mb-4 uppercase tracking-widest text-mammut-gold">Select Openings</h2>
+            <p className="text-mammut-white/60 font-bold mb-8 text-sm md:text-base leading-relaxed">Item {currentItemIndex + 1}/{itemConfigList.length} - {currentRoomName}</p>
             
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
                {['F', 'DKL', 'DKR', 'DL', 'DR', 'K'].map(op => (
-                 <button key={op} onClick={() => setCurrentOpenings([op])} className={`p-4 rounded-xl border-2 font-black text-sm flex-col flex items-center gap-2 transition-all ${currentOpenings[0] === op ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676]' : 'border-[#2a2a2b] bg-[#111112] text-white/50 hover:border-[#3a3a3b]'}`}>
+                 <button key={op} onClick={() => setCurrentOpenings([op])} className={`p-4 rounded-xl border-2 font-black text-sm flex-col flex items-center gap-2 transition-all ${currentOpenings[0] === op ? 'border-mammut-gold bg-mammut-gold/10 text-mammut-gold' : 'border-mammut-border bg-mammut-darker text-mammut-white/50 hover:border-mammut-border'}`}>
                    {op}
                  </button>
                ))}
             </div>
-            <button disabled={currentOpenings.length === 0} onClick={() => { setCurrentGlazing(recommendation?.glazing || CONFIG_SCHEMA.glazing[0].id); setStep(10); }} className="w-full bg-[#eab676] !text-black py-4 rounded-xl font-black uppercase tracking-widest disabled:opacity-20 flex justify-center items-center gap-2">
+            <button disabled={currentOpenings.length === 0} onClick={() => { setCurrentGlazing(recommendation?.glazing || CONFIG_SCHEMA.glazing[0].id); setStep(10); }} className="w-full bg-mammut-gold !text-black py-4 rounded-xl font-black uppercase tracking-widest disabled:opacity-20 flex justify-center items-center gap-2">
               Next <ChevronRight size={20} />
             </button>
           </div>
@@ -755,17 +755,17 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
       case 10: {
         return (
           <div className="animate-fade-in-up">
-            <h2 className="text-xl md:text-3xl font-black mb-4 uppercase tracking-widest text-[#eab676]">Select Glazing</h2>
-            <p className="text-white/60 font-bold mb-8 text-sm md:text-base leading-relaxed">Item {currentItemIndex + 1}/{itemConfigList.length} - {currentRoomName}</p>
+            <h2 className="text-xl md:text-3xl font-black mb-4 uppercase tracking-widest text-mammut-gold">Select Glazing</h2>
+            <p className="text-mammut-white/60 font-bold mb-8 text-sm md:text-base leading-relaxed">Item {currentItemIndex + 1}/{itemConfigList.length} - {currentRoomName}</p>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
                {CONFIG_SCHEMA.glazing.map(gl => (
-                 <button key={gl.id} onClick={() => setCurrentGlazing(gl.id)} className={`p-4 text-left rounded-xl border-2 font-black text-sm flex-col transition-all ${currentGlazing === gl.id ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676] block' : 'border-[#2a2a2b] bg-[#111112] text-white/50 block hover:border-[#3a3a3b]'}`}>
+                 <button key={gl.id} onClick={() => setCurrentGlazing(gl.id)} className={`p-4 text-left rounded-xl border-2 font-black text-sm flex-col transition-all ${currentGlazing === gl.id ? 'border-mammut-gold bg-mammut-gold/10 text-mammut-gold block' : 'border-mammut-border bg-mammut-darker text-mammut-white/50 block hover:border-mammut-border'}`}>
                    {gl.id}
                  </button>
                ))}
             </div>
-            <button disabled={!currentGlazing} onClick={() => setStep(11)} className="w-full bg-[#eab676] !text-black py-4 rounded-xl font-black uppercase tracking-widest disabled:opacity-20 flex justify-center items-center gap-2">
+            <button disabled={!currentGlazing} onClick={() => setStep(11)} className="w-full bg-mammut-gold !text-black py-4 rounded-xl font-black uppercase tracking-widest disabled:opacity-20 flex justify-center items-center gap-2">
               Next <ChevronRight size={20} />
             </button>
           </div>
@@ -774,17 +774,17 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
       case 11: {
         return (
           <div className="animate-fade-in-up">
-            <h2 className="text-xl md:text-3xl font-black mb-4 uppercase tracking-widest text-[#eab676]">Select Blinds</h2>
-            <p className="text-white/60 font-bold mb-8 text-sm md:text-base leading-relaxed">Item {currentItemIndex + 1}/{itemConfigList.length} - {currentRoomName}</p>
+            <h2 className="text-xl md:text-3xl font-black mb-4 uppercase tracking-widest text-mammut-gold">Select Blinds</h2>
+            <p className="text-mammut-white/60 font-bold mb-8 text-sm md:text-base leading-relaxed">Item {currentItemIndex + 1}/{itemConfigList.length} - {currentRoomName}</p>
             
             <div className="grid grid-cols-2 gap-3 mb-8">
                {['None', 'Manual Roller', 'Electric Roller', 'Venetian'].map(bl => (
-                 <button key={bl} onClick={() => setCurrentBlinds(bl)} className={`p-4 rounded-xl border-2 font-black text-sm flex-col flex items-center gap-2 transition-all ${currentBlinds === bl ? 'border-[#eab676] bg-[#eab676]/10 text-[#eab676]' : 'border-[#2a2a2b] bg-[#111112] text-white/50 hover:border-[#3a3a3b]'}`}>
+                 <button key={bl} onClick={() => setCurrentBlinds(bl)} className={`p-4 rounded-xl border-2 font-black text-sm flex-col flex items-center gap-2 transition-all ${currentBlinds === bl ? 'border-mammut-gold bg-mammut-gold/10 text-mammut-gold' : 'border-mammut-border bg-mammut-darker text-mammut-white/50 hover:border-mammut-border'}`}>
                    {bl}
                  </button>
                ))}
             </div>
-            <button disabled={!currentBlinds} onClick={() => setStep(12)} className="w-full bg-[#eab676] !text-black py-4 rounded-xl font-black uppercase tracking-widest disabled:opacity-20 flex justify-center items-center gap-2">
+            <button disabled={!currentBlinds} onClick={() => setStep(12)} className="w-full bg-mammut-gold !text-black py-4 rounded-xl font-black uppercase tracking-widest disabled:opacity-20 flex justify-center items-center gap-2">
               Next <ChevronRight size={20} />
             </button>
           </div>
@@ -793,17 +793,17 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
       case 12: {
         return (
           <div className="animate-fade-in-up">
-            <h2 className="text-xl md:text-3xl font-black mb-4 uppercase tracking-widest text-[#eab676]">Ready to Configure</h2>
-            <p className="text-white/60 font-bold mb-8 text-sm md:text-base leading-relaxed">
-              We will now open the main configurator with this preset data for <strong className="text-white">{currentRoomName}</strong>. 
+            <h2 className="text-xl md:text-3xl font-black mb-4 uppercase tracking-widest text-mammut-gold">Ready to Configure</h2>
+            <p className="text-mammut-white/60 font-bold mb-8 text-sm md:text-base leading-relaxed">
+              We will now open the main configurator with this preset data for <strong className="text-mammut-white">{currentRoomName}</strong>. 
             </p>
-            <div className="bg-[#111112] border border-[#2a2a2b] p-6 rounded-2xl mb-8 shadow-inner">
-               <ul className="space-y-4 text-sm font-bold text-white/70">
-                 <li className="flex justify-between items-center border-b border-[#2a2a2b] pb-2"><span className="text-white/40 uppercase tracking-widest text-xs">Item:</span> <span className="text-white text-base">{currentRoomName} <span className="text-[#eab676]">({currentQuantity}x)</span></span></li>
-                 <li className="flex justify-between items-center border-b border-[#2a2a2b] pb-2"><span className="text-white/40 uppercase tracking-widest text-xs">Orient:</span> <span className="text-white">{currentOrientation}</span></li>
-                 <li className="flex justify-between items-center border-b border-[#2a2a2b] pb-2"><span className="text-white/40 uppercase tracking-widest text-xs">Style:</span> <span className="text-[#eab676]">{currentWindowType}</span></li>
-                 <li className="flex justify-between items-center border-b border-[#2a2a2b] pb-2"><span className="text-white/40 uppercase tracking-widest text-xs">Glazing:</span> <span className="text-white">{currentGlazing}</span></li>
-                 <li className="flex justify-between items-center"><span className="text-white/40 uppercase tracking-widest text-xs">Blinds:</span> <span className="text-white">{currentBlinds}</span></li>
+            <div className="bg-mammut-darker border border-mammut-border p-6 rounded-2xl mb-8 shadow-inner">
+               <ul className="space-y-4 text-sm font-bold text-mammut-white/70">
+                 <li className="flex justify-between items-center border-b border-mammut-border pb-2"><span className="text-mammut-white/40 uppercase tracking-widest text-xs">Item:</span> <span className="text-mammut-white text-base">{currentRoomName} <span className="text-mammut-gold">({currentQuantity}x)</span></span></li>
+                 <li className="flex justify-between items-center border-b border-mammut-border pb-2"><span className="text-mammut-white/40 uppercase tracking-widest text-xs">Orient:</span> <span className="text-mammut-white">{currentOrientation}</span></li>
+                 <li className="flex justify-between items-center border-b border-mammut-border pb-2"><span className="text-mammut-white/40 uppercase tracking-widest text-xs">Style:</span> <span className="text-mammut-gold">{currentWindowType}</span></li>
+                 <li className="flex justify-between items-center border-b border-mammut-border pb-2"><span className="text-mammut-white/40 uppercase tracking-widest text-xs">Glazing:</span> <span className="text-mammut-white">{currentGlazing}</span></li>
+                 <li className="flex justify-between items-center"><span className="text-mammut-white/40 uppercase tracking-widest text-xs">Blinds:</span> <span className="text-mammut-white">{currentBlinds}</span></li>
                </ul>
             </div>
             <button onClick={() => {
@@ -823,7 +823,7 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
               useOrderStore.getState().setDiscount(step * 10);
               startOrder(updatedList);
               onComplete(recommendation?.material || '', recommendation?.profile || '', recommendation?.glazing || '');
-            }} className="w-full bg-[#eab676] !text-black py-4 rounded-xl font-black uppercase tracking-widest hover:scale-[1.02] flex justify-center items-center gap-2 shadow-[0_0_30px_rgba(234,182,118,0.3)]">
+            }} className="w-full bg-mammut-gold !text-black py-4 rounded-xl font-black uppercase tracking-widest hover:scale-[1.02] flex justify-center items-center gap-2 shadow-[0_0_30px_rgba(234,182,118,0.3)]">
               Launch Configurator <Sparkles size={20} />
             </button>
           </div>
@@ -835,24 +835,24 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in overflow-y-auto">
-      <div className="bg-[#1a1a1b] border border-[#2a2a2b] w-full max-w-2xl rounded-[2rem] shadow-2xl relative my-auto">
-        <button disabled={isProcessing} onClick={onClose} className="absolute right-6 top-6 p-2 rounded-full hover:bg-white/10 text-white/50 hover:text-white transition-colors z-20 disabled:opacity-0">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-mammut-black/80 backdrop-blur-md animate-fade-in overflow-y-auto">
+      <div className="bg-mammut-dark border border-mammut-border w-full max-w-2xl rounded-[2rem] shadow-2xl relative my-auto">
+        <button disabled={isProcessing} onClick={onClose} className="absolute right-6 top-6 p-2 rounded-full hover:bg-white/10 text-mammut-white/50 hover:text-mammut-white transition-colors z-20 disabled:opacity-0">
           <X size={24} />
         </button>
         
         {/* Progress Bar */}
         {!isProcessing && step < 5 && (
-          <div className="absolute top-0 left-0 w-full h-1.5 bg-[#111112] rounded-t-[2rem] overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1.5 bg-mammut-darker rounded-t-[2rem] overflow-hidden">
             <div className="h-full bg-gradient-to-r from-[#eab676]/50 to-[#eab676] transition-all duration-500 ease-in-out" style={{ width: `${(step / 4) * 100}%` }}></div>
           </div>
         )}
 
         {/* Discount Badge */}
         {!isProcessing && (
-          <div className="absolute top-4 left-6 z-20 bg-[#eab676]/10 border border-[#eab676]/30 px-3 py-1.5 rounded-full flex items-center gap-1.5 animate-fade-in shadow-lg">
-             <HandCoins size={14} className="text-[#eab676]" />
-             <span className="text-[#eab676] font-black text-xs uppercase tracking-widest">Saved: <span className="text-white">€{step * 10}</span></span>
+          <div className="absolute top-4 left-6 z-20 bg-mammut-gold/10 border border-mammut-gold/30 px-3 py-1.5 rounded-full flex items-center gap-1.5 animate-fade-in shadow-lg">
+             <HandCoins size={14} className="text-mammut-gold" />
+             <span className="text-mammut-gold font-black text-xs uppercase tracking-widest">Saved: <span className="text-mammut-white">€{step * 10}</span></span>
           </div>
         )}
 
@@ -863,7 +863,7 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
             <div className="mt-8 text-left">
               <button 
                 onClick={() => step > 1 ? setStep(step - 1) : onClose()} 
-                className="text-[10px] md:text-xs font-black text-white/40 uppercase tracking-[0.2em] hover:text-white transition-colors flex items-center gap-1.5"
+                className="text-[10px] md:text-xs font-black text-mammut-white/40 uppercase tracking-[0.2em] hover:text-mammut-white transition-colors flex items-center gap-1.5"
               >
                 <ChevronLeft size={14} /> {step > 1 ? t('assistant.previous', 'Previous') : t('assistant.cancel', 'Cancel')}
               </button>
@@ -872,8 +872,8 @@ export function AIGuidedAssistant({ onClose, onComplete, initialStep = 1 }: Prop
         </div>
         
         {showVideo && (
-          <div className="absolute inset-0 z-50 bg-black/95 rounded-[2rem] overflow-hidden flex flex-col items-center justify-center animate-fade-in p-4 border border-[#eab676]/30">
-            <button onClick={() => setShowVideo(false)} className="absolute right-4 top-4 p-2 bg-black/50 hover:bg-white text-white hover:text-black rounded-full transition-colors z-50">
+          <div className="absolute inset-0 z-50 bg-mammut-black/95 rounded-[2rem] overflow-hidden flex flex-col items-center justify-center animate-fade-in p-4 border border-mammut-gold/30">
+            <button onClick={() => setShowVideo(false)} className="absolute right-4 top-4 p-2 bg-mammut-black/50 hover:bg-white text-mammut-white hover:text-black rounded-full transition-colors z-50">
               <X size={20} />
             </button>
             <video src="/assets/iglo-edge-okno-window-opening.mp4" autoPlay controls className="w-full h-auto max-h-full rounded-xl shadow-[0_0_50px_rgba(234,182,118,0.15)]" />

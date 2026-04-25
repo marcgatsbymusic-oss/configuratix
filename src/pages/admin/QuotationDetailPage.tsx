@@ -55,7 +55,7 @@ export function QuotationDetailPage() {
   if (!quotation) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#eab676]" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-mammut-gold" />
       </div>
     )
   }
@@ -69,7 +69,7 @@ export function QuotationDetailPage() {
     <div className="space-y-6 animate-fade-in max-w-[1400px]">
       {/* Back Navigation */}
       <button onClick={() => navigate('/admin/quotations')}
-        className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors text-sm">
+        className="flex items-center gap-2 text-zinc-400 hover:text-mammut-white transition-colors text-sm">
         <ArrowLeft size={16} /> Back to Quotations
       </button>
 
@@ -77,20 +77,20 @@ export function QuotationDetailPage() {
       <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden">
         <div className="bg-zinc-950 px-6 py-3 border-b border-zinc-800 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <h1 className="text-lg font-black text-[#eab676] tracking-wider">{quotation.quotation_number}</h1>
+            <h1 className="text-lg font-black text-mammut-gold tracking-wider">{quotation.quotation_number}</h1>
             <QuotationStatusBadge status={quotation.status} />
           </div>
           {/* Action Buttons */}
           <div className="flex items-center gap-3">
             {quotation.status === 'pending' && (
               <button onClick={handleApprove} disabled={updatingStatus}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-white text-sm font-bold transition-colors disabled:opacity-50">
+                className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-mammut-white text-sm font-bold transition-colors disabled:opacity-50">
                 <CheckCircle size={16} /> Approve & Sign Off
               </button>
             )}
             {quotation.status === 'approved' && (
               <button onClick={handleSendToFactory} disabled={updatingStatus}
-                className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-lg text-white text-sm font-bold transition-colors disabled:opacity-50">
+                className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-lg text-mammut-white text-sm font-bold transition-colors disabled:opacity-50">
                 <Factory size={16} /> Send to Factory
               </button>
             )}
@@ -111,7 +111,7 @@ export function QuotationDetailPage() {
           ].map(({ label, value }) => (
             <div key={label} className="px-5 py-3">
               <p className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest mb-1">{label}</p>
-              <p className="text-sm font-semibold text-white truncate">{value}</p>
+              <p className="text-sm font-semibold text-mammut-white truncate">{value}</p>
             </div>
           ))}
         </div>
@@ -126,8 +126,8 @@ export function QuotationDetailPage() {
           {/* Items Table */}
           <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden">
             <div className="px-6 py-4 border-b border-zinc-800 flex items-center gap-2">
-              <Layers size={16} className="text-[#eab676]" />
-              <h2 className="font-bold text-white text-sm uppercase tracking-wider">Items</h2>
+              <Layers size={16} className="text-mammut-gold" />
+              <h2 className="font-bold text-mammut-white text-sm uppercase tracking-wider">Items</h2>
               <span className="text-xs bg-zinc-800 text-zinc-400 px-2 py-0.5 rounded-full ml-auto">{items.length} units</span>
             </div>
 
@@ -142,9 +142,9 @@ export function QuotationDetailPage() {
               <div className="divide-y divide-zinc-800/60">
                 {items.map((item, idx) => (
                   <div key={String(item.id)} className="grid grid-cols-[30px_1fr_120px_80px_100px] gap-3 px-6 py-4 hover:bg-zinc-800/20 transition-colors">
-                    <div className="text-[#eab676] font-black text-sm self-start pt-0.5">{idx + 1}</div>
+                    <div className="text-mammut-gold font-black text-sm self-start pt-0.5">{idx + 1}</div>
                     <div>
-                      <p className="text-white font-semibold text-sm">{item.name}</p>
+                      <p className="text-mammut-white font-semibold text-sm">{item.name}</p>
                       <div className="mt-2 space-y-1">
                         {(item.details || []).map((d: string, di: number) => (
                           <p key={di} className="text-zinc-500 text-xs flex items-center gap-1.5">
@@ -164,7 +164,7 @@ export function QuotationDetailPage() {
                       {item.width && item.height ? `${item.width} × ${item.height} mm` : '—'}
                     </div>
                     <div className="self-start pt-0.5 text-sm text-zinc-300">{item.quantity || 1}</div>
-                    <div className="self-start pt-0.5 text-right font-bold text-white text-sm">€{(item.price * (item.quantity || 1)).toFixed(2)}</div>
+                    <div className="self-start pt-0.5 text-right font-bold text-mammut-white text-sm">€{(item.price * (item.quantity || 1)).toFixed(2)}</div>
                   </div>
                 ))}
               </div>
@@ -183,8 +183,8 @@ export function QuotationDetailPage() {
                   </div>
                 ))}
                 <div className="flex justify-between border-t border-zinc-700 pt-2">
-                  <span className="font-black text-[#eab676] text-base">TOTAL</span>
-                  <span className="font-black text-[#eab676] text-base">€{total.toFixed(2)}</span>
+                  <span className="font-black text-mammut-gold text-base">TOTAL</span>
+                  <span className="font-black text-mammut-gold text-base">€{total.toFixed(2)}</span>
                 </div>
               </div>
             </div>
@@ -194,11 +194,11 @@ export function QuotationDetailPage() {
           <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden">
             <div className="px-6 py-4 border-b border-zinc-800 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <MessageSquare size={16} className="text-[#eab676]" />
-                <h2 className="font-bold text-white text-sm uppercase tracking-wider">Internal Notes</h2>
+                <MessageSquare size={16} className="text-mammut-gold" />
+                <h2 className="font-bold text-mammut-white text-sm uppercase tracking-wider">Internal Notes</h2>
               </div>
               <button onClick={() => setEditingNote(!editingNote)}
-                className="text-xs text-zinc-400 hover:text-white transition-colors">
+                className="text-xs text-zinc-400 hover:text-mammut-white transition-colors">
                 {editingNote ? 'Cancel' : 'Edit'}
               </button>
             </div>
@@ -206,9 +206,9 @@ export function QuotationDetailPage() {
               {editingNote ? (
                 <div className="space-y-3">
                   <textarea value={noteText} onChange={(e) => setNoteText(e.target.value)} rows={4}
-                    className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm resize-none focus:outline-none focus:border-[#eab676]/50" />
+                    className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-mammut-white text-sm resize-none focus:outline-none focus:border-mammut-gold/50" />
                   <button onClick={handleSaveNote}
-                    className="flex items-center gap-2 px-4 py-2 bg-[#eab676] text-zinc-900 rounded-lg text-sm font-bold hover:bg-[#ffc882] transition-colors">
+                    className="flex items-center gap-2 px-4 py-2 bg-mammut-gold text-zinc-900 rounded-lg text-sm font-bold hover:bg-[#ffc882] transition-colors">
                     <Save size={14} /> Save Note
                   </button>
                 </div>
@@ -227,8 +227,8 @@ export function QuotationDetailPage() {
           {/* Customer Info Card */}
           <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden">
             <div className="px-5 py-4 border-b border-zinc-800 flex items-center gap-2">
-              <User size={15} className="text-[#eab676]" />
-              <h2 className="font-bold text-white text-sm uppercase tracking-wider">Customer</h2>
+              <User size={15} className="text-mammut-gold" />
+              <h2 className="font-bold text-mammut-white text-sm uppercase tracking-wider">Customer</h2>
             </div>
             <div className="p-5 space-y-3">
               {[

@@ -46,7 +46,7 @@ export function QuotationsPage() {
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Quotations</h1>
+          <h1 className="text-2xl font-bold text-mammut-white tracking-tight">Quotations</h1>
           <p className="text-zinc-400 text-sm mt-1">Manage web-generated window quotation requests</p>
         </div>
         <button
@@ -66,13 +66,13 @@ export function QuotationsPage() {
             onClick={() => setActiveTab(tab.value)}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
               activeTab === tab.value
-                ? 'bg-[#eab676] text-zinc-950 shadow-sm'
-                : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
+                ? 'bg-mammut-gold text-zinc-950 shadow-sm'
+                : 'text-zinc-400 hover:text-mammut-white hover:bg-zinc-800'
             }`}
           >
             {tab.label}
             <span className={`text-xs px-1.5 py-0.5 rounded-full font-bold ${
-              activeTab === tab.value ? 'bg-black/20 text-zinc-900' : 'bg-zinc-800 text-zinc-500'
+              activeTab === tab.value ? 'bg-mammut-black/20 text-zinc-900' : 'bg-zinc-800 text-zinc-500'
             }`}>
               {tabCounts[tab.value] || 0}
             </span>
@@ -88,7 +88,7 @@ export function QuotationsPage() {
           placeholder="Search by quotation #, customer name, email or company..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl pl-10 pr-4 py-3 text-white text-sm placeholder-zinc-600 focus:outline-none focus:border-[#eab676]/50 transition-colors"
+          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl pl-10 pr-4 py-3 text-mammut-white text-sm placeholder-zinc-600 focus:outline-none focus:border-mammut-gold/50 transition-colors"
         />
       </div>
 
@@ -103,7 +103,7 @@ export function QuotationsPage() {
 
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#eab676]" />
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-mammut-gold" />
           </div>
         ) : filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 gap-4">
@@ -121,10 +121,10 @@ export function QuotationsPage() {
                 className="grid grid-cols-[1.5fr_2fr_1fr_1fr_1fr_auto] gap-4 px-6 py-4 w-full text-left hover:bg-zinc-800/40 transition-colors group"
               >
                 <div>
-                  <span className="text-[#eab676] font-bold text-sm">{q.quotation_number}</span>
+                  <span className="text-mammut-gold font-bold text-sm">{q.quotation_number}</span>
                 </div>
                 <div>
-                  <p className="text-white font-medium text-sm">{q.customer_name}</p>
+                  <p className="text-mammut-white font-medium text-sm">{q.customer_name}</p>
                   <p className="text-zinc-500 text-xs mt-0.5">{q.company_name || q.customer_email}</p>
                 </div>
                 <div className="text-zinc-400 text-sm self-center">
@@ -133,12 +133,12 @@ export function QuotationsPage() {
                 <div className="text-zinc-300 text-sm self-center font-medium">
                   {Array.isArray(q.items) ? q.items.length : 0} unit{(Array.isArray(q.items) ? q.items.length : 0) !== 1 ? 's' : ''}
                 </div>
-                <div className="text-white font-bold text-sm self-center">
+                <div className="text-mammut-white font-bold text-sm self-center">
                   €{Number(q.total_price).toFixed(2)}
                 </div>
                 <div className="flex items-center gap-3 self-center">
                   <QuotationStatusBadge status={q.status} />
-                  <ChevronRight size={16} className="text-zinc-600 group-hover:text-[#eab676] transition-colors" />
+                  <ChevronRight size={16} className="text-zinc-600 group-hover:text-mammut-gold transition-colors" />
                 </div>
               </button>
             ))}

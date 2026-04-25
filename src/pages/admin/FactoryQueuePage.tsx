@@ -22,7 +22,7 @@ export function FactoryQueuePage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-3">
+          <h1 className="text-2xl font-bold text-mammut-white tracking-tight flex items-center gap-3">
             <Factory size={24} className="text-emerald-400" />
             Factory Queue
           </h1>
@@ -70,11 +70,11 @@ export function FactoryQueuePage() {
           <div className="divide-y divide-zinc-800/60">
             {queue.map((q) => (
               <div key={q.id} className="grid grid-cols-[1.5fr_2fr_1fr_1fr_1fr_auto] gap-4 px-6 py-4 hover:bg-zinc-800/20 transition-colors items-center">
-                <button onClick={() => navigate(`/admin/quotations/${q.id}`)} className="text-[#eab676] font-bold text-sm hover:underline text-left">
+                <button onClick={() => navigate(`/admin/quotations/${q.id}`)} className="text-mammut-gold font-bold text-sm hover:underline text-left">
                   {q.quotation_number}
                 </button>
                 <div>
-                  <p className="text-white font-medium text-sm">{q.customer_name}</p>
+                  <p className="text-mammut-white font-medium text-sm">{q.customer_name}</p>
                   <p className="text-zinc-500 text-xs mt-0.5">{q.company_name || q.customer_email}</p>
                 </div>
                 <div className="text-zinc-400 text-sm">
@@ -83,19 +83,19 @@ export function FactoryQueuePage() {
                 <div className="text-zinc-300 text-sm font-medium">
                   {Array.isArray(q.items) ? q.items.length : 0} unit{(Array.isArray(q.items) ? q.items.length : 0) !== 1 ? 's' : ''}
                 </div>
-                <div className="font-bold text-white text-sm">€{Number(q.total_price).toFixed(2)}</div>
+                <div className="font-bold text-mammut-white text-sm">€{Number(q.total_price).toFixed(2)}</div>
                 <div className="flex items-center gap-2">
                   <QuotationStatusBadge status={q.status} />
                   <button
                     onClick={() => handleMarkExported(q.id)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-800 hover:bg-emerald-600 text-zinc-400 hover:text-white border border-zinc-700 hover:border-emerald-500 rounded-lg text-xs font-bold transition-all"
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-800 hover:bg-emerald-600 text-zinc-400 hover:text-mammut-white border border-zinc-700 hover:border-emerald-500 rounded-lg text-xs font-bold transition-all"
                     title="Mark as exported to Cantor"
                   >
                     <CheckSquare size={13} /> Exported
                   </button>
                   <button
                     onClick={() => navigate(`/admin/quotations/${q.id}`)}
-                    className="p-1.5 text-zinc-600 hover:text-[#eab676] transition-colors"
+                    className="p-1.5 text-zinc-600 hover:text-mammut-gold transition-colors"
                   >
                     <ArrowRight size={16} />
                   </button>

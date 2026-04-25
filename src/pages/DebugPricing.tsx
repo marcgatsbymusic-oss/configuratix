@@ -5,6 +5,7 @@ import { CONFIG_SCHEMA, WINDOW_TYPES, COLOR_LOCALE, PROFILE_GLAZING_LIMITS } fro
 import { WindowVisualizer } from '../components/SlateConfigurator/WindowVisualizer';
 import glazingOptions from '../data/cantor_glazing_options.json';
 import shutterLookups from '../data/shutter_lookups.json';
+import { ThemeToggle } from '../components/common/ThemeToggle';
 
 const getPaneImage = (paneCode: string) => {
   if (!paneCode) return null;
@@ -495,7 +496,7 @@ export function DebugPricing() {
   const GenericSelect = ({ label, value, onChange, options }: { label: string, value: string, onChange: (v: string) => void, options?: {value: string, label: string}[] }) => (
     <div>
       <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">{label}</label>
-      <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm focus:border-[#eab676] focus:outline-none"
+      <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none"
         value={value} onChange={e => onChange(e.target.value)}>
         <option value="">Lack (-)</option>
         {options ? options.map(o => <option key={o.value} value={o.value}>{o.label}</option>) : (
@@ -519,7 +520,7 @@ export function DebugPricing() {
         <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">{label}</label>
         <div 
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm cursor-pointer flex items-center justify-between hover:border-[#eab676] transition-colors h-[38px]"
+          className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm cursor-pointer flex items-center justify-between hover:border-mammut-gold transition-colors h-[38px]"
         >
           <div className="flex items-center gap-3">
              {activeOpt && activeOpt.swatchUrl ? (
@@ -535,24 +536,24 @@ export function DebugPricing() {
         {isOpen && (
           <>
             <div className="fixed inset-0 z-30" onClick={() => setIsOpen(false)}></div>
-            <div className="absolute top-full left-0 mt-1 w-full bg-[#151515] border border-gray-700 rounded-lg shadow-2xl z-40 max-h-[300px] overflow-y-auto">
+            <div className="absolute top-full left-0 mt-1 w-full bg-mammut-dark border border-gray-700 rounded-lg shadow-2xl z-40 max-h-[300px] overflow-y-auto">
               <div 
                 onClick={() => { onChange(''); setIsOpen(false); }} 
-                className="p-2 hover:bg-[#eab676]/20 cursor-pointer flex items-center gap-3 border-b border-gray-800 text-sm"
+                className="p-2 hover:bg-mammut-gold/20 cursor-pointer flex items-center gap-3 border-b border-gray-800 text-sm"
               >
                  <div className="w-5 h-5 rounded-sm border border-gray-600 shadow-inner bg-gray-800"></div>
                  <span>-- Default --</span>
               </div>
               {Object.entries(groupedOptions).map(([group, opts]: any) => (
                 <div key={group}>
-                  <div className="p-1 px-2 bg-[#0a0a0a] text-[10px] text-[#eab676] font-bold uppercase tracking-wide border-y border-gray-800 sticky top-0 z-10 shadow-sm">
+                  <div className="p-1 px-2 bg-mammut-black text-[10px] text-mammut-gold font-bold uppercase tracking-wide border-y border-gray-800 sticky top-0 z-10 shadow-sm">
                     {group}
                   </div>
                   {opts.map((opt: any) => (
                     <div 
                       key={opt.code} 
                       onClick={() => { onChange(opt.code); setIsOpen(false); }} 
-                      className="p-2 hover:bg-[#eab676]/20 cursor-pointer flex items-center gap-3 border-b border-gray-800 transition-colors text-sm"
+                      className="p-2 hover:bg-mammut-gold/20 cursor-pointer flex items-center gap-3 border-b border-gray-800 transition-colors text-sm"
                     >
                        {opt.swatchUrl ? (
                          <div className="w-5 h-5 rounded-sm border border-gray-600 shadow-inner shrink-0" style={{ backgroundImage: `url(${opt.swatchUrl})`, backgroundSize: 'cover' }}></div>
@@ -574,16 +575,19 @@ export function DebugPricing() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white p-6 pt-32">
+    <div className="min-h-screen bg-mammut-black text-mammut-white p-6 pt-32 relative">
+      <div className="absolute top-6 right-6">
+        <ThemeToggle />
+      </div>
       <div className="max-w-7xl mx-auto grid md:grid-cols-[1fr_400px] gap-8">
         
         {/* LEFT COLUMN: Configurator Options */}
-        <div className="bg-[#111] p-6 rounded-xl border border-gray-800 shadow-2xl flex flex-col gap-6 overflow-y-auto max-h-[85vh]">
+        <div className="bg-mammut-darker p-6 rounded-xl border border-gray-800 shadow-2xl flex flex-col gap-6 overflow-y-auto max-h-[85vh]">
           
-          <h2 className="text-[#eab676] font-bold text-xl uppercase border-b border-gray-800 pb-2">Configurator Options</h2>
+          <h2 className="text-mammut-gold font-bold text-xl uppercase border-b border-gray-800 pb-2">Configurator Options</h2>
 
           <div className="flex justify-center items-center gap-8 mb-6 relative">
-            <div className="absolute top-0 left-0 text-[#eab676] font-bold text-sm tracking-widest uppercase">1) Image of profile (eg Iglo 5 etc.)</div>
+            <div className="absolute top-0 left-0 text-mammut-gold font-bold text-sm tracking-widest uppercase">1) Image of profile (eg Iglo 5 etc.)</div>
             {/* Image of the chosen profile system above Option 1 */}
             <div className="h-32 flex-1 flex justify-end mt-6">
               <img 
@@ -593,7 +597,7 @@ export function DebugPricing() {
                 onError={(e) => { 
                   e.currentTarget.style.display = 'none'; 
                   if (!e.currentTarget.parentElement?.querySelector('.fallback')) {
-                    e.currentTarget.parentElement!.innerHTML += `<div class="fallback h-32 w-48 flex items-center justify-center border border-gray-800 rounded bg-black text-gray-500 font-bold">${profilsatz}</div>`;
+                    e.currentTarget.parentElement!.innerHTML += `<div class="fallback h-32 w-48 flex items-center justify-center border border-gray-800 rounded bg-mammut-black text-gray-500 font-bold">${profilsatz}</div>`;
                   }
                 }}
               />
@@ -613,12 +617,12 @@ export function DebugPricing() {
               <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">1) Product Number (Window opening/type)</label>
               <div 
                 onClick={() => setIsTypologyOpen(!isTypologyOpen)}
-                className="w-full bg-black border border-gray-700 rounded-lg p-3 text-white cursor-pointer flex items-center justify-between hover:border-[#eab676] transition-colors h-[68px]"
+                className="w-full bg-mammut-black border border-gray-700 rounded-lg p-3 text-mammut-white cursor-pointer flex items-center justify-between hover:border-mammut-gold transition-colors h-[68px]"
               >
                 <div className="flex items-center gap-3 group">
                    <img 
                      src={`/assets/windowtypes/${typology}.jpg`} 
-                     className="w-10 h-10 object-contain rounded bg-black border border-gray-700 shrink-0 p-1 transition-transform duration-300 ease-in-out group-hover:scale-[2.5] group-hover:z-50 origin-left relative"
+                     className="w-10 h-10 object-contain rounded bg-mammut-black border border-gray-700 shrink-0 p-1 transition-transform duration-300 ease-in-out group-hover:scale-[2.5] group-hover:z-50 origin-left relative"
                      onError={(e) => { 
                        const t = e.currentTarget;
                        if (!t.dataset.retriedPng) { t.dataset.retriedPng = 'true'; t.src = `/assets/windowtypes/${typology}.png`; }
@@ -638,15 +642,15 @@ export function DebugPricing() {
               {isTypologyOpen && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setIsTypologyOpen(false)}></div>
-                  <div className="absolute top-1/2 left-1/4 w-[400px] mt-1 bg-[#151515] border border-gray-700 rounded-lg shadow-2xl z-50 pb-1 max-h-[500px] overflow-y-auto">
+                  <div className="absolute top-1/2 left-1/4 w-[400px] mt-1 bg-mammut-dark border border-gray-700 rounded-lg shadow-2xl z-50 pb-1 max-h-[500px] overflow-y-auto">
                     {TYPOLOGY_GROUPS.map((group, gIdx) => (
                       <div key={gIdx}>
-                        <div className="p-2 border-b border-gray-800 bg-[#0a0a0a] sticky top-0 z-10 text-xs text-[#eab676] font-bold uppercase tracking-widest shadow-sm">
+                        <div className="p-2 border-b border-gray-800 bg-mammut-black sticky top-0 z-10 text-xs text-mammut-gold font-bold uppercase tracking-widest shadow-sm">
                           {group.category}
                         </div>
                         {group.subgroups.map((subg, sIdx) => (
                           <div key={sIdx}>
-                            <div className="p-1 px-3 bg-[#111] text-[10px] text-gray-500 font-bold uppercase tracking-wide border-b border-gray-800">
+                            <div className="p-1 px-3 bg-mammut-darker text-[10px] text-gray-500 font-bold uppercase tracking-wide border-b border-gray-800">
                               {subg.name}
                             </div>
                             {subg.ids.map(id => {
@@ -655,11 +659,11 @@ export function DebugPricing() {
                                   <div 
                                     key={id} 
                                     onClick={() => { setTypology(id); setIsTypologyOpen(false); }} 
-                                    className="p-3 hover:bg-[#eab676]/20 cursor-pointer flex items-center gap-4 border-b border-gray-800 transition-colors group"
+                                    className="p-3 hover:bg-mammut-gold/20 cursor-pointer flex items-center gap-4 border-b border-gray-800 transition-colors group"
                                   >
                                      <img 
                                        src={`/assets/windowtypes/${id}.jpg`} 
-                                       className="w-16 h-16 object-contain rounded bg-black border border-gray-700 p-1 shrink-0 transition-transform duration-300 ease-in-out group-hover:scale-[2.5] group-hover:z-50 origin-left relative"
+                                       className="w-16 h-16 object-contain rounded bg-mammut-black border border-gray-700 p-1 shrink-0 transition-transform duration-300 ease-in-out group-hover:scale-[2.5] group-hover:z-50 origin-left relative"
                                        onError={(e) => { 
                                          const t = e.currentTarget;
                                          if (!t.dataset.retriedPng) { t.dataset.retriedPng = 'true'; t.src = `/assets/windowtypes/${id}.png`; }
@@ -670,7 +674,7 @@ export function DebugPricing() {
                                      />
                                      <div className="w-16 h-16 rounded border border-gray-600 shadow-inner shrink-0 hidden items-center justify-center bg-gray-800 font-bold">{id}</div>
                                      <div className="flex flex-col">
-                                       <span className="font-bold text-white mb-1">{id}</span>
+                                       <span className="font-bold text-mammut-white mb-1">{id}</span>
                                        <span className="text-xs text-gray-400 leading-tight">{wt.name || 'Window'}</span>
                                        <span className="text-[10px] text-gray-500 uppercase mt-1">{wt.sashes} sash{wt.sashes !== 1 ? 'es' : ''}</span>
                                      </div>
@@ -689,7 +693,7 @@ export function DebugPricing() {
             {/* 2) Profile System */}
             <div>
               <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">2) Profile System / Category</label>
-              <select className="w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:border-[#eab676] focus:outline-none h-[68px]"
+              <select className="w-full bg-mammut-black border border-gray-700 rounded-lg p-3 text-mammut-white focus:border-mammut-gold focus:outline-none h-[68px]"
                 value={profilsatz} onChange={e => setProfilsatz(e.target.value)}>
                 {PRODUCT_CATEGORIES.map((category) => (
                   category.subgroups.map((subgroup, subIdx) => (
@@ -708,12 +712,12 @@ export function DebugPricing() {
           <div className="grid grid-cols-2 gap-6">
             <div>
               <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">3) Width (mm)</label>
-              <input type="number" className="w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:border-[#eab676] focus:outline-none"
+              <input type="number" className="w-full bg-mammut-black border border-gray-700 rounded-lg p-3 text-mammut-white focus:border-mammut-gold focus:outline-none"
                 value={width} onChange={e => setWidth(Number(e.target.value))} />
             </div>
             <div>
               <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">Height (mm)</label>
-              <input type="number" className="w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:border-[#eab676] focus:outline-none"
+              <input type="number" className="w-full bg-mammut-black border border-gray-700 rounded-lg p-3 text-mammut-white focus:border-mammut-gold focus:outline-none"
                 value={height} onChange={e => setHeight(Number(e.target.value))} />
             </div>
           </div>
@@ -733,13 +737,13 @@ export function DebugPricing() {
             const isFixed = !!schemaPkg?.fixedPanes;
             return (
               <div key={infillIdx}>
-                <h3 className="text-[#eab676] font-bold mt-6 mb-4 uppercase tracking-wider text-sm">
+                <h3 className="text-mammut-gold font-bold mt-6 mb-4 uppercase tracking-wider text-sm">
                   4) Glazing Options / Infill {typology.match(/^F2[0-5][0-9]$/) ? infillIdx + 1 : ''}
                 </h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Package Code</label>
-                    <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                    <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
                       value={inf.code} onChange={e => {
                         const newCode = e.target.value;
                         const newInf = [...infills];
@@ -803,12 +807,12 @@ export function DebugPricing() {
                     <div className="flex gap-4">
                       <div className="flex-1">
                         <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">Width (mm)</label>
-                        <input type="number" className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                        <input type="number" className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
                           value={inf.width} onChange={e => updateInf('width', e.target.value)} placeholder="Auto" />
                       </div>
                       <div className="flex-1">
                         <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">Height (mm)</label>
-                        <input type="number" className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                        <input type="number" className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
                           value={inf.height} onChange={e => updateInf('height', e.target.value)} placeholder="Auto" />
                       </div>
                     </div>
@@ -817,7 +821,7 @@ export function DebugPricing() {
                     <div className="flex flex-col sm:flex-row gap-4">
                       <div className="flex-1">
                         <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Glass Outside</label>
-                        <select disabled={isFixed} className={`w-full bg-black border border-gray-800 rounded p-2 text-white text-sm ${isFixed ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        <select disabled={isFixed} className={`w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm ${isFixed ? 'opacity-50 cursor-not-allowed' : ''}`}
                           value={inf.pane1} onChange={e => updateInf('pane1', e.target.value)}>
                           <option value="">-- None --</option>
                           {glazingOptions.outside.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
@@ -834,7 +838,7 @@ export function DebugPricing() {
                       <div className="flex flex-col sm:flex-row gap-4">
                         <div className="flex-1">
                           <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">c) Glass Middle</label>
-                          <select disabled={isFixed} className={`w-full bg-black border border-gray-800 rounded p-2 text-white text-sm ${isFixed ? 'opacity-50 cursor-not-allowed' : ''}`}
+                          <select disabled={isFixed} className={`w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm ${isFixed ? 'opacity-50 cursor-not-allowed' : ''}`}
                             value={inf.pane2} onChange={e => updateInf('pane2', e.target.value)}>
                             <option value="">-- None --</option>
                             {glazingOptions.middle.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
@@ -851,7 +855,7 @@ export function DebugPricing() {
                     <div className="flex flex-col sm:flex-row gap-4">
                       <div className="flex-1">
                         <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">d) Glass Inside</label>
-                        <select disabled={isFixed} className={`w-full bg-black border border-gray-800 rounded p-2 text-white text-sm ${isFixed ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        <select disabled={isFixed} className={`w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm ${isFixed ? 'opacity-50 cursor-not-allowed' : ''}`}
                           value={inf.pane3} onChange={e => updateInf('pane3', e.target.value)}>
                           <option value="">-- None --</option>
                           {glazingOptions.inside.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
@@ -869,7 +873,7 @@ export function DebugPricing() {
                   <div className="flex flex-col sm:flex-row gap-4">
                     <div className="flex-1">
                       <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">e) Frame Style (Spacer / Frame Style)</label>
-                      <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                      <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
                         value={inf.frameStyle} onChange={e => updateInf('frameStyle', e.target.value)}>
                         <option value="">-- None --</option>
                         {FRAME_STYLES.map(fs => <option key={fs.code} value={fs.code}>{fs.code} - {fs.name}</option>)}
@@ -895,11 +899,11 @@ export function DebugPricing() {
 
           {/* 5) Joinery colors */}
           <div>
-            <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">5) ---Joinery colors---</h3>
+            <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">5) ---Joinery colors---</h3>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Color (options W-W etc.)</label>
-                <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
                   value={colorType} onChange={e => setColorType(e.target.value)}>
                   <option value="W-W">W-W (White / White)</option>
                   <option value="DEK-DEK">DEK-DEK (Decor / Decor)</option>
@@ -915,7 +919,7 @@ export function DebugPricing() {
               )}
               <div className="flex flex-col justify-end">
                 <label className="flex items-center gap-2 text-sm text-gray-300 pb-2">
-                  <input type="checkbox" checked={overwriteCoreColor} onChange={e => setOverwriteCoreColor(e.target.checked)} className="rounded border-gray-700 bg-black text-[#eab676] focus:ring-[#eab676]" />
+                  <input type="checkbox" checked={overwriteCoreColor} onChange={e => setOverwriteCoreColor(e.target.checked)} className="rounded border-gray-700 bg-mammut-black text-mammut-gold focus:ring-[#eab676]" />
                   d) Overwrite the default core colour
                 </label>
               </div>
@@ -927,13 +931,13 @@ export function DebugPricing() {
 
           {/* 6) Window options */}
           <div>
-            <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">6) ---Window options---</h3>
+            <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">6) ---Window options---</h3>
             <div className="grid grid-cols-2 gap-4">
               {/* a) Window options - unit (removed) */}
               
               <div>
                 <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Fitting safety class (options)</label>
-                <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
                   value={safetyClass} onChange={e => setSafetyClass(e.target.value)}>
                    <option value="">STD (Standard)</option>
                    <option value="RC1">RC1</option>
@@ -947,7 +951,7 @@ export function DebugPricing() {
                 <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">c) Model (options)</label>
                 <div 
                   onClick={() => setIsModelOpen(!isModelOpen)}
-                  className="w-full bg-black border border-gray-700 rounded-lg p-3 text-white cursor-pointer flex items-center justify-between hover:border-[#eab676] transition-colors h-[68px]"
+                  className="w-full bg-mammut-black border border-gray-700 rounded-lg p-3 text-mammut-white cursor-pointer flex items-center justify-between hover:border-mammut-gold transition-colors h-[68px]"
                 >
                   <div className="flex items-center gap-3">
                      {model ? (
@@ -964,7 +968,7 @@ export function DebugPricing() {
                          />
                          <div className="w-10 h-10 rounded border border-gray-600 shadow-inner shrink-0 hidden flex items-center justify-center bg-gray-800 text-[10px] font-bold">{model}</div>
                          <div className="flex flex-col">
-                           <span className="font-bold text-sm leading-tight text-white">{model}</span>
+                           <span className="font-bold text-sm leading-tight text-mammut-white">{model}</span>
                            <span className="text-[10px] text-gray-400 truncate max-w-[120px]">
                               {WINDOW_MODELS.flatMap(g => g.options).find(o => o.code === model)?.name || 'Custom Model'}
                            </span>
@@ -980,10 +984,10 @@ export function DebugPricing() {
                 {isModelOpen && (
                   <>
                     <div className="fixed inset-0 z-40" onClick={() => setIsModelOpen(false)}></div>
-                    <div className="absolute top-full left-0 w-full md:w-[400px] mt-1 bg-[#151515] border border-gray-700 rounded-lg shadow-2xl z-50 pb-1 max-h-[400px] overflow-y-auto">
+                    <div className="absolute top-full left-0 w-full md:w-[400px] mt-1 bg-mammut-dark border border-gray-700 rounded-lg shadow-2xl z-50 pb-1 max-h-[400px] overflow-y-auto">
                       <div 
                         onClick={() => { setModel(''); setIsModelOpen(false); }} 
-                        className="p-3 hover:bg-[#eab676]/20 cursor-pointer border-b border-gray-800 transition-colors flex items-center gap-3"
+                        className="p-3 hover:bg-mammut-gold/20 cursor-pointer border-b border-gray-800 transition-colors flex items-center gap-3"
                       >
                          <div className="w-12 h-12 rounded border border-gray-600 bg-gray-800 flex items-center justify-center text-xs font-bold shrink-0 text-gray-500">STD</div>
                          <span className="font-bold text-sm text-gray-300">Standard (Rectangle)</span>
@@ -991,14 +995,14 @@ export function DebugPricing() {
 
                       {WINDOW_MODELS.map((group, gIdx) => (
                         <div key={gIdx}>
-                          <div className="p-2 border-b border-gray-800 bg-[#0a0a0a] sticky top-0 z-10 text-xs text-[#eab676] font-bold uppercase tracking-widest shadow-sm">
+                          <div className="p-2 border-b border-gray-800 bg-mammut-black sticky top-0 z-10 text-xs text-mammut-gold font-bold uppercase tracking-widest shadow-sm">
                             {group.group}
                           </div>
                           {group.options.map(opt => (
                             <div 
                               key={opt.code} 
                               onClick={() => { setModel(opt.code); setIsModelOpen(false); }} 
-                              className="p-3 hover:bg-[#eab676]/20 cursor-pointer flex items-center gap-4 border-b border-gray-800 transition-colors"
+                              className="p-3 hover:bg-mammut-gold/20 cursor-pointer flex items-center gap-4 border-b border-gray-800 transition-colors"
                             >
                                <img 
                                  src={`/assets/models/${opt.code}.png`} 
@@ -1012,7 +1016,7 @@ export function DebugPricing() {
                                />
                                <div className="w-12 h-12 rounded border border-gray-600 shadow-inner shrink-0 hidden items-center justify-center bg-gray-800 font-bold text-xs">{opt.code}</div>
                                <div className="flex flex-col">
-                                 <span className="font-bold text-white mb-0.5 text-sm">{opt.code}</span>
+                                 <span className="font-bold text-mammut-white mb-0.5 text-sm">{opt.code}</span>
                                  <span className="text-[11px] text-gray-400 leading-tight">{opt.name}</span>
                                </div>
                             </div>
@@ -1028,7 +1032,7 @@ export function DebugPricing() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1">
                   <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">e) Handle type (options)</label>
-                  <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                  <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
                     value={handleType} onChange={e => setHandleType(e.target.value)}>
                      {HANDLE_OPTIONS.map(h => <option key={h.code} value={h.code}>{h.code}, {h.name}</option>)}
                   </select>
@@ -1103,7 +1107,7 @@ export function DebugPricing() {
               
               <div>
                 <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">f) Interior handle color (options)</label>
-                <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
                   value={handleColor} onChange={e => setHandleColor(e.target.value)}>
                    <option value="">-- Default --</option>
                    {(HANDLE_COLOR_MAP[handleType] || []).map(c => <option key={c} value={c}>{HANDLE_COLOR_OPTIONS[c] || c}</option>)}
@@ -1112,7 +1116,7 @@ export function DebugPricing() {
               
               <div>
                 <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">g) Fitting covers color (options)</label>
-                <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
                   value={coverColor} onChange={e => setCoverColor(e.target.value)}>
                    <option value="">-- Default --</option>
                    {Object.entries(COVER_COLOR_OPTIONS).map(([code, name]) => <option key={code} value={code}>{name}</option>)}
@@ -1125,11 +1129,11 @@ export function DebugPricing() {
 
           {/* 7) Profile options */}
           <div>
-            <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">7) ---Profile options---</h3>
+            <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">7) ---Profile options---</h3>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Frame profile</label>
-                <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
                   value={frameProfile} onChange={e => setFrameProfile(e.target.value)}>
                    <option value="50001">50001 (Standard Frame)</option>
                    <option value="50002">50002 (Renovation Frame)</option>
@@ -1138,7 +1142,7 @@ export function DebugPricing() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1">
                   <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Weld type</label>
-                  <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                  <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
                     value={weld} onChange={e => setWeld(e.target.value)}>
                      <option value="standard">Standard Weld</option>
                      <option value="v-perfect">V-Perfect (Invisible)</option>
@@ -1157,7 +1161,7 @@ export function DebugPricing() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1">
                   <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">c) Glazing bead style</label>
-                  <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                  <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
                     value={glazingBeadStyle} onChange={e => setGlazingBeadStyle(e.target.value)}>
                      <option value="Z">Rounded (Z)</option>
                      <option value="P">Rectangular (P)</option>
@@ -1175,7 +1179,7 @@ export function DebugPricing() {
               </div>
               <div>
                 <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">d) Frame reinforcement</label>
-                <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
                   value={frameReinforcement} onChange={e => setFrameReinforcement(e.target.value)}>
                    <option value="standard">Standard / U-shape</option>
                    <option value="full">Full Closed Steel</option>
@@ -1188,11 +1192,11 @@ export function DebugPricing() {
 
           {/* 8) Seals */}
           <div>
-            <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">8) ---Seals---</h3>
+            <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">8) ---Seals---</h3>
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="flex-1">
                 <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Gaskets color</label>
-                <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
                   value={sealColor} onChange={e => setSealColor(e.target.value)}>
                    <option value="">Default / Standard</option>
                    <option value="czarny">Black (czarny)</option>
@@ -1226,11 +1230,11 @@ export function DebugPricing() {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <input type="checkbox" id="includeShutter" className="w-5 h-5 accent-[#eab676]" checked={includeShutter} onChange={e => setIncludeShutter(e.target.checked)} />
-              <label htmlFor="includeShutter" className="text-[#eab676] font-bold uppercase tracking-wider text-sm cursor-pointer select-none">9) ---Shutter options--- (Include Shutter)</label>
+              <label htmlFor="includeShutter" className="text-mammut-gold font-bold uppercase tracking-wider text-sm cursor-pointer select-none">9) ---Shutter options--- (Include Shutter)</label>
             </div>
             
             {includeShutter && (
-              <div className="space-y-6 border-l-2 border-[#eab676]/30 pl-4 ml-2">
+              <div className="space-y-6 border-l-2 border-mammut-gold/30 pl-4 ml-2">
                 <div className="grid grid-cols-2 gap-4">
               <GenericSelect label="a) Roller blind Type (options)" value={rollerBlindType} onChange={setRollerBlindType} options={shutterLookups.rollerBlindTypes} />
               <GenericSelect label="b) Window screen (options)" value={windowScreen} onChange={setWindowScreen} options={shutterLookups.windowScreens} />
@@ -1244,7 +1248,7 @@ export function DebugPricing() {
 
             {/* 10) Pancerz */}
             <div>
-              <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">10) ---Pancerz---</h3>
+              <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">10) ---Pancerz---</h3>
               <div className="grid grid-cols-2 gap-4">
                 <GenericSelect label="a) Curtain type (options)" value={curtainType} onChange={setCurtainType} options={shutterLookups.curtainTypes} />
                 <GenericSelect label="b) Fins perforation (options)" value={finsPerforation} onChange={setFinsPerforation} options={shutterLookups.finsPerforations} />
@@ -1258,11 +1262,11 @@ export function DebugPricing() {
 
             {/* 11) Service - Field I */}
             <div>
-              <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">11) ---Service - Field I---</h3>
+              <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">11) ---Service - Field I---</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Drive Type (options)</label>
-                  <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm" value={driveType} onChange={e => setDriveType(e.target.value)}>
+                  <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm" value={driveType} onChange={e => setDriveType(e.target.value)}>
                      {shutterLookups.driveTypes.map(o => (
                        <option key={o.value} value={o.value}>{o.label}</option>
                      ))}
@@ -1276,12 +1280,12 @@ export function DebugPricing() {
 
             {/* 12) Service */}
             <div>
-              <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">12) ---Service---</h3>
+              <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">12) ---Service---</h3>
               <div className="grid grid-cols-2 gap-4">
                 <GenericSelect label="a) Door checks Type I (options)" value={doorChecksTypeI} onChange={setDoorChecksTypeI} options={shutterLookups.doorChecks} />
                 <div>
                   <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Impose 60mm arbour</label>
-                  <label className="flex items-center gap-2 text-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800">
+                  <label className="flex items-center gap-2 text-mammut-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800">
                     <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={imposeArbour} onChange={e => setImposeArbour(e.target.checked)} />
                     Enable 60mm Arbour
                   </label>
@@ -1293,7 +1297,7 @@ export function DebugPricing() {
 
             {/* 13) Box */}
             <div>
-              <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">13) ---Box---</h3>
+              <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">13) ---Box---</h3>
               <div className="grid grid-cols-2 gap-4">
                 <GenericSelect label="a) Box Type (options)" value={boxType} onChange={setBoxType} options={shutterLookups.boxTypes} />
                 <ColorSelect label="b) Outer box colour (options)" value={outerBoxColor} onChange={setOuterBoxColor} groupedOptions={groupedColors} />
@@ -1302,7 +1306,7 @@ export function DebugPricing() {
                 
                 <div>
                   <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">e) Flush-mounted slat (in)</label>
-                  <label className="flex items-center gap-2 text-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800">
+                  <label className="flex items-center gap-2 text-mammut-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800">
                     <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={flushMountedSlatIn} onChange={e => setFlushMountedSlatIn(e.target.checked)} />
                     Enable Flush-mounted Slat (In)
                   </label>
@@ -1314,7 +1318,7 @@ export function DebugPricing() {
                 
                 <div>
                   <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">f) Flush-mounted slat (out)</label>
-                  <label className="flex items-center gap-2 text-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800">
+                  <label className="flex items-center gap-2 text-mammut-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800">
                     <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={flushMountedSlatOut} onChange={e => setFlushMountedSlatOut(e.target.checked)} />
                     Enable Flush-mounted Slat (Out)
                   </label>
@@ -1333,7 +1337,7 @@ export function DebugPricing() {
 
             {/* 14) Guide rails */}
             <div>
-              <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">14) ---Guide rails---</h3>
+              <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">14) ---Guide rails---</h3>
               <div className="grid grid-cols-2 gap-4">
                 <ColorSelect label="a) Guide rails colour (options)" value={guideRailsColor} onChange={setGuideRailsColor} groupedOptions={groupedColors} />
                 <GenericSelect label="b) Guide rails cutting (options)" value={guideRailsCutting} onChange={setGuideRailsCutting} options={shutterLookups.guideRailsCuttings} />
@@ -1341,7 +1345,7 @@ export function DebugPricing() {
                 <GenericSelect label="d) Extreme right guide rail" value={extremeRightGuideRail} onChange={setExtremeRightGuideRail} options={[{value: 'STD', label: 'Standard'}]} />
                 <div>
                   <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">e) Guide rails Types</label>
-                  <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm" value={guideRailsTypes} onChange={e => setGuideRailsTypes(e.target.value)}>
+                  <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm" value={guideRailsTypes} onChange={e => setGuideRailsTypes(e.target.value)}>
                      {shutterLookups.guideRailsTypes.map(o => (
                        <option key={o.value} value={o.value}>{o.label}</option>
                      ))}
@@ -1354,18 +1358,18 @@ export function DebugPricing() {
 
             {/* 15) Other */}
             <div>
-              <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">15) ---Other---</h3>
+              <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">15) ---Other---</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Guide rail gasketing</label>
-                  <label className="flex items-center gap-2 text-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800">
+                  <label className="flex items-center gap-2 text-mammut-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800">
                     <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={guideRailGasketing} onChange={e => setGuideRailGasketing(e.target.checked)} />
                     Enable Guide Rail Gasketing
                   </label>
                 </div>
                 <div>
                   <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Soundproof mat + gasket</label>
-                  <label className="flex items-center gap-2 text-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800">
+                  <label className="flex items-center gap-2 text-mammut-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800">
                     <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={soundproofMat} onChange={e => setSoundproofMat(e.target.checked)} />
                     Enable Soundproof Mat + Gasket
                   </label>
@@ -1381,11 +1385,11 @@ export function DebugPricing() {
 
           {/* 16) Dowel holes */}
           <div>
-            <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">16) ---Dowel holes---</h3>
+            <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">16) ---Dowel holes---</h3>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Dowel holes</label>
-                <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
                   value={dowelHoles} onChange={e => setDowelHoles(e.target.value)}>
                    <option value="">Lack (-)</option>
                    <option value="O_06">6mm assembly holes (O_06)</option>
@@ -1398,19 +1402,19 @@ export function DebugPricing() {
             
             {dowelHoles && dowelHoles !== '' && (
               <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2">
-                <label className="flex items-center gap-2 text-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800 hover:border-gray-600 transition-colors">
+                <label className="flex items-center gap-2 text-mammut-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800 hover:border-gray-600 transition-colors">
                   <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={dowelLeft} onChange={e => setDowelLeft(e.target.checked)} />
                   Left
                 </label>
-                <label className="flex items-center gap-2 text-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800 hover:border-gray-600 transition-colors">
+                <label className="flex items-center gap-2 text-mammut-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800 hover:border-gray-600 transition-colors">
                   <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={dowelRight} onChange={e => setDowelRight(e.target.checked)} />
                   Right
                 </label>
-                <label className="flex items-center gap-2 text-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800 hover:border-gray-600 transition-colors">
+                <label className="flex items-center gap-2 text-mammut-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800 hover:border-gray-600 transition-colors">
                   <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={dowelTop} onChange={e => setDowelTop(e.target.checked)} />
                   Top
                 </label>
-                <label className="flex items-center gap-2 text-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800 hover:border-gray-600 transition-colors">
+                <label className="flex items-center gap-2 text-mammut-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800 hover:border-gray-600 transition-colors">
                   <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={dowelBottom} onChange={e => setDowelBottom(e.target.checked)} />
                   Bottom
                 </label>
@@ -1422,11 +1426,11 @@ export function DebugPricing() {
 
           {/* 17) Grilles / Muntins */}
           <div>
-            <h3 className="text-[#eab676] font-bold mb-4 uppercase tracking-wider text-sm">17) ---Grilles & Muntins---</h3>
+            <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">17) ---Grilles & Muntins---</h3>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Grille Type</label>
-                <select className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm"
+                <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
                   value={grilleType} onChange={e => setGrilleType(e.target.value)}>
                    <option value="">None</option>
                    <optgroup label="Internal Grilles (Międzyszybowe)">
@@ -1443,7 +1447,7 @@ export function DebugPricing() {
               </div>
               <div>
                 <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Number of Fields</label>
-                <input type="number" className="w-full bg-black border border-gray-800 rounded p-2 text-white text-sm disabled:opacity-50"
+                <input type="number" className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm disabled:opacity-50"
                   value={grilleFields} onChange={e => setGrilleFields(Number(e.target.value))} disabled={!grilleType} min={1} max={30} />
               </div>
             </div>
@@ -1455,9 +1459,9 @@ export function DebugPricing() {
         {/* RIGHT COLUMN: Current pricing information */}
         <div className="flex flex-col gap-6 max-h-[85vh]">
           {/* Pricing Summary Card */}
-          <div className="bg-gradient-to-br from-gray-900 to-black rounded-xl border border-[#eab676]/30 shadow-lg p-6 font-mono shrink-0">
+          <div className="bg-gradient-to-br from-gray-900 to-black rounded-xl border border-mammut-gold/30 shadow-lg p-6 font-mono shrink-0">
             <div className="border-b border-gray-800 pb-3 mb-3">
-              <h1 className="text-xl font-bold text-[#eab676] uppercase tracking-tighter">Cantor Pricing Engine</h1>
+              <h1 className="text-xl font-bold text-mammut-gold uppercase tracking-tighter">Cantor Pricing Engine</h1>
               <p className="text-[10px] text-gray-500 mt-1">Live calculation via SCHEMA 41 PREISE rules</p>
             </div>
 
@@ -1474,7 +1478,7 @@ export function DebugPricing() {
                   <span className="text-lg text-gray-300">{result.vk_pln.toFixed(2)} PLN</span>
                 </div>
                 <div className="flex justify-between items-center pt-3">
-                  <span className="text-white font-bold tracking-widest uppercase">Dealer price ({result.currency}):</span>
+                  <span className="text-mammut-white font-bold tracking-widest uppercase">Dealer price ({result.currency}):</span>
                   <span className="text-3xl text-emerald-400 font-black">{result.vk_local.toFixed(2)}</span>
                 </div>
               </>

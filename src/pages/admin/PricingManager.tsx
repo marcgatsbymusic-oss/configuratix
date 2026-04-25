@@ -70,7 +70,7 @@ export function PricingManager() {
   }
 
   return (
-    <div className="space-y-8 animate-fade-in text-white pt-4 px-4 font-sans h-full flex flex-col">
+    <div className="space-y-8 animate-fade-in text-mammut-white pt-4 px-4 font-sans h-full flex flex-col">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-light tracking-tight">Pricing Matrices</h2>
@@ -80,7 +80,7 @@ export function PricingManager() {
 
       <div className="flex space-x-4 mb-6">
         <select 
-          className="bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-2 text-white outline-none focus:border-[#eab676]"
+          className="bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-2 text-mammut-white outline-none focus:border-mammut-gold"
           value={selectedSystem}
           onChange={(e) => setSelectedSystem(e.target.value)}
         >
@@ -88,7 +88,7 @@ export function PricingManager() {
         </select>
         
         <select 
-          className="bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-2 text-white outline-none focus:border-[#eab676]"
+          className="bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-2 text-mammut-white outline-none focus:border-mammut-gold"
           value={selectedType}
           onChange={(e) => setSelectedType(e.target.value)}
         >
@@ -102,14 +102,14 @@ export function PricingManager() {
             <tr>
               <th className="p-3 font-medium text-zinc-400 border-r border-zinc-800">H \ W</th>
               {widths.map(w => (
-                <th key={w} className="p-3 font-medium text-[#eab676] min-w-[80px] border-r border-zinc-800">{w}</th>
+                <th key={w} className="p-3 font-medium text-mammut-gold min-w-[80px] border-r border-zinc-800">{w}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {heights.map(h => (
               <tr key={h} className="border-b border-zinc-800 hover:bg-zinc-800/30">
-                <td className="p-3 font-medium text-[#eab676] sticky left-0 bg-zinc-950 border-r border-zinc-800 z-10">{h}</td>
+                <td className="p-3 font-medium text-mammut-gold sticky left-0 bg-zinc-950 border-r border-zinc-800 z-10">{h}</td>
                 {widths.map(w => (
                   <td key={`${w}-${h}`} className="p-3 text-zinc-300 border-r border-zinc-800/50 hover:bg-zinc-700/50 cursor-crosshair">
                     {getPrice(w, h)}

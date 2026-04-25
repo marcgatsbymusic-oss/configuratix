@@ -145,23 +145,23 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
     <div className="w-full h-full flex flex-col items-center justify-center relative p-8 bg-transparent" style={{ perspective: '1200px' }}>
       
       {/* Interior / Exterior toggle */}
-      <div className="absolute top-4 right-4 flex gap-1 z-20 bg-[#1a1a1b]/80 backdrop-blur rounded-lg p-1 shadow-sm border border-[#2a2a2b]">
+      <div className="absolute top-4 right-4 flex gap-1 z-20 bg-mammut-dark/80 backdrop-blur rounded-lg p-1 shadow-sm border border-mammut-border">
         <button 
           onClick={() => setRotationY(0)} 
-          className={`px-3 py-1.5 text-[10px] uppercase tracking-wider font-bold rounded-md transition-all ${!isShowingExterior ? 'bg-[#eab676] !text-black shadow-md' : 'text-white/60 hover:bg-[#2a2a2b]'}`}
+          className={`px-3 py-1.5 text-[10px] uppercase tracking-wider font-bold rounded-md transition-all ${!isShowingExterior ? 'bg-mammut-gold !text-black shadow-md' : 'text-mammut-white/60 hover:bg-[#2a2a2b]'}`}
         >
           {t('configurator.blueprint.interiorView', 'Interior')}
         </button>
         <button 
           onClick={() => setRotationY(180)} 
-          className={`px-3 py-1.5 text-[10px] uppercase tracking-wider font-bold rounded-md transition-all ${isShowingExterior ? 'bg-[#eab676] !text-black shadow-md' : 'text-white/60 hover:bg-[#2a2a2b]'}`}
+          className={`px-3 py-1.5 text-[10px] uppercase tracking-wider font-bold rounded-md transition-all ${isShowingExterior ? 'bg-mammut-gold !text-black shadow-md' : 'text-mammut-white/60 hover:bg-[#2a2a2b]'}`}
         >
           {t('configurator.blueprint.exteriorView', 'Exterior')}
         </button>
       </div>
 
       {/* Drag hint */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-white/50 opacity-60 pointer-events-none">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-mammut-white/50 opacity-60 pointer-events-none">
         <Rotate3D size={14} /> {t('configurator.blueprint.dragToRotate', 'Drag to rotate freely in 3D')}
       </div>
 

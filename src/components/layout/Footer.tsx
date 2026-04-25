@@ -55,28 +55,28 @@ export function Footer() {
   const { t } = useTranslation()
 
   return (
-    <footer className="bg-[#111112] border-t border-[#2a2a2b]">
+    <footer className="bg-mammut-darker border-t border-mammut-border">
       {/* Newsletter bar */}
-      <div className="bg-[#1a1a1b] border-b border-[#2a2a2b]">
+      <div className="bg-mammut-dark border-b border-mammut-border">
         <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
-            <h4 className="text-white text-lg font-bold mb-6 font-montserrat uppercase tracking-wider">{t('footer.products')}</h4>
+            <h4 className="text-mammut-white text-lg font-bold mb-6 font-montserrat uppercase tracking-wider">{t('footer.products')}</h4>
             <ul className="space-y-4">
-              <li><Link to="/products" className="text-gray-400 hover:text-white transition-colors">{t('footer.categories.windows')}</Link></li>
-              <li><Link to="/products" className="text-gray-400 hover:text-white transition-colors">{t('footer.categories.doors')}</Link></li>
-              <li><Link to="/products" className="text-gray-400 hover:text-white transition-colors">{t('footer.categories.facades')}</Link></li>
-              <li><Link to="/shop" className="text-[#fcd34d] hover:text-[#fbbf24] transition-colors font-bold tracking-widest uppercase">SHOP NOW</Link></li>
+              <li><Link to="/products" className="text-gray-400 hover:text-mammut-white transition-colors">{t('footer.categories.windows')}</Link></li>
+              <li><Link to="/products" className="text-gray-400 hover:text-mammut-white transition-colors">{t('footer.categories.doors')}</Link></li>
+              <li><Link to="/products" className="text-gray-400 hover:text-mammut-white transition-colors">{t('footer.categories.facades')}</Link></li>
+              <li><Link to="/shop" className="text-yellow-400 hover:text-yellow-500 transition-colors font-bold tracking-widest uppercase">SHOP NOW</Link></li>
             </ul>
           </div>
           <form className="flex w-full md:w-auto gap-0">
             <input
               type="email"
               placeholder={t('footer.newsletter.placeholder')}
-              className="bg-black border border-[#2a2a2b] text-white text-sm px-4 py-2.5 w-full md:w-72 focus:outline-none focus:border-[#eab676] transition-colors duration-200 placeholder:text-white/30"
+              className="bg-mammut-black border border-mammut-border text-mammut-white text-sm px-4 py-2.5 w-full md:w-72 focus:outline-none focus:border-mammut-gold transition-colors duration-200 placeholder:text-mammut-white/30"
             />
             <button
               type="submit"
-              className="bg-[#eab676] text-black px-5 py-2.5 hover:bg-[#F3C47F] transition-colors duration-200 flex items-center gap-2 text-sm font-semibold"
+              className="bg-mammut-gold text-black px-5 py-2.5 hover:bg-[#F3C47F] transition-colors duration-200 flex items-center gap-2 text-sm font-semibold"
             >
               {t('footer.newsletter.subscribe')} <ArrowRight size={14} />
             </button>
@@ -88,7 +88,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-2 md:grid-cols-4 gap-10">
         {FOOTER_COLS.map((col) => (
           <div key={col.colKey}>
-            <h4 className="text-[#eab676] text-[10px] font-bold uppercase tracking-widest mb-5 pb-2 border-b border-[#eab676]/30">
+            <h4 className="text-mammut-gold text-[10px] font-bold uppercase tracking-widest mb-5 pb-2 border-b border-mammut-gold/30">
               {t(`footer.cols.${col.colKey}.title`)}
             </h4>
             <ul className="space-y-3">
@@ -96,7 +96,7 @@ export function Footer() {
                 <li key={link.keyKey || link.href}>
                   <Link
                     to={link.href}
-                    className={`text-sm transition-colors duration-200 ${link.isDirect ? 'text-[#fcd34d] font-bold hover:text-white uppercase drop-shadow-[0_0_8px_rgba(252,211,77,0.3)]' : 'text-white/50 hover:text-white'}`}
+                    className={`text-sm transition-colors duration-200 ${link.isDirect ? 'text-yellow-400 font-bold hover:text-mammut-white uppercase drop-shadow-[0_0_8px_rgba(252,211,77,0.3)]' : 'text-mammut-white/50 hover:text-mammut-white'}`}
                   >
                     {link.isDirect ? link.label : (link.keyKey ? t(`footer.cols.${col.colKey}.${link.keyKey}`) : '')}
                   </Link>
@@ -108,7 +108,7 @@ export function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-[#2a2a2b]">
+      <div className="border-t border-mammut-border">
         <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
@@ -117,7 +117,7 @@ export function Footer() {
               alt="Mammut Icon" 
               className="w-8 h-8 object-contain opacity-80 hover:opacity-100 transition-opacity"
             />
-            <span className="text-white/40 font-black text-sm tracking-[0.2em] uppercase">
+            <span className="text-mammut-white/40 font-black text-sm tracking-[0.2em] uppercase">
               MAMMUT ENERGY
             </span>
           </Link>
@@ -128,7 +128,7 @@ export function Footer() {
               <a
                 key={item}
                 href="#"
-                className="text-[11px] text-white/30 hover:text-white/60 transition-colors duration-200 uppercase tracking-wider"
+                className="text-[11px] text-mammut-white/30 hover:text-mammut-white/60 transition-colors duration-200 uppercase tracking-wider"
               >
                 {t(`footer.legal.${item}`)}
               </a>
@@ -142,7 +142,7 @@ export function Footer() {
                 key={label}
                 href={href}
                 aria-label={label}
-                className="w-8 h-8 border border-[#2a2a2b] flex items-center justify-center text-white/40 hover:text-[#eab676] hover:border-[#eab676] transition-all duration-200"
+                className="w-8 h-8 border border-mammut-border flex items-center justify-center text-mammut-white/40 hover:text-mammut-gold hover:border-mammut-gold transition-all duration-200"
               >
                 <Icon size={14} />
               </a>
@@ -150,7 +150,7 @@ export function Footer() {
           </div>
         </div>
 
-        <p className="text-center text-[11px] text-white/20 pb-4">
+        <p className="text-center text-[11px] text-mammut-white/20 pb-4">
           © {new Date().getFullYear()} {t('footer.legal.copyright')}
         </p>
       </div>

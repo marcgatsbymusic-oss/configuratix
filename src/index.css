@@ -3,19 +3,72 @@
 
 /* ─── Mammut Design Tokens ─────────────────────────────────── */
 @theme {
-  --color-mammut-black: #000000;
-  --color-mammut-dark: #1a1a1b;
-  --color-mammut-darker: #111112;
-  --color-mammut-gold: #eab676;
-  --color-mammut-gold-light: #F3C47F;
-  --color-mammut-white: #ffffff;
-  --color-mammut-grey: #333333;
-  --color-mammut-grey-light: #888888;
-  --color-mammut-border: #2a2a2b;
+  /* Dynamic base colors */
+  --color-black: var(--theme-bg-base);
+  --color-white: var(--theme-text-base);
+
+  /* Override gray shades for default utilities */
+  --color-gray-50: var(--theme-gray-50);
+  --color-gray-100: var(--theme-gray-100);
+  --color-gray-200: var(--theme-gray-200);
+  --color-gray-800: var(--theme-gray-800);
+  --color-gray-900: var(--theme-gray-900);
+
+  /* Dynamic custom colors */
+  --color-mammut-black: var(--theme-bg-base);
+  --color-mammut-dark: var(--theme-mammut-dark);
+  --color-mammut-darker: var(--theme-mammut-darker);
+  --color-mammut-gold: var(--theme-mammut-gold);
+  --color-mammut-gold-light: var(--theme-mammut-gold-light);
+  --color-mammut-white: var(--theme-text-base);
+  --color-mammut-grey: var(--theme-mammut-grey);
+  --color-mammut-grey-light: var(--theme-mammut-grey-light);
+  --color-mammut-border: var(--theme-mammut-border);
 
   --font-sans: 'Montserrat', sans-serif;
 
   --spacing-section: 6rem;
+}
+
+:root {
+  /* Default: Dark Theme */
+  --theme-bg-base: #000000;
+  --theme-text-base: #ffffff;
+  
+  --theme-gray-50: #f9fafb;
+  --theme-gray-100: #f3f4f6;
+  --theme-gray-200: #e5e7eb;
+  --theme-gray-800: #1f2937;
+  --theme-gray-900: #111827;
+
+  --theme-mammut-dark: #1a1a1b;
+  --theme-mammut-darker: #111112;
+  --theme-mammut-gold: #eab676;
+  --theme-mammut-gold-light: #F3C47F;
+  --theme-mammut-grey: #333333;
+  --theme-mammut-grey-light: #888888;
+  --theme-mammut-border: #2a2a2b;
+}
+
+:root[data-theme='light'] {
+  /* Inverted: Light Theme */
+  --theme-bg-base: #ffffff;
+  --theme-text-base: #000000;
+  
+  /* Invert Grays */
+  --theme-gray-50: #111827;
+  --theme-gray-100: #1f2937;
+  --theme-gray-200: #374151;
+  --theme-gray-800: #e5e7eb;
+  --theme-gray-900: #f3f4f6;
+
+  --theme-mammut-dark: #f8f9fa;
+  --theme-mammut-darker: #f0f0f0;
+  --theme-mammut-gold: #c88a3e; /* Darker gold for better contrast on white */
+  --theme-mammut-gold-light: #d89f55;
+  --theme-mammut-grey: #e5e7eb;
+  --theme-mammut-grey-light: #9ca3af;
+  --theme-mammut-border: #d1d5db;
 }
 
 /* ─── Base Styles ───────────────────────────────────────────── */
@@ -29,8 +82,8 @@ html {
 
 body {
   font-family: 'Montserrat', sans-serif;
-  background-color: #000000;
-  color: #ffffff;
+  background-color: var(--theme-bg-base);
+  color: var(--theme-text-base);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -94,10 +147,10 @@ p {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #1a1a1b;
+  background: var(--theme-mammut-dark);
 }
 ::-webkit-scrollbar-thumb {
-  background: #eab676;
+  background: var(--theme-mammut-gold);
   border-radius: 3px;
 }
 
@@ -113,7 +166,7 @@ p {
   position: absolute;
   width: 16px;
   height: 16px;
-  border-color: #eab676;
+  border-color: var(--theme-mammut-gold);
   border-style: solid;
 }
 .spec-card::before {
@@ -143,7 +196,7 @@ p {
   left: 0;
   width: 0;
   height: 1px;
-  background: #eab676;
+  background: var(--theme-mammut-gold);
   transition: width 0.3s ease;
 }
 .nav-link:hover::after {

@@ -22,7 +22,7 @@ export function ColorSwatch({ colors, selectedColorId, onColorSelect }: ColorSwa
     <div className="w-full space-y-8">
       {Object.entries(groupedColors).map(([groupName, groupColors]) => (
         <div key={groupName}>
-          <h4 className="text-[#eab676] text-[10px] font-bold uppercase tracking-[0.2em] mb-4 pb-2 border-b border-[#2a2a2b]">
+          <h4 className="text-mammut-gold text-[10px] font-bold uppercase tracking-[0.2em] mb-4 pb-2 border-b border-mammut-border">
             {t(`colorGroups.${groupName}`)}
           </h4>
           <div className="flex flex-wrap gap-3">
@@ -50,7 +50,7 @@ export function ColorSwatch({ colors, selectedColorId, onColorSelect }: ColorSwa
                     />
                   )}
                   {/* Tooltip on hover */}
-                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max px-2 py-1 bg-[#1a1a1b] border border-[#2a2a2b] text-white text-[10px] uppercase font-semibold opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 shadow-lg shadow-black/50">
+                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max px-2 py-1 bg-mammut-dark border border-mammut-border text-mammut-white text-[10px] uppercase font-semibold opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 shadow-lg shadow-black/50">
                     {t(`colors.${color.id}`)}
                   </span>
                 </button>

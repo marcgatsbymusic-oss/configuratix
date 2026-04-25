@@ -42,7 +42,7 @@ export function HomePage() {
   const next = () => setSlide(s => (s + 1) % HERO_SLIDES.length)
 
   return (
-    <main className="min-h-screen bg-black">
+    <main className="min-h-screen bg-mammut-black">
       {/* ── Hero Carousel ────────────────────────────────────────── */}
       <section className="relative h-screen flex items-end pb-20 overflow-hidden">
 
@@ -65,26 +65,26 @@ export function HomePage() {
 
         {/* Content */}
         <div className="relative z-20 max-w-7xl mx-auto px-4 md:px-6 w-full">
-          <p className="!text-white drop-shadow-md text-[10px] md:text-xs uppercase tracking-[0.3em] font-semibold mb-4">
+          <p className="!text-mammut-white drop-shadow-md text-[10px] md:text-xs uppercase tracking-[0.3em] font-semibold mb-4">
             {t('home.hero.premium')}
           </p>
-          <h1 className="!text-white text-5xl md:text-7xl lg:text-8xl font-black uppercase leading-none mb-6 max-w-3xl transition-all duration-700 drop-shadow-lg break-words">
+          <h1 className="!text-mammut-white text-5xl md:text-7xl lg:text-8xl font-black uppercase leading-none mb-6 max-w-3xl transition-all duration-700 drop-shadow-lg break-words">
             {t(`home.hero.${HERO_SLIDES[slide].key}.headline`)}<br />
-            <span className="!text-[#eab676]">{t(`home.hero.${HERO_SLIDES[slide].key}.headlineSpan`)}</span>
+            <span className="!text-mammut-gold">{t(`home.hero.${HERO_SLIDES[slide].key}.headlineSpan`)}</span>
           </h1>
-          <p className="!text-white drop-shadow-md text-lg mb-10 max-w-xl transition-all duration-700">
+          <p className="!text-mammut-white drop-shadow-md text-lg mb-10 max-w-xl transition-all duration-700">
             {t(`home.hero.${HERO_SLIDES[slide].key}.sub`)}
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
               to="/products"
-              className="flex items-center gap-2 bg-[#eab676] text-black px-8 py-4 text-sm uppercase tracking-widest font-bold hover:bg-[#F3C47F] transition-colors duration-200"
+              className="flex items-center gap-2 bg-mammut-gold text-black px-8 py-4 text-sm uppercase tracking-widest font-bold hover:bg-[#F3C47F] transition-colors duration-200"
             >
               {t('home.hero.explore')} <ArrowRight size={16} />
             </Link>
             <Link
               to="/configurator"
-              className="flex items-center gap-2 border border-white/30 text-white px-8 py-4 text-sm uppercase tracking-widest font-bold hover:border-[#eab676] hover:text-[#eab676] transition-all duration-200"
+              className="flex items-center gap-2 border border-white/30 text-mammut-white px-8 py-4 text-sm uppercase tracking-widest font-bold hover:border-mammut-gold hover:text-mammut-gold transition-all duration-200"
             >
               {t('home.hero.configurator')}
             </Link>
@@ -94,13 +94,13 @@ export function HomePage() {
         {/* Prev / Next arrows */}
         <button
           onClick={prev}
-          className="absolute left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 border border-white/20 flex items-center justify-center text-white/50 hover:border-[#eab676] hover:text-[#eab676] transition-all"
+          className="absolute left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 border border-white/20 flex items-center justify-center text-mammut-white/50 hover:border-mammut-gold hover:text-mammut-gold transition-all"
         >
           <ChevronLeft size={20} />
         </button>
         <button
           onClick={next}
-          className="absolute right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 border border-white/20 flex items-center justify-center text-white/50 hover:border-[#eab676] hover:text-[#eab676] transition-all"
+          className="absolute right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 border border-white/20 flex items-center justify-center text-mammut-white/50 hover:border-mammut-gold hover:text-mammut-gold transition-all"
         >
           <ChevronRight size={20} />
         </button>
@@ -112,14 +112,14 @@ export function HomePage() {
               key={i}
               onClick={() => setSlide(i)}
               className={`transition-all duration-300 rounded-full ${
-                i === slide ? 'w-8 h-2 bg-[#eab676]' : 'w-2 h-2 bg-white/30 hover:bg-white/60'
+                i === slide ? 'w-8 h-2 bg-mammut-gold' : 'w-2 h-2 bg-white/30 hover:bg-white/60'
               }`}
             />
           ))}
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-8 right-6 z-20 flex flex-col items-center gap-2 text-white/30 animate-bounce">
+        <div className="absolute bottom-8 right-6 z-20 flex flex-col items-center gap-2 text-mammut-white/30 animate-bounce">
           <ChevronDown size={20} />
         </div>
       </section>
@@ -127,7 +127,7 @@ export function HomePage() {
 
 
       {/* ── Our Offer ──────────────────────────────────────────── */}
-      <section className="border-b border-[#2a2a2b]" style={{ background: 'linear-gradient(180deg, #111112 0%, #161617 100%)' }}>
+      <section className="border-b border-mammut-border" style={{ background: 'linear-gradient(180deg, #111112 0%, #161617 100%)' }}>
         <div className="max-w-7xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-0 items-stretch">
           {/* Left: architectural image */}
           <div className="overflow-hidden min-h-[420px] lg:min-h-0">
@@ -140,19 +140,19 @@ export function HomePage() {
           </div>
 
           {/* Right: text */}
-          <div className="bg-[#1a1a1b] flex flex-col justify-center px-6 md:px-12 py-12 lg:py-16 lg:px-16">
-            <span className="text-[#eab676] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">
+          <div className="bg-mammut-dark flex flex-col justify-center px-6 md:px-12 py-12 lg:py-16 lg:px-16">
+            <span className="text-mammut-gold text-[10px] font-bold uppercase tracking-[0.3em] mb-4">
               {t('home.offer.subtitle')}
             </span>
-            <h2 className="text-4xl font-black text-white uppercase mb-6 leading-tight">
+            <h2 className="text-4xl font-black text-mammut-white uppercase mb-6 leading-tight">
               {t('home.offer.title')}
             </h2>
-            <p className="!text-white leading-relaxed mb-8">
+            <p className="!text-mammut-white leading-relaxed mb-8">
               {t('home.offer.text')}
             </p>
             <Link
               to="/products"
-              className="inline-flex items-center gap-2 bg-[#eab676] text-black px-8 py-4 text-sm uppercase tracking-widest font-bold hover:bg-[#F3C47F] transition-colors duration-200 self-start"
+              className="inline-flex items-center gap-2 bg-mammut-gold text-black px-8 py-4 text-sm uppercase tracking-widest font-bold hover:bg-[#F3C47F] transition-colors duration-200 self-start"
             >
               {t('home.hero.explore')} <ArrowRight size={16} />
             </Link>
@@ -161,7 +161,7 @@ export function HomePage() {
       </section>
 
       {/* ── Product Category Grid ───────────────────────────────── */}
-      <section className="border-b border-[#2a2a2b] bg-[#0e0e0f]">
+      <section className="border-b border-mammut-border bg-[#0e0e0f]">
         <div className="w-full">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-0">
             {CATEGORY_TILES.map((tile) => (
@@ -180,14 +180,14 @@ export function HomePage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent transition-opacity duration-500 group-hover:opacity-80 z-0" />
                 
                 {/* Inset Border (Hover Only) */}
-                <div className="absolute inset-4 lg:inset-6 border-[2px] border-[#eab676] pointer-events-none transition-transform duration-500 scale-0 group-hover:scale-100 z-10" />
+                <div className="absolute inset-4 lg:inset-6 border-[2px] border-mammut-gold pointer-events-none transition-transform duration-500 scale-0 group-hover:scale-100 z-10" />
 
                 {/* Text centered */}
                 <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-6 z-20">
-                  <span className="bg-[#eab676] text-black px-5 py-1.5 text-[10px] lg:text-xs font-normal tracking-[0.15em] uppercase mb-3 shadow-lg transition-colors duration-300 group-hover:bg-[#F3C47F]">
+                  <span className="bg-mammut-gold text-black px-5 py-1.5 text-[10px] lg:text-xs font-normal tracking-[0.15em] uppercase mb-3 shadow-lg transition-colors duration-300 group-hover:bg-[#F3C47F]">
                     {t(`home.categories.tabs.${tile.cKey}`)}
                   </span>
-                  <span className="text-white font-black text-2xl lg:text-3xl uppercase leading-tight drop-shadow-xl transition-transform duration-300 group-hover:scale-105">
+                  <span className="text-mammut-white font-black text-2xl lg:text-3xl uppercase leading-tight drop-shadow-xl transition-transform duration-300 group-hover:scale-105">
                     {t(`home.categories.items.${tile.iKey}`)}
                   </span>
                 </div>
@@ -201,14 +201,14 @@ export function HomePage() {
       <section className="py-16 md:py-24 max-w-7xl mx-auto px-4 md:px-6">
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-8 md:mb-12 gap-4">
           <div>
-            <p className="text-[#eab676] text-xs uppercase tracking-widest font-semibold mb-2">
+            <p className="text-mammut-gold text-xs uppercase tracking-widest font-semibold mb-2">
               {t('home.featured.subtitle')}
             </p>
             <h2 className="text-4xl font-black uppercase">{t('home.featured.title')}</h2>
           </div>
           <Link
             to="/products"
-            className="hidden md:flex items-center gap-2 text-sm text-[#eab676] uppercase tracking-widest hover:gap-3 transition-all duration-200"
+            className="hidden md:flex items-center gap-2 text-sm text-mammut-gold uppercase tracking-widest hover:gap-3 transition-all duration-200"
           >
             {t('home.featured.viewAll')} <ArrowRight size={14} />
           </Link>
@@ -219,10 +219,10 @@ export function HomePage() {
             <Link
               key={p.name}
               to={p.href}
-              className="group relative bg-[#1a1a1b] border border-[#2a2a2b] hover:border-[#eab676]/40 transition-all duration-300 overflow-hidden"
+              className="group relative bg-mammut-dark border border-mammut-border hover:border-mammut-gold/40 transition-all duration-300 overflow-hidden"
             >
               {/* Image or placeholder */}
-              <div className="h-64 bg-[#111112] flex items-center justify-center relative overflow-hidden">
+              <div className="h-64 bg-mammut-darker flex items-center justify-center relative overflow-hidden">
                 {p.image ? (
                   <img 
                     src={p.image} 
@@ -230,10 +230,10 @@ export function HomePage() {
                     className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
                   />
                 ) : (
-                  <div className="w-32 h-32 border border-[#eab676]/20 rotate-45 group-hover:rotate-[60deg] transition-transform duration-700" />
+                  <div className="w-32 h-32 border border-mammut-gold/20 rotate-45 group-hover:rotate-[60deg] transition-transform duration-700" />
                 )}
                 <div className="absolute top-4 left-4 z-10">
-                  <span className="bg-[#eab676] text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1">
+                  <span className="bg-mammut-gold text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1">
                     {t(`home.featured.tags.${p.tagKey}`)}
                   </span>
                 </div>
@@ -241,18 +241,18 @@ export function HomePage() {
 
               <div className="p-6">
                 <h3 className="text-xl font-black uppercase mb-1">{p.name}</h3>
-                <p className="text-white/50 text-sm mb-4">{t(`home.featured.${p.nameKey}.tagline`)}</p>
+                <p className="text-mammut-white/50 text-sm mb-4">{t(`home.featured.${p.nameKey}.tagline`)}</p>
                 <div className="flex flex-wrap gap-2">
                   {p.specs.map((s) => (
                     <span
                       key={s}
-                      className="text-[10px] uppercase tracking-widest text-[#eab676] border border-[#eab676]/30 px-2 py-0.5"
+                      className="text-[10px] uppercase tracking-widest text-mammut-gold border border-mammut-gold/30 px-2 py-0.5"
                     >
                       {s}
                     </span>
                   ))}
                 </div>
-                <div className="flex items-center gap-2 mt-6 text-[#eab676] text-xs uppercase tracking-widest font-semibold group-hover:gap-3 transition-all duration-200">
+                <div className="flex items-center gap-2 mt-6 text-mammut-gold text-xs uppercase tracking-widest font-semibold group-hover:gap-3 transition-all duration-200">
                   {t('home.featured.discover')} <ArrowRight size={12} />
                 </div>
               </div>
@@ -262,22 +262,22 @@ export function HomePage() {
       </section>
 
       {/* ── Configurator CTA ───────────────────────────────────── */}
-      <section className="bg-[#1a1a1b] border-t border-[#2a2a2b] py-16 md:py-24">
+      <section className="bg-mammut-dark border-t border-mammut-border py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 md:px-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-10">
           <div className="max-w-lg">
-            <p className="text-[#eab676] text-xs uppercase tracking-widest font-semibold mb-3">
+            <p className="text-mammut-gold text-xs uppercase tracking-widest font-semibold mb-3">
               {t('home.cta.subtitle')}
             </p>
             <h2 className="text-4xl font-black uppercase mb-4">
               {t('home.cta.title')}
             </h2>
-            <p className="text-white/50">
+            <p className="text-mammut-white/50">
               {t('home.cta.text')}
             </p>
           </div>
           <Link
             to="/configurator"
-            className="shrink-0 flex items-center gap-3 border border-[#eab676] text-[#eab676] px-10 py-5 text-sm uppercase tracking-widest font-bold hover:bg-[#eab676] hover:text-black transition-all duration-300"
+            className="shrink-0 flex items-center gap-3 border border-mammut-gold text-mammut-gold px-10 py-5 text-sm uppercase tracking-widest font-bold hover:bg-mammut-gold hover:text-black transition-all duration-300"
           >
             {t('home.cta.button')} <ArrowRight size={16} />
           </Link>
