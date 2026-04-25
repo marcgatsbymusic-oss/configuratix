@@ -105,23 +105,26 @@ export function PartnerLanding() {
           position: absolute;
           top: 0; left: 0; width: 100%; height: 100%;
           object-fit: cover;
-          z-index: -2;
+          z-index: 0;
         }
         .partner-landing .hero-overlay {
           position: absolute;
           top: 0; left: 0; width: 100%; height: 100%;
           background: linear-gradient(160deg, rgba(0,0,0,0.88) 0%, rgba(10,10,10,0.80) 55%, rgba(17,17,17,0.70) 100%);
-          z-index: -1;
+          z-index: 1;
         }
         .partner-landing .hero::after {
           content: '';
           position: absolute; bottom: -2px; left: 0; right: 0; height: 80px;
           background: var(--white);
           clip-path: ellipse(55% 100% at 50% 100%);
+          z-index: 2;
         }
         .partner-landing .hero-content {
           max-width: 640px;
           animation: fadeUp 1s ease both;
+          position: relative;
+          z-index: 10;
         }
         .partner-landing .hero-eyebrow {
           display: inline-flex; align-items: center; gap: 8px;
@@ -573,7 +576,7 @@ export function PartnerLanding() {
       {/* NAV */}
       <nav>
         <a href="#" className="flex items-center gap-3 decoration-transparent">
-          <div className="text-xl font-bold tracking-[0.2em] text-[#eab676] font-['Montserrat'] flex items-center">MAMMUT<span className="text-white text-[15px] font-normal ml-2 tracking-normal">Drutex</span></div>
+          <div className="text-xl font-bold tracking-[0.2em] text-[#eab676] font-['Montserrat'] flex items-center whitespace-nowrap">MAMMUT<span className="text-white text-[15px] font-normal ml-2 tracking-normal">Drutex</span></div>
         </a>
         <a href="tel:+34XXXXXXXXX" className="nav-phone">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -945,7 +948,7 @@ export function PartnerLanding() {
       <footer>
         <div className="footer-inner">
           <div>
-            <div className="text-xl font-bold tracking-[0.2em] text-[#eab676] font-['Montserrat'] flex items-center">MAMMUT<span className="text-white text-[15px] font-normal ml-2 tracking-normal">Drutex</span></div>
+            <div className="text-xl font-bold tracking-[0.2em] text-[#eab676] font-['Montserrat'] flex items-center whitespace-nowrap">MAMMUT<span className="text-white text-[15px] font-normal ml-2 tracking-normal">Drutex</span></div>
             <div className="text-[13px] mt-2 text-gray-400">Ventanas y puertas · Distribuidor oficial en Cercedilla vía Ferretería 88</div>
           </div>
           <div className="footer-links">
