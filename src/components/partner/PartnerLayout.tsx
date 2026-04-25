@@ -66,7 +66,13 @@ export function PartnerLayout() {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 md:ml-64 relative">
         <header className="h-16 bg-[#111111] border-b border-gray-800 flex items-center px-4 md:px-8 justify-between sticky top-0 z-30">
-          <h1 className="text-lg font-semibold">{t('partner.layout.portal')}</h1>
+          <div className="flex items-center gap-3">
+            <div className="md:hidden w-8 h-8 rounded-full overflow-hidden flex items-center justify-center bg-white p-1">
+              <img src="/partners/cadena88-logo-grande.png" alt="Ferreteria 88" className="w-full h-auto object-contain" />
+            </div>
+            <h1 className="text-lg font-semibold hidden sm:block">{t('partner.layout.portal')}</h1>
+            <h1 className="text-base font-semibold sm:hidden text-gray-200">Ferretería 88</h1>
+          </div>
           <div className="flex items-center gap-2 md:gap-4">
             {/* Language Switcher */}
             <div className="relative">

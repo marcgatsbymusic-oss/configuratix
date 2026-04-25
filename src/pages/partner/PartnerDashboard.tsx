@@ -11,14 +11,14 @@ export function PartnerDashboard() {
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 relative">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight text-white">{t('partner.dashboard.title')}</h2>
-          <p className="text-gray-400 mt-1">{t('partner.dashboard.subtitle')}</p>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">{t('partner.dashboard.title')}</h2>
+          <p className="text-gray-400 mt-1 text-sm sm:text-base">{t('partner.dashboard.subtitle')}</p>
         </div>
         <button 
           onClick={() => setShowQrModal(true)}
-          className="bg-[#eab676] hover:bg-[#d9a05b] text-black px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors"
+          className="bg-[#eab676] hover:bg-[#d9a05b] text-black px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors w-full sm:w-auto justify-center"
         >
           <QrCode className="w-5 h-5" />
           {t('partner.dashboard.showQr')}
