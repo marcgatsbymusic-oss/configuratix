@@ -144,6 +144,12 @@ export function Header() {
           >
             Debug
           </Link>
+          <Link
+            to="/admin"
+            className="text-[10px] uppercase tracking-widest text-mammut-grey-light hover:text-mammut-gold transition-colors duration-200 font-bold"
+          >
+            Admin
+          </Link>
           {[
             { key: 'partnerPortal', defaultText: 'Partner Portal', href: '/partner' },
             { key: 'cooperation', defaultText: 'Cooperation', href: '#' },

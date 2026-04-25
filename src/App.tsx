@@ -41,6 +41,7 @@ import { MatrixUploader } from './pages/admin/MatrixUploader'
 import { QuotationsPage } from './pages/admin/QuotationsPage'
 import { QuotationDetailPage } from './pages/admin/QuotationDetailPage'
 import { FactoryQueuePage } from './pages/admin/FactoryQueuePage'
+import { LogisticsPipeline } from './pages/admin/LogisticsPipeline'
 
 import { DebugPricing } from './pages/DebugPricing'
 
@@ -84,6 +85,7 @@ function App() {
             {/* Admin Dashboard Routes */}
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
+              <Route path="logistics" element={<LogisticsPipeline />} />
               <Route path="quotations" element={<QuotationsPage />} />
               <Route path="quotations/:id" element={<QuotationDetailPage />} />
               <Route path="factory" element={<FactoryQueuePage />} />
