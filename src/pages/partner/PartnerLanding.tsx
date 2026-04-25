@@ -96,13 +96,22 @@ export function PartnerLanding() {
         /* ── HERO ── */
         .partner-landing .hero {
           min-height: 100vh;
-          background:
-            linear-gradient(160deg, rgba(0,0,0,0.88) 0%, rgba(10,10,10,0.80) 55%, rgba(17,17,17,0.70) 100%),
-            url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80') center/cover no-repeat;
           display: flex; align-items: center;
           padding: 120px 5% 80px;
           position: relative;
           overflow: hidden;
+        }
+        .partner-landing .hero-video {
+          position: absolute;
+          top: 0; left: 0; width: 100%; height: 100%;
+          object-fit: cover;
+          z-index: -2;
+        }
+        .partner-landing .hero-overlay {
+          position: absolute;
+          top: 0; left: 0; width: 100%; height: 100%;
+          background: linear-gradient(160deg, rgba(0,0,0,0.88) 0%, rgba(10,10,10,0.80) 55%, rgba(17,17,17,0.70) 100%);
+          z-index: -1;
         }
         .partner-landing .hero::after {
           content: '';
@@ -275,9 +284,9 @@ export function PartnerLanding() {
           background-position: center;
           position: relative;
         }
-        .partner-landing .product-img-pvc { background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80'); }
-        .partner-landing .product-img-alu { background-image: url('https://images.unsplash.com/photo-1503594384566-461fe158e797?w=600&q=80'); }
-        .partner-landing .product-img-wood { background-image: url('https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=600&q=80'); }
+        .partner-landing .product-img-pvc { background-image: url('/assets/iglo-edge-profile-photo.png'); }
+        .partner-landing .product-img-alu { background-image: url('/assets/neo_md_okno_profil.png'); }
+        .partner-landing .product-img-wood { background-image: url('/assets/hero-door.png'); }
         .partner-landing .product-badge {
           position: absolute; top: 16px; left: 16px;
           background: var(--green-light);
@@ -576,6 +585,10 @@ export function PartnerLanding() {
 
       {/* HERO */}
       <section className="hero">
+        <video className="hero-video" autoPlay loop muted playsInline>
+          <source src="/assets/iglo-edge-header-cover.mp4" type="video/mp4" />
+        </video>
+        <div className="hero-overlay"></div>
         <div className="hero-content">
           <div className="hero-eyebrow">Mammut · Recomendado por Ferretería 88 · Cercedilla</div>
           <h1>Ventanas y puertas <em>a medida</em> para tu hogar</h1>
