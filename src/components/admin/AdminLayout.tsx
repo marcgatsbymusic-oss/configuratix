@@ -9,7 +9,6 @@ import { ThemeToggle } from '../common/ThemeToggle'
 
 // ─── Local-access credentials (dev bypass ─ no Supabase required) ───────────
 const LOCAL_ADMIN_EMAIL    = 'admin@shadow.bo'
-const LOCAL_ADMIN_PASSWORD = 'Shadow2026!'
 const LOCAL_STORAGE_KEY    = 'bo_local_auth'
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -18,7 +17,7 @@ function useLocalAuth() {
     try { return localStorage.getItem(LOCAL_STORAGE_KEY) === '1' } catch { return false }
   })
 
-  const localSignIn = (e: string, p: string) => {
+  const localSignIn = (_e: string, _p: string) => {
     // BYPASS: Always log in regardless of credentials for easy local testing
     localStorage.setItem(LOCAL_STORAGE_KEY, 'true')
     setAuthed(true)
@@ -33,8 +32,7 @@ function useLocalAuth() {
   return { authed, localSignIn, localSignOut }
 }
 
-function AdminLoginScreen({ onLocalLogin }: { onLocalLogin: (e: string, p: string) => boolean }) {
-  const { signIn } = useAuth()
+function AdminLoginScreen({ onLocalLogin }: { onLocalLogin: (_e: string, _p: string) => void }) {
   const [email, setEmail]           = useState('admin@shadow.bo')
   const [password, setPassword]     = useState('admin')
   const [showPassword, setShow]     = useState(false)

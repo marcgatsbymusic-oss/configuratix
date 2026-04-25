@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { ThemeToggle } from '../../components/common/ThemeToggle';
 
 export function PartnerLanding() {
-  const { partnerId } = useParams();
+  const { } = useParams();
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {

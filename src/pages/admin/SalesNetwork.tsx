@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { 
   Users, TrendingUp, BarChart3, ArrowUpRight, 
-  Shield, Award, DollarSign, Target, Activity
+  Shield, Award, DollarSign, Target
 } from 'lucide-react';
 
 // --- Dummy Data ---

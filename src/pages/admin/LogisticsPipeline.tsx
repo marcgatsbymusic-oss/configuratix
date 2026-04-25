@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { 
   Truck, PackageCheck, Factory, CheckCircle2, 
   MapPin, Clock, AlertTriangle, MoreHorizontal,
-  ChevronRight, Calendar
+  Calendar
 } from 'lucide-react';
 import dummyOrders from '../../data/dummy_orders.json';
 
@@ -105,7 +105,7 @@ const OrderCard = ({ order, columnId }: { order: Order; columnId: string }) => {
 };
 
 export function LogisticsPipeline() {
-  const { t } = useTranslation();
+  const { } = useTranslation();
   const [search, setSearch] = useState('');
 
   // Group orders into columns

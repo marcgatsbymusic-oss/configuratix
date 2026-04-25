@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
-  MapPin, Clock, CheckCircle2, Camera, Edit3, 
+  MapPin, CheckCircle2, Camera, Edit3, 
   ChevronRight, Calendar, AlertTriangle, Truck
 } from 'lucide-react';
 import { ThemeToggle } from '../../components/common/ThemeToggle';
