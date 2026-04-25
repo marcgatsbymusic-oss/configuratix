@@ -3,7 +3,7 @@ import { Outlet, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import {
   LayoutDashboard, Settings, DollarSign, Upload, LogOut,
-  FileText, Factory, Eye, EyeOff, Lock, Truck
+  FileText, Factory, Eye, EyeOff, Lock, Truck, TrendingUp
 } from 'lucide-react'
 import { ThemeToggle } from '../common/ThemeToggle'
 
@@ -114,6 +114,7 @@ function AdminLoginScreen({ onLocalLogin }: { onLocalLogin: (e: string, p: strin
 
 const NAV_ITEMS = [
   { to: '/admin',           end: true,  icon: LayoutDashboard, label: 'Dashboard' },
+  { to: '/admin/network',   end: false, icon: TrendingUp,       label: 'Network & Analytics' },
   { to: '/admin/logistics', end: false, icon: Truck,            label: 'Logistics' },
   { to: '/admin/quotations',end: false, icon: FileText,         label: 'Quotations' },
   { to: '/admin/factory',   end: false, icon: Factory,          label: 'Factory Queue' },

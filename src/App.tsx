@@ -42,6 +42,8 @@ import { QuotationsPage } from './pages/admin/QuotationsPage'
 import { QuotationDetailPage } from './pages/admin/QuotationDetailPage'
 import { FactoryQueuePage } from './pages/admin/FactoryQueuePage'
 import { LogisticsPipeline } from './pages/admin/LogisticsPipeline'
+import { SalesNetwork } from './pages/admin/SalesNetwork'
+import { InstallerDashboard } from './pages/installer/InstallerDashboard'
 
 import { DebugPricing } from './pages/DebugPricing'
 
@@ -85,6 +87,7 @@ function App() {
             {/* Admin Dashboard Routes */}
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
+              <Route path="network" element={<SalesNetwork />} />
               <Route path="logistics" element={<LogisticsPipeline />} />
               <Route path="quotations" element={<QuotationsPage />} />
               <Route path="quotations/:id" element={<QuotationDetailPage />} />
@@ -93,6 +96,9 @@ function App() {
               <Route path="pricing" element={<PricingManager />} />
               <Route path="upload" element={<MatrixUploader />} />
             </Route>
+
+            {/* Installer Field App */}
+            <Route path="/installer" element={<InstallerDashboard />} />
 
             {/* Partner Portal Routes */}
             <Route path="/partner" element={<PartnerLayout />}>
