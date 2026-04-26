@@ -144,7 +144,7 @@
     "preview": "AVANCE",
     "selectedFinish": "Acabado seleccionado",
     "selectedColor": "Color seleccionado:",
-    "glassTitle": "Vaso",
+    "glassTitle": "Vidrio",
     "glassDesc": "DRUTEX, con más de 30 años de experiencia en la producción de vidrio compuesto, ofrece una gama muy amplia de vidrios con los que podrá equipar sus ventanas y puertas. Cumplen estrictos requisitos de eficiencia energética y aislamiento acústico. La oferta también incluye vidrios laminados (seguros y antirrobo), vidrios protegidos contra el sol, vidrios con aislamiento acústico mejorado, vidrios templados, ornamentales y arenados.",
     "handlesTitle": "Manijas",
     "handlesDesc": "Nuestras manillas para ventanas se caracterizan por su excelente acabado, funcionalidad y durabilidad. Disponible en múltiples variantes de color para combinar perfectamente con sus ventanas.",
@@ -173,7 +173,7 @@
       },
       "spacers": {
         "title": "Intercalarios",
-        "description": "La última generación de intercalarios que garantizan el confort térmico."
+        "description": "El marco de acero galvanizado es el estándar. Sin embargo, es posible elegir el marco cálido Swisspacer Ultimate."
       },
       "ventilation": {
         "title": "Ventilación",

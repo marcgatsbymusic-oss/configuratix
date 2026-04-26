@@ -111,7 +111,7 @@ const ADDITIONAL_OPTIONS = [
     id: 'mounting',
     title: 'Mounting accessories',
     description: 'Here you will find the products necessary for proper installation of joinery.',
-    seeAllHref: 'https://www.drutex.eu/en/products/addons/type/602/',
+    seeAllHref: '/products/addons/type/602',
     items: [
       { name: 'Mounting wedges',       image: '/assets/additional-options/mounting-wedges.webp' },
       { name: 'NYXON HS Air Yellow',   image: '/assets/additional-options/nyxon-hs-air-yellow.webp' },
@@ -123,7 +123,7 @@ const ADDITIONAL_OPTIONS = [
     id: 'muntin',
     title: 'Muntin bars',
     description: 'An attractive addition that highlights the unique character of the building.',
-    seeAllHref: 'https://www.drutex.eu/en/products/addons/type/4/',
+    seeAllHref: '/products/addons/type/4',
     items: [
       { name: 'Glue-on muntin bars\nSizes: 27/45/65 mm',      image: '/assets/additional-options/muntin-glue-on.webp' },
       { name: 'Internal muntin bars\nSizes: 8/18/26/45 mm',    image: '/assets/additional-options/muntin-internal.webp' },
@@ -134,7 +134,7 @@ const ADDITIONAL_OPTIONS = [
     id: 'fittings',
     title: 'Reliable fittings',
     description: 'Safety, comfort and functionality in every detail.',
-    seeAllHref: 'https://www.drutex.eu/en/products/addons/type/6/',
+    seeAllHref: '/products/addons/type/6',
     items: [
       { name: 'Friction brake',        image: '/assets/additional-options/fitting-friction-brake.webp' },
       { name: 'Reed switch',           image: '/assets/additional-options/fitting-reed-switch.webp' },
@@ -150,7 +150,7 @@ const ADDITIONAL_OPTIONS = [
     id: 'glass',
     title: 'Sandblasted glass',
     description: 'A perfect combination of modern design and privacy.',
-    seeAllHref: 'https://www.drutex.eu/en/products/addons/type/272/',
+    seeAllHref: '/products/addons/type/272',
     items: [
       { name: 'Sandblasted patterns (24 options)', image: '/assets/additional-options/glass-sandblasted-1.webp' },
     ],
@@ -158,10 +158,16 @@ const ADDITIONAL_OPTIONS = [
   {
     id: 'spacers',
     title: 'Spacers',
-    description: 'The latest generation of spacers ensuring thermal comfort.',
-    seeAllHref: 'https://www.drutex.eu/en/products/addons/type/5/',
+    description: 'Galvanised steel frame is the standard. However It is possible to choose the Swisspacer Ultimate warm frame.',
+    seeAllHref: '/products/addons/type/5',
     items: [
-      { name: 'Swisspacer Ultimate', image: '/assets/additional-options/spacer-swisspacer.webp' },
+      { name: 'Galvanised steel (standard)', image: '/assets/additional-options/spacer-steel.webp' },
+      { name: 'Swisspacer Ultimate Gray RAL 9023', image: '/assets/additional-options/spacer-swisspacer-gray.webp' },
+      { name: 'Swisspacer Ultimate Light brown RAL 8003', image: '/assets/additional-options/spacer-swisspacer-lbrown.webp' },
+      { name: 'Swisspacer Ultimate White RAL 9016', image: '/assets/additional-options/spacer-swisspacer-white.webp' },
+      { name: 'Swisspacer Ultimate Dark brown RAL 8014', image: '/assets/additional-options/spacer-swisspacer-dbrown.webp' },
+      { name: 'Swisspacer Ultimate Black RAL 9005', image: '/assets/additional-options/spacer-swisspacer-black.webp' },
+      { name: 'Swisspacer Ultimate Light gray RAL 7035', image: '/assets/additional-options/spacer-swisspacer-lgray.webp' },
     ],
   },
   {
@@ -290,14 +296,12 @@ function AdditionalOptionsSection() {
               <div className="w-56 flex-shrink-0">
                 <h3 className="text-black font-black text-lg uppercase leading-tight mb-2">{t(`productDetail.additionalOptions.${group.id}.title`, { defaultValue: group.title })}</h3>
                 <p className="!text-gray-600 text-xs leading-relaxed mb-4">{t(`productDetail.additionalOptions.${group.id}.description`, { defaultValue: group.description })}</p>
-                <a
-                  href={group.seeAllHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  to={group.seeAllHref}
                   className="inline-block bg-mammut-gold text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 hover:bg-[#F3C47F] transition-colors"
                 >
                   {t('productDetail.seeAll')}
-                </a>
+                </Link>
               </div>
 
               {/* Right: slider */}
@@ -315,10 +319,12 @@ function GlazingSection({ glassOptions }: { glassOptions: GlassOption[] }) {
   const [selected, setSelected] = useState<GlassOption>(glassOptions[0])
 
   return (
-    <section className="py-16 border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-black text-black uppercase tracking-widest mb-2">{t('productDetail.glassTitle')}</h2>
-        <p className="!text-black text-sm mb-10 max-w-2xl">
+    <section className="bg-mammut-black border-y border-mammut-border py-16">
+      <div className="max-w-7xl mx-auto px-6 text-left">
+        <h2 className="text-3xl font-black text-mammut-white uppercase tracking-widest mb-4 flex items-center gap-4">
+          {t('productDetail.glassTitle')}
+        </h2>
+        <p className="!text-white text-base font-medium mb-10 max-w-3xl leading-relaxed opacity-100">
           {t('productDetail.glassDesc')}
         </p>
         <div className="flex flex-col lg:flex-row gap-8">
@@ -342,7 +348,7 @@ function GlazingSection({ glassOptions }: { glassOptions: GlassOption[] }) {
                 </div>
                 <span
                   className="text-[10px] text-center leading-tight transition-colors duration-200 w-full px-0.5"
-                  style={{ color: selected.id === glass.id ? '#eab676' : 'rgba(0,0,0,0.6)' }}
+                  style={{ color: selected.id === glass.id ? '#eab676' : 'rgba(255,255,255,0.6)' }}
                 >
                   {t(`glass.${glass.id}`)}
                 </span>
@@ -351,7 +357,7 @@ function GlazingSection({ glassOptions }: { glassOptions: GlassOption[] }) {
           </div>
 
           {/* Large preview panel */}
-          <div className="lg:w-[45%] flex-shrink-0 bg-white overflow-hidden">
+          <div className="lg:w-[45%] flex-shrink-0 bg-mammut-dark overflow-hidden">
             <img
               key={selected.id}
               src={selected.largeImage}
@@ -610,9 +616,11 @@ export function ProductDetailPage() {
       {/* 3. Interactive Color Swatch Section */}
       <section className="bg-white border-b border-gray-200 py-24">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-black text-black uppercase tracking-widest mb-4">{t('productDetail.colorsTitle')}</h2>
-            <p className="!text-gray-600 max-w-2xl mx-auto">{t('productDetail.colorsDesc', { count: detailData.colors.length, name: detailData.name })}</p>
+          <div className="text-left mb-16">
+            <h2 className="text-3xl font-black text-black uppercase tracking-widest mb-4 flex items-center gap-4">
+              {t('productDetail.colorsTitle')}
+            </h2>
+            <p className="!text-gray-600 max-w-3xl leading-relaxed">{t('productDetail.colorsDesc', { count: detailData.colors.length, name: detailData.name })}</p>
           </div>
 
           <div className="grid lg:grid-cols-12 gap-12">
