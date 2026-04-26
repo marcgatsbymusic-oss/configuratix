@@ -1,0 +1,1021 @@
+{
+  "header": {
+    "topBar": {
+      "partnerPortal": "Partnerportal",
+      "cooperation": "Samarbeid",
+      "contact": "Kontakt"
+    },
+    "nav": {
+      "products": "Produkter",
+      "whereToBuy": "Hvor å kjøpe",
+      "aboutMammut": "Om Mammut",
+      "configurator": "3D-konfigurator"
+    },
+    "megaMenu": {
+      "viewAll": "Se alle produktene",
+      "comingSoon": "Innhold for {{kategori}} kommer snart.",
+      "cats": {
+        "windows": "Windows",
+        "doors": "Dører",
+        "terrace": "Terrassesystemer",
+        "shutters": "Rullegardiner",
+        "facade": "Fasade Persienner",
+        "mosquito": "Myggnett",
+        "garage": "Garasjeporter",
+        "conservatories": "Fasader / Vinterhager",
+        "pergola": "Pergola",
+        "smart": "Smart hjem",
+        "extras": "Ekstrautstyr",
+        "promotional": "Kampanjemateriell"
+      },
+      "cols": {
+        "pvcWindows": "PVC-vinduer",
+        "alumWindows": "Vinduer i aluminium",
+        "woodWindows": "Vinduer i tre",
+        "woodAlumWindows": "Tre-aluminium vinduer",
+        "pvcDoors": "PVC dører",
+        "alumDoors": "Aluminiumsdører",
+        "liftAndSlide": "Løft og skyv HS",
+        "slide": "Skyv",
+        "foldingDoors": "Foldedører",
+        "tiltAndSlide": "Tilt and Slide PSK"
+      },
+      "new": "Ny"
+    }
+  },
+  "home": {
+    "hero": {
+      "premium": "Premium vinduer og dører",
+      "explore": "Utforsk produkter",
+      "configurator": "3D-konfigurator",
+      "slide1": {
+        "headline": "Definer din",
+        "headlineSpan": "rom",
+        "sub": "Presisjonskonstruerte vinduer og dører som transformerer arkitektur med banebrytende termisk og akustisk ytelse."
+      },
+      "slide2": {
+        "headline": "Åpne for",
+        "headlineSpan": "verden",
+        "sub": "Panorama løft-og-skli-systemer som løser opp grensen mellom inne og ute."
+      },
+      "slide3": {
+        "headline": "Lett, redefinert",
+        "headlineSpan": "etter design",
+        "sub": "Gulv-til-tak-glass som fyller alle rom med naturlig lys samtidig som den holder varme og støy ute."
+      }
+    },
+    "offer": {
+      "subtitle": "Komplette løsninger",
+      "title": "Vårt tilbud",
+      "text": "Vi tilbyr et bredt utvalg av vinduer, karmer, ytterdører og skyvedører i PVC, tre og aluminium. Gjennom eksperthåndverk, materialer av høyeste kvalitet og servicenivå sikrer vi selskapets status. Hvert vindu og dør lages på bestilling, og gir hver kunde individuell service og oppmerksomhet. Vi vil gi deg det høyeste nivået av kompetanse og bistå deg hele veien med dine renoverings- og byggeplaner."
+    },
+    "categories": {
+      "subtitle": "Bla etter type",
+      "title": "Produktkategorier",
+      "tabs": {
+        "windows": "WINDOWS",
+        "doors": "DØRER",
+        "shutters": "SHUTTERS",
+        "blinds": "PERSONER",
+        "terrace": "TERRASSESYSTEMER",
+        "additions": "TILLEGG"
+      },
+      "items": {
+        "alu": "ALUMINIUM",
+        "woodAlu": "TRE-ALUMINIUM",
+        "pvc": "PVC",
+        "wooden": "AV TRE",
+        "adaptive": "ADAPTIV",
+        "topMounted": "TOPPMONTERT",
+        "externalVenetian": "EKSTERN VENETIAN",
+        "liftSlide": "LØFT OG SKYV HS",
+        "tiltSlide": "TILT OG SLI PSK",
+        "folding": "SLAPPEDØRER",
+        "customization": "TILPASNING"
+      }
+    },
+    "featured": {
+      "subtitle": "Vår samling",
+      "title": "Utvalgte systemer",
+      "viewAll": "Vis alle",
+      "tags": {
+        "new": "NY",
+        "premium": "PREMIUM",
+        "bestseller": "BESTSELGER"
+      },
+      "discover": "Oppdage",
+      "igloEdge": {
+        "tagline": "Maksimal isolasjon, minimal ramme"
+      },
+      "igloLight": {
+        "tagline": "Enda mer lys inn i rommet ditt"
+      },
+      "iglo5": {
+        "tagline": "Den klassiske gjenfødte"
+      }
+    },
+    "cta": {
+      "subtitle": "3D-konfigurator",
+      "title": "Design ditt perfekte vindu",
+      "text": "Velg dimensjoner, materialer, farger og glasstype. Lagre konfigurasjonen din og be om et tilbud umiddelbart.",
+      "button": "Start Configurator"
+    }
+  },
+  "products": {
+    "collection": "Vår samling",
+    "title": "Premium-systemer",
+    "description": "Oppdag vårt omfattende utvalg av vinduer, dører og terrassesystemer. Konstruert for overlegen termisk ytelse, akustisk isolasjon og tidløs design.",
+    "allProducts": "Alle produkter",
+    "new": "NY"
+  },
+  "productDetail": {
+    "notFound": "Produktet ble ikke funnet",
+    "return": "Gå tilbake til produktene",
+    "configure": "Konfigurer {{navn}}",
+    "standardEquipment": "Standard utstyr",
+    "seeVideo": "Se video",
+    "hoverDrawing": "Hold musepekeren for å avsløre teknisk tegning",
+    "profile": "Profil",
+    "technicalDrawing": "Teknisk tegning",
+    "newGeneration": "Ny generasjon",
+    "uncompromising": "Kompromissløs kvalitet og termisk ytelse",
+    "colorsTitle": "Farger og finisher",
+    "colorsDesc": "Tilpass {{navnet}} ditt med over {{count}} førsteklasses finish, alt fra moderne arkitektoniske solide materialer til hyperrealistiske trekorn.",
+    "preview": "FORHÅNDSVISNING",
+    "selectedFinish": "Valgt Finish",
+    "selectedColor": "Valgt farge:",
+    "glassTitle": "Glass",
+    "glassDesc": "DRUTEX, med over 30 års erfaring i produksjon av komposittglass, tilbyr et meget bredt utvalg av glass som du kan montere vinduer og dører med. De oppfyller strenge krav til energieffektivitet og lydisolering. Tilbudet inkluderer også laminert glass (sikkert og innbruddssikkert), solbeskyttet glass, glass med forbedret lydisolasjon, herdet, ornamentalt og sandblåst glass.",
+    "handlesTitle": "Håndtak",
+    "handlesDesc": "Vindushåndtakene våre utmerker seg ved deres utmerkede utførelse, funksjonalitet og holdbarhet. Tilgjengelig i flere fargevarianter for å matche vinduene dine perfekt.",
+    "optionsTitle": "Ytterligere alternativer",
+    "optionsDesc": "Forbedre og personliggjør din IGLO EDGE med vårt brede utvalg av sertifisert tilbehør og tillegg.",
+    "seeAll": "Se alle",
+    "configureQuote": "Konfigurer produkt og tilbud"
+  },
+  "footer": {
+    "newsletter": {
+      "title": "Nyhetsbrev",
+      "desc": "Hold deg oppdatert på nye produkter og innovasjoner.",
+      "placeholder": "Din e-postadresse",
+      "subscribe": "Abonner"
+    },
+    "cols": {
+      "about": {
+        "title": "Om Mammut",
+        "history": "Vår historie",
+        "quality": "Kvalitet og sertifikater",
+        "innovation": "Innovasjon",
+        "sustainability": "Bærekraft"
+      },
+      "offer": {
+        "title": "Vårt tilbud",
+        "pvc": "PVC-vinduer",
+        "alu": "Vinduer i aluminium",
+        "wood": "Vinduer i tre",
+        "doors": "Ytterdører",
+        "shutters": "Skodder"
+      },
+      "inspiration": {
+        "title": "Inspirasjon",
+        "kitchen": "Kjøkken",
+        "living": "Stue",
+        "bedroom": "Soverom",
+        "terrace": "Terrasse"
+      },
+      "partners": {
+        "title": "Partnere",
+        "portal": "Partnerportal",
+        "coop": "Samarbeidsprogram",
+        "sales": "Salgsrepresentanter",
+        "contact": "Kontakt"
+      }
+    },
+    "legal": {
+      "privacy": "Personvernerklæring",
+      "cookies": "Innstillinger for informasjonskapsler",
+      "sitemap": "Site Map",
+      "terms": "Vilkår for bruk",
+      "copyright": "Mammut Vinduer & Dører. Alle rettigheter forbeholdt."
+    }
+  },
+  "igloEdge": {
+    "tagline": "Maksimal isolasjon, minimal ramme",
+    "description": "Vårt nye, mest teknologisk avanserte vindu utmerker seg med en utmerket termisk isolasjonsparameter på Uw = 0,66 W/(m²K)* og en moderne, kantet profilform. De ekstremt gode varmeisolasjonsparametrene skyldes blant annet 7-kammer profildesignet og 3 EPDM-pakninger, inkludert sentralpakningen.",
+    "basicDescription": "Vindussystemet IGLO EDGE representerer toppen av energieffektivitet. Designet for passivhus og energibevisste renoveringer, har den en 7-kammer profil, klassens beste Uw = 0,66 W/(m²K), og en minimalistisk design som maksimerer naturlig lys som kommer inn i rommet.",
+    "equipment": {
+      "0": "Dobbeltkammerglasspakke Ug = 0,5 W/(m²K)",
+      "1": "Swisspacer Ultimate varm ramme i plast",
+      "2": "V-perfekt sveis",
+      "3": "4 tyverisikringer i henhold til størrelsen på rammen og maskinvaresystemet",
+      "4": "Mikroventilasjon",
+      "5": "DUBLIN vindushåndtak i aluminium",
+      "6": "Låsemekanisme for feilplassering av håndtak",
+      "7": "Perimeter, glass og sentrale pakninger i sort eller grå",
+      "8": "Fylling av nedre maskinvarespor",
+      "9": "terskel trim",
+      "10": "Bredt utvalg av PVC finér farger",
+      "11": "3 profilfarger å velge mellom: hvit, brun eller antrasitt"
+    },
+    "specs": {
+      "sound": "Lydisolasjon",
+      "gaskets": "EPDM pakninger",
+      "thermal": "Termisk transmittans",
+      "chambers": "Antall kamre",
+      "depth": "Installasjonsdybde",
+      "class": "Profilklasse"
+    }
+  },
+  "colorGroups": {
+    "Metal Effect": "Metalleffekt",
+    "Solid": "Fast",
+    "Wood Effect": "Treeffekt"
+  },
+  "colors": {
+    "c209": "Basalt grå",
+    "c210": "Basaltgrå Gadki",
+    "c232": "dyp bronse",
+    "c213": "Grafitt sandblåst",
+    "c207": "Grå kvarts",
+    "c208": "Grå kvarts Glatt",
+    "c237": "Stål blå",
+    "c214": "Antrasitt",
+    "c216": "Antrasitt Ulti Matt",
+    "c215": "Antrasitt Glatt",
+    "c218": "Svart Ulti Matt",
+    "c236": "Strålende blå",
+    "c231": "Sjokolade brun",
+    "c206": "Betonggrå",
+    "c200": "Krem",
+    "c199": "Croviu Platinium",
+    "c234": "Mørkegrønn",
+    "c235": "Mørk rød",
+    "c233": "Mosegrønn",
+    "c205": "Grå",
+    "c217": "Jet Black",
+    "c204": "Lys grå",
+    "c201": "Pyritt",
+    "c228": "Rosewood",
+    "c211": "Skifer",
+    "c212": "Skiferglatt",
+    "c197": "Hvit",
+    "c198": "Hvit sand matt",
+    "c202": "Bleket eik",
+    "c227": "Mørk eik",
+    "c225": "Douglasgran",
+    "c229": "Macore",
+    "c230": "Mahogni",
+    "c203": "Naturlig eik",
+    "c224": "Oregon",
+    "c220": "Turner Oak 2023",
+    "c221": "Turner Oak Toffee 470 3004",
+    "c222": "Turner Oak Walnut 470 3004",
+    "c226": "Valnøtt",
+    "c223": "Winchester",
+    "c219": "Gylden eik"
+  },
+  "configurator": {
+    "title": "Design ditt tilpassede vindussystem.",
+    "subtitle": "Velg materialet og konfigurer dine nøyaktige arkitektoniske spesifikasjoner nedenfor.",
+    "steps": {
+      "material": "Materiale",
+      "system": "Profil",
+      "windowType": "Vindutype",
+      "openingType": "Åpningstype",
+      "color": "Farge og dekor",
+      "dimensions": "Dimensjoner (MM)",
+      "glazing": "Glasspakke",
+      "options": "Tilbehør og tillegg",
+      "profile": "Profil",
+      "start": "Start"
+    },
+    "summary": {
+      "title": "Oversikt over spesifikasjoner",
+      "dimensions": "Dimensjoner",
+      "material": "Materiale",
+      "system": "Profil",
+      "windowType": "Vindutype",
+      "color": "Farge og dekor",
+      "glazing": "Innglassing",
+      "financials": "Økonomi",
+      "baseFramework": "Grunnramme",
+      "hardwareAssembly": "Maskinvaremontering",
+      "accessories": "Tilbehør",
+      "totalSystem": "Totalt system",
+      "exportJson": "JSON-eksport",
+      "saveToCart": "Lagre i handlekurven",
+      "edit": "Redigere"
+    },
+    "inputs": {
+      "w": "W",
+      "h": "H",
+      "mm": "mm",
+      "cm": "(CM)"
+    },
+    "state": {
+      "selected": "Valgt",
+      "selectWindowType": "Velg Vindutype",
+      "openingDirection": "Åpningsretning",
+      "fixedNoOpening": "Fast (ingen åpning)",
+      "turnTilt": "Innerleaf (Turn/Tilt)",
+      "sashes": "{{count}} Konfigurasjon av rammeramme"
+    },
+    "blueprint": {
+      "interiorView": "Innvendig utsikt",
+      "dragToRotate": "Dra for å rotere fritt i 3D"
+    },
+    "windowTypes": {
+      "1-flugel": "1 blad",
+      "1-flugel-oberlicht": "1 blad \nmed Toplight",
+      "1-flugel-unterlicht": "1 blad \nmed Bottomlight",
+      "2-flugel": "2 blader",
+      "2-flugel-oberlicht": "2 blader \nmed Toplight",
+      "2-flugel-oberlicht-asym": "2 blader asym. \nmed Toplight",
+      "2-flugel-unterlicht": "2 blader \nmed Bottomlight",
+      "2-flugel-unterlicht-asym": "2 blader asym. \nmed Bottomlight",
+      "3-flugel": "3 blader",
+      "3-flugel-oberlicht": "3 blader \nmed Toplight",
+      "3-flugel-oberlicht-asym": "3 blader asym. \nmed Toplight",
+      "3-flugel-unterlicht": "3 blader \nmed Bottomlight",
+      "3-flugel-unterlicht-asym": "3 blader asym. \nmed Bottomlight",
+      "4-flugel": "4 blader"
+    },
+    "openingTypes": {
+      "F": "Fikset",
+      "DKL": "Sving-tilt (venstre)",
+      "DKR": "Sving-tilt (høyre)",
+      "DL": "Sving (venstre)",
+      "DR": "Sving (høyre)",
+      "K": "Tilt"
+    },
+    "welcome": {
+      "title": "Velkommen til vår AI-drevne Windows-konfigurator",
+      "description": "Å velge vinduer er ikke en lett oppgave, det er mange alternativer og alles behov er forskjellige, det er derfor vår konfigurator vil veilede og hjelpe deg å ta det beste valget som passer dine behov og budsjett."
+    }
+  },
+  "help": {
+    "materialDesc": "Velg type materiale for vinduet ditt. Nedenfor finner du en oppsummering av de viktigste egenskapene til hver enkelt.",
+    "pvc": "PVC",
+    "aluminum": "ALUMINIUM",
+    "durability": "Varighet",
+    "maintenance": "Vedlikehold",
+    "insulation": "Isolasjon",
+    "weatherRes": "Værbestandighet",
+    "security": "Sikkerhet",
+    "ecoFootprint": "Økologisk fotavtrykk",
+    "legend": "* = nøytral | ** = bra | *** = veldig bra",
+    "windowTypeDesc": "Våre vinduer har ulike åpningsmuligheter. Det er ett-, to- og trefløyet vinduer med øvre eller nedre akterspeil.",
+    "singleLeaf": "Enkeltbladsvinduer",
+    "doubleLeaf": "To-fløyet vinduer",
+    "tripleLeaf": "Trefløyet vinduer",
+    "specialWindows": "Spesielle vindustyper",
+    "leaveConf": "Vil du forlate konfiguratoren?",
+    "stillQuestions": "Har du fortsatt spørsmål om bestillingen din eller konfiguratoren?",
+    "csTeam": "Vårt kundeserviceteam (og vår AI-assistent) gir deg gjerne råd gratis:",
+    "monFri": "(mandag til fredag ​​fra 8:00 til 18:00)",
+    "aiAssist": "AI-assistent",
+    "avail247": "(Tilgjengelig 24/7)",
+    "exitWarning": "Ved å gå ut av konfiguratoren vil det forrige valget ditt gå tapt.",
+    "continueConf": "Fortsett i konfiguratoren",
+    "exitConf": "Avslutt konfigurator",
+    "haveQuestions": "Har du spørsmål?",
+    "availableToday": "Vi er tilgjengelige i dag til kl 18:00.",
+    "shallWeTalk": "Skal vi snakke? Bestill samtalen din nå.",
+    "scheduleMeeting": "Planlegg møte",
+    "up": "OPP",
+    "close": "Lukke",
+    "comp": {
+      "title": "Sammendragssammenligningstabell (2026-kontekst)",
+      "feature": "Trekk",
+      "pvc": "PVC (uPVC)",
+      "aluminum": "Aluminium",
+      "bestFor": "Best for",
+      "bestForPvc": "Budsjett, standardstørrelser, maksimal termisk effektivitet til lav pris.",
+      "bestForAlu": "Store glassflater, moderne estetikk, lang levetid og styrke.",
+      "lifespan": "Levetid",
+      "lifespanPvc": "20–30 år",
+      "lifespanAlu": "45+ år",
+      "cost": "Koste",
+      "costPvc": "Vanligvis 30–50 % billigere.",
+      "costAlu": "Premium prispunkt.",
+      "aesthetics": "Estetikk",
+      "aestheticsPvc": "Kraftigere rammer.",
+      "aestheticsAlu": "Slanke profiler (mer naturlig lys)."
+    }
+  },
+  "assistant": {
+    "geoTitle": "Local Climate Match",
+    "geoDesc": "Klima skreddersydd for deg \nVinduene våre er designet spesielt for klimaet i ditt område. Basert på din nøyaktige plassering, beregner vi den ideelle termiske ytelsen for å garantere maksimal isolasjon om vinteren og friskhet om sommeren. \n\nDine fordeler: \n\nEnergisparing: Reduser utgifter til oppvarming og klimaanlegg. \n\nTotal komfort: Si farvel til trekk og kvelende varme. \n\nLokal presisjon: Teknologi spesielt tilpasset din by.",
+    "province": "Provins",
+    "city": "Kommune / By",
+    "selectProv": "Velg provins...",
+    "selectCity": "Velg by...",
+    "topoEngine": "Topografisk motor",
+    "altitude": "Høyde",
+    "cteZone": "CTE DB-HE KLIMASONE",
+    "next": "Neste trinn",
+    "matTitle": "Material- og budsjettbegrensninger",
+    "matPref": "Materialpreferanse",
+    "guideMe": "Jeg vet ikke, veiled meg",
+    "budget": "Budsjettomfang",
+    "low": "Lav",
+    "med": "Medium",
+    "premium": "Premium",
+    "timeTitle": "Prosjektets tidslinje",
+    "t1": "Så snart som mulig",
+    "t1Sub": "Tidligst 15 virkedager",
+    "t2": "Neste 1-2 måneder",
+    "t3": "Mer enn 2 måneder",
+    "t4": "Fortsatt ikke sikker",
+    "archTitle": "Akustikk og arkitektur",
+    "houseType": "Boligtype",
+    "villa": "Villa",
+    "apt": "Leilighet",
+    "noisePol": "Lokal støyforurensning",
+    "nHigh": "By / høy trafikk",
+    "nLow": "Landlig / stille",
+    "processCalc": "Prosessanalyse",
+    "analyzing": "Analyserer data",
+    "computing": "Beregning av optimale strukturelle belastninger...",
+    "perfWin": "Ditt perfekte vindu",
+    "basedOn": "Basert på din absolutte geografiske sone {{sone}} klimadata, {{støy}} lokal støyforurensning og definert budsjett, anbefaler våre algoritmer:",
+    "recProf": "Anbefalt profilsystem",
+    "base": "Base",
+    "glaze": "Innglassing",
+    "useData": "Bruk disse dataene og konfigurer vinduet",
+    "inter1": "Anbefalt: Intelligent guidet assistent",
+    "inter2": "Ta meg direkte til konfiguratoren",
+    "inter2Sub": "(Kompleks oppsett)"
+  },
+  "partner": {
+    "layout": {
+      "dashboard": "Dashbord",
+      "leads": "Leads & Pipeline",
+      "profile": "Butikkprofil",
+      "settings": "Innstillinger",
+      "portal": "Partnerportal",
+      "signOut": "Logg ut"
+    },
+    "dashboard": {
+      "title": "Dashbord",
+      "subtitle": "Velkommen tilbake. Her er hva som skjer i butikken din.",
+      "showQr": "Vis QR i butikk",
+      "totalScans": "Totalt antall skanninger",
+      "activeLeads": "Aktive kundeemner",
+      "estCommissions": "Øst. Provisjoner",
+      "fromLastMonth": "fra forrige måned",
+      "newThisWeek": "nytt denne uken",
+      "leadsPending": "leder i påvente av stenging",
+      "recentActivity": "Nylig aktivitet"
+    },
+    "leads": {
+      "title": "Leads & Pipeline",
+      "subtitle": "Spor kundenes fremgang og estimerte provisjoner.",
+      "exportCsv": "Eksporter CSV",
+      "searchId": "Søk-ID...",
+      "filterStatus": "Filtrer etter status",
+      "cols": {
+        "id": "Kunde-ID",
+        "date": "Skanningsdato",
+        "source": "Skann kilde",
+        "status": "Status",
+        "budget": "Est. Budsjett",
+        "actions": "Handlinger"
+      }
+    },
+    "profile": {
+      "title": "Butikkprofil",
+      "subtitle": "Administrer butikkdetaljer og innstillinger for co-branding.",
+      "basicInfo": "Grunnleggende informasjon",
+      "storeName": "Butikknavn",
+      "storeType": "Butikktype",
+      "address": "Adresse",
+      "email": "E-post",
+      "phone": "Telefon",
+      "saveChanges": "Lagre endringer",
+      "cobranding": "Co-Branding",
+      "cobrandingDesc": "Last opp logoen din for å vises på kundens landingsside når de skanner QR-kodene dine.",
+      "clickToUpload": "Klikk for å laste opp logo",
+      "fileTypes": "SVG, PNG eller JPG (maks. 2 MB)",
+      "networkGroup": "Nettverksgruppe",
+      "networkDesc": "Butikken din er en uavhengig partner. Hvis du tilhører en større kjede, kan du koble til kontoen din.",
+      "linkChain": "Link til kjede/gruppe",
+      "types": {
+        "hardware": "Jernvarehandel",
+        "pharmacy": "Apotek",
+        "restaurant": "Restaurant",
+        "other": "Annen"
+      }
+    }
+  },
+  "handles": {
+    "h1": {
+      "name": "Standard håndtak",
+      "type": "Aluminium"
+    },
+    "h2": {
+      "name": "Håndtak med nøkkel",
+      "type": "Sikkerhet"
+    },
+    "h3": {
+      "name": "fra Secus®",
+      "type": "Anti-innbrudd"
+    }
+  },
+  "sliderHandles": {
+    "nevada-ral7016": "NEVADA med nøkkel (RAL7016)",
+    "nevada-ral9001": "NEVADA med nøkkel (RAL9001)",
+    "nevada-ral9005": "NEVADA med nøkkel (RAL9005)",
+    "nevada-ral9016": "NEVADA med nøkkel (RAL9016)",
+    "nevada-f9": "NEVADA med nøkkel (titan F9)",
+    "mistral-ral7016": "MISTRAL med nøkkel (RAL7016)",
+    "mistral-ral9001": "MISTRAL med nøkkel (RAL9001)",
+    "mistral-ral9005": "MISTRAL med nøkkel (RAL9005)",
+    "mistral-f9-key": "MISTRAL med nøkkel (titan F9)",
+    "mistral-f9": "MISTRAL F9",
+    "dublin-ral9016": "DUBLIN (hvit RAL9016)",
+    "dublin-ral8019": "DUBLIN (brun RAL8019)",
+    "dublin-ral7016": "DUBLIN (RAL7016)",
+    "dublin-ral9005": "DUBLIN (RAL9005)",
+    "dublin-silver": "DUBLIN (sølv)",
+    "dublin-key-ral7016": "DUBLIN med nøkkel (RAL7016)",
+    "dublin-key-ral9005": "DUBLIN med nøkkel (RAL9005)",
+    "dublin-key-ral9016": "DUBLIN med nøkkel (hvit RAL9016)",
+    "dublin-key-ral8019": "DUBLIN med nøkkel (brun RAL8019)",
+    "dublin-key-silver": "DUBLIN med nøkkel (sølv)",
+    "kwadrat-ral7016": "SQUARE RAL 7016",
+    "kwadrat-ral8019": "SQUARE RAL 8019",
+    "kwadrat-ral9016": "SQUARE RAL 9016",
+    "kwadrat-ral9001": "SQUARE RAL 9001",
+    "kwadrat-f9": "SQUARE titan F9",
+    "kwadrat-key-f1": "KWADRAT med nøkkel F1",
+    "kwadrat-key-f4": "KWADRAT med nøkkel F4",
+    "kwadrat-key-f9": "KWADRAT med tasten F9",
+    "kwadrat-key-ral7016": "KWADRAT med nøkkel (RAL7016)",
+    "kwadrat-key-ral8019": "KWADRAT med nøkkel (RAL8019)",
+    "kwadrat-key-ral9001": "KWADRAT med nøkkel (RAL9001)",
+    "kwadrat-key-ral9005": "KWADRAT med nøkkel (RAL9005)",
+    "kwadrat-key-ral9016": "KWADRAT med nøkkel (RAL9016)"
+  },
+  "productData": {
+    "iglo-edge": {
+      "name": "IGLO KANT",
+      "tagline": "Maksimal isolasjon, minimal ramme",
+      "description": "Vårt nye, mest teknologisk avanserte vindu utmerker seg med en utmerket termisk isolasjonsparameter på Uw = 0,66 W/(m²K)* og en moderne, kantet profilform. De ekstremt gode varmeisolasjonsparametrene skyldes blant annet 7-kammer profildesignet og 3 EPDM-pakninger, inkludert sentralpakningen.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,66",
+        "label_1": "Installasjonsdybde",
+        "value_1": "82",
+        "label_2": "Profil Chambers",
+        "value_2": "7",
+        "label_3": "Lydisolasjon (Rw)",
+        "value_3": "36–47"
+      },
+      "standardEquipment": {
+        "eq_0": "Dobbeltkammerglasspakke Ug = 0,5 W/(m²K)",
+        "eq_1": "Swisspacer Ultimate varm ramme i plast",
+        "eq_2": "V-perfekt sveis",
+        "eq_3": "4 tyverisikringer i henhold til størrelsen på rammen og maskinvaresystemet",
+        "eq_4": "Mikroventilasjon",
+        "eq_5": "DUBLIN vindushåndtak i aluminium",
+        "eq_6": "Låsemekanisme for feilplassering av håndtak",
+        "eq_7": "Perimeter, glass og sentrale pakninger i sort eller grå",
+        "eq_8": "Fylling av nedre maskinvarespor",
+        "eq_9": "terskel trim",
+        "eq_10": "Bredt utvalg av PVC finér farger",
+        "eq_11": "3 profilfarger å velge mellom: hvit, brun eller antrasitt"
+      },
+      "keySpecs": {
+        "label_0": "lyd",
+        "value_0": "36–47 dB",
+        "label_1": "pakninger",
+        "value_1": "3",
+        "label_2": "termisk",
+        "value_2": "Uw = 0,66 W/(m²K)*",
+        "label_3": "kamre",
+        "value_3": "7",
+        "label_4": "dybde",
+        "value_4": "82 mm",
+        "label_5": "klasse",
+        "value_5": "EN"
+      },
+      "hardware": {
+        "name_0": "Standard håndtak",
+        "type_0": "Aluminium",
+        "name_1": "Håndtak med nøkkel",
+        "type_1": "Sikkerhet",
+        "name_2": "fra Secus®",
+        "type_2": "Anti-innbrudd"
+      },
+      "accessories": {
+        "name_0": "Maco Multi Matic KS",
+        "description_0": "Avansert perimetermaskinvare med mikroventilasjon",
+        "name_1": "V-Perfect Welding",
+        "description_1": "Nesten usynlige hjørnesveiser for feilfri estetikk",
+        "name_2": "Stålarmering",
+        "description_2": "Lukket stålprofil i rammen for ekstrem stivhet",
+        "name_3": "EPDM-tetninger",
+        "description_3": "Trippelt tetningssystem i sort eller grått"
+      }
+    },
+    "iglo-energy": {
+      "name": "NÅLENERGI",
+      "tagline": "Enestående energieffektivitet",
+      "description": "Et innovativt og originalt 7-kammer A-klasse profilsystem, produsert eksklusivt av prime materiale, kjennetegnet ved en utmerket termisk isolasjonskoeffisient Uw = 0,6 W/(m2K)*. Iglo Energy setter standarden for energieffektive vinduer.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,71",
+        "label_1": "Installasjonsdybde",
+        "value_1": "82",
+        "label_2": "Profil Chambers",
+        "value_2": "7",
+        "label_3": "Lydisolasjon (Rw)",
+        "value_3": "37–46"
+      },
+      "standardEquipment": {
+        "eq_0": "MACO MULTI MATIC KS maskinvare med 2 innbruddssikringer",
+        "eq_1": "Silber-Look-belegg og lineære fordypninger på espagnolettene",
+        "eq_2": "Feilhåndteringsanordning og løfteramme",
+        "eq_3": "Mikroventilasjon i vippe- og svingvinduer",
+        "eq_4": "Vinduskarmprofil",
+        "eq_5": "Galvanisert stålarmering eller glassfiber (valgfritt)",
+        "eq_6": "5-kammer vinduskarm",
+        "eq_7": "Trippelglasspakke med varm kantavstand"
+      },
+      "keySpecs": {
+        "label_0": "lyd",
+        "value_0": "37-46 dB",
+        "label_1": "pakninger",
+        "value_1": "3 EPDM",
+        "label_2": "termisk",
+        "value_2": "Uw = 0,71 W/(m²K)*",
+        "label_3": "kamre",
+        "value_3": "7",
+        "label_4": "dybde",
+        "value_4": "82 mm",
+        "label_5": "klasse",
+        "value_5": "EN"
+      },
+      "hardware": {
+        "name_0": "Standard håndtak",
+        "type_0": "Aluminium",
+        "name_1": "Håndtak med nøkkel",
+        "type_1": "Sikkerhet",
+        "name_2": "fra Secus®",
+        "type_2": "Anti-innbrudd"
+      },
+      "accessories": {
+        "name_0": "Maco Multi Matic KS",
+        "description_0": "Avansert perimetermaskinvare med mikroventilasjon",
+        "name_1": "V-Perfect Welding",
+        "description_1": "Nesten usynlige hjørnesveiser for feilfri estetikk",
+        "name_2": "Stålarmering",
+        "description_2": "Lukket stålprofil i rammen for ekstrem stivhet",
+        "name_3": "EPDM-tetninger",
+        "description_3": "Trippelt tetningssystem i sort eller grått"
+      }
+    },
+    "iglo-energy-classic": {
+      "name": "IGLO ENERGY CLASSIC",
+      "tagline": "Firkantet glasslist møter passivhusytelse",
+      "description": "Et unikt design hvor du kan velge den firkantede glasslisten for å gjenspeile de siste arkitektoniske trendene. De bemerkelsesverdige termiske isolasjonsparametrene er sikret av den optimale 7-kammer profilstrukturen og et spesialdesignet tetningssystem laget av skummet EPDM. Profil tilgjengelig i hvit, antrasitt og bronse.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,73",
+        "label_1": "Installasjonsdybde",
+        "value_1": "82",
+        "label_2": "Profil Chambers",
+        "value_2": "7",
+        "label_3": "Lydisolasjon (Rw)",
+        "value_3": "36–42"
+      }
+    },
+    "iglo-energy-alucover": {
+      "name": "IGLO ENERGY ALUCOVER",
+      "tagline": "PVC-ytelse med utvendig eleganse i aluminium",
+      "description": "Opplev fusjonen av banebrytende termisk isolasjonsytelse og moderne design. Aluminiumsbekledningen på utsiden tilbyr grenseløse fargemuligheter, og gir deg mulighet til å lage en unik personlig stil for ethvert interiør eller bygningsfasade – uten å gå på kompromiss med termisk ytelse.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,76",
+        "label_1": "Installasjonsdybde",
+        "value_1": "82",
+        "label_2": "Profil Chambers",
+        "value_2": "7",
+        "label_3": "Glasspakke (Og)",
+        "value_3": "0,5"
+      }
+    },
+    "iglo-5": {
+      "name": "NÅL 5",
+      "tagline": "Høy kvalitet til en attraktiv pris",
+      "description": "IGLO 5-systemet kombinerer eleganse, funksjonalitet og avanserte energibesparende løsninger. Dens tidløse 5-kammer profildesign gjør den til et allsidig valg for både moderne arkitektur og klassiske renoveringer, og leverer solid termisk ytelse til utmerket verdi.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,74",
+        "label_1": "Installasjonsdybde",
+        "value_1": "70",
+        "label_2": "Profil Chambers",
+        "value_2": "5",
+        "label_3": "Lydisolasjon (Rw)",
+        "value_3": "36–44"
+      }
+    },
+    "iglo-5-classic": {
+      "name": "NÅL 5 KLASSISK",
+      "tagline": "Utprøvde løsninger betyr kundetilfredshet",
+      "description": "IGLO 5 Classic blander det velprøvde 5-kammer profilsystemet med en tradisjonell estetikk. Pålitelig termisk og akustisk ytelse gjør den til det pålitelige valget for både nybygg og renoveringsprosjekter på tvers av alle klimasoner.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,89",
+        "label_1": "Installasjonsdybde",
+        "value_1": "70",
+        "label_2": "Profil Chambers",
+        "value_2": "5",
+        "label_3": "Lydisolasjon (Rw)",
+        "value_3": "36–44"
+      }
+    },
+    "iglo-light": {
+      "name": "IGLO LYS",
+      "tagline": "Enda mer dagslys inn i rommet ditt",
+      "description": "IGLO LIGHT kjennetegnes ved sine eksepsjonelt slanke profiler, som slipper betydelig mer naturlig lys inn i interiøret. Til tross for det slanke utseendet, tilbyr den enestående strukturell stabilitet og termisk ytelse i den klassiske 5-kammerteknikken.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,88",
+        "label_1": "Installasjonsdybde",
+        "value_1": "70",
+        "label_2": "Profil Chambers",
+        "value_2": "5",
+        "label_3": "Lydisolasjon (Rw)",
+        "value_3": "34"
+      }
+    },
+    "iglo-ext": {
+      "name": "IGLO EXT",
+      "tagline": "Moderne PVC balkongvinduer som åpner utover",
+      "description": "IGLO EXT er et moderne utadslående PVC-system som er ideelt for balkonger, terrasser og trange installasjoner der innadgående åpning er upraktisk. Den tilbyr pålitelig værbeskyttelse og termisk isolasjon i en plassbesparende design.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,89",
+        "label_1": "Installasjonsdybde",
+        "value_1": "70",
+        "label_2": "Profil Chambers",
+        "value_2": "5",
+        "label_3": "Åpningsretning",
+        "value_3": "Ytre"
+      }
+    },
+    "iglo-premier": {
+      "name": "NÅL PREMIERE",
+      "tagline": "Moderne utadslående vindus- eller vippevinduer",
+      "description": "Iglo Premier leverer førsteklasses utadgående vindusopplevelse med eksepsjonell værbestandighet og termisk ytelse. Designet for moderne arkitektur som krever rene siktlinjer og pålitelig langsiktig ytelse.",
+      "specs": {
+        "label_0": "Installasjonsdybde",
+        "value_0": "70",
+        "label_1": "Profil Chambers",
+        "value_1": "5",
+        "label_2": "Åpningsretning",
+        "value_2": "Ytre",
+        "label_3": "Standard glass (og)",
+        "value_3": "0,6"
+      }
+    },
+    "ideal-neo-ad": {
+      "name": "IDEELL NEO AD",
+      "tagline": "Mer enn moderne design",
+      "description": "IDEAL NEO AD tilbyr en 5/6-kammer profilstruktur med enestående design allsidighet. Den har avansert termisk bruddteknologi og er tilgjengelig i en lang rekke utførelser, noe som gjør den ideell for arkitektonisk krevende prosjekter.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,79",
+        "label_1": "Installasjonsdybde",
+        "value_1": "76",
+        "label_2": "Profil Chambers",
+        "value_2": "5/6",
+        "label_3": "Lydisolasjon (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md": {
+      "name": "IDEAL NEO MD",
+      "tagline": "Mer enn moderne design",
+      "description": "IDEAL NEO MD er et førsteklasses 6-kammersystem som tilbyr utmerket termisk isolasjon og en moderne estetikk med flush profile. Den sømløse rammedesignen fjerner synlige falser, og skaper et moderne utseende som passer til minimalistiske interiører og fasader.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,76",
+        "label_1": "Installasjonsdybde",
+        "value_1": "76",
+        "label_2": "Profil Chambers",
+        "value_2": "6",
+        "label_3": "Lydisolasjon (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-fs": {
+      "name": "IDEAL NEO MD-FS",
+      "tagline": "I harmoni med arkitekturen",
+      "description": "IDEAL NEO MD-FS flush sash-varianten fjerner det synlige trinnet mellom ramme og ramme, noe som resulterer i et perfekt flatt ytre utseende. Ideell for moderne, minimalistisk arkitektur der siktlinjer betyr like mye som ytelse.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,73",
+        "label_1": "Installasjonsdybde",
+        "value_1": "76",
+        "label_2": "Profil Chambers",
+        "value_2": "6",
+        "label_3": "Lydisolasjon (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-monoblock": {
+      "name": "IDEAL NEO MD MONOBLOCK",
+      "tagline": "Designet for installasjon i isolasjonslag",
+      "description": "Monoblokkrammer er designet for vinduer installert i et lag med isolasjon. Det brede rammeområdet (76–162 mm) tillater passende valg avhengig av isolasjonstykkelse. En spesiell ytre hylle maskerer isolasjonen rundt vindusomkretsen estetisk.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,76",
+        "label_1": "Installasjonsdybde",
+        "value_1": "76–162",
+        "label_2": "Profil Chambers",
+        "value_2": "6",
+        "label_3": "Lydisolasjon (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-renovation": {
+      "name": "IDEELL NEO MD RENOVASJON",
+      "tagline": "Nye vinduer uten å fjerne den gamle karmen",
+      "description": "Renoveringsrammesystemet muliggjør vindusmontering uten å demontere gamle karmer. Spesialrammer med maskeringsprofil omfatter den eksisterende trerammen. Maskeringsprofiler er tilgjengelige i breddene 40 mm og 70 mm og kan kuttes for spesifikke behov.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,76",
+        "label_1": "Installasjonsdybde",
+        "value_1": "76",
+        "label_2": "Profil Chambers",
+        "value_2": "5/6",
+        "label_3": "Lydisolasjon (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-7000-nl": {
+      "name": "IDEAL 7000 NL",
+      "tagline": "I harmoni med arkitekturen",
+      "description": "IDEAL 7000 NL er et allsidig PVC-vindussystem som tilbyr rene siktlinjer og solid termisk ytelse. Godt egnet for prosjekter der arkitektur krever en raffinert, tidsriktig vindusprofil uten at det går på bekostning av isolasjon eller holdbarhet.",
+      "specs": {
+        "label_0": "Profil Chambers",
+        "value_0": "5",
+        "label_1": "Glasspakke (Og)",
+        "value_1": "0,5",
+        "label_2": "Tilgjengelige sveisetyper",
+        "value_2": "V-Perfect, klassisk",
+        "label_3": "Standard maskinvare",
+        "value_3": "MACO MULTI-MATIC"
+      }
+    },
+    "mb-86n-si": {
+      "name": "MB-86N SI",
+      "tagline": "Utmerkede parametere og holdbarhet av aluminium",
+      "description": "Et svært avansert aluminiumsvindussystem som oppfyller de høyeste kravene til varmeisolasjon. Avstandsstykket med varme kant og førsteklasses termisk brudd leverer Uw-verdier så lave som 0,76 W/(m²K), noe som gjør den til den beste ytelsen i Drutex-vindusserien i aluminium.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,76",
+        "label_1": "Installasjonsdybde",
+        "value_1": "77",
+        "label_2": "Forseglingslag",
+        "value_2": "3",
+        "label_3": "Standard glass (og)",
+        "value_3": "0,5"
+      }
+    },
+    "mb-79n-si": {
+      "name": "MB-79N SI",
+      "tagline": "Velg energieffektivitet",
+      "description": "MB-79N SI aluminiumsvindussystem gir enestående termisk ytelse for en profildybde på 70 mm. Tre tetningsnivåer og et høyytelses termisk brudd gjør den egnet for både boliger og kommersielle applikasjoner som krever effektiv, slitesterk aluminiumsramme.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,81",
+        "label_1": "Installasjonsdybde",
+        "value_1": "70",
+        "label_2": "Forseglingslag",
+        "value_2": "3",
+        "label_3": "Standard glass (og)",
+        "value_3": "0,5"
+      }
+    },
+    "mb-70hi": {
+      "name": "MB-70HI",
+      "tagline": "Lett, slitesterk, termisk effektiv aluminium",
+      "description": "MB-70HI aluminiumsvinduer kan brukes i både enkeltbygg og aluminiumsfasader. Den lette og slitesterke konstruksjonen sikrer høy komfort i mange år. Standardutstyr inkluderer MACO MULTI-MATIC KS armaturer og mikroventilasjon.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,96",
+        "label_1": "Installasjonsdybde",
+        "value_1": "70",
+        "label_2": "Forseglingslag",
+        "value_2": "3",
+        "label_3": "Glass rekkevidde",
+        "value_3": "23,5–62"
+      }
+    },
+    "mb-70": {
+      "name": "MB-70",
+      "tagline": "Pålitelig aluminium med 70 mm profildybde",
+      "description": "MB-70 aluminiumsvindussystem gir en pålitelig, kostnadseffektiv løsning for moderne arkitektur. Standardutstyr inkluderer MACO maskinvare, 70 mm installasjonsdybde og RAL matte farger i hvit eller antrasitt – som dekker det bredeste spekteret av bolig- og kommersielle bruksområder.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "1.06",
+        "label_1": "Installasjonsdybde",
+        "value_1": "70",
+        "label_2": "Forseglingslag",
+        "value_2": "3",
+        "label_3": "Glass rekkevidde",
+        "value_3": "23,5–62"
+      }
+    },
+    "mb-45": {
+      "name": "MB-45",
+      "tagline": "Slank aluminiumsprofil for maksimalt glassareal",
+      "description": "MB-45 er et ultratynn aluminiumsvindussystem med en profildybde på 45 mm, perfekt for bruksområder hvor maksimal glassoverflate og minimal innsyn i rammen er prioritert. Standardutstyr inkluderer MACO-beslag, EPDM-tetninger og RAL matt finish.",
+      "specs": {
+        "label_0": "Installasjonsdybde",
+        "value_0": "45",
+        "label_1": "Forseglingslag",
+        "value_1": "2",
+        "label_2": "Glass rekkevidde",
+        "value_2": "1,5–37",
+        "label_3": "Tilgjengelige farger",
+        "value_3": "Hvit RAL 9016, antrasitt RAL 7016"
+      }
+    },
+    "softline": {
+      "name": "SOFTLINE 68/78/88",
+      "tagline": "Holdbarhet og naturens skjønnhet",
+      "description": "SOFTLINE trevinduer bringer varmen og skjønnheten til naturlige materialer med moderne ingeniørpresisjon. Tilgjengelig i tre profildybder - 68 mm, 78 mm og 88 mm - for å dekke varierende isolasjons- og estetiske krav, ferdig med høykvalitets mikroporøse lakker for langvarig holdbarhet.",
+      "specs": {
+        "label_0": "Tilgjengelige dybder",
+        "value_0": "68/78/88",
+        "label_1": "Materiale",
+        "value_1": "Furu / Eik / Meranti",
+        "label_2": "Overflatebehandling",
+        "value_2": "Mikroporøs lakk av høy kvalitet",
+        "label_3": "Standard maskinvare",
+        "value_3": "MACO MULTI-MATIC"
+      }
+    },
+    "duoline": {
+      "name": "DUOLINE 68/78/88",
+      "tagline": "Unik kombinasjon av tre og aluminium",
+      "description": "DUOLINE tre-aluminiumsvinduer kombinerer varmen fra et naturlig treinteriør med et robust utvendig aluminiumsskall som krever lite vedlikehold. Tilgjengelig i tre profildybder (68 mm, 78 mm, 88 mm) med praktisk talt ubegrensede RAL utvendige fargealternativer for enhver arkitektonisk stil.",
+      "specs": {
+        "label_0": "Tilgjengelige dybder",
+        "value_0": "68/78/88",
+        "label_1": "Interiør",
+        "value_1": "Naturlig tre (furu/eik/meranti)",
+        "label_2": "Ytre",
+        "value_2": "Aluminiumsskall, ubegrenset RAL",
+        "label_3": "Standard maskinvare",
+        "value_3": "MACO MULTI-MATIC"
+      }
+    },
+    "iglo-edge-doors": {
+      "name": "IGLO KANTDØRER",
+      "tagline": "Inngangen til Premium",
+      "description": "Ytterdører basert på IGLO EDGE-systemet tilbyr uovertruffen sikkerhet, holdbarhet og termisk isolasjon. Tilgjengelig i et bredt spekter av farger og utfyllingspaneler for å matche enhver arkitektonisk stil.",
+      "specs": {
+        "label_0": "Termisk transmittans (Ud)",
+        "value_0": "0,75",
+        "label_1": "Installasjonsdybde",
+        "value_1": "82",
+        "label_2": "Låsepunkter",
+        "value_2": "3 til 5"
+      }
+    },
+    "iglo-hs": {
+      "name": "IGLO-HS",
+      "tagline": "Panoramautsikt uten grenser",
+      "description": "Løft-og-skyv-dører (HS) som gjør det mulig å lage spektakulære glass i storformat. Den avanserte mekanismen sikrer uanstrengt betjening selv for rammeverk som veier opptil 400 kg.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,73",
+        "label_1": "Maks dimensjoner",
+        "value_1": "3,2 m x 6,5 m",
+        "label_2": "Installasjonsdybde",
+        "value_2": "194"
+      }
+    },
+    "iglo-edge-slide": {
+      "name": "IGLO KANTSLIDE",
+      "tagline": "Teknologi som imponerer",
+      "description": "Vårt nye, mest teknologisk avanserte vindu utmerker seg med en utmerket termisk isolasjonsparameter på Uw = 0,65 W/(m2K)* og en moderne, vinkelprofilform.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,65",
+        "label_1": "Installasjonsdybde (ramme)",
+        "value_1": "163",
+        "label_2": "Profil Chambers",
+        "value_2": "6",
+        "label_3": "Pakninger",
+        "value_3": "3"
+      }
+    }
+  }
+}

@@ -34,7 +34,11 @@
         "woodWindows": "Wood Windows",
         "woodAlumWindows": "Wood-Aluminum Windows",
         "pvcDoors": "PVC Doors",
-        "alumDoors": "Aluminum Doors"
+        "alumDoors": "Aluminum Doors",
+        "liftAndSlide": "Lift and Slide HS",
+        "slide": "Slide",
+        "foldingDoors": "Folding Doors",
+        "tiltAndSlide": "Tilt and Slide PSK"
       },
       "new": "New"
     }
@@ -501,6 +505,516 @@
         "pharmacy": "Pharmacy",
         "restaurant": "Restaurant",
         "other": "Other"
+      }
+    }
+  },
+  "handles": {
+    "h1": {
+      "name": "Standard Handle",
+      "type": "Aluminum"
+    },
+    "h2": {
+      "name": "Handle with Key",
+      "type": "Security"
+    },
+    "h3": {
+      "name": "Secustik®",
+      "type": "Anti-burglary"
+    }
+  },
+  "sliderHandles": {
+    "nevada-ral7016": "NEVADA with key (RAL7016)",
+    "nevada-ral9001": "NEVADA with key (RAL9001)",
+    "nevada-ral9005": "NEVADA with key (RAL9005)",
+    "nevada-ral9016": "NEVADA with key (RAL9016)",
+    "nevada-f9": "NEVADA with key (titanium F9)",
+    "mistral-ral7016": "MISTRAL with key (RAL7016)",
+    "mistral-ral9001": "MISTRAL with key (RAL9001)",
+    "mistral-ral9005": "MISTRAL with key (RAL9005)",
+    "mistral-f9-key": "MISTRAL with key (titanium F9)",
+    "mistral-f9": "MISTRAL F9",
+    "dublin-ral9016": "DUBLIN (white RAL9016)",
+    "dublin-ral8019": "DUBLIN (brown RAL8019)",
+    "dublin-ral7016": "DUBLIN (RAL7016)",
+    "dublin-ral9005": "DUBLIN (RAL9005)",
+    "dublin-silver": "DUBLIN (silver)",
+    "dublin-key-ral7016": "DUBLIN with key (RAL7016)",
+    "dublin-key-ral9005": "DUBLIN with key (RAL9005)",
+    "dublin-key-ral9016": "DUBLIN with key (white RAL9016)",
+    "dublin-key-ral8019": "DUBLIN with key (brown RAL8019)",
+    "dublin-key-silver": "DUBLIN with key (silver)",
+    "kwadrat-ral7016": "KWADRAT RAL 7016",
+    "kwadrat-ral8019": "KWADRAT RAL 8019",
+    "kwadrat-ral9016": "KWADRAT RAL 9016",
+    "kwadrat-ral9001": "KWADRAT RAL 9001",
+    "kwadrat-f9": "KWADRAT titanium F9",
+    "kwadrat-key-f1": "KWADRAT with key F1",
+    "kwadrat-key-f4": "KWADRAT with key F4",
+    "kwadrat-key-f9": "KWADRAT with key F9",
+    "kwadrat-key-ral7016": "KWADRAT with key (RAL7016)",
+    "kwadrat-key-ral8019": "KWADRAT with key (RAL8019)",
+    "kwadrat-key-ral9001": "KWADRAT with key (RAL9001)",
+    "kwadrat-key-ral9005": "KWADRAT with key (RAL9005)",
+    "kwadrat-key-ral9016": "KWADRAT with key (RAL9016)"
+  },
+  "productData": {
+    "iglo-edge": {
+      "name": "IGLO EDGE",
+      "tagline": "Maximum insulation, minimal frame",
+      "description": "Our new, most technologically advanced window is distinguished by an excellent thermal insulation parameter of Uw = 0.66 W/(m²K)* and a modern, angular profile shape. The extremely good thermal insulation parameters are due, among other things, to the 7-chamber profile design and 3 EPDM gaskets, including the central gasket.",
+      "specs": {
+        "label_0": "Thermal Transmittance (Uw)",
+        "value_0": "0.66",
+        "label_1": "Installation Depth",
+        "value_1": "82",
+        "label_2": "Profile Chambers",
+        "value_2": "7",
+        "label_3": "Sound Insulation (Rw)",
+        "value_3": "36–47"
+      },
+      "standardEquipment": {
+        "eq_0": "Double-chamber glazing package Ug = 0.5 W/(m²K)",
+        "eq_1": "Swisspacer Ultimate plastic warm frame",
+        "eq_2": "V-perfect weld",
+        "eq_3": "4 anti-theft strikers according to the size of the sash and the hardware system",
+        "eq_4": "Microventilation",
+        "eq_5": "DUBLIN aluminium window handle",
+        "eq_6": "Handle misplacement locking mechanism",
+        "eq_7": "Perimeter, glazing and central gaskets in black or grey",
+        "eq_8": "Filling of the lower hardware groove",
+        "eq_9": "Sill trim",
+        "eq_10": "Wide selection of PVC veneer colours",
+        "eq_11": "3 profile colours to choose from: white, brown or anthracite"
+      },
+      "keySpecs": {
+        "label_0": "sound",
+        "value_0": "36–47 dB",
+        "label_1": "gaskets",
+        "value_1": "3",
+        "label_2": "thermal",
+        "value_2": "Uw = 0.66 W/(m²K)*",
+        "label_3": "chambers",
+        "value_3": "7",
+        "label_4": "depth",
+        "value_4": "82 mm",
+        "label_5": "class",
+        "value_5": "A"
+      },
+      "hardware": {
+        "name_0": "Standard Handle",
+        "type_0": "Aluminum",
+        "name_1": "Handle with Key",
+        "type_1": "Security",
+        "name_2": "Secustik®",
+        "type_2": "Anti-burglary"
+      },
+      "accessories": {
+        "name_0": "Maco Multi Matic KS",
+        "description_0": "Advanced perimeter hardware with micro-ventilation",
+        "name_1": "V-Perfect Welding",
+        "description_1": "Virtually invisible corner welds for flawless aesthetics",
+        "name_2": "Steel Reinforcement",
+        "description_2": "Closed steel profile in the frame for extreme rigidity",
+        "name_3": "EPDM Seals",
+        "description_3": "Triple sealing system in black or grey"
+      }
+    },
+    "iglo-energy": {
+      "name": "IGLO ENERGY",
+      "tagline": "Outstanding energy efficiency",
+      "description": "An innovative and original 7-chamber A-class profile system, manufactured exclusively from prime material, distinguished by an excellent thermal insulation coefficient Uw = 0.6 W/(m2K)*. Iglo Energy sets the standard for energy-efficient windows.",
+      "specs": {
+        "label_0": "Thermal Transmittance (Uw)",
+        "value_0": "0.71",
+        "label_1": "Installation Depth",
+        "value_1": "82",
+        "label_2": "Profile Chambers",
+        "value_2": "7",
+        "label_3": "Sound Insulation (Rw)",
+        "value_3": "37–46"
+      },
+      "standardEquipment": {
+        "eq_0": "MACO MULTI MATIC KS hardware with 2 anti-burglary catches",
+        "eq_1": "Silber-Look coating and linear depressions on the espagnolettes",
+        "eq_2": "Mishandling device and lift sash",
+        "eq_3": "Micro-ventilation in tilt and turn windows",
+        "eq_4": "Window sill profile",
+        "eq_5": "Galvanized steel reinforcement or fiberglass (optional)",
+        "eq_6": "5-chamber window sill",
+        "eq_7": "Triple glazing package with warm edge spacer"
+      },
+      "keySpecs": {
+        "label_0": "sound",
+        "value_0": "37-46 dB",
+        "label_1": "gaskets",
+        "value_1": "3 EPDM",
+        "label_2": "thermal",
+        "value_2": "Uw = 0.71 W/(m²K)*",
+        "label_3": "chambers",
+        "value_3": "7",
+        "label_4": "depth",
+        "value_4": "82 mm",
+        "label_5": "class",
+        "value_5": "A"
+      },
+      "hardware": {
+        "name_0": "Standard Handle",
+        "type_0": "Aluminum",
+        "name_1": "Handle with Key",
+        "type_1": "Security",
+        "name_2": "Secustik®",
+        "type_2": "Anti-burglary"
+      },
+      "accessories": {
+        "name_0": "Maco Multi Matic KS",
+        "description_0": "Advanced perimeter hardware with micro-ventilation",
+        "name_1": "V-Perfect Welding",
+        "description_1": "Virtually invisible corner welds for flawless aesthetics",
+        "name_2": "Steel Reinforcement",
+        "description_2": "Closed steel profile in the frame for extreme rigidity",
+        "name_3": "EPDM Seals",
+        "description_3": "Triple sealing system in black or grey"
+      }
+    },
+    "iglo-energy-classic": {
+      "name": "IGLO ENERGY CLASSIC",
+      "tagline": "Square glazing bead meets passive-house performance",
+      "description": "A unique design where you can choose the square-shaped glazing bead to reflect the latest architectural trends. The remarkable thermal insulation parameters are ensured by the optimum 7-chamber profile structure and a specially designed sealing system made of foamed EPDM. Profile available in white, anthracite and bronze.",
+      "specs": {
+        "label_0": "Thermal Transmittance (Uw)",
+        "value_0": "0.73",
+        "label_1": "Installation Depth",
+        "value_1": "82",
+        "label_2": "Profile Chambers",
+        "value_2": "7",
+        "label_3": "Sound Insulation (Rw)",
+        "value_3": "36–42"
+      }
+    },
+    "iglo-energy-alucover": {
+      "name": "IGLO ENERGY ALUCOVER",
+      "tagline": "PVC performance with aluminium exterior elegance",
+      "description": "Experience the fusion of cutting-edge thermal insulation performance and contemporary design. The aluminium cladding on the exterior offers boundless colour possibilities, empowering you to fashion a unique personalised style for every interior or building facade — without compromising on thermal performance.",
+      "specs": {
+        "label_0": "Thermal Transmittance (Uw)",
+        "value_0": "0.76",
+        "label_1": "Installation Depth",
+        "value_1": "82",
+        "label_2": "Profile Chambers",
+        "value_2": "7",
+        "label_3": "Glazing Package (Ug)",
+        "value_3": "0.5"
+      }
+    },
+    "iglo-5": {
+      "name": "IGLO 5",
+      "tagline": "High quality at an attractive price",
+      "description": "The IGLO 5 system combines elegance, functionality, and advanced energy-saving solutions. Its timeless 5-chamber profile design makes it a versatile choice for both modern architecture and classic renovations, delivering solid thermal performance at excellent value.",
+      "specs": {
+        "label_0": "Thermal Transmittance (Uw)",
+        "value_0": "0.74",
+        "label_1": "Installation Depth",
+        "value_1": "70",
+        "label_2": "Profile Chambers",
+        "value_2": "5",
+        "label_3": "Sound Insulation (Rw)",
+        "value_3": "36–44"
+      }
+    },
+    "iglo-5-classic": {
+      "name": "IGLO 5 CLASSIC",
+      "tagline": "Proven solutions mean customer satisfaction",
+      "description": "The IGLO 5 Classic blends the proven 5-chamber profile system with a traditional aesthetic. Reliable thermal and acoustic performance makes it the trusted choice for both new builds and renovation projects across all climate zones.",
+      "specs": {
+        "label_0": "Thermal Transmittance (Uw)",
+        "value_0": "0.89",
+        "label_1": "Installation Depth",
+        "value_1": "70",
+        "label_2": "Profile Chambers",
+        "value_2": "5",
+        "label_3": "Sound Insulation (Rw)",
+        "value_3": "36–44"
+      }
+    },
+    "iglo-light": {
+      "name": "IGLO LIGHT",
+      "tagline": "Even more daylight into your space",
+      "description": "IGLO LIGHT is characterised by its exceptionally slim profiles, allowing significantly more natural light into the interior. Despite its slender appearance, it offers outstanding structural stability and thermal performance in the classic 5-chamber engineering.",
+      "specs": {
+        "label_0": "Thermal Transmittance (Uw)",
+        "value_0": "0.88",
+        "label_1": "Installation Depth",
+        "value_1": "70",
+        "label_2": "Profile Chambers",
+        "value_2": "5",
+        "label_3": "Sound Insulation (Rw)",
+        "value_3": "34"
+      }
+    },
+    "iglo-ext": {
+      "name": "IGLO EXT",
+      "tagline": "Modern PVC balcony windows that open outwards",
+      "description": "IGLO EXT is a modern outward-opening PVC system ideal for balconies, terraces, and tight-space installations where inward opening is impractical. It offers reliable weather protection and thermal insulation in a space-saving design.",
+      "specs": {
+        "label_0": "Thermal Transmittance (Uw)",
+        "value_0": "0.89",
+        "label_1": "Installation Depth",
+        "value_1": "70",
+        "label_2": "Profile Chambers",
+        "value_2": "5",
+        "label_3": "Opening Direction",
+        "value_3": "Outward"
+      }
+    },
+    "iglo-premier": {
+      "name": "IGLO PREMIER",
+      "tagline": "Modern outward-opening casement or tilt windows",
+      "description": "Iglo Premier delivers the premium outward-opening window experience with exceptional weatherproofing and thermal performance. Designed for contemporary architecture requiring clean sightlines and reliable long-term performance.",
+      "specs": {
+        "label_0": "Installation Depth",
+        "value_0": "70",
+        "label_1": "Profile Chambers",
+        "value_1": "5",
+        "label_2": "Opening Direction",
+        "value_2": "Outward",
+        "label_3": "Standard Glazing (Ug)",
+        "value_3": "0.6"
+      }
+    },
+    "ideal-neo-ad": {
+      "name": "IDEAL NEO AD",
+      "tagline": "More than modern design",
+      "description": "The IDEAL NEO AD offers a 5/6-chamber profile structure with outstanding design versatility. It incorporates advanced thermal break technology and is available in a wide range of finishes, making it ideal for architecturally demanding projects.",
+      "specs": {
+        "label_0": "Thermal Transmittance (Uw)",
+        "value_0": "0.79",
+        "label_1": "Installation Depth",
+        "value_1": "76",
+        "label_2": "Profile Chambers",
+        "value_2": "5/6",
+        "label_3": "Sound Insulation (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md": {
+      "name": "IDEAL NEO MD",
+      "tagline": "More than modern design",
+      "description": "IDEAL NEO MD is a premium 6-chamber system offering excellent thermal insulation and a contemporary flush profile aesthetic. The seamless sash design removes visible rebates, creating a modern appearance that suits minimalist interiors and facades.",
+      "specs": {
+        "label_0": "Thermal Transmittance (Uw)",
+        "value_0": "0.76",
+        "label_1": "Installation Depth",
+        "value_1": "76",
+        "label_2": "Profile Chambers",
+        "value_2": "6",
+        "label_3": "Sound Insulation (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-fs": {
+      "name": "IDEAL NEO MD-FS",
+      "tagline": "In harmony with the architecture",
+      "description": "The IDEAL NEO MD-FS flush sash variant removes the visible step between frame and sash, resulting in a perfectly flat exterior appearance. Ideal for modern, minimalist architecture where sightlines matter as much as performance.",
+      "specs": {
+        "label_0": "Thermal Transmittance (Uw)",
+        "value_0": "0.73",
+        "label_1": "Installation Depth",
+        "value_1": "76",
+        "label_2": "Profile Chambers",
+        "value_2": "6",
+        "label_3": "Sound Insulation (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-monoblock": {
+      "name": "IDEAL NEO MD MONOBLOCK",
+      "tagline": "Designed for installation within insulation layers",
+      "description": "Monoblock frames are designed for windows installed within a layer of insulation. The wide frame range (76–162 mm) allows appropriate selection depending on insulation thickness. A special outer shelf aesthetically masks the insulation around the window perimeter.",
+      "specs": {
+        "label_0": "Thermal Transmittance (Uw)",
+        "value_0": "0.76",
+        "label_1": "Installation Depth",
+        "value_1": "76–162",
+        "label_2": "Profile Chambers",
+        "value_2": "6",
+        "label_3": "Sound Insulation (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-renovation": {
+      "name": "IDEAL NEO MD RENOVATION",
+      "tagline": "New windows without removing the old frame",
+      "description": "The renovation frame system enables window installation without dismantling old frames. Special frames with a masking profile encompass the existing wooden frame. Masking profiles are available in widths of 40 mm and 70 mm and can be cut for specific requirements.",
+      "specs": {
+        "label_0": "Thermal Transmittance (Uw)",
+        "value_0": "0.76",
+        "label_1": "Installation Depth",
+        "value_1": "76",
+        "label_2": "Profile Chambers",
+        "value_2": "5/6",
+        "label_3": "Sound Insulation (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-7000-nl": {
+      "name": "IDEAL 7000 NL",
+      "tagline": "In harmony with the architecture",
+      "description": "The IDEAL 7000 NL is a versatile PVC window system offering clean sightlines and solid thermal performance. Well-suited to projects where architecture demands a refined, contemporary window profile without compromising on insulation or durability.",
+      "specs": {
+        "label_0": "Profile Chambers",
+        "value_0": "5",
+        "label_1": "Glazing Package (Ug)",
+        "value_1": "0.5",
+        "label_2": "Available Weld Types",
+        "value_2": "V-Perfect, classic",
+        "label_3": "Standard Hardware",
+        "value_3": "MACO MULTI-MATIC"
+      }
+    },
+    "mb-86n-si": {
+      "name": "MB-86N SI",
+      "tagline": "Excellent parameters and durability of aluminium",
+      "description": "A highly advanced aluminium window system that meets the highest thermal insulation requirements. The warm-edge spacer and premium thermal break deliver Uw values as low as 0.76 W/(m²K), making it the top performer in the Drutex aluminium window range.",
+      "specs": {
+        "label_0": "Thermal Transmittance (Uw)",
+        "value_0": "0.76",
+        "label_1": "Installation Depth",
+        "value_1": "77",
+        "label_2": "Sealing Layers",
+        "value_2": "3",
+        "label_3": "Standard Glazing (Ug)",
+        "value_3": "0.5"
+      }
+    },
+    "mb-79n-si": {
+      "name": "MB-79N SI",
+      "tagline": "Choose energy efficiency",
+      "description": "The MB-79N SI aluminium window system delivers outstanding thermal performance for a 70 mm profile depth. Three sealing levels and a high-performance thermal break make it suitable for both residential and commercial applications requiring efficient, durable aluminium framing.",
+      "specs": {
+        "label_0": "Thermal Transmittance (Uw)",
+        "value_0": "0.81",
+        "label_1": "Installation Depth",
+        "value_1": "70",
+        "label_2": "Sealing Layers",
+        "value_2": "3",
+        "label_3": "Standard Glazing (Ug)",
+        "value_3": "0.5"
+      }
+    },
+    "mb-70hi": {
+      "name": "MB-70HI",
+      "tagline": "Lightweight, durable, thermally efficient aluminium",
+      "description": "MB-70HI aluminium windows can be used in both individual buildings and aluminium facades. The lightweight and durable construction ensures a high level of comfort for many years. Standard equipment includes MACO MULTI-MATIC KS fittings and microventilation.",
+      "specs": {
+        "label_0": "Thermal Transmittance (Uw)",
+        "value_0": "0.96",
+        "label_1": "Installation Depth",
+        "value_1": "70",
+        "label_2": "Sealing Layers",
+        "value_2": "3",
+        "label_3": "Glazing Range",
+        "value_3": "23.5–62"
+      }
+    },
+    "mb-70": {
+      "name": "MB-70",
+      "tagline": "Reliable aluminium with a 70 mm profile depth",
+      "description": "The MB-70 aluminium window system provides a reliable, cost-effective solution for modern architecture. Standard equipment includes MACO hardware, 70 mm installation depth, and RAL matt colours in white or anthracite — covering the broadest range of residential and commercial applications.",
+      "specs": {
+        "label_0": "Thermal Transmittance (Uw)",
+        "value_0": "1.06",
+        "label_1": "Installation Depth",
+        "value_1": "70",
+        "label_2": "Sealing Layers",
+        "value_2": "3",
+        "label_3": "Glazing Range",
+        "value_3": "23.5–62"
+      }
+    },
+    "mb-45": {
+      "name": "MB-45",
+      "tagline": "Slim aluminium profile for maximum glass area",
+      "description": "The MB-45 is an ultra-slim aluminium window system with a 45 mm profile depth, perfect for applications where maximum glass surface and minimal frame visibility are priorities. Standard equipment includes MACO fittings, EPDM seals, and RAL matt finishes.",
+      "specs": {
+        "label_0": "Installation Depth",
+        "value_0": "45",
+        "label_1": "Sealing Layers",
+        "value_1": "2",
+        "label_2": "Glazing Range",
+        "value_2": "1.5–37",
+        "label_3": "Available Colours",
+        "value_3": "White RAL 9016, Anthracite RAL 7016"
+      }
+    },
+    "softline": {
+      "name": "SOFTLINE 68/78/88",
+      "tagline": "Durability and beauty of nature",
+      "description": "SOFTLINE wooden windows bring the warmth and beauty of natural materials with modern engineering precision. Available in three profile depths — 68 mm, 78 mm, and 88 mm — to suit varying insulation and aesthetic requirements, finished with high-quality microporous lacquers for long-term durability.",
+      "specs": {
+        "label_0": "Available Depths",
+        "value_0": "68 / 78 / 88",
+        "label_1": "Material",
+        "value_1": "Pine / Oak / Meranti",
+        "label_2": "Surface Treatment",
+        "value_2": "High-quality microporous lacquer",
+        "label_3": "Standard Hardware",
+        "value_3": "MACO MULTI-MATIC"
+      }
+    },
+    "duoline": {
+      "name": "DUOLINE 68/78/88",
+      "tagline": "Unique combination of wood and aluminium",
+      "description": "DUOLINE wood-aluminium windows combine the warmth of a natural wood interior with a robust, low-maintenance aluminium exterior shell. Available in three profile depths (68 mm, 78 mm, 88 mm) with virtually unlimited RAL exterior colour options for any architectural style.",
+      "specs": {
+        "label_0": "Available Depths",
+        "value_0": "68 / 78 / 88",
+        "label_1": "Interior",
+        "value_1": "Natural wood (pine/oak/meranti)",
+        "label_2": "Exterior",
+        "value_2": "Aluminium shell, unlimited RAL",
+        "label_3": "Standard Hardware",
+        "value_3": "MACO MULTI-MATIC"
+      }
+    },
+    "iglo-edge-doors": {
+      "name": "IGLO EDGE DOORS",
+      "tagline": "The gateway to Premium",
+      "description": "Exterior doors based on the IGLO EDGE system offer unparalleled security, durability, and thermal insulation. Available in a wide range of colors and infill panels to match any architectural style.",
+      "specs": {
+        "label_0": "Thermal Transmittance (Ud)",
+        "value_0": "0.75",
+        "label_1": "Installation Depth",
+        "value_1": "82",
+        "label_2": "Locking Points",
+        "value_2": "3 to 5"
+      }
+    },
+    "iglo-hs": {
+      "name": "IGLO-HS",
+      "tagline": "Panoramic views without limits",
+      "description": "Lift-and-slide (HS) doors that allow the creation of spectacular, large-format glazing. The advanced mechanism ensures effortless operation even for sashes weighing up to 400 kg.",
+      "specs": {
+        "label_0": "Thermal Transmittance (Uw)",
+        "value_0": "0.73",
+        "label_1": "Max Dimensions",
+        "value_1": "3.2m × 6.5m",
+        "label_2": "Installation Depth",
+        "value_2": "194"
+      }
+    },
+    "iglo-edge-slide": {
+      "name": "IGLO EDGE SLIDE",
+      "tagline": "Technology That Impresses",
+      "description": "Our new, most technologically advanced window is distinguished by an excellent thermal insulation parameter of Uw = 0,65 W/(m2K)* and a modern, angular profile shape.",
+      "specs": {
+        "label_0": "Thermal Transmittance (Uw)",
+        "value_0": "0.65",
+        "label_1": "Installation Depth (Frame)",
+        "value_1": "163",
+        "label_2": "Profile Chambers",
+        "value_2": "6",
+        "label_3": "Gaskets",
+        "value_3": "3"
       }
     }
   }

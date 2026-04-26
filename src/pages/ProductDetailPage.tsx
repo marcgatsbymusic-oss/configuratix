@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { Check, ChevronLeft, ChevronRight, Play, X } from 'lucide-react'
-import { IGLO_EDGE_DETAIL, type GlassOption } from '../data/productDetails'
+import * as ProductDetailsData from '../data/productDetails'
+import type { GlassOption, ProductDetailData } from '../data/productDetails'
 import { PRODUCTS } from '../data/products'
 import { ColorSwatch } from '../components/products/ColorSwatch'
 import { useTranslation } from 'react-i18next'
@@ -368,10 +369,10 @@ function GlazingSection({ glassOptions }: { glassOptions: GlassOption[] }) {
 export function ProductDetailPage() {
   const { t } = useTranslation()
   const { slug } = useParams<{ slug: string }>()
-  
-  // For the MVP, we showcase the full complex layout only for Iglo Edge
-  const isDetailed = slug === 'iglo-edge'
-  const detailData = isDetailed ? IGLO_EDGE_DETAIL : null
+  // Get detail data dynamically
+  const allDetails = Object.values(ProductDetailsData).filter(v => v && typeof v === 'object' && 'slug' in v) as ProductDetailData[];
+  const detailData = allDetails.find(d => d.slug === slug) || null;
+  const isDetailed = !!detailData;
   const basicData = PRODUCTS.find((p) => p.slug === slug)
 
   const [selectedColorId, setSelectedColorId] = useState(detailData?.colors[0]?.id || '')
@@ -429,7 +430,7 @@ export function ProductDetailPage() {
             {detailData.name}
           </h1>
           <p className="product-hero-tagline text-xl md:text-2xl font-light mb-10 tracking-wider">
-            {t('igloEdge.tagline')}
+            {detailData.tagline}
           </p>
 
           {/* Thin gold divider */}
@@ -468,18 +469,18 @@ export function ProductDetailPage() {
             <div>
               <span className="bg-mammut-gold text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">{t('productDetail.standardEquipment')}</span>
               <h2 className="text-4xl font-black text-mammut-white uppercase mb-6 leading-tight">
-                IGLO EDGE
+                {detailData.name}
               </h2>
-              <p className="product-overview-description leading-relaxed mb-8">
-                {t('igloEdge.description')}
+              <p className="product-overview-description leading-relaxed mb-8 whitespace-pre-line">
+                {detailData.description}
               </p>
               <ul className="space-y-3 mb-10">
-                {detailData.standardEquipment.map((_, i) => (
+                {detailData.standardEquipment.map((item, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <span className="mt-1 w-4 h-4 flex-shrink-0 rounded-full flex items-center justify-center" style={{ background: '#eab676' }}>
                       <Check size={10} className="text-black" />
                     </span>
-                    <span className="text-mammut-white/70 text-sm leading-snug">{t(`igloEdge.equipment.${i}`)}</span>
+                    <span className="text-mammut-white/70 text-sm leading-snug">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -600,8 +601,7 @@ export function ProductDetailPage() {
             {detailData.keySpecs.map(spec => (
               <li key={spec.label} className="flex items-center gap-3 border-b border-mammut-border pb-3">
                 <Check size={16} className="text-mammut-gold shrink-0" />
-                <span className="text-mammut-white/70 text-sm">{t(`igloEdge.specs.${spec.label}`)}</span>
-                <span className="text-mammut-white font-bold text-sm ml-auto">{spec.value}</span>
+                <span className="text-mammut-white/70 text-sm">{spec.label}: {spec.value}</span>
               </li>
             ))}
           </ul>
@@ -670,7 +670,9 @@ export function ProductDetailPage() {
       </div>
 
       {/* 4. Glass Options Grid */}
-      <GlazingSection glassOptions={detailData.glassOptions} />
+      {detailData.glassOptions && detailData.glassOptions.length > 0 && (
+        <GlazingSection glassOptions={detailData.glassOptions} />
+      )}
 
       {/* 5. Handles Slider */}
       <HandlesSlider />

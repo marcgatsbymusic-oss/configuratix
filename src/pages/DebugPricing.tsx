@@ -6,6 +6,12 @@ import { WindowVisualizer } from '../components/SlateConfigurator/WindowVisualiz
 import glazingOptions from '../data/cantor_glazing_options.json';
 import shutterLookups from '../data/shutter_lookups.json';
 import { ThemeToggle } from '../components/common/ThemeToggle';
+import { 
+  IconWindows, IconDoors, IconPatioDoors, IconRollerShutters, 
+  IconExteriorBlinds, IconGarageDoors, IconMosquitoNets, 
+  IconSmartHome, IconConservatories, IconPergola 
+} from '../components/icons/ProductIcons';
+import { useTranslation } from 'react-i18next';
 
 const getPaneImage = (paneCode: string) => {
   if (!paneCode) return null;
@@ -33,11 +39,14 @@ const getPaneImage = (paneCode: string) => {
 };
 
 export function DebugPricing() {
+  const { t } = useTranslation();
+
   // 1) & 2) Profile System & Typology
   const [typology, setTypology] = useState<string>('F100');
   const [isTypologyOpen, setIsTypologyOpen] = useState(false);
   const [opening] = useState<string>('UR');
   const [profilsatz, setProfilsatz] = useState('1100'); // Maps to IG5
+  const [activeCategory, setActiveCategory] = useState<string>('WINDOWS');
 
   // 3) Dimensions
   const [width, setWidth] = useState(1000);
@@ -344,12 +353,25 @@ export function DebugPricing() {
     ]}
   ];
 
+  const DRUTEX_CATEGORIES = [
+    { id: 'WINDOWS', icon: IconWindows, label: t('header.megaMenu.cats.windows', 'WINDOWS') },
+    { id: 'DOORS', icon: IconDoors, label: t('header.megaMenu.cats.doors', 'DOORS') },
+    { id: 'TERRACE SYSTEMS', icon: IconPatioDoors, label: t('header.megaMenu.cats.terrace', 'TERRACE SYSTEMS') },
+    { id: 'SHUTTERS', icon: IconRollerShutters, label: t('header.megaMenu.cats.shutters', 'SHUTTERS') },
+    { id: 'EXTERIOR VENETIAN BLINDS', icon: IconExteriorBlinds, label: t('header.megaMenu.cats.facade', 'EXTERIOR VENETIAN BLINDS') },
+    { id: 'INSECT SCREENS', icon: IconMosquitoNets, label: t('header.megaMenu.cats.mosquito', 'INSECT SCREENS') },
+    { id: 'GARAGE DOORS', icon: IconGarageDoors, label: t('header.megaMenu.cats.garage', 'GARAGE DOORS') },
+    { id: 'FACADES / WINTER GARDENS', icon: IconConservatories, label: t('header.megaMenu.cats.conservatories', 'FACADES / WINTER GARDENS') },
+    { id: 'PERGOLA', icon: IconPergola, label: t('header.megaMenu.cats.pergola', 'PERGOLA') },
+    { id: 'SMART HOME', icon: IconSmartHome, label: t('header.megaMenu.cats.smart', 'SMART HOME') },
+  ];
+
   const PRODUCT_CATEGORIES = [
     {
-      group: "WINDOWS",
+      group: 'WINDOWS',
       subgroups: [
         {
-          name: "PVC WINDOWS",
+          name: t('header.megaMenu.cols.pvcWindows', 'PVC WINDOWS'),
           options: [
             { val: "1600", label: "IGLO EDGE (new)" },
             { val: "1300", label: "IGLO ENERGY" },
@@ -369,7 +391,7 @@ export function DebugPricing() {
           ]
         },
         {
-          name: "ALUMINIUM WINDOWS",
+          name: t('header.megaMenu.cols.alumWindows', 'ALUMINIUM WINDOWS'),
           options: [
             { val: "3350", label: "MB-86N SI" },
             { val: "3200", label: "MB-79N SI" },
@@ -378,7 +400,7 @@ export function DebugPricing() {
           ]
         },
         {
-          name: "WOODEN WINDOWS",
+          name: t('header.megaMenu.cols.woodWindows', 'WOODEN WINDOWS'),
           options: [
             { val: "2100", label: "SOFTLINE 68" },
             { val: "2200", label: "SOFTLINE 78" },
@@ -386,7 +408,7 @@ export function DebugPricing() {
           ]
         },
         {
-          name: "WOOD-ALUMINIUM WINDOWS",
+          name: t('header.megaMenu.cols.woodAlumWindows', 'WOOD-ALUMINIUM WINDOWS'),
           options: [
             { val: "2600", label: "DUOLINE 68" },
             { val: "2700", label: "DUOLINE 78" },
@@ -396,10 +418,10 @@ export function DebugPricing() {
       ]
     },
     {
-      group: "DOORS",
+      group: 'DOORS',
       subgroups: [
         {
-          name: "PVC DOORS",
+          name: t('header.megaMenu.cols.pvcDoors', 'PVC DOORS'),
           options: [
             { val: "1103", label: "IGLO 5" },
             { val: "1603", label: "IGLO EDGE (new)" },
@@ -412,7 +434,7 @@ export function DebugPricing() {
           ]
         },
         {
-          name: "ALUMINIUM DOORS",
+          name: t('header.megaMenu.cols.alumDoors', 'ALUMINIUM DOORS'),
           options: [
             { val: "4044", label: "D-ART Line (new)" },
             { val: "3353", label: "MB-86N SI" },
@@ -424,7 +446,7 @@ export function DebugPricing() {
           ]
         },
         {
-          name: "WOODEN DOORS",
+          name: t('home.categories.items.wooden', 'WOODEN') + ' ' + t('header.megaMenu.cats.doors', 'DOORS'),
           options: [
             { val: "2103", label: "SOFTLINE 68" },
             { val: "2203", label: "SOFTLINE 78" },
@@ -434,10 +456,10 @@ export function DebugPricing() {
       ]
     },
     {
-      group: "TERRACE SYSTEMS",
+      group: 'TERRACE SYSTEMS',
       subgroups: [
         {
-          name: "LIFT AND SLIDE HS",
+          name: t('home.categories.items.liftSlide', 'LIFT AND SLIDE HS'),
           options: [
             { val: "1004", label: "IGLO-HS" },
             { val: "1014", label: "IGLO-HS ALUCOVER" },
@@ -449,7 +471,7 @@ export function DebugPricing() {
           ]
         },
         {
-          name: "SLIDE",
+          name: t('home.categories.items.slide', 'SLIDE'),
           options: [
             { val: "1007", label: "IGLO EDGE SLIDE (new)" },
             { val: "1005", label: "IGLO SLIDE" },
@@ -458,14 +480,14 @@ export function DebugPricing() {
           ]
         },
         {
-          name: "FOLDING DOORS",
+          name: t('home.categories.items.folding', 'FOLDING DOORS'),
           options: [
             { val: "3909", label: "MB-86 FOLD LINE HD" },
             { val: "2108", label: "SOFTLINE 68" }
           ]
         },
         {
-          name: "TILT AND SLIDE PSK",
+          name: t('home.categories.items.tiltSlide', 'TILT AND SLIDE PSK'),
           options: [
             { val: "1301", label: "IGLO ENERGY PSK" },
             { val: "1311", label: "IGLO ENERGY CLASSIC PSK" },
@@ -579,9 +601,31 @@ export function DebugPricing() {
       <div className="absolute top-6 right-6">
         <ThemeToggle />
       </div>
-      <div className="max-w-7xl mx-auto grid md:grid-cols-[1fr_400px] gap-8">
+      <div className="max-w-screen-2xl mx-auto grid md:grid-cols-[250px_1fr_400px] gap-8">
         
-        {/* LEFT COLUMN: Configurator Options */}
+        {/* LEFT COLUMN: Categories Menu */}
+        <div className="bg-mammut-darker p-4 rounded-xl border border-gray-800 shadow-2xl flex flex-col gap-2 overflow-y-auto max-h-[85vh]">
+          {DRUTEX_CATEGORIES.map(cat => {
+            const Icon = cat.icon;
+            const isActive = activeCategory === cat.id;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`flex items-center gap-4 px-4 py-3 rounded text-sm font-bold uppercase transition-colors ${
+                  isActive 
+                    ? 'bg-mammut-black border border-mammut-gold text-mammut-white shadow-inner' 
+                    : 'bg-transparent text-gray-500 hover:text-mammut-white hover:bg-mammut-black'
+                }`}
+              >
+                <Icon size={20} className={isActive ? 'text-mammut-gold' : 'text-gray-500'} />
+                <span className="text-left text-[11px] tracking-wide leading-tight">{cat.label}</span>
+              </button>
+            )
+          })}
+        </div>
+
+        {/* MIDDLE COLUMN: Configurator Options */}
         <div className="bg-mammut-darker p-6 rounded-xl border border-gray-800 shadow-2xl flex flex-col gap-6 overflow-y-auto max-h-[85vh]">
           
           <h2 className="text-mammut-gold font-bold text-xl uppercase border-b border-gray-800 pb-2">Configurator Options</h2>
@@ -692,18 +736,21 @@ export function DebugPricing() {
 
             {/* 2) Profile System */}
             <div>
-              <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">2) Profile System / Category</label>
+              <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">2) {t('configurator.steps.system', 'Profile System')} / {t('home.categories.title', 'Category')}</label>
               <select className="w-full bg-mammut-black border border-gray-700 rounded-lg p-3 text-mammut-white focus:border-mammut-gold focus:outline-none h-[68px]"
                 value={profilsatz} onChange={e => setProfilsatz(e.target.value)}>
-                {PRODUCT_CATEGORIES.map((category) => (
+                {PRODUCT_CATEGORIES.filter(c => c.group === activeCategory).map((category) => (
                   category.subgroups.map((subgroup, subIdx) => (
-                    <optgroup key={`${category.group}-${subIdx}`} label={`${category.group} — ${subgroup.name}`}>
+                    <optgroup key={`${category.group}-${subIdx}`} label={`${t('header.megaMenu.cats.' + category.group.toLowerCase().split(' ')[0], category.group)} — ${subgroup.name}`}>
                       {subgroup.options.map(opt => (
                         <option key={opt.val} value={opt.val}>{opt.val} — {opt.label}</option>
                       ))}
                     </optgroup>
                   ))
                 ))}
+                {PRODUCT_CATEGORIES.filter(c => c.group === activeCategory).length === 0 && (
+                  <option value="">No products available yet</option>
+                )}
               </select>
             </div>
           </div>

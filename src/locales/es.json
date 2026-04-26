@@ -1,107 +1,111 @@
 {
   "header": {
     "topBar": {
-      "partnerPortal": "Portal de Socios",
+      "partnerPortal": "Portal de socios",
       "cooperation": "Cooperación",
       "contact": "Contacto"
     },
     "nav": {
       "products": "Productos",
-      "whereToBuy": "Dónde Comprar",
-      "aboutMammut": "Sobre Mammut",
+      "whereToBuy": "Dónde comprar",
+      "aboutMammut": "Acerca de Mammut",
       "configurator": "Configurador 3D"
     },
     "megaMenu": {
       "viewAll": "Ver todos los productos",
-      "comingSoon": "Contenido para {{category}} próximamente.",
+      "comingSoon": "Próximamente contenido para {{categoría}}.",
       "cats": {
-        "windows": "Ventanas",
-        "doors": "Puertas",
-        "terrace": "Sistemas de Terrazas",
-        "shutters": "Persianas",
-        "facade": "Persianas Fachada",
-        "mosquito": "Mosquiteras",
-        "garage": "Puertas de Garaje",
-        "conservatories": "Fachadas / Cerramientos",
+        "windows": "ventanas",
+        "doors": "puertas",
+        "terrace": "Sistemas de terraza",
+        "shutters": "Persianas enrollables",
+        "facade": "Persianas de fachada",
+        "mosquito": "Mosquiteros",
+        "garage": "Puertas de garaje",
+        "conservatories": "Fachadas / Conservatorios",
         "pergola": "Pérgola",
-        "smart": "Smart Home",
+        "smart": "Hogar inteligente",
         "extras": "Extras",
-        "promotional": "Material Promocional"
+        "promotional": "Material promocional"
       },
       "cols": {
         "pvcWindows": "Ventanas de PVC",
-        "alumWindows": "Ventanas de Aluminio",
-        "woodWindows": "Ventanas de Madera",
-        "woodAlumWindows": "Ventanas Madera-Aluminio",
+        "alumWindows": "Ventanas de aluminio",
+        "woodWindows": "Ventanas de madera",
+        "woodAlumWindows": "Ventanas de Madera y Aluminio",
         "pvcDoors": "Puertas de PVC",
-        "alumDoors": "Puertas de Aluminio"
+        "alumDoors": "Puertas de aluminio",
+        "liftAndSlide": "Levantar y Deslizar HS",
+        "slide": "Deslizar",
+        "foldingDoors": "Puertas plegables",
+        "tiltAndSlide": "Inclinar y deslizar PSK"
       },
-      "new": "Nuevo"
+      "new": "Nueva"
     }
   },
   "home": {
     "hero": {
-      "premium": "Ventanas y Puertas Premium",
-      "explore": "Explorar Productos",
+      "premium": "Ventanas y puertas premium",
+      "explore": "Explorar productos",
       "configurator": "Configurador 3D",
       "slide1": {
-        "headline": "Define tu",
+        "headline": "Defina su",
         "headlineSpan": "espacio",
-        "sub": "Ventanas y puertas de precisión que transforman la arquitectura con un rendimiento térmico y acústico vanguardista."
+        "sub": "Ventanas y puertas diseñadas con precisión que transforman la arquitectura con un rendimiento térmico y acústico de vanguardia."
       },
       "slide2": {
-        "headline": "Abierto al",
+        "headline": "Abierta a la",
         "headlineSpan": "mundo",
-        "sub": "Sistemas correderos elevables panorámicos que disuelven el límite entre el interior y el exterior."
+        "sub": "Sistemas correderos panorámicos que disuelven la frontera entre interior y exterior."
       },
       "slide3": {
         "headline": "Luz, redefinida",
-        "headlineSpan": "por diseño",
-        "sub": "Acristalamiento de suelo a techo que inunda cada habitación de luz natural manteniendo fuera el calor y el ruido."
+        "headlineSpan": "a propósito",
+        "sub": "Acristalamiento de suelo a techo que llena cada habitación de luz natural manteniendo alejado el calor y el ruido."
       }
     },
     "offer": {
-      "subtitle": "Soluciones Completas",
-      "title": "Nuestra Oferta",
-      "text": "Ofrecemos una amplia gama de ventanas, marcos, puertas exteriores y puertas correderas en PVC, madera y aluminio. A través de la artesanía experta, materiales de la más alta calidad y un nivel de servicio aseguramos el estatus de nuestra empresa. Cada ventana y puerta se fabrica bajo pedido, brindando a cada cliente un servicio y atención individuales. Le brindaremos el más alto nivel de experiencia y le ayudaremos en todo con sus planes de renovación y construcción."
+      "subtitle": "Soluciones completas",
+      "title": "Nuestra oferta",
+      "text": "Ofrecemos una amplia gama de ventanas, marcos, puertas exteriores y puertas correderas en PVC, madera y aluminio. A través de una artesanía experta, materiales de la más alta calidad y un nivel de servicio, garantizamos el estatus de nuestra empresa. Cada ventana y puerta se fabrica bajo pedido, brindando a cada cliente un servicio y atención individualizados. Le brindaremos el más alto nivel de experiencia y lo ayudaremos en todo momento con sus planes de renovación y construcción."
     },
     "categories": {
-      "subtitle": "Navegar por Tipo",
-      "title": "Categorías de Productos",
+      "subtitle": "Buscar por tipo",
+      "title": "Categorías de productos",
       "tabs": {
         "windows": "VENTANAS",
         "doors": "PUERTAS",
         "shutters": "PERSIANAS",
         "blinds": "PERSIANAS",
-        "terrace": "SISTEMAS TERRAZA",
-        "additions": "COMPLEMENTOS"
+        "terrace": "SISTEMAS DE TERRAZA",
+        "additions": "ADICIONES"
       },
       "items": {
         "alu": "ALUMINIO",
         "woodAlu": "MADERA-ALUMINIO",
-        "pvc": "PVC",
-        "wooden": "MADERA",
-        "adaptive": "ADAPTABLES",
-        "topMounted": "SOBREPUESTAS",
-        "externalVenetian": "VENECIANAS EXTERIORES",
-        "liftSlide": "ELEVADORA CORREDERA HS",
-        "tiltSlide": "OSCILOPARALELAS PSK",
+        "pvc": "CLORURO DE POLIVINILO",
+        "wooden": "DE MADERA",
+        "adaptive": "ADAPTADA",
+        "topMounted": "MONTADO SUPERIOR",
+        "externalVenetian": "VENECIANO EXTERNO",
+        "liftSlide": "ELEVAR Y DESLIZAR HS",
+        "tiltSlide": "INCLINACIÓN Y DESLIZAMIENTO PSK",
         "folding": "PUERTAS PLEGABLES",
         "customization": "PERSONALIZACIÓN"
       }
     },
     "featured": {
-      "subtitle": "Nuestra Colección",
-      "title": "Sistemas Destacados",
-      "viewAll": "Ver Todo",
+      "subtitle": "Nuestra colección",
+      "title": "Sistemas destacados",
+      "viewAll": "Ver todo",
       "tags": {
-        "new": "NUEVO",
-        "premium": "PREMIUM",
-        "bestseller": "MÁS VENDIDO"
+        "new": "NUEVA",
+        "premium": "DE PRIMERA CALIDAD",
+        "bestseller": "MEJOR VENDIDO"
       },
       "discover": "Descubrir",
       "igloEdge": {
-        "tagline": "Máximo aislamiento, mínimo marco"
+        "tagline": "Aislamiento máximo, marco mínimo"
       },
       "igloLight": {
         "tagline": "Aún más luz en tu espacio"
@@ -112,110 +116,110 @@
     },
     "cta": {
       "subtitle": "Configurador 3D",
-      "title": "Diseña tu Ventana Perfecta",
-      "text": "Elige dimensiones, materiales, colores y tipo de cristal. Guarda tu configuración y solicita un presupuesto al instante.",
-      "button": "Lanzar Configurador"
+      "title": "Diseña tu ventana perfecta",
+      "text": "Elija dimensiones, materiales, colores y tipo de vidrio. Guarda tu configuración y solicita un presupuesto al instante.",
+      "button": "Iniciar configurador"
     }
   },
   "products": {
-    "collection": "Nuestra Colección",
+    "collection": "Nuestra colección",
     "title": "Sistemas Premium",
-    "description": "Descubra nuestra amplia gama de ventanas, puertas y sistemas de terrazas. Diseñados para un rendimiento térmico y aislamiento acústico superiores y un diseño atemporal.",
-    "allProducts": "Todos los Productos",
-    "new": "NUEVO"
+    "description": "Descubra nuestra amplia gama de ventanas, puertas y sistemas de terraza. Diseñado para un rendimiento térmico superior, aislamiento acústico y diseño atemporal.",
+    "allProducts": "Todos los productos",
+    "new": "NUEVA"
   },
   "productDetail": {
     "notFound": "Producto no encontrado",
     "return": "Volver a productos",
-    "configure": "Configurar {{name}}",
-    "standardEquipment": "Equipamiento de Serie",
+    "configure": "Configurar {{nombre}}",
+    "standardEquipment": "Equipo estándar",
     "seeVideo": "Ver vídeo",
-    "hoverDrawing": "Pasa el ratón para ver el dibujo técnico",
+    "hoverDrawing": "Pase el cursor para revelar el dibujo técnico",
     "profile": "Perfil",
     "technicalDrawing": "Dibujo Técnico",
     "newGeneration": "Nueva Generación",
-    "uncompromising": "Calidad y Rendimiento Térmico Inigualables",
-    "colorsTitle": "Colores y Acabados",
-    "colorsDesc": "Personaliza tu {{name}} con más de {{count}} acabados premium.",
-    "preview": "VISTA PREVIA",
-    "selectedFinish": "Acabado Seleccionado",
+    "uncompromising": "Calidad y rendimiento térmico sin concesiones",
+    "colorsTitle": "Colores y acabados",
+    "colorsDesc": "Personalice su {{nombre}} con más de {{count}} acabados premium, que van desde sólidos arquitectónicos modernos hasta vetas de madera hiperrealistas.",
+    "preview": "AVANCE",
+    "selectedFinish": "Acabado seleccionado",
     "selectedColor": "Color seleccionado:",
-    "glassTitle": "Vidrios",
-    "glassDesc": "DRUTEX, con más de 30 años de experiencia en la producción de vidrio compuesto, ofrece una amplísima gama de acristalamientos con los que puede equipar sus puertas y ventanas. Éstos cumplen los requisitos más estrictos en materia de eficiencia energética y aislamiento acústico. La oferta también incluye vidrios laminados (seguros y antirrobo), vidrios con protección solar, vidrios con aislamiento acústico mejorado, vidrios templados, ornamentales y arenados.",
-    "handlesTitle": "Manillas",
-    "handlesDesc": "Nuestras manillas destacan por su funcionalidad.",
-    "optionsTitle": "Opciones Adicionales",
-    "optionsDesc": "Mejore su IGLO EDGE.",
+    "glassTitle": "Vaso",
+    "glassDesc": "DRUTEX, con más de 30 años de experiencia en la producción de vidrio compuesto, ofrece una gama muy amplia de vidrios con los que podrá equipar sus ventanas y puertas. Cumplen estrictos requisitos de eficiencia energética y aislamiento acústico. La oferta también incluye vidrios laminados (seguros y antirrobo), vidrios protegidos contra el sol, vidrios con aislamiento acústico mejorado, vidrios templados, ornamentales y arenados.",
+    "handlesTitle": "Manijas",
+    "handlesDesc": "Nuestras manillas para ventanas se caracterizan por su excelente acabado, funcionalidad y durabilidad. Disponible en múltiples variantes de color para combinar perfectamente con sus ventanas.",
+    "optionsTitle": "Opciones adicionales",
+    "optionsDesc": "Mejore y personalice su IGLO EDGE con nuestra amplia gama de accesorios y complementos certificados.",
     "seeAll": "Ver todo",
-    "configureQuote": "Configurar y Cotizar"
+    "configureQuote": "Configurar producto y cotización"
   },
   "footer": {
     "newsletter": {
-      "title": "Boletín",
-      "desc": "Manténgase informado sobre nuevos productos e innovaciones.",
+      "title": "Hoja informativa",
+      "desc": "Manténgase actualizado sobre nuevos productos e innovaciones.",
       "placeholder": "Su dirección de correo electrónico",
-      "subscribe": "Suscribirse"
+      "subscribe": "Suscribir"
     },
     "cols": {
       "about": {
-        "title": "Sobre Mammut",
+        "title": "Acerca de Mammut",
         "history": "Nuestra Historia",
         "quality": "Calidad y Certificados",
         "innovation": "Innovación",
         "sustainability": "Sostenibilidad"
       },
       "offer": {
-        "title": "Nuestra Oferta",
+        "title": "Nuestra oferta",
         "pvc": "Ventanas de PVC",
-        "alu": "Ventanas de Aluminio",
-        "wood": "Ventanas de Madera",
-        "doors": "Puertas Exteriores",
+        "alu": "Ventanas de aluminio",
+        "wood": "Ventanas de madera",
+        "doors": "Puertas exteriores",
         "shutters": "Persianas"
       },
       "inspiration": {
         "title": "Inspiración",
         "kitchen": "Cocina",
-        "living": "Sala de Estar",
+        "living": "Sala de estar",
         "bedroom": "Dormitorio",
         "terrace": "Terraza"
       },
       "partners": {
-        "title": "Asociados",
-        "portal": "Portal de Asociados",
-        "coop": "Programa de Cooperación",
-        "sales": "Representantes de Ventas",
+        "title": "Fogonadura",
+        "portal": "Portal de socios",
+        "coop": "Programa de cooperación",
+        "sales": "Representantes de ventas",
         "contact": "Contacto"
       }
     },
     "legal": {
-      "privacy": "Política de Privacidad",
-      "cookies": "Configuración de Cookies",
-      "sitemap": "Mapa del Sitio",
-      "terms": "Términos de Uso",
-      "copyright": "Mammut Windows & Doors. Todos los derechos reservados."
+      "privacy": "política de privacidad",
+      "cookies": "Configuración de cookies",
+      "sitemap": "Mapa del sitio",
+      "terms": "Condiciones de uso",
+      "copyright": "Puertas y ventanas Mammut. Reservados todos los derechos."
     }
   },
   "igloEdge": {
     "tagline": "Aislamiento máximo, marco mínimo",
-    "description": "Nuestra ventana nueva y más avanzada tecnológicamente se distingue por un excelente parámetro de aislamiento térmico de Uw = 0.66 W/(m²K)* y una forma de perfil angular moderna. Los parámetros extremadamente buenos se deben, entre otras cosas, al diseño del perfil de 7 cámaras y 3 juntas EPDM.",
-    "basicDescription": "El sistema de ventanas IGLO EDGE representa la cumbre de la eficiencia energética. Diseñado para casas pasivas, cuenta con un perfil de 7 cámaras.",
-    "equipment": [
-      "Paquete de acristalamiento de doble cámara Ug = 0.5 W/(m²K)",
-      "Marco cálido de plástico Swisspacer Ultimate",
-      "Soldadura V-perfect",
-      "4 cerraderos antirrobo según el tamaño de la hoja",
-      "Microventilación",
-      "Manilla de ventana de aluminio DUBLIN",
-      "Mecanismo de bloqueo de manipulación incorrecta",
-      "Juntas perimetrales, de acristalamiento y centrales en negro o gris",
-      "Llenado de la ranura inferior del herraje",
-      "Embellecedor de alféizar",
-      "Amplia selección de colores de chapado de PVC",
-      "3 colores de perfil a elegir: blanco, marrón o antracita"
-    ],
+    "description": "Nuestra nueva ventana tecnológicamente más avanzada se distingue por un excelente parámetro de aislamiento térmico de Uw = 0,66 W/(m²K)* y una forma de perfil angular moderna. Los excelentes parámetros de aislamiento térmico se deben, entre otras cosas, a la construcción del perfil de 7 cámaras y a las 3 juntas de EPDM, incluida la junta central.",
+    "basicDescription": "El sistema de ventanas IGLO EDGE representa el pináculo de la eficiencia energética. Diseñado para casas pasivas y renovaciones energéticamente conscientes, presenta un perfil de 7 cámaras, el mejor Uw de su clase = 0,66 W/(m²K) y un diseño minimalista que maximiza la entrada de luz natural a la habitación.",
+    "equipment": {
+      "0": "Paquete de acristalamiento de doble cámara Ug = 0,5 W/(m²K)",
+      "1": "Marco cálido de plástico Swisspacer Ultimate",
+      "2": "Soldadura perfecta en V",
+      "3": "4 cerraderos antirrobo según el tamaño de la hoja y el sistema de herrajes",
+      "4": "Microventilación",
+      "5": "Manilla para ventana de aluminio DUBLIN",
+      "6": "Mecanismo de bloqueo por pérdida de ubicación del mango",
+      "7": "Juntas perimetrales, acristaladas y centrales en color negro o gris.",
+      "8": "Relleno de la ranura inferior para herrajes",
+      "9": "Borde del alféizar",
+      "10": "Amplia selección de colores de chapa de PVC.",
+      "11": "3 colores de perfil a elegir: blanco, marrón o antracita"
+    },
     "specs": {
       "sound": "Aislamiento acústico",
-      "gaskets": "Juntas EPDM",
+      "gaskets": "Juntas de EPDM",
       "thermal": "Transmitancia térmica",
       "chambers": "Número de cámaras",
       "depth": "Profundidad de instalación",
@@ -223,38 +227,38 @@
     }
   },
   "colorGroups": {
-    "Metal Effect": "Efecto Metal",
-    "Solid": "Sólido",
-    "Wood Effect": "Efecto Madera"
+    "Metal Effect": "Efecto metálico",
+    "Solid": "Sólida",
+    "Wood Effect": "Efecto madera"
   },
   "colors": {
     "c209": "Gris Basalto",
-    "c210": "Gris Basalto Liso",
-    "c232": "Bronce Profundo",
-    "c213": "Grafito Arenado",
+    "c210": "Gadki gris basalto",
+    "c232": "Bronce profundo",
+    "c213": "Grafito arenado",
     "c207": "Cuarzo Gris",
     "c208": "Cuarzo Gris Liso",
     "c237": "Azul Acero",
     "c214": "Antracita",
-    "c216": "Antracita Ulti Mate",
-    "c215": "Antracita Liso",
+    "c216": "Antracita Ulti Matt",
+    "c215": "Antracita Lisa",
     "c218": "Negro Ulti Mate",
-    "c236": "Azul Brillante",
-    "c231": "Marrón Chocolate",
+    "c236": "Azul brillante",
+    "c231": "Marrón chocolate",
     "c206": "Gris Hormigón",
     "c200": "Crema",
-    "c199": "Croviu Platynium",
-    "c234": "Verde Oscuro",
-    "c235": "Rojo Oscuro",
-    "c233": "Verde Musgo",
+    "c199": "Croviu Platino",
+    "c234": "verde oscuro",
+    "c235": "rojo oscuro",
+    "c233": "verde musgo",
     "c205": "Gris",
-    "c217": "Negro Azabache",
-    "c204": "Gris Claro",
+    "c217": "Negro azabache",
+    "c204": "Gris claro",
     "c201": "Pirita",
-    "c228": "Palisandro",
+    "c228": "Palo de rosa",
     "c211": "Pizarra",
-    "c212": "Pizarra Liso",
-    "c197": "Blanco",
+    "c212": "Pizarra Lisa",
+    "c197": "Blanca",
     "c198": "Blanco Arena Mate",
     "c202": "Roble Blanqueado",
     "c227": "Roble Oscuro",
@@ -263,95 +267,95 @@
     "c230": "Caoba",
     "c203": "Roble Natural",
     "c224": "Oregón",
-    "c220": "Roble Turner 2023",
-    "c221": "Roble Turner Toffee",
-    "c222": "Roble Turner Nogal",
-    "c226": "Nogal",
+    "c220": "Turner Roble 2023",
+    "c221": "Turner Roble Caramelo 470 3004",
+    "c222": "Turner Roble Nogal 470 3004",
+    "c226": "Nuez",
     "c223": "Winchester",
     "c219": "Roble Dorado"
   },
   "configurator": {
-    "title": "Diseña tu sistema de ventanas personalizado.",
-    "subtitle": "Elige el material y configura tus especificaciones arquitectónicas exactas a continuación.",
+    "title": "Diseñe su sistema de ventanas personalizado.",
+    "subtitle": "Elija el material y configure sus especificaciones arquitectónicas exactas a continuación.",
     "steps": {
       "material": "Material",
       "system": "Perfil",
       "windowType": "Tipo de ventana",
       "openingType": "Tipo de apertura",
-      "color": "Color y Decoración",
+      "color": "Color y decoración",
       "dimensions": "Dimensiones (MM)",
-      "glazing": "Acristalamiento",
-      "options": "Accesorios",
+      "glazing": "Paquete de acristalamiento",
+      "options": "Accesorios y complementos",
       "profile": "Perfil",
-      "start": "Empezar"
+      "start": "Comenzar"
     },
     "summary": {
-      "title": "Resumen de especificaciones",
+      "title": "Descripción general de las especificaciones",
       "dimensions": "Dimensiones",
       "material": "Material",
       "system": "Perfil",
       "windowType": "Tipo de ventana",
-      "color": "Color y Decoración",
+      "color": "Color y decoración",
       "glazing": "Acristalamiento",
       "financials": "Finanzas",
       "baseFramework": "Marco base",
-      "hardwareAssembly": "Herrajes",
+      "hardwareAssembly": "Montaje de hardware",
       "accessories": "Accesorios",
       "totalSystem": "Sistema Total",
-      "exportJson": "Exportar JSON",
-      "saveToCart": "Guardar en carrito",
+      "exportJson": "Exportación JSON",
+      "saveToCart": "Guardar en el carrito",
       "edit": "Editar"
     },
     "inputs": {
-      "w": "A",
-      "h": "H",
-      "mm": "mm",
-      "cm": "(CM)"
+      "w": "W.",
+      "h": "h",
+      "mm": "milímetros",
+      "cm": "(CENTÍMETRO)"
     },
     "state": {
-      "selected": "Seleccionado",
-      "selectWindowType": "Seleccionar Tipo de Ventana",
+      "selected": "Seleccionada",
+      "selectWindowType": "Seleccionar tipo de ventana",
       "openingDirection": "Dirección de apertura",
-      "fixedNoOpening": "Fijo (Sin apertura)",
-      "turnTilt": "Hoja (Oscilobatiente)",
-      "sashes": "Configuración de {{count}} hojas"
+      "fixedNoOpening": "Fija (sin apertura)",
+      "turnTilt": "Hoja interior (girar/inclinar)",
+      "sashes": "{{count}} Configuración de marcos"
     },
     "blueprint": {
-      "interiorView": "Vista Interior",
+      "interiorView": "Vista interior",
       "dragToRotate": "Arrastra para rotar libremente en 3D"
     },
     "windowTypes": {
-      "1-flugel": "1 Hoja",
-      "1-flugel-oberlicht": "1 Hoja \ncon Montante",
-      "1-flugel-unterlicht": "1 Hoja \ncon Fijo Inf.",
-      "2-flugel": "2 Hojas",
-      "2-flugel-oberlicht": "2 Hojas \ncon Montante",
-      "2-flugel-oberlicht-asym": "2 Hojas asim. \ncon Montante",
-      "2-flugel-unterlicht": "2 Hojas \ncon Fijo Inf.",
-      "2-flugel-unterlicht-asym": "2 Hojas asim. \ncon Fijo Inf.",
-      "3-flugel": "3 Hojas",
-      "3-flugel-oberlicht": "3 Hojas \ncon Montante",
-      "3-flugel-oberlicht-asym": "3 Hojas asim. \ncon Montante",
-      "3-flugel-unterlicht": "3 Hojas \ncon Fijo Inf.",
-      "3-flugel-unterlicht-asym": "3 Hojas asim. \ncon Fijo Inf.",
-      "4-flugel": "4 Hojas"
+      "1-flugel": "1 hoja",
+      "1-flugel-oberlicht": "1 hoja \ncon luz superior",
+      "1-flugel-unterlicht": "1 hoja \ncon luz de fondo",
+      "2-flugel": "2 hojas",
+      "2-flugel-oberlicht": "2 hojas \ncon luz superior",
+      "2-flugel-oberlicht-asym": "2 Hojas asim. \ncon luz superior",
+      "2-flugel-unterlicht": "2 hojas \ncon luz de fondo",
+      "2-flugel-unterlicht-asym": "2 Hojas asim. \ncon luz de fondo",
+      "3-flugel": "3 hojas",
+      "3-flugel-oberlicht": "3 hojas \ncon luz superior",
+      "3-flugel-oberlicht-asym": "3 Hojas asim. \ncon luz superior",
+      "3-flugel-unterlicht": "3 hojas \ncon luz de fondo",
+      "3-flugel-unterlicht-asym": "3 Hojas asim. \ncon luz de fondo",
+      "4-flugel": "4 hojas"
     },
     "openingTypes": {
-      "F": "Fijo",
-      "DKL": "Oscilobatiente (Izq)",
-      "DKR": "Oscilobatiente (Der)",
-      "DL": "Practicable (Izq)",
-      "DR": "Practicable (Der)",
-      "K": "Abatible"
+      "F": "Fija",
+      "DKL": "Giro-inclinación (izquierda)",
+      "DKR": "Girar-inclinar (derecha)",
+      "DL": "Gire a la izquierda)",
+      "DR": "Gire a la derecha)",
+      "K": "Inclinación"
     },
     "welcome": {
-      "title": "Bienvenido a nuestro configurador de ventanas impulsado por IA",
-      "description": "Seleccionar ventanas no es una tarea fácil, hay muchas opciones y las necesidades de cada persona difieren. Por eso nuestro configurador le guiará y le ayudará a tomar la mejor decisión que se adapte a sus necesidades y presupuesto."
+      "title": "Bienvenido a nuestro configurador de Windows con tecnología de IA",
+      "description": "Seleccionar ventanas no es una tarea fácil, hay muchas opciones y las necesidades de cada uno son diferentes, por eso nuestro configurador te guiará y ayudará a tomar la mejor elección que se adapte a tus necesidades y presupuesto."
     }
   },
   "help": {
-    "materialDesc": "Elige el tipo de material para tu ventana. A continuación encontrarás un resumen de las principales características de cada uno de ellos.",
-    "pvc": "PVC",
+    "materialDesc": "Elija el tipo de material para su ventana. A continuación encontrarás un resumen de las principales características de cada uno.",
+    "pvc": "CLORURO DE POLIVINILO",
     "aluminum": "ALUMINIO",
     "durability": "Durabilidad",
     "maintenance": "Mantenimiento",
@@ -359,148 +363,658 @@
     "weatherRes": "Resistencia a la intemperie",
     "security": "Seguridad",
     "ecoFootprint": "Huella ecológica",
-    "legend": "* = neutro | ** = bueno | *** = muy bueno",
+    "legend": "* = neutral | ** = bueno | *** = muy bueno",
     "windowTypeDesc": "Nuestras ventanas tienen diferentes opciones de apertura. Hay ventanas de una, dos y tres hojas con travesaños superiores o inferiores.",
     "singleLeaf": "Ventanas de una hoja",
     "doubleLeaf": "Ventanas de dos hojas",
     "tripleLeaf": "Ventanas de tres hojas",
     "specialWindows": "Tipos de ventanas especiales",
     "leaveConf": "¿Salir del configurador?",
-    "stillQuestions": "¿Tienes todavía preguntas sobre tu pedido o el configurador?",
-    "csTeam": "Nuestro equipo de atención al cliente (y nuestro Asistente de IA) estará encantado de asesorarte gratuitamente:",
-    "monFri": "(de lunes a viernes de 8:00 a 18:00)",
+    "stillQuestions": "¿Aún tienes dudas sobre tu pedido o el configurador?",
+    "csTeam": "Nuestro equipo de atención al cliente (y nuestro asistente AI) estarán encantados de asesorarte de forma gratuita:",
+    "monFri": "(Lunes a Viernes de 8:00 a 18:00)",
     "aiAssist": "Asistente de IA",
-    "avail247": "(Disponible 24/7)",
-    "exitWarning": "Al salir del configurador, se perderá tu selección anterior.",
+    "avail247": "(Disponible 24 horas al día, 7 días a la semana)",
+    "exitWarning": "Al salir del configurador, se perderá su selección anterior.",
     "continueConf": "Continuar en el configurador",
     "exitConf": "Salir del configurador",
-    "haveQuestions": "¿Tienes alguna pregunta?",
-    "availableToday": "Estamos disponibles hoy hasta 18:00.",
+    "haveQuestions": "¿Tiene alguna pregunta?",
+    "availableToday": "Estamos disponibles hoy hasta las 18:00.",
     "shallWeTalk": "¿Hablamos? Reserva tu llamada ahora.",
     "scheduleMeeting": "Programar reunión",
     "up": "ARRIBA",
-    "close": "Cerrar",
+    "close": "Cerca",
     "comp": {
-      "title": "Tabla Resumen Comparativa (Contexto 2026)",
+      "title": "Cuadro comparativo resumido (contexto 2026)",
       "feature": "Característica",
       "pvc": "PVC (uPVC)",
       "aluminum": "Aluminio",
-      "bestFor": "Ideal para",
-      "bestForPvc": "Presupuestos ajustados, tamaños estándar, máxima eficiencia térmica a bajo coste.",
-      "bestForAlu": "Grandes superficies acristaladas, estética moderna, longevidad y resistencia.",
-      "lifespan": "Vida útil",
-      "lifespanPvc": "20–30 Años",
-      "lifespanAlu": "45+ Años",
-      "cost": "Coste",
-      "costPvc": "Generalmente un 30%–50% más barato.",
+      "bestFor": "La mejor para",
+      "bestForPvc": "Presupuesto, tamaños estándar, máxima eficiencia térmica a bajo costo.",
+      "bestForAlu": "Grandes áreas acristaladas, estética moderna, longevidad y resistencia.",
+      "lifespan": "Esperanza de vida",
+      "lifespanPvc": "20-30 años",
+      "lifespanAlu": "45+ años",
+      "cost": "Costo",
+      "costPvc": "Generalmente entre un 30% y un 50% más barato.",
       "costAlu": "Precio premium.",
       "aesthetics": "Estética",
-      "aestheticsPvc": "Marcos más volumétricos.",
-      "aestheticsAlu": "Perfiles finos (más luz natural)."
+      "aestheticsPvc": "Marcos más voluminosos.",
+      "aestheticsAlu": "Perfiles delgados (más luz natural)."
     }
   },
   "assistant": {
-    "geoTitle": "Coincidencia de Clima Local",
-    "geoDesc": "Clima a tu Medida\nNuestras ventanas están diseñadas específicamente para el clima de tu zona. Basándonos en tu ubicación exacta, calculamos el rendimiento térmico ideal para garantizar el máximo aislamiento en invierno y frescura en verano.\n\nTus beneficios:\n\nAhorro energético: Reduce el gasto en calefacción y aire acondicionado.\n\nConfort total: Despídete de las corrientes de aire y del calor sofocante.\n\nPrecisión local: Tecnología adaptada específicamente a tu ciudad.",
+    "geoTitle": "Coincidencia climática local",
+    "geoDesc": "Clima a su medida \nNuestras ventanas están diseñadas específicamente para el clima de su área. En función de su ubicación exacta, calculamos el rendimiento térmico ideal para garantizar el máximo aislamiento en invierno y frescor en verano. \n\nTus beneficios: \n\nAhorro energético: Reduce los gastos de calefacción y aire acondicionado. \n\nComodidad total: Dile adiós a las corrientes de aire y al calor sofocante. \n\nPrecisión local: Tecnología específicamente adaptada a tu ciudad.",
     "province": "Provincia",
     "city": "Municipio / Ciudad",
-    "selectProv": "Seleccionar Provincia...",
-    "selectCity": "Seleccionar Ciudad...",
-    "topoEngine": "Motor Topográfico",
+    "selectProv": "Seleccione Provincia...",
+    "selectCity": "Seleccione Ciudad...",
+    "topoEngine": "Motor topográfico",
     "altitude": "Altitud",
     "cteZone": "ZONA CLIMÁTICA CTE DB-HE",
-    "next": "Siguiente Paso",
-    "matTitle": "Restricciones de Material y Presupuesto",
-    "matPref": "Preferencia de Material",
-    "guideMe": "No lo sé, guíenme",
-    "budget": "Alcance del Presupuesto",
+    "next": "Siguiente paso",
+    "matTitle": "Restricciones de materiales y presupuesto",
+    "matPref": "Preferencia de materiales",
+    "guideMe": "No lo sé, guíame.",
+    "budget": "Alcance del presupuesto",
     "low": "Bajo",
     "med": "Medio",
-    "premium": "Premium",
-    "timeTitle": "Cronograma del Proyecto",
+    "premium": "De primera calidad",
+    "timeTitle": "Cronograma del proyecto",
     "t1": "Lo antes posible",
-    "t1Sub": "15 días laborables mínimo",
-    "t2": "Próximos 1-2 meses",
+    "t1Sub": "15 días laborables antes",
+    "t2": "Los próximos 1-2 meses",
     "t3": "Más de 2 meses",
-    "t4": "Aún no estoy seguro",
+    "t4": "Todavía no estoy segura",
     "archTitle": "Acústica y Arquitectura",
-    "houseType": "Tipo de Vivienda",
-    "villa": "Chalet",
-    "apt": "Apartamento",
-    "noisePol": "Contaminación Acústica Local",
-    "nHigh": "Ciudad / Tráfico Alto",
-    "nLow": "Rural / Tranquilo",
-    "processCalc": "Procesar Análisis",
-    "analyzing": "Analizando Datos",
-    "computing": "Calculando cargas estructurales óptimas...",
-    "perfWin": "Su Ventana Perfecta",
-    "basedOn": "Basado en los datos absolutos de su Zona geográfica {{zone}}, la contaminación acústica {{noise}} y el presupuesto definido, nuestros algoritmos recomiendan:",
-    "recProf": "Sistema de Perfil Recomendado",
+    "houseType": "Tipo de vivienda",
+    "villa": "Villa",
+    "apt": "Departamento",
+    "noisePol": "Contaminación acústica local",
+    "nHigh": "Ciudad / Alto Tráfico",
+    "nLow": "Rural / tranquila",
+    "processCalc": "Análisis de procesos",
+    "analyzing": "Analizando datos",
+    "computing": "Calcular cargas estructurales óptimas...",
+    "perfWin": "Tu ventana perfecta",
+    "basedOn": "Según los datos climáticos absolutos de su zona geográfica {{zone}}, la contaminación acústica local {{ruido}} y el presupuesto definido, nuestros algoritmos recomiendan:",
+    "recProf": "Sistema de perfiles recomendado",
     "base": "Base",
     "glaze": "Acristalamiento",
-    "useData": "Usar estos datos y configurar ventana",
-    "inter1": "Recomendado: Asistente Guiado Inteligente",
-    "inter2": "Llevarme directamente al configurador",
-    "inter2Sub": "(Configuración Compleja)"
+    "useData": "Utilice estos datos y configure la ventana",
+    "inter1": "Recomendado: Asistente guiado inteligente",
+    "inter2": "Llévame directamente al configurador",
+    "inter2Sub": "(Configuración compleja)"
   },
   "partner": {
     "layout": {
       "dashboard": "Panel",
-      "leads": "Oportunidades",
-      "profile": "Perfil de Tienda",
+      "leads": "Clientes potenciales y canalización",
+      "profile": "Perfil de la tienda",
       "settings": "Ajustes",
-      "portal": "Portal de Socios",
-      "signOut": "Cerrar Sesión"
+      "portal": "Portal de socios",
+      "signOut": "Desconectar"
     },
     "dashboard": {
       "title": "Panel",
-      "subtitle": "Bienvenido. Esto es lo que sucede en tu tienda.",
-      "showQr": "Mostrar QR",
-      "totalScans": "Escaneos",
-      "activeLeads": "Oportunidades Activas",
-      "estCommissions": "Comisiones Est.",
-      "fromLastMonth": "desde el mes pasado",
-      "newThisWeek": "nuevos esta semana",
-      "leadsPending": "cierres pendientes",
-      "recentActivity": "Actividad Reciente"
+      "subtitle": "Bienvenido de nuevo. Esto es lo que está sucediendo en su tienda.",
+      "showQr": "Mostrar QR en la tienda",
+      "totalScans": "Escaneos totales",
+      "activeLeads": "Clientes potenciales activos",
+      "estCommissions": "Este. Comisiones",
+      "fromLastMonth": "del mes pasado",
+      "newThisWeek": "nuevo esta semana",
+      "leadsPending": "pistas pendientes de cierre",
+      "recentActivity": "Actividad reciente"
     },
     "leads": {
-      "title": "Oportunidades",
-      "subtitle": "Sigue el progreso y las comisiones.",
+      "title": "Clientes potenciales y canalización",
+      "subtitle": "Realice un seguimiento del progreso de sus clientes y las comisiones estimadas.",
       "exportCsv": "Exportar CSV",
       "searchId": "Buscar ID...",
-      "filterStatus": "Filtrar",
+      "filterStatus": "Filtrar por estado",
       "cols": {
-        "id": "ID Cliente",
-        "date": "Fecha",
-        "source": "Origen",
+        "id": "ID de cliente",
+        "date": "Fecha de escaneo",
+        "source": "Fuente de escaneo",
         "status": "Estado",
-        "budget": "Presupuesto",
-        "actions": "Acciones"
+        "budget": "Est. Presupuesto",
+        "actions": "Comportamiento"
       }
     },
     "profile": {
-      "title": "Perfil de Tienda",
-      "subtitle": "Gestiona los detalles y la marca.",
-      "basicInfo": "Información Básica",
-      "storeName": "Nombre de Tienda",
-      "storeType": "Tipo",
-      "address": "Dirección",
-      "email": "Email",
+      "title": "Perfil de la tienda",
+      "subtitle": "Administre los detalles de su tienda y la configuración de marca compartida.",
+      "basicInfo": "Información básica",
+      "storeName": "Nombre de la tienda",
+      "storeType": "Tipo de tienda",
+      "address": "DIRECCIÓN",
+      "email": "Correo electrónico",
       "phone": "Teléfono",
-      "saveChanges": "Guardar",
-      "cobranding": "Co-Branding",
-      "cobrandingDesc": "Sube tu logo para la página de clientes.",
-      "clickToUpload": "Haz clic para subir",
-      "fileTypes": "SVG, PNG o JPG (máx 2MB)",
-      "networkGroup": "Grupo de Red",
-      "networkDesc": "Eres independiente. Enlázate si eres parte de una cadena.",
-      "linkChain": "Enlazar a Cadena",
+      "saveChanges": "Guardar cambios",
+      "cobranding": "Marca compartida",
+      "cobrandingDesc": "Cargue su logotipo para que aparezca en la página de inicio del cliente cuando escaneen sus códigos QR.",
+      "clickToUpload": "Haga clic para cargar el logotipo",
+      "fileTypes": "SVG, PNG o JPG (máx. 2 MB)",
+      "networkGroup": "Grupo de red",
+      "networkDesc": "Su tienda es un socio independiente. Si perteneces a una cadena más grande, puedes vincular tu cuenta.",
+      "linkChain": "Enlace a cadena/grupo",
       "types": {
         "hardware": "Ferretería",
         "pharmacy": "Farmacia",
         "restaurant": "Restaurante",
-        "other": "Otro"
+        "other": "Otra"
+      }
+    }
+  },
+  "handles": {
+    "h1": {
+      "name": "Mango estándar",
+      "type": "Aluminio"
+    },
+    "h2": {
+      "name": "Mango con llave",
+      "type": "Seguridad"
+    },
+    "h3": {
+      "name": "de Secus®",
+      "type": "Antirrobo"
+    }
+  },
+  "sliderHandles": {
+    "nevada-ral7016": "NEVADA con llave (RAL7016)",
+    "nevada-ral9001": "NEVADA con llave (RAL9001)",
+    "nevada-ral9005": "NEVADA con llave (RAL9005)",
+    "nevada-ral9016": "NEVADA con llave (RAL9016)",
+    "nevada-f9": "NEVADA con llave (titanio F9)",
+    "mistral-ral7016": "MISTRAL con llave (RAL7016)",
+    "mistral-ral9001": "MISTRAL con llave (RAL9001)",
+    "mistral-ral9005": "MISTRAL con llave (RAL9005)",
+    "mistral-f9-key": "MISTRAL con llave (titanio F9)",
+    "mistral-f9": "MISTRAL F9",
+    "dublin-ral9016": "DUBLIN (blanca RAL9016)",
+    "dublin-ral8019": "DUBLÍN (marrón RAL8019)",
+    "dublin-ral7016": "DUBLÍN (RAL7016)",
+    "dublin-ral9005": "DUBLÍN (RAL9005)",
+    "dublin-silver": "DUBLÍN (plata)",
+    "dublin-key-ral7016": "DUBLÍN con llave (RAL7016)",
+    "dublin-key-ral9005": "DUBLÍN con llave (RAL9005)",
+    "dublin-key-ral9016": "DUBLÍN con llave (blanco RAL9016)",
+    "dublin-key-ral8019": "DUBLÍN con llave (marrón RAL8019)",
+    "dublin-key-silver": "DUBLÍN con llave (plata)",
+    "kwadrat-ral7016": "CUADRADO RAL 7016",
+    "kwadrat-ral8019": "CUADRADO RAL 8019",
+    "kwadrat-ral9016": "CUADRADO RAL 9016",
+    "kwadrat-ral9001": "CUADRADO RAL 9001",
+    "kwadrat-f9": "CUADRADO titanio F9",
+    "kwadrat-key-f1": "KWADRAT con llave F1",
+    "kwadrat-key-f4": "KWADRAT con llave F4",
+    "kwadrat-key-f9": "KWADRAT con llave F9",
+    "kwadrat-key-ral7016": "KWADRAT con llave (RAL7016)",
+    "kwadrat-key-ral8019": "KWADRAT con llave (RAL8019)",
+    "kwadrat-key-ral9001": "KWADRAT con llave (RAL9001)",
+    "kwadrat-key-ral9005": "KWADRAT con llave (RAL9005)",
+    "kwadrat-key-ral9016": "KWADRAT con llave (RAL9016)"
+  },
+  "productData": {
+    "iglo-edge": {
+      "name": "BORDE IGLO",
+      "tagline": "Aislamiento máximo, marco mínimo",
+      "description": "Nuestra nueva ventana tecnológicamente más avanzada se distingue por un excelente parámetro de aislamiento térmico de Uw = 0,66 W/(m²K)* y una forma de perfil angular moderna. Los excelentes parámetros de aislamiento térmico se deben, entre otras cosas, a la construcción del perfil de 7 cámaras y a las 3 juntas de EPDM, incluida la junta central.",
+      "specs": {
+        "label_0": "Transmitancia térmica (Uw)",
+        "value_0": "0,66",
+        "label_1": "Profundidad de instalación",
+        "value_1": "82",
+        "label_2": "Cámaras de perfil",
+        "value_2": "7",
+        "label_3": "Aislamiento acústico (Rw)",
+        "value_3": "36–47"
+      },
+      "standardEquipment": {
+        "eq_0": "Paquete de acristalamiento de doble cámara Ug = 0,5 W/(m²K)",
+        "eq_1": "Marco cálido de plástico Swisspacer Ultimate",
+        "eq_2": "Soldadura perfecta en V",
+        "eq_3": "4 cerraderos antirrobo según el tamaño de la hoja y el sistema de herrajes",
+        "eq_4": "Microventilación",
+        "eq_5": "Manilla para ventana de aluminio DUBLIN",
+        "eq_6": "Mecanismo de bloqueo por pérdida de ubicación del mango",
+        "eq_7": "Juntas perimetrales, acristaladas y centrales en color negro o gris.",
+        "eq_8": "Relleno de la ranura inferior para herrajes",
+        "eq_9": "Borde del alféizar",
+        "eq_10": "Amplia selección de colores de chapa de PVC.",
+        "eq_11": "3 colores de perfil a elegir: blanco, marrón o antracita"
+      },
+      "keySpecs": {
+        "label_0": "sonido",
+        "value_0": "36–47dB",
+        "label_1": "juntas",
+        "value_1": "3",
+        "label_2": "térmica",
+        "value_2": "Uw = 0,66 W/(m²K)*",
+        "label_3": "cámaras",
+        "value_3": "7",
+        "label_4": "profundidad",
+        "value_4": "82mm",
+        "label_5": "clase",
+        "value_5": "UNA"
+      },
+      "hardware": {
+        "name_0": "Mango estándar",
+        "type_0": "Aluminio",
+        "name_1": "Mango con llave",
+        "type_1": "Seguridad",
+        "name_2": "de Secus®",
+        "type_2": "Antirrobo"
+      },
+      "accessories": {
+        "name_0": "Maco Multi Matic KS",
+        "description_0": "Hardware perimetral avanzado con microventilación",
+        "name_1": "Soldadura V-Perfecta",
+        "description_1": "Soldaduras de esquina prácticamente invisibles para una estética impecable",
+        "name_2": "Refuerzo de acero",
+        "description_2": "Perfil de acero cerrado en el marco para una rigidez extrema.",
+        "name_3": "Sellos EPDM",
+        "description_3": "Sistema de triple sellado en negro o gris."
+      }
+    },
+    "iglo-energy": {
+      "name": "ENERGÍA DE AGUJA",
+      "tagline": "Excelente eficiencia energética",
+      "description": "Un innovador y original sistema de perfiles de clase A de 7 cámaras, fabricado exclusivamente con materia prima, que se distingue por un excelente coeficiente de aislamiento térmico Uw ​​= 0,6 W/(m2K)*. Iglo Energy establece el estándar para ventanas energéticamente eficientes.",
+      "specs": {
+        "label_0": "Transmitancia térmica (Uw)",
+        "value_0": "0,71",
+        "label_1": "Profundidad de instalación",
+        "value_1": "82",
+        "label_2": "Cámaras de perfil",
+        "value_2": "7",
+        "label_3": "Aislamiento acústico (Rw)",
+        "value_3": "37–46"
+      },
+      "standardEquipment": {
+        "eq_0": "Herraje MACO MULTI MATIC KS con 2 cierres antirrobo",
+        "eq_1": "Revestimiento Silver-Look y depresiones lineales en las fallebas",
+        "eq_2": "Dispositivo de mal manejo y hoja elevadora.",
+        "eq_3": "Microventilación en ventanas oscilobatientes.",
+        "eq_4": "Perfil de alféizar de ventana",
+        "eq_5": "Refuerzo de acero galvanizado o fibra de vidrio (opcional)",
+        "eq_6": "Alféizar de ventana de 5 cámaras",
+        "eq_7": "Paquete de triple acristalamiento con espaciador de borde cálido"
+      },
+      "keySpecs": {
+        "label_0": "sonido",
+        "value_0": "37-46dB",
+        "label_1": "juntas",
+        "value_1": "3 EPDM",
+        "label_2": "térmica",
+        "value_2": "Uw = 0,71 W/(m²K)*",
+        "label_3": "cámaras",
+        "value_3": "7",
+        "label_4": "profundidad",
+        "value_4": "82mm",
+        "label_5": "clase",
+        "value_5": "UNA"
+      },
+      "hardware": {
+        "name_0": "Mango estándar",
+        "type_0": "Aluminio",
+        "name_1": "Mango con llave",
+        "type_1": "Seguridad",
+        "name_2": "de Secus®",
+        "type_2": "Antirrobo"
+      },
+      "accessories": {
+        "name_0": "Maco Multi Matic KS",
+        "description_0": "Hardware perimetral avanzado con microventilación",
+        "name_1": "Soldadura V-Perfecta",
+        "description_1": "Soldaduras de esquina prácticamente invisibles para una estética impecable",
+        "name_2": "Refuerzo de acero",
+        "description_2": "Perfil de acero cerrado en el marco para una rigidez extrema.",
+        "name_3": "Sellos EPDM",
+        "description_3": "Sistema de triple sellado en negro o gris."
+      }
+    },
+    "iglo-energy-classic": {
+      "name": "IGLO ENERGÍA CLÁSICA",
+      "tagline": "La junta de acristalamiento cuadrada se une al rendimiento de una casa pasiva",
+      "description": "Un diseño único donde se puede elegir el junquillo de forma cuadrada para reflejar las últimas tendencias arquitectónicas. Los notables parámetros de aislamiento térmico están garantizados por la estructura óptima del perfil de 7 cámaras y un sistema de sellado especialmente diseñado de EPDM espumado. Perfil disponible en blanco, antracita y bronce.",
+      "specs": {
+        "label_0": "Transmitancia térmica (Uw)",
+        "value_0": "0,73",
+        "label_1": "Profundidad de instalación",
+        "value_1": "82",
+        "label_2": "Cámaras de perfil",
+        "value_2": "7",
+        "label_3": "Aislamiento acústico (Rw)",
+        "value_3": "36–42"
+      }
+    },
+    "iglo-energy-alucover": {
+      "name": "ALUCOVER IGLO ENERGÍA",
+      "tagline": "Rendimiento de PVC con elegancia exterior de aluminio",
+      "description": "Experimente la fusión del rendimiento de aislamiento térmico de vanguardia y el diseño contemporáneo. El revestimiento de aluminio en el exterior ofrece infinitas posibilidades de color, lo que le permite crear un estilo personalizado único para cada interior o fachada de edificio, sin comprometer el rendimiento térmico.",
+      "specs": {
+        "label_0": "Transmitancia térmica (Uw)",
+        "value_0": "0,76",
+        "label_1": "Profundidad de instalación",
+        "value_1": "82",
+        "label_2": "Cámaras de perfil",
+        "value_2": "7",
+        "label_3": "Paquete de acristalamiento (y)",
+        "value_3": "0,5"
+      }
+    },
+    "iglo-5": {
+      "name": "AGUJA 5",
+      "tagline": "Alta calidad a un precio atractivo.",
+      "description": "El sistema IGLO 5 combina elegancia, funcionalidad y soluciones avanzadas de ahorro de energía. Su diseño atemporal de perfil de cinco cámaras lo convierte en una opción versátil tanto para la arquitectura moderna como para renovaciones clásicas, ya que ofrece un rendimiento térmico sólido a un precio excelente.",
+      "specs": {
+        "label_0": "Transmitancia térmica (Uw)",
+        "value_0": "0,74",
+        "label_1": "Profundidad de instalación",
+        "value_1": "70",
+        "label_2": "Cámaras de perfil",
+        "value_2": "5",
+        "label_3": "Aislamiento acústico (Rw)",
+        "value_3": "36–44"
+      }
+    },
+    "iglo-5-classic": {
+      "name": "AGUJA 5 CLÁSICA",
+      "tagline": "Soluciones probadas significan satisfacción del cliente",
+      "description": "El IGLO 5 Classic combina el probado sistema de perfiles de 5 cámaras con una estética tradicional. Su rendimiento térmico y acústico confiable lo convierte en la opción confiable tanto para construcciones nuevas como para proyectos de renovación en todas las zonas climáticas.",
+      "specs": {
+        "label_0": "Transmitancia térmica (Uw)",
+        "value_0": "0,89",
+        "label_1": "Profundidad de instalación",
+        "value_1": "70",
+        "label_2": "Cámaras de perfil",
+        "value_2": "5",
+        "label_3": "Aislamiento acústico (Rw)",
+        "value_3": "36–44"
+      }
+    },
+    "iglo-light": {
+      "name": "LUZ IGLO",
+      "tagline": "Aún más luz natural en tu espacio",
+      "description": "IGLO LIGHT se caracteriza por sus perfiles excepcionalmente delgados, lo que permite que entre mucha más luz natural en el interior. A pesar de su apariencia esbelta, ofrece una estabilidad estructural y un rendimiento térmico excepcionales en la clásica ingeniería de cinco cámaras.",
+      "specs": {
+        "label_0": "Transmitancia térmica (Uw)",
+        "value_0": "0,88",
+        "label_1": "Profundidad de instalación",
+        "value_1": "70",
+        "label_2": "Cámaras de perfil",
+        "value_2": "5",
+        "label_3": "Aislamiento acústico (Rw)",
+        "value_3": "34"
+      }
+    },
+    "iglo-ext": {
+      "name": "EXT IGLO",
+      "tagline": "Modernas ventanas de balcón de PVC que se abren hacia el exterior.",
+      "description": "IGLO EXT es un moderno sistema de PVC con apertura hacia afuera ideal para balcones, terrazas e instalaciones en espacios reducidos donde la apertura hacia adentro no es práctica. Ofrece protección fiable contra la intemperie y aislamiento térmico en un diseño que ahorra espacio.",
+      "specs": {
+        "label_0": "Transmitancia térmica (Uw)",
+        "value_0": "0,89",
+        "label_1": "Profundidad de instalación",
+        "value_1": "70",
+        "label_2": "Cámaras de perfil",
+        "value_2": "5",
+        "label_3": "Dirección de apertura",
+        "value_3": "Exterior"
+      }
+    },
+    "iglo-premier": {
+      "name": "PREMIER DE AGUJA",
+      "tagline": "Modernas ventanas abatibles o abatibles que se abren hacia el exterior",
+      "description": "Iglo Premier ofrece la experiencia superior de ventana que se abre hacia afuera con una impermeabilización y un rendimiento térmico excepcionales. Diseñado para la arquitectura contemporánea que requiere líneas de visión limpias y un rendimiento confiable a largo plazo.",
+      "specs": {
+        "label_0": "Profundidad de instalación",
+        "value_0": "70",
+        "label_1": "Cámaras de perfil",
+        "value_1": "5",
+        "label_2": "Dirección de apertura",
+        "value_2": "Exterior",
+        "label_3": "Acristalamiento estándar (y)",
+        "value_3": "0,6"
+      }
+    },
+    "ideal-neo-ad": {
+      "name": "ANUNCIO NEO IDEAL",
+      "tagline": "Más que diseño moderno",
+      "description": "IDEAL NEO AD ofrece una estructura de perfil de 5/6 cámaras con una extraordinaria versatilidad de diseño. Incorpora tecnología avanzada de rotura de puente térmico y está disponible en una amplia gama de acabados, lo que lo hace ideal para proyectos arquitectónicamente exigentes.",
+      "specs": {
+        "label_0": "Transmitancia térmica (Uw)",
+        "value_0": "0,79",
+        "label_1": "Profundidad de instalación",
+        "value_1": "76",
+        "label_2": "Cámaras de perfil",
+        "value_2": "5/6",
+        "label_3": "Aislamiento acústico (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md": {
+      "name": "IDEAL NEO MD",
+      "tagline": "Más que diseño moderno",
+      "description": "IDEAL NEO MD es un sistema premium de 6 cámaras que ofrece un excelente aislamiento térmico y una estética contemporánea de perfil empotrado. El diseño de hoja sin costuras elimina los reembolsos visibles, creando una apariencia moderna que se adapta a interiores y fachadas minimalistas.",
+      "specs": {
+        "label_0": "Transmitancia térmica (Uw)",
+        "value_0": "0,76",
+        "label_1": "Profundidad de instalación",
+        "value_1": "76",
+        "label_2": "Cámaras de perfil",
+        "value_2": "6",
+        "label_3": "Aislamiento acústico (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-fs": {
+      "name": "IDEAL NEO MD-FS",
+      "tagline": "En armonía con la arquitectura.",
+      "description": "La variante de hoja enrasada IDEAL NEO MD-FS elimina el paso visible entre el marco y la hoja, dando como resultado un aspecto exterior perfectamente plano. Ideal para arquitectura moderna y minimalista donde las líneas de visión importan tanto como el rendimiento.",
+      "specs": {
+        "label_0": "Transmitancia térmica (Uw)",
+        "value_0": "0,73",
+        "label_1": "Profundidad de instalación",
+        "value_1": "76",
+        "label_2": "Cámaras de perfil",
+        "value_2": "6",
+        "label_3": "Aislamiento acústico (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-monoblock": {
+      "name": "MONOBLOQUE IDEAL NEO MD",
+      "tagline": "Diseñado para instalación dentro de capas aislantes.",
+      "description": "Los marcos monobloque están diseñados para ventanas instaladas dentro de una capa de aislamiento. La amplia gama de marcos (76–162 mm) permite una selección adecuada en función del espesor del aislamiento. Un estante exterior especial enmascara estéticamente el aislamiento alrededor del perímetro de la ventana.",
+      "specs": {
+        "label_0": "Transmitancia térmica (Uw)",
+        "value_0": "0,76",
+        "label_1": "Profundidad de instalación",
+        "value_1": "76–162",
+        "label_2": "Cámaras de perfil",
+        "value_2": "6",
+        "label_3": "Aislamiento acústico (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-renovation": {
+      "name": "IDEAL RENOVACION NEO MD",
+      "tagline": "Ventanas nuevas sin quitar el marco antiguo.",
+      "description": "El sistema de marcos de renovación permite la instalación de ventanas sin desmontar los marcos antiguos. Marcos especiales con perfil oculto rodean el marco de madera existente. Los perfiles de enmascaramiento están disponibles en anchos de 40 mm y 70 mm y se pueden cortar según requisitos específicos.",
+      "specs": {
+        "label_0": "Transmitancia térmica (Uw)",
+        "value_0": "0,76",
+        "label_1": "Profundidad de instalación",
+        "value_1": "76",
+        "label_2": "Cámaras de perfil",
+        "value_2": "5/6",
+        "label_3": "Aislamiento acústico (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-7000-nl": {
+      "name": "IDEAL 7000NL",
+      "tagline": "En armonía con la arquitectura.",
+      "description": "El IDEAL 7000 NL es un sistema de ventanas de PVC versátil que ofrece líneas de visión limpias y un rendimiento térmico sólido. Muy adecuado para proyectos donde la arquitectura exige un perfil de ventana refinado y contemporáneo sin comprometer el aislamiento o la durabilidad.",
+      "specs": {
+        "label_0": "Cámaras de perfil",
+        "value_0": "5",
+        "label_1": "Paquete de acristalamiento (y)",
+        "value_1": "0,5",
+        "label_2": "Tipos de soldadura disponibles",
+        "value_2": "V-Perfecto, clásico",
+        "label_3": "Hardware estándar",
+        "value_3": "MACO MULTIMÁTICO"
+      }
+    },
+    "mb-86n-si": {
+      "name": "MB-86N SI",
+      "tagline": "Excelentes parámetros y durabilidad del aluminio.",
+      "description": "Un sistema de ventanas de aluminio muy avanzado que cumple con los más altos requisitos de aislamiento térmico. El espaciador de borde cálido y la rotura de puente térmico de primera calidad ofrecen valores Uw tan bajos como 0,76 W/(m²K), lo que la convierte en la de mejor rendimiento en la gama de ventanas de aluminio Drutex.",
+      "specs": {
+        "label_0": "Transmitancia térmica (Uw)",
+        "value_0": "0,76",
+        "label_1": "Profundidad de instalación",
+        "value_1": "77",
+        "label_2": "Capas de sellado",
+        "value_2": "3",
+        "label_3": "Acristalamiento estándar (y)",
+        "value_3": "0,5"
+      }
+    },
+    "mb-79n-si": {
+      "name": "MB-79N SI",
+      "tagline": "Elige la eficiencia energética",
+      "description": "El sistema de ventanas de aluminio MB-79N SI ofrece un rendimiento térmico excepcional para un perfil de 70 mm de profundidad. Tres niveles de sellado y una rotura de puente térmico de alto rendimiento lo hacen adecuado para aplicaciones residenciales y comerciales que requieren marcos de aluminio eficientes y duraderos.",
+      "specs": {
+        "label_0": "Transmitancia térmica (Uw)",
+        "value_0": "0,81",
+        "label_1": "Profundidad de instalación",
+        "value_1": "70",
+        "label_2": "Capas de sellado",
+        "value_2": "3",
+        "label_3": "Acristalamiento estándar (y)",
+        "value_3": "0,5"
+      }
+    },
+    "mb-70hi": {
+      "name": "MB-70HI",
+      "tagline": "Aluminio ligero, duradero y térmicamente eficiente",
+      "description": "Las ventanas de aluminio MB-70HI se pueden utilizar tanto en edificios individuales como en fachadas de aluminio. La construcción ligera y duradera garantiza un alto nivel de comodidad durante muchos años. El equipamiento de serie incluye herrajes MACO MULTI-MATIC KS y microventilación.",
+      "specs": {
+        "label_0": "Transmitancia térmica (Uw)",
+        "value_0": "0,96",
+        "label_1": "Profundidad de instalación",
+        "value_1": "70",
+        "label_2": "Capas de sellado",
+        "value_2": "3",
+        "label_3": "Gama de acristalamiento",
+        "value_3": "23,5–62"
+      }
+    },
+    "mb-70": {
+      "name": "MB-70",
+      "tagline": "Aluminio fiable con una profundidad de perfil de 70 mm",
+      "description": "El sistema de ventanas de aluminio MB-70 proporciona una solución confiable y rentable para la arquitectura moderna. El equipamiento estándar incluye herrajes MACO, profundidad de instalación de 70 mm y colores RAL mate en blanco o antracita, que cubren la más amplia gama de aplicaciones residenciales y comerciales.",
+      "specs": {
+        "label_0": "Transmitancia térmica (Uw)",
+        "value_0": "1.06",
+        "label_1": "Profundidad de instalación",
+        "value_1": "70",
+        "label_2": "Capas de sellado",
+        "value_2": "3",
+        "label_3": "Gama de acristalamiento",
+        "value_3": "23,5–62"
+      }
+    },
+    "mb-45": {
+      "name": "MB-45",
+      "tagline": "Perfil de aluminio delgado para una máxima superficie de vidrio",
+      "description": "El MB-45 es un sistema de ventana de aluminio ultradelgado con un perfil de 45 mm de profundidad, perfecto para aplicaciones donde la máxima superficie de vidrio y la mínima visibilidad del marco son prioridades. El equipamiento estándar incluye accesorios MACO, juntas EPDM y acabados RAL mate.",
+      "specs": {
+        "label_0": "Profundidad de instalación",
+        "value_0": "45",
+        "label_1": "Capas de sellado",
+        "value_1": "2",
+        "label_2": "Gama de acristalamiento",
+        "value_2": "1,5–37",
+        "label_3": "Colores disponibles",
+        "value_3": "Blanca RAL 9016, Antracita RAL 7016"
+      }
+    },
+    "softline": {
+      "name": "LÍNEA SOFT 68/78/88",
+      "tagline": "Durabilidad y belleza de la naturaleza.",
+      "description": "Las ventanas de madera SOFTLINE aportan la calidez y la belleza de los materiales naturales con la precisión de la ingeniería moderna. Disponible en tres profundidades de perfil (68 mm, 78 mm y 88 mm) para adaptarse a diferentes requisitos estéticos y de aislamiento, acabado con lacas microporosas de alta calidad para una durabilidad a largo plazo.",
+      "specs": {
+        "label_0": "Profundidades disponibles",
+        "value_0": "68 / 78 / 88",
+        "label_1": "Material",
+        "value_1": "Pino / Roble / Meranti",
+        "label_2": "Tratamiento superficial",
+        "value_2": "Laca microporosa de alta calidad.",
+        "label_3": "Hardware estándar",
+        "value_3": "MACO MULTIMÁTICO"
+      }
+    },
+    "duoline": {
+      "name": "DUOLINE 68/78/88",
+      "tagline": "Combinación única de madera y aluminio.",
+      "description": "Las ventanas de madera y aluminio DUOLINE combinan la calidez de un interior de madera natural con una carcasa exterior de aluminio robusta y de bajo mantenimiento. Disponible en tres profundidades de perfil (68 mm, 78 mm, 88 mm) con opciones de colores exteriores RAL prácticamente ilimitadas para cualquier estilo arquitectónico.",
+      "specs": {
+        "label_0": "Profundidades disponibles",
+        "value_0": "68 / 78 / 88",
+        "label_1": "Interior",
+        "value_1": "Madera natural (pino/roble/meranti)",
+        "label_2": "Exterior",
+        "value_2": "Carcasa de aluminio, RAL ilimitado",
+        "label_3": "Hardware estándar",
+        "value_3": "MACO MULTIMÁTICO"
+      }
+    },
+    "iglo-edge-doors": {
+      "name": "PUERTAS DE BORDE IGLO",
+      "tagline": "La puerta de entrada a Premium",
+      "description": "Las puertas exteriores basadas en el sistema IGLO EDGE ofrecen seguridad, durabilidad y aislamiento térmico incomparables. Disponible en una amplia gama de colores y paneles de relleno para combinar con cualquier estilo arquitectónico.",
+      "specs": {
+        "label_0": "Transmitancia Térmica (Ud)",
+        "value_0": "0,75",
+        "label_1": "Profundidad de instalación",
+        "value_1": "82",
+        "label_2": "Puntos de bloqueo",
+        "value_2": "3 a 5"
+      }
+    },
+    "iglo-hs": {
+      "name": "IGLO-HS",
+      "tagline": "Vistas panorámicas sin límites",
+      "description": "Puertas correderas levadizas (HS) que permiten crear espectaculares acristalamientos de gran formato. El mecanismo avanzado garantiza un funcionamiento sin esfuerzo incluso para hojas que pesan hasta 400 kg.",
+      "specs": {
+        "label_0": "Transmitancia térmica (Uw)",
+        "value_0": "0,73",
+        "label_1": "Dimensiones máximas",
+        "value_1": "3,2m x 6,5m",
+        "label_2": "Profundidad de instalación",
+        "value_2": "194"
+      }
+    },
+    "iglo-edge-slide": {
+      "name": "DESLIZAMIENTO DE BORDE IGLO",
+      "tagline": "Tecnología que impresiona",
+      "description": "Nuestra nueva ventana, la más avanzada tecnológicamente, se distingue por un excelente parámetro de aislamiento térmico de Uw = 0,65 W/(m2K)* y una forma de perfil angular moderna.",
+      "specs": {
+        "label_0": "Transmitancia térmica (Uw)",
+        "value_0": "0,65",
+        "label_1": "Profundidad de instalación (marco)",
+        "value_1": "163",
+        "label_2": "Cámaras de perfil",
+        "value_2": "6",
+        "label_3": "juntas",
+        "value_3": "3"
       }
     }
   }

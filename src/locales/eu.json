@@ -1,99 +1,103 @@
 {
   "header": {
     "topBar": {
-      "partnerPortal": "Bazkideen Ataria",
+      "partnerPortal": "Bazkideen ataria",
       "cooperation": "Lankidetza",
-      "contact": "Harremanetarako"
+      "contact": "Kontaktua"
     },
     "nav": {
       "products": "Produktuak",
-      "whereToBuy": "Non Erosi",
-      "aboutMammut": "Mammuti Buruz",
-      "configurator": "3D Konfiguratzailea"
+      "whereToBuy": "Non erosi",
+      "aboutMammut": "Mammutari buruz",
+      "configurator": "3D konfiguratzailea"
     },
     "megaMenu": {
       "viewAll": "Ikusi produktu guztiak",
-      "comingSoon": "{{category}} edukia laster.",
+      "comingSoon": "Laster izango da {{kategoria}}ko edukia.",
       "cats": {
         "windows": "Leihoak",
         "doors": "Ateak",
         "terrace": "Terraza Sistemak",
         "shutters": "Pertsianak",
-        "facade": "Fatxada Pertsianak",
+        "facade": "Fatxadako pertsianak",
         "mosquito": "Eltxo-sareak",
         "garage": "Garaje Ateak",
-        "conservatories": "Fatxadak / Itxiturak",
+        "conservatories": "Fatxadak / Conservatorios",
         "pergola": "Pergola",
-        "smart": "Etxe Adimenduna",
+        "smart": "Etxe adimenduna",
         "extras": "Gehigarriak",
-        "promotional": "Material Promozionala"
+        "promotional": "Promozio Materiala"
       },
       "cols": {
-        "pvcWindows": "PVC Leihoak",
-        "alumWindows": "Aluminiozko Leihoak",
-        "woodWindows": "Egurrezko Leihoak",
-        "woodAlumWindows": "Egur-Aluminio Leihoak",
+        "pvcWindows": "PVC leihoak",
+        "alumWindows": "Aluminiozko leihoak",
+        "woodWindows": "Egurrezko leihoak",
+        "woodAlumWindows": "Egur-Aluminiozko leihoak",
         "pvcDoors": "PVC Ateak",
-        "alumDoors": "Aluminiozko Ateak"
+        "alumDoors": "Aluminiozko Ateak",
+        "liftAndSlide": "Igo eta irristatu HS",
+        "slide": "Diapositiba",
+        "foldingDoors": "Ate Tolesgarriak",
+        "tiltAndSlide": "PSK inklinatu eta irristatu"
       },
       "new": "Berria"
     }
   },
   "home": {
     "hero": {
-      "premium": "Goi Mailako Leiho eta Ateak",
-      "explore": "Produktuak Arakatu",
-      "configurator": "3D Konfiguratzailea",
+      "premium": "Premium leihoak eta ateak",
+      "explore": "Arakatu produktuak",
+      "configurator": "3D konfiguratzailea",
       "slide1": {
-        "headline": "Zure espazioa",
-        "headlineSpan": "definitu",
-        "sub": "Arkitektura eraldatzen duten doitasunezko leihoak."
+        "headline": "Definitu zure",
+        "headlineSpan": "espazioa",
+        "sub": "Doitasunez diseinatutako leiho eta ateak arkitektura eraldatzen duten errendimendu termiko eta akustiko puntakoarekin."
       },
       "slide2": {
-        "headline": "Munduari",
-        "headlineSpan": "irekia",
-        "sub": "Barrualdea eta kanpoaldea lotzen dituzten sistema panoramikoak."
+        "headline": "Ireki",
+        "headlineSpan": "mundua",
+        "sub": "Barruaren eta kanpoaren arteko muga desegiten duten igogailu eta irristatze-sistema panoramikoak."
       },
       "slide3": {
-        "headline": "Argia",
-        "headlineSpan": "berriz definituta",
-        "sub": "Etxeko gela bakoitza argi naturalez betetzen duten beirateak."
+        "headline": "Argia, birdefinitua",
+        "headlineSpan": "diseinuaren arabera",
+        "sub": "Gela guztiak argi naturalarekin betetzen dituen solairutik sabaiko beirateak beroa eta zarata kanpoan mantentzen dituena."
       }
     },
     "offer": {
       "subtitle": "Irtenbide Osoak",
       "title": "Gure Eskaintza",
-      "text": "PVC, egur eta aluminiozko leiho eta ate sorta zabala eskaintzen dugu. Eskariz fabrikatuak, xehetasun bakoitzari arreta jarriz."
+      "text": "PVC, egur eta aluminiozko leiho, marko, kanpoko ate eta ate lerragarrien aukera zabala eskaintzen dugu. Eskulan adituaren, kalitate goreneko materialen eta zerbitzu-mailaren bidez gure enpresaren egoera bermatzen dugu. Leiho eta ate bakoitza eskaeraren arabera egiten da, bezero bakoitzari arreta eta zerbitzu indibiduala eskainiz. Espezializazio maila gorena emango dizugu eta zure eraberritze- eta eraikuntza-planetan lagunduko dizugu."
     },
     "categories": {
-      "subtitle": "Arakatu Motaren Arabera",
-      "title": "Produktu Kategoriak",
+      "subtitle": "Arakatu motaren arabera",
+      "title": "Produktuen Kategoriak",
       "tabs": {
-        "windows": "LEIHOAK",
+        "windows": "LEHIOAK",
         "doors": "ATEAK",
-        "shutters": "PERTSIANAK",
-        "blinds": "EGZKI-OHALAK",
-        "terrace": "TERRAZA SISTEMAK",
-        "additions": "OSAGARRIAK"
+        "shutters": "PERTSIAK",
+        "blinds": "PERTSUAK",
+        "terrace": "TERRAZA-SISTEMAK",
+        "additions": "GEHIKETAK"
       },
       "items": {
         "alu": "ALUMINIOA",
         "woodAlu": "EGUR-ALUMINIOA",
-        "pvc": "PVC",
+        "pvc": "PVCa",
         "wooden": "EGURRA",
-        "adaptive": "ADAPTAGARRIA",
-        "topMounted": "GAINEAN JARRIA",
-        "externalVenetian": "KANPOKO VENEZIARRAK",
-        "liftSlide": "HS SISTEMAK",
-        "tiltSlide": "PSK SISTEMAK",
+        "adaptive": "EGOKITZAPENA",
+        "topMounted": "GOIKO MUNTATUA",
+        "externalVenetian": "KANPOKO VENETIARRA",
+        "liftSlide": "IGO ETA LIBERA HS",
+        "tiltSlide": "INKURTU ETA LIBERA PSK",
         "folding": "ATE TOLESGARRIAK",
         "customization": "PERTSONALIZAZIOA"
       }
     },
     "featured": {
       "subtitle": "Gure Bilduma",
-      "title": "Sistema Nabarmenak",
-      "viewAll": "Ikusi Guztiak",
+      "title": "Sistema aipagarriak",
+      "viewAll": "Ikusi guztiak",
       "tags": {
         "new": "BERRIA",
         "premium": "PREMIUM",
@@ -101,74 +105,74 @@
       },
       "discover": "Ezagutu",
       "igloEdge": {
-        "tagline": "Isolamendu maximoa, marko minimoa"
+        "tagline": "Isolamendu handiena, marko minimoa"
       },
       "igloLight": {
-        "tagline": "Argi gehiago zure espazioan"
+        "tagline": "Are argi gehiago zure espaziora"
       },
       "iglo5": {
-        "tagline": "Klasikoaren berpizkundea"
+        "tagline": "Berriz jaiotako klasikoa"
       }
     },
     "cta": {
-      "subtitle": "3D Konfiguratzailea",
-      "title": "Diseinatu zure leihoa",
-      "text": "Aukeratu xehetasunak eta eskatu aurrekontua.",
-      "button": "Hasi Konfiguratzailea"
+      "subtitle": "3D konfiguratzailea",
+      "title": "Diseina ezazu zure leiho perfektua",
+      "text": "Aukeratu neurriak, materialak, koloreak eta beira mota. Gorde zure konfigurazioa eta eskatu aurrekontua berehala.",
+      "button": "Abiarazi Konfiguratzailea"
     }
   },
   "products": {
     "collection": "Gure Bilduma",
     "title": "Premium Sistemak",
-    "description": "Ezagutu gure leiho, ate eta terraza sistema sorta zabala. Errendimendu termiko hobea, isolamendu akustikoa eta denborarik gabeko diseinurako garatuta.",
-    "allProducts": "Produktu Guztiak",
+    "description": "Ezagutu gure leiho, ate eta terraza sistema sorta osoa. Errendimendu termiko, isolamendu akustikorako eta betiko diseinurako diseinatua.",
+    "allProducts": "Produktu guztiak",
     "new": "BERRIA"
   },
   "productDetail": {
-    "notFound": "Ez da produktua aurkitu",
-    "return": "Produktuetara itzuli",
-    "configure": "{{name}} konfiguratu",
-    "standardEquipment": "Serieko ekipamendua",
-    "seeVideo": "Bideoa ikusi",
-    "hoverDrawing": "Sagua pasa marrazki teknikoa ikusteko",
+    "notFound": "Produktua ez da aurkitu",
+    "return": "Itzuli produktuetara",
+    "configure": "Konfiguratu {{izena}}",
+    "standardEquipment": "Ekipamendu estandarra",
+    "seeVideo": "Ikusi bideoa",
+    "hoverDrawing": "Pasatu gainetik marrazki teknikoa erakusteko",
     "profile": "Profila",
-    "technicalDrawing": "Marrazki Teknikoa",
+    "technicalDrawing": "Marrazketa Teknikoa",
     "newGeneration": "Belaunaldi Berria",
-    "uncompromising": "Kalitate eta Errendimendu Termiko Paregabea",
-    "colorsTitle": "Koloreak eta Akaberak",
-    "colorsDesc": "Pertsonalizatu zure {{name}} {{count}} akabera baino gehiagorekin.",
-    "preview": "AURREIKUSPENA",
+    "uncompromising": "Konpromisorik gabeko kalitatea eta errendimendu termikoa",
+    "colorsTitle": "Koloreak eta akaberak",
+    "colorsDesc": "Pertsonalizatu zure {{izena}} lehen mailako akabera {{zenbaketa}} baino gehiagorekin, arkitektura-solido modernoetatik hasi eta zur hiperrealistak arte.",
+    "preview": "Aurreikuspena",
     "selectedFinish": "Hautatutako akabera",
-    "selectedColor": "Hautatutako kolorea:",
+    "selectedColor": "Aukeratutako kolorea:",
     "glassTitle": "Beira",
-    "glassDesc": "DRUTEXek, beira konposatuaren ekoizpenean 30 urte baino gehiagoko esperientziarekin, zure leiho eta ateak hornitzeko beira sorta oso zabala eskaintzen du. Eraginkortasun energetikoaren eta soinu-isolamenduaren eskakizun zorrotzak betetzen dituzte. Eskaintzak beira laminatua (segurua eta lapurreten aurkakoa), eguzki-babeseko beira, soinu-isolamendu hobetua duen beira, beira tenplatua, apaingarria eta hareatua ere barne hartzen ditu.",
-    "handlesTitle": "Eskulekuak",
-    "handlesDesc": "Gure eskulekuak funtzionaltasunagatik nabarmentzen dira.",
-    "optionsTitle": "Aukera Gehigarriak",
-    "optionsDesc": "Hobetu zure IGLO EDGE.",
+    "glassDesc": "DRUTEXek, 30 urte baino gehiagoko esperientzia duen beira konposatuaren ekoizpenean, beira sorta oso zabala eskaintzen du, zure leiho eta ateak egokitzeko. Energia eraginkortasunerako eta soinu isolamendurako baldintza zorrotzak betetzen dituzte. Eskaintzak beira laminatua (segurua eta lapurretaren aurkakoa), eguzkia babestutako beira, soinu-isolamendu hobetua duen beira, beira tenplatua, apaingarria eta hareaztatua ere barne hartzen ditu.",
+    "handlesTitle": "Heldulekuak",
+    "handlesDesc": "Gure leihoen heldulekuak lan bikainagatik, funtzionaltasunagatik eta iraunkortasunagatik bereizten dira. Hainbat koloretako aldaeretan eskuragarri zure leihoak ezin hobeto etortzeko.",
+    "optionsTitle": "Aukera gehigarriak",
+    "optionsDesc": "Hobetu eta pertsonalizatu zure IGLO EDGE ziurtatutako gure osagarri eta gehigarri sorta zabalarekin.",
     "seeAll": "Ikusi guztiak",
-    "configureQuote": "Konfiguratu eta Aurrekontua"
+    "configureQuote": "Konfiguratu produktua eta aurrekontua"
   },
   "footer": {
     "newsletter": {
       "title": "Buletina",
-      "desc": "Egon adi produktu berri eta berrikuntzen inguruan.",
-      "placeholder": "Zure e-posta helbidea",
-      "subscribe": "Harpidetzeko"
+      "desc": "Egon eguneratuta produktu eta berrikuntzei buruz.",
+      "placeholder": "Zure helbide elektronikoa",
+      "subscribe": "Harpidetu"
     },
     "cols": {
       "about": {
-        "title": "Mammut-i buruz",
+        "title": "Mammutari buruz",
         "history": "Gure Historia",
         "quality": "Kalitatea eta Ziurtagiriak",
         "innovation": "Berrikuntza",
-        "sustainability": "Jasangarritasuna"
+        "sustainability": "Iraunkortasuna"
       },
       "offer": {
         "title": "Gure Eskaintza",
-        "pvc": "PVC Leihoak",
-        "alu": "Aluminiozko Leihoak",
-        "wood": "Egurrezko Leihoak",
+        "pvc": "PVC leihoak",
+        "alu": "Aluminiozko leihoak",
+        "wood": "Egurrezko leihoak",
         "doors": "Kanpoko Ateak",
         "shutters": "Pertsianak"
       },
@@ -181,44 +185,44 @@
       },
       "partners": {
         "title": "Bazkideak",
-        "portal": "Bazkide ataria",
+        "portal": "Bazkideen ataria",
         "coop": "Lankidetza Programa",
-        "sales": "Salmenta Ordezkariak",
-        "contact": "Harremana"
+        "sales": "Salmenta-ordezkariak",
+        "contact": "Kontaktua"
       }
     },
     "legal": {
-      "privacy": "Pribatutasun politika",
-      "cookies": "Cookieen ezarpenak",
+      "privacy": "Pribatutasun-politika",
+      "cookies": "Cookie ezarpenak",
       "sitemap": "Gunearen mapa",
       "terms": "Erabilera-baldintzak",
-      "copyright": "Mammut Windows & Doors. Eskubide guztiak erreserbatuta."
+      "copyright": "Mammut leihoak eta ateak. Eskubide guztiak erreserbatuta."
     }
   },
   "igloEdge": {
-    "tagline": "Gehieneko isolamendua, gutxieneko markoa",
-    "description": "Gure leiho berriak isolamendu termikoko parametro bikaina du (Uw = 0,66 W/(m²K)*) eta profil angeluar modernoaren forma du.",
-    "basicDescription": "IGLO EDGE leiho sistemak eraginkortasun energetikoaren gailurra adierazten du.",
-    "equipment": [
-      "Kamera bikoitzeko beiraztatzea Ug = 0,5 W/(m²K)",
-      "Swisspacer plastikozko markoa",
-      "V-perfect soldadura",
-      "4 lapurreten aurkako itxitura",
-      "Mikroaireztapena",
-      "DUBLIN heldulekua",
-      "Okerreko blokeo mekanismoa",
-      "Juntak beltzez edo grisez",
-      "Zarata txikiagoko betegarria",
-      "Sill mozketa",
-      "Kolore aukera zabala",
-      "3 kolore aukeran: zuria, marroia edo antrazita"
-    ],
+    "tagline": "Isolamendu handiena, marko minimoa",
+    "description": "Gure leiho berri eta teknologikoki aurreratuena Uw = 0,66 W/(m²K)*-ko isolamendu termikoko parametro bikainagatik eta profil angeluar modernoagatik bereizten da. Isolamendu termikoko parametro oso onak, besteak beste, 7 ganberako profilaren diseinuari eta EPDM 3 juntadurari dagozkio, junta zentrala barne.",
+    "basicDescription": "IGLO EDGE leiho sistemak energia-eraginkortasunaren gailurra adierazten du. Etxe pasiboetarako eta energiarekin kontzientzia duten eraberritzeetarako diseinatua, 7 ganberako profila du, Uw = 0,66 W/(m²K) onena eta gelara sartzen den argi naturala maximizatzen duen diseinu minimalista.",
+    "equipment": {
+      "0": "Ganbera bikoitzeko beira paketea Ug = 0,5 W/(m²K)",
+      "1": "Swisspacer Ultimate plastikozko marko beroa",
+      "2": "V-perfektua soldadura",
+      "3": "Lapurreten aurkako 4 aurrelari, giltza eta hardware sistemaren tamainaren arabera",
+      "4": "Mikroventilazioa",
+      "5": "DUBLIN aluminiozko leihoko heldulekua",
+      "6": "Heldulekua gaizki kokatzea blokeatzeko mekanismoa",
+      "7": "Perimetroa, beira eta erdiko junturak beltzean edo grisean",
+      "8": "Beheko hardware zirrikitua betetzea",
+      "9": "Zelaiaren mozketa",
+      "10": "PVC xafla koloreen aukera zabala",
+      "11": "3 profil kolore aukeran: zuria, marroia edo antrazita"
+    },
     "specs": {
-      "sound": "Azkartze Akustikoa",
-      "gaskets": "EPDM Junturak",
-      "thermal": "Transmitantzia Termikoa",
-      "chambers": "Ganberak",
-      "depth": "Sakonera",
+      "sound": "Soinu Isolamendua",
+      "gaskets": "EPDM Juntak",
+      "thermal": "Transmisio termikoa",
+      "chambers": "Ganbera kopurua",
+      "depth": "Instalazio-sakonera",
       "class": "Profil Klasea"
     }
   },
@@ -228,222 +232,789 @@
     "Wood Effect": "Egur Efektua"
   },
   "colors": {
-    "c209": "Basalto grisa",
-    "c210": "Basalto gris leuna",
+    "c209": "Basalto Grisa",
+    "c210": "Basalto Grey Gadki",
     "c232": "Brontze sakona",
-    "c213": "Grafito hareatua",
+    "c213": "Grafito hareaztatua",
     "c207": "Kuartzo grisa",
-    "c208": "Kuartzo gris leuna",
-    "c237": "Altzairu urdina",
+    "c208": "Kuartzo grisa leuna",
+    "c237": "Altzairu Urdina",
     "c214": "Antrazita",
-    "c216": "Antrazita Ulti Matea",
-    "c215": "Antrazita leuna",
-    "c218": "Beltz Ulti Matea",
-    "c236": "Urdin distiratsua",
-    "c231": "Txokolate marroia",
-    "c206": "Hormigoi grisa",
+    "c216": "Antrazita Ulti Matt",
+    "c215": "Antrazita Leuna",
+    "c218": "Black Ulti Matt",
+    "c236": "Urdin Distiratsua",
+    "c231": "Txokolate Marroia",
+    "c206": "Hormigoi Grisa",
     "c200": "Krema",
-    "c199": "Croviu Platynium",
-    "c234": "Berde iluna",
-    "c235": "Gorri iluna",
-    "c233": "Goroldio berdea",
+    "c199": "Croviu Platinium",
+    "c234": "Berde Iluna",
+    "c235": "Gorri Iluna",
+    "c233": "Goroldio Berdea",
     "c205": "Grisa",
-    "c217": "Beltz azabachea",
-    "c204": "Gris argia",
+    "c217": "Jet Beltza",
+    "c204": "Gris Argia",
     "c201": "Pirita",
-    "c228": "Palisandroa",
+    "c228": "Rosewood",
     "c211": "Arbela",
-    "c212": "Arbel leuna",
+    "c212": "Arbel Leuna",
     "c197": "Zuria",
-    "c198": "Hare zuri matea",
+    "c198": "Harea Zuri Matt",
     "c202": "Haritz zuritua",
     "c227": "Haritz iluna",
     "c225": "Douglas izeia",
-    "c229": "Makore",
+    "c229": "Macore",
     "c230": "Kaoba",
-    "c203": "Haritz naturala",
+    "c203": "Haritz Naturala",
     "c224": "Oregon",
-    "c220": "Turner haritza 2023",
-    "c221": "Turner Toffee haritza",
-    "c222": "Turner intxaur haritza",
+    "c220": "Turner Oak 2023",
+    "c221": "Turner Oak Toffee 470 3004",
+    "c222": "Turner Haritza Intxaurrondoa 470 3004",
     "c226": "Intxaurrondoa",
     "c223": "Winchester",
-    "c219": "Urrezko haritza"
+    "c219": "Urrezko Haritza"
   },
   "configurator": {
-    "title": "Diseinatu zure neurriko leiho sistema.",
-    "subtitle": "Elige el material y configura tus especificaciones arquitectónicas exactas a continuación.",
+    "title": "Diseina ezazu zure leiho sistema pertsonalizatua.",
+    "subtitle": "Aukeratu materiala eta konfiguratu behean zure zehaztapen arkitektonikoak zehatzak.",
     "steps": {
-      "material": "Perfil del material",
-      "system": "Profile",
-      "windowType": "Tipo de ventana",
-      "openingType": "Tipo de apertura",
-      "color": "Color y Decoración",
-      "dimensions": "Dimensiones (MM)",
-      "glazing": "Acristalamiento",
-      "options": "Accesorios"
+      "material": "Materiala",
+      "system": "Profila",
+      "windowType": "Leiho Mota",
+      "openingType": "Irekitzeko Mota",
+      "color": "Kolorea eta Dekorazioa",
+      "dimensions": "Neurriak (MM)",
+      "glazing": "Beirazko paketea",
+      "options": "Osagarriak eta gehigarriak",
+      "profile": "Profila",
+      "start": "Hasi"
     },
     "summary": {
-      "title": "Resumen de especificaciones",
-      "dimensions": "Dimensiones",
-      "material": "Material",
-      "system": "Profile",
-      "windowType": "Tipo de ventana",
-      "color": "Color y Decoración",
-      "glazing": "Acristalamiento",
-      "financials": "Finanzas",
-      "baseFramework": "Marco base",
-      "hardwareAssembly": "Herrajes",
-      "accessories": "Accesorios",
-      "totalSystem": "Sistema Total",
-      "exportJson": "Exportar JSON",
-      "saveToCart": "Guardar en carrito",
-      "edit": "Editar"
+      "title": "Zehaztapenen ikuspegi orokorra",
+      "dimensions": "Neurriak",
+      "material": "Materiala",
+      "system": "Profila",
+      "windowType": "Leiho Mota",
+      "color": "Kolorea eta Dekorazioa",
+      "glazing": "Beiratzea",
+      "financials": "Finantza",
+      "baseFramework": "Oinarrizko Markoa",
+      "hardwareAssembly": "Hardware Muntaia",
+      "accessories": "Osagarriak",
+      "totalSystem": "Sistema osoa",
+      "exportJson": "JSON esportatu",
+      "saveToCart": "Gorde saskian",
+      "edit": "Editatu"
     },
     "inputs": {
-      "w": "A",
+      "w": "W",
       "h": "H",
       "mm": "mm",
       "cm": "(CM)"
     },
     "state": {
-      "selected": "Seleccionado",
-      "selectWindowType": "Seleccionar Tipo de Ventana",
-      "openingDirection": "Dirección de apertura",
-      "fixedNoOpening": "Fijo (Sin apertura)",
-      "turnTilt": "Hoja (Oscilobatiente)",
-      "sashes": "Configuración de {{count}} hojas"
+      "selected": "Hautatuta",
+      "selectWindowType": "Hautatu Leiho mota",
+      "openingDirection": "Irekiera norabidea",
+      "fixedNoOpening": "Konpontua (Irekitzerik ez)",
+      "turnTilt": "Barneko hostoa (biratu/inklinatu)",
+      "sashes": "{{count}} Sashes konfigurazioa"
     },
     "blueprint": {
-      "interiorView": "Vista Interior"
+      "interiorView": "Barruko ikuspegia",
+      "dragToRotate": "Arrastatu 3Dn libreki biratzeko"
     },
     "windowTypes": {
-      "1-flugel": "1 Leaf",
-      "1-flugel-oberlicht": "1 Leaf \nwith Toplight",
-      "1-flugel-unterlicht": "1 Leaf \nwith Bottomlight",
-      "2-flugel": "2 Leaves",
-      "2-flugel-oberlicht": "2 Leaves \nwith Toplight",
-      "2-flugel-oberlicht-asym": "2 Leaves asym. \nwith Toplight",
-      "2-flugel-unterlicht": "2 Leaves \nwith Bottomlight",
-      "2-flugel-unterlicht-asym": "2 Leaves asym. \nwith Bottomlight",
-      "3-flugel": "3 Leaves",
-      "3-flugel-oberlicht": "3 Leaves \nwith Toplight",
-      "3-flugel-oberlicht-asym": "3 Leaves asym. \nwith Toplight",
-      "3-flugel-unterlicht": "3 Leaves \nwith Bottomlight",
-      "3-flugel-unterlicht-asym": "3 Leaves asym. \nwith Bottomlight",
-      "4-flugel": "4 Leaves"
+      "1-flugel": "1 Hostoa",
+      "1-flugel-oberlicht": "1 Hostoa \nToplight-ekin",
+      "1-flugel-unterlicht": "1 Hostoa \nBeheko argiarekin",
+      "2-flugel": "2 hostoak",
+      "2-flugel-oberlicht": "2 hostoak \nToplight-ekin",
+      "2-flugel-oberlicht-asym": "2 hostoak asym. \nToplight-ekin",
+      "2-flugel-unterlicht": "2 hostoak \nBeheko argiarekin",
+      "2-flugel-unterlicht-asym": "2 hostoak asym. \nBeheko argiarekin",
+      "3-flugel": "3 hostoak",
+      "3-flugel-oberlicht": "3 hostoak \nToplight-ekin",
+      "3-flugel-oberlicht-asym": "3 hostoak asym. \nToplight-ekin",
+      "3-flugel-unterlicht": "3 hostoak \nBeheko argiarekin",
+      "3-flugel-unterlicht-asym": "3 hostoak asym. \nBeheko argiarekin",
+      "4-flugel": "4 hostoak"
     },
     "openingTypes": {
-      "F": "Fixed",
-      "DKL": "Turn-Tilt (Left)",
-      "DKR": "Turn-Tilt (Right)",
-      "DL": "Turn (Left)",
-      "DR": "Turn (Right)",
-      "K": "Tilt"
+      "F": "Finkoa",
+      "DKL": "Biratu-inklinatu (ezkerrera)",
+      "DKR": "Biratu-inklinatu (eskuinera)",
+      "DL": "Biratu (ezkerrera)",
+      "DR": "Biratu (eskuinera)",
+      "K": "Okertu"
+    },
+    "welcome": {
+      "title": "Ongi etorri AI bidezko Windows konfiguratzailera",
+      "description": "Leihoak hautatzea ez da lan erraza, aukera asko daude eta guztion beharrak desberdinak dira, horregatik gure konfiguratzaileak zure beharretara eta aurrekontura egokitzen den aukerarik onena egiten lagunduko dizu."
+    }
+  },
+  "help": {
+    "materialDesc": "Aukeratu zure leihorako material mota. Jarraian, bakoitzaren ezaugarri nagusien laburpena aurkituko duzu.",
+    "pvc": "PVCa",
+    "aluminum": "ALUMINIOA",
+    "durability": "Iraunkortasuna",
+    "maintenance": "Mantentzea",
+    "insulation": "Isolamendua",
+    "weatherRes": "Eguraldiarekiko erresistentzia",
+    "security": "Segurtasuna",
+    "ecoFootprint": "Aztarna ekologikoa",
+    "legend": "* = neutroa | ** = ona | *** = oso ona",
+    "windowTypeDesc": "Gure leihoak irekitzeko aukera desberdinak dituzte. Bat, bi eta hiru hostoko leihoak daude goiko edo beheko trabesekin.",
+    "singleLeaf": "Hosto bakarreko leihoak",
+    "doubleLeaf": "Bi hostoko leihoak",
+    "tripleLeaf": "Hiru hostoko leihoak",
+    "specialWindows": "Leiho mota bereziak",
+    "leaveConf": "Konfiguratzailea utzi?",
+    "stillQuestions": "Oraindik galderarik baduzu zure eskaerari edo konfiguratzaileari buruz?",
+    "csTeam": "Gure bezeroarentzako arreta-taldeak (eta gure AI Laguntzailea) pozik emango dizute doan:",
+    "monFri": "(Astelehenetik ostiralera 8:00etatik 18:00etara)",
+    "aiAssist": "AI Laguntzailea",
+    "avail247": "(24/7 eskuragarri)",
+    "exitWarning": "Konfiguratzailetik irtetean, zure aurreko hautaketa galduko da.",
+    "continueConf": "Jarraitu konfiguratzailean",
+    "exitConf": "Irten konfiguratzailetik",
+    "haveQuestions": "Galderarik baduzu?",
+    "availableToday": "Gaur 18:00ak arte egongo gara eskuragarri.",
+    "shallWeTalk": "Hitz egingo dugu? Erreserbatu deia orain.",
+    "scheduleMeeting": "Bilera antolatu",
+    "up": "GORA",
+    "close": "Itxi",
+    "comp": {
+      "title": "Konparazio taula laburtua (2026ko testuingurua)",
+      "feature": "Ezaugarri",
+      "pvc": "PVC (PVC)",
+      "aluminum": "Aluminioa",
+      "bestFor": "Onenarentzat",
+      "bestForPvc": "Aurrekontua, tamaina estandarrak, eraginkortasun termiko maximoa kostu txikian.",
+      "bestForAlu": "Beira eremu handiak, estetika modernoa, iraupena eta indarra.",
+      "lifespan": "Bizi-iraupena",
+      "lifespanPvc": "20-30 urte",
+      "lifespanAlu": "45 urte baino gehiago",
+      "cost": "Kostua",
+      "costPvc": "Orokorrean %30-%50 merkeago.",
+      "costAlu": "Premium prezio puntua.",
+      "aesthetics": "Estetika",
+      "aestheticsPvc": "Marko pisutsuagoak.",
+      "aestheticsAlu": "Profil meheak (argi naturalagoa)."
     }
   },
   "assistant": {
-    "geoTitle": "Tokiko Klimaren Bat-etortzea",
-    "geoDesc": "Zure neurrira egindako Klima\nGure leihoak zure inguruko klimarako berariaz diseinatuta daude. Zure kokapen zehatzean oinarrituta, neguan gehienezko isolamendua eta udan freskotasuna bermatzeko errendimendu termiko ezin hobea kalkulatzen dugu.\n\nZure abantailak:\n\nEnergia-aurrezkia: Murriztu berokuntza eta aire girotuaren gastua.\n\nErabateko erosotasuna: Agur esan aire-korronteei eta bero itogarriari.\n\nTokiko zehaztasuna: Bereziki zure hirira egokitutako teknologia.",
-    "province": "Provincia",
-    "city": "Municipio / Ciudad",
-    "selectProv": "Seleccionar Provincia...",
-    "selectCity": "Seleccionar Ciudad...",
-    "topoEngine": "Motor Topográfico",
-    "altitude": "Altitud",
-    "cteZone": "ZONA CLIMÁTICA CTE DB-HE",
-    "next": "Hurrengo Urratsa",
-    "matTitle": "Restricciones de Material y Presupuesto",
-    "matPref": "Preferencia de Material",
-    "guideMe": "No lo sé, guíenme",
-    "budget": "Alcance del Presupuesto",
-    "low": "Bajo",
-    "med": "Medio",
+    "geoTitle": "Tokiko Klimaren Partida",
+    "geoDesc": "Klima Zure Neurrira \nGure leihoak zure inguruko klimarako bereziki diseinatuta daude. Zure kokapen zehatzaren arabera, errendimendu termiko aproposa kalkulatzen dugu neguan isolamendu handiena eta udan freskotasuna bermatzeko. \n\nZure onurak: \n\nEnergia aurreztea: Berokuntza eta klimatizazio gastuak murriztea. \n\nErosotasun osoa: esan agur zirriborroei eta bero itogarriei. \n\nTokiko zehaztasuna: zure hirira bereziki egokitutako teknologia.",
+    "province": "Probintzia",
+    "city": "Udalerria / Ciudad",
+    "selectProv": "Hautatu probintzia...",
+    "selectCity": "Hautatu hiria...",
+    "topoEngine": "Motor topografikoa",
+    "altitude": "Altuera",
+    "cteZone": "CTE DB-HE KLIMA GUNEA",
+    "next": "Hurrengo urratsa",
+    "matTitle": "Material eta aurrekontu murrizketak",
+    "matPref": "Materialen lehentasuna",
+    "guideMe": "Ez dakit, gidatu nazazu",
+    "budget": "Aurrekontu Eremua",
+    "low": "Baxua",
+    "med": "Ertaina",
     "premium": "Premium",
-    "timeTitle": "Cronograma del Proyecto",
-    "t1": "Lo antes posible",
-    "t1Sub": "15 días laborables mínimo",
-    "t2": "Próximos 1-2 meses",
-    "t3": "Más de 2 meses",
-    "t4": "Aún no estoy seguro",
-    "archTitle": "Acústica y Arquitectura",
-    "houseType": "Tipo de Vivienda",
-    "villa": "Chalet",
-    "apt": "Apartamento",
-    "noisePol": "Contaminación Acústica Local",
-    "nHigh": "Ciudad / Tráfico Alto",
-    "nLow": "Rural / Tranquilo",
-    "processCalc": "Procesar Análisis",
-    "analyzing": "Analizando Datos",
-    "computing": "Calculando cargas estructurales óptimas...",
-    "perfWin": "Su Ventana Perfecta",
-    "basedOn": "Basado en los datos absolutos de su Zona geográfica {{zone}}, la contaminación acústica {{noise}} y el presupuesto definido, nuestros algoritmos recomiendan:",
-    "recProf": "Sistema de Perfil Recomendado",
-    "base": "Base",
-    "glaze": "Acristalamiento",
-    "useData": "Usar estos datos y configurar ventana",
-    "inter1": "Recomendado: Asistente Guiado Inteligente",
-    "inter2": "Llevarme directamente al configurador",
-    "inter2Sub": "(Configuración Compleja)"
+    "timeTitle": "Proiektuaren kronograma",
+    "t1": "Ahalik eta azkarren",
+    "t1Sub": "15 lanegun lehenago",
+    "t2": "Hurrengo 1-2 hilabete",
+    "t3": "2 hilabete baino gehiago",
+    "t4": "Oraindik ez dago ziur",
+    "archTitle": "Akustika eta Arkitektura",
+    "houseType": "Etxebizitza Mota",
+    "villa": "Villa",
+    "apt": "Apartamentua",
+    "noisePol": "Tokiko kutsadura akustikoa",
+    "nHigh": "Hiria / Trafiko Handia",
+    "nLow": "Landa / Lasai",
+    "processCalc": "Prozesuaren Analisia",
+    "analyzing": "Datuak aztertzea",
+    "computing": "Egitura-karga optimoak kalkulatzen...",
+    "perfWin": "Zure Leiho Perfektua",
+    "basedOn": "Zure eremu geografiko absolutuaren {{zona}} klima-datuetan, tokiko kutsadura akustikoan {{zarata}}n eta zehaztutako aurrekontuan oinarrituta, gure algoritmoek gomendatzen dute:",
+    "recProf": "Gomendatutako Profil Sistema",
+    "base": "Oinarria",
+    "glaze": "Beiratzea",
+    "useData": "Erabili datu hauek eta konfiguratu leihoa",
+    "inter1": "Gomendagarria: Gidatu Adimendun Laguntzailea",
+    "inter2": "Eraman nazazu zuzenean konfiguratzailera",
+    "inter2Sub": "(Konfigurazio konplexua)"
   },
   "partner": {
     "layout": {
-      "dashboard": "Panela",
-      "leads": "Aukerak",
-      "profile": "Dendaren Profila",
+      "dashboard": "Aginte-panela",
+      "leads": "Lead eta Pipeline",
+      "profile": "Denda profila",
       "settings": "Ezarpenak",
-      "portal": "Bazkideen Ataria",
-      "signOut": "Saioa Itxi"
+      "portal": "Bazkideen ataria",
+      "signOut": "Amaitu saioa"
     },
     "dashboard": {
-      "title": "Panela",
-      "subtitle": "Ongi etorri berriro.",
-      "showQr": "Erakutsi QR",
-      "totalScans": "Eskaneatzeak",
-      "activeLeads": "Aukera Aktiboak",
-      "estCommissions": "Est. Komisioak",
+      "title": "Aginte-panela",
+      "subtitle": "Ongi etorri berriro. Hona hemen zure dendan gertatzen ari dena.",
+      "showQr": "Erakutsi dendan QR",
+      "totalScans": "Eskaneaketa osoa",
+      "activeLeads": "Lead Aktiboak",
+      "estCommissions": "Ekialdea. Komisioak",
       "fromLastMonth": "azken hilabetetik",
-      "newThisWeek": "aste honetan berriak",
-      "leadsPending": "itxi gabe",
+      "newThisWeek": "aste honetan berria",
+      "leadsPending": "eramaten ditu itxi zain",
       "recentActivity": "Azken Jarduera"
     },
     "leads": {
-      "title": "Aukerak",
-      "subtitle": "Jarraitu aurrerapena eta komisioak.",
+      "title": "Lead eta Pipeline",
+      "subtitle": "Jarraitu zure bezeroen aurrerapena eta estimatutako komisioak.",
       "exportCsv": "Esportatu CSV",
       "searchId": "Bilatu ID...",
-      "filterStatus": "Iragazi",
+      "filterStatus": "Iragazi egoeraren arabera",
       "cols": {
-        "id": "Bezero ID",
-        "date": "Data",
-        "source": "Iturria",
+        "id": "Bezeroaren IDa",
+        "date": "Eskaneatu data",
+        "source": "Eskaneatu iturria",
         "status": "Egoera",
-        "budget": "Aurrekontua",
+        "budget": "Est. Aurrekontua",
         "actions": "Ekintzak"
       }
     },
     "profile": {
-      "title": "Dendaren Profila",
-      "subtitle": "Kudeatu xehetasunak.",
-      "basicInfo": "Oinarrizko Informazioa",
-      "storeName": "Dendaren Izena",
-      "storeType": "Mota",
+      "title": "Denda profila",
+      "subtitle": "Kudeatu zure dendaren xehetasunak eta co-branding ezarpenak.",
+      "basicInfo": "Oinarrizko informazioa",
+      "storeName": "Denda izena",
+      "storeType": "Denda mota",
       "address": "Helbidea",
-      "email": "Posta",
+      "email": "Posta elektronikoa",
       "phone": "Telefonoa",
-      "saveChanges": "Gorde",
-      "cobranding": "Co-Branding",
-      "cobrandingDesc": "Igo zure logoa.",
-      "clickToUpload": "Egin klik igotzeko",
-      "fileTypes": "SVG, PNG edo JPG",
-      "networkGroup": "Sarea",
-      "networkDesc": "Bazkide independentea zara.",
-      "linkChain": "Estekatu Sareari",
+      "saveChanges": "Gorde aldaketak",
+      "cobranding": "Ko-markinga",
+      "cobrandingDesc": "Kargatu zure logotipoa bezeroaren helmuga-orrian ager dadin zure QR kodeak eskaneatzen dituztenean.",
+      "clickToUpload": "Egin klik logoa kargatzeko",
+      "fileTypes": "SVG, PNG edo JPG (gehienez 2 MB)",
+      "networkGroup": "Sare Taldea",
+      "networkDesc": "Zure denda bazkide independentea da. Kate handiago batekoa bazara, zure kontua lotu dezakezu.",
+      "linkChain": "Kate/Talderako esteka",
       "types": {
-        "hardware": "Burdindegia",
+        "hardware": "Hardware denda",
         "pharmacy": "Farmazia",
         "restaurant": "Jatetxea",
-        "other": "Beste bat"
+        "other": "Bestela"
+      }
+    }
+  },
+  "handles": {
+    "h1": {
+      "name": "Helduleku estandarra",
+      "type": "Aluminioa"
+    },
+    "h2": {
+      "name": "Giltzarekin heldulekua",
+      "type": "Segurtasuna"
+    },
+    "h3": {
+      "name": "Secustik®",
+      "type": "Lapurretaren aurkakoa"
+    }
+  },
+  "sliderHandles": {
+    "nevada-ral7016": "NEVADA giltzarekin (RAL7016)",
+    "nevada-ral9001": "NEVADA giltzarekin (RAL9001)",
+    "nevada-ral9005": "NEVADA giltzarekin (RAL9005)",
+    "nevada-ral9016": "NEVADA giltzarekin (RAL9016)",
+    "nevada-f9": "NEVADA giltzarekin (titaniozko F9)",
+    "mistral-ral7016": "MISTRAL giltzadun (RAL7016)",
+    "mistral-ral9001": "MISTRAL giltzadun (RAL9001)",
+    "mistral-ral9005": "MISTRAL giltzarekin (RAL9005)",
+    "mistral-f9-key": "MISTRAL giltzarekin (titaniozko F9)",
+    "mistral-f9": "MISTRAL F9",
+    "dublin-ral9016": "DUBLIN (zuria RAL9016)",
+    "dublin-ral8019": "DUBLIN (RAL8019 marroia)",
+    "dublin-ral7016": "DUBLIN (RAL7016)",
+    "dublin-ral9005": "DUBLIN (RAL9005)",
+    "dublin-silver": "DUBLIN (zilarra)",
+    "dublin-key-ral7016": "DUBLIN giltzarekin (RAL7016)",
+    "dublin-key-ral9005": "DUBLIN giltzarekin (RAL9005)",
+    "dublin-key-ral9016": "DUBLIN giltzarekin (RAL9016 zuria)",
+    "dublin-key-ral8019": "DUBLIN giltzarekin (RAL8019 marroia)",
+    "dublin-key-silver": "DUBLIN giltzarekin (zilarra)",
+    "kwadrat-ral7016": "KARAUA RAL 7016",
+    "kwadrat-ral8019": "KARAUA RAL 8019",
+    "kwadrat-ral9016": "KARAUA RAL 9016",
+    "kwadrat-ral9001": "KARAUA RAL 9001",
+    "kwadrat-f9": "KARAUA titaniozko F9",
+    "kwadrat-key-f1": "KWADRAT F1 teklarekin",
+    "kwadrat-key-f4": "KWADRAT F4 teklarekin",
+    "kwadrat-key-f9": "KWADRAT F9 teklarekin",
+    "kwadrat-key-ral7016": "KWADRAT giltzarekin (RAL7016)",
+    "kwadrat-key-ral8019": "KWADRAT giltzarekin (RAL8019)",
+    "kwadrat-key-ral9001": "KWADRAT giltzarekin (RAL9001)",
+    "kwadrat-key-ral9005": "KWADRAT giltzarekin (RAL9005)",
+    "kwadrat-key-ral9016": "KWADRAT giltzarekin (RAL9016)"
+  },
+  "productData": {
+    "iglo-edge": {
+      "name": "IGLO ERTZA",
+      "tagline": "Isolamendu handiena, marko minimoa",
+      "description": "Gure leiho berri eta teknologikoki aurreratuena Uw = 0,66 W/(m²K)*-ko isolamendu termikoko parametro bikainagatik eta profil angeluar modernoagatik bereizten da. Isolamendu termikoko parametro oso onak, besteak beste, 7 ganberako profilaren diseinuari eta EPDM 3 juntadurari dagozkio, junta zentrala barne.",
+      "specs": {
+        "label_0": "Transmisio termikoa (Uw)",
+        "value_0": "0,66",
+        "label_1": "Instalazio-sakonera",
+        "value_1": "82",
+        "label_2": "Profileko Ganberak",
+        "value_2": "7",
+        "label_3": "Soinu isolamendua (Rw)",
+        "value_3": "36–47"
+      },
+      "standardEquipment": {
+        "eq_0": "Ganbera bikoitzeko beira paketea Ug = 0,5 W/(m²K)",
+        "eq_1": "Swisspacer Ultimate plastikozko marko beroa",
+        "eq_2": "V-perfektua soldadura",
+        "eq_3": "Lapurreten aurkako 4 aurrelari, giltza eta hardware sistemaren tamainaren arabera",
+        "eq_4": "Mikroventilazioa",
+        "eq_5": "DUBLIN aluminiozko leihoko heldulekua",
+        "eq_6": "Heldulekua gaizki kokatzea blokeatzeko mekanismoa",
+        "eq_7": "Perimetroa, beira eta erdiko junturak beltzean edo grisean",
+        "eq_8": "Beheko hardware zirrikitua betetzea",
+        "eq_9": "Zelaiaren mozketa",
+        "eq_10": "PVC xafla koloreen aukera zabala",
+        "eq_11": "3 profil kolore aukeran: zuria, marroia edo antrazita"
+      },
+      "keySpecs": {
+        "label_0": "soinua",
+        "value_0": "36-47 dB",
+        "label_1": "juntagailuak",
+        "value_1": "3",
+        "label_2": "termikoa",
+        "value_2": "Uw = 0,66 W/(m²K)*",
+        "label_3": "ganberak",
+        "value_3": "7",
+        "label_4": "sakonera",
+        "value_4": "82 mm",
+        "label_5": "klasea",
+        "value_5": "A"
+      },
+      "hardware": {
+        "name_0": "Helduleku estandarra",
+        "type_0": "Aluminioa",
+        "name_1": "Giltzarekin heldulekua",
+        "type_1": "Segurtasuna",
+        "name_2": "Secustik®",
+        "type_2": "Lapurretaren aurkakoa"
+      },
+      "accessories": {
+        "name_0": "Maco Multi Matic KS",
+        "description_0": "Perimetroko hardware aurreratua mikro-aireztapenarekin",
+        "name_1": "V-Soldadura Perfektua",
+        "description_1": "Ia ikusezinak diren izkinako soldadurak akatsik gabeko estetika lortzeko",
+        "name_2": "Altzairuzko Errefortzua",
+        "description_2": "Egiturako altzairuzko profil itxia muturreko zurruntasunerako",
+        "name_3": "EPDM zigiluak",
+        "description_3": "Zigilatze sistema hirukoitza beltzean edo grisean"
+      }
+    },
+    "iglo-energy": {
+      "name": "ORRATZAREN ENERGIA",
+      "tagline": "Energia eraginkortasun nabarmena",
+      "description": "7 ganberako A klaseko profil sistema berritzaile eta originala, lehen materialarekin soilik fabrikatua, isolamendu termikoko koefiziente bikainagatik bereizten dena Uw = 0,6 W/(m2K)*. Iglo Energyk energia-eraginkortasuneko leihoen estandarra ezartzen du.",
+      "specs": {
+        "label_0": "Transmisio termikoa (Uw)",
+        "value_0": "0,71",
+        "label_1": "Instalazio-sakonera",
+        "value_1": "82",
+        "label_2": "Profileko Ganberak",
+        "value_2": "7",
+        "label_3": "Soinu isolamendua (Rw)",
+        "value_3": "37–46"
+      },
+      "standardEquipment": {
+        "eq_0": "MACO MULTI MATIC KS hardware lapurretaren aurkako 2 harrapakinekin",
+        "eq_1": "Silber-Look estaldura eta depresio linealak espagnoletten",
+        "eq_2": "Gaizki maneiatzeko gailua eta altxatzeko eskuila",
+        "eq_3": "Mikro-aireztapena leiho makurtuetan",
+        "eq_4": "Leiho atearen profila",
+        "eq_5": "Galbanizatutako altzairuzko errefortzua edo beira-zuntza (aukerakoa)",
+        "eq_6": "5 ganberako leiho-espaila",
+        "eq_7": "Beira hirukoitza paketea ertz beroko tartearekin"
+      },
+      "keySpecs": {
+        "label_0": "soinua",
+        "value_0": "37-46 dB",
+        "label_1": "juntagailuak",
+        "value_1": "3 EPDM",
+        "label_2": "termikoa",
+        "value_2": "Uw = 0,71 W/(m²K)*",
+        "label_3": "ganberak",
+        "value_3": "7",
+        "label_4": "sakonera",
+        "value_4": "82 mm",
+        "label_5": "klasea",
+        "value_5": "A"
+      },
+      "hardware": {
+        "name_0": "Helduleku estandarra",
+        "type_0": "Aluminioa",
+        "name_1": "Giltzarekin heldulekua",
+        "type_1": "Segurtasuna",
+        "name_2": "Secustik®",
+        "type_2": "Lapurretaren aurkakoa"
+      },
+      "accessories": {
+        "name_0": "Maco Multi Matic KS",
+        "description_0": "Perimetroko hardware aurreratua mikro-aireztapenarekin",
+        "name_1": "V-Soldadura Perfektua",
+        "description_1": "Ia ikusezinak diren izkinako soldadurak akatsik gabeko estetika lortzeko",
+        "name_2": "Altzairuzko Errefortzua",
+        "description_2": "Egiturako altzairuzko profil itxia muturreko zurruntasunerako",
+        "name_3": "EPDM zigiluak",
+        "description_3": "Zigilatze sistema hirukoitza beltzean edo grisean"
+      }
+    },
+    "iglo-energy-classic": {
+      "name": "IGLO ENERGY KLASIKOA",
+      "tagline": "Beira karratuen aleak etxe pasiboen errendimendua betetzen du",
+      "description": "Diseinu paregabea, non karratu formako beirazko alea aukera dezakezun azken arkitektura-joerak islatzeko. Isolamendu termiko parametro nabarmenak 7 ganberako profilaren egitura ezin hobeak eta EPDM aparrez egindako zigilatzeko sistema bereziki diseinatuta daude. Profila zuria, antrazita eta brontzean eskuragarri dago.",
+      "specs": {
+        "label_0": "Transmisio termikoa (Uw)",
+        "value_0": "0,73",
+        "label_1": "Instalazio-sakonera",
+        "value_1": "82",
+        "label_2": "Profileko Ganberak",
+        "value_2": "7",
+        "label_3": "Soinu isolamendua (Rw)",
+        "value_3": "36–42"
+      }
+    },
+    "iglo-energy-alucover": {
+      "name": "IGLO ENERGY ALUCOVER",
+      "tagline": "PVC errendimendua aluminiozko kanpoko dotoretasunarekin",
+      "description": "Bizi ezazu puntako isolamendu termikoaren errendimenduaren eta diseinu garaikidearen fusioa. Kanpoaldeko aluminiozko estaldurak kolore-aukera mugagabeak eskaintzen ditu, barruko edo eraikineko fatxada bakoitzerako estilo pertsonalizatu paregabea eratzeko ahalmena ematen dizu, errendimendu termikoari kalterik egin gabe.",
+      "specs": {
+        "label_0": "Transmisio termikoa (Uw)",
+        "value_0": "0,76",
+        "label_1": "Instalazio-sakonera",
+        "value_1": "82",
+        "label_2": "Profileko Ganberak",
+        "value_2": "7",
+        "label_3": "Beirazko paketea (eta)",
+        "value_3": "0,5"
+      }
+    },
+    "iglo-5": {
+      "name": "ORRATZA 5",
+      "tagline": "Kalitate handiko prezio erakargarrian",
+      "description": "IGLO 5 sistemak dotorezia, funtzionaltasuna eta energia aurrezteko irtenbide aurreratuak uztartzen ditu. Bere betiko 5 ganberako profilaren diseinuak aukera polifazetikoa bihurtzen du bai arkitektura modernorako bai eraberritze klasikoetarako, errendimendu termiko sendoa balio bikainean eskainiz.",
+      "specs": {
+        "label_0": "Transmisio termikoa (Uw)",
+        "value_0": "0,74",
+        "label_1": "Instalazio-sakonera",
+        "value_1": "70",
+        "label_2": "Profileko Ganberak",
+        "value_2": "5",
+        "label_3": "Soinu isolamendua (Rw)",
+        "value_3": "36–44"
+      }
+    },
+    "iglo-5-classic": {
+      "name": "ORRATZA 5 KLASIKOA",
+      "tagline": "Konponbide frogatuak bezeroaren gogobetetzea dakar",
+      "description": "IGLO 5 Classic-ek 5 ganberako profil sistema frogatua estetika tradizionalarekin nahasten du. Errendimendu termiko eta akustiko fidagarriek klima-eremu guztietan eraikuntza berrietarako nahiz berritze-proiektuetarako konfiantzazko aukera bihurtzen dute.",
+      "specs": {
+        "label_0": "Transmisio termikoa (Uw)",
+        "value_0": "0,89",
+        "label_1": "Instalazio-sakonera",
+        "value_1": "70",
+        "label_2": "Profileko Ganberak",
+        "value_2": "5",
+        "label_3": "Soinu isolamendua (Rw)",
+        "value_3": "36–44"
+      }
+    },
+    "iglo-light": {
+      "name": "IGLO ARGIA",
+      "tagline": "Are eta argi gehiago zure espaziora",
+      "description": "IGLO LIGHT-ek bere profil oso meheak ditu, eta barrualdean argi natural askoz gehiago sartzen da. Itxura liraina izan arren, egitura-egonkortasuna eta errendimendu termiko bikainak eskaintzen ditu 5 ganberako ingeniaritza klasikoan.",
+      "specs": {
+        "label_0": "Transmisio termikoa (Uw)",
+        "value_0": "0,88",
+        "label_1": "Instalazio-sakonera",
+        "value_1": "70",
+        "label_2": "Profileko Ganberak",
+        "value_2": "5",
+        "label_3": "Soinu isolamendua (Rw)",
+        "value_3": "34"
+      }
+    },
+    "iglo-ext": {
+      "name": "IGLO EXT",
+      "tagline": "Kanporantz irekitzen diren PVC balkoi-leiho modernoak",
+      "description": "IGLO EXT kanporantz irekitzeko PVC sistema moderno bat da, balkoi, terraz eta espazio estuetarako instalazioetarako, non barrurantz irekitzea ezinezkoa den. Eguraldiaren babes fidagarria eta isolamendu termikoa eskaintzen ditu espazioa aurrezteko diseinuan.",
+      "specs": {
+        "label_0": "Transmisio termikoa (Uw)",
+        "value_0": "0,89",
+        "label_1": "Instalazio-sakonera",
+        "value_1": "70",
+        "label_2": "Profileko Ganberak",
+        "value_2": "5",
+        "label_3": "Irekiera norabidea",
+        "value_3": "Kanporantz"
+      }
+    },
+    "iglo-premier": {
+      "name": "NEDLE PREMIER",
+      "tagline": "Kanporantz irekitzen diren leiho okertu edo okertu modernoak",
+      "description": "Iglo Premier-ek kanporantz irekitzeko leiho-esperientzia bikaina eskaintzen du eguraldiaren aurkako eta errendimendu termiko apartarekin. Ikusmen-lerro garbiak eta epe luzerako errendimendu fidagarria eskatzen duen arkitektura garaikiderako diseinatua.",
+      "specs": {
+        "label_0": "Instalazio-sakonera",
+        "value_0": "70",
+        "label_1": "Profileko Ganberak",
+        "value_1": "5",
+        "label_2": "Irekiera norabidea",
+        "value_2": "Kanporantz",
+        "label_3": "Beira estandarra (eta)",
+        "value_3": "0.6"
+      }
+    },
+    "ideal-neo-ad": {
+      "name": "IDEAL NEO AD",
+      "tagline": "Diseinu modernoa baino gehiago",
+      "description": "IDEAL NEO AD-ek 5/6 ganberako profilaren egitura eskaintzen du, diseinu aldakortasun bikainarekin. Haustura termikoen teknologia aurreratua dakar eta akabera ugaritan eskuragarri dago, arkitektura aldetik zorrotzak diren proiektuetarako aproposa da.",
+      "specs": {
+        "label_0": "Transmisio termikoa (Uw)",
+        "value_0": "0,79",
+        "label_1": "Instalazio-sakonera",
+        "value_1": "76",
+        "label_2": "Profileko Ganberak",
+        "value_2": "5/6",
+        "label_3": "Soinu isolamendua (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md": {
+      "name": "IDEAL NEO MD",
+      "tagline": "Diseinu modernoa baino gehiago",
+      "description": "IDEAL NEO MD 6 ganberako sistema premium bat da, isolamendu termiko bikaina eta profilaren estetika garaikidea eskaintzen duena. Joturarik gabeko eskuila-diseinuak hobaria ikusgaiak kentzen ditu, barrualde eta fatxad minimalista egokitzen den itxura modernoa sortuz.",
+      "specs": {
+        "label_0": "Transmisio termikoa (Uw)",
+        "value_0": "0,76",
+        "label_1": "Instalazio-sakonera",
+        "value_1": "76",
+        "label_2": "Profileko Ganberak",
+        "value_2": "6",
+        "label_3": "Soinu isolamendua (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-fs": {
+      "name": "IDEAL NEO MD-FS",
+      "tagline": "Arkitekturarekin bat eginda",
+      "description": "IDEAL NEO MD-FS zirrikitu aldaerak markoaren eta gerrikoaren arteko pauso ikusgaia kentzen du, kanpoko itxura guztiz laua lortzen du. Arkitektura moderno eta minimalistarako aproposa, non ikusmen-lerroak errendimendua bezainbeste balio baitu.",
+      "specs": {
+        "label_0": "Transmisio termikoa (Uw)",
+        "value_0": "0,73",
+        "label_1": "Instalazio-sakonera",
+        "value_1": "76",
+        "label_2": "Profileko Ganberak",
+        "value_2": "6",
+        "label_3": "Soinu isolamendua (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-monoblock": {
+      "name": "IDEAL NEO MD MONOBLOCK",
+      "tagline": "Isolamendu-geruzen barruan instalatzeko diseinatua",
+      "description": "Monobloke markoak isolamendu geruza baten barruan instalatutako leihoetarako diseinatuta daude. Markoaren gama zabalak (76-162 mm) aukeraketa egokia ahalbidetzen du isolamenduaren lodieraren arabera. Kanpoko apal berezi batek estetikoki ezkutatzen du isolamendua leihoaren perimetroaren inguruan.",
+      "specs": {
+        "label_0": "Transmisio termikoa (Uw)",
+        "value_0": "0,76",
+        "label_1": "Instalazio-sakonera",
+        "value_1": "76–162",
+        "label_2": "Profileko Ganberak",
+        "value_2": "6",
+        "label_3": "Soinu isolamendua (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-renovation": {
+      "name": "IDEAL NEO MD BERRIKUNTZA",
+      "tagline": "Leiho berriak marko zaharra kendu gabe",
+      "description": "Berritze-marko sistemak leihoak instalatzea ahalbidetzen du, marko zaharrak desmuntatu gabe. Maskara-profila duten marko bereziek lehendik dagoen zurezko markoa hartzen dute. Maskaratze-profilak 40 mm eta 70 mm-ko zabaleretan daude eskuragarri eta baldintza zehatzetarako moztu daitezke.",
+      "specs": {
+        "label_0": "Transmisio termikoa (Uw)",
+        "value_0": "0,76",
+        "label_1": "Instalazio-sakonera",
+        "value_1": "76",
+        "label_2": "Profileko Ganberak",
+        "value_2": "5/6",
+        "label_3": "Soinu isolamendua (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-7000-nl": {
+      "name": "IDEAL 7000 NL",
+      "tagline": "Arkitekturarekin bat eginda",
+      "description": "IDEAL 7000 NL PVCko leiho sistema polifazetikoa da, bista garbiak eta errendimendu termiko sendoa eskaintzen dituena. Egokia da arkitekturak leiho-profil findu eta garaikidea eskatzen duen proiektuetarako, isolamenduari edo iraunkortasunari kalterik egin gabe.",
+      "specs": {
+        "label_0": "Profileko Ganberak",
+        "value_0": "5",
+        "label_1": "Beirazko paketea (eta)",
+        "value_1": "0,5",
+        "label_2": "Eskuragarri dauden soldadura motak",
+        "value_2": "V-Perfektua, klasikoa",
+        "label_3": "Hardware estandarra",
+        "value_3": "MACO MULTI-MATIC"
+      }
+    },
+    "mb-86n-si": {
+      "name": "MB-86N SI",
+      "tagline": "Parametro bikainak eta aluminioaren iraunkortasuna",
+      "description": "Aluminiozko leiho sistema oso aurreratua, isolamendu termiko eskakizun handienak betetzen dituena. Ertz beroko tartea eta hautsi termiko premiumak 0,76 W/(m²K) bezain baxuak ematen ditu Uw balioak, Drutex aluminiozko leihoen gamako errendimendurik onena da.",
+      "specs": {
+        "label_0": "Transmisio termikoa (Uw)",
+        "value_0": "0,76",
+        "label_1": "Instalazio-sakonera",
+        "value_1": "77",
+        "label_2": "Zigilatzeko geruzak",
+        "value_2": "3",
+        "label_3": "Beira estandarra (eta)",
+        "value_3": "0,5"
+      }
+    },
+    "mb-79n-si": {
+      "name": "MB-79N SI",
+      "tagline": "Aukeratu eraginkortasun energetikoa",
+      "description": "MB-79N SI aluminiozko leiho-sistemak errendimendu termiko bikaina eskaintzen du 70 mm-ko profilaren sakoneran. Hiru zigilatzeko mailak eta errendimendu handiko eten termiko batek egokia da aluminiozko marko eraginkor eta iraunkorra behar duten etxebizitzetako nahiz merkataritzako aplikazioetarako.",
+      "specs": {
+        "label_0": "Transmisio termikoa (Uw)",
+        "value_0": "0,81",
+        "label_1": "Instalazio-sakonera",
+        "value_1": "70",
+        "label_2": "Zigilatzeko geruzak",
+        "value_2": "3",
+        "label_3": "Beira estandarra (eta)",
+        "value_3": "0,5"
+      }
+    },
+    "mb-70hi": {
+      "name": "MB-70HI",
+      "tagline": "Aluminio arina, iraunkorra eta termikoki eraginkorra",
+      "description": "MB-70HI aluminiozko leihoak eraikin indibidualetan zein aluminiozko fatxadetan erabil daitezke. Eraikuntza arin eta iraunkorrak erosotasun maila altua bermatzen du urte askotan zehar. Ekipamendu estandarrak MACO MULTI-MATIC KS osagarriak eta mikroaireztapena ditu.",
+      "specs": {
+        "label_0": "Transmisio termikoa (Uw)",
+        "value_0": "0,96",
+        "label_1": "Instalazio-sakonera",
+        "value_1": "70",
+        "label_2": "Zigilatzeko geruzak",
+        "value_2": "3",
+        "label_3": "Beiratze sorta",
+        "value_3": "23,5–62"
+      }
+    },
+    "mb-70": {
+      "name": "MB-70",
+      "tagline": "Aluminio fidagarria 70 mm-ko profilaren sakonerarekin",
+      "description": "MB-70 aluminiozko leiho sistemak irtenbide fidagarria eta errentagarria eskaintzen du arkitektura modernorako. Ekipamendu estandarrak MACO hardwarea, 70 mm-ko instalazio-sakonera eta RAL kolore mateak zuri edo antrazita ditu, egoitza- eta merkataritza-aplikazioen aukera zabalena hartzen duena.",
+      "specs": {
+        "label_0": "Transmisio termikoa (Uw)",
+        "value_0": "1.06",
+        "label_1": "Instalazio-sakonera",
+        "value_1": "70",
+        "label_2": "Zigilatzeko geruzak",
+        "value_2": "3",
+        "label_3": "Beiratze sorta",
+        "value_3": "23,5–62"
+      }
+    },
+    "mb-45": {
+      "name": "MB-45",
+      "tagline": "Aluminiozko profil mehea beira-eremu handiena lortzeko",
+      "description": "MB-45 45 mm-ko profilaren sakonera duen aluminiozko leiho sistema ultra-megala da, ezin hobea beira-azalera maximoa eta markoaren ikusgarritasun minimoa lehentasuna duten aplikazioetarako. Ekipamendu estandarrak MACO osagarriak, EPDM zigiluak eta RAL akabera mateak ditu.",
+      "specs": {
+        "label_0": "Instalazio-sakonera",
+        "value_0": "45",
+        "label_1": "Zigilatzeko geruzak",
+        "value_1": "2",
+        "label_2": "Beiratze sorta",
+        "value_2": "1,5–37",
+        "label_3": "Eskuragarri dauden koloreak",
+        "value_3": "Zuria RAL 9016, Antrazita RAL 7016"
+      }
+    },
+    "softline": {
+      "name": "SOFTLINE 68/78/88",
+      "tagline": "Naturaren iraunkortasuna eta edertasuna",
+      "description": "SOFTLINE egurrezko leihoek material naturalen berotasuna eta edertasuna ekartzen dituzte ingeniaritza-zehaztasun modernoarekin. Hiru profil-sakoneratan (68 mm, 78 mm eta 88 mm) eskuragarri dago, isolamendu eta baldintza estetiko desberdinetara egokitzeko, kalitate handiko laka mikroporotsuekin amaituta, epe luzerako iraunkortasunerako.",
+      "specs": {
+        "label_0": "Eskuragarri dauden sakonerak",
+        "value_0": "68 / 78 / 88",
+        "label_1": "Materiala",
+        "value_1": "Pinua / Haritza / Meranti",
+        "label_2": "Gainazalaren tratamendua",
+        "value_2": "Kalitate handiko laka mikroporotsua",
+        "label_3": "Hardware estandarra",
+        "value_3": "MACO MULTI-MATIC"
+      }
+    },
+    "duoline": {
+      "name": "DUOLINE 68/78/88",
+      "tagline": "Egurra eta aluminioaren konbinazio berezia",
+      "description": "DUOLINE egur-aluminiozko leihoek egur naturalaren barruko berotasuna eta mantentze-lan baxuko aluminiozko kanpoko oskol sendo batekin uztartzen dituzte. Hiru profil-sakoneratan (68 mm, 78 mm, 88 mm) eskuragarri dago, edozein arkitektura estilorako kanpoko RAL kolore aukera ia mugagabeekin.",
+      "specs": {
+        "label_0": "Eskuragarri dauden sakonerak",
+        "value_0": "68 / 78 / 88",
+        "label_1": "Barrualdea",
+        "value_1": "Egur naturala (pinua/haritza/merantia)",
+        "label_2": "Kanpokoa",
+        "value_2": "Aluminiozko oskola, RAL mugagabea",
+        "label_3": "Hardware estandarra",
+        "value_3": "MACO MULTI-MATIC"
+      }
+    },
+    "iglo-edge-doors": {
+      "name": "IGLO ERTZAKO ATEAK",
+      "tagline": "Premium-erako atea",
+      "description": "IGLO EDGE sisteman oinarritutako kanpoko ateek segurtasun, iraunkortasun eta isolamendu termiko paregabeak eskaintzen dituzte. Kolore eta betegarrizko panel ugaritan eskuragarri dago edozein estilo arkitektonikorekin bat egiteko.",
+      "specs": {
+        "label_0": "Transmisio termikoa (Ud)",
+        "value_0": "0,75",
+        "label_1": "Instalazio-sakonera",
+        "value_1": "82",
+        "label_2": "Blokeatzeko puntuak",
+        "value_2": "3tik 5era"
+      }
+    },
+    "iglo-hs": {
+      "name": "IGLO-HS",
+      "tagline": "Bista panoramikoak mugarik gabe",
+      "description": "Formatu handiko beirate ikusgarriak sortzea ahalbidetzen duten ate altxagarriak (HS). Mekanismo aurreratuak esfortzurik gabeko funtzionamendua bermatzen du, baita 400 kg-ko pisua duten hesietan ere.",
+      "specs": {
+        "label_0": "Transmisio termikoa (Uw)",
+        "value_0": "0,73",
+        "label_1": "Gehienezko neurriak",
+        "value_1": "3,2 m x 6,5 m",
+        "label_2": "Instalazio-sakonera",
+        "value_2": "194"
+      }
+    },
+    "iglo-edge-slide": {
+      "name": "IGLO ERTZA DIARRISTA",
+      "tagline": "Harritzen duen teknologia",
+      "description": "Gure leiho berri eta teknologikoki aurreratuena Uw = 0,65 W/(m2K)*-ko isolamendu termikoko parametro bikainagatik eta profil angeluar modernoagatik bereizten da.",
+      "specs": {
+        "label_0": "Transmisio termikoa (Uw)",
+        "value_0": "0,65",
+        "label_1": "Instalazio-sakonera (markoa)",
+        "value_1": "163",
+        "label_2": "Profileko Ganberak",
+        "value_2": "6",
+        "label_3": "Juntagailuak",
+        "value_3": "3"
       }
     }
   }

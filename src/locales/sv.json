@@ -1,0 +1,1021 @@
+{
+  "header": {
+    "topBar": {
+      "partnerPortal": "Partnerportal",
+      "cooperation": "Samarbete",
+      "contact": "Kontakta"
+    },
+    "nav": {
+      "products": "Produkter",
+      "whereToBuy": "Var man kan köpa",
+      "aboutMammut": "Om Mammut",
+      "configurator": "3D-konfigurator"
+    },
+    "megaMenu": {
+      "viewAll": "Se alla produkter",
+      "comingSoon": "Innehåll för {{kategori}} kommer snart.",
+      "cats": {
+        "windows": "Windows",
+        "doors": "Dörrar",
+        "terrace": "Terrasssystem",
+        "shutters": "Rulljalusier",
+        "facade": "Fasadjalusier",
+        "mosquito": "Myggnät",
+        "garage": "Garagedörrar",
+        "conservatories": "Fasader / Uterum",
+        "pergola": "Pergola",
+        "smart": "Smart hem",
+        "extras": "Extrafunktioner",
+        "promotional": "Reklammaterial"
+      },
+      "cols": {
+        "pvcWindows": "PVC-fönster",
+        "alumWindows": "Fönster i aluminium",
+        "woodWindows": "Träfönster",
+        "woodAlumWindows": "Trä-aluminiumfönster",
+        "pvcDoors": "PVC-dörrar",
+        "alumDoors": "Aluminiumdörrar",
+        "liftAndSlide": "Lyft och skjut HS",
+        "slide": "Glida",
+        "foldingDoors": "Vikdörrar",
+        "tiltAndSlide": "Luta och skjuta PSK"
+      },
+      "new": "Ny"
+    }
+  },
+  "home": {
+    "hero": {
+      "premium": "Premium fönster och dörrar",
+      "explore": "Utforska produkter",
+      "configurator": "3D-konfigurator",
+      "slide1": {
+        "headline": "Definiera din",
+        "headlineSpan": "utrymme",
+        "sub": "Precisionskonstruerade fönster och dörrar som transformerar arkitektur med banbrytande termisk och akustisk prestanda."
+      },
+      "slide2": {
+        "headline": "Öppen för",
+        "headlineSpan": "värld",
+        "sub": "Panoramiska lyft-och-skjut-system som löser upp gränsen mellan inne och ute."
+      },
+      "slide3": {
+        "headline": "Lätt, omdefinierad",
+        "headlineSpan": "genom design",
+        "sub": "Golv-till-tak-glas som fyller varje rum med naturligt ljus samtidigt som det håller värme och buller ute."
+      }
+    },
+    "offer": {
+      "subtitle": "Kompletta lösningar",
+      "title": "Vårt erbjudande",
+      "text": "Vi erbjuder ett brett utbud av fönster, karmar, ytterdörrar och skjutdörrar i PVC, trä och aluminium. Genom sakkunnigt hantverk, material av högsta kvalitet och servicenivå säkerställer vi vårt företags status. Varje fönster och dörr tillverkas på beställning, vilket ger varje kund individuell service och uppmärksamhet. Vi kommer att förse dig med den högsta kompetensen och hjälpa dig hela vägen med dina renoverings- och byggplaner."
+    },
+    "categories": {
+      "subtitle": "Bläddra efter typ",
+      "title": "Produktkategorier",
+      "tabs": {
+        "windows": "FÖNSTER",
+        "doors": "DÖRRAR",
+        "shutters": "LUCKOR",
+        "blinds": "PERSINER",
+        "terrace": "TERRASSYSTEM",
+        "additions": "TILLÄGG"
+      },
+      "items": {
+        "alu": "ALUMINIUM",
+        "woodAlu": "TRÄ-ALUMINIUM",
+        "pvc": "PVC",
+        "wooden": "TRÄ",
+        "adaptive": "ANPASSNING",
+        "topMounted": "TOPMONTERAD",
+        "externalVenetian": "EXTERN VENETIAN",
+        "liftSlide": "LYFT OCH GLID HS",
+        "tiltSlide": "LUTA OCH GLID PSK",
+        "folding": "VIKDÖRRAR",
+        "customization": "ANPASSNING"
+      }
+    },
+    "featured": {
+      "subtitle": "Vår samling",
+      "title": "Utvalda system",
+      "viewAll": "Visa alla",
+      "tags": {
+        "new": "NY",
+        "premium": "PREMIE",
+        "bestseller": "BÄSTSÄLJARE"
+      },
+      "discover": "Upptäcka",
+      "igloEdge": {
+        "tagline": "Maximal isolering, minimal ram"
+      },
+      "igloLight": {
+        "tagline": "Ännu mer ljus i ditt utrymme"
+      },
+      "iglo5": {
+        "tagline": "Den klassiska reborn"
+      }
+    },
+    "cta": {
+      "subtitle": "3D-konfigurator",
+      "title": "Designa ditt perfekta fönster",
+      "text": "Välj mått, material, färger och glastyp. Spara din konfiguration och begär en offert direkt.",
+      "button": "Starta Configurator"
+    }
+  },
+  "products": {
+    "collection": "Vår samling",
+    "title": "Premium system",
+    "description": "Upptäck vårt omfattande utbud av fönster, dörrar och terrasssystem. Konstruerad för överlägsen termisk prestanda, akustisk isolering och tidlös design.",
+    "allProducts": "Alla produkter",
+    "new": "NY"
+  },
+  "productDetail": {
+    "notFound": "Produkten hittades inte",
+    "return": "Återgå till produkter",
+    "configure": "Konfigurera {{namn}}",
+    "standardEquipment": "Standardutrustning",
+    "seeVideo": "Se video",
+    "hoverDrawing": "Håll muspekaren för att visa teknisk ritning",
+    "profile": "Profil",
+    "technicalDrawing": "Teknisk ritning",
+    "newGeneration": "Ny generation",
+    "uncompromising": "Kompromisslös kvalitet och termisk prestanda",
+    "colorsTitle": "Färger & finish",
+    "colorsDesc": "Anpassa ditt {{namn}} med över {{antal}} premiumfinish, allt från moderna arkitektoniska solida material till hyperrealistiska träfibrer.",
+    "preview": "FÖRHANDSVISNING",
+    "selectedFinish": "Vald Finish",
+    "selectedColor": "Vald färg:",
+    "glassTitle": "Glas",
+    "glassDesc": "DRUTEX, med över 30 års erfarenhet av tillverkning av kompositglas, erbjuder ett mycket brett sortiment av glas som du kan montera dina fönster och dörrar med. De uppfyller stränga krav på energieffektivitet och ljudisolering. I erbjudandet ingår även laminerat glas (säkert och inbrottssäkert), solskyddat glas, glas med förstärkt ljudisolering, härdat, prydnads- och sandblästrat glas.",
+    "handlesTitle": "Handtag",
+    "handlesDesc": "Våra fönsterhandtag kännetecknas av deras utmärkta utförande, funktionalitet och hållbarhet. Finns i flera färgvarianter för att perfekt matcha dina fönster.",
+    "optionsTitle": "Ytterligare alternativ",
+    "optionsDesc": "Förbättra och personifiera din IGLO EDGE med vårt breda utbud av certifierade tillbehör och tillägg.",
+    "seeAll": "Se alla",
+    "configureQuote": "Konfigurera produkt & offert"
+  },
+  "footer": {
+    "newsletter": {
+      "title": "Nyhetsbrev",
+      "desc": "Håll dig uppdaterad om nya produkter och innovationer.",
+      "placeholder": "Din e-postadress",
+      "subscribe": "Prenumerera"
+    },
+    "cols": {
+      "about": {
+        "title": "Om Mammut",
+        "history": "Vår historia",
+        "quality": "Kvalitet & certifikat",
+        "innovation": "Innovation",
+        "sustainability": "Hållbarhet"
+      },
+      "offer": {
+        "title": "Vårt erbjudande",
+        "pvc": "PVC-fönster",
+        "alu": "Fönster i aluminium",
+        "wood": "Träfönster",
+        "doors": "Ytterdörrar",
+        "shutters": "Fönsterluckor"
+      },
+      "inspiration": {
+        "title": "Inspiration",
+        "kitchen": "Kök",
+        "living": "Vardagsrum",
+        "bedroom": "Sovrum",
+        "terrace": "Terrass"
+      },
+      "partners": {
+        "title": "Partners",
+        "portal": "Partnerportal",
+        "coop": "Samarbetsprogram",
+        "sales": "Säljare",
+        "contact": "Kontakta"
+      }
+    },
+    "legal": {
+      "privacy": "Sekretesspolicy",
+      "cookies": "Cookie-inställningar",
+      "sitemap": "Webbplatskarta",
+      "terms": "Användarvillkor",
+      "copyright": "Mammut Fönster & Dörrar. Alla rättigheter reserverade."
+    }
+  },
+  "igloEdge": {
+    "tagline": "Maximal isolering, minimal ram",
+    "description": "Vårt nya, mest tekniskt avancerade fönster kännetecknas av en utmärkt värmeisoleringsparameter på Uw = 0,66 W/(m²K)* och en modern, kantig profilform. De extremt goda värmeisoleringsparametrarna beror bland annat på 7-kammarprofilens design och 3 EPDM-packningar, inklusive centralpackningen.",
+    "basicDescription": "IGLO EDGE fönstersystem representerar toppen av energieffektivitet. Designad för passivhus och energimedvetna renoveringar, har den en 7-kammarprofil, klassens bästa Uw = 0,66 W/(m²K), och en minimalistisk design som maximerar naturligt ljus som kommer in i rummet.",
+    "equipment": {
+      "0": "Dubbelkammarglaspaket Ug = 0,5 W/(m²K)",
+      "1": "Swisspacer Ultimate varm ram i plast",
+      "2": "V-perfekt svets",
+      "3": "4 stöldskydd enligt storleken på bågen och hårdvarusystemet",
+      "4": "Mikroventilation",
+      "5": "DUBLIN fönsterhandtag i aluminium",
+      "6": "Låsmekanism för felplacering av handtag",
+      "7": "Omkrets, glas och centrala packningar i svart eller grått",
+      "8": "Fyllning av det nedre hårdvarans spår",
+      "9": "Tröskelklippning",
+      "10": "Brett urval av PVC-fanerfärger",
+      "11": "3 profilfärger att välja mellan: vit, brun eller antracit"
+    },
+    "specs": {
+      "sound": "Ljudisolering",
+      "gaskets": "EPDM packningar",
+      "thermal": "Termisk transmittans",
+      "chambers": "Antal kamrar",
+      "depth": "Installationsdjup",
+      "class": "Profilklass"
+    }
+  },
+  "colorGroups": {
+    "Metal Effect": "Metal effekt",
+    "Solid": "Fast",
+    "Wood Effect": "Träeffekt"
+  },
+  "colors": {
+    "c209": "Basalt grå",
+    "c210": "Basaltgrå Gadki",
+    "c232": "Djup brons",
+    "c213": "Grafit Sandblästrad",
+    "c207": "Grå kvarts",
+    "c208": "Grå kvarts slät",
+    "c237": "Stålblå",
+    "c214": "Antracit",
+    "c216": "Antracit Ulti Matt",
+    "c215": "Antracit Slät",
+    "c218": "Svart Ulti Matt",
+    "c236": "Strålande blå",
+    "c231": "Chokladbrunt",
+    "c206": "Betonggrå",
+    "c200": "Grädde",
+    "c199": "Croviu Platinium",
+    "c234": "Mörkgrön",
+    "c235": "Mörkröd",
+    "c233": "Mossgrön",
+    "c205": "Grå",
+    "c217": "Kolsvart",
+    "c204": "Ljusgrå",
+    "c201": "Pyrit",
+    "c228": "Rosenträ",
+    "c211": "Skiffer",
+    "c212": "Skiffer Slät",
+    "c197": "Vit",
+    "c198": "Vit sand matt",
+    "c202": "Blekt ek",
+    "c227": "Mörk ek",
+    "c225": "Douglasgran",
+    "c229": "Macore",
+    "c230": "Mahogny",
+    "c203": "Naturlig ek",
+    "c224": "Oregon",
+    "c220": "Turner Oak 2023",
+    "c221": "Turner Oak Toffee 470 3004",
+    "c222": "Turner Oak Walnut 470 3004",
+    "c226": "Valnöt",
+    "c223": "Winchester",
+    "c219": "Gyllene ek"
+  },
+  "configurator": {
+    "title": "Designa ditt skräddarsydda fönstersystem.",
+    "subtitle": "Välj materialet och konfigurera dina exakta arkitektoniska specifikationer nedan.",
+    "steps": {
+      "material": "Material",
+      "system": "Profil",
+      "windowType": "Typ av fönster",
+      "openingType": "Öppningstyp",
+      "color": "Färg & Dekor",
+      "dimensions": "Mått (MM)",
+      "glazing": "Glaspaket",
+      "options": "Tillbehör och tillägg",
+      "profile": "Profil",
+      "start": "Start"
+    },
+    "summary": {
+      "title": "Specifikationer Översikt",
+      "dimensions": "Mått",
+      "material": "Material",
+      "system": "Profil",
+      "windowType": "Typ av fönster",
+      "color": "Färg & Dekor",
+      "glazing": "Inglasning",
+      "financials": "Ekonomi",
+      "baseFramework": "Basramverk",
+      "hardwareAssembly": "Hårdvarumontering",
+      "accessories": "Tillbehör",
+      "totalSystem": "Totalt system",
+      "exportJson": "JSON-export",
+      "saveToCart": "Spara i kundvagnen",
+      "edit": "Redigera"
+    },
+    "inputs": {
+      "w": "W",
+      "h": "H",
+      "mm": "mm",
+      "cm": "(CM)"
+    },
+    "state": {
+      "selected": "Vald",
+      "selectWindowType": "Välj Fönstertyp",
+      "openingDirection": "Öppningsriktning",
+      "fixedNoOpening": "Fast (ingen öppning)",
+      "turnTilt": "Innerblad (sväng/luta)",
+      "sashes": "{{count}} Sashes-konfiguration"
+    },
+    "blueprint": {
+      "interiorView": "Invändig utsikt",
+      "dragToRotate": "Dra för att rotera fritt i 3D"
+    },
+    "windowTypes": {
+      "1-flugel": "1 blad",
+      "1-flugel-oberlicht": "1 blad \nmed Toplight",
+      "1-flugel-unterlicht": "1 blad \nmed Bottomlight",
+      "2-flugel": "2 blad",
+      "2-flugel-oberlicht": "2 blad \nmed Toplight",
+      "2-flugel-oberlicht-asym": "2 blad asym. \nmed Toplight",
+      "2-flugel-unterlicht": "2 blad \nmed Bottomlight",
+      "2-flugel-unterlicht-asym": "2 blad asym. \nmed Bottomlight",
+      "3-flugel": "3 blad",
+      "3-flugel-oberlicht": "3 blad \nmed Toplight",
+      "3-flugel-oberlicht-asym": "3 blad asym. \nmed Toplight",
+      "3-flugel-unterlicht": "3 blad \nmed Bottomlight",
+      "3-flugel-unterlicht-asym": "3 blad asym. \nmed Bottomlight",
+      "4-flugel": "4 blad"
+    },
+    "openingTypes": {
+      "F": "Fast",
+      "DKL": "Sväng-tilt (vänster)",
+      "DKR": "Vrid-tilt (höger)",
+      "DL": "Sväng (vänster)",
+      "DR": "Sväng (höger)",
+      "K": "Luta"
+    },
+    "welcome": {
+      "title": "Välkommen till vår AI-drivna Windows-konfigurator",
+      "description": "Att välja fönster är inte en lätt uppgift, det finns många alternativ och allas behov skiljer sig, det är därför vår konfigurator guidar och hjälper dig att göra det bästa valet som passar dina behov och budget."
+    }
+  },
+  "help": {
+    "materialDesc": "Välj typ av material för ditt fönster. Nedan hittar du en sammanfattning av de viktigaste egenskaperna hos var och en.",
+    "pvc": "PVC",
+    "aluminum": "ALUMINIUM",
+    "durability": "Varaktighet",
+    "maintenance": "Underhåll",
+    "insulation": "Isolering",
+    "weatherRes": "Vädermotstånd",
+    "security": "Säkerhet",
+    "ecoFootprint": "Ekologiskt fotavtryck",
+    "legend": "* = neutral | ** = bra | *** = mycket bra",
+    "windowTypeDesc": "Våra fönster har olika öppningsmöjligheter. Det finns ett-, två- och trebladiga fönster med övre eller nedre akterspegel.",
+    "singleLeaf": "Enbladiga fönster",
+    "doubleLeaf": "Tvåbladiga fönster",
+    "tripleLeaf": "Trebladiga fönster",
+    "specialWindows": "Speciella fönstertyper",
+    "leaveConf": "Lämna konfiguratorn?",
+    "stillQuestions": "Har du fortfarande frågor om din beställning eller konfiguratorn?",
+    "csTeam": "Vår kundtjänst (och vår AI-assistent) ger dig gärna råd gratis:",
+    "monFri": "(måndag till fredag ​​från 8:00 till 18:00)",
+    "aiAssist": "AI-assistent",
+    "avail247": "(Tillgänglig 24/7)",
+    "exitWarning": "Genom att avsluta konfiguratorn kommer ditt tidigare val att gå förlorat.",
+    "continueConf": "Fortsätt i konfiguratorn",
+    "exitConf": "Avsluta konfiguratorn",
+    "haveQuestions": "Har du några frågor?",
+    "availableToday": "Vi är tillgängliga idag till 18:00.",
+    "shallWeTalk": "Ska vi prata? Boka ditt samtal nu.",
+    "scheduleMeeting": "Schemalägg möte",
+    "up": "UPP",
+    "close": "Nära",
+    "comp": {
+      "title": "Sammanfattande jämförelsetabell (2026 sammanhang)",
+      "feature": "Särdrag",
+      "pvc": "PVC (uPVC)",
+      "aluminum": "Aluminium",
+      "bestFor": "Bäst för",
+      "bestForPvc": "Budget, standardstorlekar, maximal termisk effektivitet till låg kostnad.",
+      "bestForAlu": "Stora glasytor, modern estetik, lång livslängd och styrka.",
+      "lifespan": "Livslängd",
+      "lifespanPvc": "20–30 år",
+      "lifespanAlu": "45+ år",
+      "cost": "Kosta",
+      "costPvc": "Generellt 30–50 % billigare.",
+      "costAlu": "Premiumpris.",
+      "aesthetics": "Estetik",
+      "aestheticsPvc": "Kraftigare ramar.",
+      "aestheticsAlu": "Tunna profiler (mer naturligt ljus)."
+    }
+  },
+  "assistant": {
+    "geoTitle": "Lokal klimatmatch",
+    "geoDesc": "Klimat anpassat för dig \nVåra fönster är designade specifikt för klimatet i ditt område. Baserat på din exakta plats beräknar vi den idealiska värmeprestandan för att garantera maximal isolering på vintern och friskhet på sommaren. \n\nDina fördelar: \n\nEnergibesparingar: Minska kostnaderna för uppvärmning och luftkonditionering. \n\nTotal komfort: Säg adjö till drag och kvävande värme. \n\nLokal precision: Teknik speciellt anpassad för din stad.",
+    "province": "Provins",
+    "city": "Kommun / Stad",
+    "selectProv": "Välj provins...",
+    "selectCity": "Välj stad...",
+    "topoEngine": "Topografisk motor",
+    "altitude": "Höjd över havet",
+    "cteZone": "CTE DB-HE KLIMATZON",
+    "next": "Nästa steg",
+    "matTitle": "Material & budgetbegränsningar",
+    "matPref": "Materialpreferens",
+    "guideMe": "Jag vet inte, vägled mig",
+    "budget": "Budget omfattning",
+    "low": "Låg",
+    "med": "Medium",
+    "premium": "Premie",
+    "timeTitle": "Projektets tidslinje",
+    "t1": "Så snart som möjligt",
+    "t1Sub": "15 arbetsdagar tidigast",
+    "t2": "Nästa 1-2 månader",
+    "t3": "Mer än 2 månader",
+    "t4": "Fortfarande inte säker",
+    "archTitle": "Akustik & arkitektur",
+    "houseType": "Typ av bostad",
+    "villa": "Villa",
+    "apt": "Lägenhet",
+    "noisePol": "Lokal bullerförorening",
+    "nHigh": "Stad / hög trafik",
+    "nLow": "Lantligt / Tyst",
+    "processCalc": "Processanalys",
+    "analyzing": "Analysera data",
+    "computing": "Beräknar optimala strukturella belastningar...",
+    "perfWin": "Ditt perfekta fönster",
+    "basedOn": "Baserat på din absoluta geografiska zon {{zon}} klimatdata, {{buller}} lokala bullerföroreningar och definierad budget rekommenderar våra algoritmer:",
+    "recProf": "Rekommenderat profilsystem",
+    "base": "Bas",
+    "glaze": "Inglasning",
+    "useData": "Använd dessa data och konfigurera fönstret",
+    "inter1": "Rekommenderas: Intelligent guidad assistent",
+    "inter2": "Ta mig direkt till konfiguratorn",
+    "inter2Sub": "(Komplex installation)"
+  },
+  "partner": {
+    "layout": {
+      "dashboard": "Instrumentbräda",
+      "leads": "Leads & Pipeline",
+      "profile": "Butiksprofil",
+      "settings": "Inställningar",
+      "portal": "Partnerportal",
+      "signOut": "Logga ut"
+    },
+    "dashboard": {
+      "title": "Instrumentbräda",
+      "subtitle": "Välkommen tillbaka. Här är vad som händer i din butik.",
+      "showQr": "Visa QR i butik",
+      "totalScans": "Totala skanningar",
+      "activeLeads": "Aktiva leads",
+      "estCommissions": "Öst. Provisioner",
+      "fromLastMonth": "från förra månaden",
+      "newThisWeek": "nytt denna vecka",
+      "leadsPending": "leder i väntan på stängning",
+      "recentActivity": "Senaste aktivitet"
+    },
+    "leads": {
+      "title": "Leads & Pipeline",
+      "subtitle": "Spåra dina kunders framsteg och beräknade provisioner.",
+      "exportCsv": "Exportera CSV",
+      "searchId": "Sök ID...",
+      "filterStatus": "Filtrera efter status",
+      "cols": {
+        "id": "Kund-ID",
+        "date": "Skanningsdatum",
+        "source": "Skanna källa",
+        "status": "Status",
+        "budget": "Uppskattad Budget",
+        "actions": "Åtgärder"
+      }
+    },
+    "profile": {
+      "title": "Butiksprofil",
+      "subtitle": "Hantera dina butiksdetaljer och inställningar för co-branding.",
+      "basicInfo": "Grundläggande information",
+      "storeName": "Butiksnamn",
+      "storeType": "Butikstyp",
+      "address": "Adress",
+      "email": "E-post",
+      "phone": "Telefon",
+      "saveChanges": "Spara ändringar",
+      "cobranding": "Co-Branding",
+      "cobrandingDesc": "Ladda upp din logotyp för att visas på kundens målsida när de skannar dina QR-koder.",
+      "clickToUpload": "Klicka för att ladda upp logotyp",
+      "fileTypes": "SVG, PNG eller JPG (max. 2 MB)",
+      "networkGroup": "Nätverksgrupp",
+      "networkDesc": "Din butik är en oberoende partner. Om du tillhör en större kedja kan du länka ditt konto.",
+      "linkChain": "Länk till kedja/grupp",
+      "types": {
+        "hardware": "Järnaffär",
+        "pharmacy": "Apotek",
+        "restaurant": "Restaurang",
+        "other": "Andra"
+      }
+    }
+  },
+  "handles": {
+    "h1": {
+      "name": "Standard handtag",
+      "type": "Aluminium"
+    },
+    "h2": {
+      "name": "Handtag med nyckel",
+      "type": "Säkerhet"
+    },
+    "h3": {
+      "name": "från Secus®",
+      "type": "Anti-inbrott"
+    }
+  },
+  "sliderHandles": {
+    "nevada-ral7016": "NEVADA med nyckel (RAL7016)",
+    "nevada-ral9001": "NEVADA med nyckel (RAL9001)",
+    "nevada-ral9005": "NEVADA med nyckel (RAL9005)",
+    "nevada-ral9016": "NEVADA med nyckel (RAL9016)",
+    "nevada-f9": "NEVADA med nyckel (titan F9)",
+    "mistral-ral7016": "MISTRAL med nyckel (RAL7016)",
+    "mistral-ral9001": "MISTRAL med nyckel (RAL9001)",
+    "mistral-ral9005": "MISTRAL med nyckel (RAL9005)",
+    "mistral-f9-key": "MISTRAL med nyckel (titan F9)",
+    "mistral-f9": "MISTRAL F9",
+    "dublin-ral9016": "DUBLIN (vit RAL9016)",
+    "dublin-ral8019": "DUBLIN (brun RAL8019)",
+    "dublin-ral7016": "DUBLIN (RAL7016)",
+    "dublin-ral9005": "DUBLIN (RAL9005)",
+    "dublin-silver": "DUBLIN (silver)",
+    "dublin-key-ral7016": "DUBLIN med nyckel (RAL7016)",
+    "dublin-key-ral9005": "DUBLIN med nyckel (RAL9005)",
+    "dublin-key-ral9016": "DUBLIN med nyckel (vit RAL9016)",
+    "dublin-key-ral8019": "DUBLIN med nyckel (brun RAL8019)",
+    "dublin-key-silver": "DUBLIN med nyckel (silver)",
+    "kwadrat-ral7016": "SQUARE RAL 7016",
+    "kwadrat-ral8019": "SQUARE RAL 8019",
+    "kwadrat-ral9016": "SQUARE RAL 9016",
+    "kwadrat-ral9001": "SQUARE RAL 9001",
+    "kwadrat-f9": "SQUARE titan F9",
+    "kwadrat-key-f1": "KWADRAT med nyckel F1",
+    "kwadrat-key-f4": "KWADRAT med tangent F4",
+    "kwadrat-key-f9": "KWADRAT med tangent F9",
+    "kwadrat-key-ral7016": "KWADRAT med nyckel (RAL7016)",
+    "kwadrat-key-ral8019": "KWADRAT med nyckel (RAL8019)",
+    "kwadrat-key-ral9001": "KWADRAT med nyckel (RAL9001)",
+    "kwadrat-key-ral9005": "KWADRAT med nyckel (RAL9005)",
+    "kwadrat-key-ral9016": "KWADRAT med nyckel (RAL9016)"
+  },
+  "productData": {
+    "iglo-edge": {
+      "name": "IGLO KANT",
+      "tagline": "Maximal isolering, minimal ram",
+      "description": "Vårt nya, mest tekniskt avancerade fönster kännetecknas av en utmärkt värmeisoleringsparameter på Uw = 0,66 W/(m²K)* och en modern, kantig profilform. De extremt goda värmeisoleringsparametrarna beror bland annat på 7-kammarprofilens design och 3 EPDM-packningar, inklusive centralpackningen.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,66",
+        "label_1": "Installationsdjup",
+        "value_1": "82",
+        "label_2": "Profil Chambers",
+        "value_2": "7",
+        "label_3": "Ljudisolering (Rw)",
+        "value_3": "36–47"
+      },
+      "standardEquipment": {
+        "eq_0": "Dubbelkammarglaspaket Ug = 0,5 W/(m²K)",
+        "eq_1": "Swisspacer Ultimate varm ram i plast",
+        "eq_2": "V-perfekt svets",
+        "eq_3": "4 stöldskydd enligt storleken på bågen och hårdvarusystemet",
+        "eq_4": "Mikroventilation",
+        "eq_5": "DUBLIN fönsterhandtag i aluminium",
+        "eq_6": "Låsmekanism för felplacering av handtag",
+        "eq_7": "Omkrets, glas och centrala packningar i svart eller grått",
+        "eq_8": "Fyllning av det nedre hårdvarans spår",
+        "eq_9": "Tröskelklippning",
+        "eq_10": "Brett urval av PVC-fanerfärger",
+        "eq_11": "3 profilfärger att välja mellan: vit, brun eller antracit"
+      },
+      "keySpecs": {
+        "label_0": "ljud",
+        "value_0": "36–47 dB",
+        "label_1": "packningar",
+        "value_1": "3",
+        "label_2": "termisk",
+        "value_2": "Uw = 0,66 W/(m²K)*",
+        "label_3": "kammare",
+        "value_3": "7",
+        "label_4": "djup",
+        "value_4": "82 mm",
+        "label_5": "klass",
+        "value_5": "A"
+      },
+      "hardware": {
+        "name_0": "Standard handtag",
+        "type_0": "Aluminium",
+        "name_1": "Handtag med nyckel",
+        "type_1": "Säkerhet",
+        "name_2": "från Secus®",
+        "type_2": "Anti-inbrott"
+      },
+      "accessories": {
+        "name_0": "Maco Multi Matic KS",
+        "description_0": "Avancerad perimeterhårdvara med mikroventilation",
+        "name_1": "V-Perfect Welding",
+        "description_1": "Praktiskt taget osynliga hörnsvetsar för felfri estetik",
+        "name_2": "Stålförstärkning",
+        "description_2": "Sluten stålprofil i ramen för extrem styvhet",
+        "name_3": "EPDM tätningar",
+        "description_3": "Trippelt tätningssystem i svart eller grått"
+      }
+    },
+    "iglo-energy": {
+      "name": "NÅLARNERGI",
+      "tagline": "Enastående energieffektivitet",
+      "description": "Ett innovativt och originellt 7-kammars A-klass profilsystem, tillverkat uteslutande av primärt material, utmärkande av en utmärkt värmeisoleringskoefficient Uw = 0,6 W/(m2K)*. Iglo Energy sätter standarden för energieffektiva fönster.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,71",
+        "label_1": "Installationsdjup",
+        "value_1": "82",
+        "label_2": "Profil Chambers",
+        "value_2": "7",
+        "label_3": "Ljudisolering (Rw)",
+        "value_3": "37–46"
+      },
+      "standardEquipment": {
+        "eq_0": "MACO MULTI MATIC KS hårdvara med 2 anti-inbrottspärrar",
+        "eq_1": "Silber-Look-beläggning och linjära fördjupningar på spanjoletterna",
+        "eq_2": "Felhanteringsanordning och lyftbåge",
+        "eq_3": "Mikroventilation i vipp- och vridfönster",
+        "eq_4": "Fönsterbrädesprofil",
+        "eq_5": "Galvaniserad stålarmering eller glasfiber (tillval)",
+        "eq_6": "5-kammars fönsterbräda",
+        "eq_7": "Treglaspaket med varm kantdistans"
+      },
+      "keySpecs": {
+        "label_0": "ljud",
+        "value_0": "37-46 dB",
+        "label_1": "packningar",
+        "value_1": "3 EPDM",
+        "label_2": "termisk",
+        "value_2": "Uw = 0,71 W/(m²K)*",
+        "label_3": "kammare",
+        "value_3": "7",
+        "label_4": "djup",
+        "value_4": "82 mm",
+        "label_5": "klass",
+        "value_5": "A"
+      },
+      "hardware": {
+        "name_0": "Standard handtag",
+        "type_0": "Aluminium",
+        "name_1": "Handtag med nyckel",
+        "type_1": "Säkerhet",
+        "name_2": "från Secus®",
+        "type_2": "Anti-inbrott"
+      },
+      "accessories": {
+        "name_0": "Maco Multi Matic KS",
+        "description_0": "Avancerad perimeterhårdvara med mikroventilation",
+        "name_1": "V-Perfect Welding",
+        "description_1": "Praktiskt taget osynliga hörnsvetsar för felfri estetik",
+        "name_2": "Stålförstärkning",
+        "description_2": "Sluten stålprofil i ramen för extrem styvhet",
+        "name_3": "EPDM tätningar",
+        "description_3": "Trippelt tätningssystem i svart eller grått"
+      }
+    },
+    "iglo-energy-classic": {
+      "name": "IGLO ENERGY CLASSIC",
+      "tagline": "Fyrkantig glaslist möter passivhusprestanda",
+      "description": "En unik design där du kan välja den fyrkantiga glaslisten för att spegla de senaste arkitektoniska trenderna. De anmärkningsvärda värmeisoleringsparametrarna säkerställs av den optimala 7-kammarprofilstrukturen och ett specialdesignat tätningssystem av skummad EPDM. Profil finns i vit, antracit och brons.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,73",
+        "label_1": "Installationsdjup",
+        "value_1": "82",
+        "label_2": "Profil Chambers",
+        "value_2": "7",
+        "label_3": "Ljudisolering (Rw)",
+        "value_3": "36–42"
+      }
+    },
+    "iglo-energy-alucover": {
+      "name": "IGLO ENERGY ALUCOVER",
+      "tagline": "PVC-prestanda med exteriörelegans i aluminium",
+      "description": "Upplev blandningen av banbrytande värmeisoleringsprestanda och modern design. Aluminiumbeklädnaden på utsidan erbjuder gränslösa färgmöjligheter, vilket ger dig möjlighet att skapa en unik personlig stil för varje interiör eller byggnadsfasad - utan att kompromissa med termisk prestanda.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,76",
+        "label_1": "Installationsdjup",
+        "value_1": "82",
+        "label_2": "Profil Chambers",
+        "value_2": "7",
+        "label_3": "Glaspaket (Och)",
+        "value_3": "0,5"
+      }
+    },
+    "iglo-5": {
+      "name": "NÅL 5",
+      "tagline": "Hög kvalitet till ett attraktivt pris",
+      "description": "IGLO 5-systemet kombinerar elegans, funktionalitet och avancerade energibesparande lösningar. Dess tidlösa 5-kammars profildesign gör den till ett mångsidigt val för både modern arkitektur och klassiska renoveringar, och levererar solid termisk prestanda till utmärkt pris.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,74",
+        "label_1": "Installationsdjup",
+        "value_1": "70",
+        "label_2": "Profil Chambers",
+        "value_2": "5",
+        "label_3": "Ljudisolering (Rw)",
+        "value_3": "36–44"
+      }
+    },
+    "iglo-5-classic": {
+      "name": "NÅL 5 KLASSISK",
+      "tagline": "Beprövade lösningar innebär kundnöjdhet",
+      "description": "IGLO 5 Classic blandar det beprövade 5-kammarprofilsystemet med en traditionell estetik. Pålitlig termisk och akustisk prestanda gör den till det pålitliga valet för både nybyggnation och renoveringsprojekt i alla klimatzoner.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,89",
+        "label_1": "Installationsdjup",
+        "value_1": "70",
+        "label_2": "Profil Chambers",
+        "value_2": "5",
+        "label_3": "Ljudisolering (Rw)",
+        "value_3": "36–44"
+      }
+    },
+    "iglo-light": {
+      "name": "IGLO LJUS",
+      "tagline": "Ännu mer dagsljus i ditt utrymme",
+      "description": "IGLO LIGHT kännetecknas av sina exceptionellt smala profiler som släpper in betydligt mer naturligt ljus i interiören. Trots sitt slanka utseende erbjuder den enastående strukturell stabilitet och termisk prestanda i den klassiska 5-kammartekniken.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,88",
+        "label_1": "Installationsdjup",
+        "value_1": "70",
+        "label_2": "Profil Chambers",
+        "value_2": "5",
+        "label_3": "Ljudisolering (Rw)",
+        "value_3": "34"
+      }
+    },
+    "iglo-ext": {
+      "name": "IGLO EXT",
+      "tagline": "Moderna PVC balkongfönster som öppnas utåt",
+      "description": "IGLO EXT är ett modernt utåtgående PVC-system idealiskt för balkonger, terrasser och trånga installationer där inåtgående öppning är opraktisk. Den erbjuder tillförlitligt väderskydd och värmeisolering i en utrymmesbesparande design.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,89",
+        "label_1": "Installationsdjup",
+        "value_1": "70",
+        "label_2": "Profil Chambers",
+        "value_2": "5",
+        "label_3": "Öppningsriktning",
+        "value_3": "Utåt"
+      }
+    },
+    "iglo-premier": {
+      "name": "NÅLPREMIER",
+      "tagline": "Moderna utåtgående båge eller lutningsfönster",
+      "description": "Iglo Premier levererar förstklassig utåtgående fönsterupplevelse med exceptionell väderbeständighet och termisk prestanda. Designad för modern arkitektur som kräver rena siktlinjer och pålitlig långtidsprestanda.",
+      "specs": {
+        "label_0": "Installationsdjup",
+        "value_0": "70",
+        "label_1": "Profil Chambers",
+        "value_1": "5",
+        "label_2": "Öppningsriktning",
+        "value_2": "Utåt",
+        "label_3": "Standardglas (och)",
+        "value_3": "0,6"
+      }
+    },
+    "ideal-neo-ad": {
+      "name": "IDEAL NEO AD",
+      "tagline": "Mer än modern design",
+      "description": "IDEAL NEO AD erbjuder en 5/6-kammars profilstruktur med enastående designmångsidighet. Den innehåller avancerad termisk brytningsteknik och finns i ett brett utbud av ytbehandlingar, vilket gör den idealisk för arkitektoniskt krävande projekt.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,79",
+        "label_1": "Installationsdjup",
+        "value_1": "76",
+        "label_2": "Profil Chambers",
+        "value_2": "5/6",
+        "label_3": "Ljudisolering (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md": {
+      "name": "IDEAL NEO MD",
+      "tagline": "Mer än modern design",
+      "description": "IDEAL NEO MD är ett förstklassigt 6-kammarsystem som erbjuder utmärkt värmeisolering och en modern spolprofilestetik. Den sömlösa bågdesignen tar bort synliga falser och skapar ett modernt utseende som passar minimalistiska interiörer och fasader.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,76",
+        "label_1": "Installationsdjup",
+        "value_1": "76",
+        "label_2": "Profil Chambers",
+        "value_2": "6",
+        "label_3": "Ljudisolering (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-fs": {
+      "name": "IDEAL NEO MD-FS",
+      "tagline": "I harmoni med arkitekturen",
+      "description": "Varianten IDEAL NEO MD-FS med plan båge tar bort det synliga steget mellan ram och båge, vilket resulterar i ett perfekt platt exteriört utseende. Idealisk för modern, minimalistisk arkitektur där siktlinjer betyder lika mycket som prestanda.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,73",
+        "label_1": "Installationsdjup",
+        "value_1": "76",
+        "label_2": "Profil Chambers",
+        "value_2": "6",
+        "label_3": "Ljudisolering (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-monoblock": {
+      "name": "IDEAL NEO MD MONOBLOCK",
+      "tagline": "Designad för installation i isoleringsskikt",
+      "description": "Monoblock-ramar är designade för fönster installerade i ett lager av isolering. Det breda ramområdet (76–162 mm) möjliggör lämpligt val beroende på isoleringstjocklek. En speciell yttre hylla maskerar estetiskt isoleringen runt fönstrets omkrets.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,76",
+        "label_1": "Installationsdjup",
+        "value_1": "76–162",
+        "label_2": "Profil Chambers",
+        "value_2": "6",
+        "label_3": "Ljudisolering (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-renovation": {
+      "name": "IDEAL NEO MD RENOVATION",
+      "tagline": "Nya fönster utan att ta bort den gamla ramen",
+      "description": "Renoveringsramsystemet möjliggör fönstermontage utan att demontera gamla karmar. Specialramar med maskeringsprofil omfattar den befintliga träramen. Maskeringsprofiler finns i bredderna 40 mm och 70 mm och kan kapas för specifika behov.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,76",
+        "label_1": "Installationsdjup",
+        "value_1": "76",
+        "label_2": "Profil Chambers",
+        "value_2": "5/6",
+        "label_3": "Ljudisolering (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-7000-nl": {
+      "name": "IDEAL 7000 NL",
+      "tagline": "I harmoni med arkitekturen",
+      "description": "IDEAL 7000 NL är ett mångsidigt PVC-fönstersystem som erbjuder rena siktlinjer och solid termisk prestanda. Väl lämpad för projekt där arkitektur kräver en förfinad, modern fönsterprofil utan att kompromissa med isolering eller hållbarhet.",
+      "specs": {
+        "label_0": "Profil Chambers",
+        "value_0": "5",
+        "label_1": "Glaspaket (Och)",
+        "value_1": "0,5",
+        "label_2": "Tillgängliga svetstyper",
+        "value_2": "V-Perfect, klassisk",
+        "label_3": "Standard hårdvara",
+        "value_3": "MACO MULTI-MATIC"
+      }
+    },
+    "mb-86n-si": {
+      "name": "MB-86N SI",
+      "tagline": "Utmärkta parametrar och hållbarhet av aluminium",
+      "description": "Ett mycket avancerat fönstersystem i aluminium som uppfyller de högsta kraven på värmeisolering. Den varma kantdistansen och premium termisk brytning levererar Uw-värden så låga som 0,76 W/(m²K), vilket gör den till den bästa presterande i Drutex aluminiumfönstersortiment.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,76",
+        "label_1": "Installationsdjup",
+        "value_1": "77",
+        "label_2": "Tätningslager",
+        "value_2": "3",
+        "label_3": "Standardglas (och)",
+        "value_3": "0,5"
+      }
+    },
+    "mb-79n-si": {
+      "name": "MB-79N SI",
+      "tagline": "Välj energieffektivitet",
+      "description": "MB-79N SI aluminiumfönstersystem ger enastående termisk prestanda för ett 70 mm profildjup. Tre tätningsnivåer och en högpresterande termisk brytning gör den lämplig för både bostäder och kommersiella applikationer som kräver effektiv, hållbar aluminiumram.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,81",
+        "label_1": "Installationsdjup",
+        "value_1": "70",
+        "label_2": "Tätningslager",
+        "value_2": "3",
+        "label_3": "Standardglas (och)",
+        "value_3": "0,5"
+      }
+    },
+    "mb-70hi": {
+      "name": "MB-70HI",
+      "tagline": "Lätt, hållbar, termiskt effektiv aluminium",
+      "description": "MB-70HI aluminiumfönster kan användas i både enskilda byggnader och aluminiumfasader. Den lätta och hållbara konstruktionen säkerställer en hög nivå av komfort under många år. Standardutrustning inkluderar MACO MULTI-MATIC KS armaturer och mikroventilation.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,96",
+        "label_1": "Installationsdjup",
+        "value_1": "70",
+        "label_2": "Tätningslager",
+        "value_2": "3",
+        "label_3": "Glasområde",
+        "value_3": "23,5–62"
+      }
+    },
+    "mb-70": {
+      "name": "MB-70",
+      "tagline": "Pålitlig aluminium med 70 mm profildjup",
+      "description": "MB-70 aluminiumfönstersystem ger en pålitlig, kostnadseffektiv lösning för modern arkitektur. Standardutrustningen inkluderar MACO-hårdvara, 70 mm installationsdjup och RAL-matta färger i vitt eller antracit – som täcker det bredaste utbudet av bostads- och kommersiella applikationer.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "1,06",
+        "label_1": "Installationsdjup",
+        "value_1": "70",
+        "label_2": "Tätningslager",
+        "value_2": "3",
+        "label_3": "Glasområde",
+        "value_3": "23,5–62"
+      }
+    },
+    "mb-45": {
+      "name": "MB-45",
+      "tagline": "Smal aluminiumprofil för maximal glasyta",
+      "description": "MB-45 är ett ultratunt fönstersystem i aluminium med 45 mm profildjup, perfekt för applikationer där maximal glasyta och minimal ramsikt är prioriterade. Standardutrustningen inkluderar MACO-kopplingar, EPDM-tätningar och RAL matt finish.",
+      "specs": {
+        "label_0": "Installationsdjup",
+        "value_0": "45",
+        "label_1": "Tätningslager",
+        "value_1": "2",
+        "label_2": "Glasområde",
+        "value_2": "1,5–37",
+        "label_3": "Tillgängliga färger",
+        "value_3": "Vit RAL 9016, antracit RAL 7016"
+      }
+    },
+    "softline": {
+      "name": "SOFTLINE 68/78/88",
+      "tagline": "Hållbarhet och naturens skönhet",
+      "description": "SOFTLINE träfönster ger värmen och skönheten hos naturmaterial med modern teknisk precision. Finns i tre profildjup — 68 mm, 78 mm och 88 mm — för att passa varierande isolerings- och estetiska krav, avslutad med högkvalitativa mikroporösa lacker för långvarig hållbarhet.",
+      "specs": {
+        "label_0": "Tillgängliga djup",
+        "value_0": "68/78/88",
+        "label_1": "Material",
+        "value_1": "Furu / Ek / Meranti",
+        "label_2": "Ytbehandling",
+        "value_2": "Högkvalitativ mikroporös lack",
+        "label_3": "Standard hårdvara",
+        "value_3": "MACO MULTI-MATIC"
+      }
+    },
+    "duoline": {
+      "name": "DUOLIN 68/78/88",
+      "tagline": "Unik kombination av trä och aluminium",
+      "description": "DUOLINE trä-aluminiumfönster kombinerar värmen från en interiör av naturligt trä med ett robust yttre skal av aluminium som kräver lite underhåll. Finns i tre profildjup (68 mm, 78 mm, 88 mm) med praktiskt taget obegränsade RAL-exteriörfärgalternativ för alla arkitektoniska stilar.",
+      "specs": {
+        "label_0": "Tillgängliga djup",
+        "value_0": "68/78/88",
+        "label_1": "Interiör",
+        "value_1": "Naturligt trä (furu/ek/meranti)",
+        "label_2": "Exteriör",
+        "value_2": "Aluminiumskal, obegränsad RAL",
+        "label_3": "Standard hårdvara",
+        "value_3": "MACO MULTI-MATIC"
+      }
+    },
+    "iglo-edge-doors": {
+      "name": "IGLO KANTDÖRRAR",
+      "tagline": "Porten till Premium",
+      "description": "Ytterdörrar baserade på IGLO EDGE-systemet erbjuder oöverträffad säkerhet, hållbarhet och värmeisolering. Finns i ett brett utbud av färger och fyllningspaneler för att matcha alla arkitektoniska stilar.",
+      "specs": {
+        "label_0": "Termisk transmittans (Ud)",
+        "value_0": "0,75",
+        "label_1": "Installationsdjup",
+        "value_1": "82",
+        "label_2": "Låspunkter",
+        "value_2": "3 till 5"
+      }
+    },
+    "iglo-hs": {
+      "name": "IGLO-HS",
+      "tagline": "Panoramautsikt utan gränser",
+      "description": "Lyft-och-skjut-dörrar (HS) som tillåter skapandet av spektakulära, storformatsglas. Den avancerade mekanismen säkerställer enkel användning även för bågar som väger upp till 400 kg.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,73",
+        "label_1": "Max mått",
+        "value_1": "3,2 m x 6,5 m",
+        "label_2": "Installationsdjup",
+        "value_2": "194"
+      }
+    },
+    "iglo-edge-slide": {
+      "name": "IGLO EDGE SLIDE",
+      "tagline": "Teknik som imponerar",
+      "description": "Vårt nya, mest tekniskt avancerade fönster kännetecknas av en utmärkt värmeisoleringsparameter på Uw = 0,65 W/(m2K)* och en modern, kantig profilform.",
+      "specs": {
+        "label_0": "Termisk transmittans (Uw)",
+        "value_0": "0,65",
+        "label_1": "Installationsdjup (ram)",
+        "value_1": "163",
+        "label_2": "Profil Chambers",
+        "value_2": "6",
+        "label_3": "Packningar",
+        "value_3": "3"
+      }
+    }
+  }
+}

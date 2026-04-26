@@ -129,7 +129,7 @@ export function ProductsPage() {
                     {p.category.name}
                   </p>
                   <h3 className="text-2xl font-black uppercase text-mammut-white">{p.name}</h3>
-                  <p className="text-mammut-white/50 text-sm mt-1 line-clamp-2">{p.tagline}</p>
+                  <p className="text-mammut-white/50 text-sm mt-1 line-clamp-2">{t(`productData.${p.slug}.tagline`, { defaultValue: p.tagline })}</p>
                 </Link>
 
                 <div className="mt-auto pt-4 flex flex-col gap-3">
@@ -186,10 +186,10 @@ export function ProductsPage() {
                       )}
                       {!p.techDetails && p.specs.length > 0 && (
                         <div className="grid grid-cols-2 gap-y-3 gap-x-2">
-                          {p.specs.map(spec => (
+                          {p.specs.map((spec, idx) => (
                              <div key={spec.label}>
-                                <p className="text-[9px] text-mammut-gold uppercase tracking-widest mb-0.5">{spec.label}</p>
-                                <p className="text-sm font-black text-mammut-white/90">{spec.value} <span className="text-[10px] text-mammut-white/40">{spec.unit}</span></p>
+                                <p className="text-[9px] text-mammut-gold uppercase tracking-widest mb-0.5">{t(`productData.${p.slug}.specs.label_${idx}`, { defaultValue: spec.label })}</p>
+                                <p className="text-sm font-black text-mammut-white/90">{t(`productData.${p.slug}.specs.value_${idx}`, { defaultValue: spec.value })} <span className="text-[10px] text-mammut-white/40">{spec.unit}</span></p>
                              </div>
                           ))}
                         </div>

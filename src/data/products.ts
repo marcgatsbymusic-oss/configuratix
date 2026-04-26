@@ -59,6 +59,26 @@ const BASE_PRODUCTS: Product[] = [
   },
 
   {
+    id: 'p1_slide',
+    slug: 'iglo-edge-slide',
+    name: 'IGLO EDGE SLIDE',
+    tagline: 'Technology That Impresses',
+    description: 'Our new, most technologically advanced window is distinguished by an excellent thermal insulation parameter of Uw = 0,65 W/(m2K)* and a modern, angular profile shape.',
+    category: CATEGORIES[2], // Terrace Systems
+    material: 'pvc',
+    type: 'window',
+    isNew: true,
+    isFeatured: true,
+    specs: [
+      { label: 'Thermal Transmittance (Uw)', value: '0.65', unit: 'W/(m²K)' },
+      { label: 'Installation Depth (Frame)', value: '163', unit: 'mm' },
+      { label: 'Profile Chambers', value: '6' },
+      { label: 'Gaskets', value: '3' },
+    ],
+    images: ['/assets/placeholder-window.jpg'],
+  },
+
+  {
     id: 'p2',
     slug: 'iglo-energy',
     name: 'IGLO ENERGY',

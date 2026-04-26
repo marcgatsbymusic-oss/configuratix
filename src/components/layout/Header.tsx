@@ -4,6 +4,24 @@ import { ShoppingCart, Search, Globe, Menu, X, ChevronDown, ChevronRight, Chevro
 import { useTranslation } from 'react-i18next'
 import { useCartStore } from '../../store/useCartStore'
 import { ThemeToggle } from '../common/ThemeToggle'
+import { 
+  IconWindows, IconDoors, IconPatioDoors, IconRollerShutters, 
+  IconExteriorBlinds, IconMosquitoNets, IconGarageDoors, 
+  IconConservatories, IconPergola, IconSmartHome 
+} from '../icons/ProductIcons'
+
+const iconMap: Record<string, React.FC<any>> = {
+  windows: IconWindows,
+  doors: IconDoors,
+  terrace: IconPatioDoors,
+  shutters: IconRollerShutters,
+  facade: IconExteriorBlinds,
+  mosquito: IconMosquitoNets,
+  garage: IconGarageDoors,
+  conservatories: IconConservatories,
+  pergola: IconPergola,
+  smart: IconSmartHome
+};
 
 // The mega menu structure matching drutex.es categories
 const MEGA_MENU_CATEGORIES = [
@@ -74,7 +92,54 @@ const MEGA_MENU_CATEGORIES = [
       }
     ]
   },
-  { id: 'terrace', href: '/products/terrace', columns: [] },
+  { 
+    id: 'terrace', 
+    href: '/products/terrace', 
+    columns: [
+      {
+        colKey: 'liftAndSlide',
+        items: [
+          { label: 'IGLO-HS', href: '/products/iglo-hs' },
+          { label: 'IGLO-HS ALUCOVER', href: '/products/iglo-hs-alucover' },
+          { label: 'MB-77HS HI', href: '/products/mb-77hs' },
+          { label: 'MB-77HS HI MONORAIL', href: '/products/mb-77hs-monorail' },
+          { label: 'MB-59HS HI', href: '/products/mb-59hs' },
+          { label: 'SOFTLINE HS', href: '/products/softline-hs' },
+          { label: 'DUOLINE HS', href: '/products/duoline-hs' }
+        ]
+      },
+      {
+        colKey: 'slide',
+        items: [
+          { label: 'IGLO EDGE SLIDE', href: '/products/iglo-edge-slide', isNew: true },
+          { label: 'IGLO SLIDE', href: '/products/iglo-slide' },
+          { label: 'MB-SLIDE', href: '/products/mb-slide' },
+          { label: 'COR VISION', href: '/products/cor-vision', isNew: true },
+          { label: 'COR VISION PLUS', href: '/products/cor-vision-plus', isNew: true }
+        ]
+      },
+      {
+        colKey: 'foldingDoors',
+        items: [
+          { label: 'MB-86 FOLD LINE HD', href: '/products/mb-86-fold-line' },
+          { label: 'SOFTLINE 68', href: '/products/softline-68-folding' }
+        ]
+      },
+      {
+        colKey: 'tiltAndSlide',
+        items: [
+          { label: 'IGLO ENERGY PSK', href: '/products/iglo-energy-psk' },
+          { label: 'IGLO ENERGY CLASSIC PSK', href: '/products/iglo-energy-classic-psk' },
+          { label: 'IGLO 5 PSK', href: '/products/iglo5-psk' },
+          { label: 'IGLO 5 CLASSIC PSK', href: '/products/iglo5-classic-psk' },
+          { label: 'IGLO LIGHT PSK', href: '/products/iglo-light-psk' },
+          { label: 'MB-70 / MB-70HI PSK', href: '/products/mb-70-psk' },
+          { label: 'SOFTLINE PSK', href: '/products/softline-psk' },
+          { label: 'DUOLINE PSK', href: '/products/duoline-psk' }
+        ]
+      }
+    ] 
+  },
   { id: 'shutters', href: '/products/shutters', columns: [] },
   { id: 'facade', href: '/products/facade', columns: [] },
   { id: 'mosquito', href: '/products/mosquito', columns: [] },
@@ -264,7 +329,17 @@ export function Header() {
                      { code: 'fr', label: 'Français' },
                      { code: 'ca', label: 'Català' },
                      { code: 'pt', label: 'Português' },
-                     { code: 'eu', label: 'Euskara' }
+                     { code: 'eu', label: 'Euskara' },
+                     { code: 'it', label: 'Italiano' },
+                     { code: 'ro', label: 'Română' },
+                     { code: 'ru', label: 'Русский' },
+                     { code: 'uk', label: 'Українська' },
+                     { code: 'ar', label: 'العربية' },
+                     { code: 'pl', label: 'Polski' },
+                     { code: 'nl', label: 'Nederlands' },
+                     { code: 'sv', label: 'Svenska' },
+                     { code: 'no', label: 'Norsk' },
+                     { code: 'fi', label: 'Suomi' }
                    ].map((lng) => (
                      <button
                        key={lng.code}
@@ -312,19 +387,22 @@ export function Header() {
               </Link>
               
               <ul className="flex flex-col">
-                {MEGA_MENU_CATEGORIES.map(cat => (
+                {MEGA_MENU_CATEGORIES.map(cat => {
+                  const Icon = iconMap[cat.id];
+                  return (
                   <li key={cat.id}>
                     <button
                       onMouseEnter={() => setActiveMegaCategory(cat.id)}
-                      className={`w-full text-left px-8 py-3 text-xs tracking-[0.2em] uppercase font-semibold transition-colors
+                      className={`group w-full flex items-center gap-3 px-8 py-3 text-xs tracking-[0.2em] uppercase font-semibold transition-colors
                                 ${activeMegaCategory === cat.id 
                                   ? 'bg-mammut-dark text-mammut-gold border-l-2 border-mammut-gold' 
                                   : 'text-mammut-white/60 hover:bg-mammut-dark hover:text-mammut-white border-l-2 border-transparent'}`}
                     >
-                      {t(`header.megaMenu.cats.${cat.id}`)}
+                      {Icon && <Icon size={20} className={`transition-colors shrink-0 ${activeMegaCategory === cat.id ? 'text-mammut-gold' : 'text-mammut-white/40 group-hover:text-mammut-white'}`} />}
+                      <span className="text-left">{t(`header.megaMenu.cats.${cat.id}`)}</span>
                     </button>
                   </li>
-                ))}
+                )})}
               </ul>
             </div>
 
@@ -391,14 +469,17 @@ export function Header() {
                 >
                   {t('header.megaMenu.viewAll')} â†’
                 </Link>
-                {MEGA_MENU_CATEGORIES.map((cat) => (
+                {MEGA_MENU_CATEGORIES.map((cat) => {
+                  const Icon = iconMap[cat.id];
+                  return (
                   <div key={cat.id}>
                     <Link
                       to={cat.href}
-                      className="block text-xs uppercase tracking-widest text-mammut-white/70 hover:text-mammut-gold font-semibold py-1 transition-colors"
+                      className="group flex items-center gap-3 text-xs uppercase tracking-widest text-mammut-white/70 hover:text-mammut-gold font-semibold py-2 transition-colors"
                       onClick={() => setMenuOpen(false)}
                     >
-                      {t(`header.megaMenu.cats.${cat.id}`)}
+                      {Icon && <Icon size={16} className="shrink-0 text-mammut-white/40 group-hover:text-mammut-gold transition-colors" />}
+                      <span>{t(`header.megaMenu.cats.${cat.id}`)}</span>
                     </Link>
                     {cat.columns.length > 0 && (
                       <div className="ml-3 mt-1 space-y-1">
@@ -420,7 +501,7 @@ export function Header() {
                       </div>
                     )}
                   </div>
-                ))}
+                )})}
               </div>
             )}
           </div>
