@@ -27,8 +27,9 @@ All sections beneath the hero (Overview, Profile Specs, Glass, Handles, Colors, 
 When building new product templates, watch out for these common errors:
 
 1. **Global CSS Conflicts:** Never apply `color: #ffffff !important;` to paragraph classes (e.g., `.product-overview-description`) in `index.css`. If this class is used in a white-background section, the text will become invisible.
-2. **Hardcoded Dark Mode Classes:** When extracting reusable components (like `<HandlesSlider />` or `<ColorSwatch />`), do not hardcode `bg-mammut-darker` or `text-mammut-white` into them if they are going to be placed in the white-background content area. 
-3. **Hover States:** Ensure hover states also provide good contrast. A dark border turning into `border-white/10` on hover will vanish on a white background. Change it to `border-black/10`.
+2. **Hero CSS Truncation:** When editing comma-separated selector lists in `index.css` (like the `.product-hero-title` block), be extremely careful not to accidentally remove the opening brace `{`. If the block is broken, the hero text will fall back to black and vanish against the dark background.
+3. **Hardcoded Dark Mode Classes:** When extracting reusable components (like `<HandlesSlider />` or `<ColorSwatch />`), do not hardcode `bg-mammut-darker` or `text-mammut-white` into them if they are going to be placed in the white-background content area. 
+4. **Hover States:** Ensure hover states also provide good contrast. A dark border turning into `border-white/10` on hover will vanish on a white background. Change it to `border-black/10`.
 
 ## 3. Reference Implementation
 The canonical reference for this styling architecture is `src/pages/ProductDetailPage.tsx`. Any new product pages should duplicate its layout structure and tailwind class combinations.
