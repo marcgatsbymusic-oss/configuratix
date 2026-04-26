@@ -664,61 +664,22 @@
       }
     },
     "iglo-energy": {
-      "name": "IGLO ENERGY",
-      "tagline": "Outstanding energy efficiency",
-      "description": "An innovative and original 7-chamber A-class profile system, manufactured exclusively from prime material, distinguished by an excellent thermal insulation coefficient Uw = 0.6 W/(m2K)*. Iglo Energy sets the standard for energy-efficient windows.",
-      "specs": {
-        "label_0": "Thermal Transmittance (Uw)",
-        "value_0": "0.71",
-        "label_1": "Installation Depth",
-        "value_1": "82",
-        "label_2": "Profile Chambers",
-        "value_2": "7",
-        "label_3": "Sound Insulation (Rw)",
-        "value_3": "37–46"
-      },
-      "standardEquipment": {
-        "eq_0": "MACO MULTI MATIC KS hardware with 2 anti-burglary catches",
-        "eq_1": "Silber-Look coating and linear depressions on the espagnolettes",
-        "eq_2": "Mishandling device and lift sash",
-        "eq_3": "Micro-ventilation in tilt and turn windows",
-        "eq_4": "Window sill profile",
-        "eq_5": "Galvanized steel reinforcement or fiberglass (optional)",
-        "eq_6": "5-chamber window sill",
-        "eq_7": "Triple glazing package with warm edge spacer"
-      },
-      "keySpecs": {
-        "label_0": "sound",
-        "value_0": "37-46 dB",
-        "label_1": "gaskets",
-        "value_1": "3 EPDM",
-        "label_2": "thermal",
-        "value_2": "Uw = 0.71 W/(m²K)*",
-        "label_3": "chambers",
-        "value_3": "7",
-        "label_4": "depth",
-        "value_4": "82 mm",
-        "label_5": "class",
-        "value_5": "A"
-      },
-      "hardware": {
-        "name_0": "Standard Handle",
-        "type_0": "Aluminum",
-        "name_1": "Handle with Key",
-        "type_1": "Security",
-        "name_2": "Secustik®",
-        "type_2": "Anti-burglary"
-      },
-      "accessories": {
-        "name_0": "Maco Multi Matic KS",
-        "description_0": "Advanced perimeter hardware with micro-ventilation",
-        "name_1": "V-Perfect Welding",
-        "description_1": "Virtually invisible corner welds for flawless aesthetics",
-        "name_2": "Steel Reinforcement",
-        "description_2": "Closed steel profile in the frame for extreme rigidity",
-        "name_3": "EPDM Seals",
-        "description_3": "Triple sealing system in black or grey"
-      }
+      "name": "IGLO Energy",
+      "tagline": "An innovative and original 7-chamber A-class profile",
+      "description": "An innovative and original 7-chamber A-class profile made exclusively of primary materials. The world's first system using a central gasket made of foamed EPDM to ensure the best energy efficiency parameters. Iglo Energy windows also stand out for their perfect parameters in terms of water tightness, microventilation and resistance to wind.",
+      "standardEquipment": [
+        "Double-chamber glazing package Ug = 0.5 W/(m²K)",
+        "Swisspacer Ultimate plastic warm frame - as a free elective option",
+        "4 anti-theft strikers according to the size of the sash and the hardware system",
+        "Microventilation",
+        "Aluminium window handle",
+        "Handle misplacement locking mechanism",
+        "Perimeter, glazing and central gaskets in black or grey",
+        "Filling of the lower hardware groove",
+        "Sill trim",
+        "Wide selection of PVC veneer colours",
+        "Profile available in two colours: white, brown"
+      ]
     },
     "iglo-energy-classic": {
       "name": "IGLO ENERGY CLASSIC",

@@ -664,61 +664,22 @@
       }
     },
     "iglo-energy": {
-      "name": "ENERGÍA DE AGUJA",
-      "tagline": "Excelente eficiencia energética",
-      "description": "Un innovador y original sistema de perfiles de clase A de 7 cámaras, fabricado exclusivamente con materia prima, que se distingue por un excelente coeficiente de aislamiento térmico Uw ​​= 0,6 W/(m2K)*. Iglo Energy establece el estándar para ventanas energéticamente eficientes.",
-      "specs": {
-        "label_0": "Transmitancia térmica (Uw)",
-        "value_0": "0,71",
-        "label_1": "Profundidad de instalación",
-        "value_1": "82",
-        "label_2": "Cámaras de perfil",
-        "value_2": "7",
-        "label_3": "Aislamiento acústico (Rw)",
-        "value_3": "37–46"
-      },
-      "standardEquipment": {
-        "eq_0": "Herraje MACO MULTI MATIC KS con 2 cierres antirrobo",
-        "eq_1": "Revestimiento Silver-Look y depresiones lineales en las fallebas",
-        "eq_2": "Dispositivo de mal manejo y hoja elevadora.",
-        "eq_3": "Microventilación en ventanas oscilobatientes.",
-        "eq_4": "Perfil de alféizar de ventana",
-        "eq_5": "Refuerzo de acero galvanizado o fibra de vidrio (opcional)",
-        "eq_6": "Alféizar de ventana de 5 cámaras",
-        "eq_7": "Paquete de triple acristalamiento con espaciador de borde cálido"
-      },
-      "keySpecs": {
-        "label_0": "sonido",
-        "value_0": "37-46dB",
-        "label_1": "juntas",
-        "value_1": "3 EPDM",
-        "label_2": "térmica",
-        "value_2": "Uw = 0,71 W/(m²K)*",
-        "label_3": "cámaras",
-        "value_3": "7",
-        "label_4": "profundidad",
-        "value_4": "82mm",
-        "label_5": "clase",
-        "value_5": "UNA"
-      },
-      "hardware": {
-        "name_0": "Mango estándar",
-        "type_0": "Aluminio",
-        "name_1": "Mango con llave",
-        "type_1": "Seguridad",
-        "name_2": "de Secus®",
-        "type_2": "Antirrobo"
-      },
-      "accessories": {
-        "name_0": "Maco Multi Matic KS",
-        "description_0": "Hardware perimetral avanzado con microventilación",
-        "name_1": "Soldadura V-Perfecta",
-        "description_1": "Soldaduras de esquina prácticamente invisibles para una estética impecable",
-        "name_2": "Refuerzo de acero",
-        "description_2": "Perfil de acero cerrado en el marco para una rigidez extrema.",
-        "name_3": "Sellos EPDM",
-        "description_3": "Sistema de triple sellado en negro o gris."
-      }
+      "name": "IGLO Energy",
+      "tagline": "Un perfil innovador y original de clase A de 7 cámaras",
+      "description": "Un perfil innovador y original de clase A de 7 cámaras fabricado exclusivamente con materiales primarios. El primer sistema del mundo que utiliza una junta central de EPDM espumado para garantizar los mejores parámetros de eficiencia energética. Las ventanas Iglo Energy también destacan por sus perfectos parámetros de estanqueidad al agua, microventilación y resistencia al viento.",
+      "standardEquipment": [
+        "Paquete de acristalamiento de doble cámara Ug = 0,5 W/(m²K)",
+        "Marco cálido de plástico Swisspacer Ultimate - como opción gratuita",
+        "4 cerraderos antirrobo según el tamaño de la hoja y el sistema de herraje",
+        "Microventilación",
+        "Manilla de ventana de aluminio",
+        "Mecanismo de bloqueo por error de manejo de manilla",
+        "Juntas perimetrales, de acristalamiento y centrales en negro o gris",
+        "Relleno de la ranura inferior del herraje",
+        "Embellecedor de alféizar",
+        "Amplia selección de colores de revestimiento de PVC",
+        "Perfil disponible en dos colores: blanco, marrón"
+      ]
     },
     "iglo-energy-classic": {
       "name": "IGLO ENERGÍA CLÁSICA",
