@@ -79,3 +79,7 @@ This is the structured, transformed JSON payload that will be synced to Supabase
 *(For UI sorting implementations)*
 - **Supported Parameters:** Energy Efficiency (uwValue), Sound Insulation (parsed dB value), Profile Depth (mm), and Dynamic Estimated Price (via IDW Matrix Interpolation).
 - **Direction Toggle:** Bidirectional (Ascending/Descending) state parameter enabled across all profile rendering modules.
+
+## Agent Operational Rules
+*(Strict rules the AI must follow during code editing)*
+- **CRITICAL:** Never edit or apply patches to a file without explicitly reading its live contents using the `view_file` tool first. Do not rely on your memory of the file state to prevent accidentally reverting recent user changes.

@@ -53,16 +53,16 @@ function HandlesSlider() {
   const visible = HANDLES.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE)
 
   return (
-    <section className="py-16 border-b border-mammut-border" style={{ background: 'linear-gradient(180deg, #0e0e0f 0%, #161617 100%)' }}>
+    <section className="py-16 border-b border-gray-200" style={{ background: 'white' }}>
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-black text-mammut-white uppercase tracking-widest mb-2">{t('productDetail.handlesTitle')}</h2>
-        <p className="!text-mammut-white/50 text-sm mb-10 max-w-2xl">
+        <h2 className="text-3xl font-black text-black uppercase tracking-widest mb-2">{t('productDetail.handlesTitle')}</h2>
+        <p className="!text-gray-500 text-sm mb-10 max-w-2xl">
           {t('productDetail.handlesDesc')}
         </p>
         <div className="relative flex items-center gap-4">
           <button
             onClick={() => setPage(p => (p - 1 + totalPages) % totalPages)}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-mammut-border text-mammut-white/60 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-gray-200 text-gray-500 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
             aria-label="Previous"
           >
             <ChevronLeft size={20} />
@@ -70,10 +70,10 @@ function HandlesSlider() {
           <div className="flex-1 grid grid-cols-5 gap-4">
             {visible.map(handle => (
               <div key={handle.name} className="flex flex-col items-center gap-3">
-                <div className="w-full aspect-square flex items-end justify-center overflow-hidden bg-mammut-darker">
+                <div className="w-full aspect-square flex items-end justify-center overflow-hidden bg-white">
                   <img src={handle.image} alt={t(`sliderHandles.${handle.name}`)} className="w-full h-full object-contain hover:scale-105 transition-transform duration-300" />
                 </div>
-                <p className="!text-mammut-white/70 text-[11px] text-center leading-tight px-1">{t(`sliderHandles.${handle.name}`)}</p>
+                <p className="!text-gray-600 text-[11px] text-center leading-tight px-1">{t(`sliderHandles.${handle.name}`)}</p>
               </div>
             ))}
             {Array.from({ length: PER_PAGE - visible.length }).map((_, i) => (
@@ -82,7 +82,7 @@ function HandlesSlider() {
           </div>
           <button
             onClick={() => setPage(p => (p + 1) % totalPages)}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-mammut-border text-mammut-white/60 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-gray-200 text-gray-500 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
             aria-label="Next"
           >
             <ChevronRight size={20} />
@@ -94,7 +94,7 @@ function HandlesSlider() {
               key={i}
               onClick={() => setPage(i)}
               className="w-2 h-2 rounded-full transition-colors duration-200"
-              style={{ background: i === page ? '#eab676' : 'rgba(255,255,255,0.2)' }}
+              style={{ background: i === page ? '#eab676' : 'rgba(0,0,0,0.2)' }}
               aria-label={`Page ${i + 1}`}
             />
           ))}
@@ -220,7 +220,7 @@ function AdditionalOptionSlider({ items }: { items: { name: string; image: strin
       {totalPages > 1 && (
         <button
           onClick={() => setPage(p => (p - 1 + totalPages) % totalPages)}
-          className="flex-shrink-0 w-8 h-8 flex items-center justify-center border border-mammut-border text-mammut-white/60 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
+          className="flex-shrink-0 w-8 h-8 flex items-center justify-center border border-gray-200 text-gray-500 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
           aria-label="Previous"
         >
           <ChevronLeft size={16} />
@@ -230,14 +230,14 @@ function AdditionalOptionSlider({ items }: { items: { name: string; image: strin
       <div className="flex-1 grid grid-cols-3 gap-4">
         {visible.map((item, i) => (
           <div key={i} className="flex flex-col items-center gap-2">
-            <div className="w-full aspect-square bg-mammut-darker border border-mammut-border overflow-hidden flex items-center justify-center p-3">
+            <div className="w-full aspect-square bg-white border border-gray-200 overflow-hidden flex items-center justify-center p-3">
               <img
                 src={item.image}
                 alt={item.name}
                 className="w-full h-full object-contain hover:scale-105 transition-transform duration-300"
               />
             </div>
-            <p className="!text-mammut-white/60 text-[11px] text-center leading-tight px-1 whitespace-pre-line">{item.name}</p>
+            <p className="!text-gray-500 text-[11px] text-center leading-tight px-1 whitespace-pre-line">{item.name}</p>
           </div>
         ))}
         {Array.from({ length: AO_PER_PAGE - visible.length }).map((_, i) => (
@@ -248,7 +248,7 @@ function AdditionalOptionSlider({ items }: { items: { name: string; image: strin
       {totalPages > 1 && (
         <button
           onClick={() => setPage(p => (p + 1) % totalPages)}
-          className="flex-shrink-0 w-8 h-8 flex items-center justify-center border border-mammut-border text-mammut-white/60 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
+          className="flex-shrink-0 w-8 h-8 flex items-center justify-center border border-gray-200 text-gray-500 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
           aria-label="Next"
         >
           <ChevronRight size={16} />
@@ -262,7 +262,7 @@ function AdditionalOptionSlider({ items }: { items: { name: string; image: strin
               key={i}
               onClick={() => setPage(i)}
               className="w-1.5 h-1.5 rounded-full transition-colors duration-200"
-              style={{ background: i === page ? '#eab676' : 'rgba(255,255,255,0.2)' }}
+              style={{ background: i === page ? '#eab676' : 'rgba(0,0,0,0.2)' }}
               aria-label={`Page ${i + 1}`}
             />
           ))}
@@ -276,20 +276,20 @@ function AdditionalOptionsSection() {
   const { t } = useTranslation()
 
   return (
-    <section className="py-16 border-b border-mammut-border" style={{ background: 'linear-gradient(180deg, #111112 0%, #0e0e0f 100%)' }}>
+    <section className="py-16 border-b border-gray-200" style={{ background: 'white' }}>
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-black text-mammut-white uppercase tracking-widest mb-2">{t('productDetail.optionsTitle')}</h2>
-        <p className="!text-mammut-white/50 text-sm mb-12 max-w-2xl">
+        <h2 className="text-3xl font-black text-black uppercase tracking-widest mb-2">{t('productDetail.optionsTitle')}</h2>
+        <p className="!text-gray-500 text-sm mb-12 max-w-2xl">
           {t('productDetail.optionsDesc')}
         </p>
 
         <div className="space-y-10">
           {ADDITIONAL_OPTIONS.map(group => (
-            <div key={group.id} className="flex gap-8 border-b border-mammut-border pb-10 last:border-0 last:pb-0">
+            <div key={group.id} className="flex gap-8 border-b border-gray-200 pb-10 last:border-0 last:pb-0">
               {/* Left: info panel */}
               <div className="w-56 flex-shrink-0">
-                <h3 className="text-mammut-white font-black text-lg uppercase leading-tight mb-2">{group.title}</h3>
-                <p className="!text-mammut-white/50 text-xs leading-relaxed mb-4">{group.description}</p>
+                <h3 className="text-black font-black text-lg uppercase leading-tight mb-2">{group.title}</h3>
+                <p className="!text-gray-500 text-xs leading-relaxed mb-4">{group.description}</p>
                 <a
                   href={group.seeAllHref}
                   target="_blank"
@@ -315,10 +315,10 @@ function GlazingSection({ glassOptions }: { glassOptions: GlassOption[] }) {
   const [selected, setSelected] = useState<GlassOption>(glassOptions[0])
 
   return (
-    <section className="py-16 border-b border-mammut-border">
+    <section className="py-16 border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-black text-mammut-white uppercase tracking-widest mb-2">{t('productDetail.glassTitle')}</h2>
-        <p className="!text-mammut-white text-sm mb-10 max-w-2xl">
+        <h2 className="text-3xl font-black text-black uppercase tracking-widest mb-2">{t('productDetail.glassTitle')}</h2>
+        <p className="!text-black text-sm mb-10 max-w-2xl">
           {t('productDetail.glassDesc')}
         </p>
         <div className="flex flex-col lg:flex-row gap-8">
@@ -351,7 +351,7 @@ function GlazingSection({ glassOptions }: { glassOptions: GlassOption[] }) {
           </div>
 
           {/* Large preview panel */}
-          <div className="lg:w-[45%] flex-shrink-0 bg-mammut-dark overflow-hidden">
+          <div className="lg:w-[45%] flex-shrink-0 bg-gray-50 overflow-hidden">
             <img
               key={selected.id}
               src={selected.largeImage}
@@ -409,7 +409,7 @@ export function ProductDetailPage() {
   const selectedColor = detailData.colors.find(c => c.id === selectedColorId)
 
   return (
-    <main className="bg-mammut-darker min-h-screen pt-16">
+    <main className="bg-white min-h-screen pt-16">
       
       {/* 1. Hero Section (Full Width, matches the top section requested by user) */}
       <section className="relative h-[80vh] min-h-[600px] flex items-end justify-center pb-8 lg:pb-12 overflow-hidden">
@@ -459,7 +459,7 @@ export function ProductDetailPage() {
       </section>
 
       {/* 2. Drutex Product Overview — mirrors the drutex.eu layout */}
-      <section className="border-b border-mammut-border" style={{ background: 'linear-gradient(180deg, #111112 0%, #161617 100%)' }}>
+      <section className="border-b border-gray-200" style={{ background: 'white' }}>
 
         {/* Row A: Description + bullets (left) | Window photo (right) */}
         <div className="max-w-7xl mx-auto px-6 pt-20 pb-12">
@@ -468,7 +468,7 @@ export function ProductDetailPage() {
             {/* Left: text block */}
             <div>
               <span className="bg-mammut-gold text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">{t('productDetail.standardEquipment')}</span>
-              <h2 className="text-4xl font-black text-mammut-white uppercase mb-6 leading-tight">
+              <h2 className="text-4xl font-black text-black uppercase mb-6 leading-tight">
                 {detailData.name}
               </h2>
               <p className="product-overview-description leading-relaxed mb-8 whitespace-pre-line">
@@ -480,14 +480,14 @@ export function ProductDetailPage() {
                     <span className="mt-1 w-4 h-4 flex-shrink-0 rounded-full flex items-center justify-center" style={{ background: '#eab676' }}>
                       <Check size={10} className="text-black" />
                     </span>
-                    <span className="text-mammut-white/70 text-sm leading-snug">{item}</span>
+                    <span className="text-gray-600 text-sm leading-snug">{item}</span>
                   </li>
                 ))}
               </ul>
               {/* Video CTA */}
               <button
                 onClick={() => setVideoOpen(true)}
-                className="flex items-center gap-3 text-sm text-mammut-white/70 hover:text-mammut-gold transition-colors duration-200 group"
+                className="flex items-center gap-3 text-sm text-gray-600 hover:text-mammut-gold transition-colors duration-200 group"
               >
                 <span className="w-10 h-10 flex items-center justify-center border border-mammut-gold text-mammut-gold group-hover:bg-mammut-gold group-hover:text-black transition-all duration-200">
                   <Play size={16} fill="currentColor" />
@@ -497,7 +497,7 @@ export function ProductDetailPage() {
             </div>
 
             {/* Right: window-opening video */}
-            <div className="overflow-hidden border border-mammut-border bg-[#0e0e0f]">
+            <div className="overflow-hidden border border-gray-200 bg-[#0e0e0f]">
               <video
                 src="/assets/iglo-edge-okno-window-opening.mp4"
                 autoPlay
@@ -513,7 +513,7 @@ export function ProductDetailPage() {
 
         {/* Row B: 3D flip card — front = profile photo, back = technical drawing */}
         <div className="max-w-7xl mx-auto px-6 pb-20">
-          <p className="text-mammut-white/70 text-xs uppercase tracking-widest mb-4 text-center">{t('productDetail.hoverDrawing')}</p>
+          <p className="text-gray-600 text-xs uppercase tracking-widest mb-4 text-center">{t('productDetail.hoverDrawing')}</p>
           <div
             style={{
               perspective: '1200px',
@@ -536,14 +536,14 @@ export function ProductDetailPage() {
               {/* Front: profile cross-section photo */}
               <div
                 style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
-                className="absolute inset-0 bg-mammut-dark border border-mammut-border flex items-center justify-center p-10"
+                className="absolute inset-0 bg-gray-50 border border-gray-200 flex items-center justify-center p-10"
               >
                 <img
                   src={detailData.profileImage}
                   alt="IGLO EDGE profile cross-section"
                   className="w-full h-full object-contain"
                 />
-                <span className="absolute bottom-4 right-4 text-[10px] text-mammut-white/30 uppercase tracking-widest">{t('productDetail.profile')}</span>
+                <span className="absolute bottom-4 right-4 text-[10px] text-gray-400 uppercase tracking-widest">{t('productDetail.profile')}</span>
               </div>
 
               {/* Back: technical drawing */}
@@ -570,13 +570,13 @@ export function ProductDetailPage() {
       {/* Video modal */}
       {videoOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-mammut-black/90 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-white/90 backdrop-blur-sm"
           onClick={() => setVideoOpen(false)}
         >
           <div className="relative w-full max-w-4xl mx-6" onClick={e => e.stopPropagation()}>
             <button
               onClick={() => setVideoOpen(false)}
-              className="absolute -top-10 right-0 text-mammut-white/70 hover:text-mammut-gold transition-colors"
+              className="absolute -top-10 right-0 text-gray-600 hover:text-mammut-gold transition-colors"
             >
               <X size={24} />
             </button>
@@ -591,17 +591,17 @@ export function ProductDetailPage() {
       )}
 
       {/* 3. Profile Specs Section */}
-      <section className="max-w-7xl mx-auto px-6 py-24 border-b border-mammut-border">
+      <section className="max-w-7xl mx-auto px-6 py-24 border-b border-gray-200">
         <div className="max-w-2xl">
           <span className="bg-mammut-gold text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">{t('productDetail.newGeneration')}</span>
-          <h2 className="text-4xl font-black text-mammut-white uppercase mb-6 leading-tight">
+          <h2 className="text-4xl font-black text-black uppercase mb-6 leading-tight">
             {t('productDetail.uncompromising')}
           </h2>
           <ul className="space-y-4">
             {detailData.keySpecs.map(spec => (
-              <li key={spec.label} className="flex items-center gap-3 border-b border-mammut-border pb-3">
+              <li key={spec.label} className="flex items-center gap-3 border-b border-gray-200 pb-3">
                 <Check size={16} className="text-mammut-gold shrink-0" />
-                <span className="text-mammut-white/70 text-sm">{spec.label}: {spec.value}</span>
+                <span className="text-gray-600 text-sm">{spec.label}: {spec.value}</span>
               </li>
             ))}
           </ul>
@@ -609,16 +609,16 @@ export function ProductDetailPage() {
       </section>
 
       {/* 3. Interactive Color Swatch Section */}
-      <section className="bg-mammut-dark border-b border-mammut-border py-24">
+      <section className="bg-gray-50 border-b border-gray-200 py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-black text-mammut-white uppercase tracking-widest mb-4">{t('productDetail.colorsTitle')}</h2>
-            <p className="!text-mammut-white/50 max-w-2xl mx-auto">{t('productDetail.colorsDesc', { count: detailData.colors.length, name: detailData.name })}</p>
+            <h2 className="text-3xl font-black text-black uppercase tracking-widest mb-4">{t('productDetail.colorsTitle')}</h2>
+            <p className="!text-gray-500 max-w-2xl mx-auto">{t('productDetail.colorsDesc', { count: detailData.colors.length, name: detailData.name })}</p>
           </div>
 
           <div className="grid lg:grid-cols-12 gap-12">
             {/* Window Preview (Left) */}
-            <div className="lg:col-span-5 bg-mammut-darker border border-mammut-border flex flex-col items-center justify-center p-12 min-h-[500px] relative overflow-hidden">
+            <div className="lg:col-span-5 bg-white border border-gray-200 flex flex-col items-center justify-center p-12 min-h-[500px] relative overflow-hidden">
               
               {/* Dynamic Window Frame Render */}
               <div className="relative w-full max-w-sm flex items-center justify-center mb-8 px-4">
@@ -629,16 +629,16 @@ export function ProductDetailPage() {
                 />
               </div>
               
-              <div className="absolute text-mammut-white/20 text-xs font-bold tracking-widest z-30 bg-mammut-black/50 px-3 py-1 uppercase rounded-sm backdrop-blur-sm -bottom-4">{t('productDetail.preview')}</div>
+              <div className="absolute text-gray-300 text-xs font-bold tracking-widest z-30 bg-white/80 px-3 py-1 uppercase rounded-sm backdrop-blur-sm -bottom-4">{t('productDetail.preview')}</div>
               
               <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center text-xs z-40">
-                <span className="text-mammut-white/40 uppercase tracking-widest border border-white/10 px-3 py-1 bg-mammut-black/80 rounded-sm">{t('productDetail.selectedFinish')}</span>
+                <span className="text-gray-400 uppercase tracking-widest border border-black/10 px-3 py-1 bg-gray-50/90 rounded-sm">{t('productDetail.selectedFinish')}</span>
                 <span className="text-mammut-gold font-black uppercase tracking-widest drop-shadow-md">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</span>
               </div>
             </div>
 
             {/* Color Selector (Right) */}
-            <div className="lg:col-span-7 bg-mammut-darker border border-mammut-border p-8 lg:p-12">
+            <div className="lg:col-span-7 bg-white border border-gray-200 p-8 lg:p-12">
               <ColorSwatch 
                 colors={detailData.colors}
                 selectedColorId={selectedColorId}
@@ -654,7 +654,7 @@ export function ProductDetailPage() {
         className="w-full flex flex-col items-center justify-center text-center relative overflow-hidden transition-all duration-500"
         style={{
           backgroundImage: selectedColor?.image ? `url(${selectedColor.image})` : 'none',
-          backgroundColor: selectedColor?.hex || '#1a1a1b',
+          backgroundColor: selectedColor?.hex || '#f9fafb',
           backgroundSize: 'auto',
           backgroundPosition: 'left top',
           backgroundRepeat: 'repeat',
@@ -662,10 +662,10 @@ export function ProductDetailPage() {
           padding: '24px 0',
         }}
       >
-        <div className="relative z-10 text-mammut-white" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7)' }}>
-          <p className="!text-mammut-white text-sm font-normal opacity-90 mb-1">{t('productDetail.selectedColor')}</p>
-          <p className="!text-mammut-white text-lg font-bold tracking-wide">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</p>
-          <p className="!text-mammut-white text-xs opacity-80 mt-0.5 tracking-widest">{selectedColor?.id}</p>
+        <div className="relative z-10 text-black" style={{ }}>
+          <p className="!text-black text-sm font-normal opacity-90 mb-1">{t('productDetail.selectedColor')}</p>
+          <p className="!text-black text-lg font-bold tracking-wide">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</p>
+          <p className="!text-black text-xs opacity-80 mt-0.5 tracking-widest">{selectedColor?.id}</p>
         </div>
       </div>
 
@@ -681,11 +681,11 @@ export function ProductDetailPage() {
       <AdditionalOptionsSection />
 
       {/* Floating Action Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-mammut-black/95 backdrop-blur-md border-t border-mammut-border p-4 z-40 transform translate-y-0 transition-transform">
+      <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200 p-4 z-40 transform translate-y-0 transition-transform">
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           <div className="hidden md:block">
-            <span className="text-mammut-white font-black tracking-widest uppercase mr-4">{detailData.name}</span>
-            <span className="text-mammut-white/40 text-xs uppercase tracking-widest">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</span>
+            <span className="text-black font-black tracking-widest uppercase mr-4">{detailData.name}</span>
+            <span className="text-gray-400 text-xs uppercase tracking-widest">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</span>
           </div>
           <div className="flex w-full md:w-auto gap-4">
              <Link 
