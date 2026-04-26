@@ -33,3 +33,25 @@ When building new product templates, watch out for these common errors:
 
 ## 3. Reference Implementation
 The canonical reference for this styling architecture is `src/pages/ProductDetailPage.tsx`. Any new product pages should duplicate its layout structure and tailwind class combinations.
+
+## 4. Localization Standards
+
+When copying new content pages from Drutex.eu (e.g. Iglo Energy, Iglo Light), it is strictly prohibited to hardcode English or Spanish paragraphs directly into the `.tsx` components or the `productDetails.ts` files. 
+
+All user-facing text must be decentralized into the `i18next` translation engine by following this process:
+
+1. **Extract Keys:** Identify all unique descriptions, taglines, standard equipment bullets, and specification labels for the new product.
+2. **Translate to JSON:** Inject these values into all 17 available language `.json` files in `src/locales/` under the `productData.[productSlug]` namespace. 
+    - If a translation API is unavailable during copying, at least populate the `en.json` file.
+3. **Use the `t()` Wrapper:** Wrap all text rendering inside the product component using `t()`, passing the dynamic slug:
+   ```tsx
+   // Correct pattern for strings
+   {t(`productData.${detailData.slug}.description`, { defaultValue: detailData.description })}
+   
+   // Correct pattern for arrays (e.g. Standard Equipment)
+   {(t(`productData.${detailData.slug}.standardEquipment`, { returnObjects: true, defaultValue: detailData.standardEquipment }) as string[]).map(...) }
+   ```
+4. **Preserve Global Options:** The titles and descriptions for global options (like "Mounting accessories", "Roller Shutters") are already mapped in the JSON files under `productDetail.additionalOptions`. Simply use:
+   `t(`productDetail.additionalOptions.${group.id}.title`)`
+
+Following this standard ensures the configurator remains instantly translatable as new product lines are added.
