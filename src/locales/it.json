@@ -151,7 +151,43 @@
     "optionsTitle": "Opzioni aggiuntive",
     "optionsDesc": "Migliora e personalizza il tuo IGLO EDGE con la nostra vasta gamma di accessori e componenti aggiuntivi certificati.",
     "seeAll": "Vedi tutto",
-    "configureQuote": "Configura prodotto e preventivo"
+    "configureQuote": "Configura prodotto e preventivo",
+    "mountingAccessoriesTitle": "Accessori di montaggio",
+    "mountingAccessoriesDesc": "Qui troverai i prodotti necessari per la corretta installazione dei serramenti.",
+    "additionalOptions": {
+      "mounting": {
+        "title": "Accessori di montaggio",
+        "description": "Qui troverai i prodotti necessari per la corretta installazione dei serramenti."
+      },
+      "muntin": {
+        "title": "Inglesine",
+        "description": "Un'aggiunta attraente che mette in risalto il carattere unico dell'edificio."
+      },
+      "fittings": {
+        "title": "Ferramenta affidabile",
+        "description": "Sicurezza, comfort e funzionalità in ogni dettaglio."
+      },
+      "glass": {
+        "title": "Vetro sabbiato",
+        "description": "Una combinazione perfetta di design moderno e privacy."
+      },
+      "spacers": {
+        "title": "Canaline",
+        "description": "L'ultima generazione di canaline che garantisce comfort termico."
+      },
+      "ventilation": {
+        "title": "Ventilazione",
+        "description": "Assicura aria sana e umidità ottimale nella tua casa."
+      },
+      "shutters": {
+        "title": "Tapparelle",
+        "description": "Protezione da sole, rumore e furti."
+      },
+      "mosquito": {
+        "title": "Zanzariere",
+        "description": "Protezione efficace contro gli insetti mantenendo il flusso d'aria."
+      }
+    }
   },
   "footer": {
     "newsletter": {
@@ -559,9 +595,9 @@
   },
   "productData": {
     "iglo-edge": {
-      "name": "BORDO IGLO",
+      "name": "IGLO EDGE",
       "tagline": "Massimo isolamento, telaio minimo",
-      "description": "La nostra nuova finestra tecnologicamente più avanzata si distingue per un eccellente parametro di isolamento termico di Uw = 0,66 W/(m²K)* e una forma del profilo moderna e angolare. Gli ottimi parametri di isolamento termico sono dovuti, tra l'altro, alla struttura del profilo a 7 camere e alle 3 guarnizioni EPDM, compresa la guarnizione centrale.",
+      "description": "La nostra nuova finestra, la più avanzata tecnologicamente, si distingue per un eccellente parametro di isolamento termico di Uw = 0,66 W/(m²K)* e una forma del profilo moderna e angolare. I parametri di isolamento termico estremamente buoni sono dovuti, tra le altre cose, al design del profilo a 7 camere e alle 3 guarnizioni in EPDM, inclusa la guarnizione centrale.",
       "specs": {
         "label_0": "Trasmittanza Termica (Uw)",
         "value_0": "0,66",
@@ -572,20 +608,20 @@
         "label_3": "Isolamento acustico (Rw)",
         "value_3": "36–47"
       },
-      "standardEquipment": {
-        "eq_0": "Pacchetto vetrata a doppia camera Ug = 0,5 W/(m²K)",
-        "eq_1": "Telaio caldo in plastica Swisspacer Ultimate",
-        "eq_2": "Saldatura perfetta a V",
-        "eq_3": "4 incontri antifurto in base alla dimensione dell'anta e al sistema di ferramenta",
-        "eq_4": "Microventilazione",
-        "eq_5": "Maniglia per finestre DUBLIN in alluminio",
-        "eq_6": "Meccanismo di bloccaggio per smarrimento della maniglia",
-        "eq_7": "Guarnizioni perimetrali, vetrate e centrali di colore nero o grigio",
-        "eq_8": "Riempimento della scanalatura ferramenta inferiore",
-        "eq_9": "Rifinitura del davanzale",
-        "eq_10": "Ampia scelta di colori per impiallacciatura in PVC",
-        "eq_11": "3 colori del profilo tra cui scegliere: bianco, marrone o antracite"
-      },
+      "standardEquipment": [
+        "Pacchetto vetrocamera a due camere Ug = 0,5 W/(m²K)",
+        "Canalina calda in plastica Swisspacer Ultimate",
+        "Saldatura V-perfect",
+        "4 riscontri antieffrazione in base alle dimensioni dell'anta e al sistema di ferramenta",
+        "Microventilazione",
+        "Maniglia per finestra in alluminio DUBLIN",
+        "Meccanismo di blocco dell'errata manovra della maniglia",
+        "Guarnizioni perimetrali, del vetro e centrali in nero o grigio",
+        "Riempimento della cava inferiore della ferramenta",
+        "Profilo di finitura davanzale",
+        "Ampia selezione di colori per pellicole in PVC",
+        "3 colori del profilo tra cui scegliere: bianco, marrone o antracite"
+      ],
       "keySpecs": {
         "label_0": "suono",
         "value_0": "36–47 dB",

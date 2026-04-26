@@ -288,8 +288,8 @@ function AdditionalOptionsSection() {
             <div key={group.id} className="flex gap-8 border-b border-gray-200 pb-10 last:border-0 last:pb-0">
               {/* Left: info panel */}
               <div className="w-56 flex-shrink-0">
-                <h3 className="text-black font-black text-lg uppercase leading-tight mb-2">{group.title}</h3>
-                <p className="!text-gray-600 text-xs leading-relaxed mb-4">{group.description}</p>
+                <h3 className="text-black font-black text-lg uppercase leading-tight mb-2">{t(`productDetail.additionalOptions.${group.id}.title`, { defaultValue: group.title })}</h3>
+                <p className="!text-gray-600 text-xs leading-relaxed mb-4">{t(`productDetail.additionalOptions.${group.id}.description`, { defaultValue: group.description })}</p>
                 <a
                   href={group.seeAllHref}
                   target="_blank"
@@ -427,10 +427,10 @@ export function ProductDetailPage() {
         
         <div className="relative z-10 text-center px-6 max-w-7xl mx-auto flex flex-col items-center w-full">
           <h1 className="product-hero-title text-4xl md:text-5xl font-bold tracking-widest uppercase mb-3">
-            {t(`productData.${detailData.id}.name`, { defaultValue: detailData.name })}
+            {t(`productData.${detailData.slug}.name`, { defaultValue: detailData.name })}
           </h1>
           <p className="product-hero-tagline text-xl md:text-2xl font-light mb-10 tracking-wider">
-            {t(`productData.${detailData.id}.tagline`, { defaultValue: detailData.tagline })}
+            {t(`productData.${detailData.slug}.tagline`, { defaultValue: detailData.tagline })}
           </p>
 
           {/* Thin gold divider */}
@@ -450,7 +450,7 @@ export function ProductDetailPage() {
                   {/* Value text */}
                   <span className="product-hero-spec-value relative font-medium text-base md:text-lg whitespace-nowrap px-3">{spec.value}</span>
                 </div>
-                <p className="product-hero-spec-label text-[9px] md:text-[10px] uppercase font-semibold tracking-[0.12em] text-center leading-tight w-full px-1">{t(`productData.${detailData.id}.specs.${spec.label}`, { defaultValue: t(`igloEdge.specs.${spec.label}`) })}</p>
+                <p className="product-hero-spec-label text-[9px] md:text-[10px] uppercase font-semibold tracking-[0.12em] text-center leading-tight w-full px-1">{t(`productData.${detailData.slug}.specs.${spec.label}`, { defaultValue: t(`igloEdge.specs.${spec.label}`) })}</p>
               </div>
             ))}
           </div>
@@ -468,13 +468,13 @@ export function ProductDetailPage() {
             <div>
               <span className="bg-mammut-gold text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">{t('productDetail.standardEquipment')}</span>
               <h2 className="text-4xl font-black text-black uppercase mb-6 leading-tight">
-                {t(`productData.${detailData.id}.name`, { defaultValue: detailData.name })}
+                {t(`productData.${detailData.slug}.name`, { defaultValue: detailData.name })}
               </h2>
               <p className="product-overview-description leading-relaxed mb-8 whitespace-pre-line text-gray-600">
-                {t(`productData.${detailData.id}.description`, { defaultValue: detailData.description })}
+                {t(`productData.${detailData.slug}.description`, { defaultValue: detailData.description })}
               </p>
               <ul className="space-y-3 mb-10 text-gray-600">
-                {(t(`productData.${detailData.id}.standardEquipment`, { returnObjects: true, defaultValue: detailData.standardEquipment }) as string[]).map((item, i) => (
+                {(t(`productData.${detailData.slug}.standardEquipment`, { returnObjects: true, defaultValue: detailData.standardEquipment }) as string[]).map((item, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <span className="mt-1 w-4 h-4 flex-shrink-0 rounded-full flex items-center justify-center" style={{ background: '#eab676' }}>
                       <Check size={10} className="text-black" />
@@ -600,7 +600,7 @@ export function ProductDetailPage() {
             {detailData.keySpecs.map(spec => (
               <li key={spec.label} className="flex items-center gap-3 border-b border-gray-200 pb-3">
                 <Check size={16} className="text-mammut-gold shrink-0" />
-                <span className="text-gray-600 text-sm">{t(`productData.${detailData.id}.specs.${spec.label}`, { defaultValue: t(`igloEdge.specs.${spec.label}`) })}: {spec.value}</span>
+                <span className="text-gray-600 text-sm">{t(`productData.${detailData.slug}.specs.${spec.label}`, { defaultValue: t(`igloEdge.specs.${spec.label}`) })}: {spec.value}</span>
               </li>
             ))}
           </ul>

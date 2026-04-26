@@ -151,7 +151,43 @@
     "optionsTitle": "Opciones adicionales",
     "optionsDesc": "Mejore y personalice su IGLO EDGE con nuestra amplia gama de accesorios y complementos certificados.",
     "seeAll": "Ver todo",
-    "configureQuote": "Configurar producto y cotización"
+    "configureQuote": "Configurar producto y cotización",
+    "mountingAccessoriesTitle": "Accesorios de montaje",
+    "mountingAccessoriesDesc": "Aquí encontrará los productos necesarios para la correcta instalación de la carpintería.",
+    "additionalOptions": {
+      "mounting": {
+        "title": "Accesorios de montaje",
+        "description": "Aquí encontrará los productos necesarios para la correcta instalación de la carpintería."
+      },
+      "muntin": {
+        "title": "Barrotillos",
+        "description": "Un complemento atractivo que resalta el carácter único del edificio."
+      },
+      "fittings": {
+        "title": "Herrajes fiables",
+        "description": "Seguridad, comodidad y funcionalidad en cada detalle."
+      },
+      "glass": {
+        "title": "Cristal pulido con chorro de arena",
+        "description": "Una combinación perfecta de diseño moderno y privacidad."
+      },
+      "spacers": {
+        "title": "Intercalarios",
+        "description": "La última generación de intercalarios que garantizan el confort térmico."
+      },
+      "ventilation": {
+        "title": "Ventilación",
+        "description": "Garantice un aire saludable y una humedad óptima en su hogar."
+      },
+      "shutters": {
+        "title": "Persianas enrollables",
+        "description": "Protección contra el sol, el ruido y los robos."
+      },
+      "mosquito": {
+        "title": "Mosquiteras",
+        "description": "Protección eficaz contra los insectos manteniendo el flujo de aire."
+      }
+    }
   },
   "footer": {
     "newsletter": {
@@ -559,9 +595,9 @@
   },
   "productData": {
     "iglo-edge": {
-      "name": "BORDE IGLO",
+      "name": "IGLO EDGE",
       "tagline": "Aislamiento máximo, marco mínimo",
-      "description": "Nuestra nueva ventana tecnológicamente más avanzada se distingue por un excelente parámetro de aislamiento térmico de Uw = 0,66 W/(m²K)* y una forma de perfil angular moderna. Los excelentes parámetros de aislamiento térmico se deben, entre otras cosas, a la construcción del perfil de 7 cámaras y a las 3 juntas de EPDM, incluida la junta central.",
+      "description": "Nuestra nueva ventana, la más avanzada tecnológicamente, se distingue por un excelente parámetro de aislamiento térmico de Uw = 0.66 W/(m²K)* y una forma de perfil moderna y angular. Los parámetros de aislamiento térmico extremadamente buenos se deben, entre otras cosas, al diseño del perfil de 7 cámaras y 3 juntas EPDM, incluida la junta central.",
       "specs": {
         "label_0": "Transmitancia térmica (Uw)",
         "value_0": "0,66",
@@ -572,20 +608,20 @@
         "label_3": "Aislamiento acústico (Rw)",
         "value_3": "36–47"
       },
-      "standardEquipment": {
-        "eq_0": "Paquete de acristalamiento de doble cámara Ug = 0,5 W/(m²K)",
-        "eq_1": "Marco cálido de plástico Swisspacer Ultimate",
-        "eq_2": "Soldadura perfecta en V",
-        "eq_3": "4 cerraderos antirrobo según el tamaño de la hoja y el sistema de herrajes",
-        "eq_4": "Microventilación",
-        "eq_5": "Manilla para ventana de aluminio DUBLIN",
-        "eq_6": "Mecanismo de bloqueo por pérdida de ubicación del mango",
-        "eq_7": "Juntas perimetrales, acristaladas y centrales en color negro o gris.",
-        "eq_8": "Relleno de la ranura inferior para herrajes",
-        "eq_9": "Borde del alféizar",
-        "eq_10": "Amplia selección de colores de chapa de PVC.",
-        "eq_11": "3 colores de perfil a elegir: blanco, marrón o antracita"
-      },
+      "standardEquipment": [
+        "Paquete de acristalamiento de doble cámara Ug = 0,5 W/(m²K)",
+        "Marco cálido de plástico Swisspacer Ultimate",
+        "Soldadura V-perfect",
+        "4 cerraderos antirrobo según el tamaño de la hoja y el sistema de herrajes",
+        "Microventilación",
+        "Manilla de ventana de aluminio DUBLIN",
+        "Mecanismo de bloqueo de manipulación de la manilla",
+        "Juntas perimetrales, de acristalamiento y centrales en negro o gris",
+        "Relleno de la ranura inferior del herraje",
+        "Embellecedor de alféizar",
+        "Amplia selección de colores de revestimiento de PVC",
+        "3 colores de perfil a elegir: blanco, marrón o antracita"
+      ],
       "keySpecs": {
         "label_0": "sonido",
         "value_0": "36–47dB",

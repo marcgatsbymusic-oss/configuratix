@@ -151,7 +151,43 @@
     "optionsTitle": "Zusätzliche Optionen",
     "optionsDesc": "Werten Sie Ihren IGLO EDGE mit unserem breiten Sortiment an zertifiziertem Zubehör und Add-ons auf und personalisieren Sie ihn.",
     "seeAll": "Alle anzeigen",
-    "configureQuote": "Produkt und Angebot konfigurieren"
+    "configureQuote": "Produkt und Angebot konfigurieren",
+    "mountingAccessoriesTitle": "Montagezubehör",
+    "mountingAccessoriesDesc": "Hier finden Sie die Produkte, die für eine ordnungsgemäße Installation der Tischlerei erforderlich sind.",
+    "additionalOptions": {
+      "mounting": {
+        "title": "Montagezubehör",
+        "description": "Hier finden Sie die Produkte, die für eine ordnungsgemäße Installation der Tischlerei erforderlich sind."
+      },
+      "muntin": {
+        "title": "Sprossen",
+        "description": "Eine attraktive Ergänzung, die den einzigartigen Charakter des Gebäudes unterstreicht."
+      },
+      "fittings": {
+        "title": "Zuverlässige Beschläge",
+        "description": "Sicherheit, Komfort und Funktionalität in jedem Detail."
+      },
+      "glass": {
+        "title": "Sandgestrahltes Glas",
+        "description": "Eine perfekte Kombination aus modernem Design und Privatsphäre."
+      },
+      "spacers": {
+        "title": "Abstandhalter",
+        "description": "Die neueste Generation von Abstandhaltern für thermischen Komfort."
+      },
+      "ventilation": {
+        "title": "Lüftung",
+        "description": "Sorgen Sie für gesunde Luft und optimale Luftfeuchtigkeit in Ihrem Zuhause."
+      },
+      "shutters": {
+        "title": "Rollläden",
+        "description": "Schutz vor Sonne, Lärm und Einbruch."
+      },
+      "mosquito": {
+        "title": "Fliegengitter",
+        "description": "Wirksamer Schutz vor Insekten bei gleichzeitiger Luftzirkulation."
+      }
+    }
   },
   "footer": {
     "newsletter": {
@@ -559,9 +595,9 @@
   },
   "productData": {
     "iglo-edge": {
-      "name": "IGLO-KANTE",
+      "name": "IGLO EDGE",
       "tagline": "Maximale Isolierung, minimaler Rahmen",
-      "description": "Unser neues, technologisch fortschrittlichstes Fenster zeichnet sich durch einen hervorragenden Wärmedämmwert von Uw = 0,66 W/(m²K)* und eine moderne, eckige Profilform aus. Die extrem guten Wärmedämmwerte sind unter anderem auf die 7-Kammer-Profilkonstruktion und 3 EPDM-Dichtungen, darunter die Mitteldichtung, zurückzuführen.",
+      "description": "Unser neues, technologisch fortschrittlichstes Fenster zeichnet sich durch einen hervorragenden Wärmedämmwert von Uw = 0,66 W/(m²K)* und eine moderne, kantige Profilform aus. Die extrem guten Wärmedämmwerte sind unter anderem auf die 7-Kammer-Profilkonstruktion und 3 EPDM-Dichtungen, einschließlich der Mitteldichtung, zurückzuführen.",
       "specs": {
         "label_0": "Wärmedurchlässigkeit (Uw)",
         "value_0": "0,66",
@@ -572,20 +608,20 @@
         "label_3": "Schalldämmung (Rw)",
         "value_3": "36–47"
       },
-      "standardEquipment": {
-        "eq_0": "Doppelkammer-Verglasungspaket Ug = 0,5 W/(m²K)",
-        "eq_1": "Swisspacer Ultimate Kunststoff-Warmrahmen",
-        "eq_2": "V-perfekte Schweißnaht",
-        "eq_3": "4 Diebstahlsicherungsschließstücke entsprechend der Flügelgröße und dem Beschlagsystem",
-        "eq_4": "Mikroventilation",
-        "eq_5": "Fenstergriff DUBLIN aus Aluminium",
-        "eq_6": "Griffverriegelungsmechanismus bei Fehlplatzierung",
-        "eq_7": "Umfang, Verglasung und Mitteldichtungen in Schwarz oder Grau",
-        "eq_8": "Füllen der unteren Beschlagnut",
-        "eq_9": "Schwellerverkleidung",
-        "eq_10": "Große Auswahl an PVC-Furnierfarben",
-        "eq_11": "3 Profilfarben zur Auswahl: Weiß, Braun oder Anthrazit"
-      },
+      "standardEquipment": [
+        "Zweikammer-Verglasungspaket Ug = 0,5 W/(m²K)",
+        "Warmer Kunststoff-Abstandhalter Swisspacer Ultimate",
+        "V-Perfect-Schweißnaht",
+        "4 Einbruchschutz-Schließbleche je nach Flügelgröße und Beschlagsystem",
+        "Mikroventilation",
+        "Aluminium-Fenstergriff DUBLIN",
+        "Fehlbedienungssperre",
+        "Umlaufende, Verglasungs- und Mitteldichtungen in Schwarz oder Grau",
+        "Füllung der unteren Beschlagsnut",
+        "Fensterbankanschluss",
+        "Große Auswahl an PVC-Folienfarben",
+        "3 Profilfarben zur Auswahl: Weiß, Braun oder Anthrazit"
+      ],
       "keySpecs": {
         "label_0": "Klang",
         "value_0": "36–47 dB",

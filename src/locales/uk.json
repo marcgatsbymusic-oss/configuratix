@@ -151,7 +151,43 @@
     "optionsTitle": "Додаткові параметри",
     "optionsDesc": "Покращуйте й персоналізуйте свій IGLO EDGE за допомогою нашого широкого асортименту сертифікованих аксесуарів і доповнень.",
     "seeAll": "Переглянути всі",
-    "configureQuote": "Налаштувати продукт і пропозицію"
+    "configureQuote": "Налаштувати продукт і пропозицію",
+    "mountingAccessoriesTitle": "Mounting accessories",
+    "mountingAccessoriesDesc": "Here you will find the products necessary for proper installation of joinery.",
+    "additionalOptions": {
+      "mounting": {
+        "title": "Mounting accessories",
+        "description": "Here you will find the products necessary for proper installation of joinery."
+      },
+      "muntin": {
+        "title": "Muntin bars",
+        "description": "An attractive addition that highlights the unique character of the building."
+      },
+      "fittings": {
+        "title": "Reliable fittings",
+        "description": "Safety, comfort and functionality in every detail."
+      },
+      "glass": {
+        "title": "Sandblasted glass",
+        "description": "A perfect combination of modern design and privacy."
+      },
+      "spacers": {
+        "title": "Spacers",
+        "description": "The latest generation of spacers ensuring thermal comfort."
+      },
+      "ventilation": {
+        "title": "Ventilation",
+        "description": "Ensure healthy air and optimal humidity in your home."
+      },
+      "shutters": {
+        "title": "Roller Shutters",
+        "description": "Protect against sun, noise, and burglary."
+      },
+      "mosquito": {
+        "title": "Mosquito Nets",
+        "description": "Effective protection against insects while maintaining air flow."
+      }
+    }
   },
   "footer": {
     "newsletter": {
@@ -559,9 +595,9 @@
   },
   "productData": {
     "iglo-edge": {
-      "name": "ІГЛО КРАЙ",
-      "tagline": "Максимальна теплоізоляція, мінімальний каркас",
-      "description": "Наше нове, найбільш технологічне вікно вирізняється чудовим параметром теплоізоляції Uw = 0,66 Вт/(м²К)* та сучасною кутастою формою профілю. Надзвичайно хороші теплоізоляційні параметри завдяки 7-камерній конструкції профілю та 3 прокладкам EPDM, включаючи центральну прокладку.",
+      "name": "IGLO EDGE",
+      "tagline": "Maximum insulation, minimal frame",
+      "description": "Our new, most technologically advanced window is distinguished by an excellent thermal insulation parameter of Uw = 0.66 W/(m²K)* and a modern, angular profile shape. The extremely good thermal insulation parameters are due, among other things, to the 7-chamber profile design and 3 EPDM gaskets, including the central gasket.",
       "specs": {
         "label_0": "Коефіцієнт теплопередачі (Uw)",
         "value_0": "0,66",
@@ -572,20 +608,20 @@
         "label_3": "Звукоізоляція (Rw)",
         "value_3": "36–47"
       },
-      "standardEquipment": {
-        "eq_0": "Двокамерний склопакет Ug = 0,5 Вт/(м²K)",
-        "eq_1": "Пластикова тепла рамка Swisspacer Ultimate",
-        "eq_2": "V-ідеальний зварний шов",
-        "eq_3": "4 протиугінні планки в залежності від розміру стулки та системи фурнітури",
-        "eq_4": "мікропровітрювання",
-        "eq_5": "Алюмінієва віконна ручка DUBLIN",
-        "eq_6": "Механізм фіксації неправильного розташування ручки",
-        "eq_7": "Периметр, скління та центральні прокладки чорного або сірого кольору",
-        "eq_8": "Заповнення нижнього фурнітурного паза",
-        "eq_9": "Обшивка порогів",
-        "eq_10": "Широкий вибір кольорів ПВХ шпону",
-        "eq_11": "3 кольори профілю на вибір: білий, коричневий або антрацит"
-      },
+      "standardEquipment": [
+        "Double-chamber glazing package Ug = 0.5 W/(m²K)",
+        "Swisspacer Ultimate plastic warm frame",
+        "V-perfect weld",
+        "4 anti-theft strikers according to the size of the sash and the hardware system",
+        "Microventilation",
+        "DUBLIN aluminium window handle",
+        "Handle misplacement locking mechanism",
+        "Perimeter, glazing and central gaskets in black or grey",
+        "Filling of the lower hardware groove",
+        "Sill trim",
+        "Wide selection of PVC veneer colours",
+        "3 profile colours to choose from: white, brown or anthracite"
+      ],
       "keySpecs": {
         "label_0": "звук",
         "value_0": "36–47 дБ",

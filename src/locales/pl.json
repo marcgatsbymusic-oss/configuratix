@@ -151,7 +151,43 @@
     "optionsTitle": "Dodatkowe opcje",
     "optionsDesc": "Ulepsz i spersonalizuj swój IGLO EDGE dzięki naszej szerokiej gamie certyfikowanych akcesoriów i dodatków.",
     "seeAll": "Zobacz wszystko",
-    "configureQuote": "Skonfiguruj produkt i wycenę"
+    "configureQuote": "Skonfiguruj produkt i wycenę",
+    "mountingAccessoriesTitle": "Akcesoria montażowe",
+    "mountingAccessoriesDesc": "Tutaj znajdziesz produkty niezbędne do prawidłowego montażu stolarki.",
+    "additionalOptions": {
+      "mounting": {
+        "title": "Akcesoria montażowe",
+        "description": "Tutaj znajdziesz produkty niezbędne do prawidłowego montażu stolarki."
+      },
+      "muntin": {
+        "title": "Szprosy",
+        "description": "Atrakcyjny dodatek, który podkreśla wyjątkowy charakter budynku."
+      },
+      "fittings": {
+        "title": "Niezawodne okucia",
+        "description": "Bezpieczeństwo, komfort i funkcjonalność w każdym detalu."
+      },
+      "glass": {
+        "title": "Szkło piaskowane",
+        "description": "Doskonałe połączenie nowoczesnego designu i prywatności."
+      },
+      "spacers": {
+        "title": "Ramki dystansowe",
+        "description": "Najnowsza generacja ramek zapewniająca komfort cieplny."
+      },
+      "ventilation": {
+        "title": "Wentylacja",
+        "description": "Zapewnij zdrowe powietrze i optymalną wilgotność w swoim domu."
+      },
+      "shutters": {
+        "title": "Rolety",
+        "description": "Ochrona przed słońcem, hałasem i włamaniem."
+      },
+      "mosquito": {
+        "title": "Moskitiery",
+        "description": "Skuteczna ochrona przed owadami przy zachowaniu przepływu powietrza."
+      }
+    }
   },
   "footer": {
     "newsletter": {
@@ -559,9 +595,9 @@
   },
   "productData": {
     "iglo-edge": {
-      "name": "IGLO KRAWĘDŹ",
+      "name": "IGLO EDGE",
       "tagline": "Maksymalna izolacja, minimalna rama",
-      "description": "Nasze nowe, najbardziej zaawansowane technologicznie okno wyróżnia się doskonałym parametrem termoizolacyjnym Uw = 0,66 W/(m²K)* oraz nowoczesnym, kanciastym kształtem profilu. Niezwykle dobre parametry termoizolacyjne zawdzięczamy między innymi 7-komorowej konstrukcji profilu oraz 3 uszczelkom EPDM, w tym środkowej.",
+      "description": "Nasze nowe, najbardziej zaawansowane technologicznie okno wyróżnia się doskonałym parametrem izolacyjności termicznej Uw = 0,66 W/(m²K)* oraz nowoczesnym, kanciastym kształtem profilu. Niezwykle dobre parametry izolacyjności termicznej to zasługa m.in. 7-komorowej budowy profilu oraz 3 uszczelek EPDM, w tym uszczelki centralnej.",
       "specs": {
         "label_0": "Przenikalność cieplna (Uw)",
         "value_0": "0,66",
@@ -572,20 +608,20 @@
         "label_3": "Izolacja akustyczna (Rw)",
         "value_3": "36–47"
       },
-      "standardEquipment": {
-        "eq_0": "Pakiet szybowy dwukomorowy Ug = 0,5 W/(m²K)",
-        "eq_1": "Ciepła plastikowa ramka Swisspacer Ultimate",
-        "eq_2": "Idealna spoina V",
-        "eq_3": "4 zaczepy antywłamaniowe w zależności od wielkości skrzydła i układu okuć",
-        "eq_4": "Mikrowentylacja",
-        "eq_5": "Klamka okienna aluminiowa DUBLIN",
-        "eq_6": "Mechanizm blokujący nieprawidłowe położenie uchwytu",
-        "eq_7": "Uszczelki obwodowe, przyszybowe i środkowe w kolorze czarnym lub szarym",
-        "eq_8": "Wypełnienie dolnego rowka okucia",
-        "eq_9": "Listwa progowa",
-        "eq_10": "Szeroki wybór kolorów oklein PCV",
-        "eq_11": "Do wyboru 3 kolory profili: biały, brązowy lub antracyt"
-      },
+      "standardEquipment": [
+        "Dwukomorowy pakiet szybowy Ug = 0,5 W/(m²K)",
+        "Ciepła ramka dystansowa z tworzywa Swisspacer Ultimate",
+        "Zgrzew V-perfect",
+        "4 zaczepy antywyważeniowe w zależności od rozmiaru skrzydła i systemu okuć",
+        "Mikrowentylacja",
+        "Aluminiowa klamka okienna DUBLIN",
+        "Blokada błędnego położenia klamki",
+        "Uszczelki obwodowe, przyszybowe i centralne w kolorze czarnym lub szarym",
+        "Wypełnienie dolnego rowka okuciowego",
+        "Listwa podparapetowa",
+        "Szeroki wybór kolorów oklein PVC",
+        "3 kolory profilu do wyboru: biały, brązowy lub antracytowy"
+      ],
       "keySpecs": {
         "label_0": "dźwięk",
         "value_0": "36–47 dB",

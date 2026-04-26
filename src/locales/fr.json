@@ -151,7 +151,43 @@
     "optionsTitle": "Options supplémentaires",
     "optionsDesc": "Améliorez et personnalisez votre IGLO EDGE avec notre large gamme d'accessoires et de modules complémentaires certifiés.",
     "seeAll": "Voir tout",
-    "configureQuote": "Configurer le produit et le devis"
+    "configureQuote": "Configurer le produit et le devis",
+    "mountingAccessoriesTitle": "Accessoires de montage",
+    "mountingAccessoriesDesc": "Vous trouverez ici les produits nécessaires à l'installation correcte de la menuiserie.",
+    "additionalOptions": {
+      "mounting": {
+        "title": "Accessoires de montage",
+        "description": "Vous trouverez ici les produits nécessaires à l'installation correcte de la menuiserie."
+      },
+      "muntin": {
+        "title": "Petits bois",
+        "description": "Un ajout attrayant qui met en valeur le caractère unique du bâtiment."
+      },
+      "fittings": {
+        "title": "Quincaillerie fiable",
+        "description": "Sécurité, confort et fonctionnalité dans les moindres détails."
+      },
+      "glass": {
+        "title": "Verre sablé",
+        "description": "Une combinaison parfaite de design moderne et d'intimité."
+      },
+      "spacers": {
+        "title": "Intercalaires",
+        "description": "La dernière génération d'intercalaires garantissant le confort thermique."
+      },
+      "ventilation": {
+        "title": "Ventilation",
+        "description": "Assurez un air sain et une humidité optimale dans votre maison."
+      },
+      "shutters": {
+        "title": "Volets roulants",
+        "description": "Protection contre le soleil, le bruit et les cambriolages."
+      },
+      "mosquito": {
+        "title": "Moustiquaires",
+        "description": "Protection efficace contre les insectes tout en maintenant la circulation de l'air."
+      }
+    }
   },
   "footer": {
     "newsletter": {
@@ -559,9 +595,9 @@
   },
   "productData": {
     "iglo-edge": {
-      "name": "BORD IGLO",
+      "name": "IGLO EDGE",
       "tagline": "Isolation maximale, cadre minimal",
-      "description": "Notre nouvelle fenêtre, la plus avancée technologiquement, se distingue par un excellent paramètre d'isolation thermique de Uw = 0,66 W/(m²K)* et une forme de profil angulaire et moderne. Les paramètres d'isolation thermique extrêmement bons sont dus, entre autres, à la conception du profilé à 7 chambres et aux 3 joints EPDM, dont le joint central.",
+      "description": "Notre nouvelle fenêtre, la plus avancée technologiquement, se distingue par un excellent paramètre d'isolation thermique de Uw = 0,66 W/(m²K)* et une forme de profilé moderne et angulaire. Les paramètres d'isolation thermique extrêmement bons sont dus, entre autres, à la conception du profilé à 7 chambres et aux 3 joints EPDM, y compris le joint central.",
       "specs": {
         "label_0": "Transmission thermique (Uw)",
         "value_0": "0,66",
@@ -572,20 +608,20 @@
         "label_3": "Isolation phonique (Rw)",
         "value_3": "36-47"
       },
-      "standardEquipment": {
-        "eq_0": "Paquet vitrage double chambre Ug = 0,5 W/(m²K)",
-        "eq_1": "Cadre chaud en plastique Swisspacer Ultimate",
-        "eq_2": "Soudure parfaite en V",
-        "eq_3": "4 gâches antivol selon la dimension de l'ouvrant et le système de ferrure",
-        "eq_4": "Microventilation",
-        "eq_5": "Poignée de fenêtre en aluminium DUBLIN",
-        "eq_6": "Mécanisme de verrouillage en cas de mauvais placement de la poignée",
-        "eq_7": "Joints périmétriques, vitrages et centraux en noir ou gris",
-        "eq_8": "Remplissage de la rainure inférieure du matériel",
-        "eq_9": "Garniture de seuil",
-        "eq_10": "Large choix de couleurs de placage PVC",
-        "eq_11": "3 couleurs de profilés au choix : blanc, marron ou anthracite"
-      },
+      "standardEquipment": [
+        "Double vitrage Ug = 0,5 W/(m²K)",
+        "Intercalaire chaud en plastique Swisspacer Ultimate",
+        "Soudure V-perfect",
+        "4 gâches anti-effraction selon la taille de l'ouvrant et le système de quincaillerie",
+        "Micro-ventilation",
+        "Poignée de fenêtre en aluminium DUBLIN",
+        "Mécanisme de blocage de mauvaise manipulation de la poignée",
+        "Joints périphériques, de vitrage et centraux en noir ou gris",
+        "Remplissage de la rainure inférieure de la quincaillerie",
+        "Profilé de finition",
+        "Large choix de couleurs de plaxage PVC",
+        "3 couleurs de profilés au choix : blanc, marron ou anthracite"
+      ],
       "keySpecs": {
         "label_0": "son",
         "value_0": "36 à 47 dB",

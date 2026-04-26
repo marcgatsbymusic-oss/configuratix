@@ -151,7 +151,43 @@
     "optionsTitle": "Ytterligere alternativer",
     "optionsDesc": "Forbedre og personliggjør din IGLO EDGE med vårt brede utvalg av sertifisert tilbehør og tillegg.",
     "seeAll": "Se alle",
-    "configureQuote": "Konfigurer produkt og tilbud"
+    "configureQuote": "Konfigurer produkt og tilbud",
+    "mountingAccessoriesTitle": "Mounting accessories",
+    "mountingAccessoriesDesc": "Here you will find the products necessary for proper installation of joinery.",
+    "additionalOptions": {
+      "mounting": {
+        "title": "Mounting accessories",
+        "description": "Here you will find the products necessary for proper installation of joinery."
+      },
+      "muntin": {
+        "title": "Muntin bars",
+        "description": "An attractive addition that highlights the unique character of the building."
+      },
+      "fittings": {
+        "title": "Reliable fittings",
+        "description": "Safety, comfort and functionality in every detail."
+      },
+      "glass": {
+        "title": "Sandblasted glass",
+        "description": "A perfect combination of modern design and privacy."
+      },
+      "spacers": {
+        "title": "Spacers",
+        "description": "The latest generation of spacers ensuring thermal comfort."
+      },
+      "ventilation": {
+        "title": "Ventilation",
+        "description": "Ensure healthy air and optimal humidity in your home."
+      },
+      "shutters": {
+        "title": "Roller Shutters",
+        "description": "Protect against sun, noise, and burglary."
+      },
+      "mosquito": {
+        "title": "Mosquito Nets",
+        "description": "Effective protection against insects while maintaining air flow."
+      }
+    }
   },
   "footer": {
     "newsletter": {
@@ -559,9 +595,9 @@
   },
   "productData": {
     "iglo-edge": {
-      "name": "IGLO KANT",
-      "tagline": "Maksimal isolasjon, minimal ramme",
-      "description": "Vårt nye, mest teknologisk avanserte vindu utmerker seg med en utmerket termisk isolasjonsparameter på Uw = 0,66 W/(m²K)* og en moderne, kantet profilform. De ekstremt gode varmeisolasjonsparametrene skyldes blant annet 7-kammer profildesignet og 3 EPDM-pakninger, inkludert sentralpakningen.",
+      "name": "IGLO EDGE",
+      "tagline": "Maximum insulation, minimal frame",
+      "description": "Our new, most technologically advanced window is distinguished by an excellent thermal insulation parameter of Uw = 0.66 W/(m²K)* and a modern, angular profile shape. The extremely good thermal insulation parameters are due, among other things, to the 7-chamber profile design and 3 EPDM gaskets, including the central gasket.",
       "specs": {
         "label_0": "Termisk transmittans (Uw)",
         "value_0": "0,66",
@@ -572,20 +608,20 @@
         "label_3": "Lydisolasjon (Rw)",
         "value_3": "36–47"
       },
-      "standardEquipment": {
-        "eq_0": "Dobbeltkammerglasspakke Ug = 0,5 W/(m²K)",
-        "eq_1": "Swisspacer Ultimate varm ramme i plast",
-        "eq_2": "V-perfekt sveis",
-        "eq_3": "4 tyverisikringer i henhold til størrelsen på rammen og maskinvaresystemet",
-        "eq_4": "Mikroventilasjon",
-        "eq_5": "DUBLIN vindushåndtak i aluminium",
-        "eq_6": "Låsemekanisme for feilplassering av håndtak",
-        "eq_7": "Perimeter, glass og sentrale pakninger i sort eller grå",
-        "eq_8": "Fylling av nedre maskinvarespor",
-        "eq_9": "terskel trim",
-        "eq_10": "Bredt utvalg av PVC finér farger",
-        "eq_11": "3 profilfarger å velge mellom: hvit, brun eller antrasitt"
-      },
+      "standardEquipment": [
+        "Double-chamber glazing package Ug = 0.5 W/(m²K)",
+        "Swisspacer Ultimate plastic warm frame",
+        "V-perfect weld",
+        "4 anti-theft strikers according to the size of the sash and the hardware system",
+        "Microventilation",
+        "DUBLIN aluminium window handle",
+        "Handle misplacement locking mechanism",
+        "Perimeter, glazing and central gaskets in black or grey",
+        "Filling of the lower hardware groove",
+        "Sill trim",
+        "Wide selection of PVC veneer colours",
+        "3 profile colours to choose from: white, brown or anthracite"
+      ],
       "keySpecs": {
         "label_0": "lyd",
         "value_0": "36–47 dB",

@@ -151,7 +151,43 @@
     "optionsTitle": "Opcions addicionals",
     "optionsDesc": "Millora i personalitza el teu IGLO EDGE amb la nostra àmplia gamma d'accessoris i complements certificats.",
     "seeAll": "Veure-ho tot",
-    "configureQuote": "Configura producte i pressupost"
+    "configureQuote": "Configura producte i pressupost",
+    "mountingAccessoriesTitle": "Mounting accessories",
+    "mountingAccessoriesDesc": "Here you will find the products necessary for proper installation of joinery.",
+    "additionalOptions": {
+      "mounting": {
+        "title": "Mounting accessories",
+        "description": "Here you will find the products necessary for proper installation of joinery."
+      },
+      "muntin": {
+        "title": "Muntin bars",
+        "description": "An attractive addition that highlights the unique character of the building."
+      },
+      "fittings": {
+        "title": "Reliable fittings",
+        "description": "Safety, comfort and functionality in every detail."
+      },
+      "glass": {
+        "title": "Sandblasted glass",
+        "description": "A perfect combination of modern design and privacy."
+      },
+      "spacers": {
+        "title": "Spacers",
+        "description": "The latest generation of spacers ensuring thermal comfort."
+      },
+      "ventilation": {
+        "title": "Ventilation",
+        "description": "Ensure healthy air and optimal humidity in your home."
+      },
+      "shutters": {
+        "title": "Roller Shutters",
+        "description": "Protect against sun, noise, and burglary."
+      },
+      "mosquito": {
+        "title": "Mosquito Nets",
+        "description": "Effective protection against insects while maintaining air flow."
+      }
+    }
   },
   "footer": {
     "newsletter": {
@@ -559,9 +595,9 @@
   },
   "productData": {
     "iglo-edge": {
-      "name": "IGLO BORDA",
-      "tagline": "Màxim aïllament, marc mínim",
-      "description": "La nostra finestra nova i tecnològicament més avançada es distingeix per un excel·lent paràmetre d'aïllament tèrmic de Uw = 0,66 W/(m²K)* i una forma de perfil angular moderna. Els extremadament bons paràmetres d'aïllament tèrmic es deuen, entre altres coses, al disseny del perfil de 7 cambres i 3 juntes d'EPDM, inclosa la junta central.",
+      "name": "IGLO EDGE",
+      "tagline": "Maximum insulation, minimal frame",
+      "description": "Our new, most technologically advanced window is distinguished by an excellent thermal insulation parameter of Uw = 0.66 W/(m²K)* and a modern, angular profile shape. The extremely good thermal insulation parameters are due, among other things, to the 7-chamber profile design and 3 EPDM gaskets, including the central gasket.",
       "specs": {
         "label_0": "Transmissió tèrmica (Uw)",
         "value_0": "0,66",
@@ -572,20 +608,20 @@
         "label_3": "Aïllament acústic (Rw)",
         "value_3": "36–47"
       },
-      "standardEquipment": {
-        "eq_0": "Paquet de vidre de doble cambra Ug = 0,5 W/(m²K)",
-        "eq_1": "Marc càlid de plàstic Swisspacer Ultimate",
-        "eq_2": "Soldadura en V perfecta",
-        "eq_3": "4 davanters antirobatori segons la mida de la faixa i el sistema de ferreteria",
-        "eq_4": "Microventilació",
-        "eq_5": "Tirador de finestra DUBLIN d'alumini",
-        "eq_6": "Mecanisme de bloqueig per desplaçament incorrecte de la maneta",
-        "eq_7": "Juntes perimetrals, envidres i centrals en negre o gris",
-        "eq_8": "Ompliment de la ranura inferior del maquinari",
-        "eq_9": "Tall de llit",
-        "eq_10": "Àmplia selecció de colors de xapa de PVC",
-        "eq_11": "3 colors de perfil a escollir: blanc, marró o antracita"
-      },
+      "standardEquipment": [
+        "Double-chamber glazing package Ug = 0.5 W/(m²K)",
+        "Swisspacer Ultimate plastic warm frame",
+        "V-perfect weld",
+        "4 anti-theft strikers according to the size of the sash and the hardware system",
+        "Microventilation",
+        "DUBLIN aluminium window handle",
+        "Handle misplacement locking mechanism",
+        "Perimeter, glazing and central gaskets in black or grey",
+        "Filling of the lower hardware groove",
+        "Sill trim",
+        "Wide selection of PVC veneer colours",
+        "3 profile colours to choose from: white, brown or anthracite"
+      ],
       "keySpecs": {
         "label_0": "so",
         "value_0": "36-47 dB",
