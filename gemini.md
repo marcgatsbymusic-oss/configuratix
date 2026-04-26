@@ -83,3 +83,4 @@ This is the structured, transformed JSON payload that will be synced to Supabase
 ## Agent Operational Rules
 *(Strict rules the AI must follow during code editing)*
 - **CRITICAL:** Never edit or apply patches to a file without explicitly reading its live contents using the `view_file` tool first. Do not rely on your memory of the file state to prevent accidentally reverting recent user changes.
+- **MANUAL CATALOG PROTECTION:** The glass names, handles, and option mappings hardcoded in `src/data/productDetails.ts` and translations (`src/locales/en.json` and `es.json`) have been carefully synchronized with the official Drutex website catalog. If you write any scraping scripts or API sync routines in the future, **DO NOT overwrite these existing catalogs** unless explicitly asked to do so. Treat the manual mappings in these files as the definitive Source of Truth.
