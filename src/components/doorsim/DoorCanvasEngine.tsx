@@ -1,113 +1,116 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as fabric from 'fabric';
+import { useDoorConfigurator, generateAssetURLs } from '../../store/doorSimStore';
+import { Loader2 } from 'lucide-react';
 
-export interface DoorConfig {
-  frameColorHex: string;
-  leafColorHex: string;
-  glassUrl: string | null;
-  patternMaskUrl: string | null;
-  handleUrl: string | null;
-}
-
-interface DoorCanvasEngineProps {
-  config: DoorConfig;
-}
-
-// Map from RAL or hex to actual Drutex color masks is complex in the real visualizer.
-// We will use fabric's built-in blend mode tinting to colorize the frame and leaf dynamically.
-const FRAME_BASE_URL = '/doorsim-assets/assets/system/MB86N/Drzwi-MB86N-wz-oscieznica.svg';
-const LEAF_BASE_URL = '/doorsim-assets/assets/system/MB86N/Drzwi-MB86N-wz-rama-skrzydla.svg';
-
-export function DoorCanvasEngine({ config }: DoorCanvasEngineProps) {
+export function DoorCanvasEngine() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const fabricRef = useRef<fabric.Canvas | null>(null);
+  const [fabricCanvas, setFabricCanvas] = useState<fabric.Canvas | null>(null);
+  const [isRendering, setIsRendering] = useState(false);
+  
+  const state = useDoorConfigurator();
+  const urls = generateAssetURLs(state);
 
+  // Initialize Canvas
   useEffect(() => {
     if (!canvasRef.current) return;
-
-    // Initialize Fabric canvas
+    
+    // Set a container that respects its parent's dimensions but provides a high-res internal canvas
     const canvas = new fabric.Canvas(canvasRef.current, {
       width: 500,
       height: 800,
-      backgroundColor: '#f3f4f6' // light gray background for now
+      backgroundColor: 'transparent',
+      selection: false
     });
-    fabricRef.current = canvas;
-
-    // Helper to load and add image
-    const loadLayer = async (url: string, tintHex?: string, zIndex?: number) => {
-      try {
-        const img = await fabric.FabricImage.fromURL(url);
-        
-        // Scale to fit canvas, preserving aspect ratio
-        img.scaleToHeight(700);
-        img.set({
-          left: canvas.width! / 2 - img.getScaledWidth() / 2,
-          top: 50,
-          selectable: false,
-          evented: false,
-        });
-
-        if (tintHex) {
-            // Apply color overlay using BlendColor
-            const filter = new fabric.filters.BlendColor({
-              color: tintHex,
-              mode: 'multiply',
-              alpha: 0.9
-            });
-            img.filters = [filter];
-            img.applyFilters();
-        }
-
-        canvas.add(img);
-        
-        if (zIndex !== undefined) {
-           // We could use insertAt, but for simplicity we rely on load order or moveTo
-        }
-      } catch (err) {
-        console.error(`Failed to load layer: ${url}`, err);
-      }
-    };
-
-    const renderLayers = async () => {
-      canvas.clear();
-      canvas.backgroundColor = '#f3f4f6';
-
-      // 1. Load Glass (background layer of door)
-      if (config.glassUrl) {
-         await loadLayer(config.glassUrl);
-      } else {
-         // Default glass if none selected
-         await loadLayer('/doorsim-assets/assets/glass/szyba_antisol_szary.webp');
-      }
-
-      // 2. Load Frame
-      await loadLayer(FRAME_BASE_URL, config.frameColorHex);
-
-      // 3. Load Leaf / Wing
-      await loadLayer(LEAF_BASE_URL, config.leafColorHex);
-
-      // 4. Load Pattern / Mask
-      if (config.patternMaskUrl) {
-        await loadLayer(config.patternMaskUrl);
-      }
-
-      // 5. Load Handle
-      if (config.handleUrl) {
-        await loadLayer(config.handleUrl);
-      }
-
-      canvas.requestRenderAll();
-    };
-
-    renderLayers();
+    setFabricCanvas(canvas);
 
     return () => {
       canvas.dispose();
     };
-  }, [config]);
+  }, []);
+
+  // Render Layers sequentially
+  useEffect(() => {
+    if (!fabricCanvas) return;
+
+    const renderLayers = async () => {
+      setIsRendering(true);
+      fabricCanvas.clear();
+
+      const loadLayer = (url: string | null, applyTintHex?: string): Promise<fabric.FabricImage | null> => {
+        if (!url) return Promise.resolve(null);
+        return new Promise((resolve) => {
+          fabric.FabricImage.fromURL(url).then((img) => {
+             img.scaleToHeight(700);
+             img.set({
+               left: fabricCanvas.width! / 2 - img.getScaledWidth() / 2,
+               top: 50,
+               selectable: false,
+               evented: false,
+             });
+
+             if (applyTintHex) {
+                // If it's an SVG mask from our local test assets, we still need to tint it.
+                // Once we have pure scraped PNGs, we won't need this block.
+                const filter = new fabric.filters.BlendColor({
+                  color: applyTintHex,
+                  mode: 'multiply',
+                  alpha: 0.9
+                });
+                img.filters = [filter];
+                img.applyFilters();
+             }
+             resolve(img);
+          }).catch((err) => {
+             console.error(`Failed to load layer: ${url}`, err);
+             resolve(null);
+          });
+        });
+      };
+
+      try {
+        // Load in strict Z-Index order: Glass -> Frame -> Leaf -> Pattern -> Handle
+        // Note: applyTintHex is kept temporarily to support the local SVGs. Once replaced with pure PNGs, this parameter can be dropped.
+        const layers = await Promise.all([
+          loadLayer(urls.glassUrl),
+          loadLayer(urls.frameMask, urls.frameColorHex),
+          loadLayer(urls.leafMask, urls.leafColorHex),
+          loadLayer(urls.patternMaskUrl),
+          loadLayer(urls.handleUrl)
+        ]);
+
+        layers.forEach(layer => {
+          if (layer) fabricCanvas.add(layer);
+        });
+        
+        fabricCanvas.requestRenderAll();
+      } catch (err) {
+        console.error("Failed to load asset layers", err);
+      } finally {
+        setIsRendering(false);
+      }
+    };
+
+    renderLayers();
+  }, [
+     fabricCanvas, 
+     urls.frameColorHex, 
+     urls.leafColorHex, 
+     urls.glassUrl, 
+     urls.patternMaskUrl, 
+     urls.handleUrl,
+     urls.frameMask,
+     urls.leafMask
+  ]);
 
   return (
-    <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-lg shadow-inner overflow-hidden">
+    <div className="relative w-full h-full flex items-center justify-center bg-gray-100 rounded-lg shadow-inner overflow-hidden">
+      {/* Loading Overlay Transition */}
+      {isRendering && (
+         <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/50 backdrop-blur-sm transition-opacity duration-300">
+           <Loader2 className="w-10 h-10 text-mammut-gold animate-spin" />
+         </div>
+      )}
       <canvas ref={canvasRef} />
     </div>
   );

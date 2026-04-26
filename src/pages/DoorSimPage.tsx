@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { DoorCanvasEngine, type DoorConfig } from '../components/doorsim/DoorCanvasEngine';
+import { useDoorConfigurator } from '../store/doorSimStore';
+import { DoorCanvasEngine } from '../components/doorsim/DoorCanvasEngine';
 
 const DOOR_COLORS = [
   { id: 'c197', name: 'White', hex: '#ffffff' },
@@ -14,44 +14,41 @@ const DOOR_COLORS = [
 ];
 
 const GLASS_OPTIONS = [
-  { id: 'antisol_szary', name: 'Antisol Grey', url: '/doorsim-assets/assets/glass/szyba_antisol_szary.webp' },
-  { id: 'antisol_brazowy', name: 'Antisol Brown', url: '/doorsim-assets/assets/glass/szyba_antisol_brazowy.webp' },
-  { id: 'matowa', name: 'Matte Foil', url: '/doorsim-assets/assets/glass/szyba_bezpieczna_folia_matowa.webp' },
-  { id: 'chinchilla', name: 'Chinchilla', url: '/doorsim-assets/assets/glass/szyba_ornament_chinchilla.webp' }
+  { id: 'antisol_szary', name: 'Antisol Grey' },
+  { id: 'antisol_brazowy', name: 'Antisol Brown' },
+  { id: 'matowa', name: 'Matte Foil' },
+  { id: 'chinchilla', name: 'Chinchilla' }
 ];
 
 const HANDLE_OPTIONS = [
-  { id: 'none', name: 'None', url: null },
-  { id: 'klamka_srebrna', name: 'Klamka 30A Srebrna', url: '/doorsim-assets/assets/handles/Klamka-30A-1006-Srebrna.webp' },
-  { id: 'klamka_czarna', name: 'Klamka H6S36 Czarna', url: '/doorsim-assets/assets/handles/Klamka-H6S36-szyld-dlogi-34mm-klamka-26mm-czarna.webp' },
-  { id: 'pochwyt_p10', name: 'Pochwyt P10D', url: '/doorsim-assets/assets/handles/Pochwyt-P10D-120.webp' },
-  { id: 'pochwyt_q10', name: 'Pochwyt Q10', url: '/doorsim-assets/assets/handles/Pochwyt-Q10-120.webp' }
+  { id: 'none', name: 'None' },
+  { id: 'klamka_srebrna', name: 'Klamka 30A Srebrna' },
+  { id: 'klamka_czarna', name: 'Klamka H6S36 Czarna' },
+  { id: 'pochwyt_p10', name: 'Pochwyt P10D' },
+  { id: 'pochwyt_q10', name: 'Pochwyt Q10' }
 ];
 
 const PATTERN_OPTIONS = [
-  { id: 'none', name: 'Full Glass', url: null },
-  { id: 'alaska1', name: 'Alaska 1', url: '/doorsim-assets/assets/panel/ALASKA_1-3/ALASKA-1-maska-szyby-C.svg' },
-  { id: 'alaska2', name: 'Alaska 2', url: '/doorsim-assets/assets/panel/ALASKA_2/ALASKA-2-maska-szyby-C.svg' },
-  { id: 'alaska3', name: 'Alaska 3 (Grooves)', url: '/doorsim-assets/assets/panel/ALASKA_1-3/ALASKA-3-panel-frez.svg' }
+  { id: 'none', name: 'Full Glass' },
+  { id: 'alaska1', name: 'Alaska 1' },
+  { id: 'alaska2', name: 'Alaska 2' },
+  { id: 'alaska3', name: 'Alaska 3 (Grooves)' }
 ];
 
 export function DoorSimPage() {
-  const [config, setConfig] = useState<DoorConfig>({
-    frameColorHex: DOOR_COLORS[1].hex,
-    leafColorHex: DOOR_COLORS[1].hex,
-    glassUrl: GLASS_OPTIONS[0].url,
-    patternMaskUrl: PATTERN_OPTIONS[1].url,
-    handleUrl: HANDLE_OPTIONS[1].url
-  });
+  const { 
+    system, modelId, frameColor, leafColor, handleId, glassType, patternMaskId,
+    setSystem, setModel, setColor, setHandle, setGlass, setPatternMask
+  } = useDoorConfigurator();
 
   return (
     <main className="min-h-screen bg-mammut-darker pt-24 pb-12 text-mammut-white flex flex-col lg:flex-row">
       <div className="flex-1 p-6 flex flex-col items-center border-r border-mammut-border">
          <h1 className="text-3xl font-black uppercase tracking-widest text-mammut-gold mb-8">Door Visualizer</h1>
          <div className="w-full max-w-lg aspect-[5/8] shadow-2xl relative">
-            <DoorCanvasEngine config={config} />
+            <DoorCanvasEngine />
             <div className="absolute top-4 left-4 right-4 bg-mammut-black/80 backdrop-blur text-xs p-3 border border-white/10 uppercase tracking-widest flex justify-between">
-               <span>System: MB-86N SI</span>
+               <span>System: {modelId}</span>
                <span className="text-mammut-gold">MVP Preview</span>
             </div>
          </div>
@@ -59,6 +56,25 @@ export function DoorSimPage() {
       <div className="w-full lg:w-[450px] p-8 overflow-y-auto bg-mammut-black max-h-[calc(100vh-6rem)] custom-scrollbar">
         <h2 className="text-xl font-black uppercase mb-6 border-b border-mammut-border pb-4 tracking-widest">Configuration</h2>
         
+        {/* System Selection */}
+        <div className="mb-8 border-b border-mammut-border pb-8">
+           <h3 className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-4">1. Material System</h3>
+           <div className="grid grid-cols-2 gap-3">
+              <button 
+                onClick={() => setSystem('alu')}
+                className={`flex flex-col items-center justify-center p-4 border transition-all hover:shadow-md ${system === 'alu' ? 'border-mammut-gold bg-mammut-gold/10 text-mammut-gold' : 'border-mammut-border text-gray-400'}`}
+              >
+                <span className="font-bold text-sm">Aluminium</span>
+              </button>
+              <button 
+                onClick={() => setSystem('pvc')}
+                className={`flex flex-col items-center justify-center p-4 border transition-all hover:shadow-md ${system === 'pvc' ? 'border-mammut-gold bg-mammut-gold/10 text-mammut-gold' : 'border-mammut-border text-gray-400'}`}
+              >
+                <span className="font-bold text-sm">PVC</span>
+              </button>
+           </div>
+        </div>
+
         {/* Frame Color */}
         <div className="mb-8">
            <h3 className="text-sm font-semibold uppercase text-mammut-white/70 mb-3 tracking-widest">Frame Color</h3>
@@ -66,8 +82,8 @@ export function DoorSimPage() {
               {DOOR_COLORS.map(color => (
                  <button 
                    key={color.id} 
-                   onClick={() => setConfig({ ...config, frameColorHex: color.hex })}
-                   className={`w-10 h-10 rounded-sm border-2 ${config.frameColorHex === color.hex ? 'border-mammut-gold' : 'border-transparent'} hover:scale-110 transition-transform`}
+                   onClick={() => setColor('frame', color.id)}
+                   className={`w-10 h-10 rounded-sm border-2 ${frameColor === color.id ? 'border-mammut-gold' : 'border-transparent'} hover:scale-110 transition-transform`}
                    style={{ backgroundColor: color.hex }}
                    title={color.name}
                  />
@@ -82,8 +98,8 @@ export function DoorSimPage() {
               {DOOR_COLORS.map(color => (
                  <button 
                    key={color.id} 
-                   onClick={() => setConfig({ ...config, leafColorHex: color.hex })}
-                   className={`w-10 h-10 rounded-sm border-2 ${config.leafColorHex === color.hex ? 'border-mammut-gold' : 'border-transparent'} hover:scale-110 transition-transform`}
+                   onClick={() => setColor('leaf', color.id)}
+                   className={`w-10 h-10 rounded-sm border-2 ${leafColor === color.id ? 'border-mammut-gold' : 'border-transparent'} hover:scale-110 transition-transform`}
                    style={{ backgroundColor: color.hex }}
                    title={color.name}
                  />
@@ -98,8 +114,8 @@ export function DoorSimPage() {
               {PATTERN_OPTIONS.map(pattern => (
                  <button 
                    key={pattern.id}
-                   onClick={() => setConfig({ ...config, patternMaskUrl: pattern.url })}
-                   className={`text-left px-4 py-3 text-sm border transition-colors ${config.patternMaskUrl === pattern.url ? 'border-mammut-gold text-mammut-gold bg-mammut-gold/10' : 'border-mammut-border text-mammut-white/70 hover:border-mammut-white/30 hover:bg-white/5'}`}
+                   onClick={() => setPatternMask(pattern.id)}
+                   className={`text-left px-4 py-3 text-sm border transition-colors ${patternMaskId === pattern.id ? 'border-mammut-gold text-mammut-gold bg-mammut-gold/10' : 'border-mammut-border text-mammut-white/70 hover:border-mammut-white/30 hover:bg-white/5'}`}
                  >
                    {pattern.name}
                  </button>
@@ -114,8 +130,8 @@ export function DoorSimPage() {
               {GLASS_OPTIONS.map(glass => (
                  <button 
                    key={glass.id}
-                   onClick={() => setConfig({ ...config, glassUrl: glass.url })}
-                   className={`text-left px-4 py-3 text-sm border transition-colors ${config.glassUrl === glass.url ? 'border-mammut-gold text-mammut-gold bg-mammut-gold/10' : 'border-mammut-border text-mammut-white/70 hover:border-mammut-white/30 hover:bg-white/5'}`}
+                   onClick={() => setGlass(glass.id)}
+                   className={`text-left px-4 py-3 text-sm border transition-colors ${glassType === glass.id ? 'border-mammut-gold text-mammut-gold bg-mammut-gold/10' : 'border-mammut-border text-mammut-white/70 hover:border-mammut-white/30 hover:bg-white/5'}`}
                  >
                    {glass.name}
                  </button>
@@ -130,8 +146,8 @@ export function DoorSimPage() {
               {HANDLE_OPTIONS.map(handle => (
                  <button 
                    key={handle.id}
-                   onClick={() => setConfig({ ...config, handleUrl: handle.url })}
-                   className={`text-left px-4 py-3 text-sm border transition-colors ${config.handleUrl === handle.url ? 'border-mammut-gold text-mammut-gold bg-mammut-gold/10' : 'border-mammut-border text-mammut-white/70 hover:border-mammut-white/30 hover:bg-white/5'}`}
+                   onClick={() => setHandle(handle.id)}
+                   className={`text-left px-4 py-3 text-sm border transition-colors ${handleId === handle.id ? 'border-mammut-gold text-mammut-gold bg-mammut-gold/10' : 'border-mammut-border text-mammut-white/70 hover:border-mammut-white/30 hover:bg-white/5'}`}
                  >
                    {handle.name}
                  </button>
