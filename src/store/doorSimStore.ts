@@ -57,8 +57,8 @@ export const useDoorConfigurator = create<DoorState>((set, get) => ({
 
 // Asset URL Generator Utility (maps state to PNGs/SVGs)
 export const generateAssetURLs = (state: DoorState) => {
-  // Currently using local prototype assets, but will point to scraped assets once downloaded
-  const baseUrl = '/doorsim-assets/assets';
+  // Point to the scraped assets
+  const baseUrl = '/doorsim-assets/scraped_doors/assets';
 
   const colorHexMap: Record<string, string> = {
     'c197': '#ffffff',

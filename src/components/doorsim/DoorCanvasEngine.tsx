@@ -1,99 +1,77 @@
-import { useEffect, useRef, useState } from 'react';
-import * as fabric from 'fabric';
+import { useEffect, useState } from 'react';
 import { useDoorConfigurator, generateAssetURLs } from '../../store/doorSimStore';
 import { Loader2 } from 'lucide-react';
 
 export function DoorCanvasEngine() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [fabricCanvas, setFabricCanvas] = useState<fabric.Canvas | null>(null);
   const [isRendering, setIsRendering] = useState(false);
+  const [layers, setLayers] = useState<{
+    glass: string | null;
+    frame: string | null;
+    leaf: string | null;
+    pattern: string | null;
+    handle: string | null;
+  }>({
+    glass: null,
+    frame: null,
+    leaf: null,
+    pattern: null,
+    handle: null,
+  });
   
   const state = useDoorConfigurator();
   const urls = generateAssetURLs(state);
 
-  // Initialize Canvas
+  // Render Layers sequentially into state URLs
   useEffect(() => {
-    if (!canvasRef.current) return;
-    
-    // Set a container that respects its parent's dimensions but provides a high-res internal canvas
-    const canvas = new fabric.Canvas(canvasRef.current, {
-      width: 500,
-      height: 800,
-      backgroundColor: 'transparent',
-      selection: false
-    });
-    setFabricCanvas(canvas);
+    let isMounted = true;
 
-    return () => {
-      canvas.dispose();
-    };
-  }, []);
-
-  // Render Layers sequentially
-  useEffect(() => {
-    if (!fabricCanvas) return;
-
-    const renderLayers = async () => {
-      setIsRendering(true);
-      fabricCanvas.clear();
-
-      const loadLayer = (url: string | null, applyTintHex?: string): Promise<fabric.FabricImage | null> => {
-        if (!url) return Promise.resolve(null);
-        return new Promise((resolve) => {
-          fabric.FabricImage.fromURL(url).then((img) => {
-             img.scaleToHeight(700);
-             img.set({
-               left: fabricCanvas.width! / 2 - img.getScaledWidth() / 2,
-               top: 50,
-               selectable: false,
-               evented: false,
-             });
-
-             if (applyTintHex) {
-                // If it's an SVG mask from our local test assets, we still need to tint it.
-                // Once we have pure scraped PNGs, we won't need this block.
-                const filter = new fabric.filters.BlendColor({
-                  color: applyTintHex,
-                  mode: 'multiply',
-                  alpha: 0.9
-                });
-                img.filters = [filter];
-                img.applyFilters();
-             }
-             resolve(img);
-          }).catch((err) => {
-             console.error(`Failed to load layer: ${url}`, err);
-             resolve(null);
-          });
-        });
-      };
-
+    const loadLayer = async (url: string | null, applyTintHex?: string): Promise<string | null> => {
+      if (!url) return null;
       try {
-        // Load in strict Z-Index order: Glass -> Frame -> Leaf -> Pattern -> Handle
-        // Note: applyTintHex is kept temporarily to support the local SVGs. Once replaced with pure PNGs, this parameter can be dropped.
-        const layers = await Promise.all([
-          loadLayer(urls.glassUrl),
-          loadLayer(urls.frameMask, urls.frameColorHex),
-          loadLayer(urls.leafMask, urls.leafColorHex),
-          loadLayer(urls.patternMaskUrl),
-          loadLayer(urls.handleUrl)
-        ]);
-
-        layers.forEach(layer => {
-          if (layer) fabricCanvas.add(layer);
-        });
-        
-        fabricCanvas.requestRenderAll();
+         if (url.endsWith('.svg')) {
+             const response = await fetch(url);
+             if (!response.ok) return null;
+             let svgText = await response.text();
+             
+             // Inject dynamic tint color directly into the SVG stylesheet
+             if (applyTintHex) {
+                svgText = svgText.replace('</style>', `\n.fill { fill: ${applyTintHex} !important; }\n</style>`);
+             }
+             
+             // Use Base64 encoding to ensure internal `#` references for gradients are not corrupted
+             const b64 = btoa(unescape(encodeURIComponent(svgText)));
+             return 'data:image/svg+xml;base64,' + b64;
+         }
+         return url;
       } catch (err) {
-        console.error("Failed to load asset layers", err);
-      } finally {
+         console.error(`Failed to fetch layer: ${url}`, err);
+         return null;
+      }
+    };
+
+    const processLayers = async () => {
+      setIsRendering(true);
+      
+      const [glass, frame, leaf, pattern, handle] = await Promise.all([
+        loadLayer(urls.glassUrl),
+        loadLayer(urls.frameMask, urls.frameColorHex),
+        loadLayer(urls.leafMask, urls.leafColorHex),
+        loadLayer(urls.patternMaskUrl),
+        loadLayer(urls.handleUrl)
+      ]);
+
+      if (isMounted) {
+        setLayers({ glass, frame, leaf, pattern, handle });
         setIsRendering(false);
       }
     };
 
-    renderLayers();
+    processLayers();
+
+    return () => {
+      isMounted = false;
+    };
   }, [
-     fabricCanvas, 
      urls.frameColorHex, 
      urls.leafColorHex, 
      urls.glassUrl, 
@@ -111,7 +89,18 @@ export function DoorCanvasEngine() {
            <Loader2 className="w-10 h-10 text-mammut-gold animate-spin" />
          </div>
       )}
-      <canvas ref={canvasRef} />
+      
+      {/* 
+        Pure DOM Layering System
+        We use object-contain so all SVGs and WebPs perfectly scale to the container's bounds while preserving their identical 2000x2400 intrinsic aspect ratios.
+      */}
+      <div className="relative w-[90%] h-[90%]">
+         {layers.glass && <img src={layers.glass} className="absolute inset-0 w-full h-full object-contain pointer-events-none" alt="Glass" />}
+         {layers.frame && <img src={layers.frame} className="absolute inset-0 w-full h-full object-contain pointer-events-none" alt="Frame" />}
+         {layers.leaf && <img src={layers.leaf} className="absolute inset-0 w-full h-full object-contain pointer-events-none" alt="Leaf" />}
+         {layers.pattern && <img src={layers.pattern} className="absolute inset-0 w-full h-full object-contain pointer-events-none" alt="Pattern" />}
+         {layers.handle && <img src={layers.handle} className="absolute inset-0 w-full h-full object-contain pointer-events-none" alt="Handle" />}
+      </div>
     </div>
   );
 }
