@@ -1016,6 +1016,25 @@
         "label_3": "Dichtungen",
         "value_3": "3"
       }
+    },
+    "igloEdge": {
+      "name": "IGLO EDGE",
+      "tagline": "Maximale Isolierung, minimaler Rahmen",
+      "description": "Unser neues, technologisch fortschrittlichstes Fenster zeichnet sich durch einen hervorragenden Wärmedämmwert von Uw = 0,66 W/(m²K)* und eine moderne, kantige Profilform aus. Die extrem guten Wärmedämmwerte sind unter anderem auf die 7-Kammer-Profilkonstruktion und 3 EPDM-Dichtungen, einschließlich der Mitteldichtung, zurückzuführen.",
+      "standardEquipment": [
+        "Zweikammer-Verglasungspaket Ug = 0,5 W/(m²K)",
+        "Warmer Kunststoff-Abstandhalter Swisspacer Ultimate",
+        "V-Perfect-Schweißnaht",
+        "4 Einbruchschutz-Schließbleche je nach Flügelgröße und Beschlagsystem",
+        "Mikroventilation",
+        "Aluminium-Fenstergriff DUBLIN",
+        "Fehlbedienungssperre",
+        "Umlaufende, Verglasungs- und Mitteldichtungen in Schwarz oder Grau",
+        "Füllung der unteren Beschlagsnut",
+        "Fensterbankanschluss",
+        "Große Auswahl an PVC-Folienfarben",
+        "3 Profilfarben zur Auswahl: Weiß, Braun oder Anthrazit"
+      ]
     }
   }
 }

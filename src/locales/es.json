@@ -1016,6 +1016,25 @@
         "label_3": "juntas",
         "value_3": "3"
       }
+    },
+    "igloEdge": {
+      "name": "IGLO EDGE",
+      "tagline": "Aislamiento máximo, marco mínimo",
+      "description": "Nuestra nueva ventana, la más avanzada tecnológicamente, se distingue por un excelente parámetro de aislamiento térmico de Uw = 0.66 W/(m²K)* y una forma de perfil moderna y angular. Los parámetros de aislamiento térmico extremadamente buenos se deben, entre otras cosas, al diseño del perfil de 7 cámaras y 3 juntas EPDM, incluida la junta central.",
+      "standardEquipment": [
+        "Paquete de acristalamiento de doble cámara Ug = 0,5 W/(m²K)",
+        "Marco cálido de plástico Swisspacer Ultimate",
+        "Soldadura V-perfect",
+        "4 cerraderos antirrobo según el tamaño de la hoja y el sistema de herrajes",
+        "Microventilación",
+        "Manilla de ventana de aluminio DUBLIN",
+        "Mecanismo de bloqueo de manipulación de la manilla",
+        "Juntas perimetrales, de acristalamiento y centrales en negro o gris",
+        "Relleno de la ranura inferior del herraje",
+        "Embellecedor de alféizar",
+        "Amplia selección de colores de revestimiento de PVC",
+        "3 colores de perfil a elegir: blanco, marrón o antracita"
+      ]
     }
   },
   "glass": {

@@ -1016,6 +1016,25 @@
         "label_3": "Joints",
         "value_3": "3"
       }
+    },
+    "igloEdge": {
+      "name": "IGLO EDGE",
+      "tagline": "Isolation maximale, cadre minimal",
+      "description": "Notre nouvelle fenêtre, la plus avancée technologiquement, se distingue par un excellent paramètre d'isolation thermique de Uw = 0,66 W/(m²K)* et une forme de profilé moderne et angulaire. Les paramètres d'isolation thermique extrêmement bons sont dus, entre autres, à la conception du profilé à 7 chambres et aux 3 joints EPDM, y compris le joint central.",
+      "standardEquipment": [
+        "Double vitrage Ug = 0,5 W/(m²K)",
+        "Intercalaire chaud en plastique Swisspacer Ultimate",
+        "Soudure V-perfect",
+        "4 gâches anti-effraction selon la taille de l'ouvrant et le système de quincaillerie",
+        "Micro-ventilation",
+        "Poignée de fenêtre en aluminium DUBLIN",
+        "Mécanisme de blocage de mauvaise manipulation de la poignée",
+        "Joints périphériques, de vitrage et centraux en noir ou gris",
+        "Remplissage de la rainure inférieure de la quincaillerie",
+        "Profilé de finition",
+        "Large choix de couleurs de plaxage PVC",
+        "3 couleurs de profilés au choix : blanc, marron ou anthracite"
+      ]
     }
   }
 }

@@ -1016,6 +1016,25 @@
         "label_3": "Uszczelki",
         "value_3": "3"
       }
+    },
+    "igloEdge": {
+      "name": "IGLO EDGE",
+      "tagline": "Maksymalna izolacja, minimalna rama",
+      "description": "Nasze nowe, najbardziej zaawansowane technologicznie okno wyróżnia się doskonałym parametrem izolacyjności termicznej Uw = 0,66 W/(m²K)* oraz nowoczesnym, kanciastym kształtem profilu. Niezwykle dobre parametry izolacyjności termicznej to zasługa m.in. 7-komorowej budowy profilu oraz 3 uszczelek EPDM, w tym uszczelki centralnej.",
+      "standardEquipment": [
+        "Dwukomorowy pakiet szybowy Ug = 0,5 W/(m²K)",
+        "Ciepła ramka dystansowa z tworzywa Swisspacer Ultimate",
+        "Zgrzew V-perfect",
+        "4 zaczepy antywyważeniowe w zależności od rozmiaru skrzydła i systemu okuć",
+        "Mikrowentylacja",
+        "Aluminiowa klamka okienna DUBLIN",
+        "Blokada błędnego położenia klamki",
+        "Uszczelki obwodowe, przyszybowe i centralne w kolorze czarnym lub szarym",
+        "Wypełnienie dolnego rowka okuciowego",
+        "Listwa podparapetowa",
+        "Szeroki wybór kolorów oklein PVC",
+        "3 kolory profilu do wyboru: biały, brązowy lub antracytowy"
+      ]
     }
   }
 }

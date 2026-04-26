@@ -1016,6 +1016,25 @@
         "label_3": "Guarnizioni",
         "value_3": "3"
       }
+    },
+    "igloEdge": {
+      "name": "IGLO EDGE",
+      "tagline": "Massimo isolamento, telaio minimo",
+      "description": "La nostra nuova finestra, la più avanzata tecnologicamente, si distingue per un eccellente parametro di isolamento termico di Uw = 0,66 W/(m²K)* e una forma del profilo moderna e angolare. I parametri di isolamento termico estremamente buoni sono dovuti, tra le altre cose, al design del profilo a 7 camere e alle 3 guarnizioni in EPDM, inclusa la guarnizione centrale.",
+      "standardEquipment": [
+        "Pacchetto vetrocamera a due camere Ug = 0,5 W/(m²K)",
+        "Canalina calda in plastica Swisspacer Ultimate",
+        "Saldatura V-perfect",
+        "4 riscontri antieffrazione in base alle dimensioni dell'anta e al sistema di ferramenta",
+        "Microventilazione",
+        "Maniglia per finestra in alluminio DUBLIN",
+        "Meccanismo di blocco dell'errata manovra della maniglia",
+        "Guarnizioni perimetrali, del vetro e centrali in nero o grigio",
+        "Riempimento della cava inferiore della ferramenta",
+        "Profilo di finitura davanzale",
+        "Ampia selezione di colori per pellicole in PVC",
+        "3 colori del profilo tra cui scegliere: bianco, marrone o antracite"
+      ]
     }
   }
 }

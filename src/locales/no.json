@@ -1016,6 +1016,25 @@
         "label_3": "Pakninger",
         "value_3": "3"
       }
+    },
+    "igloEdge": {
+      "name": "IGLO EDGE",
+      "tagline": "Maximum insulation, minimal frame",
+      "description": "Our new, most technologically advanced window is distinguished by an excellent thermal insulation parameter of Uw = 0.66 W/(m²K)* and a modern, angular profile shape. The extremely good thermal insulation parameters are due, among other things, to the 7-chamber profile design and 3 EPDM gaskets, including the central gasket.",
+      "standardEquipment": [
+        "Double-chamber glazing package Ug = 0.5 W/(m²K)",
+        "Swisspacer Ultimate plastic warm frame",
+        "V-perfect weld",
+        "4 anti-theft strikers according to the size of the sash and the hardware system",
+        "Microventilation",
+        "DUBLIN aluminium window handle",
+        "Handle misplacement locking mechanism",
+        "Perimeter, glazing and central gaskets in black or grey",
+        "Filling of the lower hardware groove",
+        "Sill trim",
+        "Wide selection of PVC veneer colours",
+        "3 profile colours to choose from: white, brown or anthracite"
+      ]
     }
   }
 }
