@@ -258,8 +258,7 @@
       "Perimeter, glazing and central gaskets in black or grey",
       "Filling of the lower hardware groove",
       "Sill trim",
-      "Wide selection of PVC veneer colours",
-      "3 profile colours to choose from: white, brown or anthracite"
+      "Wide selection of PVC veneer colours"
     ],
     "specs": {
       "sound": "Sound Insulation",
@@ -627,9 +626,8 @@
         "Perimeter, glazing and central gaskets in black or grey",
         "Filling of the lower hardware groove",
         "Sill trim",
-        "Wide selection of PVC veneer colours",
-        "3 profile colours to choose from: white, brown or anthracite"
-      ],
+        "Wide selection of PVC veneer colours"
+    ],
       "keySpecs": {
         "label_0": "sound",
         "value_0": "36–47 dB",
@@ -661,7 +659,8 @@
         "description_2": "Closed steel profile in the frame for extreme rigidity",
         "name_3": "EPDM Seals",
         "description_3": "Triple sealing system in black or grey"
-      }
+      },
+      "relatedIgloEdge": "SEE IGLO EDGE SLIDE TERRACE SYSTEM"
     },
     "iglo-energy": {
       "name": "IGLO Energy",
@@ -682,19 +681,22 @@
       ]
     },
     "iglo-energy-classic": {
-      "name": "IGLO ENERGY CLASSIC",
-      "tagline": "Square glazing bead meets passive-house performance",
-      "description": "A unique design where you can choose the square-shaped glazing bead to reflect the latest architectural trends. The remarkable thermal insulation parameters are ensured by the optimum 7-chamber profile structure and a specially designed sealing system made of foamed EPDM. Profile available in white, anthracite and bronze.",
-      "specs": {
-        "label_0": "Thermal Transmittance (Uw)",
-        "value_0": "0.73",
-        "label_1": "Installation Depth",
-        "value_1": "82",
-        "label_2": "Profile Chambers",
-        "value_2": "7",
-        "label_3": "Sound Insulation (Rw)",
-        "value_3": "36–42"
-      }
+      "name": "IGLO Energy Classic",
+      "tagline": "A unique design with exceptional thermal insulation",
+      "description": "A unique design where you can choose the square-shaped glazing bead to reflect the latest architectural trends. The remarkable thermal insulation parameters are ensured by the optimum 7-chamber profile structure, a specially designed sealing system made of foamed EPDM and glass packages with high thermal insulation parameters.",
+      "standardEquipment": [
+        "Double-chamber glazing package Ug = 0.5 W/(m²K)",
+        "Swisspacer Ultimate plastic warm frame - as a free elective option",
+        "V-perfect weld",
+        "4 anti-theft strikers according to the size of the sash and the hardware system",
+        "Microventilation",
+        "Aluminium window handle",
+        "Handle misplacement locking mechanism",
+        "Perimeter, glazing and central gaskets in black or grey",
+        "Filling of the lower hardware groove",
+        "Sill trim",
+        "Wide selection of PVC veneer colours"
+      ]
     },
     "iglo-energy-alucover": {
       "name": "IGLO ENERGY ALUCOVER",
@@ -709,7 +711,10 @@
         "value_2": "7",
         "label_3": "Glazing Package (Ug)",
         "value_3": "0.5"
-      }
+      },
+      "aluCoverTitle": "ALUMINIUM COVER",
+      "aluCoverDesc": "Crafted with precision, the aluminium overlay not only enhances the window's resistance against external elements but also optimizes its structural integrity, ensuring a lasting and reliable solution.",
+      "relatedAlucover": "SEE IGLO-HS ALUCOVER TERRACE SYSTEM"
     },
     "iglo-5": {
       "name": "IGLO 5",
@@ -1037,9 +1042,8 @@
         "Perimeter, glazing and central gaskets in black or grey",
         "Filling of the lower hardware groove",
         "Sill trim",
-        "Wide selection of PVC veneer colours",
-        "3 profile colours to choose from: white, brown or anthracite"
-      ]
+        "Wide selection of PVC veneer colours"
+    ]
     }
   },
   "glass": {

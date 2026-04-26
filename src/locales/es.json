@@ -258,8 +258,7 @@
       "7": "Juntas perimetrales, acristaladas y centrales en color negro o gris.",
       "8": "Relleno de la ranura inferior para herrajes",
       "9": "Borde del alféizar",
-      "10": "Amplia selección de colores de chapa de PVC.",
-      "11": "3 colores de perfil a elegir: blanco, marrón o antracita"
+      "10": "Amplia selección de colores de chapa de PVC."
     },
     "specs": {
       "sound": "Aislamiento acústico",
@@ -627,9 +626,8 @@
         "Juntas perimetrales, de acristalamiento y centrales en negro o gris",
         "Relleno de la ranura inferior del herraje",
         "Embellecedor de alféizar",
-        "Amplia selección de colores de revestimiento de PVC",
-        "3 colores de perfil a elegir: blanco, marrón o antracita"
-      ],
+        "Amplia selección de colores de revestimiento de PVC"
+    ],
       "keySpecs": {
         "label_0": "sonido",
         "value_0": "36–47dB",
@@ -661,7 +659,8 @@
         "description_2": "Perfil de acero cerrado en el marco para una rigidez extrema.",
         "name_3": "Sellos EPDM",
         "description_3": "Sistema de triple sellado en negro o gris."
-      }
+      },
+      "relatedIgloEdge": "VER SISTEMA DE TERRAZA IGLO EDGE SLIDE"
     },
     "iglo-energy": {
       "name": "IGLO Energy",
@@ -682,19 +681,22 @@
       ]
     },
     "iglo-energy-classic": {
-      "name": "IGLO ENERGÍA CLÁSICA",
-      "tagline": "La junta de acristalamiento cuadrada se une al rendimiento de una casa pasiva",
-      "description": "Un diseño único donde se puede elegir el junquillo de forma cuadrada para reflejar las últimas tendencias arquitectónicas. Los notables parámetros de aislamiento térmico están garantizados por la estructura óptima del perfil de 7 cámaras y un sistema de sellado especialmente diseñado de EPDM espumado. Perfil disponible en blanco, antracita y bronce.",
-      "specs": {
-        "label_0": "Transmitancia térmica (Uw)",
-        "value_0": "0,73",
-        "label_1": "Profundidad de instalación",
-        "value_1": "82",
-        "label_2": "Cámaras de perfil",
-        "value_2": "7",
-        "label_3": "Aislamiento acústico (Rw)",
-        "value_3": "36–42"
-      }
+      "name": "IGLO Energy Classic",
+      "tagline": "Un diseño único con aislamiento térmico excepcional",
+      "description": "Un diseño único en el que puede elegir el junquillo cuadrado para reflejar las últimas tendencias arquitectónicas. Los notables parámetros de aislamiento térmico están garantizados por la óptima estructura del perfil de 7 cámaras, un sistema de sellado especialmente diseñado de EPDM espumado y paquetes de vidrio con altos parámetros de aislamiento térmico.",
+      "standardEquipment": [
+        "Paquete de acristalamiento de doble cámara Ug = 0,5 W/(m²K)",
+        "Marco cálido de plástico Swisspacer Ultimate - como opción gratuita",
+        "Soldadura V-perfect",
+        "4 cerraderos antirrobo según el tamaño de la hoja y el sistema de herraje",
+        "Microventilación",
+        "Manilla de ventana de aluminio",
+        "Mecanismo de bloqueo por error de manejo de manilla",
+        "Juntas perimetrales, de acristalamiento y centrales en negro o gris",
+        "Relleno de la ranura inferior del herraje",
+        "Embellecedor de alféizar",
+        "Amplia selección de colores de revestimiento de PVC"
+      ]
     },
     "iglo-energy-alucover": {
       "name": "ALUCOVER IGLO ENERGÍA",
@@ -709,7 +711,10 @@
         "value_2": "7",
         "label_3": "Paquete de acristalamiento (y)",
         "value_3": "0,5"
-      }
+      },
+      "aluCoverTitle": "CUBIERTA DE ALUMINIO",
+      "aluCoverDesc": "Elaborado con precisión, el revestimiento de aluminio no solo mejora la resistencia de la ventana contra los elementos externos, sino que también optimiza su integridad estructural, garantizando una solución duradera y fiable.",
+      "relatedAlucover": "VER SISTEMA DE TERRAZA IGLO-HS ALUCOVER"
     },
     "iglo-5": {
       "name": "AGUJA 5",
@@ -1037,9 +1042,8 @@
         "Juntas perimetrales, de acristalamiento y centrales en negro o gris",
         "Relleno de la ranura inferior del herraje",
         "Embellecedor de alféizar",
-        "Amplia selección de colores de revestimiento de PVC",
-        "3 colores de perfil a elegir: blanco, marrón o antracita"
-      ]
+        "Amplia selección de colores de revestimiento de PVC"
+    ]
     }
   },
   "glass": {

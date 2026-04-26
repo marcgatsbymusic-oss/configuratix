@@ -382,6 +382,7 @@ export function ProductDetailPage() {
   const basicData = PRODUCTS.find((p) => p.slug === slug)
 
   const [selectedColorId, setSelectedColorId] = useState(detailData?.colors[0]?.id || '')
+  const [viewMode, setViewMode] = useState<'indoor' | 'outdoor'>('indoor')
   const [videoOpen, setVideoOpen] = useState(false)
 
   if (!detailData && !basicData) {
@@ -412,7 +413,8 @@ export function ProductDetailPage() {
   // --- DETAILED LAYOUT (Iglo Edge) ---
   if (!detailData) return null
 
-  const selectedColor = detailData.colors.find(c => c.id === selectedColorId)
+  const activeColors = viewMode === 'indoor' ? detailData.colors : (detailData.outdoorColors || detailData.colors)
+  const selectedColor = activeColors.find(c => c.id === selectedColorId) || activeColors[0]
 
   return (
     <main className="bg-white min-h-screen pt-16">
@@ -489,22 +491,34 @@ export function ProductDetailPage() {
                   </li>
                 ))}
               </ul>
+
+              {detailData.relatedProductLink && (
+                <Link 
+                  to={detailData.relatedProductLink.url}
+                  className="inline-block bg-mammut-gold text-black text-xs font-bold uppercase tracking-widest px-6 py-3 mt-6 mb-8 hover:bg-[#F3C47F] transition-colors"
+                >
+                  {t(`productData.${detailData.slug}.${detailData.relatedProductLink.text}`)}
+                </Link>
+              )}
+
               {/* Video CTA */}
-              <button
-                onClick={() => setVideoOpen(true)}
-                className="flex items-center gap-3 text-sm text-gray-600 hover:text-mammut-gold transition-colors duration-200 group"
-              >
-                <span className="w-10 h-10 flex items-center justify-center border border-mammut-gold text-mammut-gold group-hover:bg-mammut-gold group-hover:text-black transition-all duration-200">
-                  <Play size={16} fill="currentColor" />
-                </span>
-                <span className="uppercase tracking-widest font-semibold text-xs">{t('productDetail.seeVideo')}</span>
-              </button>
+              {detailData.modalVideoSrc && (
+                <button
+                  onClick={() => setVideoOpen(true)}
+                  className="flex items-center gap-3 text-sm text-gray-600 hover:text-mammut-gold transition-colors duration-200 group"
+                >
+                  <span className="w-10 h-10 flex items-center justify-center border border-mammut-gold text-mammut-gold group-hover:bg-mammut-gold group-hover:text-black transition-all duration-200">
+                    <Play size={16} fill="currentColor" />
+                  </span>
+                  <span className="uppercase tracking-widest font-semibold text-xs">{t('productDetail.seeVideo')}</span>
+                </button>
+              )}
             </div>
 
             {/* Right: window-opening video */}
             <div className="overflow-hidden border border-gray-200 bg-[#0e0e0f]">
               <video
-                src="/assets/iglo-edge-okno-window-opening.mp4"
+                src={detailData.inlineVideoSrc || "/assets/iglo-edge-okno-window-opening.mp4"}
                 autoPlay
                 loop
                 muted
@@ -613,6 +627,30 @@ export function ProductDetailPage() {
         </div>
       </section>
 
+      
+      {/* Dynamic Features Section */}
+      {detailData.features && detailData.features.length > 0 && (
+        <section className="bg-white py-16 lg:py-24 border-t border-gray-100">
+          <div className="container mx-auto px-6 lg:px-16 max-w-7xl space-y-24">
+            {detailData.features.map((feature, idx) => (
+              <div key={idx} className={`flex flex-col lg:flex-row items-center gap-12 ${idx % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}>
+                <div className="lg:w-1/2 flex justify-center">
+                  <img src={feature.image} alt={t(`productData.${detailData.slug}.${feature.title}`)} className="max-w-full h-auto drop-shadow-xl" />
+                </div>
+                <div className="lg:w-1/2 space-y-6">
+                  <h3 className="text-3xl font-black uppercase tracking-widest text-black">
+                    {t(`productData.${detailData.slug}.${feature.title}`)}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed text-lg">
+                    {t(`productData.${detailData.slug}.${feature.description}`)}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* 3. Interactive Color Swatch Section */}
       <section className="bg-white border-b border-gray-200 py-24">
         <div className="max-w-7xl mx-auto px-6">
@@ -630,7 +668,7 @@ export function ProductDetailPage() {
               {/* Dynamic Window Frame Render */}
               <div className="relative w-full max-w-sm flex items-center justify-center mb-8 px-4">
                 <img 
-                  src={selectedColor?.windowImage || "/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp"} 
+                  src={viewMode === 'outdoor' && detailData.outdoorWindowPhoto ? detailData.outdoorWindowPhoto : (selectedColor?.windowImage || "/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp")} 
                   alt={`${selectedColor ? t(`colors.${selectedColor.id}`) : 'White'} Window Frame`} 
                   className="w-full h-auto object-contain z-20 transition-opacity duration-500"
                 />

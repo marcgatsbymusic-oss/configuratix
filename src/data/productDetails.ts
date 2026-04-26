@@ -25,9 +25,16 @@ export interface ProductDetailData {
   profileImage: string
   blueprintImage: string
   videoSrc: string
+  modalVideoSrc?: string
+  disableHeroFilter?: boolean
   standardEquipment: string[]
   keySpecs: { label: string; value: string }[]
   colors: SwatchColor[]
+  outdoorColors?: SwatchColor[]
+  outdoorWindowPhoto?: string
+  inlineVideoSrc?: string
+  features?: { title: string; description: string; image: string }[]
+  relatedProductLink?: { text: string; url: string }
   glassOptions: GlassOption[]
   hardware: { id: string; name: string; image: string; type: string }[]
   accessories: { id: string; name: string; image: string; description?: string }[]
@@ -93,7 +100,10 @@ export const IGLO_EDGE_DETAIL: ProductDetailData = {
   windowPhoto: '/assets/iglo-edge-featured.png',
   profileImage: '/assets/iglo-edge-profile-photo.png',
   blueprintImage: '/assets/iglo-edge-technical-drawing.png',
-  videoSrc: '/assets/heroes/okna-iglo-energy-cover.mp4',
+  videoSrc: '/assets/heroes/iglo-edge-header-cover.mp4',
+  modalVideoSrc: '/assets/products/iglo-edge-en.mp4',
+  inlineVideoSrc: '/assets/products/iglo-edge-okno-window-opening.mp4',
+  relatedProductLink: { text: 'relatedIgloEdge', url: '/products/iglo-edge-slide' },
   standardEquipment: [
     'Double-chamber glazing package Ug = 0.5 W/(m²K)',
     'Swisspacer Ultimate plastic warm frame',
@@ -106,7 +116,6 @@ export const IGLO_EDGE_DETAIL: ProductDetailData = {
     'Filling of the lower hardware groove',
     'Sill trim',
     'Wide selection of PVC veneer colours',
-    '3 profile colours to choose from: white, brown or anthracite',
   ],
   keySpecs: [
     { label: 'sound', value: '36–47 dB' },
@@ -758,6 +767,13 @@ export const IGLO_ENERGY_DETAIL: ProductDetailData = {
   videoSrc: '/assets/heroes/okna-iglo-energy-cover.mp4',
   modalVideoSrc: '/assets/products/iglo_energy_animacja-2024-en.mp4',
   disableHeroFilter: false,
+  features: [
+    {
+      title: 'aluCoverTitle',
+      description: 'aluCoverDesc',
+      image: '/assets/features/alu-cover-feature.jpg'
+    }
+  ],
   standardEquipment: [
     "Double-chamber glazing package Ug = 0.5 W/(m²K)",
     "Swisspacer Ultimate plastic warm frame - as a free elective option",
@@ -782,5 +798,99 @@ export const IGLO_ENERGY_DETAIL: ProductDetailData = {
   hardware: [],
   accessories: [],
   colors: IGLO_EDGE_COLORS,
+  glassOptions: []
+};
+
+export const IGLO_ENERGY_CLASSIC_DETAIL: ProductDetailData = {
+  id: 'p3',
+  slug: 'iglo-energy-classic',
+  name: 'IGLO Energy Classic',
+  tagline: 'A unique design with exceptional thermal insulation',
+  description: `A unique design where you can choose the square-shaped glazing bead to reflect the latest architectural trends. The remarkable thermal insulation parameters are ensured by the optimum 7-chamber profile structure, a specially designed sealing system made of foamed EPDM and glass packages with high thermal insulation parameters.`,
+  heroImage: '/assets/products/iglo_energy_classic_pr.png',
+  windowPhoto: '/assets/products/iglo_energy_classic_pr.png',
+  profileImage: '/assets/products/iglo_energy_classic_pr.png',
+  blueprintImage: '/assets/tech/iglo_energy_classic.png',
+  videoSrc: '/assets/heroes/okna-iglo-energy-cover.mp4',
+  modalVideoSrc: '',
+  disableHeroFilter: false,
+  standardEquipment: [
+    "Double-chamber glazing package Ug = 0.5 W/(m²K)",
+    "Swisspacer Ultimate plastic warm frame - as a free elective option",
+    "V-perfect weld",
+    "4 anti-theft strikers according to the size of the sash and the hardware system",
+    "Microventilation",
+    "Aluminium window handle",
+    "Handle misplacement locking mechanism",
+    "Perimeter, glazing and central gaskets in black or grey",
+    "Filling of the lower hardware groove",
+    "Sill trim",
+    "Wide selection of PVC veneer colours"
+  ],
+  keySpecs: [
+    { label: 'sound', value: 'dB = 37-46' },
+    { label: 'gaskets', value: '3' },
+    { label: 'thermal', value: 'Uw = 0.71 W/(m²K)*' },
+    { label: 'chambers', value: '7' },
+    { label: 'depth', value: '82 mm' },
+    { label: 'class', value: 'A' }
+  ],
+  hardware: [],
+  accessories: [],
+  colors: IGLO_EDGE_COLORS,
+  glassOptions: []
+};
+
+export const RAL_COLORS: SwatchColor[] = [
+  { id: 'ral-7016', name: 'Anthracite Grey (RAL 7016)', hex: '#373f43', group: 'Solid', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/antracita.webp' },
+  { id: 'ral-9016', name: 'Traffic White (RAL 9016)', hex: '#f4f4f4', group: 'Solid', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp' },
+  { id: 'ral-9005', name: 'Jet Black (RAL 9005)', hex: '#0a0a0a', group: 'Solid', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/negro-madera.webp' },
+  { id: 'ral-7035', name: 'Light Grey (RAL 7035)', hex: '#c5c7c4', group: 'Solid', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/gris-claro.webp' },
+  { id: 'ral-8014', name: 'Sepia Brown (RAL 8014)', hex: '#49392d', group: 'Solid', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/marron-chocolate.webp' }
+];
+
+export const IGLO_ENERGY_ALUCOVER_DETAIL: ProductDetailData = {
+  id: 'p4',
+  slug: 'iglo-energy-alucover',
+  name: 'IGLO Energy Alu Cover',
+  tagline: 'Modern aluminum look with PVC insulation',
+  description: `The system combines the excellent thermal insulation parameters of PVC windows with the modern design of aluminum windows. The aluminum cover on the outside of the profile gives the windows a sleek, modern appearance while maintaining the energy efficiency of the 7-chamber PVC profile.`,
+  heroImage: '/assets/products/iglo_energy_alucover_pr.png',
+  windowPhoto: '/assets/products/iglo_energy_alucover_pr.png',
+  outdoorWindowPhoto: '/assets/products/iglo_energy_alucover_pr.png',
+  profileImage: '/assets/tech/iglo-energy-alucover-profil-swisspacer.png',
+  blueprintImage: '/assets/products/iglo_energy_alucover_pr.png',
+  videoSrc: '/assets/heroes/okno_-_iglo_energy_alu_cover_-_mobile.mp4',
+  modalVideoSrc: '',
+  inlineVideoSrc: '/assets/products/iglo-energy-classic-alu-cover.mp4',
+  relatedProductLink: { text: 'relatedAlucover', url: '/products/iglo-hs-alucover' },
+  disableHeroFilter: false,
+  features: [{title: 'aluCoverTitle', description: 'aluCoverDesc', image: '/assets/features/alu-cover-feature.jpg'}],
+  standardEquipment: [
+    "Double-chamber glazing package Ug = 0.5 W/(m²K)",
+    "Swisspacer Ultimate plastic warm frame - as a free elective option",
+    "Aluminum cover on the outside of the profile",
+    "4 anti-theft strikers according to the size of the sash and the hardware system",
+    "Microventilation",
+    "Aluminium window handle",
+    "Handle misplacement locking mechanism",
+    "Perimeter, glazing and central gaskets in black or grey",
+    "Filling of the lower hardware groove",
+    "Sill trim",
+    "Wide selection of PVC veneer colours for the inside",
+    "Over 200 RAL colours for the aluminum cover"
+  ],
+  keySpecs: [
+    { label: 'sound', value: 'dB = 37-46' },
+    { label: 'gaskets', value: '3' },
+    { label: 'thermal', value: 'Uw = 0.71 W/(m²K)*' },
+    { label: 'chambers', value: '7' },
+    { label: 'depth', value: '82 mm' },
+    { label: 'class', value: 'A' }
+  ],
+  hardware: [],
+  accessories: [],
+  colors: IGLO_EDGE_COLORS,
+  outdoorColors: RAL_COLORS,
   glassOptions: []
 };
