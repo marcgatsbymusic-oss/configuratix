@@ -93,7 +93,7 @@ export const IGLO_EDGE_DETAIL: ProductDetailData = {
   windowPhoto: '/assets/iglo-edge-featured.png',
   profileImage: '/assets/iglo-edge-profile-photo.png',
   blueprintImage: '/assets/iglo-edge-technical-drawing.png',
-  videoSrc: '/assets/iglo-edge-animation.mp4',
+  videoSrc: '/assets/heroes/okna-iglo-energy-cover.mp4',
   standardEquipment: [
     'Double-chamber glazing package Ug = 0.5 W/(m²K)',
     'Swisspacer Ultimate plastic warm frame',
@@ -755,7 +755,7 @@ export const IGLO_ENERGY_DETAIL: ProductDetailData = {
   windowPhoto: '/assets/products/iglo_energy_pr.png',
   profileImage: '/assets/products/iglo_energy_pr.png',
   blueprintImage: '/assets/tech/iglo_energy.png',
-  videoSrc: '/assets/heroes/iglo_energy_anim_winchester.mp4',
+  videoSrc: '/assets/heroes/okna-iglo-energy-cover.mp4',
   modalVideoSrc: '/assets/products/iglo_energy_animacja-2024-en.mp4',
   disableHeroFilter: false,
   standardEquipment: [
@@ -772,7 +772,12 @@ export const IGLO_ENERGY_DETAIL: ProductDetailData = {
     "Profile available in two colours: white, brown"
   ],
   keySpecs: [
-    { label: 'Thermal Transmittance', value: 'High Efficiency' }
+    { label: 'sound', value: 'dB = 37-46' },
+    { label: 'gaskets', value: '3' },
+    { label: 'thermal', value: 'Uw = 0.71 W/(m²K)*' },
+    { label: 'chambers', value: '7' },
+    { label: 'depth', value: '82 mm' },
+    { label: 'class', value: 'A' }
   ],
   hardware: [],
   accessories: [],

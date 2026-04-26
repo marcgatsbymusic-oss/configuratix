@@ -421,7 +421,7 @@ export function ProductDetailPage() {
       <section className="relative h-[80vh] min-h-[600px] flex items-end justify-center pb-8 lg:pb-12 overflow-hidden">
         <div className="absolute inset-0 bg-mammut-black z-0">
           <video 
-            src="/assets/iglo-edge-header-cover.mp4"
+            src={detailData.videoSrc}
             autoPlay 
             loop 
             muted 
@@ -586,7 +586,7 @@ export function ProductDetailPage() {
               <X size={24} />
             </button>
             <video
-              src={detailData.videoSrc}
+              src={detailData.modalVideoSrc || detailData.videoSrc}
               autoPlay
               controls
               className="w-full rounded-sm shadow-2xl"
