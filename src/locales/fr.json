@@ -181,11 +181,19 @@
       },
       "shutters": {
         "title": "Volets roulants",
-        "description": "Protection contre le soleil, le bruit et les cambriolages."
+        "description": "Protégez votre maison avec des volets roulants extérieurs intégrés."
       },
       "mosquito": {
         "title": "Moustiquaires",
         "description": "Protection efficace contre les insectes tout en maintenant la circulation de l'air."
+      },
+      "sill": {
+        "title": "Appui de fenêtre en PVC",
+        "description": "Plus de 30 couleurs de plaxage au choix."
+      },
+      "mosquito-nets": {
+        "title": "Moustiquaires",
+        "description": "Gardez les insectes à l'extérieur tout en laissant entrer l'air frais."
       }
     }
   },

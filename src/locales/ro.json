@@ -181,11 +181,19 @@
       },
       "shutters": {
         "title": "Roller Shutters",
-        "description": "Protect against sun, noise, and burglary."
+        "description": "Protect your home with integrated external roller shutters."
       },
       "mosquito": {
         "title": "Mosquito Nets",
         "description": "Effective protection against insects while maintaining air flow."
+      },
+      "sill": {
+        "title": "Window sill PVC",
+        "description": "Over 30 veneer colours to choose from."
+      },
+      "mosquito-nets": {
+        "title": "Mosquito Nets",
+        "description": "Keep insects out while letting fresh air in."
       }
     }
   },

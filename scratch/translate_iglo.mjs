@@ -10,8 +10,9 @@ const additionalOpts = {
     glass: { title: "Sandblasted glass", description: "A perfect combination of modern design and privacy." },
     spacers: { title: "Spacers", description: "The latest generation of spacers ensuring thermal comfort." },
     ventilation: { title: "Ventilation", description: "Ensure healthy air and optimal humidity in your home." },
-    shutters: { title: "Roller Shutters", description: "Protect against sun, noise, and burglary." },
-    mosquito: { title: "Mosquito Nets", description: "Effective protection against insects while maintaining air flow." }
+    sill: { title: "Window sill PVC", description: "Over 30 veneer colours to choose from." },
+    shutters: { title: "Roller Shutters", description: "Protect your home with integrated external roller shutters." },
+    'mosquito-nets': { title: "Mosquito Nets", description: "Keep insects out while letting fresh air in." }
   },
   es: {
     mounting: { title: "Accesorios de montaje", description: "Aquí encontrará los productos necesarios para la correcta instalación de la carpintería." },
@@ -20,8 +21,9 @@ const additionalOpts = {
     glass: { title: "Cristal pulido con chorro de arena", description: "Una combinación perfecta de diseño moderno y privacidad." },
     spacers: { title: "Intercalarios", description: "La última generación de intercalarios que garantizan el confort térmico." },
     ventilation: { title: "Ventilación", description: "Garantice un aire saludable y una humedad óptima en su hogar." },
-    shutters: { title: "Persianas enrollables", description: "Protección contra el sol, el ruido y los robos." },
-    mosquito: { title: "Mosquiteras", description: "Protección eficaz contra los insectos manteniendo el flujo de aire." }
+    sill: { title: "Alféizar de PVC", description: "Más de 30 colores de revestimiento para elegir." },
+    shutters: { title: "Persianas enrollables", description: "Proteja su hogar con persianas exteriores integradas." },
+    'mosquito-nets': { title: "Mosquiteras", description: "Mantenga a los insectos fuera mientras deja entrar aire fresco." }
   },
   de: {
     mounting: { title: "Montagezubehör", description: "Hier finden Sie die Produkte, die für eine ordnungsgemäße Installation der Tischlerei erforderlich sind." },
@@ -30,8 +32,9 @@ const additionalOpts = {
     glass: { title: "Sandgestrahltes Glas", description: "Eine perfekte Kombination aus modernem Design und Privatsphäre." },
     spacers: { title: "Abstandhalter", description: "Die neueste Generation von Abstandhaltern für thermischen Komfort." },
     ventilation: { title: "Lüftung", description: "Sorgen Sie für gesunde Luft und optimale Luftfeuchtigkeit in Ihrem Zuhause." },
-    shutters: { title: "Rollläden", description: "Schutz vor Sonne, Lärm und Einbruch." },
-    mosquito: { title: "Fliegengitter", description: "Wirksamer Schutz vor Insekten bei gleichzeitiger Luftzirkulation." }
+    sill: { title: "Fensterbank PVC", description: "Über 30 Folienfarben zur Auswahl." },
+    shutters: { title: "Rollläden", description: "Schützen Sie Ihr Zuhause mit integrierten Außenrollläden." },
+    'mosquito-nets': { title: "Fliegengitter", description: "Halten Sie Insekten draußen, während Sie frische Luft hereinlassen." }
   },
   fr: {
     mounting: { title: "Accessoires de montage", description: "Vous trouverez ici les produits nécessaires à l'installation correcte de la menuiserie." },
@@ -40,8 +43,9 @@ const additionalOpts = {
     glass: { title: "Verre sablé", description: "Une combinaison parfaite de design moderne et d'intimité." },
     spacers: { title: "Intercalaires", description: "La dernière génération d'intercalaires garantissant le confort thermique." },
     ventilation: { title: "Ventilation", description: "Assurez un air sain et une humidité optimale dans votre maison." },
-    shutters: { title: "Volets roulants", description: "Protection contre le soleil, le bruit et les cambriolages." },
-    mosquito: { title: "Moustiquaires", description: "Protection efficace contre les insectes tout en maintenant la circulation de l'air." }
+    sill: { title: "Appui de fenêtre en PVC", description: "Plus de 30 couleurs de plaxage au choix." },
+    shutters: { title: "Volets roulants", description: "Protégez votre maison avec des volets roulants extérieurs intégrés." },
+    'mosquito-nets': { title: "Moustiquaires", description: "Gardez les insectes à l'extérieur tout en laissant entrer l'air frais." }
   },
   pl: {
     mounting: { title: "Akcesoria montażowe", description: "Tutaj znajdziesz produkty niezbędne do prawidłowego montażu stolarki." },
@@ -50,8 +54,9 @@ const additionalOpts = {
     glass: { title: "Szkło piaskowane", description: "Doskonałe połączenie nowoczesnego designu i prywatności." },
     spacers: { title: "Ramki dystansowe", description: "Najnowsza generacja ramek zapewniająca komfort cieplny." },
     ventilation: { title: "Wentylacja", description: "Zapewnij zdrowe powietrze i optymalną wilgotność w swoim domu." },
-    shutters: { title: "Rolety", description: "Ochrona przed słońcem, hałasem i włamaniem." },
-    mosquito: { title: "Moskitiery", description: "Skuteczna ochrona przed owadami przy zachowaniu przepływu powietrza." }
+    sill: { title: "Parapet PVC", description: "Ponad 30 kolorów oklein do wyboru." },
+    shutters: { title: "Rolety", description: "Chroń swój dom dzięki zintegrowanym roletom zewnętrznym." },
+    'mosquito-nets': { title: "Moskitiery", description: "Zatrzymaj owady na zewnątrz, wpuszczając świeże powietrze." }
   },
   it: {
     mounting: { title: "Accessori di montaggio", description: "Qui troverai i prodotti necessari per la corretta installazione dei serramenti." },
@@ -60,8 +65,9 @@ const additionalOpts = {
     glass: { title: "Vetro sabbiato", description: "Una combinazione perfetta di design moderno e privacy." },
     spacers: { title: "Canaline", description: "L'ultima generazione di canaline che garantisce comfort termico." },
     ventilation: { title: "Ventilazione", description: "Assicura aria sana e umidità ottimale nella tua casa." },
-    shutters: { title: "Tapparelle", description: "Protezione da sole, rumore e furti." },
-    mosquito: { title: "Zanzariere", description: "Protezione efficace contro gli insetti mantenendo il flusso d'aria." }
+    sill: { title: "Davanzale in PVC", description: "Oltre 30 colori di pellicole tra cui scegliere." },
+    shutters: { title: "Tapparelle", description: "Proteggi la tua casa con avvolgibili esterni integrati." },
+    'mosquito-nets': { title: "Zanzariere", description: "Tieni fuori gli insetti lasciando entrare aria fresca." }
   }
 };
 

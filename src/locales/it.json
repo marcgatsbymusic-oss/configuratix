@@ -181,11 +181,19 @@
       },
       "shutters": {
         "title": "Tapparelle",
-        "description": "Protezione da sole, rumore e furti."
+        "description": "Proteggi la tua casa con avvolgibili esterni integrati."
       },
       "mosquito": {
         "title": "Zanzariere",
         "description": "Protezione efficace contro gli insetti mantenendo il flusso d'aria."
+      },
+      "sill": {
+        "title": "Davanzale in PVC",
+        "description": "Oltre 30 colori di pellicole tra cui scegliere."
+      },
+      "mosquito-nets": {
+        "title": "Zanzariere",
+        "description": "Tieni fuori gli insetti lasciando entrare aria fresca."
       }
     }
   },
