@@ -88,6 +88,7 @@ const MEGA_MENU_CATEGORIES = [
         colKey: 'alumDoors',
         items: [
           { label: 'MB-86N DOORS', href: '/products/mb-86n-doors' },
+          { label: 'DOOR VISUALIZER', href: '/doorsim', isNew: true }
         ]
       }
     ]

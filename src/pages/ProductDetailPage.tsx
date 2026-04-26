@@ -71,9 +71,9 @@ function HandlesSlider() {
             {visible.map(handle => (
               <div key={handle.name} className="flex flex-col items-center gap-3">
                 <div className="w-full aspect-square flex items-end justify-center overflow-hidden bg-mammut-darker">
-                  <img src={handle.image} alt={handle.label} className="w-full h-full object-contain hover:scale-105 transition-transform duration-300" />
+                  <img src={handle.image} alt={t(`sliderHandles.${handle.name}`)} className="w-full h-full object-contain hover:scale-105 transition-transform duration-300" />
                 </div>
-                <p className="!text-mammut-white/70 text-[11px] text-center leading-tight px-1">{handle.label}</p>
+                <p className="!text-mammut-white/70 text-[11px] text-center leading-tight px-1">{t(`sliderHandles.${handle.name}`)}</p>
               </div>
             ))}
             {Array.from({ length: PER_PAGE - visible.length }).map((_, i) => (

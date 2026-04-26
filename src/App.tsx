@@ -10,6 +10,7 @@ import { AboutPage } from './pages/AboutPage'
 import { OutletPage } from './pages/OutletPage'
 import { ShopPage } from './pages/ShopPage'
 import { CheckoutPage } from './pages/CheckoutPage'
+import { DoorSimPage } from './pages/DoorSimPage'
 import { CartDrawer } from './components/Shop/CartDrawer'
 import { MainConfigurator } from './components/SlateConfigurator/MainConfigurator'
 import './index.css'
@@ -70,6 +71,7 @@ function StorefrontLayout() {
           <Route path="/about/*" element={<AboutPage />} />
           <Route path="/where-to-buy" element={<AboutPage />} />
           <Route path="/debug-pricing" element={<DebugPricing />} />
+          <Route path="/doorsim" element={<DoorSimPage />} />
         </Routes>
       </div>
       <CartDrawer />

@@ -1,0 +1,2810 @@
+{
+  "asortyment": {
+    "1": {
+      "value": "MB-86N SI",
+      "description": "MB-86N SI",
+      "label": "System"
+    },
+    "2": {
+      "value": "MB-79N SI+",
+      "description": "MB-79N SI+",
+      "label": "System"
+    },
+    "3": {
+      "value": "dwustronnie zlicowany",
+      "description": "Panel dwustronnie zlicowany",
+      "label": "Panel"
+    },
+    "4": {
+      "value": "wypełnieniowy",
+      "description": "Panel wypełnieniowy",
+      "label": "Panel"
+    },
+    "5": {
+      "value": "Reflektoflat niebieski",
+      "description": "Reflektoflat niebieski",
+      "label": "Szyba"
+    },
+    "6": {
+      "value": "ORNAMENT Deszczyk",
+      "description": "ORNAMENT Deszczyk",
+      "label": " Szyba"
+    },
+    "7": {
+      "value": "ORNAMENT Master Carre",
+      "description": "ORNAMENT Master Carre",
+      "label": "Szyba"
+    },
+    "8": {
+      "value": "Bezpieczna Folia Matowa",
+      "description": "Bezpieczna Folia Matowa",
+      "label": "Szyba"
+    },
+    "9": {
+      "value": "Ornament Cathedral",
+      "description": "Ornament Cathedral",
+      "label": "Szyba"
+    },
+    "10": {
+      "value": "CORE-8100",
+      "description": "CORE 8100",
+      "label": "Klamka"
+    },
+    "11": {
+      "value": "CORE-8100-P",
+      "description": "CORE 8100",
+      "label": "Klamka"
+    },
+    "12": {
+      "value": "M2",
+      "description": "M2",
+      "label": "Pochwyt"
+    },
+    "13": {
+      "value": "P10D",
+      "description": "P10D",
+      "label": "Pochwyt"
+    },
+    "14": {
+      "value": "Pennsylwania Inox 3",
+      "description": "Pennsylwania Inox 3",
+      "label": "Model"
+    },
+    "15": {
+      "value": "Texas Inox",
+      "description": "Texas Inox",
+      "label": "Model"
+    },
+    "16": {
+      "value": "Wypełnienie drzwiowe",
+      "label": "Typ szprosu"
+    },
+    "17": {
+      "value": "brak",
+      "label": "Doświetle"
+    },
+    "18": {
+      "value": "góra",
+      "label": "Doświetle"
+    },
+    "19": {
+      "value": "lewe",
+      "label": "Doświetle"
+    },
+    "20": {
+      "value": "prawe",
+      "label": "Doświetle"
+    },
+    "21": {
+      "value": "lewe prawe",
+      "label": "Doświetle"
+    },
+    "27": {
+      "value": "Iglo 5",
+      "description": "Iglo 5",
+      "label": "System"
+    },
+    "65": {
+      "value": "stalowa ocynkowana",
+      "description": "Ramka stalowa ocynkowana",
+      "label": "Ramka międzyszybowa"
+    },
+    "66": {
+      "value": "Swisspacer Ultimate - szara",
+      "description": "Swisspacer Ultimate - szara",
+      "label": "Ramka międzyszybowa"
+    },
+    "103": {
+      "value": "P10D 120",
+      "description": "120 cm",
+      "label": "Pochwyt"
+    },
+    "104": {
+      "value": "P10D 160",
+      "description": "160 cm",
+      "label": "Pochwyt"
+    },
+    "136": {
+      "value": "lewe",
+      "label": "lewe"
+    },
+    "137": {
+      "value": "prawe",
+      "label": "prawe"
+    },
+    "147": {
+      "value": "do wewnątrz",
+      "label": "do wewnątrz"
+    },
+    "148": {
+      "value": "na zewnątrz",
+      "label": "na zewnątrz"
+    },
+    "149": {
+      "value": "100",
+      "description": "Skrzydło szerokość",
+      "label": "szerokość"
+    },
+    "150": {
+      "value": "220",
+      "description": "Skrzydło wysokość",
+      "label": "wysokość"
+    },
+    "151": {
+      "value": "50",
+      "description": "Doświetle szerokość",
+      "label": "szerokość"
+    },
+    "152": {
+      "value": "50",
+      "description": "Doświetle wysokość",
+      "label": "wysokość"
+    },
+    "160": {
+      "value": "Pennsylwania Inox 3 P",
+      "description": "Prawa",
+      "label": "Model"
+    },
+    "161": {
+      "value": "Pennsylwania Inox 3 L",
+      "description": "Lewa",
+      "label": "Model"
+    },
+    "162": {
+      "value": "Pennsylwania Inox 2",
+      "description": "Pennsylwania Inox 2",
+      "label": "Model"
+    },
+    "163": {
+      "value": "Pennsylwania Inox 2 P",
+      "description": "Prawa",
+      "label": "Model"
+    },
+    "164": {
+      "value": "Pennsylwania Inox 2 L",
+      "description": "Lewa",
+      "label": "Model"
+    },
+    "167": {
+      "value": "Pennsylwania Inox 1",
+      "description": "Pennsylwania Inox 1",
+      "label": "Model"
+    },
+    "168": {
+      "value": "Alaska Inox 1",
+      "description": "Alaska Inox 1",
+      "label": "Model"
+    },
+    "172": {
+      "value": "Hawaii 5",
+      "description": "Hawaii 5",
+      "label": "Model "
+    },
+    "173": {
+      "value": "Hawaii 5 L",
+      "description": "Lewa",
+      "label": "Model "
+    },
+    "174": {
+      "value": "Hawaii 5 P",
+      "description": "Prawa",
+      "label": "Model "
+    },
+    "175": {
+      "value": "Alaska Inox 2",
+      "description": "Alaska Inox 2",
+      "label": "Model "
+    },
+    "176": {
+      "value": "Arizona Inox 1",
+      "description": "Arizona Inox 1",
+      "label": "Model "
+    },
+    "177": {
+      "value": "Arizona Inox 2",
+      "description": "Arizona Inox 2",
+      "label": "Model"
+    },
+    "178": {
+      "value": "California Inox 1",
+      "description": "California Inox 1",
+      "label": "Model"
+    },
+    "180": {
+      "value": "California Inox 1 C",
+      "description": "Środkowa",
+      "label": "Model"
+    },
+    "182": {
+      "value": "California Inox 1 P",
+      "description": "Prawa",
+      "label": "Model"
+    },
+    "183": {
+      "value": "California Inox 1 L",
+      "description": "Lewa",
+      "label": "Model"
+    },
+    "184": {
+      "value": "California 2",
+      "description": "California 2",
+      "label": "Model"
+    },
+    "185": {
+      "value": "California 2 C",
+      "description": "Środkowa",
+      "label": "Model"
+    },
+    "186": {
+      "value": "California 2 L",
+      "description": "Lewa",
+      "label": "Model"
+    },
+    "187": {
+      "value": "California 2 P",
+      "description": "Prawa",
+      "label": "Model"
+    },
+    "188": {
+      "value": "Florida Inox 1",
+      "description": "Florida Inox 1",
+      "label": "Model"
+    },
+    "189": {
+      "value": "Florida Inox 1 R",
+      "description": "Prawa",
+      "label": "Model"
+    },
+    "190": {
+      "value": "Florida Inox 1 L",
+      "description": "Lewa",
+      "label": "Model"
+    },
+    "192": {
+      "value": "Florida 3",
+      "description": "Florida 3",
+      "label": "Model"
+    },
+    "193": {
+      "value": "Florida 3 P",
+      "description": "Prawa",
+      "label": "Model"
+    },
+    "194": {
+      "value": "Florida 3 L",
+      "description": "Lewa",
+      "label": "Model"
+    },
+    "198": {
+      "value": "Colorado Inox C",
+      "description": "Colorado Inox",
+      "label": "Model"
+    },
+    "199": {
+      "value": "Hawaii 1",
+      "description": "Hawaii 1",
+      "label": "Model"
+    },
+    "200": {
+      "value": "Hawaii 4",
+      "description": "Hawaii 4",
+      "label": "Model"
+    },
+    "201": {
+      "value": "Hawaii Inox 2",
+      "description": "Hawaii Inox 2",
+      "label": "Model"
+    },
+    "202": {
+      "value": "Hawaii Inox 3",
+      "description": "Hawaii Inox 3",
+      "label": "Model"
+    },
+    "204": {
+      "value": "Montana Inox 1",
+      "description": "Montana Inox 1",
+      "label": "Model"
+    },
+    "205": {
+      "value": "Montana Inox 2",
+      "description": "Montana Inox 2",
+      "label": "Model "
+    },
+    "206": {
+      "value": "Montana Inox 2 L",
+      "description": "Lewa",
+      "label": "Model "
+    },
+    "207": {
+      "value": "Montana Inox 2 P",
+      "description": "Prawa",
+      "label": "Model "
+    },
+    "208": {
+      "value": "Montana 1",
+      "description": "Montana 1",
+      "label": "Model"
+    },
+    "209": {
+      "value": "Montana Inox 3",
+      "description": "Montana Inox 3",
+      "label": "Model "
+    },
+    "210": {
+      "value": "Montana Inox 3 P",
+      "description": "Prawa",
+      "label": "Model "
+    },
+    "211": {
+      "value": "Montana Inox 3 L",
+      "description": "Lewa",
+      "label": "Model "
+    },
+    "213": {
+      "value": "Nebraska Inox 1",
+      "description": "Nebraska Inox 1",
+      "label": "Model"
+    },
+    "214": {
+      "value": "Nebraska 1 C",
+      "description": "Środkowa",
+      "label": "Model"
+    },
+    "215": {
+      "value": "Nebraska 1 P",
+      "description": "Prawa",
+      "label": "Model"
+    },
+    "216": {
+      "value": "Nebraska 1 L",
+      "description": "Lewa",
+      "label": "Model"
+    },
+    "217": {
+      "value": "Nebraska 1",
+      "description": "Nebraska 1",
+      "label": "Model"
+    },
+    "218": {
+      "value": "Nebraska 1 C",
+      "description": "Środkowa",
+      "label": "Model"
+    },
+    "219": {
+      "value": "Nebraska 1 P",
+      "description": "Prawa",
+      "label": "Model"
+    },
+    "220": {
+      "value": "Nebraska 1 L",
+      "description": "Lewa",
+      "label": "Model"
+    },
+    "221": {
+      "value": "New York 1",
+      "description": "New York 1",
+      "label": "Model"
+    },
+    "222": {
+      "value": "New York 1 C",
+      "description": "Środkowa",
+      "label": "Model"
+    },
+    "223": {
+      "value": "New York 1 P",
+      "description": "Prawa",
+      "label": "Model"
+    },
+    "224": {
+      "value": "New York 1 L",
+      "description": "Lewa",
+      "label": "Model"
+    },
+    "225": {
+      "value": "New York 2",
+      "description": "New York 2",
+      "label": "Model"
+    },
+    "227": {
+      "value": "New York 2 P",
+      "description": "Lewa",
+      "label": "Model"
+    },
+    "228": {
+      "value": "New York 2 L",
+      "description": "Prawa",
+      "label": "Model"
+    },
+    "229": {
+      "value": "Ohio Inox 1",
+      "description": "Ohio Inox 1",
+      "label": "Model"
+    },
+    "231": {
+      "value": "Pennsylwania 2",
+      "description": "Pennsylwania 2",
+      "label": "Model"
+    },
+    "232": {
+      "value": "Pennsylwania 2 P",
+      "description": "Prawa",
+      "label": "Model"
+    },
+    "233": {
+      "value": "Pennsylwania 2 L",
+      "description": "Lewa",
+      "label": "Model"
+    },
+    "240": {
+      "value": "Pennsylwania 5",
+      "description": "Pennsylwania 5",
+      "label": "Model"
+    },
+    "241": {
+      "value": "Pennsylwania 5 P",
+      "description": "Prawa",
+      "label": "Model"
+    },
+    "242": {
+      "value": "Pennsylwania 5 L",
+      "description": "Lewa",
+      "label": "Model"
+    },
+    "243": {
+      "value": "Pennsylwania 4",
+      "description": "Pennsylwania 4",
+      "label": "Model"
+    },
+    "244": {
+      "value": "Texas Inox C",
+      "description": "Środkowa",
+      "label": "Model"
+    },
+    "247": {
+      "value": "Texas",
+      "description": "Texas",
+      "label": "Model"
+    },
+    "248": {
+      "value": "Texas C",
+      "description": "Środkowa",
+      "label": "Model"
+    },
+    "249": {
+      "value": "Texas P",
+      "description": "Prawa",
+      "label": "Model"
+    },
+    "250": {
+      "value": "Texas L",
+      "description": "Lewa",
+      "label": "Model"
+    },
+    "252": {
+      "value": "Texas Inox P",
+      "description": "Prawa",
+      "label": "Model"
+    },
+    "253": {
+      "value": "Texas Inox L",
+      "description": "Lewa",
+      "label": "Model"
+    },
+    "254": {
+      "value": "Washington 1",
+      "description": "Washington 1",
+      "label": "Model"
+    },
+    "255": {
+      "value": "Washington 2",
+      "description": "Washington 2",
+      "label": "Model"
+    },
+    "256": {
+      "value": "Washington 3",
+      "description": "Washington 3",
+      "label": "Model "
+    },
+    "259": {
+      "value": "Washington 4",
+      "description": "Washington 4",
+      "label": "Model"
+    },
+    "260": {
+      "value": "Washington Pocket",
+      "description": "Washington Pocket",
+      "label": "Model "
+    },
+    "263": {
+      "value": "Washington Zero",
+      "description": "Washington Zero",
+      "label": "Model"
+    },
+    "264": {
+      "value": "Washington Wood",
+      "description": "Washington Wood",
+      "label": "Model "
+    },
+    "265": {
+      "value": "Washington Wood L",
+      "description": "Lewa",
+      "label": "Model "
+    },
+    "266": {
+      "value": "Washington Wood R",
+      "description": "Prawa",
+      "label": "Model "
+    },
+    "267": {
+      "value": "Alaska 1",
+      "description": "Alaska 1",
+      "label": "Model"
+    },
+    "268": {
+      "value": "Alaska 2",
+      "description": "Alaska 2",
+      "label": "Model"
+    },
+    "269": {
+      "value": "Arizona 1",
+      "description": "Arizona 1",
+      "label": "Model "
+    },
+    "270": {
+      "value": "Arizona 2",
+      "description": "Arizona 2",
+      "label": "Model "
+    },
+    "275": {
+      "value": "California 1",
+      "description": "California 1",
+      "label": "Model"
+    },
+    "276": {
+      "value": "California 1 C",
+      "description": "Środkowa",
+      "label": "Model"
+    },
+    "277": {
+      "value": "California 1 P",
+      "description": "Prawa",
+      "label": "Model"
+    },
+    "278": {
+      "value": "California 1 L",
+      "description": "Lewa",
+      "label": "Model"
+    },
+    "279": {
+      "value": "Florida 1",
+      "description": "Florida 1",
+      "label": "Model"
+    },
+    "280": {
+      "value": "Florida 1 P",
+      "description": "Prawa",
+      "label": "Model"
+    },
+    "281": {
+      "value": "Florida 1 L",
+      "description": "Lewa",
+      "label": "Model"
+    },
+    "282": {
+      "value": "Alaska 3",
+      "description": "Alaska 3",
+      "label": "Model "
+    },
+    "283": {
+      "value": "Alaska 3 P",
+      "description": "Prawa",
+      "label": "Model "
+    },
+    "284": {
+      "value": "Alaska 3 L",
+      "description": "Lewa",
+      "label": "Model "
+    },
+    "285": {
+      "value": "Hawaii 6",
+      "description": "Hawaii 6",
+      "label": "Model "
+    },
+    "286": {
+      "value": "Hawaii 6 L",
+      "description": "Lewa",
+      "label": "Model "
+    },
+    "287": {
+      "value": "Hawaii 6 P",
+      "description": "Prawa",
+      "label": "Model "
+    },
+    "288": {
+      "value": "Florida 2",
+      "description": "Florida 2",
+      "label": "Model"
+    },
+    "289": {
+      "value": "Florida 2 P",
+      "description": "Prawa",
+      "label": "Model"
+    },
+    "290": {
+      "value": "Florida 2 L",
+      "description": "Lewa",
+      "label": "Model"
+    },
+    "292": {
+      "value": "Panel wsadowy Iglo Energy",
+      "label": "Panel"
+    },
+    "294": {
+      "value": "KA1",
+      "description": "KA1",
+      "label": "Pochwyt"
+    },
+    "295": {
+      "value": "Swisspacer Ultimate - czarna",
+      "description": "Swisspacer Ultimate - czarna",
+      "label": "Ramka międzyszybowa"
+    },
+    "296": {
+      "value": "Swisspacer Ultimate - brązowa",
+      "description": "Swisspacer Ultimate - brązowa",
+      "label": "Ramka międzyszybowa"
+    },
+    "297": {
+      "value": "brak",
+      "label": "Doświetle"
+    },
+    "363": {
+      "value": "#00000000",
+      "description": "Antracyt gładki",
+      "label": "Antracyt gładki"
+    },
+    "364": {
+      "value": "#00000000",
+      "description": "Ciemny dąb",
+      "label": "Ciemny dąb"
+    },
+    "365": {
+      "value": "#00000000",
+      "description": "Ciemnozielony",
+      "label": "Ciemnozielony"
+    },
+    "366": {
+      "value": "#00000000",
+      "description": "Kremowy",
+      "label": "Kremowy"
+    },
+    "367": {
+      "value": "#00000000",
+      "description": "Dąb bielony",
+      "label": "Dąb bielony"
+    },
+    "368": {
+      "value": "#00000000",
+      "description": "Biały FX",
+      "label": "Biały FX"
+    },
+    "369": {
+      "value": "#00000000",
+      "description": "Bazaltowy szary",
+      "label": "Bazaltowy szary"
+    },
+    "370": {
+      "value": "#00000000",
+      "description": "Brąz czekoladowy",
+      "label": "Brąz czekoladowy"
+    },
+    "371": {
+      "value": "#00000000",
+      "description": "Bazaltowy szary gładki",
+      "label": "Bazaltowy szary gładki"
+    },
+    "372": {
+      "value": "#00000000",
+      "description": "Antracyt",
+      "label": "Antracyt"
+    },
+    "373": {
+      "value": "#00000000",
+      "description": "Ciemny czerwony",
+      "label": "Ciemny czerwony"
+    },
+    "374": {
+      "value": "#00000000",
+      "description": "Betonowy szary",
+      "label": "Betonowy szary"
+    },
+    "375": {
+      "value": "#00000000",
+      "description": "Szary",
+      "label": "Szary"
+    },
+    "376": {
+      "value": "#00000000",
+      "description": "Zieleń mchu",
+      "label": "Zieleń mchu"
+    },
+    "377": {
+      "value": "#00000000",
+      "description": "Winchester",
+      "label": "Winchester"
+    },
+    "378": {
+      "value": "#00000000",
+      "description": "Oregon",
+      "label": "Oregon"
+    },
+    "379": {
+      "value": "#00000000",
+      "description": "Orzech",
+      "label": "Orzech"
+    },
+    "380": {
+      "value": "#00000000",
+      "description": "Palisander",
+      "label": "Palisander"
+    },
+    "381": {
+      "value": "#00000000",
+      "description": "Macore",
+      "label": "Macore"
+    },
+    "382": {
+      "value": "#00000000",
+      "description": "Łupkowy szary gładki",
+      "label": "Łupkowy szary gładki"
+    },
+    "383": {
+      "value": "#00000000",
+      "description": "Kwarcytowy szary",
+      "label": "Kwarcytowy szary"
+    },
+    "384": {
+      "value": "#00000000",
+      "description": "Łupkowy",
+      "label": "Łupkowy"
+    },
+    "385": {
+      "value": "#00000000",
+      "description": "Złoty dąb",
+      "label": "Złoty dąb"
+    },
+    "386": {
+      "value": "#00000000",
+      "description": "Mahoń",
+      "label": "Mahoń"
+    },
+    "387": {
+      "value": "#00000000",
+      "description": "Kwarcytowy szary gładki",
+      "label": "Kwarcytowy szary gładki"
+    },
+    "388": {
+      "value": "#00000000",
+      "description": "Jasny szary",
+      "label": "Jasny szary"
+    },
+    "389": {
+      "value": "#00000000",
+      "description": "Daglezja",
+      "label": "Daglezja"
+    },
+    "390": {
+      "value": "#00000000",
+      "description": "Dąb specjalny",
+      "label": "Dąb specjalny"
+    },
+    "391": {
+      "value": "#00000000",
+      "description": "Dąb naturalny",
+      "label": "Dąb naturalny"
+    },
+    "392": {
+      "value": "#00000000",
+      "description": "Turner Oak",
+      "label": "Turner Oak"
+    },
+    "393": {
+      "value": "#00000000",
+      "description": "Czarny Ulti-Matt",
+      "label": "Czarny Ulti-Matt"
+    },
+    "394": {
+      "value": "#00000000",
+      "description": "Antracyt Ulti-Matt",
+      "label": "Antracyt Ulti-Matt"
+    },
+    "395": {
+      "value": "#00000000",
+      "description": "Betonowy szary",
+      "label": "Betonowy szary"
+    },
+    "396": {
+      "value": "#00000000",
+      "description": "Crown Platinum",
+      "label": "Crown Platinum"
+    },
+    "397": {
+      "value": "#BEBD7F",
+      "description": "RAL-1000 Green beige",
+      "label": "RAL-1000 Green beige"
+    },
+    "398": {
+      "value": "#C2B078",
+      "description": "RAL-1001 Beige",
+      "label": "RAL-1001 Beige"
+    },
+    "399": {
+      "value": "#C6A664",
+      "description": "RAL-1002 Sand yellow",
+      "label": "RAL-1002 Sand yellow"
+    },
+    "400": {
+      "value": "#E5BE01",
+      "description": "RAL-1003 Signal yellow",
+      "label": "RAL-1003 Signal yellow"
+    },
+    "401": {
+      "value": "#CDA434",
+      "description": "RAL-1004 Golden yellow",
+      "label": "RAL-1004 Golden yellow"
+    },
+    "402": {
+      "value": "#A98307",
+      "description": "RAL-1005 Honey yellow",
+      "label": "RAL-1005 Honey yellow"
+    },
+    "403": {
+      "value": "#E4A010",
+      "description": "RAL-1006 Maize yellow",
+      "label": "RAL-1006 Maize yellow"
+    },
+    "404": {
+      "value": "#DC9D00",
+      "description": "RAL-1007 Daffodil yellow",
+      "label": "RAL-1007 Daffodil yellow"
+    },
+    "405": {
+      "value": "#8A6642",
+      "description": "RAL-1011 Brown beige",
+      "label": "RAL-1011 Brown beige"
+    },
+    "406": {
+      "value": "#C7B446",
+      "description": "RAL-1012 Lemon yellow",
+      "label": "RAL-1012 Lemon yellow"
+    },
+    "407": {
+      "value": "#EAE6CA",
+      "description": "RAL-1013 Oyster white",
+      "label": "RAL-1013 Oyster white"
+    },
+    "408": {
+      "value": "#F0D6AB",
+      "description": "RAL-1014 Ivory",
+      "label": "RAL-1014 Ivory"
+    },
+    "409": {
+      "value": "#E6D690",
+      "description": "RAL-1015 Light ivory",
+      "label": "RAL-1015 Light ivory"
+    },
+    "410": {
+      "value": "#EDFF21",
+      "description": "RAL-1016 Sulfur yellow",
+      "label": "RAL-1016 Sulfur yellow"
+    },
+    "411": {
+      "value": "#F5D033",
+      "description": "RAL-1017 Saffron yellow",
+      "label": "RAL-1017 Saffron yellow"
+    },
+    "412": {
+      "value": "#ffd64d",
+      "description": "RAL-1018 Zinc yellow",
+      "label": "RAL-1018 Zinc yellow"
+    },
+    "413": {
+      "value": "#9E9764",
+      "description": "RAL-1019 Grey beige",
+      "label": "RAL-1019 Grey beige"
+    },
+    "414": {
+      "value": "#999950",
+      "description": "RAL-1020 Olive yellow",
+      "label": "RAL-1020 Olive yellow"
+    },
+    "415": {
+      "value": "#F3DA0B",
+      "description": "RAL-1021 Rape yellow",
+      "label": "RAL-1021 Rape yellow"
+    },
+    "416": {
+      "value": "#FAD201",
+      "description": "RAL-1023 Traffic yellow",
+      "label": "RAL-1023 Traffic yellow"
+    },
+    "417": {
+      "value": "#AEA04B",
+      "description": "RAL-1024 Ochre yellow",
+      "label": "RAL-1024 Ochre yellow"
+    },
+    "418": {
+      "value": "#FFFF00",
+      "description": "RAL-1026 Luminous yellow",
+      "label": "RAL-1026 Luminous yellow"
+    },
+    "419": {
+      "value": "#9D9101",
+      "description": "RAL-1027 Curry",
+      "label": "RAL-1027 Curry"
+    },
+    "420": {
+      "value": "#F4A900",
+      "description": "RAL-1028 Melon yellow",
+      "label": "RAL-1028 Melon yellow"
+    },
+    "421": {
+      "value": "#D6AE01",
+      "description": "RAL-1032 Broom yellow",
+      "label": "RAL-1032 Broom yellow"
+    },
+    "422": {
+      "value": "#F3A505",
+      "description": "RAL-1033 Dahlia yellow",
+      "label": "RAL-1033 Dahlia yellow"
+    },
+    "423": {
+      "value": "#EFA94A",
+      "description": "RAL-1034 Pastel yellow",
+      "label": "RAL-1034 Pastel yellow"
+    },
+    "424": {
+      "value": "#6A5D4D",
+      "description": "RAL-1035 Pearl beige",
+      "label": "RAL-1035 Pearl beige"
+    },
+    "425": {
+      "value": "#705335",
+      "description": "RAL-1036 Pearl gold",
+      "label": "RAL-1036 Pearl gold"
+    },
+    "426": {
+      "value": "#F39F18",
+      "description": "RAL-1037 Sun yellow",
+      "label": "RAL-1037 Sun yellow"
+    },
+    "427": {
+      "value": "#ED760E",
+      "description": "RAL-2000 Yellow orange",
+      "label": "RAL-2000 Yellow orange"
+    },
+    "428": {
+      "value": "#C93C20",
+      "description": "RAL-2001 Red orange",
+      "label": "RAL-2001 Red orange"
+    },
+    "429": {
+      "value": "#CB2821",
+      "description": "RAL-2002 Vermilion",
+      "label": "RAL-2002 Vermilion"
+    },
+    "430": {
+      "value": "#FF7514",
+      "description": "RAL-2003 Pastel orange",
+      "label": "RAL-2003 Pastel orange"
+    },
+    "431": {
+      "value": "#F44611",
+      "description": "RAL-2004 Pure orange",
+      "label": "RAL-2004 Pure orange"
+    },
+    "432": {
+      "value": "#FF2301",
+      "description": "RAL-2005 Luminous orange",
+      "label": "RAL-2005 Luminous orange"
+    },
+    "433": {
+      "value": "#FFA420",
+      "description": "RAL-2007 Luminous bright orange",
+      "label": "RAL-2007 Luminous bright orange"
+    },
+    "434": {
+      "value": "#F75E25",
+      "description": "RAL-2008 Bright red orange",
+      "label": "RAL-2008 Bright red orange"
+    },
+    "435": {
+      "value": "#F54021",
+      "description": "RAL-2009 Traffic orange",
+      "label": "RAL-2009 Traffic orange"
+    },
+    "436": {
+      "value": "#D84B20",
+      "description": "RAL-2010 Signal orange",
+      "label": "RAL-2010 Signal orange"
+    },
+    "437": {
+      "value": "#EC7C26",
+      "description": "RAL-2011 Deep orange",
+      "label": "RAL-2011 Deep orange"
+    },
+    "438": {
+      "value": "#E55137",
+      "description": "RAL-2012 Salmon range",
+      "label": "RAL-2012 Salmon range"
+    },
+    "439": {
+      "value": "#C35831",
+      "description": "RAL-2013 Pearl orange",
+      "label": "RAL-2013 Pearl orange"
+    },
+    "440": {
+      "value": "#AF2B1E",
+      "description": "RAL-3000 Flame red",
+      "label": "RAL-3000 Flame red"
+    },
+    "441": {
+      "value": "#A52019",
+      "description": "RAL-3001 Signal red",
+      "label": "RAL-3001 Signal red"
+    },
+    "442": {
+      "value": "#A2231D",
+      "description": "RAL-3002 Carmine red",
+      "label": "RAL-3002 Carmine red"
+    },
+    "443": {
+      "value": "#9B111E",
+      "description": "RAL-3003 Ruby red",
+      "label": "RAL-3003 Ruby red"
+    },
+    "444": {
+      "value": "#75151E",
+      "description": "RAL-3004 Purple red",
+      "label": "RAL-3004 Purple red"
+    },
+    "445": {
+      "value": "#5E2129",
+      "description": "RAL-3005 Wine red",
+      "label": "RAL-3005 Wine red"
+    },
+    "446": {
+      "value": "#412227",
+      "description": "RAL-3007 Black red",
+      "label": "RAL-3007 Black red"
+    },
+    "447": {
+      "value": "#642424",
+      "description": "RAL-3009 Oxide red",
+      "label": "RAL-3009 Oxide red"
+    },
+    "448": {
+      "value": "#781F19",
+      "description": "RAL-3011 Brown red",
+      "label": "RAL-3011 Brown red"
+    },
+    "449": {
+      "value": "#C1876B",
+      "description": "RAL-3012 Beige red",
+      "label": "RAL-3012 Beige red"
+    },
+    "450": {
+      "value": "#A12312",
+      "description": "RAL-3013 Tomato red",
+      "label": "RAL-3013 Tomato red"
+    },
+    "451": {
+      "value": "#D36E70",
+      "description": "RAL-3014 Antique pink",
+      "label": "RAL-3014 Antique pink"
+    },
+    "452": {
+      "value": "#EA899A",
+      "description": "RAL-3015 Light pink",
+      "label": "RAL-3015 Light pink"
+    },
+    "453": {
+      "value": "#B32821",
+      "description": "RAL-3016 Coral red",
+      "label": "RAL-3016 Coral red"
+    },
+    "454": {
+      "value": "#E63244",
+      "description": "RAL-3017 Rose",
+      "label": "RAL-3017 Rose"
+    },
+    "455": {
+      "value": "#D53032",
+      "description": "RAL-3018 Strawberry red",
+      "label": "RAL-3018 Strawberry red"
+    },
+    "456": {
+      "value": "#CC0605",
+      "description": "RAL-3020 Traffic red",
+      "label": "RAL-3020 Traffic red"
+    },
+    "457": {
+      "value": "#d9594f",
+      "description": "RAL-3022 Salmon pink",
+      "label": "RAL-3022 Salmon pink"
+    },
+    "458": {
+      "value": "#F80000",
+      "description": "RAL-3024 Luminous red",
+      "label": "RAL-3024 Luminous red"
+    },
+    "459": {
+      "value": "#FE0000",
+      "description": "RAL-3026 Luminous bright red",
+      "label": "RAL-3026 Luminous bright red"
+    },
+    "460": {
+      "value": "#C51D34",
+      "description": "RAL-3027 Raspberry red",
+      "label": "RAL-3027 Raspberry red"
+    },
+    "461": {
+      "value": "#CB3234",
+      "description": "RAL-3028 Pure  red",
+      "label": "RAL-3028 Pure  red"
+    },
+    "462": {
+      "value": "#B32428",
+      "description": "RAL-3031 Orient red",
+      "label": "RAL-3031 Orient red"
+    },
+    "463": {
+      "value": "#721422",
+      "description": "RAL-3032 Pearl ruby red",
+      "label": "RAL-3032 Pearl ruby red"
+    },
+    "464": {
+      "value": "#B44C43",
+      "description": "RAL-3033 Pearl pink",
+      "label": "RAL-3033 Pearl pink"
+    },
+    "465": {
+      "value": "#6D3F5B",
+      "description": "RAL-4001 Red lilac",
+      "label": "RAL-4001 Red lilac"
+    },
+    "466": {
+      "value": "#922B3E",
+      "description": "RAL-4002 Red violet",
+      "label": "RAL-4002 Red violet"
+    },
+    "467": {
+      "value": "#DE4C8A",
+      "description": "RAL-4003 Heather violet",
+      "label": "RAL-4003 Heather violet"
+    },
+    "468": {
+      "value": "#641C34",
+      "description": "RAL-4004 Claret violet",
+      "label": "RAL-4004 Claret violet"
+    },
+    "469": {
+      "value": "#6C4675",
+      "description": "RAL-4005 Blue lilac",
+      "label": "RAL-4005 Blue lilac"
+    },
+    "470": {
+      "value": "#A03472",
+      "description": "RAL-4006 Traffic purple",
+      "label": "RAL-4006 Traffic purple"
+    },
+    "471": {
+      "value": "#4A192C",
+      "description": "RAL-4007 Purple violet",
+      "label": "RAL-4007 Purple violet"
+    },
+    "472": {
+      "value": "#924E7D",
+      "description": "RAL-4008 Signal violet",
+      "label": "RAL-4008 Signal violet"
+    },
+    "473": {
+      "value": "#A18594",
+      "description": "RAL-4009 Pastel violet",
+      "label": "RAL-4009 Pastel violet"
+    },
+    "474": {
+      "value": "#CF3476",
+      "description": "RAL-4010 Telemagenta",
+      "label": "RAL-4010 Telemagenta"
+    },
+    "475": {
+      "value": "#8673A1",
+      "description": "RAL-4011 Pearl violet",
+      "label": "RAL-4011 Pearl violet"
+    },
+    "476": {
+      "value": "#6C6874",
+      "description": "RAL-4012 Pearl black berry",
+      "label": "RAL-4012 Pearl black berry"
+    },
+    "477": {
+      "value": "#354D73",
+      "description": "RAL-5000 Violet blue",
+      "label": "RAL-5000 Violet blue"
+    },
+    "478": {
+      "value": "#1F3438",
+      "description": "RAL-5001 Green blue",
+      "label": "RAL-5001 Green blue"
+    },
+    "479": {
+      "value": "#20214F",
+      "description": "RAL-5002 Ultramarine blue",
+      "label": "RAL-5002 Ultramarine blue"
+    },
+    "480": {
+      "value": "#1D1E33",
+      "description": "RAL-5003 Saphire blue",
+      "label": "RAL-5003 Saphire blue"
+    },
+    "481": {
+      "value": "#18171C",
+      "description": "RAL-5004 Black blue",
+      "label": "RAL-5004 Black blue"
+    },
+    "482": {
+      "value": "#1E2460",
+      "description": "RAL-5005 Signal blue",
+      "label": "RAL-5005 Signal blue"
+    },
+    "483": {
+      "value": "#3E5F8A",
+      "description": "RAL-5007 Brillant blue",
+      "label": "RAL-5007 Brillant blue"
+    },
+    "484": {
+      "value": "#26252D",
+      "description": "RAL-5008 Grey blue",
+      "label": "RAL-5008 Grey blue"
+    },
+    "485": {
+      "value": "#025669",
+      "description": "RAL-5009 Azure blue",
+      "label": "RAL-5009 Azure blue"
+    },
+    "486": {
+      "value": "#0E294B",
+      "description": "RAL-5010 Gentian blue",
+      "label": "RAL-5010 Gentian blue"
+    },
+    "487": {
+      "value": "#231A24",
+      "description": "RAL-5011 Steel blue",
+      "label": "RAL-5011 Steel blue"
+    },
+    "488": {
+      "value": "#3B83BD",
+      "description": "RAL-5012 Light blue",
+      "label": "RAL-5012 Light blue"
+    },
+    "489": {
+      "value": "#1E213D",
+      "description": "RAL-5013 Cobalt blue",
+      "label": "RAL-5013 Cobalt blue"
+    },
+    "490": {
+      "value": "#606E8C",
+      "description": "RAL-5014 Pigeon blue",
+      "label": "RAL-5014 Pigeon blue"
+    },
+    "491": {
+      "value": "#2271B3",
+      "description": "RAL-5015 Sky blue",
+      "label": "RAL-5015 Sky blue"
+    },
+    "492": {
+      "value": "#063971",
+      "description": "RAL-5017 Traffic blue",
+      "label": "RAL-5017 Traffic blue"
+    },
+    "493": {
+      "value": "#3F888F",
+      "description": "RAL-5018 Turquoise blue",
+      "label": "RAL-5018 Turquoise blue"
+    },
+    "494": {
+      "value": "#1B5583",
+      "description": "RAL-5019 Capri blue",
+      "label": "RAL-5019 Capri blue"
+    },
+    "495": {
+      "value": "#053333",
+      "description": "RAL-5020 Ocean blue",
+      "label": "RAL-5020 Ocean blue"
+    },
+    "496": {
+      "value": "#256D7B",
+      "description": "RAL-5021 Water blue",
+      "label": "RAL-5021 Water blue"
+    },
+    "497": {
+      "value": "#252850",
+      "description": "RAL-5022 Night blue",
+      "label": "RAL-5022 Night blue"
+    },
+    "498": {
+      "value": "#49678D",
+      "description": "RAL-5023 Distant blue",
+      "label": "RAL-5023 Distant blue"
+    },
+    "499": {
+      "value": "#578cb5",
+      "description": "RAL-5024 Pastel blue",
+      "label": "RAL-5024 Pastel blue"
+    },
+    "500": {
+      "value": "#2A6478",
+      "description": "RAL-5025 Pearl gentian blue",
+      "label": "RAL-5025 Pearl gentian blue"
+    },
+    "501": {
+      "value": "#102C54",
+      "description": "RAL-5026 Pearl night blue",
+      "label": "RAL-5026 Pearl night blue"
+    },
+    "502": {
+      "value": "#316650",
+      "description": "RAL-6000 Patina green",
+      "label": "RAL-6000 Patina green"
+    },
+    "503": {
+      "value": "#287233",
+      "description": "RAL-6001 Emerald green",
+      "label": "RAL-6001 Emerald green"
+    },
+    "504": {
+      "value": "#2D572C",
+      "description": "RAL-6002 Leaf green",
+      "label": "RAL-6002 Leaf green"
+    },
+    "505": {
+      "value": "#424632",
+      "description": "RAL-6003 Olive green",
+      "label": "RAL-6003 Olive green"
+    },
+    "506": {
+      "value": "#1F3A3D",
+      "description": "RAL-6004 Blue green",
+      "label": "RAL-6004 Blue green"
+    },
+    "507": {
+      "value": "#2F4538",
+      "description": "RAL-6005 Moss green",
+      "label": "RAL-6005 Moss green"
+    },
+    "508": {
+      "value": "#3E3B32",
+      "description": "RAL-6006 Grey olive",
+      "label": "RAL-6006 Grey olive"
+    },
+    "509": {
+      "value": "#343B29",
+      "description": "RAL-6007 Bottle green",
+      "label": "RAL-6007 Bottle green"
+    },
+    "510": {
+      "value": "#39352A",
+      "description": "RAL-6008 Brown green",
+      "label": "RAL-6008 Brown green"
+    },
+    "511": {
+      "value": "#31372B",
+      "description": "RAL-6009 Fir green",
+      "label": "RAL-6009 Fir green"
+    },
+    "512": {
+      "value": "#35682D",
+      "description": "RAL-6010 Grass green",
+      "label": "RAL-6010 Grass green"
+    },
+    "513": {
+      "value": "#587246",
+      "description": "RAL-6011 Reseda green",
+      "label": "RAL-6011 Reseda green"
+    },
+    "514": {
+      "value": "#343E40",
+      "description": "RAL-6012 Black green",
+      "label": "RAL-6012 Black green"
+    },
+    "515": {
+      "value": "#6C7156",
+      "description": "RAL-6013 Reed green",
+      "label": "RAL-6013 Reed green"
+    },
+    "516": {
+      "value": "#47402E",
+      "description": "RAL-6014 Yellow olive",
+      "label": "RAL-6014 Yellow olive"
+    },
+    "517": {
+      "value": "#3B3C36",
+      "description": "RAL-6015 Black olive",
+      "label": "RAL-6015 Black olive"
+    },
+    "518": {
+      "value": "#1E5945",
+      "description": "RAL-6016 Turquoise green",
+      "label": "RAL-6016 Turquoise green"
+    },
+    "519": {
+      "value": "#4C9141",
+      "description": "RAL-6017 May green",
+      "label": "RAL-6017 May green"
+    },
+    "520": {
+      "value": "#57A639",
+      "description": "RAL-6018 Yellow green",
+      "label": "RAL-6018 Yellow green"
+    },
+    "521": {
+      "value": "#BDECB6",
+      "description": "RAL-6019 Pastel green",
+      "label": "RAL-6019 Pastel green"
+    },
+    "522": {
+      "value": "#2E3A23",
+      "description": "RAL-6020 Chrome green",
+      "label": "RAL-6020 Chrome green"
+    },
+    "523": {
+      "value": "#89AC76",
+      "description": "RAL-6021 Pale green",
+      "label": "RAL-6021 Pale green"
+    },
+    "524": {
+      "value": "#25221B",
+      "description": "RAL-6022 Olive drab",
+      "label": "RAL-6022 Olive drab"
+    },
+    "525": {
+      "value": "#308446",
+      "description": "RAL-6024 Traffic green",
+      "label": "RAL-6024 Traffic green"
+    },
+    "526": {
+      "value": "#3D642D",
+      "description": "RAL-6025 Fern green",
+      "label": "RAL-6025 Fern green"
+    },
+    "527": {
+      "value": "#015D52",
+      "description": "RAL-6026 Opal green",
+      "label": "RAL-6026 Opal green"
+    },
+    "528": {
+      "value": "#84C3BE",
+      "description": "RAL-6027 Light green",
+      "label": "RAL-6027 Light green"
+    },
+    "529": {
+      "value": "#2C5545",
+      "description": "RAL-6028 Pine green",
+      "label": "RAL-6028 Pine green"
+    },
+    "530": {
+      "value": "#20603D",
+      "description": "RAL-6029 Mint green",
+      "label": "RAL-6029 Mint green"
+    },
+    "531": {
+      "value": "#317F43",
+      "description": "RAL-6032 Signal green",
+      "label": "RAL-6032 Signal green"
+    },
+    "532": {
+      "value": "#497E76",
+      "description": "RAL-6033 Mint turquoise",
+      "label": "RAL-6033 Mint turquoise"
+    },
+    "533": {
+      "value": "#7FB5B5",
+      "description": "RAL-6034 Pastel turquoise",
+      "label": "RAL-6034 Pastel turquoise"
+    },
+    "534": {
+      "value": "#1C542D",
+      "description": "RAL-6035 Pearl green",
+      "label": "RAL-6035 Pearl green"
+    },
+    "535": {
+      "value": "#193737",
+      "description": "RAL-6036 Pearl opal green",
+      "label": "RAL-6036 Pearl opal green"
+    },
+    "536": {
+      "value": "#008F39",
+      "description": "RAL-6037 Pure green",
+      "label": "RAL-6037 Pure green"
+    },
+    "537": {
+      "value": "#00BB2D",
+      "description": "RAL-6038 Luminous green",
+      "label": "RAL-6038 Luminous green"
+    },
+    "538": {
+      "value": "#78858B",
+      "description": "RAL-7000 Squirrel grey",
+      "label": "RAL-7000 Squirrel grey"
+    },
+    "539": {
+      "value": "#8A9597",
+      "description": "RAL-7001 Silver grey",
+      "label": "RAL-7001 Silver grey"
+    },
+    "540": {
+      "value": "#7E7B52",
+      "description": "RAL-7002 Olive grey",
+      "label": "RAL-7002 Olive grey"
+    },
+    "541": {
+      "value": "#6C7059",
+      "description": "RAL-7003 Moss grey",
+      "label": "RAL-7003 Moss grey"
+    },
+    "542": {
+      "value": "#969992",
+      "description": "RAL-7004 Signal grey",
+      "label": "RAL-7004 Signal grey"
+    },
+    "543": {
+      "value": "#646B63",
+      "description": "RAL-7005 Mouse grey",
+      "label": "RAL-7005 Mouse grey"
+    },
+    "544": {
+      "value": "#6D6552",
+      "description": "RAL-7006 Beige grey",
+      "label": "RAL-7006 Beige grey"
+    },
+    "545": {
+      "value": "#6A5F31",
+      "description": "RAL-7008 Khaki grey",
+      "label": "RAL-7008 Khaki grey"
+    },
+    "546": {
+      "value": "#4D5645",
+      "description": "RAL-7009 Green grey",
+      "label": "RAL-7009 Green grey"
+    },
+    "547": {
+      "value": "#4C514A",
+      "description": "RAL-7010 Tarpaulin grey",
+      "label": "RAL-7010 Tarpaulin grey"
+    },
+    "548": {
+      "value": "#434B4D",
+      "description": "RAL-7011 Iron grey",
+      "label": "RAL-7011 Iron grey"
+    },
+    "549": {
+      "value": "#4E5754",
+      "description": "RAL-7012 Basalt grey",
+      "label": "RAL-7012 Basalt grey"
+    },
+    "550": {
+      "value": "#464531",
+      "description": "RAL-7013 Brown grey",
+      "label": "RAL-7013 Brown grey"
+    },
+    "551": {
+      "value": "#434750",
+      "description": "RAL-7015 Slate grey",
+      "label": "RAL-7015 Slate grey"
+    },
+    "552": {
+      "value": "#293133",
+      "description": "RAL-7016 Anthracite grey",
+      "label": "RAL-7016 Anthracite grey"
+    },
+    "553": {
+      "value": "#23282B",
+      "description": "RAL-7021 Black grey",
+      "label": "RAL-7021 Black grey"
+    },
+    "554": {
+      "value": "#332F2C",
+      "description": "RAL-7022 Umbra grey",
+      "label": "RAL-7022 Umbra grey"
+    },
+    "555": {
+      "value": "#686C5E",
+      "description": "RAL-7023 Concrete grey",
+      "label": "RAL-7023 Concrete grey"
+    },
+    "556": {
+      "value": "#474A51",
+      "description": "RAL-7024 Graphite grey",
+      "label": "RAL-7024 Graphite grey"
+    },
+    "557": {
+      "value": "#2F353B",
+      "description": "RAL-7026 Granite grey",
+      "label": "RAL-7026 Granite grey"
+    },
+    "558": {
+      "value": "#8B8C7A",
+      "description": "RAL-7030 Stone grey",
+      "label": "RAL-7030 Stone grey"
+    },
+    "559": {
+      "value": "#474B4E",
+      "description": "RAL-7031 Blue grey",
+      "label": "RAL-7031 Blue grey"
+    },
+    "560": {
+      "value": "#B8B799",
+      "description": "RAL-7032 Pebble grey",
+      "label": "RAL-7032 Pebble grey"
+    },
+    "561": {
+      "value": "#7D8471",
+      "description": "RAL-7033 Cement grey",
+      "label": "RAL-7033 Cement grey"
+    },
+    "562": {
+      "value": "#8F8B66",
+      "description": "RAL-7034 Yellow grey",
+      "label": "RAL-7034 Yellow grey"
+    },
+    "563": {
+      "value": "#D7D7D7",
+      "description": "RAL-7035 Light grey",
+      "label": "RAL-7035 Light grey"
+    },
+    "564": {
+      "value": "#7F7679",
+      "description": "RAL-7036 Platinum grey",
+      "label": "RAL-7036 Platinum grey"
+    },
+    "565": {
+      "value": "#7D7F7D",
+      "description": "RAL-7037 Dusty grey",
+      "label": "RAL-7037 Dusty grey"
+    },
+    "566": {
+      "value": "#B5B8B1",
+      "description": "RAL-7038 Agate grey",
+      "label": "RAL-7038 Agate grey"
+    },
+    "567": {
+      "value": "#6C6960",
+      "description": "RAL-7039 Quartz grey",
+      "label": "RAL-7039 Quartz grey"
+    },
+    "568": {
+      "value": "#9DA1AA",
+      "description": "RAL-7040 Window grey",
+      "label": "RAL-7040 Window grey"
+    },
+    "569": {
+      "value": "#8D948D",
+      "description": "RAL-7042 Traffic grey A",
+      "label": "RAL-7042 Traffic grey A"
+    },
+    "570": {
+      "value": "#4E5452",
+      "description": "RAL-7043 Traffic grey B",
+      "label": "RAL-7043 Traffic grey B"
+    },
+    "571": {
+      "value": "#CAC4B0",
+      "description": "RAL-7044 Silk grey",
+      "label": "RAL-7044 Silk grey"
+    },
+    "572": {
+      "value": "#909090",
+      "description": "RAL-7045 Telegrey 1",
+      "label": "RAL-7045 Telegrey 1"
+    },
+    "573": {
+      "value": "#82898F",
+      "description": "RAL-7046 Telegrey 2",
+      "label": "RAL-7046 Telegrey 2"
+    },
+    "574": {
+      "value": "#D0D0D0",
+      "description": "RAL-7047 Telegrey 4",
+      "label": "RAL-7047 Telegrey 4"
+    },
+    "575": {
+      "value": "#898176",
+      "description": "RAL-7048 Pearl mouse grey",
+      "label": "RAL-7048 Pearl mouse grey"
+    },
+    "576": {
+      "value": "#826C34",
+      "description": "RAL-8000 Green brown",
+      "label": "RAL-8000 Green brown"
+    },
+    "577": {
+      "value": "#955F20",
+      "description": "RAL-8001 Ochre brown",
+      "label": "RAL-8001 Ochre brown"
+    },
+    "578": {
+      "value": "#6C3B2A",
+      "description": "RAL-8002 Signal brown",
+      "label": "RAL-8002 Signal brown"
+    },
+    "579": {
+      "value": "#734222",
+      "description": "RAL-8003 Clay brown",
+      "label": "RAL-8003 Clay brown"
+    },
+    "580": {
+      "value": "#8E402A",
+      "description": "RAL-8004 Copper brown",
+      "label": "RAL-8004 Copper brown"
+    },
+    "581": {
+      "value": "#59351F",
+      "description": "RAL-8007 Fawn brown",
+      "label": "RAL-8007 Fawn brown"
+    },
+    "582": {
+      "value": "#6F4F28",
+      "description": "RAL-8008 Olive brown",
+      "label": "RAL-8008 Olive brown"
+    },
+    "583": {
+      "value": "#5B3A29",
+      "description": "RAL-8011 Nut brown",
+      "label": "RAL-8011 Nut brown"
+    },
+    "584": {
+      "value": "#592321",
+      "description": "RAL-8012 Red brown",
+      "label": "RAL-8012 Red brown"
+    },
+    "585": {
+      "value": "#382C1E",
+      "description": "RAL-8014 Sepia brown",
+      "label": "RAL-8014 Sepia brown"
+    },
+    "586": {
+      "value": "#633A34",
+      "description": "RAL-8015 Chestnut brown",
+      "label": "RAL-8015 Chestnut brown"
+    },
+    "587": {
+      "value": "#4C2F27",
+      "description": "RAL-8016 Mahogany brown",
+      "label": "RAL-8016 Mahogany brown"
+    },
+    "588": {
+      "value": "#45322E",
+      "description": "RAL-8017 Chocolate brown",
+      "label": "RAL-8017 Chocolate brown"
+    },
+    "589": {
+      "value": "#403A3A",
+      "description": "RAL-8019 Grey brown",
+      "label": "RAL-8019 Grey brown"
+    },
+    "590": {
+      "value": "#212121",
+      "description": "RAL-8022 Black brown",
+      "label": "RAL-8022 Black brown"
+    },
+    "591": {
+      "value": "#A65E2E",
+      "description": "RAL-8023 Orange brown",
+      "label": "RAL-8023 Orange brown"
+    },
+    "592": {
+      "value": "#79553D",
+      "description": "RAL-8024 Beige brown",
+      "label": "RAL-8024 Beige brown"
+    },
+    "593": {
+      "value": "#755C48",
+      "description": "RAL-8025 Pale brown",
+      "label": "RAL-8025 Pale brown"
+    },
+    "594": {
+      "value": "#4E3B31",
+      "description": "RAL-8028 Terra brown",
+      "label": "RAL-8028 Terra brown"
+    },
+    "595": {
+      "value": "#763C28",
+      "description": "RAL-8029 Pearl copper",
+      "label": "RAL-8029 Pearl copper"
+    },
+    "596": {
+      "value": "#FDF4E3",
+      "description": "RAL-9001 Cream",
+      "label": "RAL-9001 Cream"
+    },
+    "597": {
+      "value": "#E7EBDA",
+      "description": "RAL-9002 Grey white",
+      "label": "RAL-9002 Grey white"
+    },
+    "598": {
+      "value": "#F4F4F4",
+      "description": "RAL-9003 Signal white",
+      "label": "RAL-9003 Signal white"
+    },
+    "599": {
+      "value": "#282828",
+      "description": "RAL-9004 Signal black",
+      "label": "RAL-9004 Signal black"
+    },
+    "600": {
+      "value": "#0A0A0A",
+      "description": "RAL-9005 Jet black",
+      "label": "RAL-9005 Jet black"
+    },
+    "601": {
+      "value": "#A5A5A5",
+      "description": "RAL-9006 White aluminium",
+      "label": "RAL-9006 White aluminium"
+    },
+    "602": {
+      "value": "#8F8F8F",
+      "description": "RAL-9007 Grey aluminium",
+      "label": "RAL-9007 Grey aluminium"
+    },
+    "603": {
+      "value": "#FFFFFF",
+      "description": "RAL-9010 Pure white",
+      "label": "RAL-9010 Pure white"
+    },
+    "604": {
+      "value": "#1C1C1C",
+      "description": "RAL-9011 Graphite black",
+      "label": "RAL-9011 Graphite black"
+    },
+    "605": {
+      "value": "#F6F6F6",
+      "description": "RAL-9016 Traffic white",
+      "label": "RAL-9016 Traffic white"
+    },
+    "606": {
+      "value": "#1E1E1E",
+      "description": "RAL-9017 Traffic black",
+      "label": "RAL-9017 Traffic black"
+    },
+    "607": {
+      "value": "#D7D7D7",
+      "description": "RAL-9018 Papyrus white",
+      "label": "RAL-9018 Papyrus white"
+    },
+    "608": {
+      "value": "#9C9C9C",
+      "description": "RAL-9022 Pearl light grey",
+      "label": "RAL-9022 Pearl light grey"
+    },
+    "609": {
+      "value": "#828282",
+      "description": "RAL-9023 Pearl dark grey",
+      "label": "RAL-9023 Pearl dark grey"
+    },
+    "610": {
+      "value": "lewe górne",
+      "label": "Doświetle"
+    },
+    "611": {
+      "value": "prawe górne",
+      "label": "Doświetle"
+    },
+    "612": {
+      "value": "lewe prawe górne",
+      "label": "Doświetle"
+    },
+    "613": {
+      "value": "Reflektoflat brązowy",
+      "description": "Reflektoflat brązowy",
+      "label": "Szyba"
+    },
+    "614": {
+      "value": "ORNAMENT Silvit",
+      "description": "ORNAMENT Silvit",
+      "label": "Szyba"
+    },
+    "615": {
+      "value": "ORNAMENT Master Carre 2",
+      "description": "ORNAMENT Master Carre 2",
+      "label": "Szyba"
+    },
+    "616": {
+      "value": "ORNAMENT Delta",
+      "description": "ORNAMENT Delta",
+      "label": " Szyba"
+    },
+    "617": {
+      "value": "ORNAMENT Chinchilla",
+      "description": "ORNAMENT Chinchilla",
+      "label": " Szyba"
+    },
+    "618": {
+      "value": "Antisol zielony",
+      "description": "Antisol  zielony",
+      "label": " Szyba"
+    },
+    "619": {
+      "value": "Antisol  szary",
+      "description": "Antisol  szary",
+      "label": " Szyba"
+    },
+    "620": {
+      "value": "Antisol niebieski",
+      "description": "Antisol niebieski",
+      "label": " Szyba"
+    },
+    "621": {
+      "value": "Antisol brązowy",
+      "description": "Antisol  brązowy",
+      "label": " Szyba"
+    },
+    "623": {
+      "value": "góra",
+      "label": "Doświetle"
+    },
+    "624": {
+      "value": "P45 58cm",
+      "description": "P45",
+      "label": "Pochwyt"
+    },
+    "625": {
+      "value": "P45L",
+      "description": "P45L",
+      "label": "Pochwyt"
+    },
+    "626": {
+      "value": "P45L 120 cm",
+      "description": "120 cm",
+      "label": "Pochwyt"
+    },
+    "627": {
+      "value": "P45L  180",
+      "description": "180 cm",
+      "label": "Pochwyt"
+    },
+    "628": {
+      "value": "Q10",
+      "description": "Q10",
+      "label": "Pochwyt"
+    },
+    "629": {
+      "value": "Q10 120 cm",
+      "description": "120 cm",
+      "label": "Pochwyt"
+    },
+    "630": {
+      "value": "Q10 180 cm",
+      "description": "180 cm",
+      "label": "Pochwyt"
+    },
+    "631": {
+      "value": "Q45RX",
+      "description": "Q45RX",
+      "label": "Pochwyt"
+    },
+    "632": {
+      "value": "Q45RX 80 cm",
+      "description": "80 cm",
+      "label": "Pochwyt"
+    },
+    "633": {
+      "value": "Q45RX 120",
+      "description": "120 cm",
+      "label": "Pochwyt"
+    },
+    "634": {
+      "value": "QA10",
+      "description": "QA10",
+      "label": "Pochwyt"
+    },
+    "635": {
+      "value": "Texas Wood",
+      "description": "Texas Wood",
+      "label": "Model "
+    },
+    "638": {
+      "value": "Montana 4",
+      "description": "Montana 4",
+      "label": "Model"
+    },
+    "639": {
+      "value": "Montana Wood",
+      "description": "Montana Wood",
+      "label": "Model"
+    },
+    "640": {
+      "value": "Klamka H6S36 (szyld 34 mm / klamka 26 mm)",
+      "description": "H6S36 34/26",
+      "label": "Klamka"
+    },
+    "641": {
+      "value": "H6S36 (szyld 34 mm / klamka 26 mm / czarna)",
+      "description": "czarna",
+      "label": "Klamka"
+    },
+    "642": {
+      "value": "H6S36 (szyld 34 mm / klamka 26 mm / inox)",
+      "description": "inox",
+      "label": "Klamka"
+    },
+    "644": {
+      "value": "H6S36 42/36",
+      "description": "H6S36 42/36",
+      "label": "klamka"
+    },
+    "646": {
+      "value": "H6S36 42/36 inox",
+      "description": "inox",
+      "label": "Klamka"
+    },
+    "647": {
+      "value": "H6S36 42/36 czarna",
+      "description": "czarna",
+      "label": "Klamka"
+    },
+    "649": {
+      "value": "H6S36 42/36  szyld krótki",
+      "description": "H6S36 42/36",
+      "label": "klamka"
+    },
+    "650": {
+      "value": "H6S36 42/36 szyld krótki czarna",
+      "description": "czarna",
+      "label": "Klamka"
+    },
+    "651": {
+      "value": "H6S36 42/36 szyld krótki inox",
+      "description": "inox",
+      "label": "Klamka"
+    },
+    "654": {
+      "value": "owalna",
+      "label": "Rozeta"
+    },
+    "655": {
+      "value": "Iglo Energy",
+      "description": "Iglo Energy",
+      "label": "System"
+    },
+    "656": {
+      "value": "brak",
+      "label": "Doświetle"
+    },
+    "657": {
+      "value": "Softline 4",
+      "description": "Wzór 4",
+      "label": "Wzór"
+    },
+    "658": {
+      "value": "#00000000",
+      "description": "Ciemny Dąb - Meranti",
+      "label": "Ciemny Dąb - Meranti"
+    },
+    "659": {
+      "value": "#00000000",
+      "description": "Jasny Dąb-Meranti",
+      "label": "Jasny Dąb-Meranti"
+    },
+    "660": {
+      "value": "Softline 68",
+      "description": "Softline 68",
+      "label": "System"
+    },
+    "661": {
+      "value": "#00000000",
+      "description": "Jasny Dąb - Sosna",
+      "label": "Jasny Dąb - Sosna"
+    },
+    "662": {
+      "value": "Klamka H6S36 (szyld 34 mm / klamka 26 mm)",
+      "description": "H6S36 34/26",
+      "label": "Klamka"
+    },
+    "663": {
+      "value": "H6S36 (szyld krótki 34 mm / klamka 26 mm / czarna)",
+      "description": "czarna",
+      "label": "Klamka"
+    },
+    "664": {
+      "value": "H6S36 (szyld krótki 34 mm / klamka 26 mm / inox)",
+      "description": "inox",
+      "label": "Klamka"
+    },
+    "667": {
+      "value": "lewe",
+      "label": "Doświetle"
+    },
+    "668": {
+      "value": "prawe",
+      "label": "Doświetle"
+    },
+    "669": {
+      "value": "lewe prawe",
+      "label": "Doświetle"
+    },
+    "670": {
+      "value": "lewe prawe górne",
+      "label": "Doświetle"
+    },
+    "671": {
+      "value": "prawe górne",
+      "label": "Doświetle"
+    },
+    "673": {
+      "value": "lewe górne",
+      "label": "Doświetle"
+    },
+    "674": {
+      "value": "#00000000",
+      "description": "Ciemny Dąb - Sosna",
+      "label": "Ciemny Dąb - Sosna"
+    },
+    "675": {
+      "value": "Dzwi w kolorze profilu",
+      "label": "Dzwi w kolorze profilu"
+    },
+    "677": {
+      "value": "sosna",
+      "label": "Usłojenie"
+    },
+    "678": {
+      "value": "meranti",
+      "label": "Usłojenie"
+    },
+    "679": {
+      "value": "góra",
+      "label": "Doświetle"
+    },
+    "680": {
+      "value": "lewe",
+      "label": "Doświetle"
+    },
+    "681": {
+      "value": "lewe górne",
+      "label": "Doświetle"
+    },
+    "682": {
+      "value": "lewe prawe",
+      "label": "Doświetle"
+    },
+    "683": {
+      "value": "lewe prawe górne",
+      "label": "Doświetle"
+    },
+    "684": {
+      "value": "prawe",
+      "label": "Doświetle"
+    },
+    "685": {
+      "value": "prawe górne",
+      "label": "Doświetle"
+    },
+    "686": {
+      "value": "Softline 1",
+      "description": "Wzór 1",
+      "label": "Wzór "
+    },
+    "687": {
+      "value": "Softline 2",
+      "description": "Wzór 2",
+      "label": "Wzór "
+    },
+    "688": {
+      "value": "Softline 3",
+      "description": "Wzór 3",
+      "label": "Wzór "
+    },
+    "689": {
+      "value": "Softline 5",
+      "description": "Wzór 5",
+      "label": "Wzór "
+    },
+    "690": {
+      "value": "Softline 6",
+      "description": "Wzór 6",
+      "label": "Wzór "
+    },
+    "691": {
+      "value": "Softline 7",
+      "description": "Wzór 7",
+      "label": "Wzór "
+    },
+    "692": {
+      "value": "Softline 8",
+      "description": "Wzór 8",
+      "label": "Wzór "
+    },
+    "693": {
+      "value": "Hawaii Inox 1",
+      "description": "Hawaii Inox 1",
+      "label": "Model"
+    },
+    "696": {
+      "value": "Texas Wood L",
+      "description": "Lewa",
+      "label": "Model "
+    },
+    "697": {
+      "value": "Texas Wood P",
+      "description": "Prawa",
+      "label": "Model "
+    },
+    "698": {
+      "value": "Pennsylwania 4 L",
+      "description": "Lewa",
+      "label": "Model"
+    },
+    "701": {
+      "value": "Pennsylwania 4 P",
+      "description": "Prawa",
+      "label": "Model"
+    },
+    "708": {
+      "value": "owalna, biała",
+      "description": "biała",
+      "label": "Rozeta"
+    },
+    "709": {
+      "value": "owalna, czarna",
+      "description": "czarna",
+      "label": "Rozeta"
+    },
+    "710": {
+      "value": "owalna, oliwka",
+      "description": "oliwka",
+      "label": "Rozeta"
+    },
+    "711": {
+      "value": "owalna, inox",
+      "description": "inox",
+      "label": "Rozeta"
+    },
+    "712": {
+      "value": "Washington 5",
+      "description": "Washington 5",
+      "label": "Model"
+    },
+    "713": {
+      "value": "New Jersey Inox",
+      "description": "New Jersey Inox",
+      "label": "Model "
+    },
+    "714": {
+      "value": "New Jersey",
+      "description": "New Jersey",
+      "label": "Model "
+    },
+    "715": {
+      "value": "pierścieniowa",
+      "label": "Rozeta"
+    },
+    "720": {
+      "value": "Hawaii 2",
+      "description": "Hawaii 2",
+      "label": "Model"
+    },
+    "721": {
+      "value": "Hawaii 3",
+      "description": "Hawaii 3",
+      "label": "Model"
+    },
+    "725": {
+      "value": "Montana 3",
+      "description": "Montana 3",
+      "label": "Model "
+    },
+    "726": {
+      "value": "Montana 3 L",
+      "description": "Lewa",
+      "label": "Model "
+    },
+    "727": {
+      "value": "Montana 3 P",
+      "description": "Prawa",
+      "label": "Model "
+    },
+    "728": {
+      "value": "Ohio Inox 1",
+      "description": "Ohio 1",
+      "label": "Model"
+    },
+    "729": {
+      "value": "Softline 3 Lewe",
+      "description": "Lewe",
+      "label": "Wzór "
+    },
+    "731": {
+      "value": "Softline 3 Prawe",
+      "description": "Prawe",
+      "label": "Wzór "
+    },
+    "736": {
+      "value": "Softline 4 Lewe",
+      "description": "Lewe",
+      "label": "Wzór "
+    },
+    "737": {
+      "value": "Softline 4 Prawe",
+      "description": "Prawe",
+      "label": "Wzór "
+    },
+    "741": {
+      "value": "Softline 7 Lewe",
+      "description": "Lewe",
+      "label": "Wzór "
+    },
+    "742": {
+      "value": "Softline 7 Prawe",
+      "description": "Prawe",
+      "label": "Wzór "
+    },
+    "743": {
+      "value": "#00000000",
+      "description": "Palisander-Meranti",
+      "label": "Palisander-Meranti"
+    },
+    "744": {
+      "value": "#00000000",
+      "description": "Orzech-Meranti",
+      "label": "Orzech-Meranti"
+    },
+    "745": {
+      "value": "#00000000",
+      "description": "Teak-Meranti",
+      "label": "Teak-Meranti"
+    },
+    "746": {
+      "value": "#00000000",
+      "description": "Biały-Meranti",
+      "label": "Biały-Meranti"
+    },
+    "747": {
+      "value": "#00000000",
+      "description": "Mahoń-Meranti",
+      "label": "Mahoń-Meranti"
+    },
+    "748": {
+      "value": "#00000000",
+      "description": "Teak-Sosna",
+      "label": "Teak-Sosna"
+    },
+    "749": {
+      "value": "#00000000",
+      "description": "Polisander-Sosna",
+      "label": "Polisander-Sosna"
+    },
+    "750": {
+      "value": "#00000000",
+      "description": "Orzech-Sosna",
+      "label": "Orzech-Sosna"
+    },
+    "751": {
+      "value": "#00000000",
+      "description": "Biały-Sosna",
+      "label": "Biały-Sosna"
+    },
+    "752": {
+      "value": "#00000000",
+      "description": "Mahoń-Sosna",
+      "label": "Mahoń-Sosna"
+    },
+    "760": {
+      "value": "Gałkoklamka 30A",
+      "description": "Gałkoklamka 30A",
+      "label": "Klamka"
+    },
+    "762": {
+      "value": "Gałkoklamka 30A biała",
+      "description": "biała",
+      "label": "Klamka"
+    },
+    "763": {
+      "value": "Gałkoklamka 30A brązowa",
+      "description": "brązowa",
+      "label": "Klamka"
+    },
+    "764": {
+      "value": "Gałkoklamka 30A oliwkowa",
+      "description": "oliwkowa",
+      "label": "Klamka"
+    },
+    "765": {
+      "value": "Gałkoklamka 30A srebrna",
+      "description": "srebrna",
+      "label": "Klamka"
+    },
+    "766": {
+      "value": "Gałkoklamka 30A Stal inox",
+      "description": "inox",
+      "label": "Klamka"
+    },
+    "776": {
+      "value": "CORE-8100 Biała",
+      "description": "biała",
+      "label": "Klamka"
+    },
+    "777": {
+      "value": "CORE-8100 Brązowa",
+      "description": "brązowa",
+      "label": "Klamka"
+    },
+    "778": {
+      "value": "CORE-8100 Oliwkowa",
+      "description": "oliwkowa",
+      "label": "Klamka"
+    },
+    "779": {
+      "value": "CORE-8100 Srebrna",
+      "description": "srebrna",
+      "label": "Klamka"
+    },
+    "780": {
+      "value": "CORE-8100 Inox",
+      "description": "inox",
+      "label": "Klamka"
+    },
+    "789": {
+      "value": "CORE-8100-P biała",
+      "description": "biała",
+      "label": "Klamka"
+    },
+    "790": {
+      "value": "CORE-8100-P brązowa",
+      "description": "brązowa",
+      "label": "Klamka"
+    },
+    "791": {
+      "value": "CORE-8100-P oliwkowa",
+      "description": "oliwkowa",
+      "label": "Klamka"
+    },
+    "792": {
+      "value": "CORE-8100-P srebrna",
+      "description": "srebrna",
+      "label": "Klamka"
+    },
+    "793": {
+      "value": "CORE-8100-P inox",
+      "description": "inox",
+      "label": "Klamka"
+    },
+    "794": {
+      "value": "30A",
+      "description": "Klamka 30A",
+      "label": "Klamka"
+    },
+    "795": {
+      "value": "Klamka 30A Biała",
+      "description": "biała",
+      "label": "Klamka"
+    },
+    "796": {
+      "value": "Klamka 30A Brązowa",
+      "description": "brązowa",
+      "label": "Klamka"
+    },
+    "797": {
+      "value": "Klamka 30A Oliwkowa",
+      "description": "oliwkowa",
+      "label": "Klamka"
+    },
+    "798": {
+      "value": "Klamka 30A Srebrna",
+      "description": "srebrna",
+      "label": "Klamka"
+    },
+    "799": {
+      "value": "Klamka 30A inox",
+      "description": "inox",
+      "label": "Klamka"
+    },
+    "800": {
+      "value": "30A R",
+      "description": "Klamka 30A R",
+      "label": "Klamka"
+    },
+    "801": {
+      "value": "Klamka 30A R Biała",
+      "description": "biała",
+      "label": "Klamka"
+    },
+    "802": {
+      "value": "Klamka 30A R Brązowa",
+      "description": "brązowa",
+      "label": "Klamka"
+    },
+    "803": {
+      "value": "Klamka 30A R Oliwkowa",
+      "description": "oliwkowa",
+      "label": "Klamka"
+    },
+    "804": {
+      "value": "Klamka 30A R Srebrna",
+      "description": "srebrna",
+      "label": "Klamka"
+    },
+    "805": {
+      "value": "Klamka 30A inox",
+      "description": "inox",
+      "label": "Klamka"
+    },
+    "806": {
+      "value": "Colorado C",
+      "description": "Colorado",
+      "label": "Model"
+    },
+    "807": {
+      "value": "Pennsylwania 1",
+      "description": "Pennsylwania 1",
+      "label": "Model"
+    },
+    "808": {
+      "value": "Pennsylwania 3",
+      "description": "Pennsylwania 3",
+      "label": "Model"
+    },
+    "809": {
+      "value": "Pennsylwania 3 P",
+      "description": "Prawa",
+      "label": "Model"
+    },
+    "810": {
+      "value": "Pennsylwania 3 L",
+      "description": "Lewa",
+      "label": "Model"
+    },
+    "811": {
+      "value": "Montana 2",
+      "description": "Montana 2",
+      "label": "Model"
+    }
+  },
+  "grupa": {
+    "1": {
+      "shortDescription": "Systemy ALU"
+    },
+    "2": {
+      "shortDescription": "Przeszklenie skrzydła"
+    },
+    "3": {
+      "shortDescription": "Wzory wypełnień"
+    },
+    "5": {
+      "shortDescription": "Klamka"
+    },
+    "6": {
+      "shortDescription": "Typ Szprosów",
+      "longDescription": "Grupa zawierająca elemnty których nie da się zmienić"
+    },
+    "8": {
+      "shortDescription": "Przeszklenie doświetli"
+    },
+    "9": {
+      "shortDescription": "Dostępne systemy w ramach stolarki PVC"
+    },
+    "13": {
+      "shortDescription": "Ramki międzyszybowe",
+      "longDescription": "* elementy niewidoczne na wizualizacji"
+    },
+    "14": {
+      "shortDescription": "Kierunek"
+    },
+    "16": {
+      "shortDescription": "Wymiary drzwi"
+    },
+    "17": {
+      "shortDescription": "Wymiary doświetli",
+      "longDescription": "Górne"
+    },
+    "19": {
+      "shortDescription": "Wymiary doświetla lewego",
+      "longDescription": "Lewe"
+    },
+    "20": {
+      "shortDescription": "Wymiary doświetla prawego",
+      "longDescription": "Prawe"
+    },
+    "21": {
+      "shortDescription": "Skrzydło zewnątrz"
+    },
+    "22": {
+      "shortDescription": "Rama"
+    },
+    "23": {
+      "shortDescription": "Kolor ramy wewnątrz"
+    },
+    "24": {
+      "shortDescription": "Pochwyt / klamka"
+    },
+    "25": {
+      "shortDescription": "Wizualizacja ościeżnic",
+      "longDescription": "wybierz ile chcesz doświetli"
+    },
+    "29": {
+      "shortDescription": "Aplikacja w panelu"
+    },
+    "30": {
+      "shortDescription": "Panel"
+    },
+    "32": {
+      "shortDescription": "Wizualizacja ościeżnic"
+    },
+    "33": {
+      "shortDescription": "Skrzydło wewnątrz"
+    },
+    "34": {
+      "shortDescription": "Skrzydło zewnątrz"
+    },
+    "35": {
+      "shortDescription": "Wzory wypełnień"
+    },
+    "36": {
+      "shortDescription": "Kolor ramy zewnątrz"
+    },
+    "37": {
+      "shortDescription": "Skrzydło wewnątrz"
+    },
+    "38": {
+      "shortDescription": "Panel"
+    },
+    "42": {
+      "shortDescription": "Pochwyt / klamka"
+    },
+    "43": {
+      "shortDescription": "Zamek"
+    },
+    "44": {
+      "shortDescription": "Zamek"
+    },
+    "45": {
+      "shortDescription": "Wizualizacja ościeżnic"
+    },
+    "46": {
+      "shortDescription": "wzory drzwi drewnianych"
+    },
+    "48": {
+      "shortDescription": "Skrzydło wewnątrz"
+    },
+    "49": {
+      "shortDescription": "Skrzydło zewnątrz"
+    },
+    "50": {
+      "shortDescription": "Systemy DREWNO"
+    },
+    "51": {
+      "shortDescription": "Kolor ramy zewnątrz"
+    },
+    "52": {
+      "shortDescription": "Kolor ramy wewnątrz"
+    },
+    "56": {
+      "shortDescription": "Drzwi w kolorze profilu"
+    },
+    "57": {
+      "shortDescription": "Usłojenie"
+    },
+    "58": {
+      "shortDescription": "Klamka"
+    },
+    "59": {
+      "shortDescription": "Klamka "
+    },
+    "61": {
+      "shortDescription": " Klamka"
+    },
+    "62": {
+      "shortDescription": "Rama"
+    },
+    "63": {
+      "shortDescription": "Rama"
+    }
+  },
+  "stolarka": {
+    "2": {
+      "description": "ALUMINIUM"
+    },
+    "10": {
+      "description": "PVC"
+    },
+    "15": {
+      "description": "DREWNO"
+    }
+  },
+  "sekcja": {
+    "1792": {
+      "shortDescription": "Wymiary"
+    },
+    "1760": {
+      "shortDescription": "Wypełnienie"
+    },
+    "1761": {
+      "shortDescription": "Szkło"
+    },
+    "1762": {
+      "shortDescription": "Akcesoria"
+    },
+    "1763": {
+      "shortDescription": "Kolory"
+    },
+    "1764": {
+      "shortDescription": "Wymiary"
+    },
+    "1772": {
+      "shortDescription": "System"
+    },
+    "1773": {
+      "shortDescription": "Konstrukcja"
+    },
+    "1774": {
+      "shortDescription": "Wypełnienie"
+    },
+    "1775": {
+      "shortDescription": "Szkło"
+    },
+    "1776": {
+      "shortDescription": "Akcesoria"
+    },
+    "1777": {
+      "shortDescription": "Kolory"
+    },
+    "1778": {
+      "shortDescription": "Wymiary"
+    },
+    "1786": {
+      "shortDescription": "System"
+    },
+    "1787": {
+      "shortDescription": "Konstrukcja"
+    },
+    "1788": {
+      "shortDescription": "Wypełnienie"
+    },
+    "1789": {
+      "shortDescription": "Szkło"
+    },
+    "1790": {
+      "shortDescription": "Akcesoria"
+    },
+    "1758": {
+      "shortDescription": "System"
+    },
+    "1791": {
+      "shortDescription": "Kolory"
+    },
+    "1759": {
+      "shortDescription": "Konstrukcja"
+    }
+  }
+}
