@@ -22,7 +22,7 @@ export function ColorSwatch({ colors, selectedColorId, onColorSelect }: ColorSwa
     <div className="w-full space-y-8">
       {Object.entries(groupedColors).map(([groupName, groupColors]) => (
         <div key={groupName}>
-          <h4 className="text-mammut-gold text-[10px] font-bold uppercase tracking-[0.2em] mb-4 pb-2 border-b border-mammut-border">
+          <h4 className="text-mammut-gold text-[10px] font-bold uppercase tracking-[0.2em] mb-4 pb-2 border-b border-gray-200">
             {t(`colorGroups.${groupName}`)}
           </h4>
           <div className="flex flex-wrap gap-3">
@@ -33,24 +33,24 @@ export function ColorSwatch({ colors, selectedColorId, onColorSelect }: ColorSwa
                   key={color.id}
                   onClick={() => onColorSelect(color)}
                   className={`relative group w-10 h-10 transition-all duration-200 outline outline-offset-2 ${
-                    isSelected ? 'outline-[#eab676]' : 'outline-transparent hover:outline-white/30'
+                    isSelected ? 'outline-[#eab676]' : 'outline-transparent hover:outline-black/20'
                   }`}
                   aria-label={`Select color ${t(`colors.${color.id}`)}`}
                   title={t(`colors.${color.id}`)}
                 >
                   {color.image ? (
                     <div 
-                      className="w-full h-full border border-white/10 bg-cover bg-center"
+                      className="w-full h-full border border-black/10 bg-cover bg-center"
                       style={{ backgroundImage: `url(${color.image})` }}
                     />
                   ) : (
                     <div
-                      className="w-full h-full border border-white/10"
+                      className="w-full h-full border border-black/10"
                       style={{ backgroundColor: color.hex }}
                     />
                   )}
                   {/* Tooltip on hover */}
-                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max px-2 py-1 bg-mammut-dark border border-mammut-border text-mammut-white text-[10px] uppercase font-semibold opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 shadow-lg shadow-black/50">
+                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max px-2 py-1 bg-white border border-gray-200 text-black text-[10px] uppercase font-semibold opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 shadow-lg shadow-black/50">
                     {t(`colors.${color.id}`)}
                   </span>
                 </button>

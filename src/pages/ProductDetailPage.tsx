@@ -56,13 +56,13 @@ function HandlesSlider() {
     <section className="py-16 border-b border-gray-200" style={{ background: 'white' }}>
       <div className="max-w-7xl mx-auto px-6">
         <h2 className="text-3xl font-black text-black uppercase tracking-widest mb-2">{t('productDetail.handlesTitle')}</h2>
-        <p className="!text-gray-500 text-sm mb-10 max-w-2xl">
+        <p className="!text-gray-600 text-sm mb-10 max-w-2xl">
           {t('productDetail.handlesDesc')}
         </p>
         <div className="relative flex items-center gap-4">
           <button
             onClick={() => setPage(p => (p - 1 + totalPages) % totalPages)}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-gray-200 text-gray-500 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-gray-200 text-gray-600 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
             aria-label="Previous"
           >
             <ChevronLeft size={20} />
@@ -82,7 +82,7 @@ function HandlesSlider() {
           </div>
           <button
             onClick={() => setPage(p => (p + 1) % totalPages)}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-gray-200 text-gray-500 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-gray-200 text-gray-600 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
             aria-label="Next"
           >
             <ChevronRight size={20} />
@@ -220,7 +220,7 @@ function AdditionalOptionSlider({ items }: { items: { name: string; image: strin
       {totalPages > 1 && (
         <button
           onClick={() => setPage(p => (p - 1 + totalPages) % totalPages)}
-          className="flex-shrink-0 w-8 h-8 flex items-center justify-center border border-gray-200 text-gray-500 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
+          className="flex-shrink-0 w-8 h-8 flex items-center justify-center border border-gray-200 text-gray-600 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
           aria-label="Previous"
         >
           <ChevronLeft size={16} />
@@ -237,7 +237,7 @@ function AdditionalOptionSlider({ items }: { items: { name: string; image: strin
                 className="w-full h-full object-contain hover:scale-105 transition-transform duration-300"
               />
             </div>
-            <p className="!text-gray-500 text-[11px] text-center leading-tight px-1 whitespace-pre-line">{item.name}</p>
+            <p className="!text-gray-600 text-[11px] text-center leading-tight px-1 whitespace-pre-line">{item.name}</p>
           </div>
         ))}
         {Array.from({ length: AO_PER_PAGE - visible.length }).map((_, i) => (
@@ -248,7 +248,7 @@ function AdditionalOptionSlider({ items }: { items: { name: string; image: strin
       {totalPages > 1 && (
         <button
           onClick={() => setPage(p => (p + 1) % totalPages)}
-          className="flex-shrink-0 w-8 h-8 flex items-center justify-center border border-gray-200 text-gray-500 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
+          className="flex-shrink-0 w-8 h-8 flex items-center justify-center border border-gray-200 text-gray-600 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
           aria-label="Next"
         >
           <ChevronRight size={16} />
@@ -279,7 +279,7 @@ function AdditionalOptionsSection() {
     <section className="py-16 border-b border-gray-200" style={{ background: 'white' }}>
       <div className="max-w-7xl mx-auto px-6">
         <h2 className="text-3xl font-black text-black uppercase tracking-widest mb-2">{t('productDetail.optionsTitle')}</h2>
-        <p className="!text-gray-500 text-sm mb-12 max-w-2xl">
+        <p className="!text-gray-600 text-sm mb-12 max-w-2xl">
           {t('productDetail.optionsDesc')}
         </p>
 
@@ -289,7 +289,7 @@ function AdditionalOptionsSection() {
               {/* Left: info panel */}
               <div className="w-56 flex-shrink-0">
                 <h3 className="text-black font-black text-lg uppercase leading-tight mb-2">{group.title}</h3>
-                <p className="!text-gray-500 text-xs leading-relaxed mb-4">{group.description}</p>
+                <p className="!text-gray-600 text-xs leading-relaxed mb-4">{group.description}</p>
                 <a
                   href={group.seeAllHref}
                   target="_blank"
@@ -342,7 +342,7 @@ function GlazingSection({ glassOptions }: { glassOptions: GlassOption[] }) {
                 </div>
                 <span
                   className="text-[10px] text-center leading-tight transition-colors duration-200 w-full px-0.5"
-                  style={{ color: selected.id === glass.id ? '#eab676' : 'rgba(255,255,255,0.6)' }}
+                  style={{ color: selected.id === glass.id ? '#eab676' : 'rgba(0,0,0,0.6)' }}
                 >
                   {t(`glass.${glass.id}`)}
                 </span>
@@ -351,7 +351,7 @@ function GlazingSection({ glassOptions }: { glassOptions: GlassOption[] }) {
           </div>
 
           {/* Large preview panel */}
-          <div className="lg:w-[45%] flex-shrink-0 bg-gray-50 overflow-hidden">
+          <div className="lg:w-[45%] flex-shrink-0 bg-white overflow-hidden">
             <img
               key={selected.id}
               src={selected.largeImage}
@@ -536,14 +536,14 @@ export function ProductDetailPage() {
               {/* Front: profile cross-section photo */}
               <div
                 style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
-                className="absolute inset-0 bg-gray-50 border border-gray-200 flex items-center justify-center p-10"
+                className="absolute inset-0 bg-white border border-gray-200 flex items-center justify-center p-10"
               >
                 <img
                   src={detailData.profileImage}
                   alt="IGLO EDGE profile cross-section"
                   className="w-full h-full object-contain"
                 />
-                <span className="absolute bottom-4 right-4 text-[10px] text-gray-400 uppercase tracking-widest">{t('productDetail.profile')}</span>
+                <span className="absolute bottom-4 right-4 text-[10px] text-gray-600 uppercase tracking-widest">{t('productDetail.profile')}</span>
               </div>
 
               {/* Back: technical drawing */}
@@ -609,11 +609,11 @@ export function ProductDetailPage() {
       </section>
 
       {/* 3. Interactive Color Swatch Section */}
-      <section className="bg-gray-50 border-b border-gray-200 py-24">
+      <section className="bg-white border-b border-gray-200 py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-black text-black uppercase tracking-widest mb-4">{t('productDetail.colorsTitle')}</h2>
-            <p className="!text-gray-500 max-w-2xl mx-auto">{t('productDetail.colorsDesc', { count: detailData.colors.length, name: detailData.name })}</p>
+            <p className="!text-gray-600 max-w-2xl mx-auto">{t('productDetail.colorsDesc', { count: detailData.colors.length, name: detailData.name })}</p>
           </div>
 
           <div className="grid lg:grid-cols-12 gap-12">
@@ -632,7 +632,7 @@ export function ProductDetailPage() {
               <div className="absolute text-gray-300 text-xs font-bold tracking-widest z-30 bg-white/80 px-3 py-1 uppercase rounded-sm backdrop-blur-sm -bottom-4">{t('productDetail.preview')}</div>
               
               <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center text-xs z-40">
-                <span className="text-gray-400 uppercase tracking-widest border border-black/10 px-3 py-1 bg-gray-50/90 rounded-sm">{t('productDetail.selectedFinish')}</span>
+                <span className="text-gray-600 uppercase tracking-widest border border-black/10 px-3 py-1 bg-white/90 rounded-sm">{t('productDetail.selectedFinish')}</span>
                 <span className="text-mammut-gold font-black uppercase tracking-widest drop-shadow-md">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</span>
               </div>
             </div>
@@ -685,7 +685,7 @@ export function ProductDetailPage() {
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           <div className="hidden md:block">
             <span className="text-black font-black tracking-widest uppercase mr-4">{detailData.name}</span>
-            <span className="text-gray-400 text-xs uppercase tracking-widest">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</span>
+            <span className="text-gray-600 text-xs uppercase tracking-widest">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</span>
           </div>
           <div className="flex w-full md:w-auto gap-4">
              <Link 
