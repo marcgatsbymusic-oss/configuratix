@@ -1017,5 +1017,27 @@
         "value_3": "3"
       }
     }
+  },
+  "glass": {
+    "g1": "33.1 safety",
+    "g2": "33.2 (\"safety\") matt film",
+    "g3": "44.4 anti-burglary",
+    "g4": "Antisol Dark Blue 6",
+    "g5": "Antisol grey 6",
+    "g6": "Antisol brown 4",
+    "g7": "Antisol brown 6",
+    "g8": "Antisol green 4",
+    "g9": "Antisol green 6",
+    "g10": "Chinchilla white 4",
+    "g11": "Float 4",
+    "g12": "Float 6",
+    "g13": "Mirastar",
+    "g14": "Ornament Cathedral",
+    "g15": "Ornament Delta 4",
+    "g16": "Ornament Master Carre",
+    "g17": "Ornament Silvit 4",
+    "g18": "Stopsol blue 6",
+    "g19": "Stopsol brown 6",
+    "g20": "Waterfall 105"
   }
 }
