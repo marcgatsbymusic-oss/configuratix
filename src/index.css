@@ -207,5 +207,7 @@ p {
 .product-hero-title,
 .product-hero-tagline,
 .product-hero-spec-value,
-.product-hero-spec-label,
-
+.product-hero-spec-label {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
