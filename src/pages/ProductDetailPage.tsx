@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { Check, ChevronLeft, ChevronRight, Play, X } from 'lucide-react'
+import { Check, ChevronLeft, ChevronRight, Play, X, Search } from 'lucide-react'
 import * as ProductDetailsData from '../data/productDetails'
 import type { GlassOption, ProductDetailData } from '../data/productDetails'
 import { PRODUCTS } from '../data/products'
@@ -53,16 +53,16 @@ function HandlesSlider() {
   const visible = HANDLES.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE)
 
   return (
-    <section className="py-16 border-b border-gray-200" style={{ background: 'white' }}>
+    <section className="py-16 border-b border-gray-900" style={{ background: '#0e0e0f' }}>
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-black text-black uppercase tracking-widest mb-2">{t('productDetail.handlesTitle')}</h2>
-        <p className="!text-gray-600 text-sm mb-10 max-w-2xl">
+        <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-2">{t('productDetail.handlesTitle')}</h2>
+        <p className="!text-gray-400 text-sm mb-10 max-w-2xl">
           {t('productDetail.handlesDesc')}
         </p>
         <div className="relative flex items-center gap-4">
           <button
             onClick={() => setPage(p => (p - 1 + totalPages) % totalPages)}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-gray-200 text-gray-600 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-gray-700 text-gray-400 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
             aria-label="Previous"
           >
             <ChevronLeft size={20} />
@@ -70,10 +70,10 @@ function HandlesSlider() {
           <div className="flex-1 grid grid-cols-5 gap-4">
             {visible.map(handle => (
               <div key={handle.name} className="flex flex-col items-center gap-3">
-                <div className="w-full aspect-square flex items-end justify-center overflow-hidden bg-white">
+                <div className="w-full aspect-square flex items-end justify-center overflow-hidden bg-white rounded-sm">
                   <img src={handle.image} alt={t(`sliderHandles.${handle.name}`)} className="w-full h-full object-contain hover:scale-105 transition-transform duration-300" />
                 </div>
-                <p className="!text-gray-600 text-[11px] text-center leading-tight px-1">{t(`sliderHandles.${handle.name}`)}</p>
+                <p className="!text-gray-400 text-[11px] text-center leading-tight px-1">{t(`sliderHandles.${handle.name}`)}</p>
               </div>
             ))}
             {Array.from({ length: PER_PAGE - visible.length }).map((_, i) => (
@@ -82,7 +82,7 @@ function HandlesSlider() {
           </div>
           <button
             onClick={() => setPage(p => (p + 1) % totalPages)}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-gray-200 text-gray-600 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-gray-700 text-gray-400 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
             aria-label="Next"
           >
             <ChevronRight size={20} />
@@ -94,7 +94,7 @@ function HandlesSlider() {
               key={i}
               onClick={() => setPage(i)}
               className="w-2 h-2 rounded-full transition-colors duration-200"
-              style={{ background: i === page ? '#eab676' : 'rgba(0,0,0,0.2)' }}
+              style={{ background: i === page ? '#eab676' : 'rgba(255,255,255,0.2)' }}
               aria-label={`Page ${i + 1}`}
             />
           ))}
@@ -149,10 +149,17 @@ const ADDITIONAL_OPTIONS = [
   {
     id: 'glass',
     title: 'Sandblasted glass',
-    description: 'A perfect combination of modern design and privacy.',
+    description: 'Express your unique style on your windows and doors. We offer the possibility of creating any sandblasting pattern in three shades of gray.',
     seeAllHref: '/products/addons/type/272',
     items: [
-      { name: 'Sandblasted patterns (24 options)', image: '/assets/additional-options/glass-sandblasted-1.webp' },
+      { name: 'Example 1', image: '/assets/additional-options/sandblasted-1.webp' },
+      { name: 'Example 2', image: '/assets/additional-options/sandblasted-2.webp' },
+      { name: 'Example 3', image: '/assets/additional-options/sandblasted-3.webp' },
+      { name: 'Example 4', image: '/assets/additional-options/sandblasted-4.webp' },
+      { name: 'Example 5', image: '/assets/additional-options/sandblasted-5.webp' },
+      { name: 'Example 6', image: '/assets/additional-options/sandblasted-6.webp' },
+      { name: 'Example 7', image: '/assets/additional-options/sandblasted-7.webp' },
+      { name: 'Example 8', image: '/assets/additional-options/sandblasted-8.webp' },
     ],
   },
   {
@@ -192,26 +199,8 @@ const ADDITIONAL_OPTIONS = [
       { name: 'Window sill 150 mm', image: '/assets/additional-options/sill-150mm.webp' },
     ],
   },
-  {
-    id: 'shutters',
-    title: 'Roller Shutters',
-    description: 'Protect your home with integrated external roller shutters.',
-    seeAllHref: 'https://www.drutex.eu/en/products/roller-shutters/',
-    items: [
-      { name: 'PVC Roller Shutter', image: '/assets/placeholder-shutter.jpg' },
-      { name: 'External Aluminum Shutter', image: '/assets/placeholder-shutter.jpg' },
-    ],
-  },
-  {
-    id: 'mosquito-nets',
-    title: 'Mosquito Nets',
-    description: 'Keep insects out while letting fresh air in.',
-    seeAllHref: 'https://www.drutex.eu/en/products/addons/',
-    items: [
-      { name: 'Fixed Frame Mosquito Net', image: '/assets/placeholder-window.jpg' },
-      { name: 'Integrated Roll-up Net', image: '/assets/placeholder-window.jpg' },
-    ],
-  },
+
+
 ]
 
 const AO_PER_PAGE = 3
@@ -278,19 +267,23 @@ function AdditionalOptionSlider({ items }: { items: { name: string; image: strin
   )
 }
 
-function AdditionalOptionsSection() {
+function AdditionalOptionsSection({ options = ADDITIONAL_OPTIONS, hideHeader = false }: { options?: typeof ADDITIONAL_OPTIONS, hideHeader?: boolean }) {
   const { t } = useTranslation()
 
   return (
     <section className="py-16 border-b border-gray-200" style={{ background: 'white' }}>
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-black text-black uppercase tracking-widest mb-2">{t('productDetail.optionsTitle')}</h2>
-        <p className="!text-gray-600 text-sm mb-12 max-w-2xl">
-          {t('productDetail.optionsDesc')}
-        </p>
+        {!hideHeader && (
+          <>
+            <h2 className="text-3xl font-black text-black uppercase tracking-widest mb-2">{t('productDetail.optionsTitle')}</h2>
+            <p className="!text-gray-600 text-sm mb-12 max-w-2xl">
+              {t('productDetail.optionsDesc')}
+            </p>
+          </>
+        )}
 
         <div className="space-y-10">
-          {ADDITIONAL_OPTIONS.map(group => (
+          {options.map(group => (
             <div key={group.id} className="flex gap-8 border-b border-gray-200 pb-10 last:border-0 last:pb-0">
               {/* Left: info panel */}
               <div className="w-56 flex-shrink-0">
@@ -422,14 +415,22 @@ export function ProductDetailPage() {
       {/* 1. Hero Section (Full Width, matches the top section requested by user) */}
       <section className="relative h-[80vh] min-h-[600px] flex items-end justify-center pb-8 lg:pb-12 overflow-hidden">
         <div className="absolute inset-0 bg-mammut-black z-0">
-          <video 
-            src={detailData.videoSrc}
-            autoPlay 
-            loop 
-            muted 
-            playsInline
-            className="w-full h-full object-cover"
-          />
+          {detailData.videoSrc ? (
+            <video 
+              src={detailData.videoSrc}
+              autoPlay 
+              loop 
+              muted 
+              playsInline
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <img 
+              src={detailData.heroImage}
+              alt={detailData.name}
+              className="w-full h-full object-cover"
+            />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-[#111112] via-transparent to-[#111112]/50" />
         </div>
         
@@ -482,14 +483,29 @@ export function ProductDetailPage() {
                 {t(`productData.${detailData.slug}.description`, { defaultValue: detailData.description })}
               </p>
               <ul className="space-y-3 mb-10 text-gray-600">
-                {(t(`productData.${detailData.slug}.standardEquipment`, { returnObjects: true, defaultValue: detailData.standardEquipment }) as string[]).map((item, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <span className="mt-1 w-4 h-4 flex-shrink-0 rounded-full flex items-center justify-center" style={{ background: '#eab676' }}>
-                      <Check size={10} className="text-black" />
-                    </span>
-                    <span className="text-gray-600 text-sm leading-snug">{item}</span>
-                  </li>
-                ))}
+                {(() => {
+                  const rawEq = t(`productData.${detailData.slug}.standardEquipment`, { returnObjects: true, defaultValue: detailData.standardEquipment });
+                  const equipment = Array.isArray(rawEq) ? rawEq : [];
+                  return equipment.map((item: string, i: number) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <span className="mt-1 w-4 h-4 flex-shrink-0 rounded-full flex items-center justify-center" style={{ background: '#eab676' }}>
+                        <Check size={10} className="text-black" />
+                      </span>
+                      <span className="text-gray-600 text-sm leading-snug">
+                        {item}
+                        {detailData.equipmentVideoLink && detailData.equipmentVideoLink.afterItemMatch && item.toLowerCase().includes(detailData.equipmentVideoLink.afterItemMatch.toLowerCase()) && (
+                          <button 
+                            onClick={() => setVideoOpen(true)}
+                            className="ml-3 inline-flex items-center gap-1 text-mammut-gold hover:text-[#F3C47F] text-xs font-bold uppercase tracking-wider transition-colors"
+                          >
+                            <Play size={12} className="fill-current" />
+                            {detailData.equipmentVideoLink.label || "See Video"}
+                          </button>
+                        )}
+                      </span>
+                    </li>
+                  ));
+                })()}
               </ul>
 
               {detailData.relatedProductLink && (
@@ -515,17 +531,26 @@ export function ProductDetailPage() {
               )}
             </div>
 
-            {/* Right: window-opening video */}
-            <div className="overflow-hidden border border-gray-200 bg-[#0e0e0f]">
-              <video
-                src={detailData.inlineVideoSrc || "/assets/iglo-edge-okno-window-opening.mp4"}
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-full h-full object-cover"
-                style={{ minHeight: '360px' }}
-              />
+            {/* Right: window-opening video or static image */}
+            <div className="overflow-hidden border border-gray-200 bg-[#0e0e0f] flex items-center justify-center min-h-[360px]">
+              {detailData.inlineImageSrc ? (
+                <img
+                  src={detailData.inlineImageSrc}
+                  alt={detailData.name}
+                  className="w-full h-full object-contain"
+                  style={{ minHeight: '360px' }}
+                />
+              ) : (
+                <video
+                  src={detailData.inlineVideoSrc || "/assets/iglo-edge-okno-window-opening.mp4"}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover"
+                  style={{ minHeight: '360px' }}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -584,6 +609,46 @@ export function ProductDetailPage() {
             </div>
           </div>
         </div>
+
+        {/* Profile Variants (e.g. for Monoblock) */}
+        {detailData.profileVariants && detailData.profileVariants.length > 0 && (
+          <div className="max-w-7xl mx-auto px-6 pb-12 pt-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {detailData.profileVariants.map((variant, idx) => (
+                <div key={idx} className="flex flex-col items-center gap-3">
+                  <div className="w-full bg-white border border-gray-200 p-6 flex items-center justify-center aspect-square hover:border-mammut-gold transition-colors duration-300">
+                    <img src={variant.image} alt={variant.name} className="w-full h-full object-contain" />
+                  </div>
+                  <span className="text-xs font-bold uppercase tracking-widest text-gray-800">{variant.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Welding Section (e.g. for IDEAL 7000 NL) */}
+        {detailData.weldingSection && (
+          <div className="max-w-7xl mx-auto px-6 pb-20 pt-8 border-t border-gray-100">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+              {detailData.weldingSection.videos.map((video, idx) => (
+                <div key={idx} className="overflow-hidden border border-gray-200 bg-[#0e0e0f] flex items-center justify-center">
+                  <video
+                    src={video}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover"
+                    style={{ minHeight: '300px' }}
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="text-gray-600 leading-relaxed text-sm max-w-4xl mx-auto text-center">
+              {detailData.weldingSection.description}
+            </div>
+          </div>
+        )}
       </section>
 
       {/* Video modal */}
@@ -609,23 +674,7 @@ export function ProductDetailPage() {
         </div>
       )}
 
-      {/* 3. Profile Specs Section */}
-      <section className="max-w-7xl mx-auto px-6 py-24 border-b border-gray-200">
-        <div className="max-w-2xl">
-          <span className="bg-mammut-gold text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">{t('productDetail.newGeneration')}</span>
-          <h2 className="text-4xl font-black text-black uppercase mb-6 leading-tight">
-            {t('productDetail.uncompromising')}
-          </h2>
-          <ul className="space-y-4">
-            {detailData.keySpecs.map(spec => (
-              <li key={spec.label} className="flex items-center gap-3 border-b border-gray-200 pb-3">
-                <Check size={16} className="text-mammut-gold shrink-0" />
-                <span className="text-gray-600 text-sm">{t(`productData.${detailData.slug}.specs.${spec.label}`, { defaultValue: t(`igloEdge.specs.${spec.label}`) })}: {spec.value}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+      {/* 3. Profile Specs Section eliminated per user request */}
 
       
       {/* Dynamic Features Section */}
@@ -652,38 +701,63 @@ export function ProductDetailPage() {
       )}
 
       {/* 3. Interactive Color Swatch Section */}
-      <section className="bg-white border-b border-gray-200 py-24">
+      <section className="bg-white pt-24 pb-0">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-left mb-16">
-            <h2 className="text-3xl font-black text-black uppercase tracking-widest mb-4 flex items-center gap-4">
-              {t('productDetail.colorsTitle')}
+          <div className="bg-[#1a1a1a] p-10 lg:p-14 relative mb-12">
+            {/* Vertical Golden Line extending above the box */}
+            <div className="absolute -top-6 left-10 lg:left-14 w-[2px] h-12 bg-mammut-gold" />
+            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+              {t([`productData.${detailData.slug}.colorsTitle`, 'productDetail.colorsTitle'])}
             </h2>
-            <p className="!text-gray-600 max-w-3xl leading-relaxed">{t('productDetail.colorsDesc', { count: detailData.colors.length, name: detailData.name })}</p>
+            <p className="text-white max-w-5xl leading-relaxed text-sm lg:text-base" style={{ color: '#ffffff' }}>
+              {t([`productData.${detailData.slug}.colorsDesc`, 'productDetail.colorsDesc'], { count: detailData.colors.length, name: detailData.name })}
+            </p>
           </div>
 
-          <div className="grid lg:grid-cols-12 gap-12">
-            {/* Window Preview (Left) */}
-            <div className="lg:col-span-5 bg-white border border-gray-200 flex flex-col items-center justify-center p-12 min-h-[500px] relative overflow-hidden">
+          <div className="flex flex-col">
+            {/* Window Preview (Top) */}
+            <div className="w-full bg-white border border-gray-200 border-b-0 flex flex-col items-center justify-center p-12 pb-4 lg:p-12 lg:pb-4 min-h-[450px] relative overflow-hidden">
               
               {/* Dynamic Window Frame Render */}
-              <div className="relative w-full max-w-sm flex items-center justify-center mb-8 px-4">
-                <img 
-                  src={viewMode === 'outdoor' && detailData.outdoorWindowPhoto ? detailData.outdoorWindowPhoto : (selectedColor?.windowImage || "/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp")} 
-                  alt={`${selectedColor ? t(`colors.${selectedColor.id}`) : 'White'} Window Frame`} 
-                  className="w-full h-auto object-contain z-20 transition-opacity duration-500"
-                />
+              <div className="relative w-full max-w-lg flex items-center justify-center mb-0 px-4">
+                <div className="relative w-full flex justify-center">
+                  <img 
+                    src={viewMode === 'outdoor' && detailData.outdoorWindowPhoto ? detailData.outdoorWindowPhoto : (selectedColor?.windowImage || "/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp")} 
+                    alt={`${selectedColor ? t(`colors.${selectedColor.id}`) : 'White'} Window Frame`} 
+                    className="w-full h-auto object-contain z-20 transition-opacity duration-500"
+                  />
+                  {/* CSS dynamic tint overlay for the fallback window image */}
+                  {selectedColor?.windowImage === '/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp' && selectedColor?.hex && (
+                    <div 
+                      className="absolute inset-0 z-30 pointer-events-none transition-colors duration-500" 
+                      style={{
+                        backgroundColor: selectedColor.hex,
+                        mixBlendMode: 'multiply',
+                        maskImage: `url(${selectedColor.windowImage})`,
+                        WebkitMaskImage: `url(${selectedColor.windowImage})`,
+                        maskSize: 'contain',
+                        WebkitMaskSize: 'contain',
+                        maskRepeat: 'no-repeat',
+                        WebkitMaskRepeat: 'no-repeat',
+                        maskPosition: 'center',
+                        WebkitMaskPosition: 'center',
+                        opacity: 0.85
+                      }}
+                    />
+                  )}
+                </div>
               </div>
               
-              <div className="absolute text-gray-300 text-xs font-bold tracking-widest z-30 bg-white/80 px-3 py-1 uppercase rounded-sm backdrop-blur-sm -bottom-4">{t('productDetail.preview')}</div>
-              
-              <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center text-xs z-40">
-                <span className="text-gray-600 uppercase tracking-widest border border-black/10 px-3 py-1 bg-white/90 rounded-sm">{t('productDetail.selectedFinish')}</span>
-                <span className="text-mammut-gold font-black uppercase tracking-widest drop-shadow-md">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</span>
+              {/* Selected Color Name (Below Window) */}
+              <div className="w-full flex justify-center mt-6 z-40">
+                <span className="text-gray-400 font-bold text-sm uppercase tracking-widest">
+                  {selectedColor ? t(`colors.${selectedColor.id}`) : ''}
+                </span>
               </div>
             </div>
 
-            {/* Color Selector (Right) */}
-            <div className="lg:col-span-7 bg-white border border-gray-200 p-8 lg:p-12">
+            {/* Color Selector (Bottom) */}
+            <div className="w-full bg-white border border-gray-200 border-t-0 border-b-0 p-8 pt-0 pb-6 lg:p-12 lg:pt-0 lg:pb-6">
               <ColorSwatch 
                 colors={detailData.colors}
                 selectedColorId={selectedColorId}
@@ -707,10 +781,43 @@ export function ProductDetailPage() {
           padding: '24px 0',
         }}
       >
-        <div className="relative z-10 text-black" style={{ }}>
-          <p className="!text-black text-sm font-normal opacity-90 mb-1">{t('productDetail.selectedColor')}</p>
-          <p className="!text-black text-lg font-bold tracking-wide">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</p>
-          <p className="!text-black text-xs opacity-80 mt-0.5 tracking-widest">{selectedColor?.id}</p>
+        <div className="relative z-10 text-black w-full max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 items-center gap-6">
+          
+          {/* 1. Search Box (Left) */}
+          <div className="flex justify-start">
+            {detailData.slug.startsWith('mb-') && (
+              <div className="relative w-full max-w-[240px]">
+                <input 
+                  type="text" 
+                  placeholder="Search RAL code..." 
+                  className="w-full bg-white/50 border border-black/30 text-black placeholder-black/60 px-4 py-2.5 pr-10 rounded-sm backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-black/50 focus:bg-white/80 transition-all font-bold text-sm uppercase shadow-sm"
+                  onChange={(e) => {
+                    const term = e.target.value.toLowerCase().trim()
+                    if (term.length >= 3) {
+                      const matchedColor = detailData.colors.find(c => {
+                        const translatedName = t(`colors.${c.id}`).toLowerCase()
+                        return translatedName.includes(term) || c.id.toLowerCase().includes(term.replace(/\s+/g, '-'))
+                      })
+                      if (matchedColor) {
+                        setSelectedColorId(matchedColor.id)
+                      }
+                    }
+                  }}
+                />
+                <Search className="absolute right-3 top-3 w-4 h-4 text-black/70 pointer-events-none" />
+              </div>
+            )}
+          </div>
+
+          {/* 2. Selected Color Info (Center) */}
+          <div className="flex flex-col items-center justify-center text-center">
+            <p className="!text-black text-sm font-medium opacity-90 mb-1">{t('productDetail.selectedColor')}</p>
+            <p className="!text-black text-xl font-black tracking-widest uppercase">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</p>
+            <p className="!text-black text-xs opacity-70 mt-1 tracking-widest">{selectedColor?.id}</p>
+          </div>
+
+          {/* 3. Empty spacer (Right) */}
+          <div className="hidden md:block"></div>
         </div>
       </div>
 
@@ -719,11 +826,14 @@ export function ProductDetailPage() {
         <GlazingSection glassOptions={detailData.glassOptions} />
       )}
 
-      {/* 5. Handles Slider */}
+      {/* 5. Additional Options (Everything EXCEPT Window Sill) */}
+      <AdditionalOptionsSection options={ADDITIONAL_OPTIONS.filter(o => o.id !== 'sill')} />
+
+      {/* 6. Handles Slider */}
       <HandlesSlider />
 
-      {/* 6. Additional Options */}
-      <AdditionalOptionsSection />
+      {/* 7. Additional Options (ONLY Window Sill) */}
+      <AdditionalOptionsSection options={ADDITIONAL_OPTIONS.filter(o => o.id === 'sill')} hideHeader={true} />
 
       {/* Floating Action Bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200 p-4 z-40 transform translate-y-0 transition-transform">
