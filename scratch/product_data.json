@@ -1,0 +1,156 @@
+{
+  "mb-70": {
+    "name": "MB-70",
+    "tagline": "MB-70",
+    "description": "",
+    "specs": [
+      "Technical data\t\nMB-70\t\nMB-45\t\nMB-70HI\t\nMB-86N SI",
+      "Number of chambers\t\n\n3\n\n\t\n\n2\n\n\t\n\n3\n\n\t\n\n3",
+      "Installation depth\t\n\n70 mm\n\n\t\n\n45 mm\n\n\t\n\n70 mm\n\n\t\n\n77 mm",
+      "Number of gaskets\t\n\n3\n\n\t\n\n2\n\n\t\n\n3\n\n\t\n\n3",
+      "Thermal transmittance\t\n\nUw = 1,06 W/(m2K)*\n\n*For a window measuring 1,230x1,480 mm – calculation method = 1,06 W/(m2K) with the argon gas-filled glass package Ug = 0.5 W/(m2K), with the Swisspacer plastic spacer bar.\n\n\t\n\n—\n\n\t\n\nUw = 0,96 W/(m2K)*\n\n*For a window measuring 1,230x1,480 mm – calculation method = 0.96 W/(m2K) with the argon gas-filled glass package Ug = 0.5 W/(m2K), with the Swisspacer plastic spacer bar.\n\n\t\n\nUw = 0,76 W/(m2K)*\n\n*For a window measuring 1,230x1,480 mm – calculation method = 0,76 W/(m2K) with the argon gas-filled glass package Ug = 0.5 W/(m2K), with the Swisspacer plastic spacer bar.",
+      "Glass packages\t\n\n23,5-62 mm\n\n\t\n\n1,5-37 mm\n\n\t\n\n23,5-62 mm\n\n\t\n\n17,5-70 mm"
+    ],
+    "equipment": [
+      "MACO MULTI-MATIC KS fittings with 2 anti-theft strikers with Silber-Look anticorrosion coating for long-lasting protection and smooth operation of the fitting",
+      "sash lifter (lifting mishandling device - depending on window height)",
+      "microventilation in tilt and turn windows",
+      "hinge covers in 3 colours: white, silver, brown",
+      "aluminium handle",
+      "2-glazed (1-chamber) units infilled with argon gas with Ug = 1.1 W/(m²K)",
+      "glass-pane spacer made of galvanised steel",
+      "1 EPDM gaskets + 1 central gasket made of foamed EPDM, gaskets available in black",
+      "RAL matt color: white (9016), anthracite (7016)"
+    ],
+    "images": {
+      "profile": "https://www.drutex.eu/media/_upload/produkty/mb-70/mb_70_profil_kolor.png",
+      "blueprint": "https://www.drutex.eu/media/_upload/produkty/mb-70/mb-70_okno_c.png"
+    },
+    "colors": []
+  },
+  "mb-45": {
+    "name": "MB-45",
+    "tagline": "MB-45",
+    "description": "",
+    "specs": [
+      "Technical data\t\nMB-45\t\nMB-70HI\t\nMB-86N SI\t\nMB-70",
+      "Number of chambers\t\n\n2\n\n\t\n\n3\n\n\t\n\n3\n\n\t\n\n3",
+      "Installation depth\t\n\n45 mm\n\n\t\n\n70 mm\n\n\t\n\n77 mm\n\n\t\n\n70 mm",
+      "Number of gaskets\t\n\n2\n\n\t\n\n3\n\n\t\n\n3\n\n\t\n\n3",
+      "Thermal transmittance\t\n\n—\n\n\t\n\nUw = 0,96 W/(m2K)*\n\n*For a window measuring 1,230x1,480 mm – calculation method = 0.96 W/(m2K) with the argon gas-filled glass package Ug = 0.5 W/(m2K), with the Swisspacer plastic spacer bar.\n\n\t\n\nUw = 0,76 W/(m2K)*\n\n*For a window measuring 1,230x1,480 mm – calculation method = 0,76 W/(m2K) with the argon gas-filled glass package Ug = 0.5 W/(m2K), with the Swisspacer plastic spacer bar.\n\n\t\n\nUw = 1,06 W/(m2K)*\n\n*For a window measuring 1,230x1,480 mm – calculation method = 1,06 W/(m2K) with the argon gas-filled glass package Ug = 0.5 W/(m2K), with the Swisspacer plastic spacer bar.",
+      "Glass packages\t\n\n1,5-37 mm\n\n\t\n\n23,5-62 mm\n\n\t\n\n17,5-70 mm\n\n\t\n\n23,5-62 mm"
+    ],
+    "equipment": [
+      "MACO MULTI-MATIC KS fittings with 2 anti-theft strikers with Silber-Look anticorrosion coating for long-lasting protection and smooth operation of the fitting",
+      "sash lifter (lifting mishandling device - depending on window height)",
+      "microventilation in tilt and turn windows",
+      "hinge covers in 3 colours: white, silver, brown",
+      "aluminium handle",
+      "2-glazed (1-chamber) units infilled with argon gas with Ug = 1.1 W/(m²K)",
+      "glass-pane spacer made of galvanised steel",
+      "2 EPDM gaskets available in black",
+      "RAL matt color: white (9016), anthracite (7016)"
+    ],
+    "images": {
+      "profile": "https://www.drutex.eu/media/_upload/produkty/mb-45/mb_45_profil.png",
+      "blueprint": "https://www.drutex.eu/media/_upload/produkty/mb-45/mb-45_okno_caly.png"
+    },
+    "colors": []
+  },
+  "softline": {
+    "name": "SOFTLINE - 68, 78, 88",
+    "tagline": "SOFTLINE - 68, 78, 88",
+    "description": "Our wooden windows mean the highest quality, environmentally friendly solutions and classic elegance. The remarkable window durability is ensured by an aluminium bead that protects wood from UV and water. The beautiful form of the rounded profile of the window with a streamlined shape and a smooth and shiny surface. The Softline series is available in pine and meranti.",
+    "specs": [
+      "Technical data\t\nSOFTLINE - 68, 78, 88\t\nDUOLINE - 68, 78, 88",
+      "Number of chambers\t\n\nSolid profile\n\n\t\n\nSolid profile",
+      "Installation depth\t\n\nSoftline 68 - 68 mm\nSoftline 78 - 78 mm\nSoftline 88 - 88 mm\n\n\t\n\nDuoline 68 - 68 mm + spacer bar 14 mm\nDuoline 78 - 78 mm + spacer bar 14 mm\nDuoline 88 - 88 mm + spacer bar 14 mm",
+      "Number of gaskets\t\n\n2\n\n\t\n\n3",
+      "Thermal transmittance\t\n\nSoftline 68  Uw = 1,08 W/(m2K)*\nSoftline 78 Uw = 0,9 W/(m2K)**\nSoftline 88 Uw = 0,8 W/(m2K)***\n\n*For a window measuring 1,230x1,480 mm - calculation method, meranti wood, with the argon gas-filled glass package Ug = 0.8 W/(m2K), with the Swisspacer plastic spacer bar.\n**For a window measuring 1,230x1,480 mm - calculation method, meranti wood, with the argon gas-filled glass package Ug = 0.8 W/(m2K), with the Swisspacer plastic spacer bar.\n\n\t\n\nDuoline 68 from Uw = 0,90 W/(m2K)*\nDuoline 78 from Uw = 0,84 W/(m2K)**\nDuoline 88 from Uw = 0,79 W/(m2K)**\n\n\n*For a window measuring 1,230x1,480 mm - calculation method, meranti wood, with the argon gas-filled glass package Ug = 0.6 W/(m2K), with the Swisspacer plastic spacer bar.\n**For a window measuring 1,230x1,480 mm - calculation method, meranti wood, with the argon gas-filled glass package Ug = 0.5 W/(m2K), with the Swisspacer plastic spacer bar.",
+      "Glass packages\t\n\nSoftline 68 to 32 mm\nSoftline 78 to 44 mm\nSoftline 88 to 54 mm\n\n\t\n\nDuoline 68 to 46 mm\nDuoline 78 to 50 mm\nDuoline 88 to 50 mm"
+    ],
+    "equipment": [
+      "MACO MULTI-MATIC KS fittings with 2 anti-theft strikers with Silber-Look anticorrosion coating for long-lasting protection and smooth operation of the fitting",
+      "sash lifter (lifting mishandling device - depending on window height)",
+      "microventilation in tilt and turn windows",
+      "hinge covers in 3 colours: white, silver, brown",
+      "aluminium handle",
+      "2-glazed (1-chamber) units infilled with argon gas with Ug = 1.1 W/(m²K)",
+      "glass-pane spacer made of galvanised steel",
+      "drip cap facilitating water drainage",
+      "2 EPDM gaskets"
+    ],
+    "images": {
+      "blueprint": "https://www.drutex.eu/media/_versions/sections/inspirations/okna-softline-68-restauracja-meranti-palisander_inspiration_section.jpg"
+    },
+    "colors": []
+  },
+  "duoline": {
+    "name": "DUOLINE - 68, 78, 88",
+    "tagline": "DUOLINE - 68, 78, 88",
+    "description": "These windows are a perfect combination of timeless classic wood with a lightweight and extremely durable form of aluminium. Numerous additional options will help you create the windows to meet all of your expectations.",
+    "specs": [
+      "Technical data\t\nDUOLINE - 68, 78, 88\t\nSOFTLINE - 68, 78, 88",
+      "Number of chambers\t\n\nSolid profile\n\n\t\n\nSolid profile",
+      "Installation depth\t\n\nDuoline 68 - 68 mm + spacer bar 14 mm\nDuoline 78 - 78 mm + spacer bar 14 mm\nDuoline 88 - 88 mm + spacer bar 14 mm\n\n\t\n\nSoftline 68 - 68 mm\nSoftline 78 - 78 mm\nSoftline 88 - 88 mm",
+      "Number of gaskets\t\n\n3\n\n\t\n\n2",
+      "Thermal transmittance\t\n\nDuoline 68 from Uw = 0,90 W/(m2K)*\nDuoline 78 from Uw = 0,84 W/(m2K)**\nDuoline 88 from Uw = 0,79 W/(m2K)**\n\n\n*For a window measuring 1,230x1,480 mm - calculation method, meranti wood, with the argon gas-filled glass package Ug = 0.6 W/(m2K), with the Swisspacer plastic spacer bar.\n**For a window measuring 1,230x1,480 mm - calculation method, meranti wood, with the argon gas-filled glass package Ug = 0.5 W/(m2K), with the Swisspacer plastic spacer bar.\n\n\t\n\nSoftline 68  Uw = 1,08 W/(m2K)*\nSoftline 78 Uw = 0,9 W/(m2K)**\nSoftline 88 Uw = 0,8 W/(m2K)***\n\n*For a window measuring 1,230x1,480 mm - calculation method, meranti wood, with the argon gas-filled glass package Ug = 0.8 W/(m2K), with the Swisspacer plastic spacer bar.\n**For a window measuring 1,230x1,480 mm - calculation method, meranti wood, with the argon gas-filled glass package Ug = 0.8 W/(m2K), with the Swisspacer plastic spacer bar.",
+      "Glass packages\t\n\nDuoline 68 to 46 mm\nDuoline 78 to 50 mm\nDuoline 88 to 50 mm\n\n\t\n\nSoftline 68 to 32 mm\nSoftline 78 to 44 mm\nSoftline 88 to 54 mm"
+    ],
+    "equipment": [],
+    "images": {
+      "blueprint": "https://www.drutex.eu/media/_versions/sections/inspirations/okno-softline-88_inspiration_section.jpg"
+    },
+    "colors": []
+  },
+  "iglo-energy-doors": {
+    "name": "IGLO ENERGY",
+    "tagline": "IGLO ENERGY",
+    "description": "",
+    "specs": [
+      "Technical data\t\nIGLO ENERGY\t\nIGLO 5",
+      "Number of chambers\t\n\n7\n\n\t\n\n5",
+      "Installation depth\t\n\n82 mm\n\n\t\n\n70 mm",
+      "Number of gaskets\t\n\n2\n\n\t\n\n2",
+      "Thermal transmittance\t\n\nUd = 0,8 W/(m2K)*\n\n*Single-leaf door measuring 1,100x2,300 mm: glass with argon and the Swisspacer Ultimate TMP4/U18/FL4/U18/TMP4 spacer bar.\n\n\t\n\nUd = 1,0 W/(m2K)*\n\n*Single-leaf door measuring 1,100x2,300 mm: glass with argon and the Swisspacer Ultimate TMP4/U14/FL4/U14/TMP4 spacer bar.",
+      "Infills with a thickness of\t\n\n22.5-49.5 mm glass, batch panel 36 mm\n\n\t\n\n22.5-41 mm glass, batch panel 36 mm"
+    ],
+    "equipment": [
+      "3-point espagnolette",
+      "3 two-winged hinges",
+      "Ug = 1,1 W/(m2K) glass",
+      "threshold with a thermal break",
+      "aluminium handle",
+      "mounting insert"
+    ],
+    "images": {
+      "blueprint": "https://www.drutex.eu/media/_versions/sections/inspirations/drzwi_iglo-energy5_T9zpEm5_inspiration_section.jpg"
+    },
+    "colors": []
+  },
+  "iglo5-doors": {
+    "name": "IGLO 5",
+    "tagline": "IGLO 5",
+    "description": "",
+    "specs": [
+      "Technical data\t\nIGLO 5\t\nIGLO ENERGY",
+      "Number of chambers\t\n\n5\n\n\t\n\n7",
+      "Installation depth\t\n\n70 mm\n\n\t\n\n82 mm",
+      "Number of gaskets\t\n\n2\n\n\t\n\n2",
+      "Thermal transmittance\t\n\nUd = 1,0 W/(m2K)*\n\n*Single-leaf door measuring 1,100x2,300 mm: glass with argon and the Swisspacer Ultimate TMP4/U14/FL4/U14/TMP4 spacer bar.\n\n\t\n\nUd = 0,8 W/(m2K)*\n\n*Single-leaf door measuring 1,100x2,300 mm: glass with argon and the Swisspacer Ultimate TMP4/U18/FL4/U18/TMP4 spacer bar.",
+      "Infills with a thickness of\t\n\n22.5-41 mm glass, batch panel 36 mm\n\n\t\n\n22.5-49.5 mm glass, batch panel 36 mm"
+    ],
+    "equipment": [
+      "3-point espagnolette",
+      "3 two-winged hinges",
+      "Ug = 1,1 W/(m2K) glass",
+      "threshold with a thermal break",
+      "aluminium handle",
+      "mounting insert"
+    ],
+    "images": {
+      "blueprint": "https://www.drutex.eu/media/_versions/sections/inspirations/drzwi-iglo5-przedpokoj_inspiration_section.jpg"
+    },
+    "colors": []
+  }
+}

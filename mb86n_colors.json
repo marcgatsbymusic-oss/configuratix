@@ -1,0 +1,1280 @@
+[
+  {
+    "name": "Green beige",
+    "hex": "rgb(190, 189, 127)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Beige",
+    "hex": "rgb(194, 176, 120)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Sand yellow",
+    "hex": "rgb(198, 166, 100)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Signal yellow",
+    "hex": "rgb(229, 190, 1)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Golden yellow",
+    "hex": "rgb(205, 164, 52)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Honey yellow",
+    "hex": "rgb(169, 131, 7)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Maize yellow",
+    "hex": "rgb(228, 160, 16)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Daffodil yellow",
+    "hex": "rgb(220, 157, 0)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Brown beige",
+    "hex": "rgb(138, 102, 66)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Lemon yellow",
+    "hex": "rgb(199, 180, 70)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Oyster white",
+    "hex": "rgb(234, 230, 202)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Ivory",
+    "hex": "rgb(240, 214, 171)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Light ivory",
+    "hex": "rgb(230, 214, 144)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Sulfur yellow",
+    "hex": "rgb(237, 255, 33)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Saffron yellow",
+    "hex": "rgb(245, 208, 51)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Zinc yellow",
+    "hex": "rgb(255, 214, 77)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Grey beige",
+    "hex": "rgb(158, 151, 100)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Olive yellow",
+    "hex": "rgb(153, 153, 80)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Rape yellow",
+    "hex": "rgb(243, 218, 11)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Traffic yellow",
+    "hex": "rgb(250, 210, 1)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Ochre yellow",
+    "hex": "rgb(174, 160, 75)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Luminous yellow",
+    "hex": "rgb(255, 255, 0)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Curry",
+    "hex": "rgb(157, 145, 1)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Melon yellow",
+    "hex": "rgb(244, 169, 0)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Broom yellow",
+    "hex": "rgb(214, 174, 1)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Dahlia yellow",
+    "hex": "rgb(243, 165, 5)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pastel yellow",
+    "hex": "rgb(239, 169, 74)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pearl beige",
+    "hex": "rgb(106, 93, 77)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pearl gold",
+    "hex": "rgb(112, 83, 53)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Sun yellow",
+    "hex": "rgb(243, 159, 24)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Yellow orange",
+    "hex": "rgb(237, 118, 14)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Red orange",
+    "hex": "rgb(201, 60, 32)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Vermilion",
+    "hex": "rgb(203, 40, 33)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pastel orange",
+    "hex": "rgb(255, 117, 20)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pure orange",
+    "hex": "rgb(244, 70, 17)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Luminous orange",
+    "hex": "rgb(255, 35, 1)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Luminous bright orange",
+    "hex": "rgb(255, 164, 32)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Bright red orange",
+    "hex": "rgb(247, 94, 37)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Traffic orange",
+    "hex": "rgb(245, 64, 33)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Signal orange",
+    "hex": "rgb(216, 75, 32)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Deep orange",
+    "hex": "rgb(236, 124, 38)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Salmon range",
+    "hex": "rgb(229, 81, 55)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pearl orange",
+    "hex": "rgb(195, 88, 49)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Flame red",
+    "hex": "rgb(175, 43, 30)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Signal red",
+    "hex": "rgb(165, 32, 25)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Carmine red",
+    "hex": "rgb(162, 35, 29)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Ruby red",
+    "hex": "rgb(155, 17, 30)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Purple red",
+    "hex": "rgb(117, 21, 30)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Wine red",
+    "hex": "rgb(94, 33, 41)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Black red",
+    "hex": "rgb(65, 34, 39)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Oxide red",
+    "hex": "rgb(100, 36, 36)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Brown red",
+    "hex": "rgb(120, 31, 25)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Beige red",
+    "hex": "rgb(193, 135, 107)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Tomato red",
+    "hex": "rgb(161, 35, 18)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Antique pink",
+    "hex": "rgb(211, 110, 112)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Light pink",
+    "hex": "rgb(234, 137, 154)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Coral red",
+    "hex": "rgb(179, 40, 33)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Rose",
+    "hex": "rgb(230, 50, 68)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Strawberry red",
+    "hex": "rgb(213, 48, 50)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Traffic red",
+    "hex": "rgb(204, 6, 5)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Salmon pink",
+    "hex": "rgb(217, 89, 79)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Luminous red",
+    "hex": "rgb(248, 0, 0)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Luminous bright red",
+    "hex": "rgb(254, 0, 0)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Raspberry red",
+    "hex": "rgb(197, 29, 52)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pure  red",
+    "hex": "rgb(203, 50, 52)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Orient red",
+    "hex": "rgb(179, 36, 40)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pearl ruby red",
+    "hex": "rgb(114, 20, 34)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pearl pink",
+    "hex": "rgb(180, 76, 67)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Red lilac",
+    "hex": "rgb(109, 63, 91)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Red violet",
+    "hex": "rgb(146, 43, 62)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Heather violet",
+    "hex": "rgb(222, 76, 138)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Claret violet",
+    "hex": "rgb(100, 28, 52)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Blue lilac",
+    "hex": "rgb(108, 70, 117)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Traffic purple",
+    "hex": "rgb(160, 52, 114)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Purple violet",
+    "hex": "rgb(74, 25, 44)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Signal violet",
+    "hex": "rgb(146, 78, 125)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pastel violet",
+    "hex": "rgb(161, 133, 148)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Telemagenta",
+    "hex": "rgb(207, 52, 118)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pearl violet",
+    "hex": "rgb(134, 115, 161)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pearl black berry",
+    "hex": "rgb(108, 104, 116)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Violet blue",
+    "hex": "rgb(53, 77, 115)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Green blue",
+    "hex": "rgb(31, 52, 56)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Ultramarine blue",
+    "hex": "rgb(32, 33, 79)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Saphire blue",
+    "hex": "rgb(29, 30, 51)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Black blue",
+    "hex": "rgb(24, 23, 28)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Signal blue",
+    "hex": "rgb(30, 36, 96)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Brillant blue",
+    "hex": "rgb(62, 95, 138)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Grey blue",
+    "hex": "rgb(38, 37, 45)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Azure blue",
+    "hex": "rgb(2, 86, 105)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Gentian blue",
+    "hex": "rgb(14, 41, 75)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Steel blue",
+    "hex": "rgb(35, 26, 36)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Light blue",
+    "hex": "rgb(59, 131, 189)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Cobalt blue",
+    "hex": "rgb(30, 33, 61)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pigeon blue",
+    "hex": "rgb(96, 110, 140)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Sky blue",
+    "hex": "rgb(34, 113, 179)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Traffic blue",
+    "hex": "rgb(6, 57, 113)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Turquoise blue",
+    "hex": "rgb(63, 136, 143)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Capri blue",
+    "hex": "rgb(27, 85, 131)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Ocean blue",
+    "hex": "rgb(5, 51, 51)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Water blue",
+    "hex": "rgb(37, 109, 123)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Night blue",
+    "hex": "rgb(37, 40, 80)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Distant blue",
+    "hex": "rgb(73, 103, 141)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pastel blue",
+    "hex": "rgb(87, 140, 181)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pearl gentian blue",
+    "hex": "rgb(42, 100, 120)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pearl night blue",
+    "hex": "rgb(16, 44, 84)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Patina green",
+    "hex": "rgb(49, 102, 80)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Emerald green",
+    "hex": "rgb(40, 114, 51)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Leaf green",
+    "hex": "rgb(45, 87, 44)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Olive green",
+    "hex": "rgb(66, 70, 50)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Blue green",
+    "hex": "rgb(31, 58, 61)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Moss green",
+    "hex": "rgb(47, 69, 56)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Grey olive",
+    "hex": "rgb(62, 59, 50)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Bottle green",
+    "hex": "rgb(52, 59, 41)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Brown green",
+    "hex": "rgb(57, 53, 42)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Fir green",
+    "hex": "rgb(49, 55, 43)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Grass green",
+    "hex": "rgb(53, 104, 45)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Reseda green",
+    "hex": "rgb(88, 114, 70)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Black green",
+    "hex": "rgb(52, 62, 64)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Reed green",
+    "hex": "rgb(108, 113, 86)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Yellow olive",
+    "hex": "rgb(71, 64, 46)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Black olive",
+    "hex": "rgb(59, 60, 54)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Turquoise green",
+    "hex": "rgb(30, 89, 69)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "May green",
+    "hex": "rgb(76, 145, 65)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Yellow green",
+    "hex": "rgb(87, 166, 57)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pastel green",
+    "hex": "rgb(189, 236, 182)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Chrome green",
+    "hex": "rgb(46, 58, 35)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pale green",
+    "hex": "rgb(137, 172, 118)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Olive drab",
+    "hex": "rgb(37, 34, 27)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Traffic green",
+    "hex": "rgb(48, 132, 70)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Fern green",
+    "hex": "rgb(61, 100, 45)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Opal green",
+    "hex": "rgb(1, 93, 82)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Light green",
+    "hex": "rgb(132, 195, 190)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pine green",
+    "hex": "rgb(44, 85, 69)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Mint green",
+    "hex": "rgb(32, 96, 61)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Signal green",
+    "hex": "rgb(49, 127, 67)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Mint turquoise",
+    "hex": "rgb(73, 126, 118)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pastel turquoise",
+    "hex": "rgb(127, 181, 181)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pearl green",
+    "hex": "rgb(28, 84, 45)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pearl opal green",
+    "hex": "rgb(25, 55, 55)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pure green",
+    "hex": "rgb(0, 143, 57)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Luminous green",
+    "hex": "rgb(0, 187, 45)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Squirrel grey",
+    "hex": "rgb(120, 133, 139)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Silver grey",
+    "hex": "rgb(138, 149, 151)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Olive grey",
+    "hex": "rgb(126, 123, 82)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Moss grey",
+    "hex": "rgb(108, 112, 89)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Signal grey",
+    "hex": "rgb(150, 153, 146)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Mouse grey",
+    "hex": "rgb(100, 107, 99)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Beige grey",
+    "hex": "rgb(109, 101, 82)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Khaki grey",
+    "hex": "rgb(106, 95, 49)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Green grey",
+    "hex": "rgb(77, 86, 69)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Tarpaulin grey",
+    "hex": "rgb(76, 81, 74)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Iron grey",
+    "hex": "rgb(67, 75, 77)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Basalt grey",
+    "hex": "rgb(78, 87, 84)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Brown grey",
+    "hex": "rgb(70, 69, 49)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Slate grey",
+    "hex": "rgb(67, 71, 80)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Anthracite grey",
+    "hex": "rgb(41, 49, 51)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Black grey",
+    "hex": "rgb(35, 40, 43)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Umbra grey",
+    "hex": "rgb(51, 47, 44)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Concrete grey",
+    "hex": "rgb(104, 108, 94)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Graphite grey",
+    "hex": "rgb(71, 74, 81)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Granite grey",
+    "hex": "rgb(47, 53, 59)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Stone grey",
+    "hex": "rgb(139, 140, 122)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Blue grey",
+    "hex": "rgb(71, 75, 78)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pebble grey",
+    "hex": "rgb(184, 183, 153)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Cement grey",
+    "hex": "rgb(125, 132, 113)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Yellow grey",
+    "hex": "rgb(143, 139, 102)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Light grey",
+    "hex": "rgb(215, 215, 215)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Platinum grey",
+    "hex": "rgb(127, 118, 121)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Dusty grey",
+    "hex": "rgb(125, 127, 125)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Agate grey",
+    "hex": "rgb(181, 184, 177)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Quartz grey",
+    "hex": "rgb(108, 105, 96)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Window grey",
+    "hex": "rgb(157, 161, 170)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Traffic grey A",
+    "hex": "rgb(141, 148, 141)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Traffic grey B",
+    "hex": "rgb(78, 84, 82)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Silk grey",
+    "hex": "rgb(202, 196, 176)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Telegrey 1",
+    "hex": "rgb(144, 144, 144)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Telegrey 2",
+    "hex": "rgb(130, 137, 143)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Telegrey 4",
+    "hex": "rgb(208, 208, 208)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pearl mouse grey",
+    "hex": "rgb(137, 129, 118)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Green brown",
+    "hex": "rgb(130, 108, 52)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Ochre brown",
+    "hex": "rgb(149, 95, 32)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Signal brown",
+    "hex": "rgb(108, 59, 42)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Clay brown",
+    "hex": "rgb(115, 66, 34)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Copper brown",
+    "hex": "rgb(142, 64, 42)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Fawn brown",
+    "hex": "rgb(89, 53, 31)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Olive brown",
+    "hex": "rgb(111, 79, 40)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Nut brown",
+    "hex": "rgb(91, 58, 41)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Red brown",
+    "hex": "rgb(89, 35, 33)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Sepia brown",
+    "hex": "rgb(56, 44, 30)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Chestnut brown",
+    "hex": "rgb(99, 58, 52)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Mahogany brown",
+    "hex": "rgb(76, 47, 39)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Chocolate brown",
+    "hex": "rgb(69, 50, 46)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Grey brown",
+    "hex": "rgb(64, 58, 58)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Black brown",
+    "hex": "rgb(33, 33, 33)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Orange brown",
+    "hex": "rgb(166, 94, 46)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Beige brown",
+    "hex": "rgb(121, 85, 61)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pale brown",
+    "hex": "rgb(117, 92, 72)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Terra brown",
+    "hex": "rgb(78, 59, 49)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pearl copper",
+    "hex": "rgb(118, 60, 40)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Cream",
+    "hex": "rgb(253, 244, 227)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Grey white",
+    "hex": "rgb(231, 235, 218)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Signal white",
+    "hex": "rgb(244, 244, 244)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Signal black",
+    "hex": "rgb(40, 40, 40)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Jet black",
+    "hex": "rgb(10, 10, 10)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "White aluminium",
+    "hex": "rgb(165, 165, 165)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Grey aluminium",
+    "hex": "rgb(143, 143, 143)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pure white",
+    "hex": "rgb(255, 255, 255)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Graphite black",
+    "hex": "rgb(28, 28, 28)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Traffic white",
+    "hex": "rgb(246, 246, 246)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Traffic black",
+    "hex": "rgb(30, 30, 30)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Papyrus white",
+    "hex": "rgb(215, 215, 215)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pearl light grey",
+    "hex": "rgb(156, 156, 156)",
+    "image": "",
+    "windowImage": null
+  },
+  {
+    "name": "Pearl dark grey",
+    "hex": "rgb(130, 130, 130)",
+    "image": "",
+    "windowImage": null
+  }
+]

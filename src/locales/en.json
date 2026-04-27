@@ -129,8 +129,10 @@
     "new": "NEW"
   },
   "productDetail": {
-    "notFound": "Product not found",
-    "return": "Return to products",
+    "notFound": "Product Not Found",
+    "return": "Return to Products",
+    "interior": "Interior (Wood)",
+    "exterior": "Exterior (Aluminium)",
     "configure": "Configure {{name}}",
     "standardEquipment": "Standard Equipment",
     "seeVideo": "See video",
@@ -819,6 +821,116 @@
     "kwadrat-key-ral9016": "KWADRAT with key (RAL9016)"
   },
   "productData": {
+    "iglo-energy-doors": {
+      "name": "IGLO ENERGY DOORS",
+      "tagline": "High-performance PVC Doors",
+      "description": "Perfect thermal insulation and modern design with a 7-chamber profile.",
+      "standardEquipment": [
+        "3-point espagnolette",
+        "3 two-winged hinges",
+        "Ug = 1,1 W/(m2K) glass",
+        "threshold with a thermal break",
+        "aluminium handle",
+        "mounting insert"
+      ],
+      "Door structures": "Door structures",
+      "Modern architecture often requires from us to design door structures with different dimensions, shapes, specifications, etc. They determine not only the look of the door but also its functional properties, stability, and durability. The spacers used in Drutex doors help significantly increase door rigidity and at the same time ensure a unique, custom design.": "Modern architecture often requires from us to design door structures with different dimensions, shapes, specifications, etc. They determine not only the look of the door but also its functional properties, stability, and durability. The spacers used in Drutex doors help significantly increase door rigidity and at the same time ensure a unique, custom design."
+    },
+    "iglo5-doors": {
+      "name": "IGLO 5 DOORS",
+      "tagline": "Reliable PVC Doors",
+      "description": "Classic door system featuring a 5-chamber profile for great thermal insulation and durability.",
+      "standardEquipment": [
+        "3-point espagnolette",
+        "3 two-winged hinges",
+        "Ug = 1,1 W/(m2K) glass",
+        "threshold with a thermal break",
+        "aluminium handle",
+        "mounting insert"
+      ],
+      "Door structures": "Door structures",
+      "Modern architecture often requires from us to design door structures with different dimensions, shapes, specifications, etc. They determine not only the look of the door but also its functional properties, stability, and durability. The spacers used in Drutex doors help significantly increase door rigidity and at the same time ensure a unique, custom design.": "Modern architecture often requires from us to design door structures with different dimensions, shapes, specifications, etc. They determine not only the look of the door but also its functional properties, stability, and durability. The spacers used in Drutex doors help significantly increase door rigidity and at the same time ensure a unique, custom design."
+    },
+    "duoline": {
+      "name": "DUOLINE",
+      "tagline": "Wood-Aluminium Hybrid",
+      "description": "These windows are a perfect combination of timeless classic wood with a lightweight and extremely durable form of aluminium. Numerous additional options will help you create the windows to meet all of your expectations.",
+      "standardEquipment": [
+        "MACO MULTI-MATIC KS fittings with 2 anti-theft strikers with Silber-Look anticorrosion coating for long-lasting protection and smooth operation of the fitting",
+        "sash lifter (lifting mishandling device - depending on window height)",
+        "microventilation in tilt and turn windows",
+        "hinge covers in 3 colours: white, silver, brown",
+        "aluminium handle",
+        "2-glazed (1-chamber) units infilled with argon gas with Ug = 1.1 W/(m²K)",
+        "glass-pane spacer made of galvanised steel",
+        "drip cap facilitating water drainage",
+        "3 EPDM gaskets"
+      ]
+    },
+    "softline": {
+      "name": "SOFTLINE",
+      "tagline": "Classic Wooden Elegance",
+      "description": "Our wooden windows mean the highest quality, environmentally friendly solutions and classic elegance. The remarkable window durability is ensured by an aluminium bead that protects wood from UV and water. The beautiful form of the rounded profile of the window with a streamlined shape and a smooth and shiny surface. The Softline series is available in pine and meranti.",
+      "standardEquipment": [
+        "MACO MULTI-MATIC KS fittings with 2 anti-theft strikers with Silber-Look anticorrosion coating for long-lasting protection and smooth operation of the fitting",
+        "sash lifter (lifting mishandling device - depending on window height)",
+        "microventilation in tilt and turn windows",
+        "hinge covers in 3 colours: white, silver, brown",
+        "aluminium handle",
+        "2-glazed (1-chamber) units infilled with argon gas with Ug = 1.1 W/(m²K)",
+        "glass-pane spacer made of galvanised steel",
+        "drip cap facilitating water drainage",
+        "2 EPDM gaskets"
+      ]
+    },
+    "mb-70hi": {
+      "name": "MB-70HI",
+      "tagline": "Lightweight, durable, thermally efficient aluminium",
+      "description": "Aluminium windows made using this system can be used in both individual buildings and aluminium facades.The lightweight and durable construction ensures a high level of comfort for many years of use.",
+      "standardEquipment": [
+        "MACO MULTI-MATIC KS fittings with 2 anti-theft strikers with Silber-Look anticorrosion coating for long-lasting protection and smooth operation of the fitting",
+        "sash lifter (lifting mishandling device - depending on window height)",
+        "microventilation in tilt and turn windows",
+        "hinge covers in 3 colours: white, silver, brown",
+        "aluminium handle",
+        "2-glazed (1-chamber) units infilled with argon gas with Ug = 1.1 W/(m²K)",
+        "glass-pane spacer made of galvanised steel",
+        "1 EPDM gaskets + 1 central gasket made of foamed EPDM, gaskets available in black",
+        "RAL matt color: white (9016), anthracite (7016)"
+      ]
+    },
+    "mb-70": {
+      "name": "MB-70",
+      "tagline": "MB-70",
+      "description": "Aluminium windows made using this system can be used in both individual buildings and aluminium facades. The lightweight and durable construction ensures a high level of comfort for many years of use.",
+      "standardEquipment": [
+        "MACO MULTI-MATIC KS fittings with 2 anti-theft strikers with Silber-Look anticorrosion coating for long-lasting protection and smooth operation of the fitting",
+        "sash lifter (lifting mishandling device - depending on window height)",
+        "microventilation in tilt and turn windows",
+        "hinge covers in 3 colours: white, silver, brown",
+        "aluminium handle",
+        "2-glazed (1-chamber) units infilled with argon gas with Ug = 1.1 W/(m²K)",
+        "glass-pane spacer made of galvanised steel",
+        "1 EPDM gaskets + 1 central gasket made of foamed EPDM, gaskets available in black",
+        "RAL matt color: white (9016), anthracite (7016)"
+      ]
+    },
+    "mb-45": {
+      "name": "MB-45",
+      "tagline": "MB-45",
+      "description": "MB-45 aluminium window system for applications requiring less thermal insulation.",
+      "standardEquipment": [
+        "MACO MULTI-MATIC KS fittings with 2 anti-theft strikers with Silber-Look anticorrosion coating for long-lasting protection and smooth operation of the fitting",
+        "sash lifter (lifting mishandling device - depending on window height)",
+        "microventilation in tilt and turn windows",
+        "hinge covers in 3 colours: white, silver, brown",
+        "aluminium handle",
+        "2-glazed (1-chamber) units infilled with argon gas with Ug = 1.1 W/(m²K)",
+        "glass-pane spacer made of galvanised steel",
+        "2 EPDM gaskets available in black",
+        "RAL matt color: white (9016), anthracite (7016)"
+      ]
+    },
     "iglo-edge": {
       "name": "IGLO EDGE",
       "tagline": "Maximum insulation, minimal frame",
@@ -1211,17 +1323,26 @@
     },
     "mb-79n-si": {
       "name": "MB-79N SI",
-      "tagline": "Choose energy efficiency",
-      "description": "The MB-79N SI aluminium window system delivers outstanding thermal performance for a 70 mm profile depth. Three sealing levels and a high-performance thermal break make it suitable for both residential and commercial applications requiring efficient, durable aluminium framing.",
+      "tagline": "Choose Energy Efficiency",
+      "colorsTitle": "Aluminium window colour range",
+      "colorsDesc": "Choose the colour that suits you Over 200 RAL colours of windows. We offer smooth matt and metallic paints that have a texture or have the so-called special effects (mainly wood-like).",
+      "description": "MB-79N SI aluminium windows stand out for their excellent thermal insulation parameters and modern design. Over 200 colours to choose from and numerous additional options allow you to fully customise your windows.\nThis window system can also be fitted with Smart Home solutions.",
+      "standardEquipment": [
+        "MACO MULTI-MATIC KS fittings with 2 anti-theft strikers with Silber-Look anticorrosion coating for long-lasting protection and smooth operation of the fitting",
+        "sash lifter (lifting mishandling device - depending on window height)",
+        "microventilation in tilt and turn windows",
+        "hinge covers in 3 colours: white, silver, brown",
+        "aluminium handle",
+        "2-glazed (1-chamber) units infilled with argon gas with Ug = 1.1 W/(m²K)",
+        "glass-pane spacer made of galvanised steel",
+        "1 EPDM gaskets + 1 central gasket made of foamed EPDM, gaskets available in black",
+        "RAL matt color: white (9016), anthracite (7016)"
+      ],
       "specs": {
-        "label_0": "Thermal Transmittance (Uw)",
-        "value_0": "0.81",
-        "label_1": "Installation Depth",
-        "value_1": "70",
-        "label_2": "Sealing Layers",
-        "value_2": "3",
-        "label_3": "Standard Glazing (Ug)",
-        "value_3": "0.5"
+        "gaskets": "EPDM gaskets",
+        "thermal": "Thermal Transmittance",
+        "chambers": "Number of chambers",
+        "depth": "Installation depth"
       }
     },
     "mb-70hi": {
@@ -1229,14 +1350,10 @@
       "tagline": "Lightweight, durable, thermally efficient aluminium",
       "description": "MB-70HI aluminium windows can be used in both individual buildings and aluminium facades. The lightweight and durable construction ensures a high level of comfort for many years. Standard equipment includes MACO MULTI-MATIC KS fittings and microventilation.",
       "specs": {
-        "label_0": "Thermal Transmittance (Uw)",
-        "value_0": "0.96",
-        "label_1": "Installation Depth",
-        "value_1": "70",
-        "label_2": "Sealing Layers",
-        "value_2": "3",
-        "label_3": "Glazing Range",
-        "value_3": "23.5–62"
+        "thermal": "Thermal Transmittance (Uw)",
+        "depth": "Installation Depth",
+        "sealing": "Sealing Layers",
+        "glazing": "Glazing Range"
       }
     },
     "mb-70": {
@@ -1311,6 +1428,19 @@
         "label_2": "Locking Points",
         "value_2": "3 to 5"
       }
+    },
+    "iglo-energy-doors": {
+      "name": "IGLO ENERGY DOORS",
+      "tagline": "World-leading design and excellent parameters",
+      "description": "The Iglo Energy PVC exterior entrance door means modern and beautiful design, energy efficiency as well as aesthetic values and perfect functionality.",
+      "specs": {
+        "thermal": "Thermal Transmittance (Ud)",
+        "depth": "Installation Depth",
+        "sealing": "Sealing layers",
+        "infills": "Infills"
+      },
+      "Door structures": "Door structures",
+      "Modern architecture often requires from us to design door structures with different dimensions, shapes, specifications, etc. They determine not only the look of the door but also its functional properties, stability, and durability. The spacers used in Drutex doors help significantly increase door rigidity and at the same time ensure a unique, custom design.": "Modern architecture often requires from us to design door structures with different dimensions, shapes, specifications, etc. They determine not only the look of the door but also its functional properties, stability, and durability. The spacers used in Drutex doors help significantly increase door rigidity and at the same time ensure a unique, custom design."
     },
     "iglo-hs": {
       "name": "IGLO-HS",

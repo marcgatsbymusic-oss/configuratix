@@ -375,8 +375,9 @@ export function ProductDetailPage() {
   const basicData = PRODUCTS.find((p) => p.slug === slug)
 
   const [selectedColorId, setSelectedColorId] = useState(detailData?.colors[0]?.id || '')
-  const [viewMode, setViewMode] = useState<'indoor' | 'outdoor'>('indoor')
+  const [viewMode, setViewMode] = useState<'indoor' | 'outdoor' | 'profile' | 'window'>('window')
   const [videoOpen, setVideoOpen] = useState(false)
+  const [infillOpen, setInfillOpen] = useState<string | null>(null)
 
   if (!detailData && !basicData) {
     return (
@@ -555,9 +556,9 @@ export function ProductDetailPage() {
           </div>
         </div>
 
-        {/* Row B: 3D flip card — front = profile photo, back = technical drawing */}
+        {/* Row B: 3D flip card or static image — front = profile photo, back = technical drawing (if available) */}
         <div className="max-w-7xl mx-auto px-6 pb-20">
-          <p className="text-gray-600 text-xs uppercase tracking-widest mb-4 text-center">{t('productDetail.hoverDrawing')}</p>
+          {detailData.blueprintImage && <p className="text-gray-600 text-xs uppercase tracking-widest mb-4 text-center">{t('productDetail.hoverDrawing')}</p>}
           <div
             style={{
               perspective: '1200px',
@@ -575,7 +576,7 @@ export function ProductDetailPage() {
                 transformStyle: 'preserve-3d',
                 transition: 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
               }}
-              className="group-hover:[transform:rotateY(180deg)]"
+              className={detailData.blueprintImage ? "group-hover:[transform:rotateY(180deg)]" : ""}
             >
               {/* Front: profile cross-section photo */}
               <div
@@ -584,28 +585,30 @@ export function ProductDetailPage() {
               >
                 <img
                   src={detailData.profileImage}
-                  alt="IGLO EDGE profile cross-section"
+                  alt={`${detailData.name} profile cross-section`}
                   className="w-full h-full object-contain"
                 />
                 <span className="absolute bottom-4 right-4 text-[10px] text-gray-600 uppercase tracking-widest">{t('productDetail.profile')}</span>
               </div>
 
-              {/* Back: technical drawing */}
-              <div
-                style={{
-                  backfaceVisibility: 'hidden',
-                  WebkitBackfaceVisibility: 'hidden',
-                  transform: 'rotateY(180deg)',
-                }}
-                className="absolute inset-0 bg-white flex items-center justify-center p-10"
-              >
-                <img
-                  src={detailData.blueprintImage}
-                  alt="IGLO EDGE technical drawing"
-                  className="w-full h-full object-contain"
-                />
-                <span className="absolute bottom-4 right-4 text-[10px] text-black/40 uppercase tracking-widest">{t('productDetail.technicalDrawing')}</span>
-              </div>
+              {/* Back: technical drawing (conditionally rendered) */}
+              {detailData.blueprintImage && (
+                <div
+                  style={{
+                    backfaceVisibility: 'hidden',
+                    WebkitBackfaceVisibility: 'hidden',
+                    transform: 'rotateY(180deg)',
+                  }}
+                  className="absolute inset-0 bg-white flex items-center justify-center p-10"
+                >
+                  <img
+                    src={detailData.blueprintImage}
+                    alt={`${detailData.name} technical drawing`}
+                    className="w-full h-full object-contain"
+                  />
+                  <span className="absolute bottom-4 right-4 text-[10px] text-black/40 uppercase tracking-widest">{t('productDetail.technicalDrawing')}</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -674,6 +677,28 @@ export function ProductDetailPage() {
         </div>
       )}
 
+      {/* Infill Modal */}
+      {infillOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-white/90 backdrop-blur-sm p-6"
+          onClick={() => setInfillOpen(null)}
+        >
+          <div className="relative h-[90vh] max-w-3xl flex items-center justify-center" onClick={e => e.stopPropagation()}>
+            <button
+              onClick={() => setInfillOpen(null)}
+              className="absolute -top-6 -right-6 text-gray-600 hover:text-mammut-gold transition-colors z-50 bg-white rounded-full p-2 shadow-lg"
+            >
+              <X size={24} />
+            </button>
+            <img
+              src={infillOpen}
+              alt="Infill Enlarged"
+              className="max-h-full max-w-full object-contain shadow-2xl bg-white p-4 border border-gray-200"
+            />
+          </div>
+        </div>
+      )}
+
       {/* 3. Profile Specs Section eliminated per user request */}
 
       
@@ -700,6 +725,34 @@ export function ProductDetailPage() {
         </section>
       )}
 
+      {/* Dynamic Infills Section */}
+      {detailData.infills && detailData.infills.length > 0 && (
+        <section className="bg-[#f9fafb] py-16 lg:py-24 border-t border-gray-100">
+          <div className="container mx-auto px-6 lg:px-16 max-w-7xl">
+            <h2 className="text-3xl font-black uppercase tracking-widest text-black mb-12 text-center">
+              {t('productDetail.infillsTitle', { defaultValue: 'Infill Patterns' })}
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+              {detailData.infills.map((infill, idx) => (
+                <div key={idx} className="flex flex-col items-center gap-3">
+                  <button 
+                    onClick={() => setInfillOpen(infill.largeImage)}
+                    className="w-full aspect-[2/3] bg-white border border-gray-200 p-2 overflow-hidden hover:border-mammut-gold transition-colors group cursor-zoom-in"
+                  >
+                    <img 
+                      src={infill.image} 
+                      alt={infill.name} 
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </button>
+                  <span className="text-xs font-bold uppercase tracking-widest text-gray-600 text-center">{infill.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* 3. Interactive Color Swatch Section */}
       <section className="bg-white pt-24 pb-0">
         <div className="max-w-7xl mx-auto px-6">
@@ -715,55 +768,130 @@ export function ProductDetailPage() {
           </div>
 
           <div className="flex flex-col">
-            {/* Window Preview (Top) */}
-            <div className="w-full bg-white border border-gray-200 border-b-0 flex flex-col items-center justify-center p-12 pb-4 lg:p-12 lg:pb-4 min-h-[450px] relative overflow-hidden">
-              
-              {/* Dynamic Window Frame Render */}
-              <div className="relative w-full max-w-lg flex items-center justify-center mb-0 px-4">
-                <div className="relative w-full flex justify-center">
-                  <img 
-                    src={viewMode === 'outdoor' && detailData.outdoorWindowPhoto ? detailData.outdoorWindowPhoto : (selectedColor?.windowImage || "/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp")} 
-                    alt={`${selectedColor ? t(`colors.${selectedColor.id}`) : 'White'} Window Frame`} 
-                    className="w-full h-auto object-contain z-20 transition-opacity duration-500"
-                  />
-                  {/* CSS dynamic tint overlay for the fallback window image */}
-                  {selectedColor?.windowImage === '/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp' && selectedColor?.hex && (
-                    <div 
-                      className="absolute inset-0 z-30 pointer-events-none transition-colors duration-500" 
-                      style={{
-                        backgroundColor: selectedColor.hex,
-                        mixBlendMode: 'multiply',
-                        maskImage: `url(${selectedColor.windowImage})`,
-                        WebkitMaskImage: `url(${selectedColor.windowImage})`,
-                        maskSize: 'contain',
-                        WebkitMaskSize: 'contain',
-                        maskRepeat: 'no-repeat',
-                        WebkitMaskRepeat: 'no-repeat',
-                        maskPosition: 'center',
-                        WebkitMaskPosition: 'center',
-                        opacity: 0.85
-                      }}
-                    />
-                  )}
+            {detailData.slug === 'softline' ? (
+              /* Custom Drutex-style Softline layout */
+              <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 w-full items-start mt-6">
+                
+                {/* Left Panel: Preview image */}
+                <div className="w-full lg:w-1/2 flex items-center justify-center min-h-[400px]">
+                   <img 
+                     src={viewMode === 'profile' ? selectedColor?.profileImage : selectedColor?.windowImage} 
+                     alt={selectedColor?.name}
+                     className="w-full h-auto max-h-[500px] object-contain transition-opacity duration-300"
+                   />
+                </div>
+
+                {/* Right Panel: Controls */}
+                <div className="w-full lg:w-1/2 flex flex-col gap-8">
+                   {/* Icons Toggles */}
+                   <div className="flex gap-4">
+                     <button 
+                       onClick={() => setViewMode('profile')} 
+                       className={`w-14 h-14 border flex items-center justify-center transition-all shadow-sm ${viewMode === 'profile' ? 'border-mammut-gold bg-gray-50' : 'border-gray-200 hover:border-mammut-gold'}`}
+                     >
+                        <img src="/assets/softline/btn-window.svg" alt="Profile View" className={`w-10 h-10 transition-opacity ${viewMode === 'profile' ? 'opacity-100' : 'opacity-60 grayscale'}`} />
+                     </button>
+                     <button 
+                       onClick={() => setViewMode('window')} 
+                       className={`w-14 h-14 border flex items-center justify-center transition-all shadow-sm ${viewMode === 'window' ? 'border-mammut-gold bg-gray-50' : 'border-gray-200 hover:border-mammut-gold'}`}
+                     >
+                        <img src="/assets/softline/btn-profil.svg" alt="Window View" className={`w-10 h-10 transition-opacity ${viewMode === 'window' ? 'opacity-100' : 'opacity-60 grayscale'}`} />
+                     </button>
+                   </div>
+
+                   {/* Color Picker */}
+                   <div className="flex-1 w-full">
+                      <ColorSwatch 
+                        colors={detailData.colors}
+                        selectedColorId={selectedColorId}
+                        onColorSelect={(color) => setSelectedColorId(color.id)}
+                      />
+                   </div>
                 </div>
               </div>
-              
-              {/* Selected Color Name (Below Window) */}
-              <div className="w-full flex justify-center mt-6 z-40">
-                <span className="text-gray-400 font-bold text-sm uppercase tracking-widest">
-                  {selectedColor ? t(`colors.${selectedColor.id}`) : ''}
-                </span>
-              </div>
-            </div>
+            ) : (
+              <>
+                {/* View Mode Toggle for Dual Systems */}
+                {detailData.outdoorColors && (
+                  <div className="flex justify-center -mb-6 relative z-50 mt-6">
+                    <div className="bg-[#1a1a1a] p-1 rounded-full flex gap-1 shadow-lg border border-gray-800">
+                      <button 
+                        onClick={() => setViewMode('indoor')}
+                        className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-colors ${viewMode === 'indoor' ? 'bg-mammut-gold text-black' : 'text-gray-400 hover:text-white'}`}
+                      >
+                        {t('productDetail.interior', { defaultValue: 'Interior' })}
+                      </button>
+                      <button 
+                        onClick={() => setViewMode('outdoor')}
+                        className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-colors ${viewMode === 'outdoor' ? 'bg-mammut-gold text-black' : 'text-gray-400 hover:text-white'}`}
+                      >
+                        {t('productDetail.exterior', { defaultValue: 'Exterior' })}
+                      </button>
+                    </div>
+                  </div>
+                )}
 
-            {/* Color Selector (Bottom) */}
-            <div className="w-full bg-white border border-gray-200 border-t-0 border-b-0 p-8 pt-0 pb-6 lg:p-12 lg:pt-0 lg:pb-6">
-              <ColorSwatch 
-                colors={detailData.colors}
-                selectedColorId={selectedColorId}
-                onColorSelect={(color) => setSelectedColorId(color.id)}
-              />
-            </div>
+                {/* Window Preview (Top) */}
+                <div className="w-full bg-white border border-gray-200 border-b-0 flex flex-col items-center justify-center p-12 pb-4 lg:p-12 lg:pb-4 min-h-[450px] relative overflow-hidden">
+                  
+                  {/* Render Visualizer Image with Optional CSS Tint Mask */}
+                  <div className="w-full relative flex items-center justify-center p-8 bg-transparent min-h-[400px]">
+                    <div className="relative w-full max-w-[500px]">
+                      {(() => {
+                        const isDoor = detailData.slug.includes('door');
+                        const baseImage = isDoor ? '/assets/hero-door.png' : (viewMode === 'outdoor' && detailData.outdoorWindowPhoto ? detailData.outdoorWindowPhoto : (selectedColor?.windowImage || "/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp"));
+                        const maskImage = isDoor ? '/assets/hero-door.png' : (selectedColor?.windowImage || '/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp');
+                        
+                        return (
+                          <>
+                            <img 
+                              src={baseImage} 
+                              alt={`${selectedColor ? t(`colors.${selectedColor.id}`) : 'Color'} Frame`} 
+                              className="w-full h-auto object-contain z-20 transition-opacity duration-500"
+                            />
+                            {/* CSS dynamic tint overlay */}
+                            {(isDoor || selectedColor?.windowImage === '/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp') && selectedColor?.hex && (
+                              <div 
+                                className="absolute inset-0 z-30 pointer-events-none transition-colors duration-500" 
+                                style={{
+                                  backgroundColor: selectedColor.hex,
+                                  mixBlendMode: 'multiply',
+                                  maskImage: `url(${maskImage})`,
+                                  WebkitMaskImage: `url(${maskImage})`,
+                                  maskSize: 'contain',
+                                  WebkitMaskSize: 'contain',
+                                  maskRepeat: 'no-repeat',
+                                  WebkitMaskRepeat: 'no-repeat',
+                                  maskPosition: 'center',
+                                  WebkitMaskPosition: 'center',
+                                  opacity: 0.85
+                                }}
+                              />
+                            )}
+                          </>
+                        );
+                      })()}
+                    </div>
+                  </div>
+                  
+                  {/* Selected Color Name (Below Window) */}
+                  <div className="w-full flex justify-center mt-6 z-40">
+                    <span className="text-gray-400 font-bold text-sm uppercase tracking-widest">
+                      {selectedColor ? t(`colors.${selectedColor.id}`) : ''}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Color Selector (Bottom) */}
+                <div className="w-full bg-white border border-gray-200 border-t-0 border-b-0 p-8 pt-0 pb-6 lg:p-12 lg:pt-0 lg:pb-6">
+                  <ColorSwatch 
+                    colors={detailData.colors}
+                    selectedColorId={selectedColorId}
+                    onColorSelect={(color) => setSelectedColorId(color.id)}
+                  />
+                </div>
+              </>
+            )}
           </div>
         </div>
       </section>
@@ -827,13 +955,15 @@ export function ProductDetailPage() {
       )}
 
       {/* 5. Additional Options (Everything EXCEPT Window Sill) */}
-      <AdditionalOptionsSection options={ADDITIONAL_OPTIONS.filter(o => o.id !== 'sill')} />
+      <AdditionalOptionsSection options={ADDITIONAL_OPTIONS.filter(o => o.id !== 'sill' && !(detailData.slug.includes('door') && ['muntin', 'ventilation'].includes(o.id)))} />
 
       {/* 6. Handles Slider */}
       <HandlesSlider />
 
       {/* 7. Additional Options (ONLY Window Sill) */}
-      <AdditionalOptionsSection options={ADDITIONAL_OPTIONS.filter(o => o.id === 'sill')} hideHeader={true} />
+      {!detailData.slug.includes('door') && (
+        <AdditionalOptionsSection options={ADDITIONAL_OPTIONS.filter(o => o.id === 'sill')} hideHeader={true} />
+      )}
 
       {/* Floating Action Bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200 p-4 z-40 transform translate-y-0 transition-transform">

@@ -1210,18 +1210,26 @@
       }
     },
     "mb-79n-si": {
-      "name": "MB-79N SI",
-      "tagline": "Elige la eficiencia energética",
-      "description": "El sistema de ventanas de aluminio MB-79N SI ofrece un rendimiento térmico excepcional para un perfil de 70 mm de profundidad. Tres niveles de sellado y una rotura de puente térmico de alto rendimiento lo hacen adecuado para aplicaciones residenciales y comerciales que requieren marcos de aluminio eficientes y duraderos.",
+      "name": "MB-86N SI",
+      "tagline": "Choose Energy Efficiency",
+      "colorsTitle": "Aluminium window colour range",
+      "colorsDesc": "Choose the colour that suits you Over 200 RAL colours of windows. We offer smooth matt and metallic paints that have a texture or have the so-called special effects (mainly wood-like).",
+      "description": "MB-86N SI aluminium windows stand out for their excellent thermal insulation parameters and modern design. Over 200 colours to choose from and numerous additional options allow you to fully customise your windows.\nThis window system can also be fitted with Smart Home solutions.",
+      "standardEquipment": [
+        "MACO MULTI-MATIC KS fittings with 2 anti-theft strikers with Silber-Look anticorrosion coating for long-lasting protection and smooth operation of the fitting",
+        "sash lifter (lifting mishandling device - depending on window height)",
+        "microventilation in tilt and turn windows",
+        "hinge covers in 3 colours: white, silver, brown",
+        "aluminium handle",
+        "2-glazed (1-chamber) units infilled with argon gas with Ug = 1.1 W/(m²K)",
+        "glass-pane spacer made of galvanised steel",
+        "1 EPDM gaskets + 1 central gasket made of foamed EPDM, gaskets available in black",
+        "RAL matt color: white (9016), anthracite (7016)"
+      ],
       "specs": {
-        "label_0": "Transmitancia térmica (Uw)",
-        "value_0": "0,81",
-        "label_1": "Profundidad de instalación",
-        "value_1": "70",
-        "label_2": "Capas de sellado",
-        "value_2": "3",
-        "label_3": "Acristalamiento estándar (y)",
-        "value_3": "0,5"
+        "thermal": "Transmitancia Térmica (Uw)",
+        "depth": "Profundidad de Instalación",
+        "chambers": "Cámaras de Perfil"
       }
     },
     "mb-70hi": {
@@ -1229,14 +1237,10 @@
       "tagline": "Aluminio ligero, duradero y térmicamente eficiente",
       "description": "Las ventanas de aluminio MB-70HI se pueden utilizar tanto en edificios individuales como en fachadas de aluminio. La construcción ligera y duradera garantiza un alto nivel de comodidad durante muchos años. El equipamiento de serie incluye herrajes MACO MULTI-MATIC KS y microventilación.",
       "specs": {
-        "label_0": "Transmitancia térmica (Uw)",
-        "value_0": "0,96",
-        "label_1": "Profundidad de instalación",
-        "value_1": "70",
-        "label_2": "Capas de sellado",
-        "value_2": "3",
-        "label_3": "Gama de acristalamiento",
-        "value_3": "23,5–62"
+        "thermal": "Transmitancia Térmica",
+        "depth": "Profundidad de instalación",
+        "sealing": "Capas de sellado",
+        "glazing": "Rango de acristalamiento"
       }
     },
     "mb-70": {
@@ -1311,6 +1315,19 @@
         "label_2": "Puntos de bloqueo",
         "value_2": "3 a 5"
       }
+    },
+    "iglo-energy-doors": {
+      "name": "PUERTAS IGLO ENERGY",
+      "tagline": "Diseño líder mundial y excelentes parámetros",
+      "description": "La puerta de entrada exterior de PVC Iglo Energy significa un diseño moderno y hermoso, eficiencia energética, así como valores estéticos y una funcionalidad perfecta.",
+      "specs": {
+        "thermal": "Transmitancia Térmica (Ud)",
+        "depth": "Profundidad de instalación",
+        "sealing": "Capas de sellado",
+        "infills": "Rellenos"
+      },
+      "Door structures": "Estructuras de puertas",
+      "Modern architecture often requires from us to design door structures with different dimensions, shapes, specifications, etc. They determine not only the look of the door but also its functional properties, stability, and durability. The spacers used in Drutex doors help significantly increase door rigidity and at the same time ensure a unique, custom design.": "La arquitectura moderna a menudo nos exige diseñar estructuras de puertas con diferentes dimensiones, formas, especificaciones, etc. Determinan no solo el aspecto de la puerta, sino también sus propiedades funcionales, estabilidad y durabilidad. Los espaciadores utilizados en las puertas Drutex ayudan a aumentar significativamente la rigidez de la puerta y, al mismo tiempo, garantizan un diseño personalizado y único."
     },
     "iglo-hs": {
       "name": "IGLO-HS",

@@ -49,6 +49,11 @@ export interface ProductDetailData {
     videos: string[];
     description: string;
   }
+  infills?: {
+    name: string;
+    image: string;
+    largeImage: string;
+  }[]
 }
 
 export const IGLO_EDGE_COLORS: SwatchColor[] = [
@@ -1528,7 +1533,7 @@ export const MB_86N_SI_DETAIL: ProductDetailData = {
   name: 'MB-86N SI',
   tagline: 'Aluminium windows',
   description: 'The MB-86N SI window system is a modern aluminium solution designed to offer high thermal and acoustic insulation parameters. It is an excellent choice for energy-efficient buildings.',
-  heroImage: '/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp',
+  heroImage: '/assets/mb-86n-si/hero-bg.webp',
   windowPhoto: '/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp',
   profileImage: '/assets/mb-86n-si/profile.png',
   blueprintImage: '/assets/mb-86n-si/blueprint.png',
@@ -1570,3 +1575,383 @@ export const MB_86N_SI_DETAIL: ProductDetailData = {
   hardware: [],
   accessories: []
 };
+
+
+export const MB_79N_SI_DETAIL: ProductDetailData = {
+  id: 'mb-79n-si',
+  slug: 'mb-79n-si',
+  name: 'MB-79N SI',
+  tagline: 'Choose Energy Efficiency',
+  description: 'The MB-86N SI window system is a modern aluminium solution designed to offer high thermal and acoustic insulation parameters. It is an excellent choice for energy-efficient buildings.',
+  heroImage: '/assets/mb-79n-si/hero-bg.webp',
+  windowPhoto: '/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp',
+  profileImage: '/assets/mb-79n-si/profile.png',
+  blueprintImage: '/assets/mb-79n-si/blueprint.png',
+  videoSrc: '/assets/mb-79n-si/hero-video.mp4',
+  inlineVideoSrc: '/assets/mb-79n-si/okno-mb79n.mp4',
+  keySpecs: [
+    { label: 'gaskets', value: '2' },
+    { label: 'thermal', value: 'Uw = 0,81 W/(m2K)*' },
+    { label: 'chambers', value: '3' },
+    { label: 'depth', value: '70 mm' }
+  ],
+  standardEquipment: [
+    "High thermal insulation profile",
+    "Modern aluminium frame",
+    "Triple glazing options"
+  ],
+  colors: FULL_RAL_COLORS,
+  glassOptions: [
+    { id: 'g1',  name: '33.1 safety',              image: '/assets/glass/thumbs/segura-331.webp',          largeImage: '/assets/glass/large/segura-331.jpg' },
+    { id: 'g2',  name: '33.2 ("safety") matt film',     image: '/assets/glass/thumbs/segura-332-mat.webp',      largeImage: '/assets/glass/large/segura-332-mat.jpg' },
+    { id: 'g3',  name: '44.4 anti-burglary',            image: '/assets/glass/thumbs/segura-331.webp',          largeImage: '/assets/glass/large/segura-331.jpg' },
+    { id: 'g4',  name: 'Antisol Dark Blue 6',       image: '/assets/glass/thumbs/antisol-blue-6.webp',      largeImage: '/assets/glass/large/antisol-blue-6.jpg' },
+    { id: 'g5',  name: 'Antisol grey 6',            image: '/assets/glass/thumbs/antisol-grey-6.webp',      largeImage: '/assets/glass/large/antisol-grey-6.jpg' },
+    { id: 'g6',  name: 'Antisol brown 4',          image: '/assets/glass/thumbs/antisol-brown-4.webp',     largeImage: '/assets/glass/large/antisol-brown-4.jpg' },
+    { id: 'g7',  name: 'Antisol brown 6',          image: '/assets/glass/thumbs/antisol-brown-6.webp',     largeImage: '/assets/glass/large/antisol-brown-6.jpg' },
+    { id: 'g8',  name: 'Antisol green 4',           image: '/assets/glass/thumbs/antisol-green-4.webp',     largeImage: '/assets/glass/large/antisol-green-4.jpg' },
+    { id: 'g9',  name: 'Antisol green 6',           image: '/assets/glass/thumbs/antisol-green-6.webp',     largeImage: '/assets/glass/large/antisol-green-6.jpg' },
+    { id: 'g10', name: 'Chinchilla white 4',       image: '/assets/glass/thumbs/chinchilla-4.webp',        largeImage: '/assets/glass/large/chinchilla-4.jpg' },
+    { id: 'g11', name: 'Float 4',                   image: '/assets/glass/thumbs/float-4.webp',             largeImage: '/assets/glass/large/float-4.jpg' },
+    { id: 'g12', name: 'Float 6',                   image: '/assets/glass/thumbs/float-6.webp',             largeImage: '/assets/glass/large/float-6.jpg' },
+    { id: 'g13', name: 'Mirastar',                  image: '/assets/glass/thumbs/mirastar.webp',            largeImage: '/assets/glass/large/mirastar.jpg' },
+    { id: 'g14', name: 'Ornament Cathedral',       image: '/assets/glass/thumbs/ornamento-cathedral.webp', largeImage: '/assets/glass/large/ornamento-cathedral.jpg' },
+    { id: 'g15', name: 'Ornament Delta 4',         image: '/assets/glass/thumbs/ornamento-delta.webp',     largeImage: '/assets/glass/large/ornamento-delta.jpg' },
+    { id: 'g16', name: 'Ornament Master Carre',    image: '/assets/glass/thumbs/ornamento-master.webp',    largeImage: '/assets/glass/large/ornamento-master.jpg' },
+    { id: 'g17', name: 'Ornament Silvit 4',        image: '/assets/glass/thumbs/ornamento-silvit.webp',    largeImage: '/assets/glass/large/ornamento-silvit.jpg' },
+    { id: 'g18', name: 'Stopsol blue 6',            image: '/assets/glass/thumbs/stopsol-blue-6.webp',      largeImage: '/assets/glass/large/stopsol-blue-6.jpg' },
+    { id: 'g19', name: 'Stopsol brown 6',          image: '/assets/glass/thumbs/stopsol-brown-6.webp',     largeImage: '/assets/glass/large/stopsol-brown-6.jpg' },
+    { id: 'g20', name: 'Waterfall 105',             image: '/assets/glass/thumbs/waterfall-105.webp',       largeImage: '/assets/glass/large/waterfall-105.jpg' },
+  ],
+  hardware: [],
+  accessories: []
+};
+
+
+export const MB_70HI_DETAIL: ProductDetailData = {
+  id: 'mb-70hi',
+  slug: 'mb-70hi',
+  name: 'MB-70HI',
+  tagline: 'Lightweight, durable, thermally efficient aluminium',
+  description: 'Aluminium windows made using this system can be used in both individual buildings and aluminium facades.The lightweight and durable construction ensures a high level of comfort for many years of use.',
+  heroImage: '/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp',
+  windowPhoto: '/assets/mb-70hi/mb_70_hi_profil_kolor_0.png',
+  profileImage: '/assets/mb-70hi/mb_70_hi_profil_kolor_0.png',
+  blueprintImage: '/assets/mb-70hi/mb-70hi_okno_c.png',
+  videoSrc: '/assets/mb-70hi/okno_mb_70.mp4',
+  inlineVideoSrc: '',
+  keySpecs: [
+    { label: 'thermal', value: 'Uw = 0.96 W/(m²K)*' },
+    { label: 'depth', value: '70 mm' },
+    { label: 'sealing', value: '3' },
+    { label: 'glazing', value: '23.5-62 mm' }
+  ],
+  standardEquipment: [
+    'MACO MULTI-MATIC KS fittings with 2 anti-theft strikers with Silber-Look anticorrosion coating for long-lasting protection and smooth operation of the fitting',
+    'sash lifter (lifting mishandling device - depending on window height)',
+    'microventilation in tilt and turn windows',
+    'hinge covers in 3 colours: white, silver, brown',
+    'aluminium handle',
+    '2-glazed (1-chamber) units infilled with argon gas with Ug = 1.1 W/(m²K)',
+    'glass-pane spacer made of galvanised steel',
+    '1 EPDM gaskets + 1 central gasket made of foamed EPDM, gaskets available in black',
+    'RAL matt color: white (9016), anthracite (7016)'
+  ],
+  colors: FULL_RAL_COLORS,
+  glassOptions: [
+    { id: 'g1',  name: '33.1 safety',              image: '/assets/glass/thumbs/segura-331.webp',          largeImage: '/assets/glass/large/segura-331.jpg' },
+    { id: 'g2',  name: '33.2 (safety) matt film',  image: '/assets/glass/thumbs/segura-332-mat.webp',      largeImage: '/assets/glass/large/segura-332-mat.jpg' },
+    { id: 'g3',  name: 'Float 4',                  image: '/assets/glass/thumbs/float-4.webp',             largeImage: '/assets/glass/large/float-4.jpg' }
+  ],
+  hardware: [],
+  accessories: []
+};
+
+export const MB_70_DETAIL: ProductDetailData = {
+  id: 'mb-70',
+  slug: 'mb-70',
+  name: 'MB-70',
+  tagline: 'MB-70',
+  description: 'Aluminium windows made using this system can be used in both individual buildings and aluminium facades. The lightweight and durable construction ensures a high level of comfort for many years of use.',
+  heroImage: '/assets/mb-70/profile.png',
+  windowPhoto: '/assets/mb-70/profile.png',
+  profileImage: '/assets/mb-70/profile.png',
+  blueprintImage: '/assets/mb-70/blueprint.png',
+  videoSrc: '/assets/mb-70/okno-mb70-cover.mp4',
+  inlineVideoSrc: '/assets/mb-70/okno_mb_70.mp4',
+  keySpecs: [
+    { label: 'thermal', value: 'Uw = 1.06 W/(m²K)*' },
+    { label: 'depth', value: '70 mm' },
+    { label: 'sealing', value: '3' },
+    { label: 'glazing', value: '23.5-62 mm' }
+  ],
+  standardEquipment: [
+    'MACO MULTI-MATIC KS fittings with 2 anti-theft strikers with Silber-Look anticorrosion coating for long-lasting protection and smooth operation of the fitting',
+    'sash lifter (lifting mishandling device - depending on window height)',
+    'microventilation in tilt and turn windows',
+    'hinge covers in 3 colours: white, silver, brown',
+    'aluminium handle',
+    '2-glazed (1-chamber) units infilled with argon gas with Ug = 1.1 W/(m²K)',
+    'glass-pane spacer made of galvanised steel',
+    '1 EPDM gaskets + 1 central gasket made of foamed EPDM, gaskets available in black',
+    'RAL matt color: white (9016), anthracite (7016)'
+  ],
+  colors: FULL_RAL_COLORS,
+  glassOptions: [
+    { id: 'g1',  name: '33.1 safety',              image: '/assets/glass/thumbs/segura-331.webp',          largeImage: '/assets/glass/large/segura-331.jpg' },
+    { id: 'g2',  name: '33.2 (safety) matt film',  image: '/assets/glass/thumbs/segura-332-mat.webp',      largeImage: '/assets/glass/large/segura-332-mat.jpg' },
+    { id: 'g3',  name: 'Float 4',                  image: '/assets/glass/thumbs/float-4.webp',             largeImage: '/assets/glass/large/float-4.jpg' }
+  ],
+  hardware: [],
+  accessories: []
+};
+
+export const MB_45_DETAIL: ProductDetailData = {
+  id: 'mb-45',
+  slug: 'mb-45',
+  name: 'MB-45',
+  tagline: 'MB-45',
+  description: 'MB-45 aluminium window system for applications requiring less thermal insulation.',
+  heroImage: '/assets/mb-45/profile.png',
+  windowPhoto: '/assets/mb-45/profile.png',
+  profileImage: '/assets/mb-45/profile.png',
+  blueprintImage: '/assets/mb-45/blueprint.png',
+  videoSrc: '',
+  inlineVideoSrc: '/assets/mb-45/okno_mb_45.mp4',
+  keySpecs: [
+    { label: 'thermal', value: '—' },
+    { label: 'depth', value: '45 mm' },
+    { label: 'sealing', value: '2' },
+    { label: 'glazing', value: '1.5-37 mm' }
+  ],
+  standardEquipment: [
+    'MACO MULTI-MATIC KS fittings with 2 anti-theft strikers with Silber-Look anticorrosion coating for long-lasting protection and smooth operation of the fitting',
+    'sash lifter (lifting mishandling device - depending on window height)',
+    'microventilation in tilt and turn windows',
+    'hinge covers in 3 colours: white, silver, brown',
+    'aluminium handle',
+    '2-glazed (1-chamber) units infilled with argon gas with Ug = 1.1 W/(m²K)',
+    'glass-pane spacer made of galvanised steel',
+    '2 EPDM gaskets available in black',
+    'RAL matt color: white (9016), anthracite (7016)'
+  ],
+  colors: FULL_RAL_COLORS,
+  glassOptions: [
+    { id: 'g1',  name: '33.1 safety',              image: '/assets/glass/thumbs/segura-331.webp',          largeImage: '/assets/glass/large/segura-331.jpg' },
+    { id: 'g2',  name: '33.2 (safety) matt film',  image: '/assets/glass/thumbs/segura-332-mat.webp',      largeImage: '/assets/glass/large/segura-332-mat.jpg' },
+    { id: 'g3',  name: 'Float 4',                  image: '/assets/glass/thumbs/float-4.webp',             largeImage: '/assets/glass/large/float-4.jpg' }
+  ],
+  hardware: [],
+  accessories: []
+};
+
+export const SOFTLINE_COLORS: SwatchColor[] = [
+  { id: 'c202', name: 'Bleached Oak', image: '/assets/windowcolors/textures/dab-bielony.jpg', windowImage: '/assets/softline/window.png', hex: '#E6D2B5', group: 'Wood Effect' },
+  { id: 'c227', name: 'Dark Oak', image: '/assets/windowcolors/textures/ciemny-dab_kk.jpg', windowImage: '/assets/softline/window.png', hex: '#4A3B32', group: 'Wood Effect' },
+  { id: 'c225', name: 'Douglas Fir', image: '/assets/windowcolors/textures/daglezja_kk.jpg', windowImage: '/assets/softline/window.png', hex: '#8B5A2B', group: 'Wood Effect' },
+  { id: 'c229', name: 'Macore', image: '/assets/windowcolors/textures/macore_kk.jpg', windowImage: '/assets/softline/window.png', hex: '#7A3822', group: 'Wood Effect' },
+  { id: 'c230', name: 'Mahogany', image: '/assets/windowcolors/textures/machoa_kk.jpg', windowImage: '/assets/softline/window.png', hex: '#4B2A20', group: 'Wood Effect' },
+  { id: 'c203', name: 'Natural Oak', image: '/assets/windowcolors/textures/dab-naturalny.jpg', windowImage: '/assets/softline/window.png', hex: '#A88B63', group: 'Wood Effect' },
+  { id: 'c224', name: 'Oregon', image: '/assets/windowcolors/textures/oregon_kk.jpg', windowImage: '/assets/softline/window.png', hex: '#94663A', group: 'Wood Effect' },
+  { id: 'c220', name: 'Turner Oak', image: '/assets/windowcolors/textures/turner-oak-2023.jpg', windowImage: '/assets/softline/window.png', hex: '#634A33', group: 'Wood Effect' },
+  { id: 'c226', name: 'Walnut', image: '/assets/windowcolors/textures/orzech-a.jpg', windowImage: '/assets/softline/window.png', hex: '#3E2A1D', group: 'Wood Effect' },
+  { id: 'c223', name: 'Winchester', image: '/assets/windowcolors/textures/winchester_kk.jpg', windowImage: '/assets/softline/window.png', hex: '#825936', group: 'Wood Effect' },
+  { id: 'c219', name: 'Golden Oak', image: '/assets/windowcolors/textures/zaoty-dab_kk.jpg', windowImage: '/assets/softline/window.png', hex: '#8E5B23', group: 'Wood Effect' },
+];
+
+export const SOFTLINE_DETAIL: ProductDetailData = {
+  id: 'softline',
+  slug: 'softline',
+  name: 'SOFTLINE',
+  tagline: 'Classic Wooden Elegance',
+  description: 'Our wooden windows mean the highest quality, environmentally friendly solutions and classic elegance. The remarkable window durability is ensured by an aluminium bead that protects wood from UV and water. The beautiful form of the rounded profile of the window with a streamlined shape and a smooth and shiny surface. The Softline series is available in pine and meranti.',
+  heroImage: '/assets/softline/jasny_dab-a_1.png',
+  windowPhoto: '/assets/softline/jasny_dab-a_1.png',
+  profileImage: '/assets/softline/jasny_dab-a_1.png',
+  blueprintImage: '',
+  videoSrc: '/assets/softline/softline_68_okna.mp4',
+  inlineVideoSrc: '/assets/softline/softline-88.mp4',
+  profileVariants: [
+    { name: 'Softline 68', image: '/assets/softline/softline_68_okno.png' },
+    { name: 'Softline 78', image: '/assets/softline/softline_78_okno.png' },
+    { name: 'Softline 88', image: '/assets/softline/softline_88_okno.png' }
+  ],
+  keySpecs: [
+    { label: 'thermal', value: 'Uw = 0.8 W/(m²K)*' },
+    { label: 'depth', value: '68-88 mm' },
+    { label: 'sealing', value: '2' },
+    { label: 'glazing', value: 'up to 54 mm' }
+  ],
+  standardEquipment: [
+    'MACO MULTI-MATIC KS fittings with 2 anti-theft strikers with Silber-Look anticorrosion coating for long-lasting protection and smooth operation of the fitting',
+    'sash lifter (lifting mishandling device - depending on window height)',
+    'microventilation in tilt and turn windows',
+    'hinge covers in 3 colours: white, silver, brown',
+    'aluminium handle',
+    '2-glazed (1-chamber) units infilled with argon gas with Ug = 1.1 W/(m²K)',
+    'glass-pane spacer made of galvanised steel',
+    'drip cap facilitating water drainage',
+    '2 EPDM gaskets'
+  ],
+  colors: [
+  { id: 'softline-dark-oak-meranti', name: 'Dark Oak', group: 'Meranti', image: '/assets/softline/colors/dark-oak-meranti-bg.webp', windowImage: '/assets/softline/colors/dark-oak-meranti-frame.webp', profileImage: '/assets/softline/colors/dark-oak-meranti-img.webp' },
+  { id: 'softline-dark-oak-pine', name: 'Dark Oak', group: 'Pine', image: '/assets/softline/colors/dark-oak-pine-bg.webp', windowImage: '/assets/softline/colors/dark-oak-pine-frame.webp', profileImage: '/assets/softline/colors/dark-oak-pine-img.webp' },
+  { id: 'softline-teak-pine', name: 'Teak', group: 'Pine', image: '/assets/softline/colors/teak-pine-bg.webp', windowImage: '/assets/softline/colors/teak-pine-frame.webp', profileImage: '/assets/softline/colors/teak-pine-img.webp' },
+  { id: 'softline-teak-meranthi', name: 'Teak', group: 'Meranthi', image: '/assets/softline/colors/teak-meranthi-bg.webp', windowImage: '/assets/softline/colors/teak-meranthi-frame.webp', profileImage: '/assets/softline/colors/teak-meranthi-img.webp' },
+  { id: 'softline-nut-pine', name: 'Nut', group: 'Pine', image: '/assets/softline/colors/nut-pine-bg.webp', windowImage: '/assets/softline/colors/nut-pine-frame.webp', profileImage: '/assets/softline/colors/nut-pine-img.webp' },
+  { id: 'softline-white-softline', name: 'White Softline', group: 'Opaque', image: '/assets/softline/colors/white-softline-bg.webp', windowImage: '/assets/softline/colors/white-softline-frame.webp', profileImage: '/assets/softline/colors/white-softline-img.webp' },
+  { id: 'softline-maghoni-pine', name: 'Maghoni', group: 'Pine', image: '/assets/softline/colors/maghoni-pine-bg.webp', windowImage: '/assets/softline/colors/maghoni-pine-frame.webp', profileImage: '/assets/softline/colors/maghoni-pine-img.webp' },
+  { id: 'softline-maghoni-meranthi', name: 'Maghoni', group: 'Meranthi', image: '/assets/softline/colors/maghoni-meranthi-bg.webp', windowImage: '/assets/softline/colors/maghoni-meranthi-frame.webp', profileImage: '/assets/softline/colors/maghoni-meranthi-img.webp' },
+  { id: 'softline-bright-oak-pine', name: 'Bright oak', group: 'Pine', image: '/assets/softline/colors/bright-oak-pine-bg.webp', windowImage: '/assets/softline/colors/bright-oak-pine-frame.webp', profileImage: '/assets/softline/colors/bright-oak-pine-img.webp' },
+  { id: 'softline-bright-oak-meranthi', name: 'Bright oak', group: 'Meranthi', image: '/assets/softline/colors/bright-oak-meranthi-bg.webp', windowImage: '/assets/softline/colors/bright-oak-meranthi-frame.webp', profileImage: '/assets/softline/colors/bright-oak-meranthi-img.webp' },
+  { id: 'softline-palisander-pine', name: 'Palisander', group: 'Pine', image: '/assets/softline/colors/palisander-pine-bg.webp', windowImage: '/assets/softline/colors/palisander-pine-frame.webp', profileImage: '/assets/softline/colors/palisander-pine-img.webp' },
+  { id: 'softline-palisander-meranthi', name: 'Palisander', group: 'Meranthi', image: '/assets/softline/colors/palisander-meranthi-bg.webp', windowImage: '/assets/softline/colors/palisander-meranthi-frame.webp', profileImage: '/assets/softline/colors/palisander-meranthi-img.webp' },
+  { id: 'softline-nut-meranthi', name: 'Nut', group: 'Meranthi', image: '/assets/softline/colors/nut-meranthi-bg.webp', windowImage: '/assets/softline/colors/nut-meranthi-frame.webp', profileImage: '/assets/softline/colors/nut-meranthi-img.webp' },
+  ],
+  glassOptions: [
+    { id: 'g1',  name: '33.1 safety',              image: '/assets/glass/thumbs/segura-331.webp',          largeImage: '/assets/glass/large/segura-331.jpg' },
+    { id: 'g2',  name: '33.2 (safety) matt film',  image: '/assets/glass/thumbs/segura-332-mat.webp',      largeImage: '/assets/glass/large/segura-332-mat.jpg' },
+    { id: 'g3',  name: 'Float 4',                  image: '/assets/glass/thumbs/float-4.webp',             largeImage: '/assets/glass/large/float-4.jpg' }
+  ],
+  hardware: [],
+  accessories: []
+};
+
+export const DUOLINE_DETAIL: ProductDetailData = {
+  id: 'duoline',
+  slug: 'duoline',
+  name: 'DUOLINE',
+  tagline: 'Wood-Aluminium Hybrid',
+  description: 'These windows are a perfect combination of timeless classic wood with a lightweight and extremely durable form of aluminium. Numerous additional options will help you create the windows to meet all of your expectations.',
+  heroImage: '/assets/softline/window.png',
+  windowPhoto: '/assets/softline/window.png',
+  profileImage: '/assets/softline/window.png',
+  blueprintImage: '/assets/softline/window.png',
+  videoSrc: '',
+  inlineVideoSrc: '',
+  keySpecs: [
+    { label: 'thermal', value: 'from Uw = 0.79 W/(m²K)*' },
+    { label: 'depth', value: '68-88 mm + 14 mm spacer' },
+    { label: 'sealing', value: '3' },
+    { label: 'glazing', value: 'up to 50 mm' }
+  ],
+  standardEquipment: [
+    'MACO MULTI-MATIC KS fittings with 2 anti-theft strikers with Silber-Look anticorrosion coating for long-lasting protection and smooth operation of the fitting',
+    'sash lifter (lifting mishandling device - depending on window height)',
+    'microventilation in tilt and turn windows',
+    'hinge covers in 3 colours: white, silver, brown',
+    'aluminium handle',
+    '2-glazed (1-chamber) units infilled with argon gas with Ug = 1.1 W/(m²K)',
+    'glass-pane spacer made of galvanised steel',
+    'drip cap facilitating water drainage',
+    '3 EPDM gaskets'
+  ],
+  colors: SOFTLINE_COLORS,
+  outdoorColors: FULL_RAL_COLORS,
+  outdoorWindowPhoto: '/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp',
+  glassOptions: [
+    { id: 'g1',  name: '33.1 safety',              image: '/assets/glass/thumbs/segura-331.webp',          largeImage: '/assets/glass/large/segura-331.jpg' },
+    { id: 'g2',  name: '33.2 (safety) matt film',  image: '/assets/glass/thumbs/segura-332-mat.webp',      largeImage: '/assets/glass/large/segura-332-mat.jpg' },
+    { id: 'g3',  name: 'Float 4',                  image: '/assets/glass/thumbs/float-4.webp',             largeImage: '/assets/glass/large/float-4.jpg' }
+  ],
+  hardware: [],
+  accessories: []
+};
+
+
+export const IGLO5_DOORS_DETAIL: ProductDetailData = {
+  id: 'iglo5-doors',
+  slug: 'iglo5-doors',
+  name: 'IGLO 5 DOORS',
+  tagline: 'Reliable PVC Doors',
+  description: 'Classic door system featuring a 5-chamber profile for great thermal insulation and durability.',
+  heroImage: 'https://www.drutex.eu/media/_versions/sections/inspirations/przedpokoj/drzwi-iglo-energy-przedpokoj2_inspiration_section.jpg',
+  windowPhoto: 'https://www.drutex.eu/media/_versions/sections/inspirations/przedpokoj/drzwi-iglo-energy-przedpokoj2_inspiration_section.jpg',
+  profileImage: 'https://www.drutex.eu/media/_versions/sections/inspirations/przedpokoj/drzwi-iglo-energy-przedpokoj2_inspiration_section.jpg',
+  blueprintImage: 'https://www.drutex.eu/media/_versions/sections/inspirations/przedpokoj/drzwi-iglo-energy-przedpokoj2_inspiration_section.jpg',
+  videoSrc: '',
+  inlineVideoSrc: '',
+  keySpecs: [
+    { label: 'thermal', value: 'Ud = 1.0 W/(m²K)*' },
+    { label: 'depth', value: '70 mm' },
+    { label: 'sealing', value: '2' },
+    { label: 'infills', value: '22.5-41 mm' }
+  ],
+  standardEquipment: [
+    '3-point espagnolette',
+    '3 two-winged hinges',
+    'Ug = 1,1 W/(m2K) glass',
+    'threshold with a thermal break',
+    'aluminium handle',
+    'mounting insert'
+  ],
+  colors: IGLO_EDGE_COLORS,
+  infills: [
+    { name: 'Pattern 1', image: '/assets/glass/thumbs/segura-331.webp', largeImage: '/assets/glass/large/segura-331.jpg' },
+    { name: 'Pattern 2', image: '/assets/glass/thumbs/segura-332-mat.webp', largeImage: '/assets/glass/large/segura-332-mat.jpg' },
+    { name: 'Pattern 3', image: '/assets/glass/thumbs/float-4.webp', largeImage: '/assets/glass/large/float-4.jpg' }
+  ],
+  features: [
+    {
+      title: 'Door structures',
+      description: 'Modern architecture often requires from us to design door structures with different dimensions, shapes, specifications, etc. They determine not only the look of the door but also its functional properties, stability, and durability. The spacers used in Drutex doors help significantly increase door rigidity and at the same time ensure a unique, custom design.',
+      image: 'https://www.drutex.eu/media/_versions/sections/inspirations/przedpokoj/drzwi-iglo-energy-przedpokoj1_inspiration_section.jpg'
+    }
+  ],
+  glassOptions: [
+    { id: 'g1',  name: '33.1 safety',              image: '/assets/glass/thumbs/segura-331.webp',          largeImage: '/assets/glass/large/segura-331.jpg' },
+    { id: 'g2',  name: '33.2 (safety) matt film',  image: '/assets/glass/thumbs/segura-332-mat.webp',      largeImage: '/assets/glass/large/segura-332-mat.jpg' }
+  ],
+  hardware: [],
+  accessories: []
+};
+
+export const IGLO_ENERGY_DOORS_PVC_DETAIL: ProductDetailData = {
+  id: 'iglo-energy-doors',
+  slug: 'iglo-energy-doors',
+  name: 'IGLO ENERGY DOORS',
+  tagline: 'World-leading design and excellent parameters',
+  description: 'The Iglo Energy PVC exterior entrance door means modern and beautiful design, energy efficiency as well as aesthetic values and perfect functionality.',
+  heroImage: '/assets/iglo-energy-doors/door.webp',
+  windowPhoto: '/assets/iglo-energy-doors/door.webp',
+  profileImage: '/assets/iglo-energy-doors/profile.webp',
+  blueprintImage: '/assets/iglo-energy-doors/profile.webp',
+  videoSrc: '/assets/iglo-energy-doors/hero.mp4',
+  inlineVideoSrc: '',
+  keySpecs: [
+    { label: 'thermal', value: 'Ud = 0.8 W/(m²K)*' },
+    { label: 'depth', value: '82 mm' },
+    { label: 'sealing', value: '3' },
+    { label: 'infills', value: '22.5-49.5 mm' }
+  ],
+  standardEquipment: [
+    '3-point espagnolette',
+    '3 two-winged hinges',
+    'Ug = 1,1 W/(m2K) glass',
+    'threshold with a thermal break',
+    'aluminium handle',
+    'mounting insert'
+  ],
+  colors: IGLO_EDGE_COLORS,
+  infills: [
+    { name: 'DX-01', image: '/assets/iglo-energy-doors/infills/dx-01.webp', largeImage: '/assets/iglo-energy-doors/infills/dx-01.webp' },
+    { name: 'DX-02', image: '/assets/iglo-energy-doors/infills/dx-02.webp', largeImage: '/assets/iglo-energy-doors/infills/dx-02.webp' },
+    { name: 'DX-03', image: '/assets/iglo-energy-doors/infills/dx-03.webp', largeImage: '/assets/iglo-energy-doors/infills/dx-03.webp' },
+    { name: 'DX-04', image: '/assets/iglo-energy-doors/infills/dx-04.webp', largeImage: '/assets/iglo-energy-doors/infills/dx-04.webp' },
+    { name: 'DX-05', image: '/assets/iglo-energy-doors/infills/dx-05.webp', largeImage: '/assets/iglo-energy-doors/infills/dx-05.webp' }
+  ],
+  features: [
+    {
+      title: 'Door structures',
+      description: 'Modern architecture often requires from us to design door structures with different dimensions, shapes, specifications, etc. They determine not only the look of the door but also its functional properties, stability, and durability. The spacers used in Drutex doors help significantly increase door rigidity and at the same time ensure a unique, custom design.',
+      image: '/assets/iglo-energy-doors/door-structure.webp'
+    }
+  ],
+  glassOptions: [
+    { id: 'g1',  name: '33.1 safety',              image: '/assets/glass/thumbs/segura-331.webp',          largeImage: '/assets/glass/large/segura-331.jpg' },
+    { id: 'g2',  name: '33.2 (safety) matt film',  image: '/assets/glass/thumbs/segura-332-mat.webp',      largeImage: '/assets/glass/large/segura-332-mat.jpg' }
+  ],
+  hardware: [],
+  accessories: []
+};
+

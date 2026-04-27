@@ -80,8 +80,9 @@ const MEGA_MENU_CATEGORIES = [
       {
         colKey: 'pvcDoors',
         items: [
-          { label: 'IGLO EDGE DOORS', href: '/products/iglo-edge-doors' },
           { label: 'IGLO ENERGY DOORS', href: '/products/iglo-energy-doors' },
+          { label: 'IGLO', href: '/products/iglo5-doors' },
+          { label: 'IGLO EDGE DOORS', href: '/products/iglo-edge-doors', isNew: true },
         ]
       },
       {
@@ -171,9 +172,17 @@ export function Header() {
   const megaHoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const location = useLocation()
 
+  const handleLinkClick = () => {
+    setMegaMenuOpen(false)
+    setMenuOpen(false)
+    window.scrollTo(0, 0)
+  }
+
   // Close mega menu on navigation change
   useEffect(() => {
     setMegaMenuOpen(false)
+    setMenuOpen(false)
+    window.scrollTo(0, 0)
   }, [location.pathname])
 
   useEffect(() => {
@@ -383,6 +392,7 @@ export function Header() {
               <Link 
                 to="/products"
                 className="flex items-center gap-3 px-8 text-mammut-white/40 hover:text-mammut-white uppercase tracking-widest text-[10px] font-bold mb-4"
+                onClick={handleLinkClick}
               >
                 {t('header.megaMenu.viewAll')} <ChevronRight size={12} />
               </Link>
@@ -422,6 +432,7 @@ export function Header() {
                             <Link 
                               to={item.href}
                               className="group flex flex-col"
+                              onClick={handleLinkClick}
                             >
                               <span className="text-sm font-semibold text-mammut-white/70 group-hover:text-mammut-gold transition-colors flex items-center gap-2">
                                 {item.label}
@@ -466,7 +477,7 @@ export function Header() {
                 <Link
                   to="/products"
                   className="block text-xs uppercase tracking-widest text-mammut-white/40 hover:text-mammut-gold py-1 transition-colors"
-                  onClick={() => setMenuOpen(false)}
+                  onClick={handleLinkClick}
                 >
                   {t('header.megaMenu.viewAll')} â†’
                 </Link>
@@ -477,7 +488,7 @@ export function Header() {
                     <Link
                       to={cat.href}
                       className="group flex items-center gap-3 text-xs uppercase tracking-widest text-mammut-white/70 hover:text-mammut-gold font-semibold py-2 transition-colors"
-                      onClick={() => setMenuOpen(false)}
+                      onClick={handleLinkClick}
                     >
                       {Icon && <Icon size={16} className="shrink-0 text-mammut-white/40 group-hover:text-mammut-gold transition-colors" />}
                       <span>{t(`header.megaMenu.cats.${cat.id}`)}</span>
@@ -490,7 +501,7 @@ export function Header() {
                               key={item.href}
                               to={item.href}
                               className="flex items-center gap-2 text-[11px] text-mammut-white/40 hover:text-mammut-gold py-0.5 transition-colors"
-                              onClick={() => setMenuOpen(false)}
+                              onClick={handleLinkClick}
                             >
                               {item.label}
                               {item.isNew && (
@@ -511,7 +522,7 @@ export function Header() {
           <Link
              to="/shop"
              className="block py-3 text-sm font-black uppercase tracking-widest text-yellow-400 hover:text-yellow-500 transition-colors duration-200"
-             onClick={() => setMenuOpen(false)}
+             onClick={handleLinkClick}
           >
              SHOP OUTLET
           </Link>
@@ -520,7 +531,7 @@ export function Header() {
               key={item.i18nKey}
               to={item.href}
               className="block py-3 text-sm uppercase tracking-widest text-mammut-white/70 hover:text-mammut-gold transition-colors duration-200"
-              onClick={() => setMenuOpen(false)}
+              onClick={handleLinkClick}
             >
               {t(`header.nav.${item.i18nKey}`)}
             </Link>
@@ -530,7 +541,7 @@ export function Header() {
             <Link
               to="/configurator"
               className="block border border-mammut-gold text-mammut-gold text-xs uppercase tracking-widest px-4 py-3 text-center hover:bg-mammut-gold hover:text-black transition-all duration-200 font-semibold"
-              onClick={() => setMenuOpen(false)}
+              onClick={handleLinkClick}
             >
               {t('header.nav.configurator')}
             </Link>

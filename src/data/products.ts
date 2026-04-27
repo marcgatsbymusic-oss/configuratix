@@ -484,6 +484,24 @@ const BASE_PRODUCTS: Product[] = [
     images: ['/assets/iglo-edge-door-1.jpg'],
   },
 
+  {
+    id: 'd2',
+    slug: 'iglo-energy-doors',
+    name: 'IGLO ENERGY DOORS',
+    tagline: 'World-leading design and excellent parameters',
+    description: 'The Iglo Energy PVC exterior entrance door means modern and beautiful design, energy efficiency as well as aesthetic values and perfect functionality.',
+    category: CATEGORIES[1],
+    material: 'pvc',
+    type: 'door',
+    isFeatured: true,
+    specs: [
+      { label: 'Thermal Transmittance (Ud)', value: '0.8', unit: 'W/(m²K)' },
+      { label: 'Installation Depth', value: '82', unit: 'mm' },
+      { label: 'Locking Points', value: '3 to 5' },
+    ],
+    images: ['/assets/iglo-energy-doors/door.webp'],
+  },
+
   // ─── TERRACE ──────────────────────────────────────────────────────────────
 
   {
