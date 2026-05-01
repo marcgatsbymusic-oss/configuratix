@@ -144,6 +144,9 @@
     "preview": "AVANCE",
     "selectedFinish": "Acabado seleccionado",
     "selectedColor": "Color seleccionado:",
+    "infillsTitle": "Patrones de relleno",
+    "infillsSubtitle": "Algunos patrones están disponibles en su imagen especular.",
+    "doorStructuresTitle": "Estructuras de puerta",
     "glassTitle": "Vidrio",
     "glassDesc": "DRUTEX, con más de 30 años de experiencia en la producción de vidrio compuesto, ofrece una gama muy amplia de vidrios con los que podrá equipar sus ventanas y puertas. Cumplen estrictos requisitos de eficiencia energética y aislamiento acústico. La oferta también incluye vidrios laminados (seguros y antirrobo), vidrios protegidos contra el sol, vidrios con aislamiento acústico mejorado, vidrios templados, ornamentales y arenados.",
     "handlesTitle": "Manijas",
@@ -533,7 +536,48 @@
     "ral-traffic-black": "RAL 9017 Traffic black\",",
     "ral-papyrus-white": "RAL 9018 Papyrus white\",",
     "ral-pearl-light-grey": "RAL 9022 Pearl light grey\",",
-    "ral-pearl-dark-grey": "RAL 9023 Pearl dark grey\","
+    "ral-pearl-dark-grey": "RAL 9023 Pearl dark grey\",",
+    "d1": "White FX",
+    "d2": "White Sand U-Matt",
+    "d3": "Crown Platinum",
+    "d4": "Creamy",
+    "d5": "Pyrite",
+    "d6": "Sheffield Oak Light",
+    "d7": "Natural Oak",
+    "d8": "Light Grey",
+    "d9": "Grey",
+    "d10": "Concrete Grey",
+    "d11": "Quartz Grey",
+    "d12": "Quartz Grey Smooth",
+    "d13": "Basalt Grey",
+    "d14": "Basalt Grey Smooth",
+    "d15": "Iron Glimmer Slate",
+    "d16": "Slate Grey Smooth",
+    "d17": "Graphite Sand",
+    "d18": "Anthracite",
+    "d19": "Anthracite Smooth",
+    "d20": "Anthracite Ulti-Matt",
+    "d21": "Jet black",
+    "d22": "Black Ulti-Matt",
+    "d23": "Golden Oak",
+    "d24": "Turner Oak",
+    "d25": "Turner Oak Toffee",
+    "d26": "Turner Oak Walnut",
+    "d27": "Winchester",
+    "d28": "Oregon",
+    "d29": "Douglas",
+    "d30": "Nut",
+    "d31": "Dark Oak",
+    "d32": "Palisander",
+    "d33": "Macore",
+    "d34": "Mahogany",
+    "d35": "Chocolate Brown",
+    "d36": "Shine deep bronze",
+    "d37": "Moss green",
+    "d38": "Dark Green",
+    "d39": "Dark Red",
+    "d40": "Brylantowo Niebieski",
+    "d41": "Steel Blue"
   },
   "configurator": {
     "title": "Diseñe su sistema de ventanas personalizado.",
@@ -819,6 +863,22 @@
     "kwadrat-key-ral9016": "KWADRAT con llave (RAL9016)"
   },
   "productData": {
+    "d-art-line-doors-alu": {
+      "name": "Línea D-ART",
+      "tagline": "Línea D-ART",
+      "description": "Estas puertas modernas y energéticamente eficientes se distinguen por una perfecta combinación de funcionalidad, alta estética de fabricación y estilo único. Se caracterizan por una construcción extremadamente duradera y resistente a las condiciones atmosféricas y, gracias al uso de tecnologías de producción avanzadas, ofrecen un excelente aislamiento térmico y acústico, garantizando comodidad y seguridad de uso.",
+      "specs": {
+        "Technical data": "MB-79N SI+"
+      },
+      "standardEquipment": [
+        "Cremona de 3 puntos",
+        "bisagras ocultas",
+        "inserto de calentamiento",
+        "umbral con rotura de puente térmico",
+        "manilla de aluminio",
+        "inserto de montaje"
+      ]
+    },
     "iglo-edge": {
       "name": "IGLO EDGE",
       "tagline": "Aislamiento máximo, marco mínimo",
@@ -1304,17 +1364,27 @@
       }
     },
     "iglo-edge-doors": {
-      "name": "PUERTAS DE BORDE IGLO",
-      "tagline": "La puerta de entrada a Premium",
-      "description": "Las puertas exteriores basadas en el sistema IGLO EDGE ofrecen seguridad, durabilidad y aislamiento térmico incomparables. Disponible en una amplia gama de colores y paneles de relleno para combinar con cualquier estilo arquitectónico.",
+      "name": "PUERTAS IGLO EDGE",
+      "tagline": "Diseño líder mundial y excelentes parámetros",
+      "description": "La puerta de entrada Iglo Edge es un diseño propietary, tecnología innovadora, diseño moderno en línea con las tendencias actuales del mercado. La puerta de entrada exterior de PVC Iglo Edge significa un diseño moderno y hermoso, eficiencia energética, así como valores estéticos y una funcionalidad perfecta.\nLas excelentes propiedades de aislamiento térmico de la puerta resultan del uso de materiales de construcción de alta calidad y un umbral especialmente diseñado con rotura de puente térmico. De serie:",
+      "standardEquipment": [
+        "Espagnolette de 3 puntos",
+        "3 bisagras de doble ala",
+        "Vidrio Ug = 0,5 W/(m²K)",
+        "umbral con rotura de puente térmico",
+        "manilla de aluminio",
+        "inserto de montaje"
+      ],
       "specs": {
-        "label_0": "Transmitancia Térmica (Ud)",
-        "value_0": "0,75",
-        "label_1": "Profundidad de instalación",
-        "value_1": "82",
-        "label_2": "Puntos de bloqueo",
-        "value_2": "3 a 5"
-      }
+        "thermal": "Transmitancia Térmica (Ud)",
+        "depth": "Profundidad de instalación",
+        "chambers": "Cámaras de perfil",
+        "gaskets": "Juntas de sellado",
+        "infills": "Espesor del relleno",
+        "sealing": "Sistema de bloqueo"
+      },
+      "Door structures": "Estructuras de puertas",
+      "Modern architecture often requires from us to design door structures with different dimensions, shapes, specifications, etc. They determine not only the look of the door but also its functional properties, stability, and durability. The spacers used in Drutex doors help significantly increase door rigidity and at the same time ensure a unique, custom design.": "La arquitectura moderna a menudo nos exige diseñar estructuras de puertas con diferentes dimensiones, formas, especificaciones, etc. Determinan no solo el aspecto de la puerta, sino también sus propiedades funcionales, estabilidad y durabilidad. Los espaciadores utilizados en las puertas Drutex ayudan a aumentar significativamente la rigidez de la puerta y, al mismo tiempo, garantizan un diseño personalizado y único."
     },
     "iglo-energy-doors": {
       "name": "PUERTAS IGLO ENERGY",
@@ -1374,6 +1444,13 @@
         "Embellecedor de alféizar",
         "Amplia selección de colores de revestimiento de PVC"
       ]
+    },
+    "mb-86si-doors-alu": {
+      "colorsDesc": "Choose the colour that suits you. Over 200 RAL colours. We offer smooth matt and metallic paints that have a texture or have the so-called special effects (mainly wood-like).",
+      "infillsSubtitle": "Some patterns are available in their mirror image.",
+      "doorStructuresDesc": "Modern architecture often requires from us to design door structures with different dimensions, shapes, specifications, etc. They determine not only the look of the door but also its functional properties, stability, and durability. The spacers used in Drutex doors help significantly increase door rigidity and at the same time ensure a unique, custom design.",
+      "doorStructuresTitle": "Door structures",
+      "colorsTitle": "Aluminium door colour range"
     }
   },
   "glass": {

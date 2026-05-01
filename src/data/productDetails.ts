@@ -35,7 +35,8 @@ export interface ProductDetailData {
   inlineVideoSrc?: string
   inlineImageSrc?: string
   features?: { title: string; description: string; image: string }[]
-  relatedProductLink?: { text: string; url: string }
+  relatedProductLink?: { text: string; url: string };
+  relatedProductLinks?: { text: string; url: string }[];
   glassOptions: GlassOption[]
   hardware: { id: string; name: string; image: string; type: string }[]
   accessories: { id: string; name: string; image: string; description?: string }[]
@@ -54,7 +55,60 @@ export interface ProductDetailData {
     image: string;
     largeImage: string;
   }[]
+  doorStructures?: {
+    name: string;
+    image: string;
+  }[]
+  comparison?: {
+    [productName: string]: {
+      [specName: string]: string;
+    };
+  }
 }
+
+export const IGLO_DOOR_COLORS: SwatchColor[] = [
+  { id: 'd1', group: 'Wood Effect', name: 'White FX', hex: '#cccccc', image: '/assets/iglo5-doors/colors/white-fx-swatch.webp', windowImage: '/assets/iglo5-doors/colors/white-fx-door.webp' },
+  { id: 'd2', group: 'Wood Effect', name: 'White Sand U-Matt', hex: '#cccccc', image: '/assets/iglo5-doors/colors/white-sand-u-matt-swatch.webp', windowImage: '/assets/iglo5-doors/colors/white-sand-u-matt-door.webp' },
+  { id: 'd3', group: 'Wood Effect', name: 'Crown Platinum', hex: '#cccccc', image: '/assets/iglo5-doors/colors/crown-platinum-swatch.webp', windowImage: '/assets/iglo5-doors/colors/crown-platinum-door.webp' },
+  { id: 'd4', group: 'Wood Effect', name: 'Creamy', hex: '#cccccc', image: '/assets/iglo5-doors/colors/creamy-swatch.webp', windowImage: '/assets/iglo5-doors/colors/creamy-door.webp' },
+  { id: 'd5', group: 'Wood Effect', name: 'Pyrite', hex: '#cccccc', image: '/assets/iglo5-doors/colors/pyrite-swatch.webp', windowImage: '/assets/iglo5-doors/colors/pyrite-door.webp' },
+  { id: 'd6', group: 'Wood Effect', name: 'Sheffield Oak Light', hex: '#cccccc', image: '/assets/iglo5-doors/colors/sheffield-oak-light-swatch.webp', windowImage: '/assets/iglo5-doors/colors/sheffield-oak-light-door.webp' },
+  { id: 'd7', group: 'Wood Effect', name: 'Natural Oak', hex: '#cccccc', image: '/assets/iglo5-doors/colors/natural-oak-swatch.webp', windowImage: '/assets/iglo5-doors/colors/natural-oak-door.webp' },
+  { id: 'd8', group: 'Wood Effect', name: 'Light Grey', hex: '#cccccc', image: '/assets/iglo5-doors/colors/light-grey-swatch.webp', windowImage: '/assets/iglo5-doors/colors/light-grey-door.webp' },
+  { id: 'd9', group: 'Wood Effect', name: 'Grey', hex: '#cccccc', image: '/assets/iglo5-doors/colors/grey-swatch.webp', windowImage: '/assets/iglo5-doors/colors/grey-door.webp' },
+  { id: 'd10', group: 'Wood Effect', name: 'Concrete Grey', hex: '#cccccc', image: '/assets/iglo5-doors/colors/concrete-grey-swatch.webp' },
+  { id: 'd11', group: 'Wood Effect', name: 'Quartz Grey', hex: '#cccccc', image: '/assets/iglo5-doors/colors/quartz-grey-swatch.webp' },
+  { id: 'd12', group: 'Wood Effect', name: 'Quartz Grey Smooth', hex: '#cccccc', image: '/assets/iglo5-doors/colors/quartz-grey-smooth-swatch.webp' },
+  { id: 'd13', group: 'Wood Effect', name: 'Basalt Grey', hex: '#cccccc', image: '/assets/iglo5-doors/colors/basalt-grey-swatch.webp' },
+  { id: 'd14', group: 'Wood Effect', name: 'Basalt Grey Smooth', hex: '#cccccc', image: '/assets/iglo5-doors/colors/basalt-grey-smooth-swatch.webp' },
+  { id: 'd15', group: 'Wood Effect', name: 'Iron Glimmer Slate', hex: '#cccccc', image: '/assets/iglo5-doors/colors/iron-glimmer-slate-swatch.webp' },
+  { id: 'd16', group: 'Wood Effect', name: 'Slate Grey Smooth', hex: '#cccccc', image: '/assets/iglo5-doors/colors/slate-grey-smooth-swatch.webp' },
+  { id: 'd17', group: 'Wood Effect', name: 'Graphite Sand', hex: '#cccccc', image: '/assets/iglo5-doors/colors/graphite-sand-swatch.webp' },
+  { id: 'd18', group: 'Wood Effect', name: 'Anthracite', hex: '#cccccc', image: '/assets/iglo5-doors/colors/anthracite-swatch.webp' },
+  { id: 'd19', group: 'Wood Effect', name: 'Anthracite Smooth', hex: '#cccccc', image: '/assets/iglo5-doors/colors/anthracite-smooth-swatch.webp' },
+  { id: 'd20', group: 'Wood Effect', name: 'Anthracite Ulti-Matt', hex: '#cccccc', image: '/assets/iglo5-doors/colors/anthracite-ulti-matt-swatch.webp' },
+  { id: 'd21', group: 'Wood Effect', name: 'Jet black', hex: '#cccccc', image: '/assets/iglo5-doors/colors/jet-black-swatch.webp' },
+  { id: 'd22', group: 'Wood Effect', name: 'Black Ulti-Matt', hex: '#cccccc', image: '/assets/iglo5-doors/colors/black-ulti-matt-swatch.webp' },
+  { id: 'd23', group: 'Wood Effect', name: 'Golden Oak', hex: '#cccccc', image: '/assets/iglo5-doors/colors/golden-oak-swatch.webp' },
+  { id: 'd24', group: 'Wood Effect', name: 'Turner Oak', hex: '#cccccc', image: '/assets/iglo5-doors/colors/turner-oak-swatch.webp' },
+  { id: 'd25', group: 'Wood Effect', name: 'Turner Oak Toffee', hex: '#cccccc', image: '/assets/iglo5-doors/colors/turner-oak-toffee-swatch.webp' },
+  { id: 'd26', group: 'Wood Effect', name: 'Turner Oak Walnut', hex: '#cccccc', image: '/assets/iglo5-doors/colors/turner-oak-walnut-swatch.webp' },
+  { id: 'd27', group: 'Wood Effect', name: 'Winchester', hex: '#cccccc', image: '/assets/iglo5-doors/colors/winchester-swatch.webp' },
+  { id: 'd28', group: 'Wood Effect', name: 'Oregon', hex: '#cccccc', image: '/assets/iglo5-doors/colors/oregon-swatch.webp' },
+  { id: 'd29', group: 'Wood Effect', name: 'Douglas', hex: '#cccccc', image: '/assets/iglo5-doors/colors/douglas-swatch.webp' },
+  { id: 'd30', group: 'Wood Effect', name: 'Nut', hex: '#cccccc', image: '/assets/iglo5-doors/colors/nut-swatch.webp' },
+  { id: 'd31', group: 'Wood Effect', name: 'Dark Oak', hex: '#cccccc', image: '/assets/iglo5-doors/colors/dark-oak-swatch.webp' },
+  { id: 'd32', group: 'Wood Effect', name: 'Palisander', hex: '#cccccc', image: '/assets/iglo5-doors/colors/palisander-swatch.webp' },
+  { id: 'd33', group: 'Wood Effect', name: 'Macore', hex: '#cccccc', image: '/assets/iglo5-doors/colors/macore-swatch.webp' },
+  { id: 'd34', group: 'Wood Effect', name: 'Mahogany', hex: '#cccccc', image: '/assets/iglo5-doors/colors/mahogany-swatch.webp' },
+  { id: 'd35', group: 'Wood Effect', name: 'Chocolate Brown', hex: '#cccccc', image: '/assets/iglo5-doors/colors/chocolate-brown-swatch.webp' },
+  { id: 'd36', group: 'Wood Effect', name: 'Shine deep bronze', hex: '#cccccc', image: '/assets/iglo5-doors/colors/shine-deep-bronze-swatch.webp' },
+  { id: 'd37', group: 'Wood Effect', name: 'Moss green', hex: '#cccccc', image: '/assets/iglo5-doors/colors/moss-green-swatch.webp' },
+  { id: 'd38', group: 'Wood Effect', name: 'Dark Green', hex: '#cccccc', image: '/assets/iglo5-doors/colors/dark-green-swatch.webp' },
+  { id: 'd39', group: 'Wood Effect', name: 'Dark Red', hex: '#cccccc', image: '/assets/iglo5-doors/colors/dark-red-swatch.webp' },
+  { id: 'd40', group: 'Wood Effect', name: 'Brylantowo Niebieski', hex: '#cccccc', image: '/assets/iglo5-doors/colors/brylantowo-niebieski-swatch.webp' },
+  { id: 'd41', group: 'Wood Effect', name: 'Steel Blue', hex: '#cccccc', image: '/assets/iglo5-doors/colors/steel-blue-swatch.webp' },
+];
 
 export const IGLO_EDGE_COLORS: SwatchColor[] = [
   { id: 'c209', name: 'Basalt Grey', image: '/assets/windowcolors/textures/bazaltowy_szary.jpg', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/gris-basalto.webp', hex: '#404040', group: 'Metal Effect' },
@@ -1864,13 +1918,13 @@ export const IGLO5_DOORS_DETAIL: ProductDetailData = {
   slug: 'iglo5-doors',
   name: 'IGLO 5 DOORS',
   tagline: 'Reliable PVC Doors',
-  description: 'Classic door system featuring a 5-chamber profile for great thermal insulation and durability.',
-  heroImage: 'https://www.drutex.eu/media/_versions/sections/inspirations/przedpokoj/drzwi-iglo-energy-przedpokoj2_inspiration_section.jpg',
-  windowPhoto: 'https://www.drutex.eu/media/_versions/sections/inspirations/przedpokoj/drzwi-iglo-energy-przedpokoj2_inspiration_section.jpg',
-  profileImage: 'https://www.drutex.eu/media/_versions/sections/inspirations/przedpokoj/drzwi-iglo-energy-przedpokoj2_inspiration_section.jpg',
-  blueprintImage: 'https://www.drutex.eu/media/_versions/sections/inspirations/przedpokoj/drzwi-iglo-energy-przedpokoj2_inspiration_section.jpg',
-  videoSrc: '',
-  inlineVideoSrc: '',
+  description: 'A 5-chamber system features very good thermal insulation parameters. Our innovative solution is based on a snow-white A-class profile made exclusively of primary materials to ensure the highest quality. These windows are perfect for both warm and cold climates.',
+  heroImage: '/assets/drzwi-iglo-5-cover.jpg',
+  windowPhoto: '/assets/drzwi-iglo-5-cover.jpg',
+  profileImage: '/assets/drzwi_iglo_5_kk.png',
+  blueprintImage: '/assets/drzwi_iglo_5_kk.png',
+  videoSrc: '/assets/drzwi-iglo-5-cover.mp4',
+  inlineVideoSrc: '/assets/drzwi_iglo_5.mp4',
   keySpecs: [
     { label: 'thermal', value: 'Ud = 1.0 W/(m²K)*' },
     { label: 'depth', value: '70 mm' },
@@ -1885,11 +1939,74 @@ export const IGLO5_DOORS_DETAIL: ProductDetailData = {
     'aluminium handle',
     'mounting insert'
   ],
-  colors: IGLO_EDGE_COLORS,
+  colors: IGLO_DOOR_COLORS,
   infills: [
-    { name: 'Pattern 1', image: '/assets/glass/thumbs/segura-331.webp', largeImage: '/assets/glass/large/segura-331.jpg' },
-    { name: 'Pattern 2', image: '/assets/glass/thumbs/segura-332-mat.webp', largeImage: '/assets/glass/large/segura-332-mat.jpg' },
-    { name: 'Pattern 3', image: '/assets/glass/thumbs/float-4.webp', largeImage: '/assets/glass/large/float-4.jpg' }
+    { name: 'FLORIDA', image: '/assets/iglo5-doors/infills/florida.webp', largeImage: '/assets/iglo5-doors/infills/florida.webp' },
+    { name: 'MONTANA 2', image: '/assets/iglo5-doors/infills/montana_2.webp', largeImage: '/assets/iglo5-doors/infills/montana_2.webp' },
+    { name: 'MONTANA 3', image: '/assets/iglo5-doors/infills/montana_3.webp', largeImage: '/assets/iglo5-doors/infills/montana_3.webp' },
+    { name: 'OHIO', image: '/assets/iglo5-doors/infills/ohio.webp', largeImage: '/assets/iglo5-doors/infills/ohio.webp' },
+    { name: 'COLORADO', image: '/assets/iglo5-doors/infills/colorado.webp', largeImage: '/assets/iglo5-doors/infills/colorado.webp' },
+    { name: 'ALASKA 1', image: '/assets/iglo5-doors/infills/alaska_1.webp', largeImage: '/assets/iglo5-doors/infills/alaska_1.webp' },
+    { name: 'ALASKA 2', image: '/assets/iglo5-doors/infills/alaska_2.webp', largeImage: '/assets/iglo5-doors/infills/alaska_2.webp' },
+    { name: 'ARIZONA 1', image: '/assets/iglo5-doors/infills/arizona_1.webp', largeImage: '/assets/iglo5-doors/infills/arizona_1.webp' },
+    { name: 'ARIZONA 2', image: '/assets/iglo5-doors/infills/arizona_2.webp', largeImage: '/assets/iglo5-doors/infills/arizona_2.webp' },
+    { name: 'MONTANA 1', image: '/assets/iglo5-doors/infills/montana_1.webp', largeImage: '/assets/iglo5-doors/infills/montana_1.webp' },
+    { name: 'NEBRASKA', image: '/assets/iglo5-doors/infills/nebraska.webp', largeImage: '/assets/iglo5-doors/infills/nebraska.webp' },
+    { name: 'TEXAS  (C)', image: '/assets/iglo5-doors/infills/texas___c_.webp', largeImage: '/assets/iglo5-doors/infills/texas___c_.webp' },
+    { name: 'CALIFORNIA 1  (C)', image: '/assets/iglo5-doors/infills/california_1___c_.webp', largeImage: '/assets/iglo5-doors/infills/california_1___c_.webp' },
+    { name: 'PENNSYLVANIA 1', image: '/assets/iglo5-doors/infills/pennsylvania_1.webp', largeImage: '/assets/iglo5-doors/infills/pennsylvania_1.webp' },
+    { name: 'PENNSYLVANIA 2', image: '/assets/iglo5-doors/infills/pennsylvania_2.webp', largeImage: '/assets/iglo5-doors/infills/pennsylvania_2.webp' },
+    { name: 'PENNSYLVANIA 3', image: '/assets/iglo5-doors/infills/pennsylvania_3.webp', largeImage: '/assets/iglo5-doors/infills/pennsylvania_3.webp' },
+    { name: 'HAWAII 2', image: '/assets/iglo5-doors/infills/hawaii_2.webp', largeImage: '/assets/iglo5-doors/infills/hawaii_2.webp' },
+    { name: 'HAWAII 3', image: '/assets/iglo5-doors/infills/hawaii_3.webp', largeImage: '/assets/iglo5-doors/infills/hawaii_3.webp' },
+    { name: 'CALIFORNIA 1', image: '/assets/iglo5-doors/infills/california_1.webp', largeImage: '/assets/iglo5-doors/infills/california_1.webp' },
+    { name: 'DX 01', image: '/assets/iglo5-doors/infills/dx_01.webp', largeImage: '/assets/iglo5-doors/infills/dx_01.webp' },
+    { name: 'DX 02', image: '/assets/iglo5-doors/infills/dx_02.webp', largeImage: '/assets/iglo5-doors/infills/dx_02.webp' },
+    { name: 'DX 03', image: '/assets/iglo5-doors/infills/dx_03.webp', largeImage: '/assets/iglo5-doors/infills/dx_03.webp' },
+    { name: 'DX 04', image: '/assets/iglo5-doors/infills/dx_04.webp', largeImage: '/assets/iglo5-doors/infills/dx_04.webp' },
+    { name: 'DX 05', image: '/assets/iglo5-doors/infills/dx_05.webp', largeImage: '/assets/iglo5-doors/infills/dx_05.webp' },
+    { name: 'DX 06', image: '/assets/iglo5-doors/infills/dx_06.webp', largeImage: '/assets/iglo5-doors/infills/dx_06.webp' },
+    { name: 'DX 07', image: '/assets/iglo5-doors/infills/dx_07.webp', largeImage: '/assets/iglo5-doors/infills/dx_07.webp' },
+    { name: 'DX 08', image: '/assets/iglo5-doors/infills/dx_08.webp', largeImage: '/assets/iglo5-doors/infills/dx_08.webp' },
+    { name: 'DX 09', image: '/assets/iglo5-doors/infills/dx_09.webp', largeImage: '/assets/iglo5-doors/infills/dx_09.webp' },
+    { name: 'DX 10', image: '/assets/iglo5-doors/infills/dx_10.webp', largeImage: '/assets/iglo5-doors/infills/dx_10.webp' },
+    { name: 'DX 11', image: '/assets/iglo5-doors/infills/dx_11.webp', largeImage: '/assets/iglo5-doors/infills/dx_11.webp' },
+    { name: 'DX 12', image: '/assets/iglo5-doors/infills/dx_12.webp', largeImage: '/assets/iglo5-doors/infills/dx_12.webp' },
+    { name: 'DX 13', image: '/assets/iglo5-doors/infills/dx_13.webp', largeImage: '/assets/iglo5-doors/infills/dx_13.webp' },
+    { name: 'DX 14', image: '/assets/iglo5-doors/infills/dx_14.webp', largeImage: '/assets/iglo5-doors/infills/dx_14.webp' },
+    { name: 'DX 14 INOX', image: '/assets/iglo5-doors/infills/dx_14_inox.webp', largeImage: '/assets/iglo5-doors/infills/dx_14_inox.webp' },
+    { name: 'DX 15', image: '/assets/iglo5-doors/infills/dx_15.webp', largeImage: '/assets/iglo5-doors/infills/dx_15.webp' },
+    { name: 'DX 16', image: '/assets/iglo5-doors/infills/dx_16.webp', largeImage: '/assets/iglo5-doors/infills/dx_16.webp' },
+    { name: 'DX 17', image: '/assets/iglo5-doors/infills/dx_17.webp', largeImage: '/assets/iglo5-doors/infills/dx_17.webp' },
+    { name: 'DX 18', image: '/assets/iglo5-doors/infills/dx_18.webp', largeImage: '/assets/iglo5-doors/infills/dx_18.webp' },
+    { name: 'DX 19', image: '/assets/iglo5-doors/infills/dx_19.webp', largeImage: '/assets/iglo5-doors/infills/dx_19.webp' },
+    { name: 'DX 23', image: '/assets/iglo5-doors/infills/dx_23.webp', largeImage: '/assets/iglo5-doors/infills/dx_23.webp' },
+    { name: 'DX 25', image: '/assets/iglo5-doors/infills/dx_25.webp', largeImage: '/assets/iglo5-doors/infills/dx_25.webp' },
+    { name: 'DX 26', image: '/assets/iglo5-doors/infills/dx_26.webp', largeImage: '/assets/iglo5-doors/infills/dx_26.webp' },
+    { name: 'DX 27', image: '/assets/iglo5-doors/infills/dx_27.webp', largeImage: '/assets/iglo5-doors/infills/dx_27.webp' },
+    { name: 'DX 28', image: '/assets/iglo5-doors/infills/dx_28.webp', largeImage: '/assets/iglo5-doors/infills/dx_28.webp' },
+    { name: 'DX 29', image: '/assets/iglo5-doors/infills/dx_29.webp', largeImage: '/assets/iglo5-doors/infills/dx_29.webp' },
+    { name: 'DX 30', image: '/assets/iglo5-doors/infills/dx_30.webp', largeImage: '/assets/iglo5-doors/infills/dx_30.webp' },
+    { name: 'DX 31', image: '/assets/iglo5-doors/infills/dx_31.webp', largeImage: '/assets/iglo5-doors/infills/dx_31.webp' },
+    { name: 'DX 36', image: '/assets/iglo5-doors/infills/dx_36.webp', largeImage: '/assets/iglo5-doors/infills/dx_36.webp' },
+  ],
+  doorStructures: [
+    { name: 'Example 1', image: '/assets/iglo5-doors/door-structures/structure_1.webp' },
+    { name: 'Example 2', image: '/assets/iglo5-doors/door-structures/structure_2.webp' },
+    { name: 'Example 3', image: '/assets/iglo5-doors/door-structures/structure_3.webp' },
+    { name: 'Example 4', image: '/assets/iglo5-doors/door-structures/structure_4.webp' },
+    { name: 'Example 5', image: '/assets/iglo5-doors/door-structures/structure_5.webp' },
+    { name: 'Example 6', image: '/assets/iglo5-doors/door-structures/structure_6.webp' },
+    { name: 'Example 7', image: '/assets/iglo5-doors/door-structures/structure_7.webp' },
+    { name: 'Example 8', image: '/assets/iglo5-doors/door-structures/structure_8.webp' },
+    { name: 'Example 9', image: '/assets/iglo5-doors/door-structures/structure_9.webp' },
+    { name: 'Example 10', image: '/assets/iglo5-doors/door-structures/structure_10.webp' },
+    { name: 'Example 11', image: '/assets/iglo5-doors/door-structures/structure_11.webp' },
+    { name: 'Example 12', image: '/assets/iglo5-doors/door-structures/structure_12.webp' },
+    { name: 'Example 13', image: '/assets/iglo5-doors/door-structures/structure_13.webp' },
+    { name: 'Example 14', image: '/assets/iglo5-doors/door-structures/structure_14.webp' },
+    { name: 'Example 15', image: '/assets/iglo5-doors/door-structures/structure_15.webp' },
+    { name: 'Example 16', image: '/assets/iglo5-doors/door-structures/structure_16.webp' },
   ],
   features: [
     {
@@ -1917,7 +2034,11 @@ export const IGLO_ENERGY_DOORS_PVC_DETAIL: ProductDetailData = {
   profileImage: '/assets/iglo-energy-doors/profile.webp',
   blueprintImage: '/assets/iglo-energy-doors/profile.webp',
   videoSrc: '/assets/iglo-energy-doors/hero.mp4',
-  inlineVideoSrc: '',
+  inlineVideoSrc: '/assets/drzwi_iglo_energy.mp4',
+  relatedProductLinks: [
+    { text: 'relatedIgloEnergyWindow', url: '/products/iglo-energy' },
+    { text: 'relatedIgloEnergyClassicWindow', url: '/products/iglo-energy-classic' }
+  ],
   keySpecs: [
     { label: 'thermal', value: 'Ud = 0.8 W/(m²K)*' },
     { label: 'depth', value: '82 mm' },
@@ -1932,7 +2053,7 @@ export const IGLO_ENERGY_DOORS_PVC_DETAIL: ProductDetailData = {
     'aluminium handle',
     'mounting insert'
   ],
-  colors: IGLO_EDGE_COLORS,
+  colors: IGLO_DOOR_COLORS,
   infills: [
     { name: 'DX-01', image: '/assets/iglo-energy-doors/infills/dx-01.webp', largeImage: '/assets/iglo-energy-doors/infills/dx-01.webp' },
     { name: 'DX-02', image: '/assets/iglo-energy-doors/infills/dx-02.webp', largeImage: '/assets/iglo-energy-doors/infills/dx-02.webp' },
@@ -1955,3 +2076,1360 @@ export const IGLO_ENERGY_DOORS_PVC_DETAIL: ProductDetailData = {
   accessories: []
 };
 
+
+export const IGLO_EDGE_DOORS_DETAIL: ProductDetailData = {
+  id: 'iglo-edge-doors',
+  slug: 'iglo-edge-doors',
+  name: 'IGLO EDGE DOORS',
+  tagline: 'World-leading design and excellent parameters',
+  description: 'The Iglo Edge entrance door is a proprietary design, innovative technology, modern design in line with current market trends. The Iglo Edge entrance door means modern and beautiful design, energy efficiency as well as aesthetic values and perfect functionality.\nExcellent thermal insulation properties of the door result from the use of high-quality construction materials and a specially designed threshold with a thermal break. As standard:',
+  heroImage: '/assets/products/iglo-edge-doors/fills/fill-43.webp',
+  windowPhoto: '/assets/products/iglo-edge-doors/fills/fill-43.webp',
+  profileImage: '/assets/products/iglo-edge-doors/constructions/construction-1.webp',
+  blueprintImage: '/assets/products/iglo-edge-doors/constructions/construction-2.webp',
+  videoSrc: '/assets/products/iglo-edge-doors/hero.mp4',
+  inlineImageSrc: '/assets/products/iglo-edge-doors/fills/fill-43.webp',
+  disableHeroFilter: false,
+  keySpecs: [
+    { label: 'thermal', value: 'Ud = 0,81 W/(m²K)*' },
+    { label: 'depth',   value: '82 mm' },
+    { label: 'chambers', value: '7' },
+    { label: 'gaskets',  value: '3' },
+    { label: 'infills',  value: '48–54 mm glass / 36 mm panel' },
+    { label: 'sealing',  value: '3-point espagnolette' },
+  ],
+  standardEquipment: [
+    '3-point espagnolette',
+    '3 two-winged hinges',
+    'Ug = 0,5 W/(m²K) glass',
+    'threshold with a thermal break',
+    'aluminium handle',
+    'mounting insert',
+  ],
+  colors: IGLO_DOOR_COLORS,
+  infills: [
+    { name: 'Batch panel', image: '/assets/products/iglo-edge-doors/fills/fill-1.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-1.webp' },
+    { name: 'FLORIDA', image: '/assets/products/iglo-edge-doors/fills/fill-2.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-2.webp' },
+    { name: 'MONTANA 2', image: '/assets/products/iglo-edge-doors/fills/fill-5.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-5.webp' },
+    { name: 'MONTANA 3', image: '/assets/products/iglo-edge-doors/fills/fill-7.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-7.webp' },
+    { name: 'OHIO', image: '/assets/products/iglo-edge-doors/fills/fill-9.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-9.webp' },
+    { name: 'COLORADO', image: '/assets/products/iglo-edge-doors/fills/fill-11.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-11.webp' },
+    { name: 'ALASKA 1', image: '/assets/products/iglo-edge-doors/fills/fill-13.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-13.webp' },
+    { name: 'ALASKA 2', image: '/assets/products/iglo-edge-doors/fills/fill-15.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-15.webp' },
+    { name: 'ARIZONA 1', image: '/assets/products/iglo-edge-doors/fills/fill-17.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-17.webp' },
+    { name: 'ARIZONA 2', image: '/assets/products/iglo-edge-doors/fills/fill-19.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-19.webp' },
+    { name: 'MONTANA 1', image: '/assets/products/iglo-edge-doors/fills/fill-21.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-21.webp' },
+    { name: 'NEBRASKA', image: '/assets/products/iglo-edge-doors/fills/fill-23.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-23.webp' },
+    { name: 'TEXAS', image: '/assets/products/iglo-edge-doors/fills/fill-25.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-25.webp' },
+    { name: 'CALIFORNIA 1', image: '/assets/products/iglo-edge-doors/fills/fill-27.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-27.webp' },
+    { name: 'PENNSYLVANIA 1', image: '/assets/products/iglo-edge-doors/fills/fill-29.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-29.webp' },
+    { name: 'PENNSYLVANIA 2', image: '/assets/products/iglo-edge-doors/fills/fill-31.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-31.webp' },
+    { name: 'PENNSYLVANIA 3', image: '/assets/products/iglo-edge-doors/fills/fill-33.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-33.webp' },
+    { name: 'HAWAII 2', image: '/assets/products/iglo-edge-doors/fills/fill-37.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-37.webp' },
+    { name: 'HAWAII 3', image: '/assets/products/iglo-edge-doors/fills/fill-39.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-39.webp' },
+    { name: 'DX 01', image: '/assets/products/iglo-edge-doors/fills/fill-43.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-43.webp' },
+    { name: 'DX 01 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-44.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-44.webp' },
+    { name: 'DX 02', image: '/assets/products/iglo-edge-doors/fills/fill-45.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-45.webp' },
+    { name: 'DX 02 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-46.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-46.webp' },
+    { name: 'DX 03', image: '/assets/products/iglo-edge-doors/fills/fill-47.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-47.webp' },
+    { name: 'DX 03 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-48.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-48.webp' },
+    { name: 'DX 04', image: '/assets/products/iglo-edge-doors/fills/fill-49.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-49.webp' },
+    { name: 'DX 04 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-50.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-50.webp' },
+    { name: 'DX 05', image: '/assets/products/iglo-edge-doors/fills/fill-51.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-51.webp' },
+    { name: 'DX 06 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-52.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-52.webp' },
+    { name: 'DX 07', image: '/assets/products/iglo-edge-doors/fills/fill-53.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-53.webp' },
+    { name: 'DX 07 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-54.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-54.webp' },
+    { name: 'DX 08', image: '/assets/products/iglo-edge-doors/fills/fill-55.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-55.webp' },
+    { name: 'DX 09 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-56.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-56.webp' },
+    { name: 'DX 10 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-57.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-57.webp' },
+    { name: 'DX 11', image: '/assets/products/iglo-edge-doors/fills/fill-58.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-58.webp' },
+    { name: 'DX 11 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-59.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-59.webp' },
+    { name: 'DX 12', image: '/assets/products/iglo-edge-doors/fills/fill-60.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-60.webp' },
+    { name: 'DX 12 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-61.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-61.webp' },
+    { name: 'DX 13', image: '/assets/products/iglo-edge-doors/fills/fill-62.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-62.webp' },
+    { name: 'DX 13 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-63.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-63.webp' },
+    { name: 'DX 14', image: '/assets/products/iglo-edge-doors/fills/fill-64.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-64.webp' },
+    { name: 'DX 14 INOX', image: '/assets/products/iglo-edge-doors/fills/fill-65.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-65.webp' },
+    { name: 'DX 15 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-66.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-66.webp' },
+    { name: 'DX 16 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-67.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-67.webp' },
+    { name: 'DX 17 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-68.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-68.webp' },
+    { name: 'DX 18', image: '/assets/products/iglo-edge-doors/fills/fill-69.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-69.webp' },
+    { name: 'DX 18 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-70.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-70.webp' },
+    { name: 'DX 19', image: '/assets/products/iglo-edge-doors/fills/fill-71.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-71.webp' },
+    { name: 'DX 19 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-72.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-72.webp' },
+    { name: 'DX 23', image: '/assets/products/iglo-edge-doors/fills/fill-73.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-73.webp' },
+    { name: 'DX 23 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-74.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-74.webp' },
+    { name: 'DX 25', image: '/assets/products/iglo-edge-doors/fills/fill-75.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-75.webp' },
+    { name: 'DX 25 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-76.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-76.webp' },
+    { name: 'DX 26', image: '/assets/products/iglo-edge-doors/fills/fill-77.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-77.webp' },
+    { name: 'DX 26 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-78.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-78.webp' },
+    { name: 'DX 27', image: '/assets/products/iglo-edge-doors/fills/fill-79.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-79.webp' },
+    { name: 'DX 27 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-80.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-80.webp' },
+    { name: 'DX 28', image: '/assets/products/iglo-edge-doors/fills/fill-81.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-81.webp' },
+    { name: 'DX 28 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-82.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-82.webp' },
+    { name: 'DX 29', image: '/assets/products/iglo-edge-doors/fills/fill-83.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-83.webp' },
+    { name: 'DX 29 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-84.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-84.webp' },
+    { name: 'DX 30', image: '/assets/products/iglo-edge-doors/fills/fill-85.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-85.webp' },
+    { name: 'DX 30 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-86.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-86.webp' },
+    { name: 'DX 31', image: '/assets/products/iglo-edge-doors/fills/fill-87.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-87.webp' },
+    { name: 'DX 31 Decorative overlay', image: '/assets/products/iglo-edge-doors/fills/fill-88.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-88.webp' },
+    { name: 'DX 36', image: '/assets/products/iglo-edge-doors/fills/fill-89.webp', largeImage: '/assets/products/iglo-edge-doors/fills/fill-89.webp' },
+  ],
+  doorStructures: [
+    { name: 'Structure 1',  image: '/assets/products/iglo-edge-doors/constructions/construction-1.webp' },
+    { name: 'Structure 2',  image: '/assets/products/iglo-edge-doors/constructions/construction-2.webp' },
+    { name: 'Structure 3',  image: '/assets/products/iglo-edge-doors/constructions/construction-3.webp' },
+    { name: 'Structure 4',  image: '/assets/products/iglo-edge-doors/constructions/construction-4.webp' },
+    { name: 'Structure 5',  image: '/assets/products/iglo-edge-doors/constructions/construction-5.webp' },
+    { name: 'Structure 6',  image: '/assets/products/iglo-edge-doors/constructions/construction-6.webp' },
+    { name: 'Structure 7',  image: '/assets/products/iglo-edge-doors/constructions/construction-7.webp' },
+    { name: 'Structure 8',  image: '/assets/products/iglo-edge-doors/constructions/construction-8.webp' },
+    { name: 'Structure 9',  image: '/assets/products/iglo-edge-doors/constructions/construction-9.webp' },
+    { name: 'Structure 10', image: '/assets/products/iglo-edge-doors/constructions/construction-10.webp' },
+    { name: 'Structure 11', image: '/assets/products/iglo-edge-doors/constructions/construction-11.webp' },
+    { name: 'Structure 12', image: '/assets/products/iglo-edge-doors/constructions/construction-12.webp' },
+    { name: 'Structure 13', image: '/assets/products/iglo-edge-doors/constructions/construction-13.webp' },
+    { name: 'Structure 14', image: '/assets/products/iglo-edge-doors/constructions/construction-14.webp' },
+    { name: 'Structure 15', image: '/assets/products/iglo-edge-doors/constructions/construction-15.webp' },
+    { name: 'Structure 16', image: '/assets/products/iglo-edge-doors/constructions/construction-16.webp' },
+  ],
+  glassOptions: [
+    { id: 'g1',  name: '33.1 safety',              image: '/assets/glass/thumbs/segura-331.webp',     largeImage: '/assets/glass/large/segura-331.jpg' },
+    { id: 'g2',  name: '33.2 (safety) matt film',  image: '/assets/glass/thumbs/segura-332-mat.webp', largeImage: '/assets/glass/large/segura-332-mat.jpg' },
+    { id: 'g3',  name: '44.4 anti-burglary',        image: '/assets/glass/thumbs/segura-331.webp',     largeImage: '/assets/glass/large/segura-331.jpg' },
+    { id: 'g11', name: 'Float 4',                   image: '/assets/glass/thumbs/float-4.webp',        largeImage: '/assets/glass/large/float-4.jpg' },
+    { id: 'g12', name: 'Float 6',                   image: '/assets/glass/thumbs/float-6.webp',        largeImage: '/assets/glass/large/float-6.jpg' },
+  ],
+  hardware: [],
+  accessories: [],
+};
+
+export const D_ART_LINE_DOORS_ALU_DETAIL: ProductDetailData = {
+  id: 'd-art-line-doors-alu',
+  slug: 'd-art-line-doors-alu',
+  name: 'D-ART Line',
+  tagline: 'D-ART Line',
+  description: 'These modern and energy-efficient doors are distinguished by a perfect combination of functionality, high aesthetics of workmanship and unique style. They are characterized by an extremely durable construction resistant to atmospheric conditions and, thanks to the use of advanced production technologies, offer excellent thermal and acoustic insulation, ensuring comfort and safety of use.',
+  heroImage: '/assets/products/d-art-line-doors-alu/fills/fill-1.webp',
+  windowPhoto: '/assets/products/d-art-line-doors-alu/fills/fill-1.webp',
+  profileImage: '/assets/products/d-art-line-doors-alu/constructions/construction-1.webp',
+  blueprintImage: 'https://www.drutex.eu/media/_upload/produkty/d-artline/wideo/d-art_line_rzut.png',
+  videoSrc: 'https://www.drutex.eu/media/_upload/produkty/d-artline/produkt/d-art-line-produkt.mp4',
+  inlineVideoSrc: 'https://www.drutex.eu/media/_upload/produkty/d-artline/produkt/d-art-line-produkt.mp4',
+  disableHeroFilter: false,
+  keySpecs: [
+    { label: 'Technical data', value: 'MB-79N SI+' }
+  ],
+  standardEquipment: [
+    '3-point espagnolette',
+    'hidden hinges',
+    'warming insert',
+    'threshold with a thermal break',
+    'aluminium handle',
+    'mounting insert'
+  ],
+  colors: [],
+  infills: [
+    { name: 'D-Art Line Elegance 1', image: '/assets/products/d-art-line-doors-alu/fills/fill-1.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-1.webp' },
+    { name: 'Panel 2', image: '/assets/products/d-art-line-doors-alu/fills/fill-2.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-2.webp' },
+    { name: 'D-Art Line Elegance 3', image: '/assets/products/d-art-line-doors-alu/fills/fill-3.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-3.webp' },
+    { name: 'Panel 4', image: '/assets/products/d-art-line-doors-alu/fills/fill-4.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-4.webp' },
+    { name: 'D-Art Line Prestige 1', image: '/assets/products/d-art-line-doors-alu/fills/fill-5.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-5.webp' },
+    { name: 'D-Art Line Prestige 2', image: '/assets/products/d-art-line-doors-alu/fills/fill-6.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-6.webp' },
+    { name: 'Panel 7', image: '/assets/products/d-art-line-doors-alu/fills/fill-7.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-7.webp' },
+    { name: 'Panel 8', image: '/assets/products/d-art-line-doors-alu/fills/fill-8.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-8.webp' },
+    { name: 'D-Art Line Classic 1', image: '/assets/products/d-art-line-doors-alu/fills/fill-9.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-9.webp' },
+    { name: 'D-Art Line Classic 2', image: '/assets/products/d-art-line-doors-alu/fills/fill-10.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-10.webp' },
+    { name: 'Panel 11', image: '/assets/products/d-art-line-doors-alu/fills/fill-11.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-11.webp' },
+    { name: 'D-Art Line Classic 4', image: '/assets/products/d-art-line-doors-alu/fills/fill-12.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-12.webp' },
+    { name: 'Panel 13', image: '/assets/products/d-art-line-doors-alu/fills/fill-13.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-13.webp' },
+    { name: 'Panel 14', image: '/assets/products/d-art-line-doors-alu/fills/fill-14.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-14.webp' },
+    { name: 'D-Art Line Geometric 2', image: '/assets/products/d-art-line-doors-alu/fills/fill-15.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-15.webp' },
+    { name: 'D-Art Line Geometric 3', image: '/assets/products/d-art-line-doors-alu/fills/fill-16.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-16.webp' },
+    { name: 'D-Art Line Modern 1', image: '/assets/products/d-art-line-doors-alu/fills/fill-17.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-17.webp' },
+    { name: 'Panel 18', image: '/assets/products/d-art-line-doors-alu/fills/fill-18.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-18.webp' },
+    { name: 'D-Art Line Modern 3', image: '/assets/products/d-art-line-doors-alu/fills/fill-19.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-19.webp' },
+    { name: 'D-Art Line Modern 4', image: '/assets/products/d-art-line-doors-alu/fills/fill-20.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-20.webp' },
+    { name: 'Panel 21', image: '/assets/products/d-art-line-doors-alu/fills/fill-21.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-21.webp' },
+    { name: 'Panel 22', image: '/assets/products/d-art-line-doors-alu/fills/fill-22.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-22.webp' },
+    { name: 'Panel 23', image: '/assets/products/d-art-line-doors-alu/fills/fill-23.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-23.webp' },
+    { name: 'Panel 24', image: '/assets/products/d-art-line-doors-alu/fills/fill-24.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-24.webp' },
+    { name: 'Panel 25', image: '/assets/products/d-art-line-doors-alu/fills/fill-25.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-25.webp' },
+    { name: 'Panel 26', image: '/assets/products/d-art-line-doors-alu/fills/fill-26.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-26.webp' },
+    { name: 'Panel 27', image: '/assets/products/d-art-line-doors-alu/fills/fill-27.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-27.webp' },
+    { name: 'Panel 28', image: '/assets/products/d-art-line-doors-alu/fills/fill-28.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-28.webp' },
+    { name: 'Panel 29', image: '/assets/products/d-art-line-doors-alu/fills/fill-29.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-29.webp' },
+    { name: 'Panel 30', image: '/assets/products/d-art-line-doors-alu/fills/fill-30.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-30.webp' },
+    { name: 'Panel 31', image: '/assets/products/d-art-line-doors-alu/fills/fill-31.webp', largeImage: '/assets/products/d-art-line-doors-alu/fills/fill-31.webp' }
+  ],
+  doorStructures: [
+    { name: 'Structure 1', image: '/assets/products/d-art-line-doors-alu/constructions/construction-1.webp' },
+    { name: 'Structure 2', image: '/assets/products/d-art-line-doors-alu/constructions/construction-2.webp' },
+    { name: 'Structure 3', image: '/assets/products/d-art-line-doors-alu/constructions/construction-3.webp' },
+    { name: 'Structure 4', image: '/assets/products/d-art-line-doors-alu/constructions/construction-4.webp' },
+    { name: 'Structure 5', image: '/assets/products/d-art-line-doors-alu/constructions/construction-5.webp' },
+    { name: 'Structure 6', image: '/assets/products/d-art-line-doors-alu/constructions/construction-6.webp' },
+    { name: 'Structure 7', image: '/assets/products/d-art-line-doors-alu/constructions/construction-7.webp' }
+  ],
+  glassOptions: [
+    { id: 'g1',  name: '33.1 safety',              image: '/assets/glass/thumbs/segura-331.webp',          largeImage: '/assets/glass/large/segura-331.jpg' },
+    { id: 'g2',  name: '33.2 ("safety") matt film',     image: '/assets/glass/thumbs/segura-332-mat.webp',      largeImage: '/assets/glass/large/segura-332-mat.jpg' },
+    { id: 'g3',  name: '44.4 anti-burglary',            image: '/assets/glass/thumbs/segura-331.webp',          largeImage: '/assets/glass/large/segura-331.jpg' },
+    { id: 'g4',  name: 'Antisol Dark Blue 6',       image: '/assets/glass/thumbs/antisol-blue-6.webp',      largeImage: '/assets/glass/large/antisol-blue-6.jpg' },
+    { id: 'g5',  name: 'Antisol grey 6',            image: '/assets/glass/thumbs/antisol-grey-6.webp',      largeImage: '/assets/glass/large/antisol-grey-6.jpg' },
+    { id: 'g6',  name: 'Antisol brown 4',          image: '/assets/glass/thumbs/antisol-brown-4.webp',     largeImage: '/assets/glass/large/antisol-brown-4.jpg' },
+    { id: 'g7',  name: 'Antisol brown 6',          image: '/assets/glass/thumbs/antisol-brown-6.webp',     largeImage: '/assets/glass/large/antisol-brown-6.jpg' },
+    { id: 'g8',  name: 'Antisol green 4',           image: '/assets/glass/thumbs/antisol-green-4.webp',     largeImage: '/assets/glass/large/antisol-green-4.jpg' },
+    { id: 'g9',  name: 'Antisol green 6',           image: '/assets/glass/thumbs/antisol-green-6.webp',     largeImage: '/assets/glass/large/antisol-green-6.jpg' },
+    { id: 'g10', name: 'Chinchilla white 4',       image: '/assets/glass/thumbs/chinchilla-4.webp',        largeImage: '/assets/glass/large/chinchilla-4.jpg' },
+    { id: 'g11', name: 'Float 4',                   image: '/assets/glass/thumbs/float-4.webp',             largeImage: '/assets/glass/large/float-4.jpg' },
+    { id: 'g12', name: 'Float 6',                   image: '/assets/glass/thumbs/float-6.webp',             largeImage: '/assets/glass/large/float-6.jpg' },
+    { id: 'g13', name: 'Mirastar',                  image: '/assets/glass/thumbs/mirastar.webp',            largeImage: '/assets/glass/large/mirastar.jpg' },
+    { id: 'g14', name: 'Ornament Cathedral',       image: '/assets/glass/thumbs/ornamento-cathedral.webp', largeImage: '/assets/glass/large/ornamento-cathedral.jpg' },
+    { id: 'g15', name: 'Ornament Delta 4',         image: '/assets/glass/thumbs/ornamento-delta.webp',     largeImage: '/assets/glass/large/ornamento-delta.jpg' },
+    { id: 'g16', name: 'Ornament Master Carre',    image: '/assets/glass/thumbs/ornamento-master.webp',    largeImage: '/assets/glass/large/ornamento-master.jpg' },
+    { id: 'g17', name: 'Ornament Silvit 4',        image: '/assets/glass/thumbs/ornamento-silvit.webp',    largeImage: '/assets/glass/large/ornamento-silvit.jpg' },
+    { id: 'g18', name: 'Stopsol blue 6',            image: '/assets/glass/thumbs/stopsol-blue-6.webp',      largeImage: '/assets/glass/large/stopsol-blue-6.jpg' },
+    { id: 'g19', name: 'Stopsol brown 6',          image: '/assets/glass/thumbs/stopsol-brown-6.webp',     largeImage: '/assets/glass/large/stopsol-brown-6.jpg' },
+    { id: 'g20', name: 'Waterfall 105',             image: '/assets/glass/thumbs/waterfall-105.webp',       largeImage: '/assets/glass/large/waterfall-105.jpg' },
+  ],
+  hardware: [
+    { id: 'h1', name: 'Door handle R35A/2000M', image: '/assets/products/d-art-line-doors-alu/hardware/handle-r35a-2000m.webp', type: 'Handle' },
+    { id: 'h2', name: 'Q10 door rail (stainless steel)', image: '/assets/products/d-art-line-doors-alu/hardware/rail-q10.webp', type: 'Rail' },
+    { id: 'h3', name: 'Q45R door rail (stainless steel)', image: '/assets/products/d-art-line-doors-alu/hardware/rail-q45r.webp', type: 'Rail' },
+    { id: 'h4', name: 'Z1 door rail (stainless steel)', image: '/assets/products/d-art-line-doors-alu/hardware/rail-z1.webp', type: 'Rail' }
+  ],
+  accessories: [
+    { id: 'acc1', name: 'MB-86N SI threshold with automatic seal', image: '' },
+    { id: 'acc2', name: 'MB-86N SI standard threshold', image: '' }
+  ],
+  comparison: {
+    "MB-79N SI+": {
+      "Number of chambers": "3",
+      "Installation depth": "70 mm",
+      "Number of gaskets": "3",
+      "Thermal transmittance": "Ud = 1,0 W/(m2K)*\n*Single-leaf door measuring 1,100x2,300 mm, with glass packet T4/U18/FL4/U18/T4 + Swisspacer spacing edge – calculation method."
+    },
+    "MB-78EI Fire-Doors": {
+      "Number of chambers": "3",
+      "Installation depth": "78 mm",
+      "Number of gaskets": "2",
+      "Thermal transmittance": "—"
+    },
+    "MB-86N SI": {
+      "Number of chambers": "3",
+      "Installation depth": "77 mm",
+      "Number of gaskets": "2",
+      "Thermal transmittance": "Ud = 0,83 W/(m2K)*\n*Single-leaf door measuring 1,100x2,300 mm: for the WASHINGTON ZERO door model – using a both-side aligned panel."
+    },
+    "MB-70": {
+      "Number of chambers": "3",
+      "Installation depth": "70 mm",
+      "Number of gaskets": "2",
+      "Thermal transmittance": "Uw = 1,3 W/(m2K)*\n*Single-leaf door measuring 1,100x2,300 mm: glass with argon and the Swisspacer Ultimate TMP4/U18/FL4/U18/TMP4 spacer bar."
+    },
+    "MB-45": {
+      "Number of chambers": "1",
+      "Installation depth": "45 mm",
+      "Number of gaskets": "2",
+      "Thermal transmittance": "—"
+    },
+    "MB-70HI": {
+      "Number of chambers": "3",
+      "Installation depth": "70 mm",
+      "Number of gaskets": "2",
+      "Thermal transmittance": "Ud = 1,2 W/(m2K)*\n*Single-leaf door measuring 1,100x2,300 mm: glass with argon and the Swisspacer Ultimate TMP4/U18/FL4/U18/TMP4 spacer bar."
+    }
+  }
+};
+
+export const MB_86SI_DOORS_ALU_DETAIL: ProductDetailData = {
+  id: 'mb-86si-doors-alu',
+  slug: 'mb-86si-doors-alu',
+  name: 'MB-86SI',
+  tagline: 'MB-86SI',
+  description: 'The exterior aluminium door in this system comes with an aluminium threshold with a thermal break as standard and is characterised by not only exceptional thermal insulation qualities, but also durability. Recommended for energy-efficient buildings. As standard:',
+  heroImage: '/assets/products/mb-86si-doors-alu/gallery/gallery-2.png',
+  windowPhoto: '/assets/products/mb-86si-doors-alu/gallery/gallery-2.png',
+  profileImage: '/assets/products/mb-86si-doors-alu/profile-drawing.png',
+  blueprintImage: '/assets/products/mb-86si-doors-alu/gallery/gallery-3.png',
+  videoSrc: '/assets/products/mb-86si-doors-alu/mb86si-header.mp4',
+  inlineVideoSrc: '/assets/products/mb-86si-doors-alu/mb86si-header.mp4',
+  disableHeroFilter: false,
+  keySpecs: [
+    { label: 'Technical data', value: 'MB-86SI' }
+  ],
+  standardEquipment: [
+    '3-point espagnolette',
+    '3 two-winged hinges',
+    'Ug = 0.5 W/(m²K) glass',
+    'threshold with a thermal break',
+    'aluminium handle',
+    'mounting insert'
+  ],
+  colors: FULL_RAL_COLORS,
+  infills: [
+    {
+        'id': 'fill-1',
+        'name': 'Straight Line 1',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-1.webp'
+    },
+    {
+        'id': 'fill-2',
+        'name': 'Straight Line 2',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-2.webp'
+    },
+    {
+        'id': 'fill-3',
+        'name': 'Straight Line 3',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-3.webp'
+    },
+    {
+        'id': 'fill-4',
+        'name': 'Straight Line 4',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-4.webp'
+    },
+    {
+        'id': 'fill-5',
+        'name': 'Straight Line 5',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-5.webp'
+    },
+    {
+        'id': 'fill-6',
+        'name': 'Straight Line 6',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-6.webp'
+    },
+    {
+        'id': 'fill-7',
+        'name': 'WASHINGTON 1',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-7.webp'
+    },
+    {
+        'id': 'fill-8',
+        'name': 'WASHINGTON 2',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-8.webp'
+    },
+    {
+        'id': 'fill-9',
+        'name': 'WASHINGTON 3 (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-9.webp'
+    },
+    {
+        'id': 'fill-10',
+        'name': 'WASHINGTON 4',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-10.webp'
+    },
+    {
+        'id': 'fill-11',
+        'name': 'WASHINGTON POCKET (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-11.webp'
+    },
+    {
+        'id': 'fill-12',
+        'name': 'WASHINGTON WOOD (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-12.webp'
+    },
+    {
+        'id': 'fill-13',
+        'name': 'WASHINGTON ZERO',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-13.webp'
+    },
+    {
+        'id': 'fill-14',
+        'name': 'MONTANA WOOD',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-14.webp'
+    },
+    {
+        'id': 'fill-15',
+        'name': 'MONTANA 4',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-15.webp'
+    },
+    {
+        'id': 'fill-16',
+        'name': 'MONTANA INOX 3 (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-16.webp'
+    },
+    {
+        'id': 'fill-17',
+        'name': 'MONTANA INOX 3 (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-17.webp'
+    },
+    {
+        'id': 'fill-18',
+        'name': 'MONTANA INOX 2 (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-18.webp'
+    },
+    {
+        'id': 'fill-19',
+        'name': 'MONTANA INOX 2 (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-19.webp'
+    },
+    {
+        'id': 'fill-20',
+        'name': 'MONTANA INOX 1',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-20.webp'
+    },
+    {
+        'id': 'fill-21',
+        'name': 'MONTANA INOX 1',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-21.webp'
+    },
+    {
+        'id': 'fill-22',
+        'name': 'MONTANA 1',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-22.webp'
+    },
+    {
+        'id': 'fill-23',
+        'name': 'ALASKA 1',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-23.webp'
+    },
+    {
+        'id': 'fill-24',
+        'name': 'ALASKA INOX 1',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-24.webp'
+    },
+    {
+        'id': 'fill-25',
+        'name': 'ALASKA INOX 1',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-25.webp'
+    },
+    {
+        'id': 'fill-26',
+        'name': 'ALASKA 2',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-26.webp'
+    },
+    {
+        'id': 'fill-27',
+        'name': 'ALASKA INOX 2',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-27.webp'
+    },
+    {
+        'id': 'fill-28',
+        'name': 'ALASKA INOX 2',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-28.webp'
+    },
+    {
+        'id': 'fill-29',
+        'name': 'ALASKA 3 (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-29.webp'
+    },
+    {
+        'id': 'fill-30',
+        'name': 'NEW YORK 2 (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-30.webp'
+    },
+    {
+        'id': 'fill-31',
+        'name': 'FLORIDA 1 (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-31.webp'
+    },
+    {
+        'id': 'fill-32',
+        'name': 'FLORIDA 2 (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-32.webp'
+    },
+    {
+        'id': 'fill-33',
+        'name': 'FLORIDA INOX (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-33.webp'
+    },
+    {
+        'id': 'fill-34',
+        'name': 'FLORIDA INOX (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-34.webp'
+    },
+    {
+        'id': 'fill-35',
+        'name': 'ARIZONA INOX 1',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-35.webp'
+    },
+    {
+        'id': 'fill-36',
+        'name': 'ARIZONA INOX 1',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-36.webp'
+    },
+    {
+        'id': 'fill-37',
+        'name': 'ARIZONA INOX 2',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-37.webp'
+    },
+    {
+        'id': 'fill-38',
+        'name': 'ARIZONA INOX 2',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-38.webp'
+    },
+    {
+        'id': 'fill-39',
+        'name': 'COLORADO INOX',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-39.webp'
+    },
+    {
+        'id': 'fill-40',
+        'name': 'COLORADO INOX',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-40.webp'
+    },
+    {
+        'id': 'fill-41',
+        'name': 'NEBRASKA INOX (L)(R)(C)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-41.webp'
+    },
+    {
+        'id': 'fill-42',
+        'name': 'NEBRASKA INOX (L)(R)(C)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-42.webp'
+    },
+    {
+        'id': 'fill-43',
+        'name': 'PENNSYLVANIA INOX 1',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-43.webp'
+    },
+    {
+        'id': 'fill-44',
+        'name': 'PENNSYLVANIA INOX 1',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-44.webp'
+    },
+    {
+        'id': 'fill-45',
+        'name': 'PENNSYLVANIA INOX 2 (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-45.webp'
+    },
+    {
+        'id': 'fill-46',
+        'name': 'PENNSYLVANIA INOX 2 (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-46.webp'
+    },
+    {
+        'id': 'fill-47',
+        'name': 'PENNSYLVANIA INOX 3 (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-47.webp'
+    },
+    {
+        'id': 'fill-48',
+        'name': 'PENNSYLVANIA INOX 3 (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-48.webp'
+    },
+    {
+        'id': 'fill-49',
+        'name': 'TEXAS INOX (C)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-49.webp'
+    },
+    {
+        'id': 'fill-50',
+        'name': 'TEXAS INOX (C)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-50.webp'
+    },
+    {
+        'id': 'fill-51',
+        'name': 'TEXAS INOX (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-51.webp'
+    },
+    {
+        'id': 'fill-52',
+        'name': 'TEXAS INOX (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-52.webp'
+    },
+    {
+        'id': 'fill-53',
+        'name': 'HAWAII INOX 1',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-53.webp'
+    },
+    {
+        'id': 'fill-54',
+        'name': 'HAWAII INOX 1',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-54.webp'
+    },
+    {
+        'id': 'fill-55',
+        'name': 'HAWAII INOX 2',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-55.webp'
+    },
+    {
+        'id': 'fill-56',
+        'name': 'HAWAII INOX 2',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-56.webp'
+    },
+    {
+        'id': 'fill-57',
+        'name': 'CALIFORNIA INOX 1 (L)(R)(C)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-57.webp'
+    },
+    {
+        'id': 'fill-58',
+        'name': 'CALIFORNIA INOX 1 (L)(R)(C)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-58.webp'
+    },
+    {
+        'id': 'fill-59',
+        'name': 'CALIFORNIA INOX 2 (L)(R)(C)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-59.webp'
+    },
+    {
+        'id': 'fill-60',
+        'name': 'CALIFORNIA INOX 2 (L)(R)(C)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-60.webp'
+    },
+    {
+        'id': 'fill-61',
+        'name': 'HAWAII INOX 3',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-61.webp'
+    },
+    {
+        'id': 'fill-62',
+        'name': 'HAWAII INOX 3',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-62.webp'
+    },
+    {
+        'id': 'fill-63',
+        'name': 'OHIO INOX',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-63.webp'
+    },
+    {
+        'id': 'fill-64',
+        'name': 'OHIO INOX',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-64.webp'
+    },
+    {
+        'id': 'fill-65',
+        'name': 'ARIZONA 1',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-65.webp'
+    },
+    {
+        'id': 'fill-66',
+        'name': 'ARIZONA 2',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-66.webp'
+    },
+    {
+        'id': 'fill-67',
+        'name': 'CALIFORNIA 1 (L)(R)(C)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-67.webp'
+    },
+    {
+        'id': 'fill-68',
+        'name': 'CALIFORNIA 2 (L)(R)(C)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-68.webp'
+    },
+    {
+        'id': 'fill-69',
+        'name': 'FLORIDA 3 (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-69.webp'
+    },
+    {
+        'id': 'fill-70',
+        'name': 'HAWAII 1',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-70.webp'
+    },
+    {
+        'id': 'fill-71',
+        'name': 'HAWAII 4',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-71.webp'
+    },
+    {
+        'id': 'fill-72',
+        'name': 'HAWAII 5 (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-72.webp'
+    },
+    {
+        'id': 'fill-73',
+        'name': 'HAWAII 6 (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-73.webp'
+    },
+    {
+        'id': 'fill-74',
+        'name': 'NEBRASKA 1 (L)(C)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-74.webp'
+    },
+    {
+        'id': 'fill-75',
+        'name': 'NEW YORK 1 (L)(C)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-75.webp'
+    },
+    {
+        'id': 'fill-76',
+        'name': 'PENNSYLVANIA 2 (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-76.webp'
+    },
+    {
+        'id': 'fill-77',
+        'name': 'PENNSYLVANIA 4',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-77.webp'
+    },
+    {
+        'id': 'fill-78',
+        'name': 'PENNSYLVANIA 5 (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-78.webp'
+    },
+    {
+        'id': 'fill-79',
+        'name': 'TEXAS (L)(C)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-79.webp'
+    },
+    {
+        'id': 'fill-80',
+        'name': 'TEXAS WOOD (L)(R)',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-80.webp'
+    },
+    {
+        'id': 'fill-81',
+        'name': 'DX 01',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-81.webp'
+    },
+    {
+        'id': 'fill-82',
+        'name': 'DX 01 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-82.webp'
+    },
+    {
+        'id': 'fill-83',
+        'name': 'DX 02',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-83.webp'
+    },
+    {
+        'id': 'fill-84',
+        'name': 'DX 02 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-84.webp'
+    },
+    {
+        'id': 'fill-85',
+        'name': 'DX 03',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-85.webp'
+    },
+    {
+        'id': 'fill-86',
+        'name': 'DX 03 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-86.webp'
+    },
+    {
+        'id': 'fill-87',
+        'name': 'DX 04',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-87.webp'
+    },
+    {
+        'id': 'fill-88',
+        'name': 'DX 04 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-88.webp'
+    },
+    {
+        'id': 'fill-89',
+        'name': 'DX 05',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-89.webp'
+    },
+    {
+        'id': 'fill-90',
+        'name': 'DX 05 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-90.webp'
+    },
+    {
+        'id': 'fill-91',
+        'name': 'DX 06 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-91.webp'
+    },
+    {
+        'id': 'fill-92',
+        'name': 'DX 07',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-92.webp'
+    },
+    {
+        'id': 'fill-93',
+        'name': 'DX 07 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-93.webp'
+    },
+    {
+        'id': 'fill-94',
+        'name': 'DX 08',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-94.webp'
+    },
+    {
+        'id': 'fill-95',
+        'name': 'DX 09',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-95.webp'
+    },
+    {
+        'id': 'fill-96',
+        'name': 'DX 10 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-96.webp'
+    },
+    {
+        'id': 'fill-97',
+        'name': 'DX 11',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-97.webp'
+    },
+    {
+        'id': 'fill-98',
+        'name': 'DX 11 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-98.webp'
+    },
+    {
+        'id': 'fill-99',
+        'name': 'DX 12',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-99.webp'
+    },
+    {
+        'id': 'fill-100',
+        'name': 'DX 12 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-100.webp'
+    },
+    {
+        'id': 'fill-101',
+        'name': 'DX 13',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-101.webp'
+    },
+    {
+        'id': 'fill-102',
+        'name': 'DX 13 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-102.webp'
+    },
+    {
+        'id': 'fill-103',
+        'name': 'DX 14',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-103.webp'
+    },
+    {
+        'id': 'fill-104',
+        'name': 'DX 14 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-104.webp'
+    },
+    {
+        'id': 'fill-105',
+        'name': 'DX 15 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-105.webp'
+    },
+    {
+        'id': 'fill-106',
+        'name': 'DX 16 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-106.webp'
+    },
+    {
+        'id': 'fill-107',
+        'name': 'DX 17 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-107.webp'
+    },
+    {
+        'id': 'fill-108',
+        'name': 'DX 18',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-108.webp'
+    },
+    {
+        'id': 'fill-109',
+        'name': 'DX 18 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-109.webp'
+    },
+    {
+        'id': 'fill-110',
+        'name': 'DX 19',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-110.webp'
+    },
+    {
+        'id': 'fill-111',
+        'name': 'DX 19 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-111.webp'
+    },
+    {
+        'id': 'fill-112',
+        'name': 'DX 20',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-112.webp'
+    },
+    {
+        'id': 'fill-113',
+        'name': 'DX 20 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-113.webp'
+    },
+    {
+        'id': 'fill-114',
+        'name': 'DX 21',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-114.webp'
+    },
+    {
+        'id': 'fill-115',
+        'name': 'DX 22',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-115.webp'
+    },
+    {
+        'id': 'fill-116',
+        'name': 'DX 22 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-116.webp'
+    },
+    {
+        'id': 'fill-117',
+        'name': 'DX 23',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-117.webp'
+    },
+    {
+        'id': 'fill-118',
+        'name': 'DX 23 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-118.webp'
+    },
+    {
+        'id': 'fill-119',
+        'name': 'DX 24',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-119.webp'
+    },
+    {
+        'id': 'fill-120',
+        'name': 'DX 25',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-120.webp'
+    },
+    {
+        'id': 'fill-121',
+        'name': 'DX 25 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-121.webp'
+    },
+    {
+        'id': 'fill-122',
+        'name': 'DX 26',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-122.webp'
+    },
+    {
+        'id': 'fill-123',
+        'name': 'DX 26 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-123.webp'
+    },
+    {
+        'id': 'fill-124',
+        'name': 'DX 27',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-124.webp'
+    },
+    {
+        'id': 'fill-125',
+        'name': 'DX 27 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-125.webp'
+    },
+    {
+        'id': 'fill-126',
+        'name': 'DX 28',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-126.webp'
+    },
+    {
+        'id': 'fill-127',
+        'name': 'DX 28 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-127.webp'
+    },
+    {
+        'id': 'fill-128',
+        'name': 'DX 29',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-128.webp'
+    },
+    {
+        'id': 'fill-129',
+        'name': 'DX 29 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-129.webp'
+    },
+    {
+        'id': 'fill-130',
+        'name': 'DX 30',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-130.webp'
+    },
+    {
+        'id': 'fill-131',
+        'name': 'DX 30 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-131.webp'
+    },
+    {
+        'id': 'fill-132',
+        'name': 'DX 31',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-132.webp'
+    },
+    {
+        'id': 'fill-133',
+        'name': 'DX 31 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-133.webp'
+    },
+    {
+        'id': 'fill-134',
+        'name': 'DX 32',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-134.webp'
+    },
+    {
+        'id': 'fill-135',
+        'name': 'DX 33',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-135.webp'
+    },
+    {
+        'id': 'fill-136',
+        'name': 'DX 34 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-136.webp'
+    },
+    {
+        'id': 'fill-137',
+        'name': 'DX 35 Decorative overlay',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-137.webp'
+    },
+    {
+        'id': 'fill-138',
+        'name': 'DX 36',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-138.webp'
+    },
+    {
+        'id': 'fill-139',
+        'name': 'Tennesse 1',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-139.webp'
+    },
+    {
+        'id': 'fill-140',
+        'name': 'Tennesse 2',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-140.webp'
+    },
+    {
+        'id': 'fill-141',
+        'name': 'Tennesse 3',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-141.webp'
+    },
+    {
+        'id': 'fill-142',
+        'name': 'Tennesse 4',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-142.webp'
+    },
+    {
+        'id': 'fill-143',
+        'name': 'Tennesse 5',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-143.webp'
+    },
+    {
+        'id': 'fill-144',
+        'name': 'Tennesse 6',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-144.webp'
+    },
+    {
+        'id': 'fill-145',
+        'name': 'Tennesse 7',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-145.webp'
+    },
+    {
+        'id': 'fill-146',
+        'name': 'Tennesse 8',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-146.webp'
+    },
+    {
+        'id': 'fill-147',
+        'name': 'Tennesse 9',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-147.webp'
+    },
+    {
+        'id': 'fill-148',
+        'name': 'Tennesse 11',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-148.webp'
+    },
+    {
+        'id': 'fill-149',
+        'name': 'Tennesse 12',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-149.webp'
+    },
+    {
+        'id': 'fill-150',
+        'name': 'Tennesse 13',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-150.webp'
+    },
+    {
+        'id': 'fill-151',
+        'name': 'Tennesse 14',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-151.webp'
+    },
+    {
+        'id': 'fill-152',
+        'name': 'Tennesse 15',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-152.webp'
+    },
+    {
+        'id': 'fill-153',
+        'name': 'Tennesse 16',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-153.webp'
+    },
+    {
+        'id': 'fill-154',
+        'name': 'Tennesse 17',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-154.webp'
+    },
+    {
+        'id': 'fill-155',
+        'name': 'Tennesse 18',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-155.webp'
+    },
+    {
+        'id': 'fill-156',
+        'name': 'Tennesse 19',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-156.webp'
+    },
+    {
+        'id': 'fill-157',
+        'name': 'Tennesse 20',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-157.webp'
+    },
+    {
+        'id': 'fill-158',
+        'name': 'Tennesse 21',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-158.webp'
+    },
+    {
+        'id': 'fill-159',
+        'name': 'Tennesse 22',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-159.webp'
+    },
+    {
+        'id': 'fill-160',
+        'name': 'Tennesse 23',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-160.webp'
+    },
+    {
+        'id': 'fill-161',
+        'name': 'Tennesse 24',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-161.webp'
+    },
+    {
+        'id': 'fill-162',
+        'name': 'Tennesse 25',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-162.webp'
+    },
+    {
+        'id': 'fill-163',
+        'name': 'Tennesse 26',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-163.webp'
+    },
+    {
+        'id': 'fill-164',
+        'name': 'Tennesse 27',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-164.webp'
+    },
+    {
+        'id': 'fill-165',
+        'name': 'Tennesse 28',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-165.webp'
+    },
+    {
+        'id': 'fill-166',
+        'name': 'Tennesse 29',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-166.webp'
+    },
+    {
+        'id': 'fill-167',
+        'name': 'Tennesse 30',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-167.webp'
+    },
+    {
+        'id': 'fill-168',
+        'name': 'Tennesse 31',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-168.webp'
+    },
+    {
+        'id': 'fill-169',
+        'name': 'Kentucky 1',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-169.webp'
+    },
+    {
+        'id': 'fill-170',
+        'name': 'Kentucky 2',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-170.webp'
+    },
+    {
+        'id': 'fill-171',
+        'name': 'Kentucky 3',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-171.webp'
+    },
+    {
+        'id': 'fill-172',
+        'name': 'Kentucky 4',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-172.webp'
+    },
+    {
+        'id': 'fill-173',
+        'name': 'Kentucky 5',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-173.webp'
+    },
+    {
+        'id': 'fill-174',
+        'name': 'Kentucky 6',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-174.webp'
+    },
+    {
+        'id': 'fill-175',
+        'name': 'Kentucky 7',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-175.webp'
+    },
+    {
+        'id': 'fill-176',
+        'name': 'Kentucky 8',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-176.webp'
+    },
+    {
+        'id': 'fill-177',
+        'name': 'Kentucky 9',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-177.webp'
+    },
+    {
+        'id': 'fill-178',
+        'name': 'Kentucky 10',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-178.webp'
+    },
+    {
+        'id': 'fill-179',
+        'name': 'Kentucky 11',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-179.webp'
+    },
+    {
+        'id': 'fill-180',
+        'name': 'Kentucky 12',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-180.webp'
+    },
+    {
+        'id': 'fill-181',
+        'name': 'Kentucky 13',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-181.webp'
+    },
+    {
+        'id': 'fill-182',
+        'name': 'Kentucky 14',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-182.webp'
+    },
+    {
+        'id': 'fill-183',
+        'name': 'Kentucky 15',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-183.webp'
+    },
+    {
+        'id': 'fill-184',
+        'name': 'Kentucky 16',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-184.webp'
+    },
+    {
+        'id': 'fill-185',
+        'name': 'Kentucky 17',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-185.webp'
+    },
+    {
+        'id': 'fill-186',
+        'name': 'Kentucky 18',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-186.webp'
+    },
+    {
+        'id': 'fill-187',
+        'name': 'Kentucky 19',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-187.webp'
+    },
+    {
+        'id': 'fill-188',
+        'name': 'Kentucky 20',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-188.webp'
+    },
+    {
+        'id': 'fill-189',
+        'name': 'Kentucky 21',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-189.webp'
+    },
+    {
+        'id': 'fill-190',
+        'name': 'Kentucky 22',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-190.webp'
+    },
+    {
+        'id': 'fill-191',
+        'name': 'Virginia 1',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-191.webp'
+    },
+    {
+        'id': 'fill-192',
+        'name': 'Virginia 2',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-192.webp'
+    },
+    {
+        'id': 'fill-193',
+        'name': 'Virginia 3',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-193.webp'
+    },
+    {
+        'id': 'fill-194',
+        'name': 'Virginia 4',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-194.webp'
+    },
+    {
+        'id': 'fill-195',
+        'name': 'Virginia 5',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-195.webp'
+    },
+    {
+        'id': 'fill-196',
+        'name': 'Virginia 6',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-196.webp'
+    },
+    {
+        'id': 'fill-197',
+        'name': 'Virginia 7',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-197.webp'
+    },
+    {
+        'id': 'fill-198',
+        'name': 'Virginia 8',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-198.webp'
+    },
+    {
+        'id': 'fill-199',
+        'name': 'Virginia 9',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-199.webp'
+    },
+    {
+        'id': 'fill-200',
+        'name': 'Virginia 10',
+        'image': '/assets/products/mb-86si-doors-alu/fills/fill-200.webp'
+    }
+],
+  doorStructures: [
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-1.webp' },
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-2.webp' },
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-3.webp' },
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-4.webp' },
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-5.webp' },
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-6.webp' },
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-7.webp' },
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-8.webp' },
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-9.webp' },
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-10.webp' },
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-11.webp' },
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-12.webp' },
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-13.webp' },
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-14.webp' },
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-15.webp' },
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-16.webp' },
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-17.webp' },
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-18.webp' },
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-19.webp' },
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-20.webp' },
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-21.webp' },
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-22.webp' },
+    { name: '', image: '/assets/products/mb-86si-doors-alu/constructions/construction-23.webp' }
+  ],
+  glassOptions: [
+    { id: 'g1',  name: '33.1 safety',              image: '/assets/glass/thumbs/segura-331.webp',          largeImage: '/assets/glass/large/segura-331.jpg' },
+    { id: 'g2',  name: '33.2 ("safety") matt film',     image: '/assets/glass/thumbs/segura-332-mat.webp',      largeImage: '/assets/glass/large/segura-332-mat.jpg' },
+    { id: 'g3',  name: '44.4 anti-burglary',            image: '/assets/glass/thumbs/segura-331.webp',          largeImage: '/assets/glass/large/segura-331.jpg' },
+    { id: 'g4',  name: 'Antisol Dark Blue 6',       image: '/assets/glass/thumbs/antisol-blue-6.webp',      largeImage: '/assets/glass/large/antisol-blue-6.jpg' },
+    { id: 'g5',  name: 'Antisol grey 6',            image: '/assets/glass/thumbs/antisol-grey-6.webp',      largeImage: '/assets/glass/large/antisol-grey-6.jpg' },
+    { id: 'g6',  name: 'Antisol brown 4',          image: '/assets/glass/thumbs/antisol-brown-4.webp',     largeImage: '/assets/glass/large/antisol-brown-4.jpg' },
+    { id: 'g7',  name: 'Antisol brown 6',          image: '/assets/glass/thumbs/antisol-brown-6.webp',     largeImage: '/assets/glass/large/antisol-brown-6.jpg' },
+    { id: 'g8',  name: 'Antisol green 4',           image: '/assets/glass/thumbs/antisol-green-4.webp',     largeImage: '/assets/glass/large/antisol-green-4.jpg' },
+    { id: 'g9',  name: 'Antisol green 6',           image: '/assets/glass/thumbs/antisol-green-6.webp',     largeImage: '/assets/glass/large/antisol-green-6.jpg' },
+    { id: 'g10', name: 'Chinchilla white 4',       image: '/assets/glass/thumbs/chinchilla-4.webp',        largeImage: '/assets/glass/large/chinchilla-4.jpg' },
+    { id: 'g11', name: 'Float 4',                   image: '/assets/glass/thumbs/float-4.webp',             largeImage: '/assets/glass/large/float-4.jpg' },
+    { id: 'g12', name: 'Float 6',                   image: '/assets/glass/thumbs/float-6.webp',             largeImage: '/assets/glass/large/float-6.jpg' },
+    { id: 'g13', name: 'Mirastar',                  image: '/assets/glass/thumbs/mirastar.webp',            largeImage: '/assets/glass/large/mirastar.jpg' },
+    { id: 'g14', name: 'Ornament Cathedral',       image: '/assets/glass/thumbs/ornamento-cathedral.webp', largeImage: '/assets/glass/large/ornamento-cathedral.jpg' },
+    { id: 'g15', name: 'Ornament Delta 4',         image: '/assets/glass/thumbs/ornamento-delta.webp',     largeImage: '/assets/glass/large/ornamento-delta.jpg' },
+    { id: 'g16', name: 'Ornament Master Carre',    image: '/assets/glass/thumbs/ornamento-master.webp',    largeImage: '/assets/glass/large/ornamento-master.jpg' },
+    { id: 'g17', name: 'Ornament Silvit 4',        image: '/assets/glass/thumbs/ornamento-silvit.webp',    largeImage: '/assets/glass/large/ornamento-silvit.jpg' },
+    { id: 'g18', name: 'Stopsol blue 6',            image: '/assets/glass/thumbs/stopsol-blue-6.webp',      largeImage: '/assets/glass/large/stopsol-blue-6.jpg' },
+    { id: 'g19', name: 'Stopsol brown 6',          image: '/assets/glass/thumbs/stopsol-brown-6.webp',     largeImage: '/assets/glass/large/stopsol-brown-6.jpg' },
+    { id: 'g20', name: 'Waterfall 105',             image: '/assets/glass/thumbs/waterfall-105.webp',       largeImage: '/assets/glass/large/waterfall-105.jpg' },
+  ],
+  hardware: [
+    { id: 'h1', name: 'Door handle R35A/2000M', image: '/assets/products/mb-86si-doors-alu/hardware/handle-r35a-2000m.webp', type: 'Handle' },
+    { id: 'h2', name: 'M2 door rail (white)', image: '/assets/products/mb-86si-doors-alu/hardware/m2-white.webp', type: 'Rail' },
+    { id: 'h3', name: 'M2 door rail (brown)', image: '/assets/products/mb-86si-doors-alu/hardware/m2-brown.webp', type: 'Rail' },
+    { id: 'h4', name: 'M2 door rail (RAL 9006)', image: '/assets/products/mb-86si-doors-alu/hardware/m2-9006.webp', type: 'Rail' },
+    { id: 'h5', name: 'P10D door rail', image: '/assets/products/mb-86si-doors-alu/hardware/p10d.webp', type: 'Rail' },
+    { id: 'h6', name: 'Q10 door rail (stainless steel)', image: '/assets/products/mb-86si-doors-alu/hardware/rail-q10.webp', type: 'Rail' },
+    { id: 'h7', name: 'Q45R door rail (stainless steel)', image: '/assets/products/mb-86si-doors-alu/hardware/rail-q45r.webp', type: 'Rail' },
+    { id: 'h8', name: 'Z1 door rail (stainless steel)', image: '/assets/products/mb-86si-doors-alu/hardware/rail-z1.webp', type: 'Rail' }
+  ],
+  accessories: [
+    { id: 'acc1', name: 'Aluminium threshold with thermal break', image: '' },
+    { id: 'acc2', name: 'MB-86N SI threshold with automatic seal', image: '' },
+    { id: 'acc3', name: 'MB-86N SI standard threshold', image: '' }
+  ]
+};

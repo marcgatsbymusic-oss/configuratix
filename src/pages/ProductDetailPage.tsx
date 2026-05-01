@@ -5,6 +5,8 @@ import * as ProductDetailsData from '../data/productDetails'
 import type { GlassOption, ProductDetailData } from '../data/productDetails'
 import { PRODUCTS } from '../data/products'
 import { ColorSwatch } from '../components/products/ColorSwatch'
+import { DoorColorPresenter } from '../components/products/DoorColorPresenter'
+import { ProductComparison } from '../components/products/ProductComparison'
 import { useTranslation } from 'react-i18next'
 
 
@@ -44,45 +46,65 @@ const HANDLES = [
   { name: 'kwadrat-key-ral9016', label: 'KWADRAT con llave (RAL9016)',     image: '/assets/handles/kwadrat-key-ral9016.png' },
 ]
 
-const PER_PAGE = 5
+const PER_PAGE = 4
 
-function HandlesSlider() {
+function HandlesSlider({ hardware }: { hardware?: { id: string; name: string; image: string; type: string }[] }) {
   const { t } = useTranslation()
   const [page, setPage] = useState(0)
-  const totalPages = Math.ceil(HANDLES.length / PER_PAGE)
-  const visible = HANDLES.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE)
+  const activeHandles = hardware && hardware.length > 0 ? hardware.map(h => ({ name: h.id, label: h.name, image: h.image })) : HANDLES
+  const totalPages = Math.ceil(activeHandles.length / PER_PAGE)
+  const visible = activeHandles.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE)
+
+  const title = hardware && hardware.length > 0 ? t('productDetail.doorHandlesTitle', { defaultValue: 'Door handles and pull bars' }) : t('productDetail.handlesTitle')
+  const desc = hardware && hardware.length > 0 ? t('productDetail.doorHandlesDesc', { defaultValue: 'Our handles for windows, doors and terrace systems made of PVC, aluminium and wood are distinguished by their high aesthetics, functionality and durability. Thanks to various colour options, they can be perfectly matched colour of the windows, doors, or the colour scheme of the building.' }) : t('productDetail.handlesDesc')
 
   return (
-    <section className="py-16 border-b border-gray-900" style={{ background: '#0e0e0f' }}>
+    <section className="py-20" style={{ background: '#111111' }}>
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-2">{t('productDetail.handlesTitle')}</h2>
-        <p className="!text-gray-400 text-sm mb-10 max-w-2xl">
-          {t('productDetail.handlesDesc')}
+        <h2 className="text-[28px] font-bold text-white mb-2">{title}</h2>
+        <p className="!text-gray-400 text-sm mb-12 max-w-3xl leading-relaxed">
+          {desc}
         </p>
-        <div className="relative flex items-center gap-4">
+        <div className="relative flex items-center gap-6">
           <button
             onClick={() => setPage(p => (p - 1 + totalPages) % totalPages)}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-gray-700 text-gray-400 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
+            className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center border border-gray-600 text-gray-400 hover:text-white hover:border-white transition-all duration-300"
             aria-label="Previous"
           >
             <ChevronLeft size={20} />
           </button>
-          <div className="flex-1 grid grid-cols-5 gap-4">
+          
+          <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-6">
             {visible.map(handle => (
-              <div key={handle.name} className="flex flex-col items-center gap-3">
-                <div className="w-full aspect-square flex items-end justify-center overflow-hidden bg-white rounded-sm">
-                  <img src={handle.image} alt={t(`sliderHandles.${handle.name}`)} className="w-full h-full object-contain hover:scale-105 transition-transform duration-300" />
+              <div key={handle.name} className="flex flex-col w-full group">
+                {/* Image Container with Gradient */}
+                <div className={`w-full aspect-[3/4] flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#333333] to-[#1a1a1a] ${handle.image && handle.image.endsWith('.webp') ? '' : 'p-6'}`}>
+                  {handle.image ? (
+                    <img 
+                      src={handle.image} 
+                      alt={t(`sliderHandles.${handle.name}`, { defaultValue: handle.label })} 
+                      className={`w-full h-full drop-shadow-2xl group-hover:scale-105 transition-transform duration-500 ${handle.image.endsWith('.webp') ? 'object-cover' : 'object-contain'}`} 
+                    />
+                  ) : (
+                    <span className="text-gray-500 text-xs">No image</span>
+                  )}
                 </div>
-                <p className="!text-gray-400 text-[11px] text-center leading-tight px-1">{t(`sliderHandles.${handle.name}`)}</p>
+                {/* Separator Line */}
+                <div className="w-full border-b border-gray-600 mt-0"></div>
+                {/* Label */}
+                <p className="text-white text-xs text-center mt-4 px-2 tracking-wide font-light leading-snug">
+                  {t(`sliderHandles.${handle.name}`, { defaultValue: handle.label })}
+                </p>
               </div>
             ))}
             {Array.from({ length: PER_PAGE - visible.length }).map((_, i) => (
               <div key={`empty-${i}`} />
             ))}
           </div>
+
           <button
             onClick={() => setPage(p => (p + 1) % totalPages)}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-gray-700 text-gray-400 hover:text-mammut-gold hover:border-mammut-gold transition-colors duration-200"
+            className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center border border-gray-600 text-gray-400 hover:text-white hover:border-white transition-all duration-300"
             aria-label="Next"
           >
             <ChevronRight size={20} />
@@ -517,6 +539,19 @@ export function ProductDetailPage() {
                   {t(`productData.${detailData.slug}.${detailData.relatedProductLink.text}`)}
                 </Link>
               )}
+              {detailData.relatedProductLinks && (
+                <div className="flex flex-wrap gap-4 mt-6 mb-8">
+                  {detailData.relatedProductLinks.map((link, idx) => (
+                    <Link
+                      key={idx}
+                      to={link.url}
+                      className="inline-block bg-mammut-gold text-black text-xs font-bold uppercase tracking-widest px-6 py-3 hover:bg-[#F3C47F] transition-colors"
+                    >
+                      {t(`productData.${detailData.slug}.${link.text}`)}
+                    </Link>
+                  ))}
+                </div>
+              )}
 
               {/* Video CTA */}
               {detailData.modalVideoSrc && (
@@ -557,6 +592,7 @@ export function ProductDetailPage() {
         </div>
 
         {/* Row B: 3D flip card or static image — front = profile photo, back = technical drawing (if available) */}
+        { (detailData.profileImage || detailData.blueprintImage) && (
         <div className="max-w-7xl mx-auto px-6 pb-20">
           {detailData.blueprintImage && <p className="text-gray-600 text-xs uppercase tracking-widest mb-4 text-center">{t('productDetail.hoverDrawing')}</p>}
           <div
@@ -612,6 +648,7 @@ export function ProductDetailPage() {
             </div>
           </div>
         </div>
+        )}
 
         {/* Profile Variants (e.g. for Monoblock) */}
         {detailData.profileVariants && detailData.profileVariants.length > 0 && (
@@ -729,9 +766,12 @@ export function ProductDetailPage() {
       {detailData.infills && detailData.infills.length > 0 && (
         <section className="bg-[#f9fafb] py-16 lg:py-24 border-t border-gray-100">
           <div className="container mx-auto px-6 lg:px-16 max-w-7xl">
-            <h2 className="text-3xl font-black uppercase tracking-widest text-black mb-12 text-center">
+            <h2 className="text-3xl font-black uppercase tracking-widest text-black mb-4 text-center">
               {t('productDetail.infillsTitle', { defaultValue: 'Infill Patterns' })}
             </h2>
+            <p className="text-center text-gray-600 mb-12">
+              {t([`productData.${detailData.slug}.infillsSubtitle`, 'productDetail.infillsSubtitle'], { defaultValue: 'Some patterns are available in their mirror image.' })}
+            </p>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
               {detailData.infills.map((infill, idx) => (
                 <div key={idx} className="flex flex-col items-center gap-3">
@@ -753,7 +793,51 @@ export function ProductDetailPage() {
         </section>
       )}
 
+      {/* Door Color Presenter for Doors */}
+      {detailData.slug.includes('door') && detailData.colors && detailData.colors.length > 0 && (
+        <DoorColorPresenter 
+          colors={detailData.colors} 
+          selectedColorId={selectedColorId} 
+          onColorSelect={(c) => setSelectedColorId(c.id)} 
+        />
+      )}
+
+      {/* Dynamic Door Structures Section */}
+      {detailData.doorStructures && detailData.doorStructures.length > 0 && (
+        <section className="bg-white py-16 lg:py-24 border-t border-gray-100">
+          <div className="container mx-auto px-6 lg:px-16 max-w-7xl">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-black uppercase tracking-widest text-black mb-4">
+                {t([`productData.${detailData.slug}.doorStructuresTitle`, 'productDetail.doorStructuresTitle'], { defaultValue: 'Door Structures' })}
+              </h2>
+              <p className="text-gray-500 max-w-4xl mx-auto leading-relaxed">
+                {t([`productData.${detailData.slug}.doorStructuresDesc`, 'productDetail.doorStructuresDesc'])}
+              </p>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+              {detailData.doorStructures.map((struct, idx) => (
+                <div key={idx} className="flex flex-col items-center gap-3">
+                  <button 
+                    onClick={() => setInfillOpen(struct.image)}
+                    className="w-full bg-white border border-gray-200 p-2 overflow-hidden hover:border-mammut-gold transition-colors group cursor-zoom-in"
+                  >
+                    <img 
+                      src={struct.image} 
+                      alt={struct.name} 
+                      className="w-full h-auto max-h-64 object-contain group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </button>
+                  <span className="text-xs font-bold uppercase tracking-widest text-gray-600 text-center">{struct.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* 3. Interactive Color Swatch Section */}
+      {!detailData.slug.includes('door') && (
+      <>
       <section className="bg-white pt-24 pb-0">
         <div className="max-w-7xl mx-auto px-6">
           <div className="bg-[#1a1a1a] p-10 lg:p-14 relative mb-12">
@@ -948,6 +1032,8 @@ export function ProductDetailPage() {
           <div className="hidden md:block"></div>
         </div>
       </div>
+      </>
+      )}
 
       {/* 4. Glass Options Grid */}
       {detailData.glassOptions && detailData.glassOptions.length > 0 && (
@@ -958,7 +1044,37 @@ export function ProductDetailPage() {
       <AdditionalOptionsSection options={ADDITIONAL_OPTIONS.filter(o => o.id !== 'sill' && !(detailData.slug.includes('door') && ['muntin', 'ventilation'].includes(o.id)))} />
 
       {/* 6. Handles Slider */}
-      <HandlesSlider />
+      <HandlesSlider hardware={detailData.hardware} />
+
+      {/* 6.5 Extras / Accessories */}
+      {detailData.accessories && detailData.accessories.length > 0 && (
+        <section className="py-16 bg-white border-t border-gray-100">
+          <div className="container mx-auto px-6 max-w-7xl">
+             <h2 className="text-3xl font-black uppercase mb-8 text-black tracking-widest text-center">
+               {t('productDetail.extras')}
+             </h2>
+             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+               {detailData.accessories.map((acc) => (
+                 <div key={acc.id} className="flex flex-col items-center text-center">
+                   <div className="w-32 h-32 bg-gray-50 flex items-center justify-center mb-4 border border-gray-100 rounded-sm">
+                     {acc.image ? (
+                       <img src={acc.image} alt={acc.name} className="max-w-full max-h-full object-contain" />
+                     ) : (
+                       <span className="text-gray-300 text-sm">No image</span>
+                     )}
+                   </div>
+                   <p className="text-sm font-semibold text-black uppercase tracking-wider">{t(`accessories.${acc.id}`, { defaultValue: acc.name })}</p>
+                 </div>
+               ))}
+             </div>
+          </div>
+        </section>
+      )}
+
+      {/* 6.8 Comparison Table */}
+      {detailData.comparison && (
+        <ProductComparison comparisonData={detailData.comparison} />
+      )}
 
       {/* 7. Additional Options (ONLY Window Sill) */}
       {!detailData.slug.includes('door') && (

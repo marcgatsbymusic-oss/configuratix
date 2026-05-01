@@ -22,12 +22,12 @@ export function ColorSwatch({ colors, selectedColorId, onColorSelect }: ColorSwa
     <div className="w-full space-y-8">
       {Object.entries(groupedColors).map(([groupName, groupColors]) => (
         <div key={groupName}>
-          {groupColors.length <= 20 && (
+          {groupColors.length <= 50 && (
             <h4 className="text-mammut-gold text-[10px] font-bold uppercase tracking-[0.2em] mb-4 pb-2 border-b border-gray-200">
               {t(`colorGroups.${groupName}`)}
             </h4>
           )}
-          {groupColors.length > 20 ? (
+          {groupColors.length > 50 ? (
             /* Spectrum Layout for massive color sets (e.g. RAL 200+ colors) */
             <div className="flex flex-nowrap overflow-x-auto w-full gap-0 pb-6 pt-2 px-2 custom-scrollbar">
               {groupColors.map((color) => {

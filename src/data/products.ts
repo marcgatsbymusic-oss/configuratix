@@ -502,6 +502,23 @@ const BASE_PRODUCTS: Product[] = [
     images: ['/assets/iglo-energy-doors/door.webp'],
   },
 
+  {
+    id: 'd3',
+    slug: 'mb-86si-doors-alu',
+    name: 'MB-86N SI DOORS',
+    tagline: 'Excellent parameters and durability of aluminium',
+    description: 'The exterior aluminium door in this system comes with an aluminium threshold with a thermal break as standard and is characterised by not only exceptional thermal insulation qualities, but also durability. Recommended for energy-efficient buildings.',
+    category: CATEGORIES[1],
+    material: 'aluminum',
+    type: 'door',
+    isNew: true,
+    specs: [
+      { label: 'Thermal Transmittance (Ud)', value: '0.8', unit: 'W/(m²K)' },
+      { label: 'Installation Depth', value: '77', unit: 'mm' },
+    ],
+    images: ['/assets/products/mb-86si-doors-alu/gallery/gallery-2.png'],
+  },
+
   // ─── TERRACE ──────────────────────────────────────────────────────────────
 
   {
