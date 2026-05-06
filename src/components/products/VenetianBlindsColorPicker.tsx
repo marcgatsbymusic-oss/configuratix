@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 const LATH_COLORS = [
   { id: 'ral9016', name: 'RAL9016', hex: '#FFFFFF', thumb: '/assets/products/external-venetian-blinds/colors/thumb_ral9016.webp', mask: '/assets/products/external-venetian-blinds/colors/mask_ral9016.webp' },
@@ -1079,7 +1078,6 @@ const RAL_PALETTE = [
 ];
 
 export function VenetianBlindsColorPicker() {
-  const { t } = useTranslation();
   const [selectedLath, setSelectedLath] = useState(LATH_COLORS[0]);
   const [selectedBox, setSelectedBox] = useState(RAL_PALETTE.find(c => c.name === 'Orange brown') || RAL_PALETTE[0]);
 

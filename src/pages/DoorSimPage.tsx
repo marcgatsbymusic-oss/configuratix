@@ -38,7 +38,7 @@ const PATTERN_OPTIONS = [
 export function DoorSimPage() {
   const { 
     system, modelId, frameColor, leafColor, handleId, glassType, patternMaskId,
-    setSystem, setModel, setColor, setHandle, setGlass, setPatternMask
+    setSystem, setColor, setHandle, setGlass, setPatternMask
   } = useDoorConfigurator();
 
   return (

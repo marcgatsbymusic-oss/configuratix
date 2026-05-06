@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import type { SwatchColor } from '../../data/productDetails'
 import { useTranslation } from 'react-i18next'
 

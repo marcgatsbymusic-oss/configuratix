@@ -1,9 +1,6 @@
-import React, { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Play } from 'lucide-react';
+import { useEffect } from 'react';
 
 export function IntelligentHome() {
-  const { t } = useTranslation();
 
   // Scroll to top on mount
   useEffect(() => {

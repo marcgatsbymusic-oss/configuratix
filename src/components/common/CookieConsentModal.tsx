@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ShieldCheck, Info, X } from 'lucide-react'
+import { ShieldCheck } from 'lucide-react'
 import { useConsentStore } from '../../store/useConsentStore'
 
 export function CookieConsentModal() {

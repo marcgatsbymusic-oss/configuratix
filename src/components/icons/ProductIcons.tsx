@@ -1,4 +1,3 @@
-import React from 'react';
 
 export const IconWindows = ({ size = 24, className = "" }: { size?: number | string, className?: string }) => (
   <svg viewBox="0 0 40 40" width={size} height={size} className={className} xmlns="http://www.w3.org/2000/svg" fill="currentColor">
