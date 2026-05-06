@@ -1080,5 +1080,10 @@
         "3 profile colours to choose from: white, brown or anthracite"
       ]
     }
+  },
+  "themeHint": {
+    "title": "Visste du det?",
+    "description": "Du kan växla mellan natt- och dagläge när som helst med hjälp av temaväxlingsikonen i det övre högra hörnet av navigeringsfältet.",
+    "dismiss": "Jag förstår, tack!"
   }
 }

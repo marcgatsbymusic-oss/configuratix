@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { ShoppingCart, Search, Globe, Menu, X, ChevronDown, ChevronRight, ChevronUp } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useCartStore } from '../../store/useCartStore'
@@ -143,8 +143,38 @@ const MEGA_MENU_CATEGORIES = [
       }
     ] 
   },
-  { id: 'shutters', href: '/products/shutters', columns: [] },
-  { id: 'facade', href: '/products/facade', columns: [] },
+  { 
+    id: 'shutters', 
+    href: '/products/shutters', 
+    columns: [
+      {
+        colKey: 'adaptive',
+        items: [
+          { label: 'ALUMINIUM SHUTTERS', href: '/products/aluminium-shutters', isNew: true },
+          { label: 'ALUMINIUM SHUTTERS RDZ', href: '/products/aluminium-shutters-rdz' }
+        ]
+      },
+      {
+        colKey: 'topMounted',
+        items: [
+          { label: 'PVC SHUTTERS', href: '/products/pvc-shutters' },
+          { label: 'ROLLER SHUTTERS WITH STYROFOAM BOX', href: '/products/roller-shutters-with-styrofoam-box' }
+        ]
+      }
+    ] 
+  },
+  { 
+    id: 'facade', 
+    href: '/products/external-venetian-blinds', 
+    columns: [
+      {
+        colKey: 'facade',
+        items: [
+          { label: 'EXTERNAL VENETIAN BLINDS', href: '/products/external-venetian-blinds', isNew: true }
+        ]
+      }
+    ] 
+  },
   { id: 'mosquito', href: '/products/mosquito', columns: [] },
   { id: 'garage', href: '/products/garage', columns: [] },
   { id: 'conservatories', href: '/products/conservatories', columns: [] },
@@ -156,7 +186,6 @@ const MEGA_MENU_CATEGORIES = [
 
 const NAV_ITEMS = [
   { i18nKey: 'whereToBuy', href: '/where-to-buy' },
-  { i18nKey: 'aboutMammut', href: '/about' },
 ]
 
 export function Header() {
@@ -172,6 +201,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false)
   const megaHoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const location = useLocation()
+  const navigate = useNavigate()
 
   const handleLinkClick = () => {
     setMegaMenuOpen(false)
@@ -405,6 +435,12 @@ export function Header() {
                   <li key={cat.id}>
                     <button
                       onMouseEnter={() => setActiveMegaCategory(cat.id)}
+                      onClick={() => {
+                        if (cat.columns.length === 0) {
+                          navigate(cat.href);
+                          handleLinkClick();
+                        }
+                      }}
                       className={`group w-full flex items-center gap-3 px-8 py-3 text-xs tracking-[0.2em] uppercase font-semibold transition-colors
                                 ${activeMegaCategory === cat.id 
                                   ? 'bg-mammut-dark text-mammut-gold border-l-2 border-mammut-gold' 

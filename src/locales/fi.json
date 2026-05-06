@@ -1080,5 +1080,10 @@
         "3 profile colours to choose from: white, brown or anthracite"
       ]
     }
+  },
+  "themeHint": {
+    "title": "Tiesitkö?",
+    "description": "Voit vaihtaa yö- ja päivätilan välillä milloin tahansa käyttämällä teeman vaihtokuvaketta, joka sijaitsee navigointipalkin oikeassa yläkulmassa.",
+    "dismiss": "Selvä, kiitos!"
   }
 }

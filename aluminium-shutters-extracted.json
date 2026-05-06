@@ -1,0 +1,150 @@
+{
+  "slug": "aluminium-shutters",
+  "sourceUrl": "https://www.drutex.eu/en/products/aluminium-shutters.html",
+  "extractedAt": "2026-05-05T11:13:32.250Z",
+  "heroVideo": "/assets/products/aluminium-shutters/hero.mp4",
+  "heroPoster": null,
+  "heroTitle": "ALUMINIUM ROLLER SHUTTERS",
+  "heroTagline": null,
+  "description": "Choose proven and modern solutions to reduce heating and energy bills and take care of your privacy and safety.\n\nThey can also be integrated with Smart Home control systems.",
+  "gallery": [],
+  "profileDrawing": null,
+  "brochurePdf": "/assets/products/aluminium-shutters/brochure.pdf",
+  "fills": [],
+  "colors": [
+    {
+      "id": "golden-oak",
+      "name": "Golden oak",
+      "ralCode": "24",
+      "hex": "rgb(240, 240, 240)",
+      "swatchImage": "/assets/products/aluminium-shutters/colors/golden-oak.jpg",
+      "isStandard": false
+    },
+    {
+      "id": "dark-brown",
+      "name": "Dark brown",
+      "ralCode": "08",
+      "hex": "rgb(240, 240, 240)",
+      "swatchImage": "/assets/products/aluminium-shutters/colors/dark-brown.jpg",
+      "isStandard": false
+    },
+    {
+      "id": "anthracite",
+      "name": "Anthracite",
+      "ralCode": "23",
+      "hex": "rgb(240, 240, 240)",
+      "swatchImage": "/assets/products/aluminium-shutters/colors/anthracite.jpg",
+      "isStandard": false
+    },
+    {
+      "id": "nut",
+      "name": "Nut",
+      "ralCode": "28",
+      "hex": "rgb(240, 240, 240)",
+      "swatchImage": "/assets/products/aluminium-shutters/colors/nut.jpg",
+      "isStandard": false
+    },
+    {
+      "id": "white",
+      "name": "White",
+      "ralCode": "02",
+      "hex": "rgb(240, 240, 240)",
+      "swatchImage": "/assets/products/aluminium-shutters/colors/white.jpg",
+      "isStandard": false
+    },
+    {
+      "id": "beige",
+      "name": "beige",
+      "ralCode": "05",
+      "hex": "rgb(240, 240, 240)",
+      "swatchImage": "/assets/products/aluminium-shutters/colors/beige.jpg",
+      "isStandard": false
+    },
+    {
+      "id": "silver",
+      "name": "Silver",
+      "ralCode": "01",
+      "hex": "rgb(240, 240, 240)",
+      "swatchImage": "/assets/products/aluminium-shutters/colors/silver.jpg",
+      "isStandard": false
+    },
+    {
+      "id": "grey",
+      "name": "Grey",
+      "ralCode": "03",
+      "hex": "rgb(240, 240, 240)",
+      "swatchImage": "/assets/products/aluminium-shutters/colors/grey.jpg",
+      "isStandard": false
+    },
+    {
+      "id": "brown",
+      "name": "Brown",
+      "ralCode": "09",
+      "hex": "rgb(240, 240, 240)",
+      "swatchImage": "/assets/products/aluminium-shutters/colors/brown.jpg",
+      "isStandard": false
+    },
+    {
+      "id": "grey-aluminium",
+      "name": "grey aluminium",
+      "ralCode": "62",
+      "hex": "rgb(240, 240, 240)",
+      "swatchImage": "/assets/products/aluminium-shutters/colors/grey-aluminium.jpg",
+      "isStandard": false
+    },
+    {
+      "id": "moss-green",
+      "name": "moss green",
+      "ralCode": "61",
+      "hex": "rgb(240, 240, 240)",
+      "swatchImage": "/assets/products/aluminium-shutters/colors/moss-green.jpg",
+      "isStandard": false
+    },
+    {
+      "id": "black",
+      "name": "Black",
+      "ralCode": "20",
+      "hex": "rgb(240, 240, 240)",
+      "swatchImage": "/assets/products/aluminium-shutters/colors/black.jpg",
+      "isStandard": false
+    },
+    {
+      "id": "basalt-grey-ral-7012",
+      "name": "Basalt grey RAL 7012",
+      "ralCode": "33",
+      "hex": "rgb(240, 240, 240)",
+      "swatchImage": "/assets/products/aluminium-shutters/colors/basalt-grey-ral-7012.jpg",
+      "isStandard": false
+    },
+    {
+      "id": "quartz-grey-ral-7039",
+      "name": "Quartz grey RAL 7039",
+      "ralCode": "34",
+      "hex": "rgb(240, 240, 240)",
+      "swatchImage": "/assets/products/aluminium-shutters/colors/quartz-grey-ral-7039.jpg",
+      "isStandard": false
+    },
+    {
+      "id": "turner-oak",
+      "name": "Turner Oak",
+      "ralCode": "49",
+      "hex": "rgb(240, 240, 240)",
+      "swatchImage": "/assets/products/aluminium-shutters/colors/turner-oak.jpg",
+      "isStandard": false
+    },
+    {
+      "id": "winchester",
+      "name": "Winchester",
+      "ralCode": "52",
+      "hex": "rgb(240, 240, 240)",
+      "swatchImage": "/assets/products/aluminium-shutters/colors/winchester.jpg",
+      "isStandard": false
+    }
+  ],
+  "standardEquipment": [],
+  "technicalSpecs": {},
+  "constructions": [],
+  "glassOptions": [],
+  "accessories": [],
+  "comparison": {}
+}

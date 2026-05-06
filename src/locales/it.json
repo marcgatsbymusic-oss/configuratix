@@ -1080,5 +1080,10 @@
         "3 colori del profilo tra cui scegliere: bianco, marrone o antracite"
       ]
     }
+  },
+  "themeHint": {
+    "title": "Lo sapevate?",
+    "description": "Puoi passare dalla modalità Notte a quella Giorno in qualsiasi momento utilizzando l'icona di attivazione/disattivazione del tema situata nell'angolo in alto a destra della barra di navigazione.",
+    "dismiss": "Capito, grazie!"
   }
 }

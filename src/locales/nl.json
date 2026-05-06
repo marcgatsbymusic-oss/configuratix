@@ -1080,5 +1080,10 @@
         "3 profile colours to choose from: white, brown or anthracite"
       ]
     }
+  },
+  "themeHint": {
+    "title": "Wist je dat?",
+    "description": "U kunt op elk gewenst moment schakelen tussen de nacht- en dagmodus via het themawisselpictogram in de rechterbovenhoek van de navigatiebalk.",
+    "dismiss": "Ik begrijp het, bedankt!"
   }
 }

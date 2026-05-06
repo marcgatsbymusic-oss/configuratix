@@ -12,6 +12,14 @@ import { ShopPage } from './pages/ShopPage'
 import { CheckoutPage } from './pages/CheckoutPage'
 import { DoorSimPage } from './pages/DoorSimPage'
 import { AddonsPage } from './pages/AddonsPage'
+import { IntelligentHome } from './pages/IntelligentHome'
+import { InspirationsPage } from './pages/InspirationsPage'
+import { PvcWindowsPage } from './pages/PvcWindowsPage'
+import { AluminiumWindowsPage } from './pages/AluminiumWindowsPage'
+import { CookieConsentModal } from './components/common/CookieConsentModal'
+import { CookieConsentBadge } from './components/common/CookieConsentBadge'
+import { SiteMapPage } from './pages/SiteMapPage'
+import { WhereToBuyPage } from './pages/WhereToBuyPage'
 import { CartDrawer } from './components/Shop/CartDrawer'
 import { MainConfigurator } from './components/SlateConfigurator/MainConfigurator'
 import './index.css'
@@ -63,6 +71,11 @@ function StorefrontLayout() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/products" element={<ProductsPage />} />
+          <Route path="/products/pvc-windows" element={<PvcWindowsPage />} />
+          <Route path="/products/windows/pvc" element={<PvcWindowsPage />} />
+          <Route path="/products/aluminium-windows" element={<AluminiumWindowsPage />} />
+          <Route path="/products/windows/aluminium" element={<AluminiumWindowsPage />} />
+          <Route path="/products/windows/aluminum" element={<AluminiumWindowsPage />} />
           <Route path="/products/:slug" element={<ProductDetailPage />} />
           <Route path="/outlet" element={<OutletPage />} />
           <Route path="/shop" element={<ShopPage />} />
@@ -70,14 +83,20 @@ function StorefrontLayout() {
           <Route path="/configurator" element={<MainConfigurator />} />
           <Route path="/slate-configurator" element={<MainConfigurator />} />
           <Route path="/about/*" element={<AboutPage />} />
-          <Route path="/where-to-buy" element={<AboutPage />} />
+          <Route path="/where-to-buy" element={<WhereToBuyPage />} />
           <Route path="/debug-pricing" element={<DebugPricing />} />
           <Route path="/doorsim" element={<DoorSimPage />} />
           <Route path="/products/addons/type/:id" element={<AddonsPage />} />
+          <Route path="/inteligentny-dom" element={<IntelligentHome />} />
+          <Route path="/inspiration" element={<InspirationsPage />} />
+          <Route path="/inspiration/:category" element={<InspirationsPage />} />
+          <Route path="/sitemap" element={<SiteMapPage />} />
         </Routes>
       </div>
       <CartDrawer />
       <Footer />
+      <CookieConsentModal />
+      <CookieConsentBadge />
     </div>
   )
 }

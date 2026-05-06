@@ -11,7 +11,7 @@ export interface GlassOption {
   id: string
   name: string
   image: string
-  largeImage: string
+  largeImage?: string
 }
 
 export interface ProductDetailData {
@@ -22,7 +22,7 @@ export interface ProductDetailData {
   description: string
   heroImage: string
   windowPhoto: string
-  profileImage: string
+  profileImage?: string
   blueprintImage: string
   videoSrc: string
   modalVideoSrc?: string
@@ -53,17 +53,57 @@ export interface ProductDetailData {
   infills?: {
     name: string;
     image: string;
-    largeImage: string;
+    largeImage?: string;
   }[]
   doorStructures?: {
     name: string;
     image: string;
   }[]
+  lathTypes?: {
+    name: string;
+    image: string;
+  }[]
+  downloads?: {
+    title: string;
+    label: string;
+    fileUrl: string;
+  }[]
+  models?: {
+    name: string;
+    isNew?: boolean;
+    subtitle: string;
+    dimensions: string;
+    features: string[];
+    image: string;
+  }[]
+  designOverview?: {
+    image: string;
+    parts: {
+      id: number;
+      title: string;
+      description: string;
+      images?: string[];
+      top: string;
+      left: string;
+    }[];
+    logos: string[];
+  }
+  smartHome?: {
+    title: string;
+    description: string;
+    image: string;
+    link: { text: string; url: string; };
+  }
   comparison?: {
     [productName: string]: {
       [specName: string]: string;
     };
   }
+  inspirations?: {
+    id: string;
+    url: string;
+    alt: string;
+  }[]
 }
 
 export const IGLO_DOOR_COLORS: SwatchColor[] = [
@@ -168,7 +208,7 @@ export const IGLO_EDGE_DETAIL: ProductDetailData = {
   description: `Our new, most technologically advanced window is distinguished by an excellent thermal insulation parameter of Uw = 0.66 W/(m²K)* and a modern, angular profile shape. The extremely good thermal insulation parameters are due, among other things, to the 7-chamber profile design and 3 EPDM gaskets, including the central gasket.`,
   heroImage: '/assets/hero.png',
   windowPhoto: '/assets/iglo-edge-featured.png',
-  profileImage: '/assets/iglo-edge-profile-photo.png',
+  
   blueprintImage: '/assets/iglo-edge-technical-drawing.png',
   videoSrc: '/assets/heroes/iglo-edge-header-cover.mp4',
   modalVideoSrc: '/assets/products/iglo-edge-en.mp4',
@@ -239,11 +279,11 @@ export const IGLO_EDGE_SLIDE_DETAIL: ProductDetailData = {
   tagline: 'Technology That Impresses',
   description: `Our new, most technologically advanced window is distinguished by an excellent thermal insulation parameter of Uw = 0,65 W/(m2K)* and a modern, angular profile shape.`,
   heroImage: '/assets/iglo-edge-slide-profile.png',
-  heroVideoSrc: '/assets/iglo-edge-slide-hero.mp4',
+  videoSrc: '/assets/iglo-edge-slide-hero.mp4',
   windowPhoto: '/assets/iglo-edge-slide-profile.png',
-  profileImage: '/assets/iglo-edge-slide-profile.png',
+  
   blueprintImage: '/assets/iglo-edge-slide-cross-section.png',
-  videoSrc: '/assets/iglo-edge-slide-product.mp4',
+  inlineVideoSrc: '/assets/iglo-edge-slide-product.mp4',
   modalVideoSrc: '/assets/iglo_edge_slide-en-web.mp4',
   disableHeroFilter: true,
   standardEquipment: [
@@ -279,7 +319,7 @@ export const IGLO_HS_DETAIL: ProductDetailData = {
   description: `Uw = 0,71 W/(m2K)**for a structure measuring 2,700 x 2,300 with T4 glass + 18 Swisspacer Ultimate + FL4 + 18 Swisspacer Ultimate + T4`,
   heroImage: '/assets/placeholder-window.jpg',
   windowPhoto: '/assets/placeholder-window.jpg',
-  profileImage: '/assets/placeholder-window.jpg',
+  
   blueprintImage: '/assets/placeholder-window.jpg',
   videoSrc: '',
   modalVideoSrc: '',
@@ -306,7 +346,7 @@ export const IGLO_HS_ALUCOVER_DETAIL: ProductDetailData = {
   description: `The IGLO-HS Alucover lift-and-slide door system is a solution designed for modern architecture and large terrace glazing. The structure combines the robustness of IGLO-HS profiles with an elegant aluminium cladding on the exterior side, ensuring high durability, resistance to weather conditions and outstanding aesthetics.`,
   heroImage: '/assets/placeholder-window.jpg',
   windowPhoto: '/assets/placeholder-window.jpg',
-  profileImage: '/assets/placeholder-window.jpg',
+  
   blueprintImage: '/assets/placeholder-window.jpg',
   videoSrc: '',
   modalVideoSrc: '',
@@ -334,7 +374,7 @@ export const MB_77HS_DETAIL: ProductDetailData = {
 Standard:`,
   heroImage: '/assets/placeholder-window.jpg',
   windowPhoto: '/assets/placeholder-window.jpg',
-  profileImage: '/assets/placeholder-window.jpg',
+  
   blueprintImage: '/assets/placeholder-window.jpg',
   videoSrc: '',
   modalVideoSrc: '',
@@ -363,7 +403,7 @@ export const MB_77HS_MONORAIL_DETAIL: ProductDetailData = {
 Standard:`,
   heroImage: '/assets/placeholder-window.jpg',
   windowPhoto: '/assets/placeholder-window.jpg',
-  profileImage: '/assets/placeholder-window.jpg',
+  
   blueprintImage: '/assets/placeholder-window.jpg',
   videoSrc: '',
   modalVideoSrc: '',
@@ -391,7 +431,7 @@ export const SOFTLINE_HS_DETAIL: ProductDetailData = {
   description: `This wooden lift and slide terrace door is designed for large-size glazing to ensure the right amount of daylight in rooms. The modern production technology ensures the highest aesthetic values and quality.`,
   heroImage: '/assets/placeholder-window.jpg',
   windowPhoto: '/assets/placeholder-window.jpg',
-  profileImage: '/assets/placeholder-window.jpg',
+  
   blueprintImage: '/assets/placeholder-window.jpg',
   videoSrc: '',
   modalVideoSrc: '',
@@ -416,7 +456,7 @@ export const DUOLINE_HS_DETAIL: ProductDetailData = {
   description: `Choose the colour that suits you from over 200 RAL colours for the aluminium part of the window and a dozen colours of opaque paints (covering the entire wood structure) and stain paints for the wooden part of the window.`,
   heroImage: '/assets/placeholder-window.jpg',
   windowPhoto: '/assets/placeholder-window.jpg',
-  profileImage: '/assets/placeholder-window.jpg',
+  
   blueprintImage: '/assets/placeholder-window.jpg',
   videoSrc: '',
   modalVideoSrc: '',
@@ -441,7 +481,7 @@ export const IGLO_SLIDE_DETAIL: ProductDetailData = {
   description: `The system is designed for producing terrace doors and sliding windows. Thanks to the application of the latest technological solutions, it ensures high comfort of use and durability for many years. It is ideal for rooms where the use of traditional window and door solutions is not possible. IGLO SLIDE is dedicated for locations where high thermal insulation parameters are not required.`,
   heroImage: '/assets/placeholder-window.jpg',
   windowPhoto: '/assets/placeholder-window.jpg',
-  profileImage: '/assets/placeholder-window.jpg',
+  
   blueprintImage: '/assets/placeholder-window.jpg',
   videoSrc: '',
   modalVideoSrc: '',
@@ -469,7 +509,7 @@ export const MB_SLIDE_DETAIL: ProductDetailData = {
   description: `The system is designed to construct thermally insulated sliding doors and windows. Thanks to it unique construction it may be built in brick walls, aluminium façades, winter gardens or casement elements. Maximum dimensions of leaves: H: 2500 mm, L: 1800 mm, max. weight 160 kg.`,
   heroImage: '/assets/placeholder-window.jpg',
   windowPhoto: '/assets/placeholder-window.jpg',
-  profileImage: '/assets/placeholder-window.jpg',
+  
   blueprintImage: '/assets/placeholder-window.jpg',
   videoSrc: '',
   modalVideoSrc: '',
@@ -494,7 +534,7 @@ export const COR_VISION_DETAIL: ProductDetailData = {
   description: `Minimalist sliding system with thermal baffle, offering maximum room illumination with a minimally visible aluminum structure. The width of the aluminum mullion is only 20 mm and offers the possibility of hiding it in the frame.`,
   heroImage: '/assets/placeholder-window.jpg',
   windowPhoto: '/assets/placeholder-window.jpg',
-  profileImage: '/assets/placeholder-window.jpg',
+  
   blueprintImage: '/assets/placeholder-window.jpg',
   videoSrc: '',
   modalVideoSrc: '',
@@ -519,7 +559,7 @@ export const COR_VISION_PLUS_DETAIL: ProductDetailData = {
   description: `Premium terrace system offering excellent thermal insulation and modern design.`,
   heroImage: '/assets/placeholder-window.jpg',
   windowPhoto: '/assets/placeholder-window.jpg',
-  profileImage: '/assets/placeholder-window.jpg',
+  
   blueprintImage: '/assets/placeholder-window.jpg',
   videoSrc: '',
   modalVideoSrc: '',
@@ -545,7 +585,7 @@ export const MB_86_FOLD_LINE_DETAIL: ProductDetailData = {
 Standard:`,
   heroImage: '/assets/placeholder-window.jpg',
   windowPhoto: '/assets/placeholder-window.jpg',
-  profileImage: '/assets/placeholder-window.jpg',
+  
   blueprintImage: '/assets/placeholder-window.jpg',
   videoSrc: '',
   modalVideoSrc: '',
@@ -573,7 +613,7 @@ export const SOFTLINE_68_FOLDING_DETAIL: ProductDetailData = {
   description: `* for terrace system 2900x2450 mm with glass Ug=0,8 W/(m2K) + plastic spacer Swisspacer Ultimate - calculation method`,
   heroImage: '/assets/placeholder-window.jpg',
   windowPhoto: '/assets/placeholder-window.jpg',
-  profileImage: '/assets/placeholder-window.jpg',
+  
   blueprintImage: '/assets/placeholder-window.jpg',
   videoSrc: '',
   modalVideoSrc: '',
@@ -598,7 +638,7 @@ export const IGLO_ENERGY_PSK_DETAIL: ProductDetailData = {
   description: `This 7-chamber tilt and slide half aligned terrace system with excellent thermal insulation properties will give every flat a unique feel. Innovative solutions and excellent thermal insulation properties ensure lower heating bills.`,
   heroImage: '/assets/placeholder-window.jpg',
   windowPhoto: '/assets/placeholder-window.jpg',
-  profileImage: '/assets/placeholder-window.jpg',
+  
   blueprintImage: '/assets/placeholder-window.jpg',
   videoSrc: '',
   modalVideoSrc: '',
@@ -628,7 +668,7 @@ export const IGLO_ENERGY_CLASSIC_PSK_DETAIL: ProductDetailData = {
   description: `Class A 7-chamber profile, made exclusively from virgin material. Our proprietary system provides optimum light to both large and small rooms, while maintaining exceptional thermal insulation parameters to significantly reduce heating bills.`,
   heroImage: '/assets/placeholder-window.jpg',
   windowPhoto: '/assets/placeholder-window.jpg',
-  profileImage: '/assets/placeholder-window.jpg',
+  
   blueprintImage: '/assets/placeholder-window.jpg',
   videoSrc: '',
   modalVideoSrc: '',
@@ -658,7 +698,7 @@ export const IGLO5_PSK_DETAIL: ProductDetailData = {
   description: `Uw = 0,81 W/(m2K)**for a structure measuring 2,700 x 2,300 mm with T4 glass + 18 Swisspacer Ultimate + FL4 + 18 Swisspacer Ultimate + T4`,
   heroImage: '/assets/placeholder-window.jpg',
   windowPhoto: '/assets/placeholder-window.jpg',
-  profileImage: '/assets/placeholder-window.jpg',
+  
   blueprintImage: '/assets/placeholder-window.jpg',
   videoSrc: '',
   modalVideoSrc: '',
@@ -690,7 +730,7 @@ export const IGLO5_CLASSIC_PSK_DETAIL: ProductDetailData = {
   description: `Perfect solution, that ensures big access to daylight both in small and big rooms, maintaining great thermal insulation at the same time.`,
   heroImage: '/assets/placeholder-window.jpg',
   windowPhoto: '/assets/placeholder-window.jpg',
-  profileImage: '/assets/placeholder-window.jpg',
+  
   blueprintImage: '/assets/placeholder-window.jpg',
   videoSrc: '',
   modalVideoSrc: '',
@@ -722,7 +762,7 @@ export const IGLO_LIGHT_PSK_DETAIL: ProductDetailData = {
   description: `A unique terrace system design to provide plenty of daylight in rooms while maintaining excellent energy efficiency parameters.`,
   heroImage: '/assets/placeholder-window.jpg',
   windowPhoto: '/assets/placeholder-window.jpg',
-  profileImage: '/assets/placeholder-window.jpg',
+  
   blueprintImage: '/assets/placeholder-window.jpg',
   videoSrc: '',
   modalVideoSrc: '',
@@ -754,7 +794,7 @@ export const MB_70_PSK_DETAIL: ProductDetailData = {
   description: `A terrace system to transform every interior and highlight the unique architectural style of a building. Customers across the globe appreciated the highest quality and reliability of the product, including numerous additional options for full product customisation.`,
   heroImage: '/assets/placeholder-window.jpg',
   windowPhoto: '/assets/placeholder-window.jpg',
-  profileImage: '/assets/placeholder-window.jpg',
+  
   blueprintImage: '/assets/placeholder-window.jpg',
   videoSrc: '',
   modalVideoSrc: '',
@@ -779,7 +819,7 @@ export const SOFTLINE_PSK_DETAIL: ProductDetailData = {
   description: `This wooden lift and slide terrace door is designed for large-size glazing to ensure the right amount of daylight in rooms. The modern production technology ensures the highest aesthetic values and quality.`,
   heroImage: '/assets/placeholder-window.jpg',
   windowPhoto: '/assets/placeholder-window.jpg',
-  profileImage: '/assets/placeholder-window.jpg',
+  
   blueprintImage: '/assets/placeholder-window.jpg',
   videoSrc: '',
   modalVideoSrc: '',
@@ -807,7 +847,7 @@ MERANTI DL68 Uw=0,90 *1
 MERANTI DL78 Uw=0,71 *2`,
   heroImage: '/assets/placeholder-window.jpg',
   windowPhoto: '/assets/placeholder-window.jpg',
-  profileImage: '/assets/placeholder-window.jpg',
+  
   blueprintImage: '/assets/placeholder-window.jpg',
   videoSrc: '',
   modalVideoSrc: '',
@@ -832,7 +872,7 @@ export const IGLO_ENERGY_DETAIL: ProductDetailData = {
   description: `An innovative and original 7-chamber A-class profile made exclusively of primary materials. The world's first system using a central gasket made of foamed EPDM to ensure the best energy efficiency parameters. Iglo Energy windows also stand out for their perfect parameters in terms of water tightness, microventilation and resistance to wind.`,
   heroImage: '/assets/products/iglo_energy_pr.png',
   windowPhoto: '/assets/products/iglo_energy_pr.png',
-  profileImage: '/assets/products/iglo_energy_pr.png',
+  
   blueprintImage: '/assets/tech/iglo_energy.png',
   videoSrc: '/assets/heroes/okna-iglo-energy-cover.mp4',
   modalVideoSrc: '/assets/products/iglo_energy_animacja-2024-en.mp4',
@@ -879,7 +919,7 @@ export const IGLO_ENERGY_CLASSIC_DETAIL: ProductDetailData = {
   description: `A unique design where you can choose the square-shaped glazing bead to reflect the latest architectural trends. The remarkable thermal insulation parameters are ensured by the optimum 7-chamber profile structure, a specially designed sealing system made of foamed EPDM and glass packages with high thermal insulation parameters.`,
   heroImage: '/assets/products/iglo_energy_classic_pr.png',
   windowPhoto: '/assets/products/iglo_energy_classic_pr.png',
-  profileImage: '/assets/products/iglo_energy_classic_pr.png',
+  
   blueprintImage: '/assets/tech/iglo_energy_classic.png',
   videoSrc: '/assets/heroes/iglo-energy-classic-cover.mp4',
   modalVideoSrc: 'https://www.drutex.eu/media/_upload/produkty/iglo5/film_hd/iglo_5_animacja_-_angielska_-_03-06-2020_web.mp4',
@@ -929,7 +969,7 @@ export const IGLO_ENERGY_ALUCOVER_DETAIL: ProductDetailData = {
   heroImage: '/assets/products/iglo_energy_alucover_pr.png',
   windowPhoto: '/assets/products/iglo_energy_alucover_pr.png',
   outdoorWindowPhoto: '/assets/products/iglo_energy_alucover_pr.png',
-  profileImage: '/assets/tech/iglo-energy-alucover-profil-swisspacer.png',
+  
   blueprintImage: '/assets/products/iglo_energy_alucover_pr.png',
   videoSrc: '/assets/heroes/okno_-_iglo_energy_alu_cover_-_mobile.mp4',
   modalVideoSrc: '',
@@ -974,7 +1014,7 @@ export const IGLO_5_DETAIL: ProductDetailData = {
   description: 'A 5-chamber system features very good thermal insulation parameters. Our innovative solution is based on a snow-white A-class profile made exclusively of primary materials to ensure the highest quality. These windows are perfect for both warm and cold climates.',
   heroImage: '/assets/products/iglo-5-hero.png',
   windowPhoto: '/assets/products/iglo-5-window.png',
-  profileImage: '/assets/products/iglo-5-profile.png',
+  
   blueprintImage: '/assets/products/iglo-5-blueprint.png',
   videoSrc: '/assets/heroes/iglo-5-classic-cover.mp4',
   modalVideoSrc: 'https://www.drutex.eu/media/_upload/produkty/iglo5/film_hd/iglo_5_animacja_-_angielska_-_03-06-2020_web.mp4',
@@ -1019,7 +1059,7 @@ export const IGLO_LIGHT_DETAIL: ProductDetailData = {
   description: 'This 5-chamber and original system stands out for its high aesthetic values and thin frame and sash profiles. In comparison with traditional systems, it features a 32% narrower movable mullion, which translates into more natural light entering the room.',
   heroImage: '/assets/iglo-light/iglo_light_-_pr.png',
   windowPhoto: '/assets/iglo-light/iglo_light_-_pr.png',
-  profileImage: '/assets/iglo-light/iglo_light_-_pr.png',
+  
   blueprintImage: '/assets/iglo-light/iglo_light.png',
   videoSrc: 'https://www.drutex.eu/media/_upload/header_video/iglo_light_okna.mp4',
   modalVideoSrc: 'https://www.drutex.eu/media/_upload/produkty/iglo_light/video/iglo_light.mp4',
@@ -1066,7 +1106,7 @@ export const IGLO_EXT_DETAIL: ProductDetailData = {
   description: 'Balcony windows and doors that open outwards stand out for their modern design and excellent thermal insulation performance. As standard, these windows have hidden fittings (invisible when closed), while balcony doors have door (surface) fittings. The Iglo EXT window and door system is ideal for those looking for modern design and high aesthetic values.',
   heroImage: '/assets/iglo-ext/iglo_ext_-_pr.png',
   windowPhoto: '/assets/iglo-ext/iglo_ext_-_pr.png',
-  profileImage: '/assets/iglo-ext/iglo_ext_-_pr.png',
+  
   blueprintImage: '/assets/iglo-ext/iglo_ext.png',
   videoSrc: 'https://www.drutex.eu/media/_upload/produkty/okno-iglo-ext/okno-iglo-ext-2023.mp4',
   modalVideoSrc: 'https://www.drutex.eu/media/_upload/produkty/okno-iglo-ext/iglo-ext.mp4',
@@ -1109,7 +1149,7 @@ export const IGLO_PREMIER_DETAIL: ProductDetailData = {
   description: 'Original outward opening casement or tilt windows are based on an extremely warm 5-chamber A-class profile made exclusively of primary material. The system comes with double sealing and reliable fittings to ensure high utility values for years to come.',
   heroImage: '/assets/iglo-premier/iglo_premier_-_pr.png',
   windowPhoto: '/assets/iglo-premier/iglo_premier_-_pr.png',
-  profileImage: '/assets/iglo-premier/iglo_premier_-_pr.png',
+  
   blueprintImage: '/assets/iglo-premier/iglo_premier.png',
   videoSrc: 'https://www.drutex.eu/media/_upload/produkty/iglo_premiere/iglo-premiere-drutex.mp4',
   modalVideoSrc: 'https://www.drutex.eu/media/_upload/iglo_premiere-2-options.mp4',
@@ -1152,7 +1192,7 @@ export const IDEAL_NEO_AD_DETAIL: ProductDetailData = {
   description: 'Slim and symmetrical profiles refer to current design trends and give lightness and elegance to the windows. Extremely narrow profile combinations mean even more light in the rooms. An attractive solution for both new built and renovation.',
   heroImage: '/assets/ideal-neo-ad/ideal_neo_ad_profil.png',
   windowPhoto: '/assets/ideal-neo-ad/ideal_neo_ad_profil.png',
-  profileImage: '/assets/ideal-neo-ad/ideal_neo_ad_profil.png',
+  
   blueprintImage: '/assets/ideal-neo-ad/ideal_neo_ad.png',
   videoSrc: 'https://www.drutex.eu/media/_upload/produkty/ideal_neo_ad/video/ideal-neo-piryt-header.mp4',
   modalVideoSrc: 'https://www.drutex.eu/media/_upload/produkty/ideal_neo_ad/video/ideal-neo-piryt-produkt.mp4',
@@ -1193,7 +1233,7 @@ export const IDEAL_NEO_MD_DETAIL: ProductDetailData = {
   description: 'Slim and symmetrical profiles refer to current design trends and give lightness and elegance to the windows. Extremely narrow profile combinations mean even more light in the rooms. An attractive solution for both new built and renovation.',
   heroImage: '/assets/ideal-neo-md/ideal_neo_md_profil.png',
   windowPhoto: '/assets/ideal-neo-md/ideal_neo_md_profil.png',
-  profileImage: '/assets/ideal-neo-md/ideal_neo_md_profil.png',
+  
   blueprintImage: '/assets/ideal-neo-md/ideal_neo_md.png',
   videoSrc: 'https://www.drutex.eu/media/_upload/produkty/neo-md/wideo/okno-neomd-standard.mp4',
   modalVideoSrc: 'https://www.drutex.eu/media/_upload/produkty/neo-md/wideo/neo-md-okno-produkt.mp4',
@@ -1235,7 +1275,7 @@ export const IDEAL_NEO_MD_FS_DETAIL: ProductDetailData = {
   heroImage: '/assets/ideal-neo-md-fs/NEO_MD_FS_HERO.webp',
   inlineImageSrc: '/assets/ideal-neo-md-fs/ideal_neo_md-fs-_ok.png',
   windowPhoto: '/assets/ideal-neo-md-fs/ideal_neo_md_fs_profil.png',
-  profileImage: '/assets/ideal-neo-md-fs/naroznik_1.png',
+  
   blueprintImage: '/assets/ideal-neo-md-fs/idel_neo_md-fs_okok.jpg',
   standardEquipment: [
     "Double-chamber glazing package Ug = 0,5 W/(m2K)",
@@ -1257,7 +1297,8 @@ export const IDEAL_NEO_MD_FS_DETAIL: ProductDetailData = {
   hardware: [],
   accessories: [],
   colors: IGLO_EDGE_COLORS,
-  glassOptions: []
+  glassOptions: [],
+  videoSrc: ''
 };
 
 export const IDEAL_NEO_MD_MONOBLOCK_DETAIL: ProductDetailData = {
@@ -1269,7 +1310,7 @@ export const IDEAL_NEO_MD_MONOBLOCK_DETAIL: ProductDetailData = {
   heroImage: '/assets/ideal-neo-md-monoblock/NEO_MD_MONOBLOCK_HERO.webp',
   inlineImageSrc: '/assets/ideal-neo-md-monoblock/ideal-ne-md-monoblock.jpg',
   windowPhoto: '/assets/ideal-neo-md-monoblock/ideal_neo_md_monoblock_profil.jpg',
-  profileImage: '/assets/ideal-neo-md-monoblock/ideal_neo_md_monoblock_profil.jpg',
+  
   blueprintImage: '/assets/ideal-neo-md-monoblock/ideal_neo_md_monoblock.png',
   profileVariants: [
     { name: '76 mm', image: '/assets/ideal-neo-md-monoblock/mb-76.png' },
@@ -1287,7 +1328,9 @@ export const IDEAL_NEO_MD_MONOBLOCK_DETAIL: ProductDetailData = {
   hardware: [],
   accessories: [],
   colors: IGLO_EDGE_COLORS,
-  glassOptions: []
+  glassOptions: [],
+  videoSrc: '',
+  standardEquipment: []
 };
 
 export const IDEAL_NEO_MD_RENOVATION_DETAIL: ProductDetailData = {
@@ -1299,7 +1342,7 @@ export const IDEAL_NEO_MD_RENOVATION_DETAIL: ProductDetailData = {
   heroImage: '/assets/ideal-neo-md-renovation/ideal_neo_md_renovation_tlo.webp',
   inlineImageSrc: '/assets/ideal-neo-md-renovation/ideal_neo_md_renovation_profil.jpg',
   windowPhoto: '/assets/ideal-neo-md-renovation/ideal_neo_md_renovation_profil.jpg',
-  profileImage: '/assets/ideal-neo-md-renovation/ideal_neo_md_renovation_profil.jpg',
+  
   blueprintImage: '/assets/ideal-neo-md-renovation/ideal_neo_md_renovation_profil.jpg',
   profileVariants: [
     { name: '40 mm (A)', image: '/assets/ideal-neo-md-renovation/r-40.png' },
@@ -1332,7 +1375,7 @@ export const IDEAL_7000_NL_DETAIL: ProductDetailData = {
   description: 'The Ideal 7000 NL system is dedicated specifically for the Dutch market. It perfectly fits into the classic style while meeting all modern energy efficiency and safety standards.',
   heroImage: '/assets/ideal-7000-nl/ideal-7000-header.webp',
   windowPhoto: '/assets/ideal-7000-nl/ideal_7000_nl_-_1.png',
-  profileImage: '/assets/ideal-7000-nl/ideal_7000_nl-profil_a.png',
+  colors: [],
   blueprintImage: '/assets/ideal-7000-nl/ideal_7000_nl-profil_b.png',
   videoSrc: '',
   inlineVideoSrc: '/assets/ideal-7000-nl/ideal-7000-nl-inline.mp4',
@@ -1359,10 +1402,17 @@ export const IDEAL_7000_NL_DETAIL: ProductDetailData = {
     "Aluminum handle",
     "Maco Multi Matic KS hardware"
   ],
-  colors: IGLO_EDGE_COLORS,
+  equipmentVideoLink: undefined,
   glassOptions: [],
   hardware: [],
-  accessories: []
+  accessories: [],
+  downloads: [
+    {
+      title: 'Downloads',
+      label: 'ROLLER SHUTTERS / VENETIAN BLINDS / INSECT SCREENS',
+      fileUrl: '/assets/products/external-venetian-blinds/katalog_rolety_en.pdf'
+    }
+  ]
 };
 
 export const FULL_RAL_COLORS: SwatchColor[] = [
@@ -1589,7 +1639,7 @@ export const MB_86N_SI_DETAIL: ProductDetailData = {
   description: 'The MB-86N SI window system is a modern aluminium solution designed to offer high thermal and acoustic insulation parameters. It is an excellent choice for energy-efficient buildings.',
   heroImage: '/assets/mb-86n-si/hero-bg.webp',
   windowPhoto: '/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp',
-  profileImage: '/assets/mb-86n-si/profile.png',
+  
   blueprintImage: '/assets/mb-86n-si/blueprint.png',
   videoSrc: '/assets/mb-86n-si/hero-video.mp4',
   inlineVideoSrc: '/assets/mb-86n-si/okno-mb86si.mp4',
@@ -1639,7 +1689,7 @@ export const MB_79N_SI_DETAIL: ProductDetailData = {
   description: 'The MB-86N SI window system is a modern aluminium solution designed to offer high thermal and acoustic insulation parameters. It is an excellent choice for energy-efficient buildings.',
   heroImage: '/assets/mb-79n-si/hero-bg.webp',
   windowPhoto: '/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp',
-  profileImage: '/assets/mb-79n-si/profile.png',
+  
   blueprintImage: '/assets/mb-79n-si/blueprint.png',
   videoSrc: '/assets/mb-79n-si/hero-video.mp4',
   inlineVideoSrc: '/assets/mb-79n-si/okno-mb79n.mp4',
@@ -1690,7 +1740,7 @@ export const MB_70HI_DETAIL: ProductDetailData = {
   description: 'Aluminium windows made using this system can be used in both individual buildings and aluminium facades.The lightweight and durable construction ensures a high level of comfort for many years of use.',
   heroImage: '/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp',
   windowPhoto: '/assets/mb-70hi/mb_70_hi_profil_kolor_0.png',
-  profileImage: '/assets/mb-70hi/mb_70_hi_profil_kolor_0.png',
+  
   blueprintImage: '/assets/mb-70hi/mb-70hi_okno_c.png',
   videoSrc: '/assets/mb-70hi/okno_mb_70.mp4',
   inlineVideoSrc: '',
@@ -1729,7 +1779,7 @@ export const MB_70_DETAIL: ProductDetailData = {
   description: 'Aluminium windows made using this system can be used in both individual buildings and aluminium facades. The lightweight and durable construction ensures a high level of comfort for many years of use.',
   heroImage: '/assets/mb-70/profile.png',
   windowPhoto: '/assets/mb-70/profile.png',
-  profileImage: '/assets/mb-70/profile.png',
+  
   blueprintImage: '/assets/mb-70/blueprint.png',
   videoSrc: '/assets/mb-70/okno-mb70-cover.mp4',
   inlineVideoSrc: '/assets/mb-70/okno_mb_70.mp4',
@@ -1768,7 +1818,7 @@ export const MB_45_DETAIL: ProductDetailData = {
   description: 'MB-45 aluminium window system for applications requiring less thermal insulation.',
   heroImage: '/assets/mb-45/profile.png',
   windowPhoto: '/assets/mb-45/profile.png',
-  profileImage: '/assets/mb-45/profile.png',
+  
   blueprintImage: '/assets/mb-45/blueprint.png',
   videoSrc: '',
   inlineVideoSrc: '/assets/mb-45/okno_mb_45.mp4',
@@ -1821,7 +1871,7 @@ export const SOFTLINE_DETAIL: ProductDetailData = {
   description: 'Our wooden windows mean the highest quality, environmentally friendly solutions and classic elegance. The remarkable window durability is ensured by an aluminium bead that protects wood from UV and water. The beautiful form of the rounded profile of the window with a streamlined shape and a smooth and shiny surface. The Softline series is available in pine and meranti.',
   heroImage: '/assets/softline/jasny_dab-a_1.png',
   windowPhoto: '/assets/softline/jasny_dab-a_1.png',
-  profileImage: '/assets/softline/jasny_dab-a_1.png',
+  
   blueprintImage: '',
   videoSrc: '/assets/softline/softline_68_okna.mp4',
   inlineVideoSrc: '/assets/softline/softline-88.mp4',
@@ -1848,19 +1898,19 @@ export const SOFTLINE_DETAIL: ProductDetailData = {
     '2 EPDM gaskets'
   ],
   colors: [
-  { id: 'softline-dark-oak-meranti', name: 'Dark Oak', group: 'Meranti', image: '/assets/softline/colors/dark-oak-meranti-bg.webp', windowImage: '/assets/softline/colors/dark-oak-meranti-frame.webp', profileImage: '/assets/softline/colors/dark-oak-meranti-img.webp' },
-  { id: 'softline-dark-oak-pine', name: 'Dark Oak', group: 'Pine', image: '/assets/softline/colors/dark-oak-pine-bg.webp', windowImage: '/assets/softline/colors/dark-oak-pine-frame.webp', profileImage: '/assets/softline/colors/dark-oak-pine-img.webp' },
-  { id: 'softline-teak-pine', name: 'Teak', group: 'Pine', image: '/assets/softline/colors/teak-pine-bg.webp', windowImage: '/assets/softline/colors/teak-pine-frame.webp', profileImage: '/assets/softline/colors/teak-pine-img.webp' },
-  { id: 'softline-teak-meranthi', name: 'Teak', group: 'Meranthi', image: '/assets/softline/colors/teak-meranthi-bg.webp', windowImage: '/assets/softline/colors/teak-meranthi-frame.webp', profileImage: '/assets/softline/colors/teak-meranthi-img.webp' },
-  { id: 'softline-nut-pine', name: 'Nut', group: 'Pine', image: '/assets/softline/colors/nut-pine-bg.webp', windowImage: '/assets/softline/colors/nut-pine-frame.webp', profileImage: '/assets/softline/colors/nut-pine-img.webp' },
-  { id: 'softline-white-softline', name: 'White Softline', group: 'Opaque', image: '/assets/softline/colors/white-softline-bg.webp', windowImage: '/assets/softline/colors/white-softline-frame.webp', profileImage: '/assets/softline/colors/white-softline-img.webp' },
-  { id: 'softline-maghoni-pine', name: 'Maghoni', group: 'Pine', image: '/assets/softline/colors/maghoni-pine-bg.webp', windowImage: '/assets/softline/colors/maghoni-pine-frame.webp', profileImage: '/assets/softline/colors/maghoni-pine-img.webp' },
-  { id: 'softline-maghoni-meranthi', name: 'Maghoni', group: 'Meranthi', image: '/assets/softline/colors/maghoni-meranthi-bg.webp', windowImage: '/assets/softline/colors/maghoni-meranthi-frame.webp', profileImage: '/assets/softline/colors/maghoni-meranthi-img.webp' },
-  { id: 'softline-bright-oak-pine', name: 'Bright oak', group: 'Pine', image: '/assets/softline/colors/bright-oak-pine-bg.webp', windowImage: '/assets/softline/colors/bright-oak-pine-frame.webp', profileImage: '/assets/softline/colors/bright-oak-pine-img.webp' },
-  { id: 'softline-bright-oak-meranthi', name: 'Bright oak', group: 'Meranthi', image: '/assets/softline/colors/bright-oak-meranthi-bg.webp', windowImage: '/assets/softline/colors/bright-oak-meranthi-frame.webp', profileImage: '/assets/softline/colors/bright-oak-meranthi-img.webp' },
-  { id: 'softline-palisander-pine', name: 'Palisander', group: 'Pine', image: '/assets/softline/colors/palisander-pine-bg.webp', windowImage: '/assets/softline/colors/palisander-pine-frame.webp', profileImage: '/assets/softline/colors/palisander-pine-img.webp' },
-  { id: 'softline-palisander-meranthi', name: 'Palisander', group: 'Meranthi', image: '/assets/softline/colors/palisander-meranthi-bg.webp', windowImage: '/assets/softline/colors/palisander-meranthi-frame.webp', profileImage: '/assets/softline/colors/palisander-meranthi-img.webp' },
-  { id: 'softline-nut-meranthi', name: 'Nut', group: 'Meranthi', image: '/assets/softline/colors/nut-meranthi-bg.webp', windowImage: '/assets/softline/colors/nut-meranthi-frame.webp', profileImage: '/assets/softline/colors/nut-meranthi-img.webp' },
+  { id: 'softline-dark-oak-meranti', name: 'Dark Oak', group: 'Wood Effect', hex: '#000000', image: '/assets/softline/colors/dark-oak-meranti-bg.webp', windowImage: '/assets/softline/colors/dark-oak-meranti-frame.webp',  },
+  { id: 'softline-dark-oak-pine', name: 'Dark oak', group: 'Wood Effect', hex: '#000000' },
+  { id: 'softline-teak-pine', name: 'Teak', group: 'Wood Effect', hex: '#000000' },
+  { id: 'softline-teak-meranthi', name: 'Teak', group: 'Wood Effect', hex: '#000000' },
+  { id: 'softline-nut-pine', name: 'Nut', group: 'Wood Effect', hex: '#000000' },
+  { id: 'softline-white-softline', name: 'White Softline', group: 'Solid', hex: '#ffffff', image: '/assets/softline/colors/white-softline-bg.webp', windowImage: '/assets/softline/colors/white-softline-frame.webp',  },
+  { id: 'softline-maghoni-pine', name: 'Maghoni', group: 'Wood Effect', hex: '#000000' },
+  { id: 'softline-maghoni-meranthi', name: 'Maghoni', group: 'Wood Effect', hex: '#000000' },
+  { id: 'softline-bright-oak-pine', name: 'Bright oak', group: 'Wood Effect', hex: '#000000' },
+  { id: 'softline-bright-oak-meranthi', name: 'Bright oak', group: 'Wood Effect', hex: '#000000' },
+  { id: 'softline-palisander-pine', name: 'Palisander', group: 'Wood Effect', hex: '#000000' },
+  { id: 'softline-palisander-meranthi', name: 'Palisander', group: 'Wood Effect', hex: '#000000' },
+  { id: 'softline-nut-meranthi', name: 'Nut', group: 'Wood Effect', hex: '#000000' },
   ],
   glassOptions: [
     { id: 'g1',  name: '33.1 safety',              image: '/assets/glass/thumbs/segura-331.webp',          largeImage: '/assets/glass/large/segura-331.jpg' },
@@ -1879,7 +1929,7 @@ export const DUOLINE_DETAIL: ProductDetailData = {
   description: 'These windows are a perfect combination of timeless classic wood with a lightweight and extremely durable form of aluminium. Numerous additional options will help you create the windows to meet all of your expectations.',
   heroImage: '/assets/softline/window.png',
   windowPhoto: '/assets/softline/window.png',
-  profileImage: '/assets/softline/window.png',
+  
   blueprintImage: '/assets/softline/window.png',
   videoSrc: '',
   inlineVideoSrc: '',
@@ -1921,7 +1971,7 @@ export const IGLO5_DOORS_DETAIL: ProductDetailData = {
   description: 'A 5-chamber system features very good thermal insulation parameters. Our innovative solution is based on a snow-white A-class profile made exclusively of primary materials to ensure the highest quality. These windows are perfect for both warm and cold climates.',
   heroImage: '/assets/drzwi-iglo-5-cover.jpg',
   windowPhoto: '/assets/drzwi-iglo-5-cover.jpg',
-  profileImage: '/assets/drzwi_iglo_5_kk.png',
+  
   blueprintImage: '/assets/drzwi_iglo_5_kk.png',
   videoSrc: '/assets/drzwi-iglo-5-cover.mp4',
   inlineVideoSrc: '/assets/drzwi_iglo_5.mp4',
@@ -2031,7 +2081,7 @@ export const IGLO_ENERGY_DOORS_PVC_DETAIL: ProductDetailData = {
   description: 'The Iglo Energy PVC exterior entrance door means modern and beautiful design, energy efficiency as well as aesthetic values and perfect functionality.',
   heroImage: '/assets/iglo-energy-doors/door.webp',
   windowPhoto: '/assets/iglo-energy-doors/door.webp',
-  profileImage: '/assets/iglo-energy-doors/profile.webp',
+  
   blueprintImage: '/assets/iglo-energy-doors/profile.webp',
   videoSrc: '/assets/iglo-energy-doors/hero.mp4',
   inlineVideoSrc: '/assets/drzwi_iglo_energy.mp4',
@@ -2085,7 +2135,7 @@ export const IGLO_EDGE_DOORS_DETAIL: ProductDetailData = {
   description: 'The Iglo Edge entrance door is a proprietary design, innovative technology, modern design in line with current market trends. The Iglo Edge entrance door means modern and beautiful design, energy efficiency as well as aesthetic values and perfect functionality.\nExcellent thermal insulation properties of the door result from the use of high-quality construction materials and a specially designed threshold with a thermal break. As standard:',
   heroImage: '/assets/products/iglo-edge-doors/fills/fill-43.webp',
   windowPhoto: '/assets/products/iglo-edge-doors/fills/fill-43.webp',
-  profileImage: '/assets/products/iglo-edge-doors/constructions/construction-1.webp',
+  
   blueprintImage: '/assets/products/iglo-edge-doors/constructions/construction-2.webp',
   videoSrc: '/assets/products/iglo-edge-doors/hero.mp4',
   inlineImageSrc: '/assets/products/iglo-edge-doors/fills/fill-43.webp',
@@ -2212,7 +2262,7 @@ export const D_ART_LINE_DOORS_ALU_DETAIL: ProductDetailData = {
   description: 'These modern and energy-efficient doors are distinguished by a perfect combination of functionality, high aesthetics of workmanship and unique style. They are characterized by an extremely durable construction resistant to atmospheric conditions and, thanks to the use of advanced production technologies, offer excellent thermal and acoustic insulation, ensuring comfort and safety of use.',
   heroImage: '/assets/products/d-art-line-doors-alu/fills/fill-1.webp',
   windowPhoto: '/assets/products/d-art-line-doors-alu/fills/fill-1.webp',
-  profileImage: '/assets/products/d-art-line-doors-alu/constructions/construction-1.webp',
+  
   blueprintImage: 'https://www.drutex.eu/media/_upload/produkty/d-artline/wideo/d-art_line_rzut.png',
   videoSrc: 'https://www.drutex.eu/media/_upload/produkty/d-artline/produkt/d-art-line-produkt.mp4',
   inlineVideoSrc: 'https://www.drutex.eu/media/_upload/produkty/d-artline/produkt/d-art-line-produkt.mp4',
@@ -2351,7 +2401,7 @@ export const MB_86SI_DOORS_ALU_DETAIL: ProductDetailData = {
   description: 'The exterior aluminium door in this system comes with an aluminium threshold with a thermal break as standard and is characterised by not only exceptional thermal insulation qualities, but also durability. Recommended for energy-efficient buildings. As standard:',
   heroImage: '/assets/products/mb-86si-doors-alu/gallery/gallery-2.png',
   windowPhoto: '/assets/products/mb-86si-doors-alu/gallery/gallery-2.png',
-  profileImage: '/assets/products/mb-86si-doors-alu/profile-drawing.png',
+  
   blueprintImage: '/assets/products/mb-86si-doors-alu/gallery/gallery-3.png',
   videoSrc: '/assets/products/mb-86si-doors-alu/mb86si-header.mp4',
   inlineVideoSrc: '/assets/products/mb-86si-doors-alu/mb86si-header.mp4',
@@ -2370,1002 +2420,1002 @@ export const MB_86SI_DOORS_ALU_DETAIL: ProductDetailData = {
   colors: FULL_RAL_COLORS,
   infills: [
     {
-        'id': 'fill-1',
+        
         'name': 'Straight Line 1',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-1.webp'
     },
     {
-        'id': 'fill-2',
+        
         'name': 'Straight Line 2',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-2.webp'
     },
     {
-        'id': 'fill-3',
+        
         'name': 'Straight Line 3',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-3.webp'
     },
     {
-        'id': 'fill-4',
+        
         'name': 'Straight Line 4',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-4.webp'
     },
     {
-        'id': 'fill-5',
+        
         'name': 'Straight Line 5',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-5.webp'
     },
     {
-        'id': 'fill-6',
+        
         'name': 'Straight Line 6',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-6.webp'
     },
     {
-        'id': 'fill-7',
+        
         'name': 'WASHINGTON 1',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-7.webp'
     },
     {
-        'id': 'fill-8',
+        
         'name': 'WASHINGTON 2',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-8.webp'
     },
     {
-        'id': 'fill-9',
+        
         'name': 'WASHINGTON 3 (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-9.webp'
     },
     {
-        'id': 'fill-10',
+        
         'name': 'WASHINGTON 4',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-10.webp'
     },
     {
-        'id': 'fill-11',
+        
         'name': 'WASHINGTON POCKET (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-11.webp'
     },
     {
-        'id': 'fill-12',
+        
         'name': 'WASHINGTON WOOD (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-12.webp'
     },
     {
-        'id': 'fill-13',
+        
         'name': 'WASHINGTON ZERO',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-13.webp'
     },
     {
-        'id': 'fill-14',
+        
         'name': 'MONTANA WOOD',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-14.webp'
     },
     {
-        'id': 'fill-15',
+        
         'name': 'MONTANA 4',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-15.webp'
     },
     {
-        'id': 'fill-16',
+        
         'name': 'MONTANA INOX 3 (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-16.webp'
     },
     {
-        'id': 'fill-17',
+        
         'name': 'MONTANA INOX 3 (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-17.webp'
     },
     {
-        'id': 'fill-18',
+        
         'name': 'MONTANA INOX 2 (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-18.webp'
     },
     {
-        'id': 'fill-19',
+        
         'name': 'MONTANA INOX 2 (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-19.webp'
     },
     {
-        'id': 'fill-20',
+        
         'name': 'MONTANA INOX 1',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-20.webp'
     },
     {
-        'id': 'fill-21',
+        
         'name': 'MONTANA INOX 1',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-21.webp'
     },
     {
-        'id': 'fill-22',
+        
         'name': 'MONTANA 1',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-22.webp'
     },
     {
-        'id': 'fill-23',
+        
         'name': 'ALASKA 1',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-23.webp'
     },
     {
-        'id': 'fill-24',
+        
         'name': 'ALASKA INOX 1',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-24.webp'
     },
     {
-        'id': 'fill-25',
+        
         'name': 'ALASKA INOX 1',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-25.webp'
     },
     {
-        'id': 'fill-26',
+        
         'name': 'ALASKA 2',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-26.webp'
     },
     {
-        'id': 'fill-27',
+        
         'name': 'ALASKA INOX 2',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-27.webp'
     },
     {
-        'id': 'fill-28',
+        
         'name': 'ALASKA INOX 2',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-28.webp'
     },
     {
-        'id': 'fill-29',
+        
         'name': 'ALASKA 3 (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-29.webp'
     },
     {
-        'id': 'fill-30',
+        
         'name': 'NEW YORK 2 (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-30.webp'
     },
     {
-        'id': 'fill-31',
+        
         'name': 'FLORIDA 1 (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-31.webp'
     },
     {
-        'id': 'fill-32',
+        
         'name': 'FLORIDA 2 (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-32.webp'
     },
     {
-        'id': 'fill-33',
+        
         'name': 'FLORIDA INOX (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-33.webp'
     },
     {
-        'id': 'fill-34',
+        
         'name': 'FLORIDA INOX (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-34.webp'
     },
     {
-        'id': 'fill-35',
+        
         'name': 'ARIZONA INOX 1',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-35.webp'
     },
     {
-        'id': 'fill-36',
+        
         'name': 'ARIZONA INOX 1',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-36.webp'
     },
     {
-        'id': 'fill-37',
+        
         'name': 'ARIZONA INOX 2',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-37.webp'
     },
     {
-        'id': 'fill-38',
+        
         'name': 'ARIZONA INOX 2',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-38.webp'
     },
     {
-        'id': 'fill-39',
+        
         'name': 'COLORADO INOX',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-39.webp'
     },
     {
-        'id': 'fill-40',
+        
         'name': 'COLORADO INOX',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-40.webp'
     },
     {
-        'id': 'fill-41',
+        
         'name': 'NEBRASKA INOX (L)(R)(C)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-41.webp'
     },
     {
-        'id': 'fill-42',
+        
         'name': 'NEBRASKA INOX (L)(R)(C)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-42.webp'
     },
     {
-        'id': 'fill-43',
+        
         'name': 'PENNSYLVANIA INOX 1',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-43.webp'
     },
     {
-        'id': 'fill-44',
+        
         'name': 'PENNSYLVANIA INOX 1',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-44.webp'
     },
     {
-        'id': 'fill-45',
+        
         'name': 'PENNSYLVANIA INOX 2 (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-45.webp'
     },
     {
-        'id': 'fill-46',
+        
         'name': 'PENNSYLVANIA INOX 2 (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-46.webp'
     },
     {
-        'id': 'fill-47',
+        
         'name': 'PENNSYLVANIA INOX 3 (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-47.webp'
     },
     {
-        'id': 'fill-48',
+        
         'name': 'PENNSYLVANIA INOX 3 (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-48.webp'
     },
     {
-        'id': 'fill-49',
+        
         'name': 'TEXAS INOX (C)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-49.webp'
     },
     {
-        'id': 'fill-50',
+        
         'name': 'TEXAS INOX (C)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-50.webp'
     },
     {
-        'id': 'fill-51',
+        
         'name': 'TEXAS INOX (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-51.webp'
     },
     {
-        'id': 'fill-52',
+        
         'name': 'TEXAS INOX (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-52.webp'
     },
     {
-        'id': 'fill-53',
+        
         'name': 'HAWAII INOX 1',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-53.webp'
     },
     {
-        'id': 'fill-54',
+        
         'name': 'HAWAII INOX 1',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-54.webp'
     },
     {
-        'id': 'fill-55',
+        
         'name': 'HAWAII INOX 2',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-55.webp'
     },
     {
-        'id': 'fill-56',
+        
         'name': 'HAWAII INOX 2',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-56.webp'
     },
     {
-        'id': 'fill-57',
+        
         'name': 'CALIFORNIA INOX 1 (L)(R)(C)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-57.webp'
     },
     {
-        'id': 'fill-58',
+        
         'name': 'CALIFORNIA INOX 1 (L)(R)(C)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-58.webp'
     },
     {
-        'id': 'fill-59',
+        
         'name': 'CALIFORNIA INOX 2 (L)(R)(C)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-59.webp'
     },
     {
-        'id': 'fill-60',
+        
         'name': 'CALIFORNIA INOX 2 (L)(R)(C)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-60.webp'
     },
     {
-        'id': 'fill-61',
+        
         'name': 'HAWAII INOX 3',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-61.webp'
     },
     {
-        'id': 'fill-62',
+        
         'name': 'HAWAII INOX 3',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-62.webp'
     },
     {
-        'id': 'fill-63',
+        
         'name': 'OHIO INOX',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-63.webp'
     },
     {
-        'id': 'fill-64',
+        
         'name': 'OHIO INOX',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-64.webp'
     },
     {
-        'id': 'fill-65',
+        
         'name': 'ARIZONA 1',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-65.webp'
     },
     {
-        'id': 'fill-66',
+        
         'name': 'ARIZONA 2',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-66.webp'
     },
     {
-        'id': 'fill-67',
+        
         'name': 'CALIFORNIA 1 (L)(R)(C)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-67.webp'
     },
     {
-        'id': 'fill-68',
+        
         'name': 'CALIFORNIA 2 (L)(R)(C)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-68.webp'
     },
     {
-        'id': 'fill-69',
+        
         'name': 'FLORIDA 3 (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-69.webp'
     },
     {
-        'id': 'fill-70',
+        
         'name': 'HAWAII 1',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-70.webp'
     },
     {
-        'id': 'fill-71',
+        
         'name': 'HAWAII 4',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-71.webp'
     },
     {
-        'id': 'fill-72',
+        
         'name': 'HAWAII 5 (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-72.webp'
     },
     {
-        'id': 'fill-73',
+        
         'name': 'HAWAII 6 (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-73.webp'
     },
     {
-        'id': 'fill-74',
+        
         'name': 'NEBRASKA 1 (L)(C)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-74.webp'
     },
     {
-        'id': 'fill-75',
+        
         'name': 'NEW YORK 1 (L)(C)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-75.webp'
     },
     {
-        'id': 'fill-76',
+        
         'name': 'PENNSYLVANIA 2 (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-76.webp'
     },
     {
-        'id': 'fill-77',
+        
         'name': 'PENNSYLVANIA 4',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-77.webp'
     },
     {
-        'id': 'fill-78',
+        
         'name': 'PENNSYLVANIA 5 (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-78.webp'
     },
     {
-        'id': 'fill-79',
+        
         'name': 'TEXAS (L)(C)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-79.webp'
     },
     {
-        'id': 'fill-80',
+        
         'name': 'TEXAS WOOD (L)(R)',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-80.webp'
     },
     {
-        'id': 'fill-81',
+        
         'name': 'DX 01',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-81.webp'
     },
     {
-        'id': 'fill-82',
+        
         'name': 'DX 01 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-82.webp'
     },
     {
-        'id': 'fill-83',
+        
         'name': 'DX 02',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-83.webp'
     },
     {
-        'id': 'fill-84',
+        
         'name': 'DX 02 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-84.webp'
     },
     {
-        'id': 'fill-85',
+        
         'name': 'DX 03',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-85.webp'
     },
     {
-        'id': 'fill-86',
+        
         'name': 'DX 03 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-86.webp'
     },
     {
-        'id': 'fill-87',
+        
         'name': 'DX 04',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-87.webp'
     },
     {
-        'id': 'fill-88',
+        
         'name': 'DX 04 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-88.webp'
     },
     {
-        'id': 'fill-89',
+        
         'name': 'DX 05',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-89.webp'
     },
     {
-        'id': 'fill-90',
+        
         'name': 'DX 05 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-90.webp'
     },
     {
-        'id': 'fill-91',
+        
         'name': 'DX 06 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-91.webp'
     },
     {
-        'id': 'fill-92',
+        
         'name': 'DX 07',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-92.webp'
     },
     {
-        'id': 'fill-93',
+        
         'name': 'DX 07 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-93.webp'
     },
     {
-        'id': 'fill-94',
+        
         'name': 'DX 08',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-94.webp'
     },
     {
-        'id': 'fill-95',
+        
         'name': 'DX 09',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-95.webp'
     },
     {
-        'id': 'fill-96',
+        
         'name': 'DX 10 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-96.webp'
     },
     {
-        'id': 'fill-97',
+        
         'name': 'DX 11',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-97.webp'
     },
     {
-        'id': 'fill-98',
+        
         'name': 'DX 11 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-98.webp'
     },
     {
-        'id': 'fill-99',
+        
         'name': 'DX 12',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-99.webp'
     },
     {
-        'id': 'fill-100',
+        
         'name': 'DX 12 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-100.webp'
     },
     {
-        'id': 'fill-101',
+        
         'name': 'DX 13',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-101.webp'
     },
     {
-        'id': 'fill-102',
+        
         'name': 'DX 13 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-102.webp'
     },
     {
-        'id': 'fill-103',
+        
         'name': 'DX 14',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-103.webp'
     },
     {
-        'id': 'fill-104',
+        
         'name': 'DX 14 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-104.webp'
     },
     {
-        'id': 'fill-105',
+        
         'name': 'DX 15 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-105.webp'
     },
     {
-        'id': 'fill-106',
+        
         'name': 'DX 16 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-106.webp'
     },
     {
-        'id': 'fill-107',
+        
         'name': 'DX 17 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-107.webp'
     },
     {
-        'id': 'fill-108',
+        
         'name': 'DX 18',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-108.webp'
     },
     {
-        'id': 'fill-109',
+        
         'name': 'DX 18 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-109.webp'
     },
     {
-        'id': 'fill-110',
+        
         'name': 'DX 19',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-110.webp'
     },
     {
-        'id': 'fill-111',
+        
         'name': 'DX 19 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-111.webp'
     },
     {
-        'id': 'fill-112',
+        
         'name': 'DX 20',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-112.webp'
     },
     {
-        'id': 'fill-113',
+        
         'name': 'DX 20 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-113.webp'
     },
     {
-        'id': 'fill-114',
+        
         'name': 'DX 21',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-114.webp'
     },
     {
-        'id': 'fill-115',
+        
         'name': 'DX 22',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-115.webp'
     },
     {
-        'id': 'fill-116',
+        
         'name': 'DX 22 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-116.webp'
     },
     {
-        'id': 'fill-117',
+        
         'name': 'DX 23',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-117.webp'
     },
     {
-        'id': 'fill-118',
+        
         'name': 'DX 23 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-118.webp'
     },
     {
-        'id': 'fill-119',
+        
         'name': 'DX 24',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-119.webp'
     },
     {
-        'id': 'fill-120',
+        
         'name': 'DX 25',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-120.webp'
     },
     {
-        'id': 'fill-121',
+        
         'name': 'DX 25 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-121.webp'
     },
     {
-        'id': 'fill-122',
+        
         'name': 'DX 26',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-122.webp'
     },
     {
-        'id': 'fill-123',
+        
         'name': 'DX 26 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-123.webp'
     },
     {
-        'id': 'fill-124',
+        
         'name': 'DX 27',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-124.webp'
     },
     {
-        'id': 'fill-125',
+        
         'name': 'DX 27 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-125.webp'
     },
     {
-        'id': 'fill-126',
+        
         'name': 'DX 28',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-126.webp'
     },
     {
-        'id': 'fill-127',
+        
         'name': 'DX 28 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-127.webp'
     },
     {
-        'id': 'fill-128',
+        
         'name': 'DX 29',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-128.webp'
     },
     {
-        'id': 'fill-129',
+        
         'name': 'DX 29 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-129.webp'
     },
     {
-        'id': 'fill-130',
+        
         'name': 'DX 30',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-130.webp'
     },
     {
-        'id': 'fill-131',
+        
         'name': 'DX 30 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-131.webp'
     },
     {
-        'id': 'fill-132',
+        
         'name': 'DX 31',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-132.webp'
     },
     {
-        'id': 'fill-133',
+        
         'name': 'DX 31 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-133.webp'
     },
     {
-        'id': 'fill-134',
+        
         'name': 'DX 32',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-134.webp'
     },
     {
-        'id': 'fill-135',
+        
         'name': 'DX 33',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-135.webp'
     },
     {
-        'id': 'fill-136',
+        
         'name': 'DX 34 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-136.webp'
     },
     {
-        'id': 'fill-137',
+        
         'name': 'DX 35 Decorative overlay',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-137.webp'
     },
     {
-        'id': 'fill-138',
+        
         'name': 'DX 36',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-138.webp'
     },
     {
-        'id': 'fill-139',
+        
         'name': 'Tennesse 1',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-139.webp'
     },
     {
-        'id': 'fill-140',
+        
         'name': 'Tennesse 2',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-140.webp'
     },
     {
-        'id': 'fill-141',
+        
         'name': 'Tennesse 3',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-141.webp'
     },
     {
-        'id': 'fill-142',
+        
         'name': 'Tennesse 4',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-142.webp'
     },
     {
-        'id': 'fill-143',
+        
         'name': 'Tennesse 5',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-143.webp'
     },
     {
-        'id': 'fill-144',
+        
         'name': 'Tennesse 6',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-144.webp'
     },
     {
-        'id': 'fill-145',
+        
         'name': 'Tennesse 7',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-145.webp'
     },
     {
-        'id': 'fill-146',
+        
         'name': 'Tennesse 8',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-146.webp'
     },
     {
-        'id': 'fill-147',
+        
         'name': 'Tennesse 9',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-147.webp'
     },
     {
-        'id': 'fill-148',
+        
         'name': 'Tennesse 11',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-148.webp'
     },
     {
-        'id': 'fill-149',
+        
         'name': 'Tennesse 12',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-149.webp'
     },
     {
-        'id': 'fill-150',
+        
         'name': 'Tennesse 13',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-150.webp'
     },
     {
-        'id': 'fill-151',
+        
         'name': 'Tennesse 14',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-151.webp'
     },
     {
-        'id': 'fill-152',
+        
         'name': 'Tennesse 15',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-152.webp'
     },
     {
-        'id': 'fill-153',
+        
         'name': 'Tennesse 16',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-153.webp'
     },
     {
-        'id': 'fill-154',
+        
         'name': 'Tennesse 17',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-154.webp'
     },
     {
-        'id': 'fill-155',
+        
         'name': 'Tennesse 18',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-155.webp'
     },
     {
-        'id': 'fill-156',
+        
         'name': 'Tennesse 19',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-156.webp'
     },
     {
-        'id': 'fill-157',
+        
         'name': 'Tennesse 20',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-157.webp'
     },
     {
-        'id': 'fill-158',
+        
         'name': 'Tennesse 21',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-158.webp'
     },
     {
-        'id': 'fill-159',
+        
         'name': 'Tennesse 22',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-159.webp'
     },
     {
-        'id': 'fill-160',
+        
         'name': 'Tennesse 23',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-160.webp'
     },
     {
-        'id': 'fill-161',
+        
         'name': 'Tennesse 24',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-161.webp'
     },
     {
-        'id': 'fill-162',
+        
         'name': 'Tennesse 25',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-162.webp'
     },
     {
-        'id': 'fill-163',
+        
         'name': 'Tennesse 26',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-163.webp'
     },
     {
-        'id': 'fill-164',
+        
         'name': 'Tennesse 27',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-164.webp'
     },
     {
-        'id': 'fill-165',
+        
         'name': 'Tennesse 28',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-165.webp'
     },
     {
-        'id': 'fill-166',
+        
         'name': 'Tennesse 29',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-166.webp'
     },
     {
-        'id': 'fill-167',
+        
         'name': 'Tennesse 30',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-167.webp'
     },
     {
-        'id': 'fill-168',
+        
         'name': 'Tennesse 31',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-168.webp'
     },
     {
-        'id': 'fill-169',
+        
         'name': 'Kentucky 1',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-169.webp'
     },
     {
-        'id': 'fill-170',
+        
         'name': 'Kentucky 2',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-170.webp'
     },
     {
-        'id': 'fill-171',
+        
         'name': 'Kentucky 3',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-171.webp'
     },
     {
-        'id': 'fill-172',
+        
         'name': 'Kentucky 4',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-172.webp'
     },
     {
-        'id': 'fill-173',
+        
         'name': 'Kentucky 5',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-173.webp'
     },
     {
-        'id': 'fill-174',
+        
         'name': 'Kentucky 6',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-174.webp'
     },
     {
-        'id': 'fill-175',
+        
         'name': 'Kentucky 7',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-175.webp'
     },
     {
-        'id': 'fill-176',
+        
         'name': 'Kentucky 8',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-176.webp'
     },
     {
-        'id': 'fill-177',
+        
         'name': 'Kentucky 9',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-177.webp'
     },
     {
-        'id': 'fill-178',
+        
         'name': 'Kentucky 10',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-178.webp'
     },
     {
-        'id': 'fill-179',
+        
         'name': 'Kentucky 11',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-179.webp'
     },
     {
-        'id': 'fill-180',
+        
         'name': 'Kentucky 12',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-180.webp'
     },
     {
-        'id': 'fill-181',
+        
         'name': 'Kentucky 13',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-181.webp'
     },
     {
-        'id': 'fill-182',
+        
         'name': 'Kentucky 14',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-182.webp'
     },
     {
-        'id': 'fill-183',
+        
         'name': 'Kentucky 15',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-183.webp'
     },
     {
-        'id': 'fill-184',
+        
         'name': 'Kentucky 16',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-184.webp'
     },
     {
-        'id': 'fill-185',
+        
         'name': 'Kentucky 17',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-185.webp'
     },
     {
-        'id': 'fill-186',
+        
         'name': 'Kentucky 18',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-186.webp'
     },
     {
-        'id': 'fill-187',
+        
         'name': 'Kentucky 19',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-187.webp'
     },
     {
-        'id': 'fill-188',
+        
         'name': 'Kentucky 20',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-188.webp'
     },
     {
-        'id': 'fill-189',
+        
         'name': 'Kentucky 21',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-189.webp'
     },
     {
-        'id': 'fill-190',
+        
         'name': 'Kentucky 22',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-190.webp'
     },
     {
-        'id': 'fill-191',
+        
         'name': 'Virginia 1',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-191.webp'
     },
     {
-        'id': 'fill-192',
+        
         'name': 'Virginia 2',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-192.webp'
     },
     {
-        'id': 'fill-193',
+        
         'name': 'Virginia 3',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-193.webp'
     },
     {
-        'id': 'fill-194',
+        
         'name': 'Virginia 4',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-194.webp'
     },
     {
-        'id': 'fill-195',
+        
         'name': 'Virginia 5',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-195.webp'
     },
     {
-        'id': 'fill-196',
+        
         'name': 'Virginia 6',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-196.webp'
     },
     {
-        'id': 'fill-197',
+        
         'name': 'Virginia 7',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-197.webp'
     },
     {
-        'id': 'fill-198',
+        
         'name': 'Virginia 8',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-198.webp'
     },
     {
-        'id': 'fill-199',
+        
         'name': 'Virginia 9',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-199.webp'
     },
     {
-        'id': 'fill-200',
+        
         'name': 'Virginia 10',
         'image': '/assets/products/mb-86si-doors-alu/fills/fill-200.webp'
     }
@@ -3433,3 +3483,236 @@ export const MB_86SI_DOORS_ALU_DETAIL: ProductDetailData = {
     { id: 'acc3', name: 'MB-86N SI standard threshold', image: '' }
   ]
 };
+
+export const ALUMINIUM_SHUTTERS_COLORS: SwatchColor[] = [
+  { id: 'golden-oak', name: 'Golden oak', /* ralCode:  */ hex: '#c28b51', windowImage: '/assets/products/aluminium-shutters/colors/golden-oak.jpg', group: 'Wood Effect' },
+  { id: 'dark-brown', name: 'Dark brown', /* ralCode:  */ hex: '#3b2f2f', windowImage: '/assets/products/aluminium-shutters/colors/dark-brown.jpg', group: 'Solid' },
+  { id: 'anthracite', name: 'Anthracite', /* ralCode:  */ hex: '#383e42', windowImage: '/assets/products/aluminium-shutters/colors/anthracite.jpg', group: 'Solid' },
+  { id: 'nut', name: 'Nut', /* ralCode:  */ hex: '#6b4226', windowImage: '/assets/products/aluminium-shutters/colors/nut.jpg', group: 'Wood Effect' },
+  { id: 'white', name: 'White', /* ralCode:  */ hex: '#f0f0f0', windowImage: '/assets/products/aluminium-shutters/colors/white.jpg', group: 'Solid' },
+  { id: 'beige', name: 'beige', /* ralCode:  */ hex: '#d1c7b7', windowImage: '/assets/products/aluminium-shutters/colors/beige.jpg', group: 'Solid' },
+  { id: 'silver', name: 'Silver', /* ralCode:  */ hex: '#c0c0c0', windowImage: '/assets/products/aluminium-shutters/colors/silver.jpg', group: 'Metal Effect' },
+  { id: 'grey', name: 'Grey', /* ralCode:  */ hex: '#7a7a7a', windowImage: '/assets/products/aluminium-shutters/colors/grey.jpg', group: 'Solid' },
+  { id: 'brown', name: 'Brown', /* ralCode:  */ hex: '#4a3028', windowImage: '/assets/products/aluminium-shutters/colors/brown.jpg', group: 'Solid' },
+  { id: 'grey-aluminium', name: 'grey aluminium', /* ralCode:  */ hex: '#8f9295', windowImage: '/assets/products/aluminium-shutters/colors/grey-aluminium.jpg', group: 'Metal Effect' },
+  { id: 'moss-green', name: 'moss green', /* ralCode:  */ hex: '#2d572c', windowImage: '/assets/products/aluminium-shutters/colors/moss-green.jpg', group: 'Solid' },
+  { id: 'black', name: 'Black', /* ralCode:  */ hex: '#1a1a1a', windowImage: '/assets/products/aluminium-shutters/colors/black.jpg', group: 'Solid' },
+  { id: 'basalt-grey-ral-7012', name: 'Basalt grey RAL 7012', /* ralCode:  */ hex: '#4a5053', windowImage: '/assets/products/aluminium-shutters/colors/basalt-grey-ral-7012.jpg', group: 'Solid' },
+  { id: 'quartz-grey-ral-7039', name: 'Quartz grey RAL 7039', /* ralCode:  */ hex: '#605f5a', windowImage: '/assets/products/aluminium-shutters/colors/quartz-grey-ral-7039.jpg', group: 'Solid' },
+  { id: 'turner-oak', name: 'Turner Oak', /* ralCode:  */ hex: '#a57752', windowImage: '/assets/products/aluminium-shutters/colors/turner-oak.jpg', group: 'Wood Effect' },
+  { id: 'winchester', name: 'Winchester', /* ralCode:  */ hex: '#b8865b', windowImage: '/assets/products/aluminium-shutters/colors/winchester.jpg', group: 'Wood Effect' }
+];
+
+export const ALUMINIUM_SHUTTERS_DETAIL: ProductDetailData = {
+  id: 'p_aluminium-shutters',
+  slug: 'aluminium-shutters',
+  name: 'ALUMINIUM ROLLER SHUTTERS',
+  tagline: 'Take care of your comfort and privacy',
+  description: `Choose proven and modern solutions to reduce heating and energy bills and take care of your privacy and safety.\n\nThey can also be integrated with Smart Home control systems.`,
+  heroImage: '', 
+  windowPhoto: '',
+  profileImage: '',
+  blueprintImage: '',
+  videoSrc: '/assets/products/aluminium-shutters/hero.mp4',
+  modalVideoSrc: '/assets/products/aluminium-shutters/see-video.mp4',
+  inlineVideoSrc: '/assets/products/aluminium-shutters/right-side-video.mp4',
+  disableHeroFilter: true,
+  standardEquipment: [],
+  keySpecs: [],
+  hardware: [],
+  accessories: [],
+  colors: ALUMINIUM_SHUTTERS_COLORS,
+  glassOptions: [],
+  // brochurePdf: '/assets/products/aluminium-shutters/brochure.pdf',
+};
+
+export const EXTERNAL_VENETIAN_BLINDS_COLORS: SwatchColor[] = [
+  { id: 'ral9016', name: 'RAL 9016', hex: '#f0f0f0', image: '/assets/products/external-venetian-blinds/colors/ral9016.jpg', group: 'Solid' },
+  { id: 'ral9005', name: 'RAL 9005', hex: '#0a0a0a', image: '/assets/products/external-venetian-blinds/colors/ral9005.jpg', group: 'Solid' },
+  { id: 'ral7016', name: 'RAL 7016', hex: '#383e42', image: '/assets/products/external-venetian-blinds/colors/ral7016.jpg', group: 'Solid' },
+  { id: 'ral9006', name: 'RAL 9006', hex: '#a5a5a5', image: '/assets/products/external-venetian-blinds/colors/ral9006.jpg', group: 'Metal Effect' },
+  { id: 'ral9007', name: 'RAL 9007', hex: '#8f8f8f', image: '/assets/products/external-venetian-blinds/colors/ral9007.jpg', group: 'Metal Effect' },
+  { id: 'db-703', name: 'DB 703', hex: '#585858', image: '/assets/products/external-venetian-blinds/colors/db-703.jpg', group: 'Metal Effect' }
+];
+
+export const EXTERNAL_VENETIAN_BLINDS_DETAIL: ProductDetailData = {
+  id: 'p_external-venetian-blinds',
+  slug: 'external-venetian-blinds',
+  name: 'EXTERNAL VENETIAN BLINDS',
+  tagline: 'Comfort and joy of use',
+  description: 'Venetian blinds are ideal for protecting indoors against excessive sunlight. Once installed, they can not only provide better privacy but also considerably reduce energy costs generated by air conditioning systems.\n\nWhat is more, Venetian blinds can be used in both old and new buildings, while modern Smart Home solutions allow Venetian blinds to be controlled with your smartphone or tablet.',
+  heroImage: '', 
+  windowPhoto: '',
+  profileImage: '',
+  blueprintImage: '',
+  videoSrc: '/assets/products/external-venetian-blinds/hero.mp4',
+  inlineVideoSrc: '/assets/products/external-venetian-blinds/product-video.mp4',
+  disableHeroFilter: true,
+  standardEquipment: [],
+  keySpecs: [
+    { label: 'MAX. LATH ROTATION', value: '90 degree' }
+  ],
+  hardware: [],
+  accessories: [],
+  colors: EXTERNAL_VENETIAN_BLINDS_COLORS,
+  glassOptions: [],
+  downloads: [
+    {
+      title: 'Downloads',
+      label: 'ROLLER SHUTTERS / VENETIAN BLINDS / INSECT SCREENS',
+      fileUrl: '/assets/products/external-venetian-blinds/katalog_rolety_en.pdf'
+    }
+  ],
+  lathTypes: [
+    { name: 'Z90 Lath', image: '/assets/products/external-venetian-blinds/lamela_z90.webp' },
+    { name: 'S90 Lath', image: '/assets/products/external-venetian-blinds/lamela_s90.webp' },
+    { name: 'C80 Lath', image: '/assets/products/external-venetian-blinds/lamela_c80.webp' }
+  ],
+  models: [
+    {
+      name: "Top-mounted Venetian blinds",
+      subtitle: "window frame installation",
+      dimensions: "Available box dimensions (width x height): 260x275 mm, 300x308 mm, 365x308 mm, 425x308 mm.",
+      features: [
+        "free lath inclination angle adjustment",
+        "flush-mounted or self-supporting roller guides",
+        "emergency control, which is an important fire protection element, can be used",
+        "can be integrated with smart management systems",
+        "product available in the top-mounted system"
+      ],
+      image: "/assets/products/external-venetian-blinds/type_top_mounted.webp"
+    },
+    {
+      name: "Adaptive Venetian blinds",
+      subtitle: "building façade installation",
+      dimensions: "Available box dimensions (width x height): 140x240 mm, 140x300 mm",
+      features: [
+        "free lath inclination angle adjustment",
+        "flush-mounted or self-supporting roller guides",
+        "emergency control, which is an important fire protection element, can be used",
+        "can be integrated with smart management systems",
+        "product available in the façade system"
+      ],
+      image: "/assets/products/external-venetian-blinds/type_adaptive.webp"
+    },
+    {
+      name: "Adaptive Blind",
+      isNew: true,
+      subtitle: "Installation on the building facade",
+      dimensions: "Available box dimensions (W x H): 140x240 mm, 140x300 mm, 140x350 mm",
+      features: [
+        "Stepless adjustment of slat tilt angle",
+        "Recessed or self-supporting guide rails used",
+        "Option for emergency control as an important fire protection measure",
+        "Can be integrated with smart management systems",
+        "Product available in facade system"
+      ],
+      image: "/assets/products/external-venetian-blinds/type_adaptive_new.webp"
+    }
+  ],
+  designOverview: {
+    image: "/assets/products/external-venetian-blinds/design_main.webp",
+    logos: [
+      "/assets/products/external-venetian-blinds/logo-1.png",
+      "/assets/products/external-venetian-blinds/logo-2.png",
+      "/assets/products/external-venetian-blinds/logo-3.png",
+      "/assets/products/external-venetian-blinds/logo-4.png"
+    ],
+    parts: [
+      {
+        id: 1,
+        title: "Roller guide",
+        description: "A roller guide with a drainage profile for a maximum distance of 260 mm is also available in the offer.",
+        images: [
+          "/assets/products/external-venetian-blinds/prowadnica-zfa-en.png",
+          "/assets/products/external-venetian-blinds/prowadnica-zfs-en.png"
+        ],
+        top: "75.00%",
+        left: "33.00%"
+      },
+      {
+        id: 2,
+        title: "Somfy drive",
+        description: "A drive compatible with the SOMFY Tahoma system with an overload protection, obstacle and icing detection, controlled remotely.\n\nAvailable models:\n- J4 WT Protect\n- J4 io Protect",
+        top: "8.50%",
+        left: "33.00%"
+      },
+      {
+        id: 3,
+        title: "Laths",
+        description: "With their free inclination angle adjustment, laths provide the right shading and create a cosy atmosphere in building rooms. They reflect most sunlight before the window to ensure comfortable conditions in your flat or house. Controlled with a remote control or a smartphone. We recommend adding a weather station to the Venetian blind system.",
+        top: "20.00%",
+        left: "32.00%"
+      },
+      {
+        id: 4,
+        title: "Venetian blind cover",
+        description: "Flush-mounted, top-mounted and adaptive solutions are available depending on the installation method.",
+        top: "10.00%",
+        left: "18.00%"
+      }
+    ]
+  },
+  smartHome: {
+    title: "Smart Home",
+    description: "Smart solutions that allow to control the working of radiators, thermostat and roller shutters may decrease heating bills by 20-30 percent (according to Somfy, 2016 y).",
+    image: "/assets/products/external-venetian-blinds/smarthome.jpg",
+    link: {
+      text: "Learn more about management systems",
+      url: "/inteligentny-dom/"
+    }
+  },
+  inspirations: [
+    {
+      "id": "insp_1",
+      "url": "/assets/products/external-venetian-blinds/inspirations/inspiration_1.webp",
+      "alt": "Venetian Blinds Inspiration"
+    },
+    {
+      "id": "insp_2",
+      "url": "/assets/products/external-venetian-blinds/inspirations/inspiration_2.webp",
+      "alt": "Venetian Blinds Inspiration"
+    },
+    {
+      "id": "insp_3",
+      "url": "/assets/products/external-venetian-blinds/inspirations/inspiration_3.webp",
+      "alt": "Venetian Blinds Inspiration"
+    },
+    {
+      "id": "insp_4",
+      "url": "/assets/products/external-venetian-blinds/inspirations/inspiration_4.webp",
+      "alt": "Venetian Blinds Inspiration"
+    },
+    {
+      "id": "insp_5",
+      "url": "/assets/products/external-venetian-blinds/inspirations/inspiration_5.webp",
+      "alt": "Venetian Blinds Inspiration"
+    },
+    {
+      "id": "insp_6",
+      "url": "/assets/products/external-venetian-blinds/inspirations/inspiration_6.webp",
+      "alt": "Venetian Blinds Inspiration"
+    },
+    {
+      "id": "insp_7",
+      "url": "/assets/products/external-venetian-blinds/inspirations/inspiration_7.webp",
+      "alt": "Venetian Blinds Inspiration"
+    },
+    {
+      "id": "insp_8",
+      "url": "/assets/products/external-venetian-blinds/inspirations/inspiration_8.webp",
+      "alt": "Venetian Blinds Inspiration"
+    },
+    {
+      "id": "insp_9",
+      "url": "/assets/products/external-venetian-blinds/inspirations/inspiration_9.webp",
+      "alt": "Venetian Blinds Inspiration"
+    },
+    {
+      "id": "insp_10",
+      "url": "/assets/products/external-venetian-blinds/inspirations/inspiration_10.webp",
+      "alt": "Venetian Blinds Inspiration"
+    }
+  ]
+};
+

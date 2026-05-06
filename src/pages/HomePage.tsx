@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { ThemeHintPopup } from '../components/common/ThemeHintPopup'
 
 // Using i18n keys for data maps
 const HERO_SLIDES = ['slide1', 'slide2', 'slide3'].map((k, i) => ({
@@ -29,6 +30,15 @@ const PRODUCT_HIGHLIGHTS = [
   { tagKey: 'premium', name: 'IGLO LIGHT', nameKey: 'igloLight', href: '/products/windows/pvc/iglo-light', specs: ['dB = 34', '5 chambers', 'EPDM seals'] },
   { tagKey: 'bestseller', name: 'IGLO 5', nameKey: 'iglo5', href: '/products/windows/pvc/iglo-5', specs: ['Uw = 0.74 W/m²K', '70mm depth', '5-chamber'] },
 ]
+const PRO_COLLECTION = [
+  { name: 'Windows', nameKey: 'windows', image: '/assets/home/categories/windows.webp', href: '/products' },
+  { name: 'Doors', nameKey: 'doors', image: '/assets/home/categories/doors.webp', href: '/products' },
+  { name: 'Terrace Systems', nameKey: 'terrace', image: '/assets/home/categories/terrace.webp', href: '/products' },
+  { name: 'Shutters', nameKey: 'shutters', image: '/assets/home/categories/shutters.webp', href: '/products' },
+  { name: 'Venetian Blinds', nameKey: 'venetian', image: '/assets/home/categories/venetian-blinds.webp', href: '/products/external-venetian-blinds' },
+  { name: 'Garage doors', nameKey: 'garage', image: '/assets/home/categories/garage-doors.webp', href: '/products/garage-doors' },
+]
+
 export function HomePage() {
   const { t } = useTranslation()
   const [slide, setSlide] = useState(0)
@@ -43,6 +53,7 @@ export function HomePage() {
 
   return (
     <main className="min-h-screen bg-mammut-black">
+      <ThemeHintPopup />
       {/* ── Hero Carousel ────────────────────────────────────────── */}
       <section className="relative h-screen flex items-end pb-20 overflow-hidden">
 
@@ -194,6 +205,34 @@ export function HomePage() {
               </Link>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── Pro Collection Grid ─────────────────────────────────── */}
+      <section className="bg-mammut-black border-b border-mammut-border">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-0">
+          {PRO_COLLECTION.map((item) => (
+            <Link 
+              key={item.name} 
+              to={item.href} 
+              className="group relative h-[380px] overflow-hidden flex items-end border-r border-mammut-border/30 last:border-0"
+            >
+              <div 
+                className="absolute inset-x-0 bottom-0 top-12 bg-cover bg-bottom transition-transform duration-700 group-hover:scale-110"
+                style={{ backgroundImage: `url(${item.image})` }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent group-hover:from-black/95 group-hover:via-black/30 transition-all duration-300" />
+              
+              <div className="relative p-6 pb-10 w-full text-center">
+                <span className="text-mammut-gold text-[10px] uppercase tracking-widest font-bold opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 mb-2 block">
+                  {t('home.collection.seeProducts', { defaultValue: 'See products' })}
+                </span>
+                <h3 className="text-mammut-white text-sm lg:text-base font-black uppercase tracking-wider transform transition-transform duration-300 group-hover:-translate-y-1">
+                  {t(`home.collection.items.${item.nameKey}`, { defaultValue: item.name })}
+                </h3>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 

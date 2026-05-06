@@ -1080,5 +1080,10 @@
         "3 profile colours to choose from: white, brown or anthracite"
       ]
     }
+  },
+  "themeHint": {
+    "title": "Știați?",
+    "description": "Puteți comuta oricând între modul Noapte și Zi, folosind pictograma de comutare a temei situată în colțul din dreapta sus al barei de navigare.",
+    "dismiss": "Am înțeles, mulțumesc!"
   }
 }

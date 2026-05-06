@@ -1080,5 +1080,10 @@
         "3 couleurs de profilés au choix : blanc, marron ou anthracite"
       ]
     }
+  },
+  "themeHint": {
+    "title": "Saviez-vous?",
+    "description": "Vous pouvez basculer entre les modes Nuit et Jour à tout moment à l'aide de l'icône de bascule de thème située dans le coin supérieur droit de la barre de navigation.",
+    "dismiss": "Compris, merci !"
   }
 }

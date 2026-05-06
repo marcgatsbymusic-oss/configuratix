@@ -6,6 +6,7 @@ import type { GlassOption, ProductDetailData } from '../data/productDetails'
 import { PRODUCTS } from '../data/products'
 import { ColorSwatch } from '../components/products/ColorSwatch'
 import { DoorColorPresenter } from '../components/products/DoorColorPresenter'
+import { VenetianBlindsColorPicker } from '../components/products/VenetianBlindsColorPicker'
 import { ProductComparison } from '../components/products/ProductComparison'
 import { useTranslation } from 'react-i18next'
 
@@ -472,17 +473,16 @@ export function ProductDetailPage() {
           <div className="w-full flex flex-wrap justify-center items-start gap-4 md:gap-6">
             {detailData.keySpecs.map((spec) => (
               <div key={spec.label} className="flex flex-col items-center gap-3 w-[45%] sm:w-[30%] lg:w-auto lg:flex-1 min-w-[120px]">
-                {/* Box with interrupted border: full border + background color strips at top/bottom center to create gap effect */}
-                <div className="relative flex items-center justify-center w-full" style={{ height: '56px' }}>
-                  {/* Full border */}
-                  <div className="absolute inset-0 border border-mammut-gold" />
-                  {/* Horizontal gap interruptions — thin bg strips at top and bottom center */}
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-[1px]" style={{ background: '#111112' }} />
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-[1px]" style={{ background: '#111112' }} />
+                {/* Box with interrupted border: left and right brackets */}
+                <div className="relative flex items-center justify-center px-6 min-w-[140px]" style={{ height: '56px' }}>
+                  {/* Left bracket */}
+                  <div className="absolute top-0 bottom-0 left-0 w-4 border-y border-l border-mammut-gold transition-colors" />
+                  {/* Right bracket */}
+                  <div className="absolute top-0 bottom-0 right-0 w-4 border-y border-r border-mammut-gold transition-colors" />
                   {/* Value text */}
-                  <span className="product-hero-spec-value relative font-medium text-base md:text-lg whitespace-nowrap px-3">{spec.value}</span>
+                  <span className="product-hero-spec-value relative font-light text-xl md:text-2xl whitespace-nowrap text-white">{spec.value}</span>
                 </div>
-                <p className="product-hero-spec-label text-[9px] md:text-[10px] uppercase font-semibold tracking-[0.12em] text-center leading-tight w-full px-1">{t(`productData.${detailData.slug}.specs.${spec.label}`, { defaultValue: t(`igloEdge.specs.${spec.label}`) })}</p>
+                <p className="product-hero-spec-label text-[9px] md:text-[10px] uppercase font-semibold tracking-[0.12em] text-center leading-tight w-full px-1">{t(`productData.${detailData.slug}.specs.${spec.label}`, { defaultValue: t(`igloEdge.specs.${spec.label}`, { defaultValue: spec.label }) })}</p>
               </div>
             ))}
           </div>
@@ -498,38 +498,46 @@ export function ProductDetailPage() {
 
             {/* Left: text block */}
             <div>
-              <span className="bg-mammut-gold text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">{t('productDetail.standardEquipment')}</span>
-              <h2 className="text-4xl font-black text-black uppercase mb-6 leading-tight">
-                {t(`productData.${detailData.slug}.name`, { defaultValue: detailData.name })}
-              </h2>
-              <p className="product-overview-description leading-relaxed mb-8 whitespace-pre-line text-gray-600">
-                {t(`productData.${detailData.slug}.description`, { defaultValue: detailData.description })}
-              </p>
-              <ul className="space-y-3 mb-10 text-gray-600">
-                {(() => {
-                  const rawEq = t(`productData.${detailData.slug}.standardEquipment`, { returnObjects: true, defaultValue: detailData.standardEquipment });
-                  const equipment = Array.isArray(rawEq) ? rawEq : [];
-                  return equipment.map((item: string, i: number) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <span className="mt-1 w-4 h-4 flex-shrink-0 rounded-full flex items-center justify-center" style={{ background: '#eab676' }}>
-                        <Check size={10} className="text-black" />
-                      </span>
-                      <span className="text-gray-600 text-sm leading-snug">
-                        {item}
-                        {detailData.equipmentVideoLink && detailData.equipmentVideoLink.afterItemMatch && item.toLowerCase().includes(detailData.equipmentVideoLink.afterItemMatch.toLowerCase()) && (
-                          <button 
-                            onClick={() => setVideoOpen(true)}
-                            className="ml-3 inline-flex items-center gap-1 text-mammut-gold hover:text-[#F3C47F] text-xs font-bold uppercase tracking-wider transition-colors"
-                          >
-                            <Play size={12} className="fill-current" />
-                            {detailData.equipmentVideoLink.label || "See Video"}
-                          </button>
-                        )}
-                      </span>
-                    </li>
-                  ));
-                })()}
-              </ul>
+              {(() => {
+                const rawEq = t(`productData.${detailData.slug}.standardEquipment`, { returnObjects: true, defaultValue: detailData.standardEquipment });
+                const equipment = Array.isArray(rawEq) ? rawEq : [];
+                return (
+                  <>
+                    {equipment.length > 0 && (
+                      <span className="bg-mammut-gold text-black text-[10px] font-bold uppercase tracking-widest px-2 py-1 mb-6 inline-block">{t('productDetail.standardEquipment')}</span>
+                    )}
+                    <h2 className="text-4xl font-black text-black uppercase mb-6 leading-tight">
+                      {t(`productData.${detailData.slug}.name`, { defaultValue: detailData.name })}
+                    </h2>
+                    <p className="product-overview-description leading-relaxed mb-8 whitespace-pre-line text-gray-600">
+                      {t(`productData.${detailData.slug}.description`, { defaultValue: detailData.description })}
+                    </p>
+                    {equipment.length > 0 && (
+                      <ul className="space-y-3 mb-10 text-gray-600">
+                        {equipment.map((item: string, i: number) => (
+                          <li key={i} className="flex items-start gap-3">
+                            <span className="mt-1 w-4 h-4 flex-shrink-0 rounded-full flex items-center justify-center" style={{ background: '#eab676' }}>
+                              <Check size={10} className="text-black" />
+                            </span>
+                            <span className="text-gray-600 text-sm leading-snug">
+                              {item}
+                              {detailData.equipmentVideoLink && detailData.equipmentVideoLink.afterItemMatch && item.toLowerCase().includes(detailData.equipmentVideoLink.afterItemMatch.toLowerCase()) && (
+                                <button 
+                                  onClick={() => setVideoOpen(true)}
+                                  className="ml-3 inline-flex items-center gap-1 text-mammut-gold hover:text-[#F3C47F] text-xs font-bold uppercase tracking-wider transition-colors"
+                                >
+                                  <Play size={12} className="fill-current" />
+                                  {detailData.equipmentVideoLink.label || "See Video"}
+                                </button>
+                              )}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </>
+                );
+              })()}
 
               {detailData.relatedProductLink && (
                 <Link 
@@ -691,6 +699,202 @@ export function ProductDetailPage() {
         )}
       </section>
 
+      {/* 2.5 Downloads (Moved up) */}
+      {detailData.downloads && detailData.downloads.length > 0 && (
+        <section className="py-16 bg-white border-b border-gray-100">
+          <div className="container mx-auto px-6 max-w-7xl">
+             <h2 className="text-2xl font-black uppercase mb-8 text-black tracking-widest text-left">
+               {detailData.downloads[0].title || "Downloads"}
+             </h2>
+             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+               {detailData.downloads.map((dl, i) => (
+                 <div key={i} className="flex flex-col border border-gray-200 bg-white group hover:border-mammut-gold transition-colors duration-300">
+                   <div className="p-8 flex items-center justify-center bg-gray-50 border-b border-gray-100 aspect-[4/3]">
+                     <img src="/assets/pdf-icon.svg" alt="PDF" className="w-16 h-16 opacity-30 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                     {/* Fallback if no pdf icon */}
+                     <div className="absolute flex flex-col items-center text-gray-300 group-hover:text-mammut-gold transition-colors">
+                       <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                     </div>
+                   </div>
+                   <div className="p-6 flex flex-col items-center text-center flex-1">
+                     <p className="text-[11px] font-bold text-black uppercase tracking-widest leading-snug mb-6">{dl.label}</p>
+                     <a href={dl.fileUrl} target="_blank" rel="noopener noreferrer" className="mt-auto border border-gray-300 px-6 py-2 text-[10px] font-bold uppercase tracking-widest text-gray-600 hover:border-mammut-gold hover:text-mammut-gold transition-all duration-300 inline-flex items-center gap-2">
+                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                       Download
+                     </a>
+                   </div>
+                 </div>
+               ))}
+             </div>
+          </div>
+        </section>
+      )}
+
+      {/* 2.6 Lath Types (Venetian Blinds) */}
+      {detailData.lathTypes && detailData.lathTypes.length > 0 && (
+        <section className="py-16 bg-white border-b border-gray-100">
+          <div className="container mx-auto px-6 max-w-7xl">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-black uppercase mb-4 text-black tracking-widest">
+                Choice of Lath Types – Venetian Blinds
+              </h2>
+              <p className="text-gray-600 text-sm uppercase tracking-widest">
+                Available laths for exterior venetian blinds.
+              </p>
+            </div>
+            
+            <div className="flex flex-col gap-12">
+              {detailData.lathTypes.map((lath, idx) => (
+                <div key={idx} className={`flex flex-col md:flex-row items-center gap-8 ${idx % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}>
+                  <div className="flex-1">
+                    <img src={lath.image} alt={lath.name} className="w-full h-auto object-cover border border-gray-200" />
+                  </div>
+                  <div className="flex-1 flex flex-col justify-center px-4">
+                    <h3 className="text-2xl font-black text-black uppercase tracking-widest mb-4 border-l-4 border-mammut-gold pl-4">{lath.name}</h3>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* 2.7 Types of Venetian blinds */}
+      {detailData.models && detailData.models.length > 0 && (
+        <section className="py-16 bg-white border-b border-gray-100">
+          <div className="container mx-auto px-6 max-w-7xl">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-black uppercase mb-4 text-black tracking-widest">
+                Types of Venetian blinds
+              </h2>
+              <p className="text-gray-600 text-sm uppercase tracking-widest">
+                Choose the model that will meet your expectations.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+              {detailData.models.map((model, idx) => (
+                <div key={idx} className="flex flex-col">
+                  <div className="mb-6 overflow-hidden bg-gray-50 flex items-center justify-center p-4 border border-gray-100 h-64 hover:border-mammut-gold transition-colors duration-300">
+                    <img src={model.image} alt={model.name} className="w-full h-full object-contain" />
+                  </div>
+                  <h3 className="text-xl font-black text-black uppercase tracking-widest mb-1 flex items-center gap-2">
+                    {model.name} {model.isNew && <span className="text-[10px] bg-mammut-gold text-black px-2 py-0.5 tracking-wider">NEW</span>}
+                  </h3>
+                  <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-4">{model.subtitle}</p>
+                  <p className="text-gray-600 text-sm mb-6 leading-relaxed">{model.dimensions}</p>
+                  
+                  <div className="mt-auto">
+                    <h4 className="text-sm font-bold uppercase tracking-widest text-black mb-4 border-b border-gray-200 pb-2">Technical data</h4>
+                    <ul className="space-y-3">
+                      {model.features.map((feature, fIdx) => (
+                        <li key={fIdx} className="flex items-start gap-3">
+                          <span className="mt-1.5 w-1.5 h-1.5 bg-mammut-gold flex-shrink-0" />
+                          <span className="text-gray-600 text-sm leading-snug">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* 2.8 Design of Venetian blinds */}
+      {detailData.designOverview && (
+        <section className="py-16 bg-gray-50 border-b border-gray-100 overflow-hidden">
+          <div className="container mx-auto px-6 max-w-7xl">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl font-black uppercase mb-4 text-black tracking-widest">
+                Design of Venetian blinds
+              </h2>
+              <p className="text-gray-600 text-sm uppercase tracking-widest">
+                Highest quality materials ensure reliability.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+              {/* Left: Image with hotspots and logos */}
+              <div className="flex flex-col gap-8 sticky top-32">
+                <div className="relative border border-gray-200 bg-white p-8 hover:border-mammut-gold transition-colors duration-500">
+                  <img src={detailData.designOverview.image} alt="Design Overview" className="w-full h-auto object-contain mix-blend-multiply" />
+                  {/* Hotspots */}
+                  {detailData.designOverview.parts.map((part) => (
+                    <div 
+                      key={part.id} 
+                      className="absolute w-8 h-8 -ml-4 -mt-4 bg-mammut-gold text-black font-bold flex items-center justify-center rounded-full shadow-lg border-2 border-white cursor-help hover:scale-110 transition-transform"
+                      style={{ top: part.top, left: part.left }}
+                      title={part.title}
+                    >
+                      {part.id}
+                    </div>
+                  ))}
+                </div>
+                {/* Logos */}
+                <div className="flex flex-wrap items-center justify-center gap-8">
+                  {detailData.designOverview.logos.map((logo, idx) => (
+                    <img key={idx} src={logo} alt={`Partner Logo ${idx + 1}`} className="h-8 md:h-12 object-contain opacity-50 hover:opacity-100 transition-opacity" />
+                  ))}
+                </div>
+              </div>
+              
+              {/* Right: Explanations List */}
+              <div className="flex flex-col gap-6">
+                {detailData.designOverview.parts.map((part) => (
+                  <div key={part.id} className="bg-white border border-gray-200 p-6 hover:border-mammut-gold transition-colors group">
+                    <h3 className="text-lg font-black text-black uppercase tracking-widest mb-3 flex items-center gap-3">
+                      <span className="text-mammut-gold">{part.id}.</span> {part.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-line mb-4">
+                      {part.description}
+                    </p>
+                    {part.images && part.images.length > 0 && (
+                      <div className="flex gap-4 mt-4">
+                        {part.images.map((img, idx) => (
+                          <div key={idx} className="bg-white border border-gray-200 p-2 group-hover:border-mammut-gold/50 transition-colors">
+                            <img src={img} alt={`${part.title} detail`} className="h-32 object-contain mix-blend-multiply" />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* 2.9 Smart Home */}
+      {detailData.smartHome && (
+        <section className="py-16 bg-white border-b border-gray-100">
+          <div className="container mx-auto px-6 max-w-5xl">
+            <div className="border border-gray-200 p-8 md:p-12 bg-gray-50 hover:border-mammut-gold transition-colors duration-500">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div className="flex flex-col">
+                  <h2 className="text-3xl font-black uppercase mb-6 text-black tracking-widest">
+                    {detailData.smartHome.title}
+                  </h2>
+                  <p className="text-gray-600 text-sm leading-relaxed mb-8 border-l-4 border-mammut-gold pl-4">
+                    {detailData.smartHome.description}
+                  </p>
+                  <Link 
+                    to={detailData.smartHome.link.url}
+                    className="inline-block self-start bg-black text-white text-xs font-bold uppercase tracking-widest px-8 py-4 hover:bg-mammut-gold hover:text-black transition-colors"
+                  >
+                    {detailData.smartHome.link.text}
+                  </Link>
+                </div>
+                <div className="flex items-center justify-center border-4 border-white shadow-xl group">
+                  <img src={detailData.smartHome.image} alt={detailData.smartHome.title} className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Video modal */}
       {videoOpen && (
         <div
@@ -776,7 +980,7 @@ export function ProductDetailPage() {
               {detailData.infills.map((infill, idx) => (
                 <div key={idx} className="flex flex-col items-center gap-3">
                   <button 
-                    onClick={() => setInfillOpen(infill.largeImage)}
+                    onClick={() => setInfillOpen((infill as any).largeImage || null)}
                     className="w-full aspect-[2/3] bg-white border border-gray-200 p-2 overflow-hidden hover:border-mammut-gold transition-colors group cursor-zoom-in"
                   >
                     <img 
@@ -794,7 +998,7 @@ export function ProductDetailPage() {
       )}
 
       {/* Door Color Presenter for Doors */}
-      {detailData.slug.includes('door') && detailData.colors && detailData.colors.length > 0 && (
+      {detailData.slug.includes('door') && detailData.slug !== 'mb-86si-doors-alu' && detailData.colors && detailData.colors.length > 0 && (
         <DoorColorPresenter 
           colors={detailData.colors} 
           selectedColorId={selectedColorId} 
@@ -836,7 +1040,11 @@ export function ProductDetailPage() {
       )}
 
       {/* 3. Interactive Color Swatch Section */}
-      {!detailData.slug.includes('door') && (
+      {detailData.slug === 'external-venetian-blinds' && (
+        <VenetianBlindsColorPicker />
+      )}
+      
+      {(!detailData.slug.includes('door') || detailData.slug === 'mb-86si-doors-alu') && detailData.slug !== 'external-venetian-blinds' && (
       <>
       <section className="bg-white pt-24 pb-0">
         <div className="max-w-7xl mx-auto px-6">
@@ -859,7 +1067,7 @@ export function ProductDetailPage() {
                 {/* Left Panel: Preview image */}
                 <div className="w-full lg:w-1/2 flex items-center justify-center min-h-[400px]">
                    <img 
-                     src={viewMode === 'profile' ? selectedColor?.profileImage : selectedColor?.windowImage} 
+                     src={viewMode === 'profile' ? (selectedColor as any)?.profileImage : (selectedColor as any)?.windowImage || selectedColor?.image} 
                      alt={selectedColor?.name}
                      className="w-full h-auto max-h-[500px] object-contain transition-opacity duration-300"
                    />
@@ -888,7 +1096,7 @@ export function ProductDetailPage() {
                       <ColorSwatch 
                         colors={detailData.colors}
                         selectedColorId={selectedColorId}
-                        onColorSelect={(color) => setSelectedColorId(color.id)}
+                        onColorSelect={(color) => setSelectedColorId(color.id as any)}
                       />
                    </div>
                 </div>
@@ -923,8 +1131,10 @@ export function ProductDetailPage() {
                     <div className="relative w-full max-w-[500px]">
                       {(() => {
                         const isDoor = detailData.slug.includes('door');
-                        const baseImage = isDoor ? '/assets/hero-door.png' : (viewMode === 'outdoor' && detailData.outdoorWindowPhoto ? detailData.outdoorWindowPhoto : (selectedColor?.windowImage || "/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp"));
-                        const maskImage = isDoor ? '/assets/hero-door.png' : (selectedColor?.windowImage || '/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp');
+                        const doorMask = detailData.slug === 'mb-86si-doors-alu' ? '/assets/products/mb-86si-doors-alu/mb86si-mask.webp' : '/assets/hero-door.png';
+                        const doorBase = detailData.windowPhoto || detailData.heroImage || '/assets/hero-door.png';
+                        const baseImage = isDoor ? doorBase : (viewMode === 'outdoor' && detailData.outdoorWindowPhoto ? detailData.outdoorWindowPhoto : (selectedColor?.windowImage || "/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp"));
+                        const maskImage = isDoor ? doorMask : (selectedColor?.windowImage || '/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp');
                         
                         return (
                           <>
@@ -971,7 +1181,7 @@ export function ProductDetailPage() {
                   <ColorSwatch 
                     colors={detailData.colors}
                     selectedColorId={selectedColorId}
-                    onColorSelect={(color) => setSelectedColorId(color.id)}
+                    onColorSelect={(color) => setSelectedColorId(color.id as any)}
                   />
                 </div>
               </>
@@ -1025,7 +1235,6 @@ export function ProductDetailPage() {
           <div className="flex flex-col items-center justify-center text-center">
             <p className="!text-black text-sm font-medium opacity-90 mb-1">{t('productDetail.selectedColor')}</p>
             <p className="!text-black text-xl font-black tracking-widest uppercase">{selectedColor ? t(`colors.${selectedColor.id}`) : ''}</p>
-            <p className="!text-black text-xs opacity-70 mt-1 tracking-widest">{selectedColor?.id}</p>
           </div>
 
           {/* 3. Empty spacer (Right) */}
@@ -1035,16 +1244,53 @@ export function ProductDetailPage() {
       </>
       )}
 
+      {/* 3.5 Inspirations Section */}
+      {detailData.inspirations && detailData.inspirations.length > 0 && (
+        <section id="inspirations" className="bg-[#1a1a1a] py-16 lg:py-24 border-t border-gray-800">
+          <div className="container mx-auto px-6 lg:px-16 max-w-[1600px]">
+            <div className="flex flex-col items-start mb-12">
+               <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
+                 {t(['productDetail.inspirationsTitle'], { defaultValue: 'Inspirations' })}
+               </h2>
+               <div className="w-16 h-[2px] bg-mammut-gold"></div>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+              {detailData.inspirations.map((insp, idx) => (
+                <div 
+                  key={insp.id} 
+                  className="relative group overflow-hidden bg-black aspect-[4/3] rounded-sm cursor-zoom-in" 
+                  onClick={() => setInfillOpen(insp.url)}
+                >
+                  <img 
+                    src={insp.url} 
+                    alt={insp.alt || `Inspiration ${idx + 1}`} 
+                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 ring-1 ring-inset ring-white/10 pointer-events-none transition-colors group-hover:ring-mammut-gold/50" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* 4. Glass Options Grid */}
       {detailData.glassOptions && detailData.glassOptions.length > 0 && (
         <GlazingSection glassOptions={detailData.glassOptions} />
       )}
 
       {/* 5. Additional Options (Everything EXCEPT Window Sill) */}
-      <AdditionalOptionsSection options={ADDITIONAL_OPTIONS.filter(o => o.id !== 'sill' && !(detailData.slug.includes('door') && ['muntin', 'ventilation'].includes(o.id)))} />
+      {detailData.slug !== 'external-venetian-blinds' && (
+        <AdditionalOptionsSection options={ADDITIONAL_OPTIONS.filter(o => o.id !== 'sill' && !(detailData.slug.includes('door') && ['muntin', 'ventilation'].includes(o.id)))} />
+      )}
 
       {/* 6. Handles Slider */}
-      <HandlesSlider hardware={detailData.hardware} />
+      {detailData.slug !== 'external-venetian-blinds' && (
+        <HandlesSlider hardware={detailData.hardware} />
+      )}
+
 
       {/* 6.5 Extras / Accessories */}
       {detailData.accessories && detailData.accessories.length > 0 && (
@@ -1071,13 +1317,14 @@ export function ProductDetailPage() {
         </section>
       )}
 
+
       {/* 6.8 Comparison Table */}
       {detailData.comparison && (
         <ProductComparison comparisonData={detailData.comparison} />
       )}
 
       {/* 7. Additional Options (ONLY Window Sill) */}
-      {!detailData.slug.includes('door') && (
+      {!detailData.slug.includes('door') && detailData.slug !== 'external-venetian-blinds' && (
         <AdditionalOptionsSection options={ADDITIONAL_OPTIONS.filter(o => o.id === 'sill')} hideHeader={true} />
       )}
 

@@ -19,7 +19,7 @@
         "doors": "puertas",
         "terrace": "Sistemas de terraza",
         "shutters": "Persianas enrollables",
-        "facade": "Persianas de fachada",
+        "facade": "Persianas venecianas",
         "mosquito": "Mosquiteros",
         "garage": "Puertas de garaje",
         "conservatories": "Fachadas / Conservatorios",
@@ -38,7 +38,10 @@
         "liftAndSlide": "Levantar y Deslizar HS",
         "slide": "Deslizar",
         "foldingDoors": "Puertas plegables",
-        "tiltAndSlide": "Inclinar y deslizar PSK"
+        "tiltAndSlide": "Inclinar y deslizar PSK",
+        "adaptive": "Adaptada",
+        "topMounted": "Montado Superior",
+        "facade": "Persianas venecianas"
       },
       "new": "Nueva"
     }
@@ -152,7 +155,7 @@
     "handlesTitle": "Manijas",
     "handlesDesc": "Nuestras manillas para ventanas se caracterizan por su excelente acabado, funcionalidad y durabilidad. Disponible en múltiples variantes de color para combinar perfectamente con sus ventanas.",
     "optionsTitle": "Opciones adicionales",
-    "optionsDesc": "Mejore y personalice su IGLO EDGE con nuestra amplia gama de accesorios y complementos certificados.",
+    "optionsDesc": "Mejore y personalice su producto con nuestra amplia gama de accesorios y complementos certificados.",
     "seeAll": "Ver todo",
     "configureQuote": "Configurar producto y cotización",
     "mountingAccessoriesTitle": "Accesorios de montaje",
@@ -228,7 +231,10 @@
         "kitchen": "Cocina",
         "living": "Sala de estar",
         "bedroom": "Dormitorio",
-        "terrace": "Terraza"
+        "terrace": "Terraza",
+        "exterior": "Acabados de Paredes Exteriores",
+        "hall": "Pasillo",
+        "bathroom": "Baño"
       },
       "partners": {
         "title": "Fogonadura",
@@ -577,7 +583,23 @@
     "d38": "Dark Green",
     "d39": "Dark Red",
     "d40": "Brylantowo Niebieski",
-    "d41": "Steel Blue"
+    "d41": "Steel Blue",
+    "golden-oak": "Roble Dorado",
+    "dark-brown": "Marrón Oscuro",
+    "anthracite": "Antracita",
+    "nut": "Nogal",
+    "white": "Blanco",
+    "beige": "Beige",
+    "silver": "Plata",
+    "grey": "Gris",
+    "brown": "Marrón",
+    "grey-aluminium": "Aluminio Gris",
+    "moss-green": "Verde Musgo",
+    "black": "Negro",
+    "basalt-grey-ral-7012": "Gris Basalto RAL 7012",
+    "quartz-grey-ral-7039": "Gris Cuarzo RAL 7039",
+    "turner-oak": "Roble Turner",
+    "winchester": "Winchester"
   },
   "configurator": {
     "title": "Diseñe su sistema de ventanas personalizado.",
@@ -863,6 +885,10 @@
     "kwadrat-key-ral9016": "KWADRAT con llave (RAL9016)"
   },
   "productData": {
+    "external-venetian-blinds": {
+      "tagline": "Comodidad y alegría de uso",
+      "description": "Las persianas venecianas son ideales para proteger el interior contra la luz solar excesiva. Una vez instaladas, no solo pueden brindar mayor privacidad, sino que también reducen considerablemente los costos de energía generados por los sistemas de aire acondicionado.\n\nAdemás, las persianas venecianas se pueden utilizar en edificios antiguos y nuevos, mientras que las soluciones modernas de Smart Home permiten que las persianas venecianas se controlen con su teléfono inteligente o tableta."
+    },
     "d-art-line-doors-alu": {
       "name": "Línea D-ART",
       "tagline": "Línea D-ART",
@@ -878,6 +904,12 @@
         "manilla de aluminio",
         "inserto de montaje"
       ]
+    },
+    "aluminium-shutters": {
+      "name": "Persianas Enrollables de Aluminio",
+      "tagline": "Cuida tu confort y privacidad",
+      "description": "Elige soluciones probadas y modernas para reducir las facturas de calefacción y energía, y cuida de tu privacidad y seguridad.\n\nTambién se pueden integrar con sistemas de control de Smart Home.",
+      "standardEquipment": []
     },
     "iglo-edge": {
       "name": "IGLO EDGE",
@@ -1474,5 +1506,10 @@
     "g18": "Stopsol azul 6",
     "g19": "Stopsol marrón 6",
     "g20": "Waterfall 105"
+  },
+  "themeHint": {
+    "title": "¿Sabías?",
+    "description": "Puede cambiar entre el modo Día y Noche en cualquier momento usando el ícono de alternancia de tema ubicado en la esquina superior derecha de la barra de navegación.",
+    "dismiss": "¡Entendido, gracias!"
   }
 }

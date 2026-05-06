@@ -1080,5 +1080,10 @@
         "3 Profilfarben zur Auswahl: Weiß, Braun oder Anthrazit"
       ]
     }
+  },
+  "themeHint": {
+    "title": "Wussten Sie?",
+    "description": "Sie können jederzeit zwischen Nacht- und Tagmodus wechseln, indem Sie das Design-Umschaltsymbol in der oberen rechten Ecke der Navigationsleiste verwenden.",
+    "dismiss": "Verstanden, danke!"
   }
 }

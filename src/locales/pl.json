@@ -1080,5 +1080,10 @@
         "3 kolory profilu do wyboru: biały, brązowy lub antracytowy"
       ]
     }
+  },
+  "themeHint": {
+    "title": "Czy wiedziałeś?",
+    "description": "W dowolnym momencie możesz przełączać się między trybem nocnym i dziennym, korzystając z ikony przełączania motywu znajdującej się w prawym górnym rogu paska nawigacyjnego.",
+    "dismiss": "Rozumiem, dzięki!"
   }
 }

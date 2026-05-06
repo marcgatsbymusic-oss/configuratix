@@ -1080,5 +1080,10 @@
         "3 profile colours to choose from: white, brown or anthracite"
       ]
     }
+  },
+  "themeHint": {
+    "title": "Ho sabíeu?",
+    "description": "Podeu canviar entre el mode de nit i el de dia en qualsevol moment mitjançant la icona de commutació de tema situada a l'extrem superior dret de la barra de navegació.",
+    "dismiss": "Ho entenc, gràcies!"
   }
 }

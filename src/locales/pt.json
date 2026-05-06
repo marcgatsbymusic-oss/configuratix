@@ -1080,5 +1080,10 @@
         "3 profile colours to choose from: white, brown or anthracite"
       ]
     }
+  },
+  "themeHint": {
+    "title": "Você sabia?",
+    "description": "Você pode alternar entre o modo Noturno e Diurno a qualquer momento usando o ícone de alternância de tema localizado no canto superior direito da barra de navegação.",
+    "dismiss": "Entendi, obrigado!"
   }
 }

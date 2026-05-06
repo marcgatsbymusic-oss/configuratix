@@ -1080,5 +1080,10 @@
         "3 profile colours to choose from: white, brown or anthracite"
       ]
     }
+  },
+  "themeHint": {
+    "title": "Ba al zenekien?",
+    "description": "Gaueko eta Eguneko modutik edozein unetan alda dezakezu nabigazio-barrako goiko eskuineko izkinan dagoen gaiaren txandakatzeko ikonoa erabiliz.",
+    "dismiss": "Lortu dut, eskerrik asko!"
   }
 }

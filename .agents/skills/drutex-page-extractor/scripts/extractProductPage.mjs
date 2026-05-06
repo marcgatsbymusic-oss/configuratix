@@ -253,20 +253,20 @@ async function extract() {
   console.log('[6/15] Extracting color swatches...');
 
   // Wait for color section to render
-  try { await page.waitForSelector('#colors-section, .colors-section, .kolory', { timeout: 8000 }); }
+  try { await page.waitForSelector('#colors-section, .colors-section, .kolory, #colors', { timeout: 8000 }); }
   catch { console.warn('   [WARN] Color section not found within timeout'); }
 
   const rawColors = await page.evaluate(() => {
     const items = [
       ...document.querySelectorAll(
-        '#colors-section .color-item, .colors-section .item, .kolory .kolor, [data-ral], .color-swatch'
+        '#colors-section .color-item, .colors-section .item, .kolory .kolor, [data-ral], .color-swatch, .color-rec'
       )
     ];
     return items.map((el) => {
       const img    = el.querySelector('img');
       const nameEl = el.querySelector('.name, .color-name, span, p');
       // RAL code: try data attrs, then text pattern
-      let ral = el.dataset.ral || el.dataset.colorRal || el.dataset.filter || '';
+      let ral = el.dataset.ral || el.dataset.colorRal || el.dataset.filter || el.dataset.colorCode || '';
       if (!ral && nameEl) {
         const match = nameEl.innerText.match(/RAL\s*(\d{4})/i);
         if (match) ral = `RAL ${match[1]}`;
@@ -277,11 +277,19 @@ async function extract() {
         const style = window.getComputedStyle(el);
         hex = style.backgroundColor || '';
       }
+      
+      let swatchSrc = el.dataset.colorImg || el.dataset.colorBg || img?.src || img?.dataset?.src || '';
+      if (!swatchSrc) {
+        const style = window.getComputedStyle(el);
+        const match = (style.backgroundImage || '').match(/url\(["']?([^"')]+)["']?\)/);
+        if (match) swatchSrc = match[1];
+      }
+
       return {
-        name:        (nameEl?.innerText || el.title || el.dataset.name || '').trim(),
+        name:        (nameEl?.innerText || el.title || el.dataset.name || el.dataset.colorName || '').trim(),
         ralCode:     ral.trim(),
         hex:         hex.trim(),
-        swatchSrc:   img?.src || img?.dataset?.src || '',
+        swatchSrc:   swatchSrc,
         isStandard:  el.classList.contains('standard') || el.dataset.standard === 'true',
       };
     });

@@ -27,9 +27,12 @@ const FOOTER_COLS = [
   {
     colKey: 'inspiration',
     links: [
+      { keyKey: 'exterior', href: '/inspiration/other' },
+      { keyKey: 'hall', href: '/inspiration/hall' },
       { keyKey: 'kitchen', href: '/inspiration/kitchen' },
-      { keyKey: 'living', href: '/inspiration/living-room' },
+      { keyKey: 'living', href: '/inspiration/livingroom' },
       { keyKey: 'bedroom', href: '/inspiration/bedroom' },
+      { keyKey: 'bathroom', href: '/inspiration/bathroom' },
       { keyKey: 'terrace', href: '/inspiration/terrace' },
     ],
   },
@@ -124,15 +127,18 @@ export function Footer() {
 
           {/* Legal links */}
           <div className="flex flex-wrap justify-center gap-4">
-            {['privacy', 'cookies', 'sitemap', 'terms'].map((item) => (
-              <a
-                key={item}
-                href="#"
-                className="text-[11px] text-mammut-white/30 hover:text-mammut-white/60 transition-colors duration-200 uppercase tracking-wider"
-              >
-                {t(`footer.legal.${item}`)}
-              </a>
-            ))}
+            <Link to="/privacy" className="text-[11px] text-mammut-white/30 hover:text-mammut-white/60 transition-colors duration-200 uppercase tracking-wider">
+              {t('footer.legal.privacy')}
+            </Link>
+            <Link to="/cookies" className="text-[11px] text-mammut-white/30 hover:text-mammut-white/60 transition-colors duration-200 uppercase tracking-wider">
+              {t('footer.legal.cookies')}
+            </Link>
+            <Link to="/sitemap" className="text-[11px] text-mammut-white/30 hover:text-mammut-gold transition-colors duration-200 uppercase tracking-wider">
+              {t('footer.legal.sitemap', { defaultValue: 'SITE MAP' })}
+            </Link>
+            <Link to="/terms" className="text-[11px] text-mammut-white/30 hover:text-mammut-white/60 transition-colors duration-200 uppercase tracking-wider">
+              {t('footer.legal.terms')}
+            </Link>
           </div>
 
           {/* Social icons */}
