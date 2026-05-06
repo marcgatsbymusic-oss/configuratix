@@ -9,6 +9,9 @@ import { DoorColorPresenter } from '../components/products/DoorColorPresenter'
 import { VenetianBlindsColorPicker } from '../components/products/VenetianBlindsColorPicker'
 import { ProductComparison } from '../components/products/ProductComparison'
 import { ProductDownloads } from '../components/products/ProductDownloads'
+import { StickyProductNav } from '../components/products/StickyProductNav'
+import { TrustBand } from '../components/products/TrustBand'
+import { InspirationsGallery } from '../components/products/InspirationsGallery'
 import { useTranslation } from 'react-i18next'
 
 
@@ -465,9 +468,30 @@ export function ProductDetailPage() {
             <h1 className="product-hero-title text-4xl md:text-5xl font-bold tracking-widest uppercase mb-3 text-white">
               {t(`productData.${detailData.slug}.name`, { defaultValue: detailData.name })}
             </h1>
-            <p className="product-hero-tagline text-xl md:text-2xl font-light tracking-wider text-white mb-0 md:mb-10">
+            <p className="product-hero-tagline text-xl md:text-2xl font-light tracking-wider text-white mb-8">
               {t(`productData.${detailData.slug}.tagline`, { defaultValue: detailData.tagline })}
             </p>
+
+            {/* Hero CTAs */}
+            <div className="flex flex-col sm:flex-row gap-4 mb-4 md:mb-10 w-full sm:w-auto justify-center">
+              <Link 
+                to={`/configurator?product=${detailData.slug}`}
+                className="bg-mammut-gold text-black px-8 py-4 font-bold uppercase tracking-widest hover:bg-[#F3C47F] transition-colors w-full sm:w-auto text-center"
+              >
+                {t('productDetail.configureQuote', { defaultValue: 'Configure & Price' })}
+              </Link>
+              <a 
+                href="#downloads"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const el = document.getElementById('downloads');
+                  if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
+                }}
+                className="border border-white/30 bg-black/20 backdrop-blur-sm text-white px-8 py-4 font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-colors w-full sm:w-auto text-center"
+              >
+                {t('productDetail.downloadBrochure', { defaultValue: 'Download Brochure' })}
+              </a>
+            </div>
 
             {/* Desktop Spec boxes (Hidden on Mobile) */}
             <div className="hidden md:flex w-full flex-col items-center">
@@ -505,8 +529,14 @@ export function ProductDetailPage() {
         </div>
       </section>
 
+      {/* Sticky Navigation */}
+      <StickyProductNav />
+
+      {/* Trust Band */}
+      {detailData.benefits && <TrustBand benefits={detailData.benefits} />}
+
       {/* 2. Drutex Product Overview — mirrors the drutex.eu layout */}
-      <section className="border-b border-gray-200" style={{ background: 'white' }}>
+      <section id="overview" className="border-b border-gray-200" style={{ background: 'white' }}>
 
         {/* Row A: Description + bullets (left) | Window photo (right) */}
         <div className="max-w-7xl mx-auto px-6 pt-20 pb-12">
@@ -715,10 +745,17 @@ export function ProductDetailPage() {
         )}
       </section>
 
+      {/* Inspirations Gallery */}
+      <div id="gallery">
+        {detailData.inspirations && <InspirationsGallery images={detailData.inspirations} />}
+      </div>
+
       {/* Downloads Section (Moved up under product image/overview) */}
-      {detailData.downloads && (
-        <ProductDownloads downloads={detailData.downloads} />
-      )}
+      <div id="downloads">
+        {detailData.downloads && (
+          <ProductDownloads downloads={detailData.downloads} />
+        )}
+      </div>
 
 
 
@@ -1038,7 +1075,7 @@ export function ProductDetailPage() {
       
       {(!detailData.slug.includes('door') || detailData.slug === 'mb-86si-doors-alu') && detailData.slug !== 'external-venetian-blinds' && (
       <>
-      <section className="bg-white pt-24 pb-0">
+      <section id="colors" className="bg-white pt-24 pb-0">
         <div className="max-w-7xl mx-auto px-6">
           <div className="bg-[#1a1a1a] p-10 lg:p-14 relative mb-12">
             {/* Vertical Golden Line extending above the box */}
@@ -1311,12 +1348,14 @@ export function ProductDetailPage() {
 
 
       {/* 6.8 Comparison Table */}
-      {detailData.comparison && (
-        <ProductComparison 
-          comparisonData={detailData.comparison} 
-          comparisonImages={detailData.comparisonImages}
-        />
-      )}
+      <div id="specs">
+        {detailData.comparison && (
+          <ProductComparison 
+            comparisonData={detailData.comparison} 
+            comparisonImages={detailData.comparisonImages}
+          />
+        )}
+      </div>
 
 
       {/* Floating Action Bar */}

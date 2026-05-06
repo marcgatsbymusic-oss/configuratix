@@ -35,6 +35,8 @@ export interface ProductDetailData {
   inlineVideoSrc?: string
   inlineImageSrc?: string
   features?: { title: string; description: string; image: string }[]
+  inspirations?: string[];
+  benefits?: { label: string; text: string; icon?: string }[];
   relatedProductLink?: { text: string; url: string };
   relatedProductLinks?: { text: string; url: string }[];
   glassOptions: GlassOption[]
@@ -269,6 +271,20 @@ export const IGLO_EDGE_DETAIL: ProductDetailData = {
     { id: 'g18', name: 'Stopsol blue 6',            image: '/assets/glass/thumbs/stopsol-blue-6.webp',      largeImage: '/assets/glass/large/stopsol-blue-6.jpg' },
     { id: 'g19', name: 'Stopsol brown 6',          image: '/assets/glass/thumbs/stopsol-brown-6.webp',     largeImage: '/assets/glass/large/stopsol-brown-6.jpg' },
     { id: 'g20', name: 'Waterfall 105',             image: '/assets/glass/thumbs/waterfall-105.webp',       largeImage: '/assets/glass/large/waterfall-105.jpg' },
+  ],
+  inspirations: [
+    '/assets/inspirations/1-0-iglo-edge-slide.webp',
+    '/assets/inspirations/1-1-iglo-edge-slide.webp',
+    '/assets/inspirations/1-2-iglo-edge-slide.webp',
+    '/assets/inspirations/1-3-iglo-edge-slide.webp',
+    '/assets/inspirations/1-4-iglo-edge.webp',
+    '/assets/inspirations/1-5-iglo-edge.webp',
+    '/assets/inspirations/1-6-iglo-edge.webp'
+  ],
+  benefits: [
+    { label: 'Warranty', text: '10-Year Comprehensive Coverage', icon: 'shield' },
+    { label: 'Energy', text: 'A-Class Energy Efficiency', icon: 'leaf' },
+    { label: 'Production', text: 'Custom Built in 4 Weeks', icon: 'clock' }
   ],
   hardware: [],
   accessories: [],
