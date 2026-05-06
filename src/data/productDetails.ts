@@ -102,6 +102,14 @@ export interface ProductDetailData {
   comparisonImages?: {
     [productName: string]: string;
   }
+  downloads?: {
+    id: string;
+    title: string;
+    buttonText: string;
+    fileUrl: string;
+    iconUrl: string;
+    buttonIconUrl?: string;
+  }[];
   inspirations?: {
     id: string;
     url: string;
@@ -264,6 +272,24 @@ export const IGLO_EDGE_DETAIL: ProductDetailData = {
   ],
   hardware: [],
   accessories: [],
+  downloads: [
+    {
+      id: 'd1',
+      title: 'DOWNLOADS',
+      buttonText: 'Catalogue',
+      fileUrl: '/assets/downloads/catalogue_pvc_windows_en.pdf',
+      iconUrl: '/assets/icons/ico-brochure.svg',
+      buttonIconUrl: '/assets/icons/btn-brochure.svg'
+    },
+    {
+      id: 'd2',
+      title: 'DOWNLOADS',
+      buttonText: 'Brochure',
+      fileUrl: '/assets/downloads/brochure_pvc_windows_en.pdf',
+      iconUrl: '/assets/icons/ico-brochure.svg',
+      buttonIconUrl: '/assets/icons/btn-brochure.svg'
+    }
+  ],
   comparisonImages: {
     "IGLO EDGE": "https://www.drutex.eu/media/webp/80/L21lZGlhL191cGxvYWQvcHJvZHVrdHkvaWdsby1lZGdlL2lnbG8tZWRnZS1wcm9maWwucG5n.webp",
     "IDEAL 7000 NL": "https://www.drutex.eu/media/webp/80/L21lZGlhL191cGxvYWQvcHJvZHVrdHkvaWRlYWxfNzAwMF9ubC9pZGVhbC03MDAwLW5sLXNyZWJybnlkLnBuZw==.webp",

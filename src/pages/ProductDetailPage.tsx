@@ -8,6 +8,7 @@ import { ColorSwatch } from '../components/products/ColorSwatch'
 import { DoorColorPresenter } from '../components/products/DoorColorPresenter'
 import { VenetianBlindsColorPicker } from '../components/products/VenetianBlindsColorPicker'
 import { ProductComparison } from '../components/products/ProductComparison'
+import { ProductDownloads } from '../components/products/ProductDownloads'
 import { useTranslation } from 'react-i18next'
 
 
@@ -1139,11 +1140,11 @@ export function ProductDetailPage() {
                 )}
 
                 {/* Window Preview (Top) */}
-                <div className="w-full bg-white border border-gray-200 border-b-0 flex flex-col items-center justify-center p-12 pb-4 lg:p-12 lg:pb-4 min-h-[450px] relative overflow-hidden">
+                <div className="w-full bg-white border border-gray-200 border-b-0 flex flex-col items-center justify-center p-2 pb-2 lg:p-12 lg:pb-4 min-h-[300px] lg:min-h-[450px] relative overflow-hidden">
                   
                   {/* Render Visualizer Image with Optional CSS Tint Mask */}
-                  <div className="w-full relative flex items-center justify-center p-8 bg-transparent min-h-[400px]">
-                    <div className="relative w-full max-w-[500px]">
+                  <div className="w-full relative flex items-center justify-center p-0 lg:p-8 bg-transparent min-h-[300px] lg:min-h-[400px]">
+                    <div className="relative w-full px-2 max-w-[100%] sm:max-w-[500px] lg:max-w-[600px]">
                       {(() => {
                         const isDoor = detailData.slug.includes('door');
                         const doorMask = detailData.slug === 'mb-86si-doors-alu' ? '/assets/products/mb-86si-doors-alu/mb86si-mask.webp' : '/assets/hero-door.png';
@@ -1156,12 +1157,12 @@ export function ProductDetailPage() {
                             <img 
                               src={baseImage} 
                               alt={`${selectedColor ? t(`colors.${selectedColor.id}`) : 'Color'} Frame`} 
-                              className="w-full h-auto object-contain z-20 transition-opacity duration-500"
+                              className="w-full h-auto object-contain z-20 transition-opacity duration-500 scale-[1.8] lg:scale-100 mt-4 lg:mt-0"
                             />
                             {/* CSS dynamic tint overlay */}
                             {(isDoor || selectedColor?.windowImage === '/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp') && selectedColor?.hex && (
                               <div 
-                                className="absolute inset-0 z-30 pointer-events-none transition-colors duration-500" 
+                                className="absolute inset-0 z-30 pointer-events-none transition-colors duration-500 scale-[1.8] lg:scale-100 mt-4 lg:mt-0" 
                                 style={{
                                   backgroundColor: selectedColor.hex,
                                   mixBlendMode: 'multiply',
@@ -1192,7 +1193,7 @@ export function ProductDetailPage() {
                 </div>
 
                 {/* Color Selector (Bottom) */}
-                <div className="w-full bg-white border border-gray-200 border-t-0 border-b-0 p-8 pt-0 pb-6 lg:p-12 lg:pt-0 lg:pb-6">
+                <div className="w-full bg-white border border-gray-200 border-t-0 border-b-0 p-4 pt-0 pb-6 lg:p-12 lg:pt-0 lg:pb-6">
                   <ColorSwatch 
                     colors={detailData.colors}
                     selectedColorId={selectedColorId}
@@ -1341,6 +1342,10 @@ export function ProductDetailPage() {
         />
       )}
 
+      {/* 6.9 Downloads */}
+      {detailData.downloads && (
+        <ProductDownloads downloads={detailData.downloads} />
+      )}
 
       {/* Floating Action Bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200 p-4 z-40 transform translate-y-0 transition-transform">
