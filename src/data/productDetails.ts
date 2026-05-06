@@ -275,7 +275,7 @@ export const IGLO_EDGE_DETAIL: ProductDetailData = {
   downloads: [
     {
       id: 'd1',
-      title: 'DOWNLOADS',
+      title: 'PVC-Windows',
       buttonText: 'Catalogue',
       fileUrl: '/assets/downloads/catalogue_pvc_windows_en.pdf',
       iconUrl: '/assets/icons/ico-brochure.svg',
@@ -283,7 +283,7 @@ export const IGLO_EDGE_DETAIL: ProductDetailData = {
     },
     {
       id: 'd2',
-      title: 'DOWNLOADS',
+      title: 'PVC-Windows II',
       buttonText: 'Brochure',
       fileUrl: '/assets/downloads/brochure_pvc_windows_en.pdf',
       iconUrl: '/assets/icons/ico-brochure.svg',

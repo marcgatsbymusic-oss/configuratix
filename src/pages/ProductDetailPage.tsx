@@ -715,36 +715,12 @@ export function ProductDetailPage() {
         )}
       </section>
 
-      {/* 2.5 Downloads (Moved up) */}
-      {detailData.downloads && detailData.downloads.length > 0 && (
-        <section className="py-16 bg-white border-b border-gray-100">
-          <div className="container mx-auto px-6 max-w-7xl">
-             <h2 className="text-2xl font-black uppercase mb-8 text-black tracking-widest text-left">
-               {detailData.downloads[0].title || "Downloads"}
-             </h2>
-             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-               {detailData.downloads.map((dl, i) => (
-                 <div key={i} className="flex flex-col border border-gray-200 bg-white group hover:border-mammut-gold transition-colors duration-300">
-                   <div className="p-8 flex items-center justify-center bg-gray-50 border-b border-gray-100 aspect-[4/3]">
-                     <img src="/assets/pdf-icon.svg" alt="PDF" className="w-16 h-16 opacity-30 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
-                     {/* Fallback if no pdf icon */}
-                     <div className="absolute flex flex-col items-center text-gray-300 group-hover:text-mammut-gold transition-colors">
-                       <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                     </div>
-                   </div>
-                   <div className="p-6 flex flex-col items-center text-center flex-1">
-                     <p className="text-[11px] font-bold text-black uppercase tracking-widest leading-snug mb-6">{dl.label}</p>
-                     <a href={dl.fileUrl} target="_blank" rel="noopener noreferrer" className="mt-auto border border-gray-300 px-6 py-2 text-[10px] font-bold uppercase tracking-widest text-gray-600 hover:border-mammut-gold hover:text-mammut-gold transition-all duration-300 inline-flex items-center gap-2">
-                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                       Download
-                     </a>
-                   </div>
-                 </div>
-               ))}
-             </div>
-          </div>
-        </section>
+      {/* Downloads Section (Moved up under product image/overview) */}
+      {detailData.downloads && (
+        <ProductDownloads downloads={detailData.downloads} />
       )}
+
+
 
       {/* 2.6 Lath Types (Venetian Blinds) */}
       {detailData.lathTypes && detailData.lathTypes.length > 0 && (
@@ -1140,10 +1116,10 @@ export function ProductDetailPage() {
                 )}
 
                 {/* Window Preview (Top) */}
-                <div className="w-full bg-white border border-gray-200 border-b-0 flex flex-col items-center justify-center p-2 pb-2 lg:p-12 lg:pb-4 min-h-[300px] lg:min-h-[450px] relative overflow-hidden">
+                <div className="w-full bg-white border border-gray-200 border-b-0 flex flex-col items-center justify-center p-0 lg:p-12 lg:pb-4 min-h-[250px] lg:min-h-[450px] relative overflow-hidden">
                   
                   {/* Render Visualizer Image with Optional CSS Tint Mask */}
-                  <div className="w-full relative flex items-center justify-center p-0 lg:p-8 bg-transparent min-h-[300px] lg:min-h-[400px]">
+                  <div className="w-full relative flex items-center justify-center p-0 lg:p-8 bg-transparent min-h-[200px] lg:min-h-[400px] -mt-8 lg:mt-0 mb-2 lg:mb-0">
                     <div className="relative w-full px-2 max-w-[100%] sm:max-w-[500px] lg:max-w-[600px]">
                       {(() => {
                         const isDoor = detailData.slug.includes('door');
@@ -1157,12 +1133,12 @@ export function ProductDetailPage() {
                             <img 
                               src={baseImage} 
                               alt={`${selectedColor ? t(`colors.${selectedColor.id}`) : 'Color'} Frame`} 
-                              className="w-full h-auto object-contain z-20 transition-opacity duration-500 scale-[1.8] lg:scale-100 mt-4 lg:mt-0"
+                              className="w-full h-auto object-contain z-20 transition-opacity duration-500 scale-[0.8] lg:scale-100 mt-0"
                             />
                             {/* CSS dynamic tint overlay */}
                             {(isDoor || selectedColor?.windowImage === '/assets/windowcolors/wingloedgeframeswithcolor/blanco-fx.webp') && selectedColor?.hex && (
                               <div 
-                                className="absolute inset-0 z-30 pointer-events-none transition-colors duration-500 scale-[1.8] lg:scale-100 mt-4 lg:mt-0" 
+                                className="absolute inset-0 z-30 pointer-events-none transition-colors duration-500 scale-[0.8] lg:scale-100 mt-0" 
                                 style={{
                                   backgroundColor: selectedColor.hex,
                                   mixBlendMode: 'multiply',
@@ -1185,15 +1161,15 @@ export function ProductDetailPage() {
                   </div>
                   
                   {/* Selected Color Name (Below Window) */}
-                  <div className="w-full flex justify-center mt-6 z-40">
-                    <span className="text-gray-400 font-bold text-sm uppercase tracking-widest">
+                  <div className="w-full flex justify-center mt-2 lg:mt-6 z-40 mb-2 lg:mb-0 relative">
+                    <span className="text-gray-400 font-bold text-sm uppercase tracking-widest bg-white/80 px-4 py-1 rounded-full backdrop-blur-sm lg:bg-transparent lg:px-0 lg:py-0">
                       {selectedColor ? t(`colors.${selectedColor.id}`) : ''}
                     </span>
                   </div>
                 </div>
 
                 {/* Color Selector (Bottom) */}
-                <div className="w-full bg-white border border-gray-200 border-t-0 border-b-0 p-4 pt-0 pb-6 lg:p-12 lg:pt-0 lg:pb-6">
+                <div className="w-full bg-white border border-gray-200 border-t-0 border-b-0 p-4 py-2 lg:p-12 lg:pt-0 lg:pb-6">
                   <ColorSwatch 
                     colors={detailData.colors}
                     selectedColorId={selectedColorId}
@@ -1342,10 +1318,6 @@ export function ProductDetailPage() {
         />
       )}
 
-      {/* 6.9 Downloads */}
-      {detailData.downloads && (
-        <ProductDownloads downloads={detailData.downloads} />
-      )}
 
       {/* Floating Action Bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200 p-4 z-40 transform translate-y-0 transition-transform">
