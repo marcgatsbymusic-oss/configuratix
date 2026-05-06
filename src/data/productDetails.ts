@@ -99,6 +99,9 @@ export interface ProductDetailData {
       [specName: string]: string;
     };
   }
+  comparisonImages?: {
+    [productName: string]: string;
+  }
   inspirations?: {
     id: string;
     url: string;
@@ -207,7 +210,8 @@ export const IGLO_EDGE_DETAIL: ProductDetailData = {
   tagline: 'Maximum insulation, minimal frame',
   description: `Our new, most technologically advanced window is distinguished by an excellent thermal insulation parameter of Uw = 0.66 W/(m²K)* and a modern, angular profile shape. The extremely good thermal insulation parameters are due, among other things, to the 7-chamber profile design and 3 EPDM gaskets, including the central gasket.`,
   heroImage: '/assets/hero.png',
-  windowPhoto: '/assets/iglo-edge-featured.png',
+  windowPhoto: '/assets/iglo-edge-window.png',
+  profileImage: '/assets/iglo-edge-window.png',
   
   blueprintImage: '/assets/iglo-edge-technical-drawing.png',
   videoSrc: '/assets/heroes/iglo-edge-header-cover.mp4',
@@ -258,17 +262,93 @@ export const IGLO_EDGE_DETAIL: ProductDetailData = {
     { id: 'g19', name: 'Stopsol brown 6',          image: '/assets/glass/thumbs/stopsol-brown-6.webp',     largeImage: '/assets/glass/large/stopsol-brown-6.jpg' },
     { id: 'g20', name: 'Waterfall 105',             image: '/assets/glass/thumbs/waterfall-105.webp',       largeImage: '/assets/glass/large/waterfall-105.jpg' },
   ],
-  hardware: [
-    { id: 'h1', name: 'Standard Handle', type: 'Aluminum', image: 'https://www.drutex.es/images/produkty/klamki/klamka-standardowa-aluminiowa.jpg' },
-    { id: 'h2', name: 'Handle with Key', type: 'Security', image: 'https://www.drutex.es/images/produkty/klamki/klamka-z-kluczykiem.jpg' },
-    { id: 'h3', name: 'Secustik®', type: 'Anti-burglary', image: 'https://www.drutex.es/images/produkty/klamki/klamka-secustik.jpg' },
-  ],
-  accessories: [
-    { id: 'a1', name: 'Maco Multi Matic KS', description: `Advanced perimeter hardware with micro-ventilation`, image: 'https://www.drutex.es/images/produkty/okucia/okucie-maco.jpg' },
-    { id: 'a2', name: 'V-Perfect Welding', description: `Virtually invisible corner welds for flawless aesthetics`, image: 'https://www.drutex.es/images/produkty/inne/v-perfect.jpg' },
-    { id: 'a3', name: 'Steel Reinforcement', description: `Closed steel profile in the frame for extreme rigidity`, image: 'https://www.drutex.es/images/produkty/inne/wzmocnienie-stalowe.jpg' },
-    { id: 'a4', name: 'EPDM Seals', description: `Triple sealing system in black or grey`, image: 'https://www.drutex.es/images/produkty/inne/uszczelki-epdm.jpg' },
-  ]
+  hardware: [],
+  accessories: [],
+  comparisonImages: {
+    "IGLO EDGE": "https://www.drutex.eu/media/webp/80/L21lZGlhL191cGxvYWQvcHJvZHVrdHkvaWdsby1lZGdlL2lnbG8tZWRnZS1wcm9maWwucG5n.webp",
+    "IDEAL 7000 NL": "https://www.drutex.eu/media/webp/80/L21lZGlhL191cGxvYWQvcHJvZHVrdHkvaWRlYWxfNzAwMF9ubC9pZGVhbC03MDAwLW5sLXNyZWJybnlkLnBuZw==.webp",
+    "IDEAL NEO AD": "https://www.drutex.eu/media/webp/80/L21lZGlhL191cGxvYWQvcHJvZHVrdHkvaWRlYWxfbmVvX2FkL2lkZWFsX25lb19hZF9wcm9maWwucG5n.webp",
+    "IDEAL NEO MD": "https://www.drutex.eu/media/webp/80/L21lZGlhL191cGxvYWQvcHJvZHVrdHkvbmVvLW1kL25lby1tZC1va25vLXByb2ZpbC5wbmc=.webp",
+    "IDEAL NEO MD-FS": "https://www.drutex.eu/media/webp/80/L21lZGlhL191cGxvYWQvcHJvZHVrdHkvaWRlYWxfbmVvX21kLWZzL2lkZWFsX25lb19tZC1mcy1fb2sucG5n.webp",
+    "IDEAL NEO MD MONOBLOCK": "https://www.drutex.eu/media/webp/80/L21lZGlhL191cGxvYWQvaWRlYWwtbmUtbWQtbW9ub2Jsb2NrLmpwZw==.webp",
+    "IDEAL NEO MD RENOVATION": "https://www.drutex.eu/media/webp/80/L21lZGlhL191cGxvYWQvcHJvZHVrdHkvaWRlYWwtbmVvLW1kLXJlbm92YXRpb24vaWRlYWxfbmVvX21kX3Jlbm92YXRpb25fcHJvZmlsLmpwZw==.webp",
+    "IGLO Energy": "https://www.drutex.eu/media/webp/80/L21lZGlhL191cGxvYWQvcHJvZmlsZTNkL3B2Yy9pZ2xvX2VuZXJneS9pZ2xvX2VuZXJneS5wbmc=.webp",
+    "IGLO Energy Classic": "https://www.drutex.eu/media/webp/80/L21lZGlhL191cGxvYWQvcHJvZHVrdHkvSUdMT19FTkVSR1lfQ0xBU1NJQy9rb2xvci1wcm9maWwvZGFnbGV6amFfa2sucG5n.webp"
+  },
+  comparison: {
+    "IGLO EDGE": {
+      "Number of chambers": "7",
+      "Installation depth": "82 mm",
+      "Number of gaskets": "3",
+      "Thermal transmittance": "Uw = 0.66 W/(m²K)*",
+      "Glass packages": "48-58 mm",
+      "Sound insulation": "36-47 dB"
+    },
+    "IDEAL 7000 NL": {
+      "Number of chambers": "5",
+      "Installation depth": "120 mm",
+      "Number of gaskets": "2",
+      "Thermal transmittance": "Uw = 0.82 W/(m²K)*",
+      "Glass packages": "24-54 mm",
+      "Sound insulation": "dB = 36"
+    },
+    "IDEAL NEO AD": {
+      "Number of chambers": "5/6",
+      "Installation depth": "76 mm",
+      "Number of gaskets": "2",
+      "Thermal transmittance": "Uw = 0.79 W/(m²K)*",
+      "Glass packages": "24-54 mm",
+      "Sound insulation": "dB = 36"
+    },
+    "IDEAL NEO MD": {
+      "Number of chambers": "6",
+      "Installation depth": "76 mm",
+      "Number of gaskets": "3",
+      "Thermal transmittance": "Uw = 0.76 W/(m²K)*",
+      "Glass packages": "24-54 mm",
+      "Sound insulation": "dB = 36"
+    },
+    "IDEAL NEO MD-FS": {
+      "Number of chambers": "6",
+      "Installation depth": "76 mm",
+      "Number of gaskets": "3",
+      "Thermal transmittance": "Uw = 0.73 W/(m²K)*",
+      "Glass packages": "36-68 mm",
+      "Sound insulation": "dB = 36"
+    },
+    "IDEAL NEO MD MONOBLOCK": {
+      "Number of chambers": "6",
+      "Installation depth": "76 mm / 122 mm / 142 mm / 162 mm",
+      "Number of gaskets": "3",
+      "Thermal transmittance": "Uw = 0.76 W/(m²K)*",
+      "Glass packages": "24-52 mm",
+      "Sound insulation": "dB = 36"
+    },
+    "IDEAL NEO MD RENOVATION": {
+      "Number of chambers": "5/6",
+      "Installation depth": "76 mm",
+      "Number of gaskets": "3",
+      "Thermal transmittance": "Uw = 0.76 W/(m²K)*",
+      "Glass packages": "24-52 mm",
+      "Sound insulation": "dB = 36"
+    },
+    "IGLO Energy": {
+      "Number of chambers": "7",
+      "Installation depth": "82 mm",
+      "Number of gaskets": "3",
+      "Thermal transmittance": "Uw = 0.71 W/(m²K)*",
+      "Glass packages": "24-48 mm",
+      "Sound insulation": "dB = 37-46"
+    },
+    "IGLO Energy Classic": {
+      "Number of chambers": "7",
+      "Installation depth": "82 mm",
+      "Number of gaskets": "3",
+      "Thermal transmittance": "Uw = 0.73 W/(m²K)*",
+      "Glass packages": "24-52 mm",
+      "Sound insulation": "dB = 36-42"
+    }
+  }
 }
 
 

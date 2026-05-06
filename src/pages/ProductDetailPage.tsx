@@ -66,25 +66,25 @@ function HandlesSlider({ hardware }: { hardware?: { id: string; name: string; im
         <p className="!text-gray-400 text-sm mb-12 max-w-3xl leading-relaxed">
           {desc}
         </p>
-        <div className="relative flex items-center gap-6">
+        <div className="relative flex items-center gap-2 md:gap-6">
           <button
             onClick={() => setPage(p => (p - 1 + totalPages) % totalPages)}
-            className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center border border-gray-600 text-gray-400 hover:text-white hover:border-white transition-all duration-300"
+            className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center border border-gray-600 text-gray-400 hover:text-white hover:border-white transition-all duration-300"
             aria-label="Previous"
           >
             <ChevronLeft size={20} />
           </button>
           
-          <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
             {visible.map(handle => (
               <div key={handle.name} className="flex flex-col w-full group">
                 {/* Image Container with Gradient */}
-                <div className={`w-full aspect-[3/4] flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#333333] to-[#1a1a1a] ${handle.image && handle.image.endsWith('.webp') ? '' : 'p-6'}`}>
+                <div className={`w-full aspect-[3/4] flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#333333] to-[#1a1a1a] ${handle.image && handle.image.endsWith('.webp') ? '' : 'p-2 md:p-6'}`}>
                   {handle.image ? (
                     <img 
                       src={handle.image} 
                       alt={t(`sliderHandles.${handle.name}`, { defaultValue: handle.label })} 
-                      className={`w-full h-full drop-shadow-2xl group-hover:scale-105 transition-transform duration-500 ${handle.image.endsWith('.webp') ? 'object-cover' : 'object-contain'}`} 
+                      className={`w-full h-full drop-shadow-2xl group-hover:scale-[1.8] transition-transform duration-500 ${handle.image.endsWith('.webp') ? 'object-cover' : 'object-contain'}`} 
                     />
                   ) : (
                     <span className="text-gray-500 text-xs">No image</span>
@@ -93,7 +93,7 @@ function HandlesSlider({ hardware }: { hardware?: { id: string; name: string; im
                 {/* Separator Line */}
                 <div className="w-full border-b border-gray-600 mt-0"></div>
                 {/* Label */}
-                <p className="text-white text-xs text-center mt-4 px-2 tracking-wide font-light leading-snug">
+                <p className="text-xs text-center mt-4 px-2 tracking-wide font-normal leading-snug" style={{ color: '#ffffff', opacity: 1 }}>
                   {t(`sliderHandles.${handle.name}`, { defaultValue: handle.label })}
                 </p>
               </div>
@@ -105,7 +105,7 @@ function HandlesSlider({ hardware }: { hardware?: { id: string; name: string; im
 
           <button
             onClick={() => setPage(p => (p + 1) % totalPages)}
-            className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center border border-gray-600 text-gray-400 hover:text-white hover:border-white transition-all duration-300"
+            className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center border border-gray-600 text-gray-400 hover:text-white hover:border-white transition-all duration-300"
             aria-label="Next"
           >
             <ChevronRight size={20} />
@@ -307,9 +307,9 @@ function AdditionalOptionsSection({ options = ADDITIONAL_OPTIONS, hideHeader = f
 
         <div className="space-y-10">
           {options.map(group => (
-            <div key={group.id} className="flex gap-8 border-b border-gray-200 pb-10 last:border-0 last:pb-0">
+            <div key={group.id} className="flex flex-col lg:flex-row gap-8 border-b border-gray-200 pb-10 last:border-0 last:pb-0">
               {/* Left: info panel */}
-              <div className="w-56 flex-shrink-0">
+              <div className="w-full lg:w-56 flex-shrink-0">
                 <h3 className="text-black font-black text-lg uppercase leading-tight mb-2">{t(`productDetail.additionalOptions.${group.id}.title`, { defaultValue: group.title })}</h3>
                 <p className="!text-gray-600 text-xs leading-relaxed mb-4">{t(`productDetail.additionalOptions.${group.id}.description`, { defaultValue: group.description })}</p>
                 <Link
@@ -436,53 +436,68 @@ export function ProductDetailPage() {
   return (
     <main className="bg-white min-h-screen pt-16">
       
-      {/* 1. Hero Section (Full Width, matches the top section requested by user) */}
-      <section className="relative h-[80vh] min-h-[600px] flex items-end justify-center pb-8 lg:pb-12 overflow-hidden">
-        <div className="absolute inset-0 bg-mammut-black z-0">
-          {detailData.videoSrc ? (
-            <video 
-              src={detailData.videoSrc}
-              autoPlay 
-              loop 
-              muted 
-              playsInline
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <img 
-              src={detailData.heroImage}
-              alt={detailData.name}
-              className="w-full h-full object-cover"
-            />
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#111112] via-transparent to-[#111112]/50" />
-        </div>
-        
-        <div className="relative z-10 text-center px-6 max-w-7xl mx-auto flex flex-col items-center w-full">
-          <h1 className="product-hero-title text-4xl md:text-5xl font-bold tracking-widest uppercase mb-3">
-            {t(`productData.${detailData.slug}.name`, { defaultValue: detailData.name })}
-          </h1>
-          <p className="product-hero-tagline text-xl md:text-2xl font-light mb-10 tracking-wider">
-            {t(`productData.${detailData.slug}.tagline`, { defaultValue: detailData.tagline })}
-          </p>
-
-          {/* Thin gold divider */}
-          <div className="w-full border-t border-mammut-gold/40 mb-10" />
+      {/* 1. Hero Section */}
+      <section className="relative w-full bg-[#1a1a1a]">
+        {/* Video / Top Block */}
+        <div className="relative h-[60vh] md:h-[80vh] min-h-[400px] md:min-h-[600px] w-full bg-mammut-black overflow-hidden flex items-end justify-center pb-8 md:pb-12">
+          <div className="absolute inset-0 z-0">
+            {detailData.videoSrc ? (
+              <video 
+                src={detailData.videoSrc}
+                autoPlay 
+                loop 
+                muted 
+                playsInline
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <img 
+                src={detailData.heroImage}
+                alt={detailData.name}
+                className="w-full h-full object-cover"
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#111112] via-transparent to-[#111112]/50 md:from-[#111112] md:via-transparent md:to-[#111112]/50" />
+          </div>
           
-          {/* Spec boxes — evenly distributed, gracefully wrapping on mobile */}
-          <div className="w-full flex flex-wrap justify-center items-start gap-4 md:gap-6">
+          <div className="relative z-10 text-center px-6 max-w-7xl mx-auto flex flex-col items-center w-full">
+            <h1 className="product-hero-title text-4xl md:text-5xl font-bold tracking-widest uppercase mb-3 text-white">
+              {t(`productData.${detailData.slug}.name`, { defaultValue: detailData.name })}
+            </h1>
+            <p className="product-hero-tagline text-xl md:text-2xl font-light tracking-wider text-white mb-0 md:mb-10">
+              {t(`productData.${detailData.slug}.tagline`, { defaultValue: detailData.tagline })}
+            </p>
+
+            {/* Desktop Spec boxes (Hidden on Mobile) */}
+            <div className="hidden md:flex w-full flex-col items-center">
+              <div className="w-full border-t border-mammut-gold/40 mt-10 mb-10" />
+              <div className="w-full flex flex-wrap justify-center items-start gap-6">
+                {detailData.keySpecs.map((spec) => (
+                  <div key={spec.label} className="flex flex-col items-center gap-0 lg:w-auto lg:flex-1 min-w-[120px]">
+                    <div className="relative flex items-center justify-center px-3" style={{ height: '56px' }}>
+                      <div className="absolute top-0 bottom-0 left-0 w-4 border-y border-l border-[#E50000] transition-colors" />
+                      <div className="absolute top-0 bottom-0 right-0 w-4 border-y border-r border-[#E50000] transition-colors" />
+                      <span className="product-hero-spec-value relative font-light text-2xl whitespace-nowrap text-white">{spec.value}</span>
+                    </div>
+                    <p className="text-center w-full px-1" style={{ color: '#E6DAB5', fontSize: '13px', fontWeight: 400, marginTop: '20px', lineHeight: '110%', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>{t(`productData.${detailData.slug}.specs.${spec.label}`, { defaultValue: t(`igloEdge.specs.${spec.label}`, { defaultValue: spec.label }) })}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Specs Block (Hidden on Desktop) */}
+        <div className="md:hidden w-full bg-[#1a1a1a] text-center py-10 px-6">
+          <div className="flex flex-col gap-0">
             {detailData.keySpecs.map((spec) => (
-              <div key={spec.label} className="flex flex-col items-center gap-3 w-[45%] sm:w-[30%] lg:w-auto lg:flex-1 min-w-[120px]">
-                {/* Box with interrupted border: left and right brackets */}
-                <div className="relative flex items-center justify-center px-6 min-w-[140px]" style={{ height: '56px' }}>
-                  {/* Left bracket */}
-                  <div className="absolute top-0 bottom-0 left-0 w-4 border-y border-l border-mammut-gold transition-colors" />
-                  {/* Right bracket */}
-                  <div className="absolute top-0 bottom-0 right-0 w-4 border-y border-r border-mammut-gold transition-colors" />
-                  {/* Value text */}
-                  <span className="product-hero-spec-value relative font-light text-xl md:text-2xl whitespace-nowrap text-white">{spec.value}</span>
-                </div>
-                <p className="product-hero-spec-label text-[9px] md:text-[10px] uppercase font-semibold tracking-[0.12em] text-center leading-tight w-full px-1">{t(`productData.${detailData.slug}.specs.${spec.label}`, { defaultValue: t(`igloEdge.specs.${spec.label}`, { defaultValue: spec.label }) })}</p>
+              <div key={spec.label} className="flex flex-col items-center gap-1">
+                <p style={{ color: '#E6DAB5', fontSize: '20px', fontWeight: 300, paddingTop: '24px', lineHeight: '24px' }}>
+                  {t(`productData.${detailData.slug}.specs.${spec.label}`, { defaultValue: t(`igloEdge.specs.${spec.label}`, { defaultValue: spec.label }) })}
+                </p>
+                <span className="font-bold text-[18px] text-white">
+                  {spec.value}
+                </span>
               </div>
             ))}
           </div>
@@ -625,14 +640,14 @@ export function ProductDetailPage() {
               {/* Front: profile cross-section photo */}
               <div
                 style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
-                className="absolute inset-0 bg-white border border-gray-200 flex items-center justify-center p-10"
+                className="absolute inset-0 bg-white border border-gray-200 flex items-center justify-center p-10 overflow-hidden"
               >
                 <img
                   src={detailData.profileImage}
                   alt={`${detailData.name} profile cross-section`}
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain scale-[1.3]"
                 />
-                <span className="absolute bottom-4 right-4 text-[10px] text-gray-600 uppercase tracking-widest">{t('productDetail.profile')}</span>
+                <span className="absolute bottom-4 right-4 text-[10px] text-gray-600 uppercase tracking-widest z-10">{t('productDetail.profile')}</span>
               </div>
 
               {/* Back: technical drawing (conditionally rendered) */}
@@ -1281,9 +1296,9 @@ export function ProductDetailPage() {
         <GlazingSection glassOptions={detailData.glassOptions} />
       )}
 
-      {/* 5. Additional Options (Everything EXCEPT Window Sill) */}
+      {/* 5. Additional Options */}
       {detailData.slug !== 'external-venetian-blinds' && (
-        <AdditionalOptionsSection options={ADDITIONAL_OPTIONS.filter(o => o.id !== 'sill' && !(detailData.slug.includes('door') && ['muntin', 'ventilation'].includes(o.id)))} />
+        <AdditionalOptionsSection options={ADDITIONAL_OPTIONS.filter(o => !(detailData.slug.includes('door') && ['muntin', 'ventilation', 'sill'].includes(o.id)))} />
       )}
 
       {/* 6. Handles Slider */}
@@ -1320,13 +1335,12 @@ export function ProductDetailPage() {
 
       {/* 6.8 Comparison Table */}
       {detailData.comparison && (
-        <ProductComparison comparisonData={detailData.comparison} />
+        <ProductComparison 
+          comparisonData={detailData.comparison} 
+          comparisonImages={detailData.comparisonImages}
+        />
       )}
 
-      {/* 7. Additional Options (ONLY Window Sill) */}
-      {!detailData.slug.includes('door') && detailData.slug !== 'external-venetian-blinds' && (
-        <AdditionalOptionsSection options={ADDITIONAL_OPTIONS.filter(o => o.id === 'sill')} hideHeader={true} />
-      )}
 
       {/* Floating Action Bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200 p-4 z-40 transform translate-y-0 transition-transform">

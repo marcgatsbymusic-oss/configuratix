@@ -6,9 +6,12 @@ interface ProductComparisonProps {
       [specName: string]: string;
     };
   };
+  comparisonImages?: {
+    [productName: string]: string;
+  };
 }
 
-export function ProductComparison({ comparisonData }: ProductComparisonProps) {
+export function ProductComparison({ comparisonData, comparisonImages }: ProductComparisonProps) {
   const { t } = useTranslation();
   
   if (!comparisonData || Object.keys(comparisonData).length === 0) return null;
@@ -31,8 +34,13 @@ export function ProductComparison({ comparisonData }: ProductComparisonProps) {
                   {t('productDetail.technicalData')}
                 </th>
                 {productNames.map((productName) => (
-                  <th key={productName} className="py-4 px-6 text-black font-bold uppercase tracking-widest bg-gray-50 text-sm border-l border-gray-200">
-                    {productName}
+                  <th key={productName} className="py-4 px-6 text-black font-bold uppercase tracking-widest bg-gray-50 text-sm border-l border-gray-200 text-center align-bottom">
+                    {comparisonImages && comparisonImages[productName] && (
+                      <div className="flex justify-center mb-4 min-h-[120px] items-end">
+                        <img src={comparisonImages[productName]} alt={productName} className="h-32 object-contain" />
+                      </div>
+                    )}
+                    <span className="block mt-2">{productName}</span>
                   </th>
                 ))}
               </tr>
