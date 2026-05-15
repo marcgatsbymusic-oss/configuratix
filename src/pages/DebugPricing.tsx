@@ -698,8 +698,6 @@ export function DebugPricing() {
                      <SvgWindowEngine 
                        width={width} 
                        height={height} 
-                       system={profilsatz} 
-                       type={typology}
                        colorExt={extDetails.hex}
                        colorExtTexture={extDetails.textureUrl}
                        colorInt={intDetails.hex}

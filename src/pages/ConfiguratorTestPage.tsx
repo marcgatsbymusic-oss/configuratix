@@ -87,8 +87,6 @@ export const ConfiguratorTestPage: React.FC = () => {
              <SvgWindowEngine 
                width={width}
                height={height}
-               system="IG5"
-               type="F104"
                colorExt={colorExt}
                colorInt={colorInt}
                frameThickness={70} // Standard Iglo 5 frame depth

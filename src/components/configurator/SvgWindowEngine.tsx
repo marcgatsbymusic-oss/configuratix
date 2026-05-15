@@ -3,8 +3,6 @@ import React, { useState } from 'react';
 interface SvgWindowEngineProps {
   width: number;
   height: number;
-  system: string;
-  type?: string;
   colorExt?: string;
   colorExtTexture?: string;
   colorInt?: string;
@@ -24,8 +22,6 @@ interface SvgWindowEngineProps {
 export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
   width = 1000,
   height = 1000,
-  system = 'IG5',
-  type = 'F104', // Fixed window
   colorExt = '#4B4B4D', // Anthracite
   colorExtTexture = '',
   colorInt = '#FFFFFF', // White
@@ -237,7 +233,7 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
 
       {/* 3D Container for Main SVG */}
       <div 
-        className="relative w-full h-full flex items-center justify-center cursor-ew-resize perspective-1000"
+        className="relative w-full h-full flex items-center justify-center cursor-ew-resize perspective-1000 touch-pan-y"
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
