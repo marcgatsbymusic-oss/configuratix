@@ -104,46 +104,46 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
 
   return (
     <group ref={setGroupObj}>
-      <group position={[-width * scale / 2, -height * scale / 2, 0]} scale={scale}>
+      <group position={[-width * scale / 2, -height * scale / 2, 0]}>
         {/* Bottom Segment */}
         <group position={[0, 0, 0]} rotation={[0, 0, 0]}>
           <group rotation={[0, Math.PI / 2, 0]}>
-            <FrameSegment length={width} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
-            <FrameSegment length={width} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
-            <FrameSegment length={width} vertices={bzd} material={intMaterial} origin={commonOrigin} />
+            <FrameSegment scaleFactor={scale} length={width} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
+            <FrameSegment scaleFactor={scale} length={width} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
+            <FrameSegment scaleFactor={scale} length={width} vertices={bzd} material={intMaterial} origin={commonOrigin} />
           </group>
         </group>
 
         {/* Right Segment */}
-        <group position={[width, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+        <group position={[width * scale, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
           <group rotation={[0, Math.PI / 2, 0]}>
-            <FrameSegment length={height} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
-            <FrameSegment length={height} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
-            <FrameSegment length={height} vertices={bzd} material={intMaterial} origin={commonOrigin} />
+            <FrameSegment scaleFactor={scale} length={height} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
+            <FrameSegment scaleFactor={scale} length={height} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
+            <FrameSegment scaleFactor={scale} length={height} vertices={bzd} material={intMaterial} origin={commonOrigin} />
           </group>
         </group>
 
         {/* Top Segment */}
-        <group position={[width, height, 0]} rotation={[0, 0, Math.PI]}>
+        <group position={[width * scale, height * scale, 0]} rotation={[0, 0, Math.PI]}>
           <group rotation={[0, Math.PI / 2, 0]}>
-            <FrameSegment length={width} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
-            <FrameSegment length={width} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
-            <FrameSegment length={width} vertices={bzd} material={intMaterial} origin={commonOrigin} />
+            <FrameSegment scaleFactor={scale} length={width} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
+            <FrameSegment scaleFactor={scale} length={width} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
+            <FrameSegment scaleFactor={scale} length={width} vertices={bzd} material={intMaterial} origin={commonOrigin} />
           </group>
         </group>
 
         {/* Left Segment */}
-        <group position={[0, height, 0]} rotation={[0, 0, -Math.PI / 2]}>
+        <group position={[0, height * scale, 0]} rotation={[0, 0, -Math.PI / 2]}>
           <group rotation={[0, Math.PI / 2, 0]}>
-            <FrameSegment length={height} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
-            <FrameSegment length={height} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
-            <FrameSegment length={height} vertices={bzd} material={intMaterial} origin={commonOrigin} />
+            <FrameSegment scaleFactor={scale} length={height} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
+            <FrameSegment scaleFactor={scale} length={height} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
+            <FrameSegment scaleFactor={scale} length={height} vertices={bzd} material={intMaterial} origin={commonOrigin} />
           </group>
         </group>
 
         {/* Glass Pane */}
-        <mesh position={[width/2, height/2, -40]}>
-          <boxGeometry args={[width - 100, height - 100, 24]} />
+        <mesh position={[width * scale / 2, height * scale / 2, -40 * scale]}>
+          <boxGeometry args={[(width - 100) * scale, (height - 100) * scale, 24 * scale]} />
           <meshStandardMaterial 
              color="#88ccff" 
              opacity={0.4} 

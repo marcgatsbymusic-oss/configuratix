@@ -10,6 +10,7 @@ interface FrameSegmentProps {
   rotation?: [number, number, number];
   invertCuts?: boolean;
   origin?: {x: number, y: number} | null;
+  scaleFactor?: number;
 }
 
 export const FrameSegment: React.FC<FrameSegmentProps> = ({ 
@@ -19,7 +20,8 @@ export const FrameSegment: React.FC<FrameSegmentProps> = ({
   position = [0, 0, 0], 
   rotation = [0, 0, 0],
   invertCuts = false,
-  origin = null
+  origin = null,
+  scaleFactor = 1
 }) => {
   const geometry = useMemo(() => {
     if (!vertices || vertices.length === 0) return new THREE.BufferGeometry();
@@ -37,21 +39,22 @@ export const FrameSegment: React.FC<FrameSegmentProps> = ({
     const oy = origin ? origin.y : minY;
     
     const shape = new THREE.Shape();
-    shape.moveTo(vertices[0].x - ox, vertices[0].y - oy);
+    shape.moveTo((vertices[0].x - ox) * scaleFactor, (vertices[0].y - oy) * scaleFactor);
     for (let i = 1; i < vertices.length; i++) {
-      shape.lineTo(vertices[i].x - ox, vertices[i].y - oy);
+      shape.lineTo((vertices[i].x - ox) * scaleFactor, (vertices[i].y - oy) * scaleFactor);
     }
-    shape.lineTo(vertices[0].x - ox, vertices[0].y - oy);
+    shape.lineTo((vertices[0].x - ox) * scaleFactor, (vertices[0].y - oy) * scaleFactor);
 
     // 2. Extrude Geometry
+    const scaledLength = length * scaleFactor;
     const extrudeSettings = {
-      depth: length,
+      depth: scaledLength,
       bevelEnabled: false,
     };
     const baseGeo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
     
-    const widthX = maxX - minX;
-    const heightY = maxY - minY;
+    const widthX = (maxX - minX) * scaleFactor;
+    const heightY = (maxY - minY) * scaleFactor;
     const boxSize = Math.max(widthX, heightY, length) * 2;
     
     // Create base brush
