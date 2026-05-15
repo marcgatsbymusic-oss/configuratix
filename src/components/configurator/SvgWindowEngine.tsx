@@ -193,7 +193,7 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
 
   return (
     <div 
-      className="relative w-full aspect-square flex items-center justify-center p-8 group"
+      className="relative w-full h-full flex items-center justify-center p-8 group"
       onPointerEnter={() => !isDragging && setShowLens(true)}
       onPointerLeave={() => setShowLens(false)}
     >

@@ -5,6 +5,8 @@ import { CONFIG_SCHEMA, WINDOW_TYPES, PROFILE_GLAZING_LIMITS } from '../componen
 import { IGLO_EDGE_COLORS } from '../data/productDetails';
 import { WindowVisualizer } from '../components/SlateConfigurator/WindowVisualizer';
 import { SvgWindowEngine } from '../components/configurator/SvgWindowEngine';
+import { ThreejsWindowEngine } from '../components/configurator/ThreejsWindowEngine';
+import { ArViewer } from '../components/configurator/ArViewer';
 import glazingOptions from '../data/cantor_glazing_options.json';
 import shutterLookups from '../data/shutter_lookups.json';
 import { ThemeToggle } from '../components/common/ThemeToggle';
@@ -49,6 +51,8 @@ export function DebugPricing() {
   const [opening] = useState<string>('UR');
   const [profilsatz, setProfilsatz] = useState('1100'); // Maps to IG5
   const [activeCategory, setActiveCategory] = useState<string>('WINDOWS');
+  const [is3dMode, setIs3dMode] = useState(false);
+  const [arPlacement, setArPlacement] = useState<'wall' | 'floor' | null>(null);
 
   // 3) Dimensions
   const [width, setWidth] = useState(1000);
@@ -623,6 +627,9 @@ export function DebugPricing() {
 
   return (
     <div className="min-h-screen bg-mammut-black text-mammut-white p-6 pt-32 relative">
+      {arPlacement && (
+         <ArViewer sceneGroup={null} placement={arPlacement} onClose={() => setArPlacement(null)} />
+      )}
       <div className="absolute top-6 right-6">
         <ThemeToggle />
       </div>
@@ -655,14 +662,14 @@ export function DebugPricing() {
           
           <h2 className="text-mammut-gold font-bold text-xl uppercase border-b border-gray-800 pb-2">Configurator Options</h2>
 
-          <div className="flex justify-center items-center gap-8 mb-6 relative">
-            <div className="absolute top-0 left-0 text-mammut-gold font-bold text-sm tracking-widest uppercase">1) Image of profile (eg Iglo 5 etc.)</div>
+          <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8 mb-6 relative pt-8 md:pt-0">
+            <div className="absolute top-0 left-0 text-mammut-gold font-bold text-sm tracking-widest uppercase text-center w-full md:w-auto md:text-left">1) Image of profile (eg Iglo 5 etc.)</div>
             {/* Image of the chosen profile system above Option 1 */}
-            <div className="h-32 flex-1 flex justify-end mt-6">
+            <div className="h-24 md:h-32 flex-none md:flex-1 flex justify-center md:justify-end mt-4 md:mt-6 w-full md:w-auto">
               <img 
                 src={`/assets/profiles/${PROFILE_IMAGE_MAP[profilsatz] || profilsatz}.png`} 
                 alt={profilsatz} 
-                className="max-h-32 object-contain"
+                className="max-h-24 md:max-h-32 object-contain"
                 onError={(e) => { 
                   e.currentTarget.style.display = 'none'; 
                   if (!e.currentTarget.parentElement?.querySelector('.fallback')) {
@@ -672,12 +679,12 @@ export function DebugPricing() {
               />
             </div>
             
-            <div className="text-gray-600 font-bold text-2xl">+</div>
+            <div className="text-gray-600 font-bold text-2xl hidden md:block">+</div>
 
             {/* Image of the window opening/type */}
-            <div className="flex-[2] flex flex-col justify-center items-center w-full max-w-sm relative">
+            <div className="w-full md:flex-[2] flex flex-col justify-center items-center max-w-sm relative mt-4 md:mt-0">
               
-              <div className="absolute top-0 right-0 z-20 flex bg-gray-800 rounded-lg p-1 border border-gray-700 shadow-xl">
+              <div className="absolute -top-10 md:top-0 right-0 z-20 flex bg-gray-800 rounded-lg p-1 border border-gray-700 shadow-xl">
                 <button 
                   onClick={() => setViewSide('interior')}
                   className={`px-3 py-1 text-[10px] font-bold uppercase rounded transition-colors ${viewSide === 'interior' ? 'bg-mammut-gold text-black' : 'text-gray-400 hover:text-white'}`}
@@ -692,19 +699,43 @@ export function DebugPricing() {
                 </button>
               </div>
 
-              <div className="w-full mt-8">
+              <div className="w-full mt-4 md:mt-8">
                 {typology === 'F104' ? (
-                  <div className="w-full aspect-square border border-gray-800 rounded-lg bg-gray-900 flex items-center justify-center p-12 overflow-hidden shadow-inner">
-                     <SvgWindowEngine 
-                       width={width} 
-                       height={height} 
-                       colorExt={extDetails.hex}
-                       colorExtTexture={extDetails.textureUrl}
-                       colorInt={intDetails.hex}
-                       colorIntTexture={intDetails.textureUrl}
-                       viewSide={viewSide}
-                       weldType={weld as any}
-                     />
+                  <div className="w-full aspect-square border border-gray-800 rounded-lg bg-gray-900 flex items-center justify-center p-2 md:p-12 overflow-hidden shadow-inner relative group">
+                     {/* 3D Toggle */}
+                     <div className="absolute top-2 left-2 z-30 bg-black/50 p-1 rounded flex items-center gap-2">
+                        <button onClick={() => setIs3dMode(false)} className={`px-2 py-1 text-xs font-bold rounded ${!is3dMode ? 'bg-mammut-gold text-black' : 'text-gray-400'}`}>2D</button>
+                        <button onClick={() => setIs3dMode(true)} className={`px-2 py-1 text-xs font-bold rounded ${is3dMode ? 'bg-mammut-gold text-black' : 'text-gray-400'}`}>3D</button>
+                     </div>
+                     {/* AR Buttons */}
+                     {is3dMode && (
+                       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 bg-black/80 p-2 rounded-full flex items-center gap-2 shadow-xl opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button onClick={() => setArPlacement('wall')} className="bg-mammut-gold text-black px-4 py-1 rounded-full text-xs font-black uppercase whitespace-nowrap">AR Wall</button>
+                          <button onClick={() => setArPlacement('floor')} className="bg-white text-black px-4 py-1 rounded-full text-xs font-black uppercase whitespace-nowrap">AR Floor</button>
+                       </div>
+                     )}
+
+                     {is3dMode ? (
+                        <ThreejsWindowEngine 
+                          width={width} 
+                          height={height} 
+                          colorExt={extDetails.hex}
+                          colorInt={intDetails.hex}
+                          colorExtTexture={extDetails.textureUrl}
+                          colorIntTexture={intDetails.textureUrl}
+                        />
+                     ) : (
+                        <SvgWindowEngine 
+                          width={width} 
+                          height={height} 
+                          colorExt={extDetails.hex}
+                          colorExtTexture={extDetails.textureUrl}
+                          colorInt={intDetails.hex}
+                          colorIntTexture={intDetails.textureUrl}
+                          viewSide={viewSide}
+                          weldType={weld as any}
+                        />
+                     )}
                   </div>
                 ) : (
                   <WindowVisualizer width={width} height={height} typology={typology} infills={infills} />
@@ -719,12 +750,12 @@ export function DebugPricing() {
               <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">1) Product Number (Window opening/type)</label>
               <div 
                 onClick={() => setIsTypologyOpen(!isTypologyOpen)}
-                className="w-full bg-mammut-black border border-gray-700 rounded-lg p-3 text-mammut-white cursor-pointer flex items-center justify-between hover:border-mammut-gold transition-colors h-[68px]"
+                className="w-full bg-mammut-black border border-gray-700 rounded-lg p-3 text-mammut-white cursor-pointer flex items-center justify-between hover:border-mammut-gold transition-colors h-[76px]"
               >
                 <div className="flex items-center gap-3 group">
                    <img 
                      src={`/assets/windowtypes/${typology}.jpg`} 
-                     className="w-10 h-10 object-contain rounded bg-mammut-black border border-gray-700 shrink-0 p-1 transition-transform duration-300 ease-in-out group-hover:scale-[2.5] group-hover:z-50 origin-left relative"
+                     className="w-14 h-14 object-contain rounded bg-white border border-gray-700 shrink-0 p-1 transition-transform duration-300 ease-in-out group-hover:scale-[2.5] group-hover:z-50 origin-left relative"
                      onError={(e) => { 
                        const t = e.currentTarget;
                        if (!t.dataset.retriedPng) { t.dataset.retriedPng = 'true'; t.src = `/assets/windowtypes/${typology}.png`; }
