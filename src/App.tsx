@@ -22,6 +22,7 @@ import { SiteMapPage } from './pages/SiteMapPage'
 import { WhereToBuyPage } from './pages/WhereToBuyPage'
 import { CartDrawer } from './components/Shop/CartDrawer'
 import { MainConfigurator } from './components/SlateConfigurator/MainConfigurator'
+import { ConfiguratorTestPage } from './pages/ConfiguratorTestPage'
 import './index.css'
 
 // Error boundary to catch silent crashes in the component tree
@@ -82,6 +83,7 @@ function StorefrontLayout() {
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/configurator" element={<MainConfigurator />} />
           <Route path="/slate-configurator" element={<MainConfigurator />} />
+          <Route path="/configurator-test" element={<ConfiguratorTestPage />} />
           <Route path="/about/*" element={<AboutPage />} />
           <Route path="/where-to-buy" element={<WhereToBuyPage />} />
           <Route path="/debug-pricing" element={<DebugPricing />} />

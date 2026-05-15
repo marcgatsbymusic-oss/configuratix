@@ -35,7 +35,7 @@ export interface ProductDetailData {
   inlineVideoSrc?: string
   inlineImageSrc?: string
   features?: { title: string; description: string; image: string }[]
-  inspirations?: string[];
+  inspirations?: { id: string; url: string; alt: string }[] | string[];
   benefits?: { label: string; text: string; icon?: string }[];
   relatedProductLink?: { text: string; url: string };
   relatedProductLinks?: { text: string; url: string }[];
@@ -66,9 +66,13 @@ export interface ProductDetailData {
     image: string;
   }[]
   downloads?: {
+    id?: string;
     title: string;
-    label: string;
+    label?: string;
     fileUrl: string;
+    buttonText?: string;
+    iconUrl?: string;
+    buttonIconUrl?: string;
   }[]
   models?: {
     name: string;
@@ -104,19 +108,6 @@ export interface ProductDetailData {
   comparisonImages?: {
     [productName: string]: string;
   }
-  downloads?: {
-    id: string;
-    title: string;
-    buttonText: string;
-    fileUrl: string;
-    iconUrl: string;
-    buttonIconUrl?: string;
-  }[];
-  inspirations?: {
-    id: string;
-    url: string;
-    alt: string;
-  }[]
 }
 
 export const IGLO_DOOR_COLORS: SwatchColor[] = [

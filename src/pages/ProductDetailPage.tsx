@@ -747,13 +747,18 @@ export function ProductDetailPage() {
 
       {/* Inspirations Gallery */}
       <div id="gallery">
-        {detailData.inspirations && <InspirationsGallery images={detailData.inspirations} />}
+        {detailData.inspirations && <InspirationsGallery images={detailData.inspirations.map(i => typeof i === 'string' ? i : i.url)} />}
       </div>
 
       {/* Downloads Section (Moved up under product image/overview) */}
       <div id="downloads">
         {detailData.downloads && (
-          <ProductDownloads downloads={detailData.downloads} />
+          <ProductDownloads downloads={detailData.downloads.map(d => ({
+            ...d,
+            id: d.id || d.title,
+            buttonText: d.buttonText || t('productDetail.download', { defaultValue: 'Download PDF' }),
+            iconUrl: d.iconUrl || '/assets/icons/pdf-icon.svg'
+          }))} />
         )}
       </div>
 
@@ -1285,21 +1290,25 @@ export function ProductDetailPage() {
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
-              {detailData.inspirations.map((insp, idx) => (
+              {detailData.inspirations.map((insp, idx) => {
+                const id = typeof insp === 'string' ? `insp_${idx}` : insp.id;
+                const url = typeof insp === 'string' ? insp : insp.url;
+                const alt = typeof insp === 'string' ? `Inspiration ${idx + 1}` : (insp.alt || `Inspiration ${idx + 1}`);
+                return (
                 <div 
-                  key={insp.id} 
+                  key={id} 
                   className="relative group overflow-hidden bg-black aspect-[4/3] rounded-sm cursor-zoom-in" 
-                  onClick={() => setInfillOpen(insp.url)}
+                  onClick={() => setInfillOpen(url)}
                 >
                   <img 
-                    src={insp.url} 
-                    alt={insp.alt || `Inspiration ${idx + 1}`} 
+                    src={url} 
+                    alt={alt} 
                     className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 ring-1 ring-inset ring-white/10 pointer-events-none transition-colors group-hover:ring-mammut-gold/50" />
                 </div>
-              ))}
+              )})}
             </div>
           </div>
         </section>

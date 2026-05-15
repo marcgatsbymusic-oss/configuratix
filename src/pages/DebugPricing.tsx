@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { fetchPrice, type PricingApiResponse } from '../utils/cantorPricing/pricingApi';
 import type { ConfiguratorInput } from '../utils/cantorPricing/input';
-import { CONFIG_SCHEMA, WINDOW_TYPES, COLOR_LOCALE, PROFILE_GLAZING_LIMITS } from '../components/SlateConfigurator/types';
+import { CONFIG_SCHEMA, WINDOW_TYPES, PROFILE_GLAZING_LIMITS } from '../components/SlateConfigurator/types';
+import { IGLO_EDGE_COLORS } from '../data/productDetails';
 import { WindowVisualizer } from '../components/SlateConfigurator/WindowVisualizer';
+import { SvgWindowEngine } from '../components/configurator/SvgWindowEngine';
 import glazingOptions from '../data/cantor_glazing_options.json';
 import shutterLookups from '../data/shutter_lookups.json';
 import { ThemeToggle } from '../components/common/ThemeToggle';
@@ -143,12 +145,15 @@ export function DebugPricing() {
   const [result, setResult] = useState<PricingApiResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  
+  // 19) Visualizer View Side
+  const [viewSide, setViewSide] = useState<'interior' | 'exterior'>('interior');
 
   // Debounce input changes so we don't spam the API on every keypress.
   useEffect(() => {
     const input: ConfiguratorInput = {
       article: typology,
-      profilsatz: PRODUKTSYSTEM_MAP[profilsatz] || profilsatz,
+      profilsatz: SYSTEM_CODE_MAP[profilsatz] || profilsatz,
       materialart: 2,
       beschvar: opening === 'UR' ? 'UR-P' : 'FIX',
       width_mm: width,
@@ -207,18 +212,27 @@ export function DebugPricing() {
     coreColor, windowUnit, model
   ]);
 
-  // Group colors for dropdowns
-  const groupedColors = Object.entries(COLOR_LOCALE.colors || {}).reduce((acc: any, [key, val]: any) => {
+  // Group colors for dropdowns using IGLO_EDGE_COLORS as requested
+  const groupedColors = IGLO_EDGE_COLORS.reduce((acc: any, val: any) => {
     const group = val.group || 'Other';
     if (!acc[group]) acc[group] = [];
-    const cantorCode = key.replace('c', '').padStart(4, '0');
-    let bgUrl = '';
-    if (val.swatch && val.swatch.includes('url(')) {
-      bgUrl = val.swatch.match(/url\(['"]?(.*?)['"]?\)/)?.[1] || '';
-    }
-    acc[group].push({ code: cantorCode, name: val.name, originalKey: key, swatchUrl: bgUrl });
+    const cantorCode = val.id.replace('c', '').padStart(4, '0');
+    acc[group].push({ code: cantorCode, name: val.name, originalKey: val.id, swatchUrl: val.image, hex: val.hex });
     return acc;
   }, {});
+
+  const getColorDetailsFromCode = (code: string) => {
+    if (!code) return { hex: '#FFFFFF', textureUrl: '' };
+    const colorObj = IGLO_EDGE_COLORS.find(k => k.id.replace('c', '').padStart(4, '0') === code.padStart(4, '0') || k.id.replace('c', '') === code);
+    
+    return {
+      hex: colorObj?.hex || '#4B4B4D', // Fallback to anthracite if no hex
+      textureUrl: colorObj?.image || ''
+    };
+  };
+
+  const extDetails = getColorDetailsFromCode(colorCode);
+  const intDetails = interiorColorCode ? getColorDetailsFromCode(interiorColorCode) : extDetails;
 
   const HANDLE_COLOR_OPTIONS: Record<string, string> = {
     'white': 'White',
@@ -503,7 +517,18 @@ export function DebugPricing() {
     }
   ];
 
-  const PRODUKTSYSTEM_MAP: Record<string, string> = {
+  const PROFILE_IMAGE_MAP: Record<string, string> = {
+    "1100": "iglo5",
+    "1101": "iglo5psk",
+    "1103": "iglo5",
+    "1110": "iglo5classic",
+    "1300": "igloenergy",
+    "1310": "igloenergyclassic",
+    "3350": "mb86nsi",
+    "3904": "corvisionplus"
+  };
+
+  const SYSTEM_CODE_MAP: Record<string, string> = {
     "1100": "IG5",
     "1101": "IG5 PP PSK",
     "1103": "IG5",
@@ -635,7 +660,7 @@ export function DebugPricing() {
             {/* Image of the chosen profile system above Option 1 */}
             <div className="h-32 flex-1 flex justify-end mt-6">
               <img 
-                src={`/assets/profiles/${profilsatz}.png`} 
+                src={`/assets/profiles/${PROFILE_IMAGE_MAP[profilsatz] || profilsatz}.png`} 
                 alt={profilsatz} 
                 className="max-h-32 object-contain"
                 onError={(e) => { 
@@ -650,8 +675,43 @@ export function DebugPricing() {
             <div className="text-gray-600 font-bold text-2xl">+</div>
 
             {/* Image of the window opening/type */}
-            <div className="flex-[2] flex justify-center w-full max-w-sm">
-              <WindowVisualizer width={width} height={height} typology={typology} infills={infills} />
+            <div className="flex-[2] flex flex-col justify-center items-center w-full max-w-sm relative">
+              
+              <div className="absolute top-0 right-0 z-20 flex bg-gray-800 rounded-lg p-1 border border-gray-700 shadow-xl">
+                <button 
+                  onClick={() => setViewSide('interior')}
+                  className={`px-3 py-1 text-[10px] font-bold uppercase rounded transition-colors ${viewSide === 'interior' ? 'bg-mammut-gold text-black' : 'text-gray-400 hover:text-white'}`}
+                >
+                  Inside
+                </button>
+                <button 
+                  onClick={() => setViewSide('exterior')}
+                  className={`px-3 py-1 text-[10px] font-bold uppercase rounded transition-colors ${viewSide === 'exterior' ? 'bg-mammut-gold text-black' : 'text-gray-400 hover:text-white'}`}
+                >
+                  Outside
+                </button>
+              </div>
+
+              <div className="w-full mt-8">
+                {typology === 'F104' ? (
+                  <div className="w-full aspect-square border border-gray-800 rounded-lg bg-gray-900 flex items-center justify-center p-12 overflow-hidden shadow-inner">
+                     <SvgWindowEngine 
+                       width={width} 
+                       height={height} 
+                       system={profilsatz} 
+                       type={typology}
+                       colorExt={extDetails.hex}
+                       colorExtTexture={extDetails.textureUrl}
+                       colorInt={intDetails.hex}
+                       colorIntTexture={intDetails.textureUrl}
+                       viewSide={viewSide}
+                       weldType={weld as any}
+                     />
+                  </div>
+                ) : (
+                  <WindowVisualizer width={width} height={height} typology={typology} infills={infills} />
+                )}
+              </div>
             </div>
           </div>
 
@@ -769,7 +829,30 @@ export function DebugPricing() {
             </div>
           </div>
 
-          <hr className="border-gray-800 my-2" />
+          <hr className="border-gray-800 my-4" />
+
+          {/* 3.5) Joinery Colors */}
+          <div>
+            <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">
+              3.5) Joinery Colors
+            </h3>
+            <div className="grid grid-cols-2 gap-6">
+              <ColorSelect 
+                label="Exterior Color" 
+                value={colorCode} 
+                onChange={setColorCode} 
+                groupedOptions={groupedColors} 
+              />
+              <ColorSelect 
+                label="Interior Color" 
+                value={interiorColorCode || colorCode} 
+                onChange={setInteriorColorCode} 
+                groupedOptions={groupedColors} 
+              />
+            </div>
+          </div>
+
+          <hr className="border-gray-800 my-4" />
 
           {/* 4) Glazing Options / Infills */}
           {(typology.match(/^F2[0-5][0-9]$/) ? [0, 1] : [0]).map((infillIdx) => {
