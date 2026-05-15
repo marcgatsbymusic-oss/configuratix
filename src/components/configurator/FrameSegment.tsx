@@ -45,7 +45,6 @@ export const FrameSegment: React.FC<FrameSegmentProps> = ({
     }
     shape.lineTo((vertices[0].x - ox) * scaleFactor, (vertices[0].y - oy) * scaleFactor);
 
-    // 2. Extrude Geometry
     const scaledLength = length * scaleFactor;
     const extrudeSettings = {
       depth: scaledLength,
@@ -55,7 +54,7 @@ export const FrameSegment: React.FC<FrameSegmentProps> = ({
     
     const widthX = (maxX - minX) * scaleFactor;
     const heightY = (maxY - minY) * scaleFactor;
-    const boxSize = Math.max(widthX, heightY, length) * 2;
+    const boxSize = Math.max(widthX, heightY, scaledLength) * 2;
     
     // Create base brush
     const baseBrush = new Brush(baseGeo);
@@ -66,7 +65,7 @@ export const FrameSegment: React.FC<FrameSegmentProps> = ({
     // We want mitre cuts. Assuming the frame profile lies in X-Y plane and extrudes along Z.
     // Outer edge is at X = widthX. Inner edge is at X = 0.
     // For a standard frame, the outer edge is longer.
-    // So the cut planes are Z = X and Z = length - X.
+    // So the cut planes are Z = X and Z = scaledLength - X.
     
     const boxGeo = new THREE.BoxGeometry(boxSize, boxSize, boxSize);
     const sign = invertCuts ? -1 : 1;
@@ -80,17 +79,19 @@ export const FrameSegment: React.FC<FrameSegmentProps> = ({
     
     let result = evaluator.evaluate(baseBrush, leftBrush, SUBTRACTION);
     
-    // Right Cut Box (z = length)
+    // Right Cut Box (z = scaledLength)
     const rightBrush = new Brush(boxGeo);
-    rightBrush.position.set(0, 0, length);
+    rightBrush.position.set(0, 0, scaledLength);
     rightBrush.rotation.x = (-Math.PI / 4) * sign;
     rightBrush.translateZ(boxSize/2);
     rightBrush.updateMatrixWorld();
     
     result = evaluator.evaluate(result, rightBrush, SUBTRACTION);
     
-    return result.geometry;
-  }, [length, vertices, invertCuts]);
+    const geo = result.geometry;
+    geo.clearGroups(); // Fixes GLTFExporter multi-material group crashes
+    return geo;
+  }, [length, vertices, invertCuts, scaleFactor]);
 
   return (
     <mesh geometry={geometry} material={material} position={position} rotation={rotation} castShadow receiveShadow />

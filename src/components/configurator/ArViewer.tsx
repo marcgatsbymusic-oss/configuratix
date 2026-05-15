@@ -14,6 +14,7 @@ interface ArViewerProps {
 export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClose }) => {
   const [modelUrl, setModelUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [blobSize, setBlobSize] = useState<number | null>(null);
 
   useEffect(() => {
     if (!sceneGroup) {
@@ -28,6 +29,7 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
           sceneGroup,
           (gltf: any) => {
             const blob = new Blob([gltf as ArrayBuffer], { type: 'model/gltf-binary' });
+            setBlobSize(blob.size);
             const url = URL.createObjectURL(blob);
             setModelUrl(url);
           },
@@ -114,10 +116,13 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
                      <div className="text-left">
                        <p className="text-white font-black text-sm tracking-wider uppercase">Scan your {placement}</p>
                        <p className="text-gray-400 text-[10px] mt-1 leading-tight">Point camera at the {placement} & move slowly to place window</p>
+                       {blobSize && (
+                         <p className="text-mammut-gold text-[9px] mt-2 font-mono">GLTF Size: {(blobSize / 1024).toFixed(1)} KB</p>
+                       )}
                      </div>
                   </div>
 
-                  <div className="bg-mammut-gold text-black font-black uppercase tracking-widest px-8 py-3 rounded-full w-full text-sm shadow-[0_0_20px_rgba(204,153,0,0.3)] relative z-10">
+                  <div className="bg-mammut-gold text-black font-black uppercase tracking-widest px-8 py-3 rounded-full w-full text-sm shadow-[0_0_20px_rgba(204,153,0,0.3)] relative z-10 text-center">
                     Launch AR
                   </div>
                 </div>
