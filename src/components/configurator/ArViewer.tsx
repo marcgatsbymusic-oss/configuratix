@@ -84,6 +84,10 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
             shadow-intensity="1"
             style={{ width: '100%', height: '100%' }}
             alt="AR Window Configuration"
+            onError={(e: any) => {
+              console.error("ModelViewer Error:", e);
+              setError("Failed to load 3D model into AR engine. The model file might be invalid.");
+            }}
           >
             <>
               <style>

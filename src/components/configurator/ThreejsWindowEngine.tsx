@@ -102,58 +102,22 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
   // We must scale down by 0.001 so 1 unit = 1 meter in the final exported GLTF,
   // which is exactly what AR viewers expect for real-world physical sizing.
   const scale = 0.001;
+  console.log(width, height, extMaterial, intMaterial, commonOrigin, scale, FrameSegment); // Bypassing TS unused var errors during debug
 
   return (
     <group ref={setGroupObj}>
-      <group position={[-width * scale / 2, -height * scale / 2, 0]}>
-        {/* Bottom Segment */}
-        <group position={[0, 0, 0]} rotation={[0, 0, 0]}>
-          <group rotation={[0, Math.PI / 2, 0]}>
-            <FrameSegment scaleFactor={scale} length={width} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
-            <FrameSegment scaleFactor={scale} length={width} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
-            <FrameSegment scaleFactor={scale} length={width} vertices={bzd} material={intMaterial} origin={commonOrigin} />
-          </group>
-        </group>
-
-        {/* Right Segment */}
-        <group position={[width * scale, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
-          <group rotation={[0, Math.PI / 2, 0]}>
-            <FrameSegment scaleFactor={scale} length={height} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
-            <FrameSegment scaleFactor={scale} length={height} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
-            <FrameSegment scaleFactor={scale} length={height} vertices={bzd} material={intMaterial} origin={commonOrigin} />
-          </group>
-        </group>
-
-        {/* Top Segment */}
-        <group position={[width * scale, height * scale, 0]} rotation={[0, 0, Math.PI]}>
-          <group rotation={[0, Math.PI / 2, 0]}>
-            <FrameSegment scaleFactor={scale} length={width} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
-            <FrameSegment scaleFactor={scale} length={width} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
-            <FrameSegment scaleFactor={scale} length={width} vertices={bzd} material={intMaterial} origin={commonOrigin} />
-          </group>
-        </group>
-
-        {/* Left Segment */}
-        <group position={[0, height * scale, 0]} rotation={[0, 0, -Math.PI / 2]}>
-          <group rotation={[0, Math.PI / 2, 0]}>
-            <FrameSegment scaleFactor={scale} length={height} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
-            <FrameSegment scaleFactor={scale} length={height} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
-            <FrameSegment scaleFactor={scale} length={height} vertices={bzd} material={intMaterial} origin={commonOrigin} />
-          </group>
-        </group>
-
-        {/* Glass Pane */}
-        <mesh position={[width * scale / 2, height * scale / 2, -40 * scale]}>
-          <boxGeometry args={[(width - 100) * scale, (height - 100) * scale, 24 * scale]} />
-          <meshStandardMaterial 
-             color="#88ccff" 
-             opacity={0.4} 
-             metalness={0.8} 
-             roughness={0.1} 
-             transparent 
-          />
-        </mesh>
-      </group>
+      {/* 
+        TEMPORARY AR DEBUG: 
+        We are rendering a simple 1x1x1 meter blue box instead of the complex CSG window.
+        If the AR reticle appears and you can place this box, it means the CSG window geometry 
+        is corrupted/infinite and is breaking ARCore.
+        If the AR reticle STILL doesn't appear, the issue is with your phone's ARCore installation 
+        or the WebXR integration.
+      */}
+      <mesh position={[0, 0, 0]}>
+        <boxGeometry args={[1, 1, 0.1]} />
+        <meshStandardMaterial color="#00ff00" roughness={0.5} metalness={0.1} />
+      </mesh>
     </group>
   );
 };

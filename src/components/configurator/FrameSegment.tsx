@@ -90,6 +90,8 @@ export const FrameSegment: React.FC<FrameSegmentProps> = ({
     
     const geo = result.geometry;
     geo.clearGroups(); // Fixes GLTFExporter multi-material group crashes
+    geo.computeBoundingBox();
+    geo.computeBoundingSphere();
     return geo;
   }, [length, vertices, invertCuts, scaleFactor]);
 
