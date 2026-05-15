@@ -16,6 +16,7 @@ import {
   IconSmartHome, IconConservatories, IconPergola 
 } from '../components/icons/ProductIcons';
 import { useTranslation } from 'react-i18next';
+import * as THREE from 'three';
 
 const getPaneImage = (paneCode: string) => {
   if (!paneCode) return null;
@@ -625,10 +626,12 @@ export function DebugPricing() {
     );
   };
 
+  const [sceneGroup, setSceneGroup] = useState<THREE.Group | null>(null);
+
   return (
     <div className="min-h-screen bg-mammut-black text-mammut-white p-6 pt-32 relative">
       {arPlacement && (
-         <ArViewer sceneGroup={null} placement={arPlacement} onClose={() => setArPlacement(null)} />
+         <ArViewer sceneGroup={sceneGroup} placement={arPlacement} onClose={() => setArPlacement(null)} />
       )}
       <div className="absolute top-6 right-6">
         <ThemeToggle />
@@ -723,6 +726,7 @@ export function DebugPricing() {
                           colorInt={intDetails.hex}
                           colorExtTexture={extDetails.textureUrl}
                           colorIntTexture={intDetails.textureUrl}
+                          onSceneReady={setSceneGroup}
                         />
                      ) : (
                         <SvgWindowEngine 

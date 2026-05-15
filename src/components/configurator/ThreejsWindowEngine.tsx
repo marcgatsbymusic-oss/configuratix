@@ -15,11 +15,19 @@ interface ThreejsWindowEngineProps {
   colorInt?: string;
   colorExtTexture?: string;
   colorIntTexture?: string;
+  onSceneReady?: (group: THREE.Group) => void;
 }
 
-const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, colorIntTexture }: ThreejsWindowEngineProps) => {
+const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, colorIntTexture, onSceneReady }: ThreejsWindowEngineProps) => {
+  const groupRef = React.useRef<THREE.Group>(null);
   const [extMap, setExtMap] = React.useState<THREE.Texture | null>(null);
   const [intMap, setIntMap] = React.useState<THREE.Texture | null>(null);
+
+  React.useEffect(() => {
+    if (groupRef.current && onSceneReady) {
+      onSceneReady(groupRef.current);
+    }
+  }, [groupRef.current, onSceneReady, extMap, intMap, colorExt, colorInt]);
 
   React.useEffect(() => {
     if (colorExtTexture) {
@@ -95,7 +103,7 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
   const scale = 0.01;
 
   return (
-    <group position={[-width * scale / 2, -height * scale / 2, 0]} scale={scale}>
+    <group ref={groupRef} position={[-width * scale / 2, -height * scale / 2, 0]} scale={scale}>
       {/* Bottom Segment */}
       <group position={[0, 0, 0]} rotation={[0, 0, 0]}>
         <group rotation={[0, Math.PI / 2, 0]}>
