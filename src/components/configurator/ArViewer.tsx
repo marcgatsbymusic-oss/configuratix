@@ -11,6 +11,13 @@ interface ArViewerProps {
   onClose: () => void;
 }
 
+// Hotfix for Chromium 147+ WebXR Regression on Samsung A54 and similar mid-range chipsets.
+// These devices silently fail when WebXR tries to use XRProjectionLayer.
+// Forcing it to undefined makes Three.js/model-viewer fall back to standard XRWebGLLayer.
+if (typeof window !== 'undefined' && (window as any).XRProjectionLayer) {
+  (window as any).XRProjectionLayer = undefined;
+}
+
 export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClose }) => {
   const [modelUrl, setModelUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
