@@ -103,57 +103,56 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
   const scale = 0.001;
 
   return (
-    <group ref={setGroupObj} position={[-width * scale / 2, -height * scale / 2, 0]} scale={scale}>
-      {/* Bottom Segment */}
-      <group position={[0, 0, 0]} rotation={[0, 0, 0]}>
-        <group rotation={[0, Math.PI / 2, 0]}>
-          <FrameSegment length={width} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
-          <FrameSegment length={width} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
-          <FrameSegment length={width} vertices={bzd} material={intMaterial} origin={commonOrigin} />
+    <group ref={setGroupObj}>
+      <group position={[-width * scale / 2, -height * scale / 2, 0]} scale={scale}>
+        {/* Bottom Segment */}
+        <group position={[0, 0, 0]} rotation={[0, 0, 0]}>
+          <group rotation={[0, Math.PI / 2, 0]}>
+            <FrameSegment length={width} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
+            <FrameSegment length={width} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
+            <FrameSegment length={width} vertices={bzd} material={intMaterial} origin={commonOrigin} />
+          </group>
         </group>
-      </group>
 
-      {/* Right Segment */}
-      <group position={[width, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
-        <group rotation={[0, Math.PI / 2, 0]}>
-          <FrameSegment length={height} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
-          <FrameSegment length={height} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
-          <FrameSegment length={height} vertices={bzd} material={intMaterial} origin={commonOrigin} />
+        {/* Right Segment */}
+        <group position={[width, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+          <group rotation={[0, Math.PI / 2, 0]}>
+            <FrameSegment length={height} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
+            <FrameSegment length={height} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
+            <FrameSegment length={height} vertices={bzd} material={intMaterial} origin={commonOrigin} />
+          </group>
         </group>
-      </group>
 
-      {/* Top Segment */}
-      <group position={[width, height, 0]} rotation={[0, 0, Math.PI]}>
-        <group rotation={[0, Math.PI / 2, 0]}>
-          <FrameSegment length={width} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
-          <FrameSegment length={width} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
-          <FrameSegment length={width} vertices={bzd} material={intMaterial} origin={commonOrigin} />
+        {/* Top Segment */}
+        <group position={[width, height, 0]} rotation={[0, 0, Math.PI]}>
+          <group rotation={[0, Math.PI / 2, 0]}>
+            <FrameSegment length={width} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
+            <FrameSegment length={width} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
+            <FrameSegment length={width} vertices={bzd} material={intMaterial} origin={commonOrigin} />
+          </group>
         </group>
-      </group>
 
-      {/* Left Segment */}
-      <group position={[0, height, 0]} rotation={[0, 0, -Math.PI / 2]}>
-        <group rotation={[0, Math.PI / 2, 0]}>
-          <FrameSegment length={height} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
-          <FrameSegment length={height} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
-          <FrameSegment length={height} vertices={bzd} material={intMaterial} origin={commonOrigin} />
+        {/* Left Segment */}
+        <group position={[0, height, 0]} rotation={[0, 0, -Math.PI / 2]}>
+          <group rotation={[0, Math.PI / 2, 0]}>
+            <FrameSegment length={height} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
+            <FrameSegment length={height} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
+            <FrameSegment length={height} vertices={bzd} material={intMaterial} origin={commonOrigin} />
+          </group>
         </group>
-      </group>
 
-      {/* Glass Pane */}
-      <mesh position={[width/2, height/2, -40]}>
-        <boxGeometry args={[width - 100, height - 100, 24]} />
-        <meshPhysicalMaterial 
-           color="#88ccff" 
-           transmission={0.9} 
-           opacity={1} 
-           metalness={0.1} 
-           roughness={0.05} 
-           ior={1.5} 
-           thickness={24} 
-           transparent 
-        />
-      </mesh>
+        {/* Glass Pane */}
+        <mesh position={[width/2, height/2, -40]}>
+          <boxGeometry args={[width - 100, height - 100, 24]} />
+          <meshStandardMaterial 
+             color="#88ccff" 
+             opacity={0.4} 
+             metalness={0.8} 
+             roughness={0.1} 
+             transparent 
+          />
+        </mesh>
+      </group>
     </group>
   );
 };
