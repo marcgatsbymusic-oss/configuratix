@@ -626,12 +626,12 @@ export function DebugPricing() {
     );
   };
 
-  const [sceneGroup, setSceneGroup] = useState<THREE.Group | null>(null);
+  const [sceneGroup, setSceneGroup] = useState<{group: THREE.Group, ts: number} | null>(null);
 
   return (
     <div className="min-h-screen bg-mammut-black text-mammut-white p-6 pt-32 relative">
       {arPlacement && (
-         <ArViewer sceneGroup={sceneGroup} placement={arPlacement} onClose={() => setArPlacement(null)} />
+         <ArViewer sceneGroup={sceneGroup?.group || null} placement={arPlacement} onClose={() => setArPlacement(null)} />
       )}
       <div className="absolute top-6 right-6">
         <ThemeToggle />

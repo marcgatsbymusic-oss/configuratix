@@ -15,7 +15,7 @@ interface ThreejsWindowEngineProps {
   colorInt?: string;
   colorExtTexture?: string;
   colorIntTexture?: string;
-  onSceneReady?: (group: THREE.Group) => void;
+  onSceneReady?: (data: any) => void;
 }
 
 const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, colorIntTexture, onSceneReady }: ThreejsWindowEngineProps) => {
@@ -25,7 +25,8 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
 
   React.useEffect(() => {
     if (groupObj && onSceneReady) {
-      onSceneReady(groupObj);
+      // Force state update by passing a new object with timestamp
+      onSceneReady({ group: groupObj, ts: Date.now() } as any);
     }
   }, [groupObj, onSceneReady, extMap, intMap, colorExt, colorInt]);
 

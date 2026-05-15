@@ -77,7 +77,7 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
           <ModelViewer
             src={modelUrl}
             ar="true"
-            ar-modes="webxr scene-viewer quick-look"
+            ar-modes="webxr quick-look"
             ar-placement={placement}
             camera-controls="true"
             auto-rotate="true"
@@ -106,7 +106,7 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
                   {/* Subtle gold glow behind logo */}
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-16 bg-mammut-gold/20 blur-3xl rounded-full"></div>
                   
-                  <img src="/assets/logos/Mammut_Logo_Horizontal.png" alt="Mammut" className="h-6 mb-6 opacity-90 relative z-10" />
+                  <img src="/assets/mammut-logo-icon.png" alt="Mammut" className="h-6 mb-6 opacity-90 relative z-10" />
                   
                   <div className="flex items-center gap-4 mb-6 relative z-10">
                      <div className="w-8 h-12 border-2 border-mammut-gold/60 rounded-md relative flex items-center justify-center overflow-hidden shrink-0 bg-gray-900/50">
