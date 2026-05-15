@@ -98,9 +98,9 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
   }, [frmExt, frmInt, bzd]);
 
   // CAD profiles are often huge (e.g. 1 unit = 1mm). 
-  // We will scale down the whole assembly by a factor to keep Three.js happy,
-  // but keep the internal coordinates and ExtrudeGeometry true to life.
-  const scale = 0.01;
+  // We must scale down by 0.001 so 1 unit = 1 meter in the final exported GLTF,
+  // which is exactly what AR viewers expect for real-world physical sizing.
+  const scale = 0.001;
 
   return (
     <group ref={setGroupObj} position={[-width * scale / 2, -height * scale / 2, 0]} scale={scale}>
@@ -161,7 +161,7 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
 export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) => {
   return (
     <div className="w-full h-full relative cursor-move touch-pan-y">
-      <Canvas shadows camera={{ position: [0, 0, 30], fov: 45 }}>
+      <Canvas shadows camera={{ position: [0, 0, 3], fov: 45 }}>
         <color attach="background" args={['#1a1a1a']} />
         <ambientLight intensity={0.5} />
         <directionalLight position={[10, 10, 10]} intensity={1} castShadow />
@@ -170,7 +170,7 @@ export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) =
         <WindowAssembly {...props} />
         
         <OrbitControls makeDefault enablePan={true} enableZoom={true} />
-        <ContactShadows position={[0, -props.height * 0.01 / 2 - 1, 0]} opacity={0.4} scale={50} blur={2} far={10} />
+        <ContactShadows position={[0, -props.height * 0.001 / 2 - 0.1, 0]} opacity={0.4} scale={5} blur={2} far={10} />
       </Canvas>
     </div>
   );
