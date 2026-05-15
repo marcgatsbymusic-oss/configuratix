@@ -16,6 +16,7 @@ interface ThreejsWindowEngineProps {
   colorExtTexture?: string;
   colorIntTexture?: string;
   onSceneReady?: (data: any) => void;
+  arPlacement?: 'wall' | 'floor';
 }
 
 const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, colorIntTexture, onSceneReady }: ThreejsWindowEngineProps) => {
@@ -103,9 +104,22 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
   // which is exactly what AR viewers expect for real-world physical sizing.
   const scale = 0.001;
 
+  const W = width * scale;
+  const H = height * scale;
+  // Profile depth in meters (approx 70mm for IGLO5)
+  const D = 70 * scale;
+
+  // Pivot strategy:
+  // X: centered horizontally (-W/2 to +W/2 → center at 0)
+  // Y: bottom edge at 0 (0 to +H). For floor placement, model sits ON the floor.
+  //    For wall placement, model-viewer rotates it, so Y=0 becomes the bottom of the wall anchor.
+  // Z: back face at 0 (back of frame flush with the anchor plane).
+  //    For wall placement, the model projects outward from Z=0 into the room.
+
   return (
     <group ref={setGroupObj}>
-      <group position={[-width * scale / 2, -height * scale / 2, 0]}>
+      {/* Shift so: X centered, Y bottom at origin, Z back-face at origin */}
+      <group position={[-W / 2, 0, 0]}>
         {/* Bottom Segment */}
         <group position={[0, 0, 0]} rotation={[0, 0, 0]}>
           <group rotation={[0, Math.PI / 2, 0]}>
@@ -116,7 +130,7 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
         </group>
 
         {/* Right Segment */}
-        <group position={[width * scale, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+        <group position={[W, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
           <group rotation={[0, Math.PI / 2, 0]}>
             <FrameSegment scaleFactor={scale} length={height} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
             <FrameSegment scaleFactor={scale} length={height} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
@@ -125,7 +139,7 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
         </group>
 
         {/* Top Segment */}
-        <group position={[width * scale, height * scale, 0]} rotation={[0, 0, Math.PI]}>
+        <group position={[W, H, 0]} rotation={[0, 0, Math.PI]}>
           <group rotation={[0, Math.PI / 2, 0]}>
             <FrameSegment scaleFactor={scale} length={width} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
             <FrameSegment scaleFactor={scale} length={width} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
@@ -134,7 +148,7 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
         </group>
 
         {/* Left Segment */}
-        <group position={[0, height * scale, 0]} rotation={[0, 0, -Math.PI / 2]}>
+        <group position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}>
           <group rotation={[0, Math.PI / 2, 0]}>
             <FrameSegment scaleFactor={scale} length={height} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
             <FrameSegment scaleFactor={scale} length={height} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
@@ -142,14 +156,14 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
           </group>
         </group>
 
-        {/* Glass Pane */}
-        <mesh position={[width * scale / 2, height * scale / 2, -40 * scale]}>
+        {/* Glass Pane — centered, depth offset into the frame */}
+        <mesh position={[W / 2, H / 2, D / 2]}>
           <boxGeometry args={[(width - 100) * scale, (height - 100) * scale, 24 * scale]} />
           <meshStandardMaterial 
              color="#88ccff" 
-             opacity={0.4} 
-             metalness={0.8} 
-             roughness={0.1} 
+             opacity={0.35} 
+             metalness={0.1} 
+             roughness={0.05} 
              transparent 
           />
         </mesh>
