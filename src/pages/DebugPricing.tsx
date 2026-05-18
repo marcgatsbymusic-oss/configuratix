@@ -67,7 +67,7 @@ export function DebugPricing() {
 
   // 5) Joinery colors
   const [colorType, setColorType] = useState('W-W');
-  const [colorCode, setColorCode] = useState('0006');
+  const [colorCode, setColorCode] = useState('0197'); // 0197 = White
   const [interiorColorCode, setInteriorColorCode] = useState('');
   const [overwriteCoreColor, setOverwriteCoreColor] = useState(false);
   const [coreColor, setCoreColor] = useState('');
@@ -726,6 +726,7 @@ export function DebugPricing() {
                           colorInt={intDetails.hex}
                           colorExtTexture={extDetails.textureUrl}
                           colorIntTexture={intDetails.textureUrl}
+                          spacerColor={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
                           onSceneReady={setSceneGroup}
                         />
                      ) : (

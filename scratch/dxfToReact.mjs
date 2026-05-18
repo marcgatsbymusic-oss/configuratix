@@ -38,19 +38,70 @@ export function parseDxfToReact(dxfFilePath) {
     profiles: {}
   };
 
+  const targetLayers = ['FRM_EXT', 'FRM_INT', 'BZD', 'GLS_EXT', 'GLS_INT', 'SPACER1', 'GLS'];
+
+  // Buffer to collect vertices for layers that are made of disconnected lines (like glass)
+  const layerVertices = {};
+
+  function extractEntity(ent, offsetX = 0, offsetY = 0) {
+    const layerName = ent.layer.toUpperCase();
+    if (targetLayers.includes(layerName)) {
+      if (!layerVertices[layerName]) layerVertices[layerName] = [];
+      
+      if (ent.type === 'LWPOLYLINE' || ent.type === 'POLYLINE' || ent.type === 'LINE') {
+        if (ent.vertices) {
+          ent.vertices.forEach(v => layerVertices[layerName].push({ x: v.x + offsetX, y: v.y + offsetY }));
+        }
+      }
+    }
+  }
+
   dxf.entities.forEach(ent => {
-    // Only capture our target layers for the scalable engine
-    if (ent.layer === 'FRM_EXT' || ent.layer === 'FRM_INT' || ent.layer === 'BZD') {
-      if (ent.type === 'LWPOLYLINE' || ent.type === 'POLYLINE') {
-        const svgPath = getSvgPathFromVertices(ent.vertices);
-        
-        result.profiles[ent.layer] = {
-          svgPath: svgPath,
-          vertices: ent.vertices.map(v => ({ x: v.x, y: v.y }))
-        };
+    extractEntity(ent);
+    
+    // Check block references
+    if (ent.type === 'INSERT') {
+      const block = dxf.blocks[ent.name];
+      if (block && block.entities) {
+        block.entities.forEach(blockEnt => {
+          extractEntity(blockEnt, ent.position.x || 0, ent.position.y || 0);
+        });
       }
     }
   });
+
+  // Now process the collected vertices. 
+  // For glass panes, create a bounding box rectangle from the collected points to ensure a closed shape.
+  // For frames, just use the points as a polyline (assuming they were in order).
+  for (const [layerName, points] of Object.entries(layerVertices)) {
+    if (points.length === 0) continue;
+
+    if (layerName === 'GLS_EXT' || layerName === 'GLS_INT' || layerName === 'SPACER1') {
+      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+      points.forEach(p => {
+        if (p.x < minX) minX = p.x;
+        if (p.x > maxX) maxX = p.x;
+        if (p.y < minY) minY = p.y;
+        if (p.y > maxY) maxY = p.y;
+      });
+      const rectVertices = [
+        { x: minX, y: minY },
+        { x: maxX, y: minY },
+        { x: maxX, y: maxY },
+        { x: minX, y: maxY }
+      ];
+      result.profiles[layerName] = {
+        svgPath: getSvgPathFromVertices(rectVertices),
+        vertices: rectVertices
+      };
+    } else {
+      // For frames, just use the points in order
+      result.profiles[layerName] = {
+        svgPath: getSvgPathFromVertices(points),
+        vertices: points
+      };
+    }
+  }
 
   return result;
 }

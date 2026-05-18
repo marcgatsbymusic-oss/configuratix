@@ -15,11 +15,12 @@ interface ThreejsWindowEngineProps {
   colorInt?: string;
   colorExtTexture?: string;
   colorIntTexture?: string;
+  spacerColor?: string;
   onSceneReady?: (data: any) => void;
   arPlacement?: 'wall' | 'floor';
 }
 
-const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, colorIntTexture, onSceneReady }: ThreejsWindowEngineProps) => {
+const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, colorIntTexture, spacerColor = '#b0b5b9', onSceneReady }: ThreejsWindowEngineProps) => {
   const [groupObj, setGroupObj] = React.useState<THREE.Group | null>(null);
   const [extMap, setExtMap] = React.useState<THREE.Texture | null>(null);
   const [intMap, setIntMap] = React.useState<THREE.Texture | null>(null);
@@ -84,20 +85,56 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
     metalness: 0.1 
   }), [colorInt, intMap, colorIntTexture]);
 
-  const frmExt = IG5_F104.profiles.FRM_EXT.vertices;
-  const frmInt = IG5_F104.profiles.FRM_INT.vertices;
-  const bzd = IG5_F104.profiles.BZD.vertices;
+  const glassMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({ 
+     color: "#aaccff", 
+     transparent: true,
+     opacity: 0.4, 
+     roughness: 0.05,
+     metalness: 0.1,
+     transmission: 0.9,
+     thickness: 0.004,
+     ior: 1.5,
+  }), []);
+
+  const spacerMaterial = useMemo(() => new THREE.MeshStandardMaterial({
+    color: spacerColor,
+    roughness: 0.8,
+    metalness: 0.6
+  }), [spacerColor]);
+
+  const frmExt = IG5_F104.profiles.FRM_EXT?.vertices || [];
+  const frmInt = IG5_F104.profiles.FRM_INT?.vertices || [];
+  const bzd = IG5_F104.profiles.BZD?.vertices || [];
+  const glsExt = IG5_F104.profiles.GLS_EXT?.vertices || [];
+  const glsInt = IG5_F104.profiles.GLS_INT?.vertices || [];
+  const spacer1 = IG5_F104.profiles.SPACER1?.vertices || [];
+
+  // Helper to get bounds of a profile
+  const getBounds = (verts: any[]) => {
+    if (!verts || verts.length === 0) return null;
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    for (const v of verts) {
+      if (v.x < minX) minX = v.x;
+      if (v.x > maxX) maxX = v.x;
+      if (v.y < minY) minY = v.y;
+      if (v.y > maxY) maxY = v.y;
+    }
+    return { minX, maxX, minY, maxY };
+  };
+
+  const extBounds = getBounds(glsExt);
+  const intBounds = getBounds(glsInt);
 
   // Compute common origin for all parts so they don't lose relative positioning!
   const commonOrigin = useMemo(() => {
     let minX = Infinity, minY = Infinity;
-    const allVerts = [...frmExt, ...frmInt, ...bzd];
+    const allVerts = [...frmExt, ...frmInt, ...bzd, ...glsExt, ...glsInt, ...spacer1];
     for (const v of allVerts) {
       if (v.x < minX) minX = v.x;
       if (v.y < minY) minY = v.y;
     }
-    return { x: minX, y: minY };
-  }, [frmExt, frmInt, bzd]);
+    return { x: minX === Infinity ? 0 : minX, y: minY === Infinity ? 0 : minY };
+  }, [frmExt, frmInt, bzd, glsExt, glsInt, spacer1]);
 
   // CAD profiles are often huge (e.g. 1 unit = 1mm). 
   // We must scale down by 0.001 so 1 unit = 1 meter in the final exported GLTF,
@@ -126,6 +163,7 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
             <FrameSegment scaleFactor={scale} length={width} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
             <FrameSegment scaleFactor={scale} length={width} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
             <FrameSegment scaleFactor={scale} length={width} vertices={bzd} material={intMaterial} origin={commonOrigin} />
+            {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={spacer1} material={spacerMaterial} origin={commonOrigin} />}
           </group>
         </group>
 
@@ -135,6 +173,7 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
             <FrameSegment scaleFactor={scale} length={height} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
             <FrameSegment scaleFactor={scale} length={height} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
             <FrameSegment scaleFactor={scale} length={height} vertices={bzd} material={intMaterial} origin={commonOrigin} />
+            {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={spacer1} material={spacerMaterial} origin={commonOrigin} />}
           </group>
         </group>
 
@@ -144,6 +183,7 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
             <FrameSegment scaleFactor={scale} length={width} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
             <FrameSegment scaleFactor={scale} length={width} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
             <FrameSegment scaleFactor={scale} length={width} vertices={bzd} material={intMaterial} origin={commonOrigin} />
+            {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={spacer1} material={spacerMaterial} origin={commonOrigin} />}
           </group>
         </group>
 
@@ -153,20 +193,45 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
             <FrameSegment scaleFactor={scale} length={height} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
             <FrameSegment scaleFactor={scale} length={height} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
             <FrameSegment scaleFactor={scale} length={height} vertices={bzd} material={intMaterial} origin={commonOrigin} />
+            {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={spacer1} material={spacerMaterial} origin={commonOrigin} />}
           </group>
         </group>
 
-        {/* Glass Pane — centered, depth offset into the frame */}
-        <mesh position={[W / 2, H / 2, D / 2]}>
-          <boxGeometry args={[(width - 100) * scale, (height - 100) * scale, 24 * scale]} />
-          <meshStandardMaterial 
-             color="#88ccff" 
-             opacity={0.35} 
-             metalness={0.1} 
-             roughness={0.05} 
-             transparent 
-          />
-        </mesh>
+        {/* Solid Glass Panes */}
+        {extBounds && (
+          <mesh 
+            position={[
+              W / 2, 
+              H / 2, 
+              -(((extBounds.minX + extBounds.maxX) / 2) - commonOrigin.x) * scale
+            ]}
+          >
+            <boxGeometry args={[
+              (width - 2 * (extBounds.minY - commonOrigin.y)) * scale, 
+              (height - 2 * (extBounds.minY - commonOrigin.y)) * scale, 
+              (extBounds.maxX - extBounds.minX) * scale
+            ]} />
+            <primitive object={glassMaterial} attach="material" />
+          </mesh>
+        )}
+        
+        {intBounds && (
+          <mesh 
+            position={[
+              W / 2, 
+              H / 2, 
+              -(((intBounds.minX + intBounds.maxX) / 2) - commonOrigin.x) * scale
+            ]}
+          >
+            <boxGeometry args={[
+              (width - 2 * (intBounds.minY - commonOrigin.y)) * scale, 
+              (height - 2 * (intBounds.minY - commonOrigin.y)) * scale, 
+              (intBounds.maxX - intBounds.minX) * scale
+            ]} />
+            <primitive object={glassMaterial} attach="material" />
+          </mesh>
+        )}
+
       </group>
     </group>
   );
