@@ -194,7 +194,6 @@ export function MainConfigurator() {
   // IMPORTANT: The `link` and `S.browser_fallback_url` values must be percent-encoded.
   // Chrome's intent URL parser splits on `://` so any unencoded https:// inside a parameter
   // value silently truncates the intent, causing Scene Viewer to fail with no error shown.
-  const encodedLink = encodeURIComponent(`https://${appDomain}`);
   const encodedFallback = encodeURIComponent('https://developers.google.com/ar');
   const androidIntent = `intent://arvr.google.com/scene-viewer/1.1?file=${encodeURIComponent(glbUrl)}&mode=ar_preferred&title=Mammut%20Window&resizable=false#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;S.browser_fallback_url=${encodedFallback};end;`;
   const arHref = isIOS ? "/models/window-scene.usdz#allowsContentScaling=1" : androidIntent;
