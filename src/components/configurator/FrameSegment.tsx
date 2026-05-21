@@ -26,8 +26,6 @@ function applyTriplanarUVs(geometry: THREE.BufferGeometry) {
     const py = posAttr.getY(i);
     const pz = posAttr.getZ(i);
 
-    const nx = normAttr.getX(i);
-    const ny = normAttr.getY(i);
     const nz = normAttr.getZ(i);
 
     let u = 0;

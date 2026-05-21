@@ -24,6 +24,8 @@ export const ScrollWheel: React.FC<ScrollWheelProps> = ({
   className = '',
 }) => {
   const trackRef = useRef<HTMLDivElement>(null);
+  const currentValueRef = useRef(value);
+  currentValueRef.current = value;
   const [isDragging, setIsDragging] = useState(false);
   const [trackWidth, setTrackWidth] = useState(200);
   const [trackHeight, setTrackHeight] = useState(200);
@@ -146,7 +148,7 @@ export const ScrollWheel: React.FC<ScrollWheelProps> = ({
       buttonIntervalRef.current = window.setInterval(() => {
         // Accelerate scroll if they hold it longer
         if (speedMultiplier < 10) speedMultiplier += 0.5;
-        updateValue((val) => val + direction * step * Math.floor(speedMultiplier));
+        updateValue(currentValueRef.current + direction * step * Math.floor(speedMultiplier));
       }, 50);
     }, 300);
   };
