@@ -5,6 +5,13 @@ import '@google/model-viewer';
 
 const ModelViewer = 'model-viewer' as any;
 
+const isAndroid = typeof navigator !== 'undefined' && /android/i.test(navigator.userAgent);
+
+// Public rescaled GLB for Android Scene Viewer (blob URLs can't be fetched by native apps)
+const PUBLIC_GLB = 'https://fantastic-octo-giggle-five.vercel.app/models/window-scene.glb';
+const encodedFallback = encodeURIComponent('https://developers.google.com/ar');
+const ANDROID_SCENE_VIEWER_INTENT = `intent://arvr.google.com/scene-viewer/1.1?file=${encodeURIComponent(PUBLIC_GLB)}&mode=ar_preferred&title=Mammut%20Window&resizable=false#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;S.browser_fallback_url=${encodedFallback};end;`;
+
 interface ArViewerProps {
   sceneGroup: THREE.Group | THREE.Scene | null; // The Three.js group to export
   placement: 'wall' | 'floor';
@@ -84,7 +91,7 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
           <ModelViewer
             src={modelUrl}
             ar="true"
-            ar-modes="webxr scene-viewer quick-look"
+            ar-modes={isAndroid ? 'webxr' : 'quick-look'}
             ar-placement={placement}
             camera-controls="true"
             auto-rotate="true"
@@ -134,10 +141,21 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
                   </div>
 
                   <div className="bg-mammut-gold text-black font-black uppercase tracking-widest px-8 py-3 rounded-full w-full text-sm shadow-[0_0_20px_rgba(204,153,0,0.3)] relative z-10 text-center">
-                    Launch AR
+                    {isAndroid ? 'Launch WebXR AR' : 'Launch AR'}
                   </div>
                 </div>
               </button>
+              {/* Android: Scene Viewer fallback via public GLB (blob URLs unreachable by native app) */}
+              {isAndroid && (
+                <div slot="ar-failure">
+                  <a
+                    href={ANDROID_SCENE_VIEWER_INTENT}
+                    style={{ position: 'absolute', bottom: '120px', left: '50%', transform: 'translateX(-50%)', background: '#1a1a1a', color: '#eab676', border: '1px solid #eab676', borderRadius: '999px', padding: '12px 24px', fontWeight: 900, fontSize: '11px', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none', display: 'block', textAlign: 'center', zIndex: 30 }}
+                  >
+                    Open in Google AR
+                  </a>
+                </div>
+              )}
             </>
           </ModelViewer>
         )}

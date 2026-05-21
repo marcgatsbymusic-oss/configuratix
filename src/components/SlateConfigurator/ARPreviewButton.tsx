@@ -20,8 +20,9 @@ export function ARPreviewButton() {
 
   // Direct Vercel URL to avoid Intent relative-path resolving errors in Android Scene Viewer
   const appDomain = "fantastic-octo-giggle-five.vercel.app";
-  const glbUrl = `https://${appDomain}/models/Fenetre_PVC_135_120.glb`;
-  const androidIntent = `intent://arvr.google.com/scene-viewer/1.1?file=${glbUrl}&mode=ar_preferred&title=Mammut+Window&link=https://${appDomain}&resizable=false#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;S.browser_fallback_url=https://developers.google.com/ar;end;`;
+  const glbUrl = `https://${appDomain}/models/window-scene.glb`; // use the rescaled GLB
+  const encodedFallback = encodeURIComponent('https://developers.google.com/ar');
+  const androidIntent = `intent://arvr.google.com/scene-viewer/1.1?file=${encodeURIComponent(glbUrl)}&mode=ar_preferred&title=Mammut%20Window&resizable=false#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;S.browser_fallback_url=${encodedFallback};end;`;
 
   return (
     <>
