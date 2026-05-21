@@ -50,6 +50,16 @@ def is_wood_material(name):
     name_lower = name.lower()
     return any(kw in name_lower for kw in WOOD_KEYWORDS)
 
+def convolve2d_wrap(img_arr, kernel, scale=1.0, offset=0.0):
+    padded = np.pad(img_arr, 1, mode='wrap')
+    output = (
+        padded[:-2, :-2] * kernel[0, 0] + padded[:-2, 1:-1] * kernel[0, 1] + padded[:-2, 2:] * kernel[0, 2] +
+        padded[1:-1, :-2] * kernel[1, 0] + padded[1:-1, 1:-1] * kernel[1, 1] + padded[1:-1, 2:] * kernel[1, 2] +
+        padded[2:, :-2] * kernel[2, 0] + padded[2:, 1:-1] * kernel[2, 1] + padded[2:, 2:] * kernel[2, 2]
+    )
+    output = output / scale + offset
+    return np.clip(output, 0, 255).astype(np.uint8)
+
 def process_flat_image(filename, src_dir, dest_dir):
     name = clean_name(filename)
     print(f"\nProcessing flat image material: {name}...")
@@ -74,14 +84,20 @@ def process_flat_image(filename, src_dir, dest_dir):
         # Convert to grayscale for height map / gradient calculation
         gray = img.convert("L")
         
-        # 2. Generate Procedural Normal Map (Sobel filter)
+        # 2. Generate Procedural Normal Map (Sobel filter with wrap padding)
         is_wood = is_wood_material(name)
         # Low scale = stronger normal map effect
         scale_val = 2 if is_wood else 5
         
-        # Sobel kernel values
-        sobel_x = gray.filter(ImageFilter.Kernel((3, 3), [-1, 0, 1, -2, 0, 2, -1, 0, 1], scale=scale_val, offset=128))
-        sobel_y = gray.filter(ImageFilter.Kernel((3, 3), [-1, -2, -1, 0, 0, 0, 1, 2, 1], scale=scale_val, offset=128))
+        gray_arr = np.array(gray, dtype=np.float32)
+        sobel_x_kernel = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]], dtype=np.float32)
+        sobel_y_kernel = np.array([[-1, -2, -1], [0, 0, 0], [1, 2, 1]], dtype=np.float32)
+        
+        sx = convolve2d_wrap(gray_arr, sobel_x_kernel, scale=scale_val, offset=128.0)
+        sy = convolve2d_wrap(gray_arr, sobel_y_kernel, scale=scale_val, offset=128.0)
+        
+        sobel_x = Image.fromarray(sx)
+        sobel_y = Image.fromarray(sy)
         
         # Normal Blue channel is solid 255 (facing vector Z = 1)
         blue_chan = Image.new("L", (width, height), 255)
