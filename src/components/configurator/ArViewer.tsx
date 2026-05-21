@@ -51,8 +51,11 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
     };
   }, [sceneGroup]);
 
-  // ─── ANDROID: Direct Scene Viewer launch card ─────────────────────────────
+  // ─── ANDROID: Needle Engine AR page (bypasses WebXR/blob issues) ─────────
   if (isAndroid) {
+    const needleArUrl = '/ar.html';
+    const sceneViewerFallback = ANDROID_SCENE_VIEWER_INTENT;
+
     return (
       <div className="fixed inset-0 z-50 bg-[#0a0a0b] flex flex-col">
         <div className="w-full bg-gray-900 text-white p-4 flex items-center justify-between shadow-md">
@@ -80,20 +83,25 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
               Place on your {placement}
             </h3>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Tap below to open Google Scene Viewer. ARCore will scan your {placement} and let you place the window at real scale.
+              Opens the AR viewer — scan your {placement} and place the window at real scale.
             </p>
           </div>
 
+          {/* Primary: Needle Engine AR page */}
           <a
-            href={ANDROID_SCENE_VIEWER_INTENT}
+            href={needleArUrl}
             className="w-full max-w-xs bg-mammut-gold text-black font-black uppercase tracking-widest py-5 rounded-2xl text-center shadow-[0_0_30px_rgba(234,182,118,0.4)] text-sm no-underline block"
           >
-            Launch Google AR
+            Launch AR Viewer
           </a>
 
-          <p className="text-gray-600 text-[10px] text-center max-w-[260px]">
-            Requires Google Play Services for AR (ARCore). If Scene Viewer doesn't open, install it from the Play Store.
-          </p>
+          {/* Fallback: Google Scene Viewer via intent */}
+          <a
+            href={sceneViewerFallback}
+            className="w-full max-w-xs border border-gray-700 text-gray-400 font-bold uppercase tracking-widest py-3 rounded-xl text-center text-xs no-underline block hover:border-gray-500 hover:text-gray-300 transition-colors"
+          >
+            or Open in Google AR
+          </a>
         </div>
       </div>
     );

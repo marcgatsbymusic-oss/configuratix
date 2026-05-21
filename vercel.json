@@ -20,7 +20,7 @@
     }
   ],
   "rewrites": [
-    { "source": "/((?!assets/|models/).*)", "destination": "/index.html" }
+    { "source": "/((?!assets/|models/|ar\\.html).*)", "destination": "/index.html" }
   ]
 }
 
