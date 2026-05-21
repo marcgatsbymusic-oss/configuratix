@@ -13,7 +13,7 @@ const isAndroid = typeof navigator !== 'undefined' && /android/i.test(navigator.
 // Solution: skip WebXR entirely on Android and go straight to Scene Viewer intent URL.
 const PUBLIC_GLB = 'https://fantastic-octo-giggle-five.vercel.app/models/window-scene.glb';
 const encodedFallback = encodeURIComponent('https://developers.google.com/ar');
-const ANDROID_SCENE_VIEWER_INTENT = `intent://arvr.google.com/scene-viewer/1.1?file=${encodeURIComponent(PUBLIC_GLB)}&mode=ar_preferred&title=Mammut%20Window&resizable=false#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;S.browser_fallback_url=${encodedFallback};end;`;
+const ANDROID_SCENE_VIEWER_INTENT = `intent://arvr.google.com/scene-viewer/1.1?file=${encodeURIComponent(PUBLIC_GLB)}&mode=ar_preferred&title=Mammut%20Window&resizable=false#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=${encodedFallback};end;`;
 
 interface ArViewerProps {
   sceneGroup: THREE.Group | THREE.Scene | null;

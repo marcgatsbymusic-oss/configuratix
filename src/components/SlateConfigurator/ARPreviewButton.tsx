@@ -22,7 +22,7 @@ export function ARPreviewButton() {
   const appDomain = "fantastic-octo-giggle-five.vercel.app";
   const glbUrl = `https://${appDomain}/models/window-scene.glb`; // use the rescaled GLB
   const encodedFallback = encodeURIComponent('https://developers.google.com/ar');
-  const androidIntent = `intent://arvr.google.com/scene-viewer/1.1?file=${encodeURIComponent(glbUrl)}&mode=ar_preferred&title=Mammut%20Window&resizable=false#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;S.browser_fallback_url=${encodedFallback};end;`;
+  const androidIntent = `intent://arvr.google.com/scene-viewer/1.1?file=${encodeURIComponent(glbUrl)}&mode=ar_preferred&title=Mammut%20Window&resizable=false#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=${encodedFallback};end;`;
 
   return (
     <>
