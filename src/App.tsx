@@ -23,6 +23,7 @@ import { WhereToBuyPage } from './pages/WhereToBuyPage'
 import { CartDrawer } from './components/Shop/CartDrawer'
 import { MainConfigurator } from './components/SlateConfigurator/MainConfigurator'
 import { ConfiguratorTestPage } from './pages/ConfiguratorTestPage'
+import { ArPage } from './pages/ArPage'
 import './index.css'
 
 // Error boundary to catch silent crashes in the component tree
@@ -134,6 +135,9 @@ function App() {
             {/* Partner Landing Page (Dummy) */}
             <Route path="/landing/:partnerId" element={<PartnerLanding />} />
             
+            {/* AR Preview – full screen, no header/footer */}
+            <Route path="/ar-preview" element={<ArPage />} />
+
             {/* Public Storefront Routes */}
             <Route path="*" element={<StorefrontLayout />} />
           </Routes>

@@ -743,9 +743,9 @@ export function DebugPricing() {
                         </span>
                      </div>
 
-                     {/* AR Buttons */}
+                     {/* AR Buttons - always visible in 3D mode */}
                      {is3dMode && (
-                       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 bg-black/80 p-2 rounded-full flex items-center gap-2 shadow-xl opacity-0 group-hover:opacity-100 transition-opacity">
+                       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 bg-black/80 p-2 rounded-full flex items-center gap-2 shadow-xl">
                           <button onClick={() => setArPlacement('wall')} className="bg-mammut-gold text-black px-4 py-1 rounded-full text-xs font-black uppercase whitespace-nowrap">AR Wall</button>
                           <button onClick={() => setArPlacement('floor')} className="bg-white text-black px-4 py-1 rounded-full text-xs font-black uppercase whitespace-nowrap">AR Floor</button>
                        </div>

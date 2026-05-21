@@ -53,7 +53,7 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
 
   // ─── ANDROID: Needle Engine AR page (bypasses WebXR/blob issues) ─────────
   if (isAndroid) {
-    const needleArUrl = '/ar.html';
+    const needleArUrl = '/ar-preview';
     const sceneViewerFallback = ANDROID_SCENE_VIEWER_INTENT;
 
     return (
