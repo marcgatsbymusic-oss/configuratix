@@ -824,9 +824,9 @@ export function DebugPricing() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-6 items-end">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-end">
             {/* 1) Product Number (Window opening/type) */}
-            <div>
+            <div className="relative">
               <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">1) Product Number (Window opening/type)</label>
               <div 
                 onClick={() => setIsTypologyOpen(!isTypologyOpen)}
@@ -847,8 +847,8 @@ export function DebugPricing() {
               
               {isTypologyOpen && (
                 <>
-                  <div className="fixed inset-0 z-40" onClick={() => setIsTypologyOpen(false)}></div>
-                  <div className="absolute top-1/2 left-1/4 w-[400px] mt-1 bg-mammut-dark border border-gray-700 rounded-lg shadow-2xl z-50 pb-1 max-h-[500px] overflow-y-auto">
+                  <div className="fixed inset-0 z-40 bg-black/60 md:bg-transparent" onClick={() => setIsTypologyOpen(false)}></div>
+                  <div className="fixed md:absolute top-1/2 md:top-full left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 w-[92vw] md:w-[450px] mt-1 bg-mammut-dark border border-gray-700 rounded-lg shadow-2xl z-50 pb-1 max-h-[75vh] md:max-h-[500px] overflow-y-auto">
                     {TYPOLOGY_GROUPS.map((group, gIdx) => (
                       <div key={gIdx}>
                         <div className="p-2 border-b border-gray-800 bg-mammut-black sticky top-0 z-10 text-xs text-mammut-gold font-bold uppercase tracking-widest shadow-sm">
@@ -950,7 +950,7 @@ export function DebugPricing() {
             <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">
               3.5) Joinery Colors
             </h3>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <ColorSelect 
                 label="Exterior Color" 
                 value={colorCode} 
@@ -1144,7 +1144,7 @@ export function DebugPricing() {
           {/* 5) Joinery colors */}
           <div>
             <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">5) ---Joinery colors---</h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Color (options W-W etc.)</label>
                 <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
@@ -1176,7 +1176,7 @@ export function DebugPricing() {
           {/* 6) Window options */}
           <div>
             <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">6) ---Window options---</h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* a) Window options - unit (removed) */}
               
               <div>
@@ -1227,8 +1227,8 @@ export function DebugPricing() {
                 
                 {isModelOpen && (
                   <>
-                    <div className="fixed inset-0 z-40" onClick={() => setIsModelOpen(false)}></div>
-                    <div className="absolute top-full left-0 w-full md:w-[400px] mt-1 bg-mammut-dark border border-gray-700 rounded-lg shadow-2xl z-50 pb-1 max-h-[400px] overflow-y-auto">
+                    <div className="fixed inset-0 z-40 bg-black/60 md:bg-transparent" onClick={() => setIsModelOpen(false)}></div>
+                    <div className="fixed md:absolute top-1/2 md:top-full left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 w-[92vw] md:w-[400px] mt-1 bg-mammut-dark border border-gray-700 rounded-lg shadow-2xl z-50 pb-1 max-h-[75vh] md:max-h-[400px] overflow-y-auto">
                       <div 
                         onClick={() => { setModel(''); setIsModelOpen(false); }} 
                         className="p-3 hover:bg-mammut-gold/20 cursor-pointer border-b border-gray-800 transition-colors flex items-center gap-3"
@@ -1374,7 +1374,7 @@ export function DebugPricing() {
           {/* 7) Profile options */}
           <div>
             <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">7) ---Profile options---</h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Frame profile</label>
                 <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
@@ -1479,7 +1479,7 @@ export function DebugPricing() {
             
             {includeShutter && (
               <div className="space-y-6 border-l-2 border-mammut-gold/30 pl-4 ml-2">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <GenericSelect label="a) Roller blind Type (options)" value={rollerBlindType} onChange={setRollerBlindType} options={shutterLookups.rollerBlindTypes} />
               <GenericSelect label="b) Window screen (options)" value={windowScreen} onChange={setWindowScreen} options={shutterLookups.windowScreens} />
               {windowScreen && (
@@ -1493,7 +1493,7 @@ export function DebugPricing() {
             {/* 10) Pancerz */}
             <div>
               <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">10) ---Pancerz---</h3>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <GenericSelect label="a) Curtain type (options)" value={curtainType} onChange={setCurtainType} options={shutterLookups.curtainTypes} />
                 <GenericSelect label="b) Fins perforation (options)" value={finsPerforation} onChange={setFinsPerforation} options={shutterLookups.finsPerforations} />
                 <ColorSelect label="c) Curtain color (options)" value={curtainColor} onChange={setCurtainColor} groupedOptions={groupedColors} />
@@ -1507,7 +1507,7 @@ export function DebugPricing() {
             {/* 11) Service - Field I */}
             <div>
               <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">11) ---Service - Field I---</h3>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Drive Type (options)</label>
                   <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm" value={driveType} onChange={e => setDriveType(e.target.value)}>
@@ -1525,7 +1525,7 @@ export function DebugPricing() {
             {/* 12) Service */}
             <div>
               <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">12) ---Service---</h3>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <GenericSelect label="a) Door checks Type I (options)" value={doorChecksTypeI} onChange={setDoorChecksTypeI} options={shutterLookups.doorChecks} />
                 <div>
                   <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Impose 60mm arbour</label>
@@ -1542,7 +1542,7 @@ export function DebugPricing() {
             {/* 13) Box */}
             <div>
               <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">13) ---Box---</h3>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <GenericSelect label="a) Box Type (options)" value={boxType} onChange={setBoxType} options={shutterLookups.boxTypes} />
                 <ColorSelect label="b) Outer box colour (options)" value={outerBoxColor} onChange={setOuterBoxColor} groupedOptions={groupedColors} />
                 <ColorSelect label="c) other box colour (options)" value={otherBoxColor} onChange={setOtherBoxColor} groupedOptions={groupedColors} />
@@ -1582,7 +1582,7 @@ export function DebugPricing() {
             {/* 14) Guide rails */}
             <div>
               <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">14) ---Guide rails---</h3>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <ColorSelect label="a) Guide rails colour (options)" value={guideRailsColor} onChange={setGuideRailsColor} groupedOptions={groupedColors} />
                 <GenericSelect label="b) Guide rails cutting (options)" value={guideRailsCutting} onChange={setGuideRailsCutting} options={shutterLookups.guideRailsCuttings} />
                 <GenericSelect label="c) Extreme left guide rail" value={extremeLeftGuideRail} onChange={setExtremeLeftGuideRail} options={[{value: 'STD', label: 'Standard'}]} />
@@ -1603,7 +1603,7 @@ export function DebugPricing() {
             {/* 15) Other */}
             <div>
               <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">15) ---Other---</h3>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Guide rail gasketing</label>
                   <label className="flex items-center gap-2 text-mammut-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800">
@@ -1630,7 +1630,7 @@ export function DebugPricing() {
           {/* 16) Dowel holes */}
           <div>
             <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">16) ---Dowel holes---</h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Dowel holes</label>
                 <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
@@ -1671,7 +1671,7 @@ export function DebugPricing() {
           {/* 17) Grilles / Muntins */}
           <div>
             <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">17) ---Grilles & Muntins---</h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Grille Type</label>
                 <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
