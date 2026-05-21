@@ -132,6 +132,13 @@ export function DebugPricing() {
   // 8) Seals
   const [sealColor, setSealColor] = useState('');
 
+  // Default gasket color to black ('czarny') for F100 & F104 if not already selected
+  useEffect(() => {
+    if ((typology === 'F100' || typology === 'F104') && !sealColor) {
+      setSealColor('czarny');
+    }
+  }, [typology]);
+
   // 9) Shutter options
   const [includeShutter, setIncludeShutter] = useState(false);
   const [rollerBlindType, setRollerBlindType] = useState('');
@@ -255,7 +262,7 @@ export function DebugPricing() {
     typology, width, height, profilsatz, colorType, colorCode, JSON.stringify(infills), 
     safetyClass, handleType, handleColor, 
     coverColor, opening, frameProfile, interiorColorCode, overwriteCoreColor,
-    coreColor, windowUnit, model
+    coreColor, windowUnit, model, sealColor
   ]);
 
   // Group colors for dropdowns using IGLO_EDGE_COLORS as requested
@@ -802,6 +809,7 @@ export function DebugPricing() {
                           spacerColor={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
                           onSceneReady={setSceneGroup}
                           typology={typology}
+                          sealColor={sealColor}
                         />
                      ) : (
                         <SvgWindowEngine 
@@ -814,6 +822,7 @@ export function DebugPricing() {
                           viewSide={viewSide}
                           weldType={weld as any}
                           typology={typology}
+                          sealColor={sealColor}
                         />
                      )}
                   </div>

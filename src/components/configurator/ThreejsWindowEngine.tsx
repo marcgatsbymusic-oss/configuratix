@@ -21,6 +21,7 @@ interface ThreejsWindowEngineProps {
   onSceneReady?: (data: any) => void;
   arPlacement?: 'wall' | 'floor';
   typology?: string;
+  sealColor?: string;
 }
 
 const WindowAssembly = ({ 
@@ -32,7 +33,8 @@ const WindowAssembly = ({
   colorIntTexture, 
   spacerColor = '#b0b5b9', 
   onSceneReady,
-  typology = 'F104'
+  typology = 'F104',
+  sealColor = '',
 }: ThreejsWindowEngineProps) => {
   const [groupObj, setGroupObj] = React.useState<THREE.Group | null>(null);
 

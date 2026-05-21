@@ -11,6 +11,7 @@ interface SvgWindowEngineProps {
   viewSide?: 'interior' | 'exterior';
   weldType?: 'standard' | 'v-perfect';
   typology?: string;
+  sealColor?: string;
 }
 
 /**
@@ -31,6 +32,7 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
   viewSide = 'interior',
   weldType = 'standard',
   typology = 'F104',
+  sealColor = '',
 }) => {
   const [lensPos, setLensPos] = useState({ x: 0, y: 0 });
   const [containerSize, setContainerSize] = useState({ w: 100, h: 100 });
@@ -52,6 +54,19 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
   const mainFrameColor = effectiveViewSide === 'interior' ? colorInt : colorExt;
   const mainFrameTexture = effectiveViewSide === 'interior' ? colorIntTexture : colorExtTexture;
   
+  const getGasketColor = (side: 'interior' | 'exterior') => {
+    const color = sealColor || ((typology === 'F100' || typology === 'F104') ? 'czarny' : 'czarny');
+    if (color === 'czarny') return '#111111';
+    if (color === 'szary') return '#888888';
+    if (color === 'mix' || color === 'czarny/sz') {
+      return side === 'exterior' ? '#111111' : '#888888';
+    }
+    if (color === 'szary/czar') {
+      return side === 'exterior' ? '#888888' : '#111111';
+    }
+    return '#111111';
+  };
+
   const finalMainFillV = mainFrameTexture ? 'url(#frameTextureV)' : mainFrameColor;
   const finalMainFillH = mainFrameTexture ? 'url(#frameTextureH)' : mainFrameColor;
   const finalBeadFillV = finalMainFillV;
@@ -98,6 +113,7 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
           .glass { fill: #cce6ff; opacity: 0.6; }
           .bead-v { fill: ${finalBeadFillV}; stroke: rgba(0,0,0,0.1); stroke-width: 1px; transition: fill 0.3s ease; }
           .bead-h { fill: ${finalBeadFillH}; stroke: rgba(0,0,0,0.1); stroke-width: 1px; transition: fill 0.3s ease; }
+          .gasket { stroke: ${getGasketColor(effectiveViewSide)}; transition: stroke 0.3s ease; fill: none; stroke-width: 6px; }
         `}
       </style>
 
@@ -206,9 +222,7 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
           y={glassOffset} 
           width={width - 2 * glassOffset} 
           height={height - 2 * glassOffset} 
-          fill="none"
-          stroke="#111111"
-          strokeWidth="6"
+          className="gasket"
         />
       </g>
     </>
