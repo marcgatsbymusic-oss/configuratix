@@ -7,73 +7,104 @@ const ModelViewer = 'model-viewer' as any;
 
 const isAndroid = typeof navigator !== 'undefined' && /android/i.test(navigator.userAgent);
 
-// Public rescaled GLB for Android Scene Viewer (blob URLs can't be fetched by native apps)
+// Public rescaled GLB for Android Scene Viewer.
+// blob: URLs are private to the browser process — the native Scene Viewer app cannot fetch them.
+// WebXR on Android causes jitter but no model (Chromium 147+ XRProjectionLayer regression).
+// Solution: skip WebXR entirely on Android and go straight to Scene Viewer intent URL.
 const PUBLIC_GLB = 'https://fantastic-octo-giggle-five.vercel.app/models/window-scene.glb';
 const encodedFallback = encodeURIComponent('https://developers.google.com/ar');
 const ANDROID_SCENE_VIEWER_INTENT = `intent://arvr.google.com/scene-viewer/1.1?file=${encodeURIComponent(PUBLIC_GLB)}&mode=ar_preferred&title=Mammut%20Window&resizable=false#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;S.browser_fallback_url=${encodedFallback};end;`;
 
 interface ArViewerProps {
-  sceneGroup: THREE.Group | THREE.Scene | null; // The Three.js group to export
+  sceneGroup: THREE.Group | THREE.Scene | null;
   placement: 'wall' | 'floor';
   onClose: () => void;
 }
 
-// Hotfix for Chromium 147+ WebXR Regression on Samsung A54 and similar mid-range chipsets.
-// These devices silently fail when WebXR tries to use XRProjectionLayer.
-// Forcing it to undefined makes Three.js/model-viewer fall back to standard XRWebGLLayer.
-if (typeof window !== 'undefined' && (window as any).XRProjectionLayer) {
-  (window as any).XRProjectionLayer = undefined;
-}
-
 export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClose }) => {
   const [modelUrl, setModelUrl] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError]       = useState<string | null>(null);
   const [blobSize, setBlobSize] = useState<number | null>(null);
 
+  // Export Three.js scene → GLB blob. Only needed for iOS quick-look.
+  // Android skips this entirely and uses the public pre-baked GLB via Scene Viewer.
   useEffect(() => {
-    if (!sceneGroup) {
-      setError("No 3D scene provided for AR export.");
-      return;
-    }
+    if (!sceneGroup || isAndroid) return;
 
-    const exportScene = async () => {
-      try {
-        const exporter = new GLTFExporter();
-        exporter.parse(
-          sceneGroup,
-          (gltf: any) => {
-            const blob = new Blob([gltf as ArrayBuffer], { type: 'model/gltf-binary' });
-            setBlobSize(blob.size);
-            const url = URL.createObjectURL(blob);
-            setModelUrl(url);
-          },
-          (err: any) => {
-            console.error("GLTF Export Error:", err);
-            setError("Failed to generate AR model.");
-          },
-          { binary: true } // Must be binary for model-viewer to easily digest without external assets
-        );
-      } catch (err) {
-        console.error("Error setting up export:", err);
-        setError("Error setting up AR export.");
-      }
-    };
-
-    exportScene();
+    const exporter = new GLTFExporter();
+    exporter.parse(
+      sceneGroup,
+      (gltf: any) => {
+        const blob = new Blob([gltf as ArrayBuffer], { type: 'model/gltf-binary' });
+        setBlobSize(blob.size);
+        setModelUrl(URL.createObjectURL(blob));
+      },
+      (err: any) => {
+        console.error('GLTF Export Error:', err);
+        setError('Failed to generate AR model.');
+      },
+      { binary: true }
+    );
 
     return () => {
-      if (modelUrl) {
-        URL.revokeObjectURL(modelUrl);
-      }
+      setModelUrl(prev => { if (prev) URL.revokeObjectURL(prev); return null; });
     };
   }, [sceneGroup]);
 
+  // ─── ANDROID: Direct Scene Viewer launch card ─────────────────────────────
+  if (isAndroid) {
+    return (
+      <div className="fixed inset-0 z-50 bg-[#0a0a0b] flex flex-col">
+        <div className="w-full bg-gray-900 text-white p-4 flex items-center justify-between shadow-md">
+          <h2 className="font-bold text-lg">AR Preview</h2>
+          <button
+            onClick={onClose}
+            className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-sm font-bold uppercase tracking-wider"
+          >
+            Close
+          </button>
+        </div>
+
+        <div className="flex-1 flex flex-col items-center justify-center gap-8 p-8">
+          {/* Scanning animation */}
+          <div className="w-32 h-40 border-2 border-mammut-gold/60 rounded-xl relative flex items-center justify-center overflow-hidden bg-gray-900/50">
+            <div
+              className="w-full h-[2px] bg-mammut-gold shadow-[0_0_12px_#cc9900]"
+              style={{ animation: 'arScan 2s ease-in-out infinite' }}
+            />
+          </div>
+          <style>{`@keyframes arScan { 0%{transform:translateY(-60px)} 50%{transform:translateY(60px)} 100%{transform:translateY(-60px)} }`}</style>
+
+          <div className="text-center max-w-xs">
+            <h3 className="text-white font-black text-xl uppercase tracking-widest mb-3">
+              Place on your {placement}
+            </h3>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Tap below to open Google Scene Viewer. ARCore will scan your {placement} and let you place the window at real scale.
+            </p>
+          </div>
+
+          <a
+            href={ANDROID_SCENE_VIEWER_INTENT}
+            className="w-full max-w-xs bg-mammut-gold text-black font-black uppercase tracking-widest py-5 rounded-2xl text-center shadow-[0_0_30px_rgba(234,182,118,0.4)] text-sm no-underline block"
+          >
+            Launch Google AR
+          </a>
+
+          <p className="text-gray-600 text-[10px] text-center max-w-[260px]">
+            Requires Google Play Services for AR (ARCore). If Scene Viewer doesn't open, install it from the Play Store.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // ─── iOS / Desktop: model-viewer with Apple Quick Look ───────────────────
   return (
     <div className="fixed inset-0 z-50 bg-black flex flex-col">
-      {/* Header Bar */}
       <div className="w-full bg-gray-900 text-white p-4 flex items-center justify-between shadow-md z-10 relative">
         <h2 className="font-bold text-lg">AR Preview ({placement === 'wall' ? 'Wall' : 'Floor'})</h2>
-        <button 
+        <button
           onClick={onClose}
           className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-sm font-bold uppercase tracking-wider"
         >
@@ -81,7 +112,6 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
         </button>
       </div>
 
-      {/* Model Viewer Container */}
       <div className="flex-1 w-full bg-gray-800 relative flex items-center justify-center">
         {error ? (
           <div className="text-red-400 font-bold p-8 text-center">{error}</div>
@@ -91,7 +121,7 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
           <ModelViewer
             src={modelUrl}
             ar="true"
-            ar-modes={isAndroid ? 'webxr' : 'quick-look'}
+            ar-modes="quick-look"
             ar-placement={placement}
             camera-controls="true"
             auto-rotate="true"
@@ -99,70 +129,55 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
             style={{ width: '100%', height: '100%' }}
             alt="AR Window Configuration"
             onError={(e: any) => {
-              console.error("ModelViewer Error:", e);
-              setError("Failed to load 3D model into AR engine. The model file might be invalid.");
+              console.error('ModelViewer Error:', e);
+              setError('Failed to load 3D model into AR engine.');
             }}
           >
             <>
-              <style>
-                {`
-                  @keyframes scanLine {
-                    0% { transform: translateY(-100%); }
-                    50% { transform: translateY(100%); }
-                    100% { transform: translateY(-100%); }
-                  }
-                  .animate-scan {
-                    animation: scanLine 2s ease-in-out infinite;
-                  }
-                `}
-              </style>
+              <style>{`
+                @keyframes scanLine {
+                  0% { transform: translateY(-100%); }
+                  50% { transform: translateY(100%); }
+                  100% { transform: translateY(-100%); }
+                }
+                .animate-scan { animation: scanLine 2s ease-in-out infinite; }
+              `}</style>
               <div slot="poster" className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                 <div className="text-white bg-black/50 px-4 py-2 rounded-full text-sm">Loading Preview...</div>
+                <div className="text-white bg-black/50 px-4 py-2 rounded-full text-sm">Loading Preview...</div>
               </div>
-              <button slot="ar-button" className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center z-20 hover:scale-[1.02] transition-transform cursor-pointer border-none bg-transparent outline-none w-[90%] max-w-[320px]">
+              <button
+                slot="ar-button"
+                className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center z-20 hover:scale-[1.02] transition-transform cursor-pointer border-none bg-transparent outline-none w-[90%] max-w-[320px]"
+              >
                 <div className="bg-black/90 backdrop-blur-xl border border-gray-800 rounded-3xl p-6 shadow-[0_0_40px_rgba(0,0,0,0.8)] flex flex-col items-center pointer-events-auto w-full relative overflow-hidden">
-                  {/* Subtle gold glow behind logo */}
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-16 bg-mammut-gold/20 blur-3xl rounded-full"></div>
-                  
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-16 bg-mammut-gold/20 blur-3xl rounded-full" />
                   <img src="/assets/mammut-logo-icon.png" alt="Mammut" className="h-6 mb-6 opacity-90 relative z-10" />
-                  
                   <div className="flex items-center gap-4 mb-6 relative z-10">
-                     <div className="w-8 h-12 border-2 border-mammut-gold/60 rounded-md relative flex items-center justify-center overflow-hidden shrink-0 bg-gray-900/50">
-                        {/* Scanning Laser */}
-                        <div className="w-full h-[2px] bg-mammut-gold animate-scan shadow-[0_0_8px_#cc9900]"></div>
-                     </div>
-                     <div className="text-left">
-                       <p className="text-white font-black text-sm tracking-wider uppercase">Scan your {placement}</p>
-                       <p className="text-gray-400 text-[10px] mt-1 leading-tight">Point camera at the {placement} & move slowly to place window</p>
-                       {blobSize && (
-                         <p className="text-mammut-gold text-[9px] mt-2 font-mono">GLTF Size: {(blobSize / 1024).toFixed(1)} KB</p>
-                       )}
-                     </div>
+                    <div className="w-8 h-12 border-2 border-mammut-gold/60 rounded-md relative flex items-center justify-center overflow-hidden shrink-0 bg-gray-900/50">
+                      <div className="w-full h-[2px] bg-mammut-gold animate-scan shadow-[0_0_8px_#cc9900]" />
+                    </div>
+                    <div className="text-left">
+                      <p className="text-white font-black text-sm tracking-wider uppercase">Scan your {placement}</p>
+                      <p className="text-gray-400 text-[10px] mt-1 leading-tight">
+                        Point camera at the {placement} &amp; move slowly to place window
+                      </p>
+                      {blobSize && (
+                        <p className="text-mammut-gold text-[9px] mt-2 font-mono">GLTF Size: {(blobSize / 1024).toFixed(1)} KB</p>
+                      )}
+                    </div>
                   </div>
-
                   <div className="bg-mammut-gold text-black font-black uppercase tracking-widest px-8 py-3 rounded-full w-full text-sm shadow-[0_0_20px_rgba(204,153,0,0.3)] relative z-10 text-center">
-                    {isAndroid ? 'Launch WebXR AR' : 'Launch AR'}
+                    Launch AR
                   </div>
                 </div>
               </button>
-              {/* Android: Scene Viewer fallback via public GLB (blob URLs unreachable by native app) */}
-              {isAndroid && (
-                <div slot="ar-failure">
-                  <a
-                    href={ANDROID_SCENE_VIEWER_INTENT}
-                    style={{ position: 'absolute', bottom: '120px', left: '50%', transform: 'translateX(-50%)', background: '#1a1a1a', color: '#eab676', border: '1px solid #eab676', borderRadius: '999px', padding: '12px 24px', fontWeight: 900, fontSize: '11px', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none', display: 'block', textAlign: 'center', zIndex: 30 }}
-                  >
-                    Open in Google AR
-                  </a>
-                </div>
-              )}
             </>
           </ModelViewer>
         )}
       </div>
-      
+
       <div className="p-4 bg-gray-900 text-gray-400 text-xs text-center">
-        AR is supported on modern iOS and Android devices. For Android, point your camera at a {placement}.
+        AR Preview via Apple Quick Look. Point your camera at a {placement} surface.
       </div>
     </div>
   );
