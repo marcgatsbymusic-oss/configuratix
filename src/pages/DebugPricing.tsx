@@ -744,7 +744,7 @@ export function DebugPricing() {
               </div>
 
               <div className="w-full mt-4 md:mt-8">
-                {typology === 'F104' ? (
+                {(typology === 'F104' || typology === 'F100') ? (
                   <div className="w-full aspect-square border border-gray-800 rounded-lg bg-gray-900 flex items-center justify-center p-2 md:p-12 overflow-hidden shadow-inner relative group">
                      {/* 3D Toggle */}
                      <div className="absolute top-2 left-2 z-30 bg-black/50 p-1 rounded flex items-center gap-2">

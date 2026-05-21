@@ -1,7 +1,7 @@
 import fs from 'fs';
 import DxfParser from 'dxf-parser';
 
-const dxfFilePath = "C:\\Users\\Shadow\\Desktop\\Isolated IGLO 5 Single Window Frame.dxf";
+const dxfFilePath = process.argv[2] || "C:\\Users\\Shadow\\Desktop\\Isolated IGLO 5 Single Window Frame.dxf";
 
 try {
   const fileText = fs.readFileSync(dxfFilePath, 'utf-8');

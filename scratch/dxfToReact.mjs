@@ -27,18 +27,18 @@ function getSvgPathFromVertices(vertices) {
   return path;
 }
 
-export function parseDxfToReact(dxfFilePath) {
+export function parseDxfToReact(dxfFilePath, type = "F104") {
   const fileText = fs.readFileSync(dxfFilePath, 'utf-8');
   const parser = new DxfParser();
   const dxf = parser.parseSync(fileText);
 
   const result = {
     system: "IGLO_5",
-    type: "F104",
+    type: type,
     profiles: {}
   };
 
-  const targetLayers = ['FRM_EXT', 'FRM_INT', 'BZD', 'GLS_EXT', 'GLS_INT', 'SPACER1', 'GLS'];
+  const targetLayers = ['FRM_EXT', 'FRM_INT', 'BZD', 'GLS_EXT', 'GLS_INT', 'SPACER1', 'GLS', 'SSH_EXT', 'SSH_INT'];
 
   // Buffer to collect vertices for layers that are made of disconnected lines (like glass)
   const layerVertices = {};
@@ -71,12 +71,52 @@ export function parseDxfToReact(dxfFilePath) {
   });
 
   // Now process the collected vertices. 
-  // For glass panes, create a bounding box rectangle from the collected points to ensure a closed shape.
-  // For frames, just use the points as a polyline (assuming they were in order).
   for (const [layerName, points] of Object.entries(layerVertices)) {
     if (points.length === 0) continue;
 
-    if (layerName === 'GLS_EXT' || layerName === 'GLS_INT' || layerName === 'SPACER1') {
+    if (type === 'F100' && layerName === 'GLS_INT') {
+      // Split GLS_INT package bounding box into outer pane (GLS_EXT), inner pane (GLS_INT) and spacer (SPACER1)
+      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+      points.forEach(p => {
+        if (p.x < minX) minX = p.x;
+        if (p.x > maxX) maxX = p.x;
+        if (p.y < minY) minY = p.y;
+        if (p.y > maxY) maxY = p.y;
+      });
+
+      const glsExtVertices = [
+        { x: minX, y: minY },
+        { x: minX + 4, y: minY },
+        { x: minX + 4, y: maxY },
+        { x: minX, y: maxY }
+      ];
+      result.profiles['GLS_EXT'] = {
+        svgPath: getSvgPathFromVertices(glsExtVertices),
+        vertices: glsExtVertices
+      };
+
+      const glsIntVertices = [
+        { x: maxX - 4, y: minY },
+        { x: maxX, y: minY },
+        { x: maxX, y: maxY },
+        { x: maxX - 4, y: maxY }
+      ];
+      result.profiles['GLS_INT'] = {
+        svgPath: getSvgPathFromVertices(glsIntVertices),
+        vertices: glsIntVertices
+      };
+
+      const spacerVertices = [
+        { x: minX + 4, y: minY },
+        { x: maxX - 4, y: minY },
+        { x: maxX - 4, y: minY + 14 },
+        { x: minX + 4, y: minY + 14 }
+      ];
+      result.profiles['SPACER1'] = {
+        svgPath: getSvgPathFromVertices(spacerVertices),
+        vertices: spacerVertices
+      };
+    } else if (layerName === 'GLS_EXT' || layerName === 'GLS_INT' || layerName === 'SPACER1') {
       let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
       points.forEach(p => {
         if (p.x < minX) minX = p.x;
@@ -109,9 +149,27 @@ export function parseDxfToReact(dxfFilePath) {
 // Run if called directly
 if (process.argv[1] && process.argv[1].includes('dxfToReact.mjs')) {
   const file = process.argv[2] || "C:\\Users\\Shadow\\Desktop\\Isolated IGLO 5 Single Window Frame.dxf";
-  const output = parseDxfToReact(file);
+  
+  let outName = "IG5_F104.json";
+  let type = "F104";
+  
+  for (let i = 2; i < process.argv.length; i++) {
+    if (process.argv[i] === '--out' && process.argv[i + 1]) {
+      outName = process.argv[i + 1];
+      i++;
+    } else if (process.argv[i] === '--type' && process.argv[i + 1]) {
+      type = process.argv[i + 1];
+      i++;
+    }
+  }
+
+  const output = parseDxfToReact(file, type);
+  output.type = type;
+  
   const outDir = 'src/data/profiles';
   if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
-  fs.writeFileSync(`${outDir}/IG5_F104.json`, JSON.stringify(output, null, 2));
-  console.log(`Successfully generated ${outDir}/IG5_F104.json`);
+  
+  const finalPath = (outName.includes('/') || outName.includes('\\')) ? outName : `${outDir}/${outName}`;
+  fs.writeFileSync(finalPath, JSON.stringify(output, null, 2));
+  console.log(`Successfully generated ${finalPath} with type ${type}`);
 }
