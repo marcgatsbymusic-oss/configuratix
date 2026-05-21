@@ -143,6 +143,21 @@ export function MainConfigurator() {
   const [showExitModal, setShowExitModal] = useState(false);
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, [activeStep]);
 
+  const [widthText, setWidthText] = useState(state.dimensions.width.toString());
+  const [heightText, setHeightText] = useState(state.dimensions.height.toString());
+
+  useEffect(() => {
+    if (Number(widthText) !== state.dimensions.width) {
+      setWidthText(state.dimensions.width.toString());
+    }
+  }, [state.dimensions.width, widthText]);
+
+  useEffect(() => {
+    if (Number(heightText) !== state.dimensions.height) {
+      setHeightText(state.dimensions.height.toString());
+    }
+  }, [state.dimensions.height, heightText]);
+
   useEffect(() => {
     if (orderStore.isActive && orderStore.items[orderStore.currentIndex]) {
       const item = orderStore.items[orderStore.currentIndex];
@@ -815,12 +830,20 @@ export function MainConfigurator() {
                           <div className="flex items-center gap-1.5 focus-within:ring-2 ring-[#eab676]/30 rounded px-1 -mr-1 transition-all">
                             <input
                               type="number"
-                              value={state.dimensions.width || ''}
-                              onChange={(e) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: Number(e.target.value) || 0, height: state.dimensions.height }})}
+                              value={widthText}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setWidthText(val);
+                                const num = Number(val);
+                                if (!isNaN(num) && num > 0) {
+                                  dispatch({ type: 'SET_DIMENSIONS', payload: { width: num, height: state.dimensions.height }});
+                                }
+                              }}
                               onBlur={(e) => {
                                 let val = Number(e.target.value) || activeLimits.minWidth;
                                 val = Math.max(activeLimits.minWidth, Math.min(activeLimits.maxWidth, val));
                                 dispatch({ type: 'SET_DIMENSIONS', payload: { width: val, height: state.dimensions.height }});
+                                setWidthText(val.toString());
                               }}
                               className="w-[60px] bg-transparent text-right font-black text-mammut-gold focus:outline-none"
                             />
@@ -850,12 +873,20 @@ export function MainConfigurator() {
                           <div className="flex items-center gap-1.5 focus-within:ring-2 ring-[#eab676]/30 rounded px-1 -mr-1 transition-all">
                             <input
                               type="number"
-                              value={state.dimensions.height || ''}
-                              onChange={(e) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: state.dimensions.width, height: Number(e.target.value) || 0 }})}
+                              value={heightText}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setHeightText(val);
+                                const num = Number(val);
+                                if (!isNaN(num) && num > 0) {
+                                  dispatch({ type: 'SET_DIMENSIONS', payload: { width: state.dimensions.width, height: num }});
+                                }
+                              }}
                               onBlur={(e) => {
                                 let val = Number(e.target.value) || activeLimits.minHeight;
                                 val = Math.max(activeLimits.minHeight, Math.min(activeLimits.maxHeight, val));
                                 dispatch({ type: 'SET_DIMENSIONS', payload: { width: state.dimensions.width, height: val }});
+                                setHeightText(val.toString());
                               }}
                               className="w-[60px] bg-transparent text-right font-black text-mammut-gold focus:outline-none"
                             />
@@ -1163,12 +1194,20 @@ export function MainConfigurator() {
                             <div className="flex items-center gap-1 w-full justify-end">
                               <input 
                                 type="number"
-                                value={state.dimensions.width || ''}
-                                onChange={(e) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: Number(e.target.value) || 0, height: state.dimensions.height }})}
+                                value={widthText}
+                                onChange={(e) => {
+                                  const val = e.target.value;
+                                  setWidthText(val);
+                                  const num = Number(val);
+                                  if (!isNaN(num) && num > 0) {
+                                    dispatch({ type: 'SET_DIMENSIONS', payload: { width: num, height: state.dimensions.height }});
+                                  }
+                                }}
                                 onBlur={(e) => {
                                   let val = Number(e.target.value) || CONFIG_SCHEMA.categories[state.category].minWidth;
                                   val = Math.max(CONFIG_SCHEMA.categories[state.category].minWidth, Math.min(CONFIG_SCHEMA.categories[state.category].maxWidth, val));
                                   dispatch({ type: 'SET_DIMENSIONS', payload: { width: val, height: state.dimensions.height }});
+                                  setWidthText(val.toString());
                                 }}
                                 className="w-[55px] text-right bg-transparent text-sm font-black text-mammut-white/90 focus:outline-none"
                               />
@@ -1186,12 +1225,20 @@ export function MainConfigurator() {
                             <div className="flex items-center gap-1 w-full justify-end">
                               <input 
                                 type="number"
-                                value={state.dimensions.height || ''}
-                                onChange={(e) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: state.dimensions.width, height: Number(e.target.value) || 0 }})}
+                                value={heightText}
+                                onChange={(e) => {
+                                  const val = e.target.value;
+                                  setHeightText(val);
+                                  const num = Number(val);
+                                  if (!isNaN(num) && num > 0) {
+                                    dispatch({ type: 'SET_DIMENSIONS', payload: { width: state.dimensions.width, height: num }});
+                                  }
+                                }}
                                 onBlur={(e) => {
                                   let val = Number(e.target.value) || CONFIG_SCHEMA.categories[state.category].minHeight;
                                   val = Math.max(CONFIG_SCHEMA.categories[state.category].minHeight, Math.min(CONFIG_SCHEMA.categories[state.category].maxHeight, val));
                                   dispatch({ type: 'SET_DIMENSIONS', payload: { width: state.dimensions.width, height: val }});
+                                  setHeightText(val.toString());
                                 }}
                                 className="w-[55px] text-right bg-transparent text-sm font-black text-mammut-white/90 focus:outline-none"
                               />
