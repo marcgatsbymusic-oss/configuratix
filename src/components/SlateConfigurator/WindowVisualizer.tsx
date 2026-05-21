@@ -1,4 +1,4 @@
-// import React from 'react';
+import { useState, useEffect } from 'react';
 
 export interface WindowVisualizerProps {
   typology: string;
@@ -9,22 +9,39 @@ export interface WindowVisualizerProps {
 
 export function WindowVisualizer({ typology, width, height, infills }: WindowVisualizerProps) {
   const isMultiSash = typology.match(/^F2[0-5][0-9]$/) && infills && infills.length >= 2;
+  const [imgSrc, setImgSrc] = useState(`/assets/windowtypes/${typology}.jpg?v=2`);
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    setImgSrc(`/assets/windowtypes/${typology}.jpg?v=2`);
+    setHasError(false);
+  }, [typology]);
+
+  const handleError = () => {
+    if (imgSrc.includes('.jpg')) {
+      setImgSrc(`/assets/windowtypes/${typology}.svg?v=2`);
+    } else {
+      setHasError(true);
+    }
+  };
   
   return (
     <div className="relative w-full aspect-square border border-gray-800 rounded-lg bg-white flex items-center justify-center p-16">
       
       {/* Base Image */}
-      <img 
-        src={`/assets/windowtypes/${typology}.jpg`} 
-        alt={typology}
-        className="w-full h-full object-contain relative z-10 drop-shadow-md"
-        onError={(e) => { 
-          e.currentTarget.style.display = 'none'; 
-          if (!e.currentTarget.parentElement?.querySelector('.fallback')) {
-            e.currentTarget.parentElement!.innerHTML += `<div class="fallback w-full h-full flex flex-col items-center justify-center border-2 border-dashed border-gray-400 rounded-lg bg-gray-100 text-gray-500 font-bold z-10 relative"><span>Missing Image</span><span class="text-xs font-normal mt-2">${typology}.jpg</span></div>`;
-          }
-        }}
-      />
+      {hasError ? (
+        <div className="fallback w-full h-full flex flex-col items-center justify-center border-2 border-dashed border-gray-400 rounded-lg bg-gray-100 text-gray-500 font-bold z-10 relative">
+          <span>Missing Image</span>
+          <span className="text-xs font-normal mt-2">{typology}.jpg</span>
+        </div>
+      ) : (
+        <img 
+          src={imgSrc} 
+          alt={typology}
+          className="w-full h-full object-contain relative z-10 drop-shadow-md"
+          onError={handleError}
+        />
+      )}
       
       {/* Dynamic Width Dimension Line */}
       <div className="absolute bottom-6 left-16 right-16 flex flex-col items-center justify-center z-20 gap-2">

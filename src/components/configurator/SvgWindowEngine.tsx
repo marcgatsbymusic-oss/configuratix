@@ -10,6 +10,7 @@ interface SvgWindowEngineProps {
   frameThickness?: number;
   viewSide?: 'interior' | 'exterior';
   weldType?: 'standard' | 'v-perfect';
+  typology?: string;
 }
 
 /**
@@ -29,6 +30,7 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
   frameThickness = 70, // Standard frame thickness in mm
   viewSide = 'interior',
   weldType = 'standard',
+  typology = 'F104',
 }) => {
   const [lensPos, setLensPos] = useState({ x: 0, y: 0 });
   const [containerSize, setContainerSize] = useState({ w: 100, h: 100 });
@@ -55,10 +57,6 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
   const finalBeadFillV = finalMainFillV;
   const finalBeadFillH = finalMainFillH;
 
-  // Calculate inner opening dimensions based on fixed physical glass position
-  const innerWidth = width - (frameThickness * 2);
-  const innerHeight = height - (frameThickness * 2);
-
   const handlePointerDown = (e: React.PointerEvent) => {
     setIsDragging(true);
     setStartX(e.clientX);
@@ -81,6 +79,12 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
     e.currentTarget.releasePointerCapture(e.pointerId);
   };
 
+  const isSash = typology === 'F100';
+  const glassOffset = isSash ? 130 : 90;
+  const beadOuter = isSash ? 110 : 70;
+  const beadInner = glassOffset;
+  const sashOuter = activeFrameThickness;
+  const sashInner = effectiveViewSide === 'interior' ? beadOuter : glassOffset;
 
   // Extracted SVG Content for reuse in the magnifying glass
   const svgContent = (
@@ -133,36 +137,55 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
         <polygon className="frm-main-v" points={`0,0 ${activeFrameThickness},${activeFrameThickness} ${activeFrameThickness},${height - activeFrameThickness} 0,${height}`} />
         <polygon className="frm-main-v" points={`${width},0 ${width - activeFrameThickness},${activeFrameThickness} ${width - activeFrameThickness},${height - activeFrameThickness} ${width},${height}`} />
 
+        {/* Sash Frame (F100 Only) */}
+        {isSash && (
+          <>
+            <polygon className="frm-main-h" points={`${sashOuter},${sashOuter} ${width - sashOuter},${sashOuter} ${width - sashInner},${sashInner} ${sashInner},${sashInner}`} />
+            <polygon className="frm-main-h" points={`${sashOuter},${height - sashOuter} ${width - sashOuter},${height - sashOuter} ${width - sashInner},${height - sashInner} ${sashInner},${height - sashInner}`} />
+            <polygon className="frm-main-v" points={`${sashOuter},${sashOuter} ${sashInner},${sashInner} ${sashInner},${height - sashInner} ${sashOuter},${height - sashOuter}`} />
+            <polygon className="frm-main-v" points={`${width - sashOuter},${sashOuter} ${width - sashInner},${sashInner} ${width - sashInner},${height - sashInner} ${width - sashOuter},${height - sashOuter}`} />
+
+            {/* Seam between Main Frame and Sash */}
+            <rect 
+              x={sashOuter} 
+              y={sashOuter} 
+              width={width - 2 * sashOuter} 
+              height={height - 2 * sashOuter} 
+              className="bzd-seam"
+            />
+          </>
+        )}
+
         {/* Gradient overlay for depth */}
         <path
           fill="url(#frameGradient)"
           d={`
             M 0,0 L ${width},0 L ${width},${height} L 0,${height} Z
-            M ${frameThickness + 20},${frameThickness + 20} L ${frameThickness + 20},${height - frameThickness - 20} L ${width - frameThickness - 20},${height - frameThickness - 20} L ${width - frameThickness - 20},${frameThickness + 20} Z
+            M ${glassOffset},${glassOffset} L ${glassOffset},${height - glassOffset} L ${width - glassOffset},${height - glassOffset} L ${width - glassOffset},${glassOffset} Z
           `}
           fillRule="evenodd"
         />
 
         {/* Mitre Cuts (45 degree weld seams) - extending through BZD */}
-        <line x1="0" y1="0" x2={frameThickness + 20} y2={frameThickness + 20} className="mitre-line" />
-        <line x1={width} y1="0" x2={width - frameThickness - 20} y2={frameThickness + 20} className="mitre-line" />
-        <line x1="0" y1={height} x2={frameThickness + 20} y2={height - frameThickness - 20} className="mitre-line" />
-        <line x1={width} y1={height} x2={width - frameThickness - 20} y2={height - frameThickness - 20} className="mitre-line" />
+        <line x1="0" y1="0" x2={glassOffset} y2={glassOffset} className="mitre-line" />
+        <line x1={width} y1="0" x2={width - glassOffset} y2={glassOffset} className="mitre-line" />
+        <line x1="0" y1={height} x2={glassOffset} y2={height - glassOffset} className="mitre-line" />
+        <line x1={width} y1={height} x2={width - glassOffset} y2={height - glassOffset} className="mitre-line" />
 
         {/* Glazing Bead (BZD) - Only visible from the interior */}
         {effectiveViewSide === 'interior' && (
           <>
-            <polygon className="bead-h" points={`${frameThickness},${frameThickness} ${width - frameThickness},${frameThickness} ${width - frameThickness - 20},${frameThickness + 20} ${frameThickness + 20},${frameThickness + 20}`} />
-            <polygon className="bead-h" points={`${frameThickness},${height - frameThickness} ${width - frameThickness},${height - frameThickness} ${width - frameThickness - 20},${height - frameThickness - 20} ${frameThickness + 20},${height - frameThickness - 20}`} />
-            <polygon className="bead-v" points={`${frameThickness},${frameThickness} ${frameThickness + 20},${frameThickness + 20} ${frameThickness + 20},${height - frameThickness - 20} ${frameThickness},${height - frameThickness}`} />
-            <polygon className="bead-v" points={`${width - frameThickness},${frameThickness} ${width - frameThickness - 20},${frameThickness + 20} ${width - frameThickness - 20},${height - frameThickness - 20} ${width - frameThickness},${height - frameThickness}`} />
+            <polygon className="bead-h" points={`${beadOuter},${beadOuter} ${width - beadOuter},${beadOuter} ${width - beadInner},${beadInner} ${beadInner},${beadInner}`} />
+            <polygon className="bead-h" points={`${beadOuter},${height - beadOuter} ${width - beadOuter},${height - beadOuter} ${width - beadInner},${height - beadInner} ${beadInner},${height - beadInner}`} />
+            <polygon className="bead-v" points={`${beadOuter},${beadOuter} ${beadInner},${beadInner} ${beadInner},${height - beadInner} ${beadOuter},${height - beadOuter}`} />
+            <polygon className="bead-v" points={`${width - beadOuter},${beadOuter} ${width - beadInner},${beadInner} ${width - beadInner},${height - beadInner} ${width - beadOuter},${height - beadOuter}`} />
 
-            {/* Seam between Main Frame and BZD */}
+            {/* Seam between Sash/Frame and BZD */}
             <rect 
-              x={frameThickness} 
-              y={frameThickness} 
-              width={width - 2 * frameThickness} 
-              height={height - 2 * frameThickness} 
+              x={beadOuter} 
+              y={beadOuter} 
+              width={width - 2 * beadOuter} 
+              height={height - 2 * beadOuter} 
               className="bzd-seam"
             />
           </>
@@ -170,19 +193,19 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
 
         {/* Glass Package */}
         <rect 
-          x={frameThickness + 20} 
-          y={frameThickness + 20} 
-          width={innerWidth - 40} 
-          height={innerHeight - 40} 
+          x={glassOffset} 
+          y={glassOffset} 
+          width={width - 2 * glassOffset} 
+          height={height - 2 * glassOffset} 
           className="glass" 
         />
         
         {/* Gasket (GSK_INT) and inner shadow */}
         <rect 
-          x={frameThickness + 20} 
-          y={frameThickness + 20} 
-          width={innerWidth - 40} 
-          height={innerHeight - 40} 
+          x={glassOffset} 
+          y={glassOffset} 
+          width={width - 2 * glassOffset} 
+          height={height - 2 * glassOffset} 
           fill="none"
           stroke="#111111"
           strokeWidth="6"
@@ -253,109 +276,7 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
           }}
           xmlns="http://www.w3.org/2000/svg"
         >
-      <style>
-        {`
-          .frm-main-v { fill: ${finalMainFillV}; transition: fill 0.3s ease; }
-          .frm-main-h { fill: ${finalMainFillH}; transition: fill 0.3s ease; }
-          .mitre-line { stroke: ${weldType === 'v-perfect' ? 'transparent' : 'rgba(0,0,0,0.4)'}; stroke-width: 1px; }
-          .bzd-seam { stroke: rgba(0,0,0,0.6); stroke-width: 1px; fill: none; }
-          .glass { fill: #cce6ff; opacity: 0.6; }
-          .bead-v { fill: ${finalBeadFillV}; stroke: rgba(0,0,0,0.1); stroke-width: 1px; transition: fill 0.3s ease; }
-          .bead-h { fill: ${finalBeadFillH}; stroke: rgba(0,0,0,0.1); stroke-width: 1px; transition: fill 0.3s ease; }
-        `}
-      </style>
-
-      <defs>
-        <linearGradient id="frameGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="rgba(255,255,255,0.1)" />
-          <stop offset="100%" stopColor="rgba(0,0,0,0.1)" />
-        </linearGradient>
-        
-        {mainFrameTexture && (
-          <>
-            <pattern id="frameTextureV" patternUnits="userSpaceOnUse" width="300" height="300" patternTransform="rotate(90)">
-              <image href={mainFrameTexture} x="0" y="0" width="300" height="300" preserveAspectRatio="xMidYMid slice" />
-            </pattern>
-            <pattern id="frameTextureH" patternUnits="userSpaceOnUse" width="300" height="300">
-              <image href={mainFrameTexture} x="0" y="0" width="300" height="300" preserveAspectRatio="xMidYMid slice" />
-            </pattern>
-          </>
-        )}
-
-        {mainFrameTexture && (
-          <>
-            <pattern id="beadTextureV" patternUnits="userSpaceOnUse" width="300" height="300" patternTransform="rotate(90)">
-              <image href={mainFrameTexture} x="0" y="0" width="300" height="300" preserveAspectRatio="xMidYMid slice" />
-            </pattern>
-            <pattern id="beadTextureH" patternUnits="userSpaceOnUse" width="300" height="300">
-              <image href={mainFrameTexture} x="0" y="0" width="300" height="300" preserveAspectRatio="xMidYMid slice" />
-            </pattern>
-          </>
-        )}
-      </defs>
-
-      <g transform={transform}>
-        {/* Main Frame (Split into 4 segments for directional texture grain mapping) */}
-        <polygon className="frm-main-h" points={`0,0 ${width},0 ${width - activeFrameThickness},${activeFrameThickness} ${activeFrameThickness},${activeFrameThickness}`} />
-        <polygon className="frm-main-h" points={`0,${height} ${width},${height} ${width - activeFrameThickness},${height - activeFrameThickness} ${activeFrameThickness},${height - activeFrameThickness}`} />
-        <polygon className="frm-main-v" points={`0,0 ${activeFrameThickness},${activeFrameThickness} ${activeFrameThickness},${height - activeFrameThickness} 0,${height}`} />
-        <polygon className="frm-main-v" points={`${width},0 ${width - activeFrameThickness},${activeFrameThickness} ${width - activeFrameThickness},${height - activeFrameThickness} ${width},${height}`} />
-
-        {/* Gradient overlay for depth */}
-        <path
-          fill="url(#frameGradient)"
-          d={`
-            M 0,0 L ${width},0 L ${width},${height} L 0,${height} Z
-            M ${frameThickness + 20},${frameThickness + 20} L ${frameThickness + 20},${height - frameThickness - 20} L ${width - frameThickness - 20},${height - frameThickness - 20} L ${width - frameThickness - 20},${frameThickness + 20} Z
-          `}
-          fillRule="evenodd"
-        />
-
-        {/* Mitre Cuts (45 degree weld seams) - extending through BZD */}
-        <line x1="0" y1="0" x2={frameThickness + 20} y2={frameThickness + 20} className="mitre-line" />
-        <line x1={width} y1="0" x2={width - frameThickness - 20} y2={frameThickness + 20} className="mitre-line" />
-        <line x1="0" y1={height} x2={frameThickness + 20} y2={height - frameThickness - 20} className="mitre-line" />
-        <line x1={width} y1={height} x2={width - frameThickness - 20} y2={height - frameThickness - 20} className="mitre-line" />
-
-        {/* Glazing Bead (BZD) - Only visible from the interior */}
-        {effectiveViewSide === 'interior' && (
-          <>
-            <polygon className="bead-h" points={`${frameThickness},${frameThickness} ${width - frameThickness},${frameThickness} ${width - frameThickness - 20},${frameThickness + 20} ${frameThickness + 20},${frameThickness + 20}`} />
-            <polygon className="bead-h" points={`${frameThickness},${height - frameThickness} ${width - frameThickness},${height - frameThickness} ${width - frameThickness - 20},${height - frameThickness - 20} ${frameThickness + 20},${height - frameThickness - 20}`} />
-            <polygon className="bead-v" points={`${frameThickness},${frameThickness} ${frameThickness + 20},${frameThickness + 20} ${frameThickness + 20},${height - frameThickness - 20} ${frameThickness},${height - frameThickness}`} />
-            <polygon className="bead-v" points={`${width - frameThickness},${frameThickness} ${width - frameThickness - 20},${frameThickness + 20} ${width - frameThickness - 20},${height - frameThickness - 20} ${width - frameThickness},${height - frameThickness}`} />
-
-            {/* Seam between Main Frame and BZD */}
-            <rect 
-              x={frameThickness} 
-              y={frameThickness} 
-              width={width - 2 * frameThickness} 
-              height={height - 2 * frameThickness} 
-              className="bzd-seam"
-            />
-          </>
-        )}
-
-        {/* Glass Package */}
-        <rect 
-          x={frameThickness + 20} 
-          y={frameThickness + 20} 
-          width={innerWidth - 40} 
-          height={innerHeight - 40} 
-          className="glass" 
-        />
-        
-        {/* Gasket (GSK_INT) and inner shadow */}
-        <rect 
-          x={frameThickness + 20} 
-          y={frameThickness + 20} 
-          width={innerWidth - 40} 
-          height={innerHeight - 40} 
-          fill="none"
-          stroke="#111111"
-          strokeWidth="6"
-        />
-      </g>
+          {svgContent}
         </svg>
       </div>
 

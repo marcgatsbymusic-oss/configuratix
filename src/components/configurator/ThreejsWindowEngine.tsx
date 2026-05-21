@@ -4,9 +4,11 @@ import { OrbitControls, Environment, ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
 import { FrameSegment } from './FrameSegment';
 
-// We import the specific JSON payload for the F104. 
+// We import the specific JSON payloads. 
 // In a dynamic app, this would be fetched via API based on the selected typology.
 import IG5_F104 from '../../data/profiles/IG5_F104.json';
+import IG5_F100 from '../../data/profiles/IG5_F100.json';
+
 
 interface ThreejsWindowEngineProps {
   width: number;
@@ -18,9 +20,20 @@ interface ThreejsWindowEngineProps {
   spacerColor?: string;
   onSceneReady?: (data: any) => void;
   arPlacement?: 'wall' | 'floor';
+  typology?: string;
 }
 
-const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, colorIntTexture, spacerColor = '#b0b5b9', onSceneReady }: ThreejsWindowEngineProps) => {
+const WindowAssembly = ({ 
+  width, 
+  height, 
+  colorExt, 
+  colorInt, 
+  colorExtTexture, 
+  colorIntTexture, 
+  spacerColor = '#b0b5b9', 
+  onSceneReady,
+  typology = 'F104'
+}: ThreejsWindowEngineProps) => {
   const [groupObj, setGroupObj] = React.useState<THREE.Group | null>(null);
 
   // Packed PBR maps (diffuse, normal, ORM) for exterior and interior
@@ -224,12 +237,18 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
     metalness: 0.6
   }), [spacerColor]);
 
-  const frmExt = IG5_F104.profiles.FRM_EXT?.vertices || [];
-  const frmInt = IG5_F104.profiles.FRM_INT?.vertices || [];
-  const bzd = IG5_F104.profiles.BZD?.vertices || [];
-  const glsExt = IG5_F104.profiles.GLS_EXT?.vertices || [];
-  const glsInt = IG5_F104.profiles.GLS_INT?.vertices || [];
-  const spacer1 = IG5_F104.profiles.SPACER1?.vertices || [];
+  const profileData = useMemo(() => {
+    return typology === 'F100' ? IG5_F100 : IG5_F104;
+  }, [typology]);
+
+  const frmExt = profileData.profiles.FRM_EXT?.vertices || [];
+  const frmInt = profileData.profiles.FRM_INT?.vertices || [];
+  const bzd = (profileData.profiles as any).BZD?.vertices || [];
+  const sshExt = (profileData.profiles as any).SSH_EXT?.vertices || [];
+  const sshInt = (profileData.profiles as any).SSH_INT?.vertices || [];
+  const glsExt = profileData.profiles.GLS_EXT?.vertices || [];
+  const glsInt = profileData.profiles.GLS_INT?.vertices || [];
+  const spacer1 = profileData.profiles.SPACER1?.vertices || [];
 
   // Helper to get bounds of a profile
   const getBounds = (verts: any[]) => {
@@ -250,13 +269,13 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
   // Compute common origin for all parts so they don't lose relative positioning!
   const commonOrigin = useMemo(() => {
     let minX = Infinity, minY = Infinity;
-    const allVerts = [...frmExt, ...frmInt, ...bzd, ...glsExt, ...glsInt, ...spacer1];
+    const allVerts = [...frmExt, ...frmInt, ...bzd, ...sshExt, ...sshInt, ...glsExt, ...glsInt, ...spacer1];
     for (const v of allVerts) {
       if (v.x < minX) minX = v.x;
       if (v.y < minY) minY = v.y;
     }
     return { x: minX === Infinity ? 0 : minX, y: minY === Infinity ? 0 : minY };
-  }, [frmExt, frmInt, bzd, glsExt, glsInt, spacer1]);
+  }, [frmExt, frmInt, bzd, sshExt, sshInt, glsExt, glsInt, spacer1]);
 
   // CAD profiles are often huge (e.g. 1 unit = 1mm). 
   // We must scale down by 0.001 so 1 unit = 1 meter in the final exported GLTF,
@@ -282,7 +301,9 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
           <group rotation={[0, Math.PI / 2, 0]}>
             <FrameSegment scaleFactor={scale} length={width} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
             <FrameSegment scaleFactor={scale} length={width} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
-            <FrameSegment scaleFactor={scale} length={width} vertices={bzd} material={intMaterial} origin={commonOrigin} />
+            {bzd.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={bzd} material={intMaterial} origin={commonOrigin} />}
+            {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshExt} material={extMaterial} origin={commonOrigin} />}
+            {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshInt} material={intMaterial} origin={commonOrigin} />}
             {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={spacer1} material={spacerMaterial} origin={commonOrigin} />}
           </group>
         </group>
@@ -292,7 +313,9 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
           <group rotation={[0, Math.PI / 2, 0]}>
             <FrameSegment scaleFactor={scale} length={height} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
             <FrameSegment scaleFactor={scale} length={height} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
-            <FrameSegment scaleFactor={scale} length={height} vertices={bzd} material={intMaterial} origin={commonOrigin} />
+            {bzd.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={bzd} material={intMaterial} origin={commonOrigin} />}
+            {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshExt} material={extMaterial} origin={commonOrigin} />}
+            {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshInt} material={intMaterial} origin={commonOrigin} />}
             {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={spacer1} material={spacerMaterial} origin={commonOrigin} />}
           </group>
         </group>
@@ -302,7 +325,9 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
           <group rotation={[0, Math.PI / 2, 0]}>
             <FrameSegment scaleFactor={scale} length={width} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
             <FrameSegment scaleFactor={scale} length={width} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
-            <FrameSegment scaleFactor={scale} length={width} vertices={bzd} material={intMaterial} origin={commonOrigin} />
+            {bzd.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={bzd} material={intMaterial} origin={commonOrigin} />}
+            {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshExt} material={extMaterial} origin={commonOrigin} />}
+            {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshInt} material={intMaterial} origin={commonOrigin} />}
             {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={spacer1} material={spacerMaterial} origin={commonOrigin} />}
           </group>
         </group>
@@ -312,7 +337,9 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
           <group rotation={[0, Math.PI / 2, 0]}>
             <FrameSegment scaleFactor={scale} length={height} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
             <FrameSegment scaleFactor={scale} length={height} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
-            <FrameSegment scaleFactor={scale} length={height} vertices={bzd} material={intMaterial} origin={commonOrigin} />
+            {bzd.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={bzd} material={intMaterial} origin={commonOrigin} />}
+            {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshExt} material={extMaterial} origin={commonOrigin} />}
+            {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshInt} material={intMaterial} origin={commonOrigin} />}
             {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={spacer1} material={spacerMaterial} origin={commonOrigin} />}
           </group>
         </group>

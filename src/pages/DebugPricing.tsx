@@ -44,6 +44,46 @@ const getPaneImage = (paneCode: string) => {
   return 'float-4.webp'; // fallback for FL, T, etc.
 };
 
+interface TypologyThumbnailProps {
+  id: string;
+  className?: string;
+}
+
+function TypologyThumbnail({ id, className }: TypologyThumbnailProps) {
+  const [src, setSrc] = useState(`/assets/windowtypes/${id}.jpg?v=2`);
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    setSrc(`/assets/windowtypes/${id}.jpg?v=2`);
+    setHasError(false);
+  }, [id]);
+
+  const handleError = () => {
+    if (src.includes('.jpg')) {
+      setSrc(`/assets/windowtypes/${id}.svg?v=2`);
+    } else {
+      setHasError(true);
+    }
+  };
+
+  if (hasError) {
+    return (
+      <div className={`${className} flex items-center justify-center bg-gray-800 text-gray-400 font-bold text-[10px] border border-gray-600 shadow-inner`}>
+        {id}
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={id}
+      className={className}
+      onError={handleError}
+    />
+  );
+}
+
 export function DebugPricing() {
   const { t } = useTranslation();
 
@@ -761,6 +801,7 @@ export function DebugPricing() {
                           colorIntTexture={intDetails.textureUrl}
                           spacerColor={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
                           onSceneReady={setSceneGroup}
+                          typology={typology}
                         />
                      ) : (
                         <SvgWindowEngine 
@@ -772,6 +813,7 @@ export function DebugPricing() {
                           colorIntTexture={intDetails.textureUrl}
                           viewSide={viewSide}
                           weldType={weld as any}
+                          typology={typology}
                         />
                      )}
                   </div>
@@ -791,16 +833,9 @@ export function DebugPricing() {
                 className="w-full bg-mammut-black border border-gray-700 rounded-lg p-3 text-mammut-white cursor-pointer flex items-center justify-between hover:border-mammut-gold transition-colors h-[76px]"
               >
                 <div className="flex items-center gap-3 group">
-                   <img 
-                     src={`/assets/windowtypes/${typology}.jpg`} 
+                   <TypologyThumbnail 
+                     id={typology}
                      className="w-14 h-14 object-contain rounded bg-white border border-gray-700 shrink-0 p-1 transition-transform duration-300 ease-in-out group-hover:scale-[2.5] group-hover:z-50 origin-left relative"
-                     onError={(e) => { 
-                       const t = e.currentTarget;
-                       if (!t.dataset.retriedPng) { t.dataset.retriedPng = 'true'; t.src = `/assets/windowtypes/${typology}.png`; }
-                       else if (!t.dataset.retriedSvg) { t.dataset.retriedSvg = 'true'; t.src = `/assets/windowtypes/${typology}.svg`; }
-                       else { t.style.display = 'none'; t.parentElement!.children[1].classList.remove('hidden'); }
-                     }}
-                     alt={typology} 
                    />
                    <div className="w-10 h-10 rounded border border-gray-600 shadow-inner shrink-0 hidden items-center justify-center bg-gray-800 text-[10px]">{typology}</div>
                    <div className="flex flex-col">
@@ -832,18 +867,10 @@ export function DebugPricing() {
                                     onClick={() => { setTypology(id); setIsTypologyOpen(false); }} 
                                     className="p-3 hover:bg-mammut-gold/20 cursor-pointer flex items-center gap-4 border-b border-gray-800 transition-colors group"
                                   >
-                                     <img 
-                                       src={`/assets/windowtypes/${id}.jpg`} 
+                                     <TypologyThumbnail 
+                                       id={id}
                                        className="w-16 h-16 object-contain rounded bg-mammut-black border border-gray-700 p-1 shrink-0 transition-transform duration-300 ease-in-out group-hover:scale-[2.5] group-hover:z-50 origin-left relative"
-                                       onError={(e) => { 
-                                         const t = e.currentTarget;
-                                         if (!t.dataset.retriedPng) { t.dataset.retriedPng = 'true'; t.src = `/assets/windowtypes/${id}.png`; }
-                                         else if (!t.dataset.retriedSvg) { t.dataset.retriedSvg = 'true'; t.src = `/assets/windowtypes/${id}.svg`; }
-                                         else { t.style.display = 'none'; t.parentElement!.children[1].classList.remove('hidden'); }
-                                       }}
-                                       alt={id} 
                                      />
-                                     <div className="w-16 h-16 rounded border border-gray-600 shadow-inner shrink-0 hidden items-center justify-center bg-gray-800 font-bold">{id}</div>
                                      <div className="flex flex-col">
                                        <span className="font-bold text-mammut-white mb-1">{id}</span>
                                        <span className="text-xs text-gray-400 leading-tight">{wt.name || 'Window'}</span>
