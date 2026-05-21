@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchPrice, type PricingApiResponse } from '../utils/cantorPricing/pricingApi';
 import type { ConfiguratorInput } from '../utils/cantorPricing/input';
-import { CONFIG_SCHEMA, WINDOW_TYPES, PROFILE_GLAZING_LIMITS } from '../components/SlateConfigurator/types';
+import { CONFIG_SCHEMA, WINDOW_TYPES, PROFILE_GLAZING_LIMITS, getTypologyImagePath } from '../components/SlateConfigurator/types';
 import { IGLO_EDGE_COLORS } from '../data/productDetails';
 import { WindowVisualizer } from '../components/SlateConfigurator/WindowVisualizer';
 import { SvgWindowEngine } from '../components/configurator/SvgWindowEngine';
@@ -50,16 +50,16 @@ interface TypologyThumbnailProps {
 }
 
 function TypologyThumbnail({ id, className }: TypologyThumbnailProps) {
-  const [src, setSrc] = useState(`/assets/windowtypes/${id}.jpg?v=2`);
+  const [src, setSrc] = useState(() => getTypologyImagePath(id));
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    setSrc(`/assets/windowtypes/${id}.jpg?v=2`);
+    setSrc(getTypologyImagePath(id));
     setHasError(false);
   }, [id]);
 
   const handleError = () => {
-    if (src.includes('.jpg')) {
+    if (!src.endsWith('.svg?v=2')) {
       setSrc(`/assets/windowtypes/${id}.svg?v=2`);
     } else {
       setHasError(true);

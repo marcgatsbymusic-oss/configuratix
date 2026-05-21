@@ -259,10 +259,12 @@ export function QuotationDetailPage() {
               {/* SVG Preview */}
               <div className="bg-zinc-950 p-4 flex items-center justify-center border-b border-zinc-800" style={{ minHeight: 160 }}>
                 {item.config?.windowTypeId ? (
-                  <WindowTypeGraphic 
-                    id={item.config.windowTypeId} 
-                    className="max-h-36 max-w-full text-zinc-400"
-                  />
+                  <div className="w-32 h-32 flex items-center justify-center text-zinc-400">
+                    <WindowTypeGraphic 
+                      id={item.config.windowTypeId} 
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
                 ) : (
                   <div className="text-zinc-700 text-xs italic">No preview</div>
                 )}

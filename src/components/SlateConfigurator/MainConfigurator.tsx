@@ -640,11 +640,13 @@ export function MainConfigurator() {
                                 className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center justify-between gap-3 h-[160px] ${state.windowTypeId === wt.id ? 'border-mammut-gold bg-mammut-gold/10 text-mammut-gold shadow-md ring-4 ring-[#eab676]/10' : 'border-mammut-border hover:border-mammut-border shadow-sm hover:shadow-md group bg-mammut-dark'}`}
                               >
                                 <div className="w-full h-20 flex items-center justify-center relative p-2 overflow-hidden bg-mammut-darker/50 rounded-lg">
-                                  <WindowTypeGraphic 
-                                    id={wt.id}
-                                    sashOpenings={state.windowTypeId === wt.id ? state.sashOpenings : getDefaultSashOpenings(wt.id, wt.sashes)}
-                                    className={`object-contain max-h-full transition-all duration-300 ${state.windowTypeId === wt.id ? 'opacity-100 scale-110 drop-shadow-[0_0_8px_rgba(234,182,118,0.5)] text-mammut-gold' : 'opacity-40 group-hover:opacity-100 group-hover:scale-105 text-mammut-white'}`}
-                                  />
+                                  <div className={`w-16 h-16 flex items-center justify-center transition-all duration-300 ${state.windowTypeId === wt.id ? 'opacity-100 scale-110 drop-shadow-[0_0_8px_rgba(234,182,118,0.5)] text-mammut-gold' : 'opacity-40 group-hover:opacity-100 group-hover:scale-105 text-mammut-white'}`}>
+                                    <WindowTypeGraphic 
+                                      id={wt.id}
+                                      sashOpenings={state.windowTypeId === wt.id ? state.sashOpenings : getDefaultSashOpenings(wt.id, wt.sashes)}
+                                      className="w-full h-full object-contain"
+                                    />
+                                  </div>
                                 </div>
                                 <div className="font-bold text-[10px] text-center leading-tight whitespace-pre-wrap">{wt.name}<br/><span className="text-mammut-white/30 truncate mt-1 block">[{wt.id}]</span></div>
                               </button>

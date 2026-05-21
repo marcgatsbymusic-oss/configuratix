@@ -258,6 +258,8 @@ export const WindowTypeGraphic: React.FC<WindowTypeGraphicProps> = ({
   sashOpenings = [],
   className = ''
 }) => {
+  if (!id) return null;
+
   const isF100 = id.toUpperCase().includes('F100');
 
   // Immediately render the static immaculately traced SVG if this is an F100 window
@@ -292,7 +294,6 @@ export const WindowTypeGraphic: React.FC<WindowTypeGraphicProps> = ({
       className={`w-full h-full ${className}`}
       preserveAspectRatio="xMidYMid meet"
       aria-label={`Window type ${id}`}
-      style={{ filter: 'drop-shadow(0px 8px 12px rgba(0,0,0,0.1))' }} // Soft container shadow
     >
       {/* 1. Outer Frame Fill (No stroke on the absolute outer edge as requested) */}
       <rect x={0} y={0} width={VW} height={VH} fill={FRAME_COLOR} />

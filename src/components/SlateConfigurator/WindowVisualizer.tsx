@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getTypologyImagePath } from './types';
 
 export interface WindowVisualizerProps {
   typology: string;
@@ -9,16 +10,16 @@ export interface WindowVisualizerProps {
 
 export function WindowVisualizer({ typology, width, height, infills }: WindowVisualizerProps) {
   const isMultiSash = typology.match(/^F2[0-5][0-9]$/) && infills && infills.length >= 2;
-  const [imgSrc, setImgSrc] = useState(`/assets/windowtypes/${typology}.jpg?v=2`);
+  const [imgSrc, setImgSrc] = useState(() => getTypologyImagePath(typology));
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    setImgSrc(`/assets/windowtypes/${typology}.jpg?v=2`);
+    setImgSrc(getTypologyImagePath(typology));
     setHasError(false);
   }, [typology]);
 
   const handleError = () => {
-    if (imgSrc.includes('.jpg')) {
+    if (!imgSrc.endsWith('.svg?v=2')) {
       setImgSrc(`/assets/windowtypes/${typology}.svg?v=2`);
     } else {
       setHasError(true);
