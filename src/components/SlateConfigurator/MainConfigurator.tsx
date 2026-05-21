@@ -1109,13 +1109,24 @@ export function MainConfigurator() {
                    >
                      2D Draft
                    </button>
-                   <button 
-                     onClick={() => window.location.href = arHref}
-                     className="px-3 py-1.5 flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-wider rounded-md transition-all text-emerald-400 hover:bg-emerald-400/10 hover:text-emerald-300 ml-1 border-l border-mammut-border pl-4"
-                     title="View in AR"
-                   >
-                     <Box size={12} strokeWidth={2.5} /> AR
-                   </button>
+                   {isIOS ? (
+                     <a
+                       href={arHref}
+                       rel="ar"
+                       className="px-3 py-1.5 flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-wider rounded-md transition-all text-emerald-400 hover:bg-emerald-400/10 hover:text-emerald-300 ml-1 border-l border-mammut-border pl-4"
+                       title="View in AR"
+                     >
+                       <Box size={12} strokeWidth={2.5} /> AR
+                     </a>
+                   ) : (
+                     <a
+                       href={arHref}
+                       className="px-3 py-1.5 flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-wider rounded-md transition-all text-emerald-400 hover:bg-emerald-400/10 hover:text-emerald-300 ml-1 border-l border-mammut-border pl-4"
+                       title="View in AR"
+                     >
+                       <Box size={12} strokeWidth={2.5} /> AR
+                     </a>
+                   )}
                 </div>
                 {show3D ? (
                   <NeedlePreview state={state} />
