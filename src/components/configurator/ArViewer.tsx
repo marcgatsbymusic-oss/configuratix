@@ -84,7 +84,7 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
           <ModelViewer
             src={modelUrl}
             ar="true"
-            ar-modes="webxr quick-look"
+            ar-modes="webxr scene-viewer quick-look"
             ar-placement={placement}
             camera-controls="true"
             auto-rotate="true"
