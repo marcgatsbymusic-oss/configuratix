@@ -34,7 +34,6 @@ const WindowAssembly = ({
   spacerColor = '#b0b5b9', 
   onSceneReady,
   typology = 'F104',
-  sealColor = '',
 }: ThreejsWindowEngineProps) => {
   const [groupObj, setGroupObj] = React.useState<THREE.Group | null>(null);
 

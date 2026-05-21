@@ -1,4 +1,5 @@
 # Ignore all test, scrapers, local outputs and tools
+dist
 .agents
 .tmp
 scratch
@@ -7,6 +8,7 @@ drutex_scraper
 out_esbuild
 test-results
 textures_raw
+public/textures/window_glass_rough_2k.gltf
 coverage_out.txt
 build_output.txt
 filenamelist.txt

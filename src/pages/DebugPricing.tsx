@@ -108,8 +108,8 @@ export function DebugPricing() {
 
   // 5) Joinery colors
   const [colorType, setColorType] = useState('W-W');
-  const [colorCode, setColorCode] = useState('0223'); // 0223 = Winchester
-  const [interiorColorCode, setInteriorColorCode] = useState('0223');
+  const [colorCode, setColorCode] = useState('0197'); // 0197 = White
+  const [interiorColorCode, setInteriorColorCode] = useState('0197');
   const [overwriteCoreColor, setOverwriteCoreColor] = useState(false);
   const [coreColor, setCoreColor] = useState('');
 
@@ -735,21 +735,6 @@ export function DebugPricing() {
             {/* Image of the window opening/type */}
             <div className="w-full md:flex-[2] flex flex-col justify-center items-center max-w-sm relative mt-4 md:mt-0">
               
-              <div className="absolute -top-10 md:top-0 right-0 z-20 flex bg-gray-800 rounded-lg p-1 border border-gray-700 shadow-xl">
-                <button 
-                  onClick={() => setViewSide('interior')}
-                  className={`px-3 py-1 text-[10px] font-bold uppercase rounded transition-colors ${viewSide === 'interior' ? 'bg-mammut-gold text-black' : 'text-gray-400 hover:text-white'}`}
-                >
-                  Inside
-                </button>
-                <button 
-                  onClick={() => setViewSide('exterior')}
-                  className={`px-3 py-1 text-[10px] font-bold uppercase rounded transition-colors ${viewSide === 'exterior' ? 'bg-mammut-gold text-black' : 'text-gray-400 hover:text-white'}`}
-                >
-                  Outside
-                </button>
-              </div>
-
               <div className="w-full mt-4 md:mt-8">
                 {(typology === 'F104' || typology === 'F100') ? (
                   <div className="w-full aspect-square border border-gray-800 rounded-lg bg-gray-900 flex items-center justify-center p-2 md:p-12 overflow-hidden shadow-inner relative group">
@@ -758,6 +743,24 @@ export function DebugPricing() {
                         <button onClick={() => setIs3dMode(false)} className={`px-2 py-1 text-xs font-bold rounded ${!is3dMode ? 'bg-mammut-gold text-black' : 'text-gray-400'}`}>2D</button>
                         <button onClick={() => setIs3dMode(true)} className={`px-2 py-1 text-xs font-bold rounded ${is3dMode ? 'bg-mammut-gold text-black' : 'text-gray-400'}`}>3D</button>
                      </div>
+
+                     {/* Inside/Outside View Side Toggle (Move inside visualizer frame & hide in 3D Mode) */}
+                     {!is3dMode && (
+                       <div className="absolute top-2 right-2 z-30 flex bg-black/50 rounded p-1 border border-gray-800 shadow-xl gap-1">
+                         <button 
+                           onClick={() => setViewSide('interior')}
+                           className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded transition-colors ${viewSide === 'interior' ? 'bg-mammut-gold text-black' : 'text-gray-400 hover:text-white'}`}
+                         >
+                           Inside
+                         </button>
+                         <button 
+                           onClick={() => setViewSide('exterior')}
+                           className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded transition-colors ${viewSide === 'exterior' ? 'bg-mammut-gold text-black' : 'text-gray-400 hover:text-white'}`}
+                         >
+                           Outside
+                         </button>
+                       </div>
+                     )}
 
                      {/* Vertical Scroll Wheel (Height) overlay on the left */}
                      <div className="absolute left-3 top-10 bottom-10 w-8 z-30 flex items-center justify-center">
@@ -781,13 +784,6 @@ export function DebugPricing() {
                           orientation="horizontal"
                           className="w-full"
                         />
-                     </div>
-
-                     {/* Dimension pill overlay at the bottom center of the frame area */}
-                     <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
-                        <span className="bg-mammut-darker/90 border border-mammut-gold/60 text-mammut-gold px-3.5 py-1 rounded-full text-xs font-black tracking-widest shadow-lg backdrop-blur-sm select-none">
-                          {width} mm
-                        </span>
                      </div>
 
                      {/* AR Buttons - always visible in 3D mode */}

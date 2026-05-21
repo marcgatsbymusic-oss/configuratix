@@ -8,7 +8,7 @@ export interface WindowVisualizerProps {
   infills?: { width?: string | number; height?: string | number }[];
 }
 
-export function WindowVisualizer({ typology, width, height, infills }: WindowVisualizerProps) {
+export function WindowVisualizer({ typology, infills }: WindowVisualizerProps) {
   const isMultiSash = typology.match(/^F2[0-5][0-9]$/) && infills && infills.length >= 2;
   const [imgSrc, setImgSrc] = useState(() => getTypologyImagePath(typology));
   const [hasError, setHasError] = useState(false);
@@ -51,25 +51,16 @@ export function WindowVisualizer({ typology, width, height, infills }: WindowVis
             <div className="flex-1 border-b border-gray-400 relative opacity-70">
               <div className="absolute top-1/2 left-0 w-2 h-2 border-l border-gray-400 -translate-y-1/2"></div>
               <div className="absolute top-1/2 right-0 w-2 h-2 border-r border-gray-400 -translate-y-1/2"></div>
-              <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-2 py-0.5 text-[10px] text-gray-600 border border-gray-200 rounded-full shadow-sm">
-                {infills?.[0]?.width || Math.round(width / 2)} mm
-              </span>
             </div>
             <div className="flex-1 border-b border-gray-400 relative opacity-70">
               <div className="absolute top-1/2 left-0 w-2 h-2 border-l border-gray-400 -translate-y-1/2"></div>
               <div className="absolute top-1/2 right-0 w-2 h-2 border-r border-gray-400 -translate-y-1/2"></div>
-              <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-2 py-0.5 text-[10px] text-gray-600 border border-gray-200 rounded-full shadow-sm">
-                {infills?.[1]?.width || Math.round(width / 2)} mm
-              </span>
             </div>
           </div>
         )}
         <div className="w-full border-b border-black relative">
           <div className="absolute top-1/2 left-0 w-3 h-3 border-l-2 border-black -translate-y-1/2"></div>
           <div className="absolute top-1/2 right-0 w-3 h-3 border-r-2 border-black -translate-y-1/2"></div>
-          <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-3 py-1 text-xs font-bold text-black border border-gray-300 rounded-full shadow-sm">
-            {width} mm
-          </span>
         </div>
       </div>
 
@@ -78,12 +69,6 @@ export function WindowVisualizer({ typology, width, height, infills }: WindowVis
         <div className="h-full border-l border-black relative">
           <div className="absolute top-0 left-1/2 w-3 h-3 border-t-2 border-black -translate-x-1/2"></div>
           <div className="absolute bottom-0 left-1/2 w-3 h-3 border-b-2 border-black -translate-x-1/2"></div>
-          <span 
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-3 py-1 text-xs font-bold text-black border border-gray-300 rounded-full shadow-sm"
-            style={{ transform: 'translate(-50%, -50%) rotate(-90deg)' }}
-          >
-            {height} mm
-          </span>
         </div>
       </div>
 

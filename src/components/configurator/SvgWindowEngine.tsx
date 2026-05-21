@@ -34,13 +34,19 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
   typology = 'F104',
   sealColor = '',
 }) => {
-  const [lensPos, setLensPos] = useState({ x: 0, y: 0 });
+  const [pointerPos, setPointerPos] = useState({ x: 0, y: 0 });
   const [containerSize, setContainerSize] = useState({ w: 100, h: 100 });
   const [showLens, setShowLens] = useState(false);
 
   const [rotationY, setRotationY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
+  const [mode, setMode] = useState<'rotate' | 'magnify'>('rotate');
+  const [isTouch, setIsTouch] = useState(false);
+
+  const offsetVal = isTouch ? 120 : 0;
+  const lensX = pointerPos.x;
+  const lensY = pointerPos.y - offsetVal;
 
   // Compute effective view side based on physical 3D rotation
   const baseRotation = viewSide === 'interior' ? 0 : 180;
@@ -73,25 +79,70 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
   const finalBeadFillH = finalMainFillH;
 
   const handlePointerDown = (e: React.PointerEvent) => {
-    setIsDragging(true);
-    setStartX(e.clientX);
-    setShowLens(false);
-    e.currentTarget.setPointerCapture(e.pointerId);
+    const isTouchEvent = e.pointerType === 'touch';
+    setIsTouch(isTouchEvent);
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    setPointerPos({ x, y });
+    setContainerSize({ w: rect.width, h: rect.height });
+
+    if (mode === 'magnify') {
+      setIsDragging(false);
+      setShowLens(true);
+      try {
+        e.currentTarget.setPointerCapture(e.pointerId);
+      } catch (err) {
+        console.error('Failed to set pointer capture:', err);
+      }
+    } else {
+      setIsDragging(true);
+      setStartX(e.clientX);
+      setShowLens(false);
+      try {
+        e.currentTarget.setPointerCapture(e.pointerId);
+      } catch (err) {
+        console.error('Failed to set pointer capture:', err);
+      }
+    }
   };
+
   const handlePointerMove = (e: React.PointerEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    if (!isDragging) {
-      setLensPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-      setContainerSize({ w: rect.width, h: rect.height });
-    } else {
+    const isTouchEvent = e.pointerType === 'touch';
+    setIsTouch(isTouchEvent);
+
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    if (mode === 'magnify') {
+      if (e.buttons > 0 || isTouchEvent) {
+        setShowLens(true);
+        setPointerPos({ x, y });
+        setContainerSize({ w: rect.width, h: rect.height });
+      }
+    } else if (isDragging) {
       const deltaX = e.clientX - startX;
       setRotationY(prev => prev + deltaX * 0.5);
       setStartX(e.clientX);
+    } else if (!isTouchEvent) {
+      // Hover magnifier on desktop
+      setPointerPos({ x, y });
+      setContainerSize({ w: rect.width, h: rect.height });
     }
   };
+
   const handlePointerUp = (e: React.PointerEvent) => {
     setIsDragging(false);
-    e.currentTarget.releasePointerCapture(e.pointerId);
+    if (e.pointerType === 'touch' || mode === 'magnify') {
+      setShowLens(false);
+    }
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch (err) {
+      // Ignore
+    }
   };
 
   const isSash = typology === 'F100';
@@ -231,9 +282,32 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
   return (
     <div 
       className="relative w-full h-full flex items-center justify-center p-8 group"
-      onPointerEnter={() => !isDragging && setShowLens(true)}
-      onPointerLeave={() => setShowLens(false)}
+      onPointerEnter={(e) => e.pointerType !== 'touch' && !isDragging && setShowLens(true)}
+      onPointerLeave={(e) => e.pointerType !== 'touch' && setShowLens(false)}
     >
+      {/* Mode Toggle for Mobile & Touch Devices */}
+      <div className="absolute top-4 left-4 z-40 bg-gray-900/90 border border-gray-700/80 p-1 rounded-lg flex items-center gap-1 shadow-2xl backdrop-blur-sm">
+        <button 
+          onClick={() => { setMode('rotate'); setShowLens(false); }} 
+          className={`px-2 py-1 rounded text-[10px] font-bold uppercase transition-all duration-200 flex items-center gap-1 ${mode === 'rotate' ? 'bg-mammut-gold text-black shadow-md' : 'text-gray-400 hover:text-white'}`}
+          title="Drag to Rotate Window"
+        >
+          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+          </svg>
+          Rotate
+        </button>
+        <button 
+          onClick={() => { setMode('magnify'); }} 
+          className={`px-2 py-1 rounded text-[10px] font-bold uppercase transition-all duration-200 flex items-center gap-1 ${mode === 'magnify' ? 'bg-mammut-gold text-black shadow-md' : 'text-gray-400 hover:text-white'}`}
+          title="Touch & Drag to Magnify Details"
+        >
+          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          Zoom
+        </button>
+      </div>
       {/* Magnifying Glass Lens Overlay */}
       {showLens && !isDragging && (
         <div 
@@ -241,8 +315,8 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
           style={{
             width: 250,
             height: 250,
-            left: lensPos.x - 125,
-            top: lensPos.y - 125,
+            left: lensX - 125,
+            top: lensY - 125,
             overflow: 'hidden'
           }}
         >
@@ -250,8 +324,8 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
              position: 'absolute',
              width: containerSize.w,
              height: containerSize.h,
-             transformOrigin: `${lensPos.x}px ${lensPos.y}px`,
-             transform: `translate(${125 - lensPos.x}px, ${125 - lensPos.y}px) scale(3)`,
+             transformOrigin: '0 0',
+             transform: `translate(${125 - pointerPos.x * 3}px, ${125 - pointerPos.y * 3}px) scale(3)`,
            }}>
               <svg
                 viewBox={`0 0 ${width} ${height}`}
@@ -270,7 +344,7 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
 
       {/* 3D Container for Main SVG */}
       <div 
-        className="relative w-full h-full flex items-center justify-center cursor-ew-resize perspective-1000 touch-pan-y"
+        className={`relative w-full h-full flex items-center justify-center cursor-ew-resize perspective-1000 select-none ${mode === 'magnify' ? 'touch-none' : 'touch-pan-y'}`}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
@@ -299,9 +373,6 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
         <div className="w-full border-b border-gray-400 relative">
           <div className="absolute top-1/2 left-0 w-2 h-2 border-l border-gray-400 -translate-y-1/2"></div>
           <div className="absolute top-1/2 right-0 w-2 h-2 border-r border-gray-400 -translate-y-1/2"></div>
-          <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black px-3 py-1 text-xs font-bold text-white border border-gray-700 rounded-full shadow-sm">
-            {width} mm
-          </span>
         </div>
       </div>
 
@@ -309,12 +380,6 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
         <div className="h-full border-l border-gray-400 relative">
           <div className="absolute top-0 left-1/2 w-2 h-2 border-t border-gray-400 -translate-x-1/2"></div>
           <div className="absolute bottom-0 left-1/2 w-2 h-2 border-b border-gray-400 -translate-x-1/2"></div>
-          <span 
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black px-3 py-1 text-xs font-bold text-white border border-gray-700 rounded-full shadow-sm"
-            style={{ transform: 'translate(-50%, -50%) rotate(-90deg)' }}
-          >
-            {height} mm
-          </span>
         </div>
       </div>
 
