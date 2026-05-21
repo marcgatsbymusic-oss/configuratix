@@ -10,6 +10,7 @@ import { ExitIntentModal } from './ExitIntentModal';
 import { MaterialHelp, WindowTypeHelp } from './HelpContents';
 import { BlueprintPreview } from './BlueprintPreview';
 import { NeedlePreview } from './NeedlePreview';
+import { ScrollWheel } from './ScrollWheel';
 
 import { useCartStore } from '../../store/useCartStore';
 
@@ -825,19 +826,14 @@ export function MainConfigurator() {
                         </div>
                       </div>
                       
-                      <input
-                        type="range"
+                      <ScrollWheel
+                        value={state.dimensions.width}
+                        onChange={(val) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: val, height: state.dimensions.height } })}
                         min={activeLimits.minWidth}
                         max={activeLimits.maxWidth}
-                        step="10"
-                        value={state.dimensions.width}
-                        onChange={(e) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: Number(e.target.value) } })}
-                        className="w-full accent-indigo-600 mb-2 cursor-pointer"
+                        orientation="horizontal"
+                        className="w-full mt-2"
                       />
-                      <div className="flex justify-between items-center text-[10px] font-bold text-mammut-white/30">
-                        <span>{activeLimits.minWidth}</span>
-                        <span>{activeLimits.maxWidth}</span>
-                      </div>
                     </div>
 
                     {/* Height Control */}
@@ -865,19 +861,14 @@ export function MainConfigurator() {
                         </div>
                       </div>
                       
-                      <input
-                        type="range"
+                      <ScrollWheel
+                        value={state.dimensions.height}
+                        onChange={(val) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: state.dimensions.width, height: val } })}
                         min={activeLimits.minHeight}
                         max={activeLimits.maxHeight}
-                        step="10"
-                        value={state.dimensions.height}
-                        onChange={(e) => dispatch({ type: 'SET_DIMENSIONS', payload: { height: Number(e.target.value) } })}
-                        className="w-full accent-indigo-600 mb-2 cursor-pointer"
+                        orientation="horizontal"
+                        className="w-full mt-2"
                       />
-                      <div className="flex justify-between items-center text-[10px] font-bold text-mammut-white/30">
-                        <span>{activeLimits.minHeight}</span>
-                        <span>{activeLimits.maxHeight}</span>
-                      </div>
                     </div>
                   </div>
                   
@@ -1129,7 +1120,11 @@ export function MainConfigurator() {
                 {show3D ? (
                   <NeedlePreview state={state} />
                 ) : (
-                  <BlueprintPreview state={state} />
+                  <BlueprintPreview 
+                    state={state} 
+                    onDimensionChange={(w, h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h } })}
+                    activeLimits={activeLimits}
+                  />
                 )}
               </div>
 

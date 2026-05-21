@@ -4,12 +4,20 @@ import { COLOR_LOCALE } from './types';
 import { useTranslation } from 'react-i18next';
 import { Rotate3D } from 'lucide-react';
 import { WindowTypeGraphic } from './WindowTypeGraphic';
+import { ScrollWheel } from './ScrollWheel';
 
 interface BlueprintPreviewProps {
   state: ConfiguratorState;
+  onDimensionChange?: (width: number, height: number) => void;
+  activeLimits?: {
+    minWidth: number;
+    maxWidth: number;
+    minHeight: number;
+    maxHeight: number;
+  };
 }
 
-export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => {
+export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state, onDimensionChange, activeLimits }) => {
   const { t } = useTranslation();
   const [rotationY, setRotationY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -57,10 +65,10 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
   // Dimension layout constants (in SVG user units)
   const SVG_W = 500;
   const SVG_H = 600;
-  const DIM_PAD_BOTTOM = 60;
+  const DIM_PAD_BOTTOM = 80; // slightly increased to make space for the bottom wheel
   const DIM_PAD_RIGHT = 60;
   const DIM_PAD_TOP = 20;
-  const DIM_PAD_LEFT = 20;
+  const DIM_PAD_LEFT = 60; // slightly increased to make space for the left wheel
 
   const MAX_W = SVG_W - DIM_PAD_LEFT - DIM_PAD_RIGHT;
   const MAX_H = SVG_H - DIM_PAD_TOP - DIM_PAD_BOTTOM;
@@ -73,6 +81,11 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
 
   const offsetX = DIM_PAD_LEFT + (MAX_W - frameW) / 2;
   const offsetY = DIM_PAD_TOP + (MAX_H - frameH) / 2;
+
+  const minW = activeLimits?.minWidth || 500;
+  const maxW = activeLimits?.maxWidth || 3000;
+  const minH = activeLimits?.minHeight || 500;
+  const maxH = activeLimits?.maxHeight || 2500;
 
   // Convert SVG frame box to % of the container for the overlay
   // The SVG viewBox is SVG_W × SVG_H; the overlay div fills 100%
@@ -112,7 +125,7 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
           {/* Measurements removed as requested */}
 
           {/* View label */}
-          <text x={SVG_W / 2} y={SVG_H - 8} textAnchor="middle" fill="#555" fontSize="11" fontFamily="system-ui" fontWeight="700" letterSpacing="2">
+          <text x={SVG_W / 2} y={SVG_H - 12} textAnchor="middle" fill="#555" fontSize="11" fontFamily="system-ui" fontWeight="700" letterSpacing="2">
             {isExterior
               ? t('configurator.blueprint.exteriorView', 'EXTERIOR VIEW').toUpperCase()
               : t('configurator.blueprint.interiorView', 'INTERIOR VIEW').toUpperCase()}
@@ -161,9 +174,68 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state }) => 
       </div>
 
       {/* Drag hint */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-mammut-white/50 opacity-60 pointer-events-none">
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-mammut-white/50 opacity-60 pointer-events-none">
         <Rotate3D size={14} /> {t('configurator.blueprint.dragToRotate', 'Drag to rotate freely in 3D')}
       </div>
+
+      {/* Scrollable tuning wheels for dimensions (Static screen-space overlay) */}
+      {onDimensionChange && (
+        <>
+          {/* Vertical scroll wheel for Height on the left */}
+          <div 
+            className="absolute z-30 flex items-center justify-center"
+            style={{
+              left: `calc(${overlayLeft} - 45px)`,
+              top: overlayTop,
+              height: overlayHeight,
+              width: '32px'
+            }}
+          >
+            <ScrollWheel
+              value={realH}
+              onChange={(h) => onDimensionChange(realW, h)}
+              min={minH}
+              max={maxH}
+              orientation="vertical"
+              className="h-full"
+            />
+          </div>
+
+          {/* Horizontal scroll wheel for Width at the bottom */}
+          <div 
+            className="absolute z-30 flex items-center justify-center"
+            style={{
+              left: overlayLeft,
+              top: `calc(${overlayTop} + ${overlayHeight} + 12px)`,
+              width: overlayWidth,
+              height: '32px'
+            }}
+          >
+            <ScrollWheel
+              value={realW}
+              onChange={(w) => onDimensionChange(w, realH)}
+              min={minW}
+              max={maxW}
+              orientation="horizontal"
+              className="w-full"
+            />
+          </div>
+
+          {/* Dimension pill overlay at the bottom center of the frame */}
+          <div 
+            className="absolute z-20 flex justify-center pointer-events-none"
+            style={{
+              left: overlayLeft,
+              top: `calc(${overlayTop} + ${overlayHeight} - 44px)`,
+              width: overlayWidth,
+            }}
+          >
+            <span className="bg-mammut-darker/90 border border-mammut-gold/60 text-mammut-gold px-3.5 py-1 rounded-full text-xs font-black tracking-widest shadow-lg backdrop-blur-sm select-none">
+              {realW} mm
+            </span>
+          </div>
+        </>
+      )}
 
       {/* 3D flip container */}
       <div 

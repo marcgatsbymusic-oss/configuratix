@@ -22,68 +22,190 @@ interface ThreejsWindowEngineProps {
 
 const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, colorIntTexture, spacerColor = '#b0b5b9', onSceneReady }: ThreejsWindowEngineProps) => {
   const [groupObj, setGroupObj] = React.useState<THREE.Group | null>(null);
-  const [extMap, setExtMap] = React.useState<THREE.Texture | null>(null);
-  const [intMap, setIntMap] = React.useState<THREE.Texture | null>(null);
+
+  // Packed PBR maps (diffuse, normal, ORM) for exterior and interior
+  const [extMaps, setExtMaps] = React.useState<{
+    diffuse: THREE.Texture | null;
+    normal: THREE.Texture | null;
+    orm: THREE.Texture | null;
+  }>({ diffuse: null, normal: null, orm: null });
+
+  const [intMaps, setIntMaps] = React.useState<{
+    diffuse: THREE.Texture | null;
+    normal: THREE.Texture | null;
+    orm: THREE.Texture | null;
+  }>({ diffuse: null, normal: null, orm: null });
 
   React.useEffect(() => {
     if (groupObj && onSceneReady) {
       // Force state update by passing a new object with timestamp
       onSceneReady({ group: groupObj, ts: Date.now() } as any);
     }
-  }, [groupObj, onSceneReady, extMap, intMap, colorExt, colorInt]);
+  }, [groupObj, onSceneReady, extMaps, intMaps, colorExt, colorInt]);
+
+  // Helper to extract the texture folder name and build PBR asset paths
+  const resolveBakedPaths = (texturePath: string) => {
+    console.log("[ThreejsWindowEngine] resolveBakedPaths input:", texturePath);
+    if (!texturePath) return null;
+    const match = texturePath.match(/\/([^\/]+)\.(jpg|png|webp|jpeg)$/i);
+    if (!match) {
+      console.warn("[ThreejsWindowEngine] resolveBakedPaths: No filename match for regex in:", texturePath);
+      return null;
+    }
+    const materialName = match[1];
+    const resolved = {
+      diffuse: `/assets/texturesbaked/${materialName}/diffuse.jpg`,
+      normal: `/assets/texturesbaked/${materialName}/normal.jpg`,
+      orm: `/assets/texturesbaked/${materialName}/orm.png`
+    };
+    console.log("[ThreejsWindowEngine] resolveBakedPaths output:", resolved);
+    return resolved;
+  };
+
+  // Helper to load all three PBR maps synchronously
+  const loadPBRMaps = (texturePath: string, callback: (maps: { diffuse: THREE.Texture | null; normal: THREE.Texture | null; orm: THREE.Texture | null }) => void) => {
+    const paths = resolveBakedPaths(texturePath);
+    if (!paths) {
+      callback({ diffuse: null, normal: null, orm: null });
+      return;
+    }
+
+    const loader = new THREE.TextureLoader();
+    let loadedDiffuse: THREE.Texture | null = null;
+    let loadedNormal: THREE.Texture | null = null;
+    let loadedORM: THREE.Texture | null = null;
+    
+    let count = 0;
+    const total = 3;
+    
+    const checkDone = () => {
+      count++;
+      if (count === total) {
+        callback({ diffuse: loadedDiffuse, normal: loadedNormal, orm: loadedORM });
+      }
+    };
+
+    const configureTexture = (tex: THREE.Texture, colorSpace: THREE.ColorSpace) => {
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(1.0, 1.0);
+      tex.colorSpace = colorSpace;
+      tex.anisotropy = 8;
+    };
+
+    // Load Diffuse (sRGB)
+    console.log("[ThreejsWindowEngine] Loading diffuse:", paths.diffuse);
+    loader.load(paths.diffuse, 
+      (tex) => {
+        console.log("[ThreejsWindowEngine] Successfully loaded diffuse:", paths.diffuse, tex.image ? `${tex.image.width}x${tex.image.height}` : 'no image');
+        configureTexture(tex, THREE.SRGBColorSpace);
+        loadedDiffuse = tex;
+        checkDone();
+      },
+      undefined,
+      (err) => {
+        console.error("[ThreejsWindowEngine] Error loading diffuse:", paths.diffuse, err);
+        loadedDiffuse = null;
+        checkDone();
+      }
+    );
+
+    // Load Normal (NoColor / Linear)
+    console.log("[ThreejsWindowEngine] Loading normal:", paths.normal);
+    loader.load(paths.normal, 
+      (tex) => {
+        console.log("[ThreejsWindowEngine] Successfully loaded normal:", paths.normal, tex.image ? `${tex.image.width}x${tex.image.height}` : 'no image');
+        configureTexture(tex, THREE.NoColorSpace);
+        loadedNormal = tex;
+        checkDone();
+      },
+      undefined,
+      (err) => {
+        console.error("[ThreejsWindowEngine] Error loading normal:", paths.normal, err);
+        loadedNormal = null;
+        checkDone();
+      }
+    );
+
+    // Load ORM (NoColor / Linear)
+    console.log("[ThreejsWindowEngine] Loading ORM:", paths.orm);
+    loader.load(paths.orm, 
+      (tex) => {
+        console.log("[ThreejsWindowEngine] Successfully loaded ORM:", paths.orm, tex.image ? `${tex.image.width}x${tex.image.height}` : 'no image');
+        configureTexture(tex, THREE.NoColorSpace);
+        loadedORM = tex;
+        checkDone();
+      },
+      undefined,
+      (err) => {
+        console.error("[ThreejsWindowEngine] Error loading ORM:", paths.orm, err);
+        loadedORM = null;
+        checkDone();
+      }
+    );
+  };
+
+
 
   React.useEffect(() => {
     if (colorExtTexture) {
-      new THREE.TextureLoader().load(colorExtTexture, (tex) => {
-        tex.wrapS = THREE.RepeatWrapping;
-        tex.wrapT = THREE.RepeatWrapping;
-        tex.repeat.set(0.005, 0.005);
-        
-        // Woodgrain runs vertically in the source image (along V). 
-        // ExtrudeGeometry maps U along the extrusion path. 
-        // Rotating the texture 90deg aligns the grain with the length of the profile.
-        tex.center.set(0.5, 0.5);
-        tex.rotation = Math.PI / 2;
-
-        tex.colorSpace = THREE.SRGBColorSpace;
-        setExtMap(tex);
+      loadPBRMaps(colorExtTexture, (loaded) => {
+        setExtMaps(loaded);
       });
     } else {
-      setExtMap(null);
+      setExtMaps({ diffuse: null, normal: null, orm: null });
     }
   }, [colorExtTexture]);
 
   React.useEffect(() => {
     if (colorIntTexture) {
-      new THREE.TextureLoader().load(colorIntTexture, (tex) => {
-        tex.wrapS = THREE.RepeatWrapping;
-        tex.wrapT = THREE.RepeatWrapping;
-        tex.repeat.set(0.005, 0.005);
-
-        tex.center.set(0.5, 0.5);
-        tex.rotation = Math.PI / 2;
-
-        tex.colorSpace = THREE.SRGBColorSpace;
-        setIntMap(tex);
+      loadPBRMaps(colorIntTexture, (loaded) => {
+        setIntMaps(loaded);
       });
     } else {
-      setIntMap(null);
+      setIntMaps({ diffuse: null, normal: null, orm: null });
     }
   }, [colorIntTexture]);
 
-  const extMaterial = useMemo(() => new THREE.MeshStandardMaterial({ 
-    color: colorExtTexture ? 0xffffff : colorExt, // if texture exists, use white base to show texture true color
-    map: extMap,
-    roughness: 0.6, 
-    metalness: 0.1 
-  }), [colorExt, extMap, colorExtTexture]);
+  const extMaterial = useMemo(() => {
+    if (extMaps.diffuse) {
+      return new THREE.MeshStandardMaterial({
+        color: 0xffffff,
+        map: extMaps.diffuse,
+        normalMap: extMaps.normal || null,
+        aoMap: extMaps.orm || null,
+        roughnessMap: extMaps.orm || null,
+        metalnessMap: extMaps.orm || null,
+        roughness: 1.0,
+        metalness: 1.0
+      });
+    }
+    return new THREE.MeshStandardMaterial({
+      color: colorExt || '#ffffff',
+      roughness: 0.6,
+      metalness: 0.1
+    });
+  }, [colorExt, extMaps]);
   
-  const intMaterial = useMemo(() => new THREE.MeshStandardMaterial({ 
-    color: colorIntTexture ? 0xffffff : colorInt, 
-    map: intMap,
-    roughness: 0.6, 
-    metalness: 0.1 
-  }), [colorInt, intMap, colorIntTexture]);
+  const intMaterial = useMemo(() => {
+    if (intMaps.diffuse) {
+      return new THREE.MeshStandardMaterial({
+        color: 0xffffff,
+        map: intMaps.diffuse,
+        normalMap: intMaps.normal || null,
+        aoMap: intMaps.orm || null,
+        roughnessMap: intMaps.orm || null,
+        metalnessMap: intMaps.orm || null,
+        roughness: 1.0,
+        metalness: 1.0
+      });
+    }
+    return new THREE.MeshStandardMaterial({
+      color: colorInt || '#ffffff',
+      roughness: 0.6,
+      metalness: 0.1
+    });
+  }, [colorInt, intMaps]);
 
   const glassMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({ 
      color: "#aaccff", 
@@ -143,8 +265,6 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
 
   const W = width * scale;
   const H = height * scale;
-  // Profile depth in meters (approx 70mm for IGLO5)
-  const D = 70 * scale;
 
   // Pivot strategy:
   // X: centered horizontally (-W/2 to +W/2 → center at 0)
@@ -238,9 +358,14 @@ const WindowAssembly = ({ width, height, colorExt, colorInt, colorExtTexture, co
 };
 
 export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) => {
+  const targetY = (props.height * 0.001) / 2;
+  const maxDim = Math.max(props.width, props.height) * 0.001;
+  // Dynamic camera distance to frame the window perfectly regardless of size
+  const cameraZ = Math.max(1.2, maxDim * 1.35);
+
   return (
     <div className="w-full h-full relative cursor-move touch-pan-y">
-      <Canvas shadows camera={{ position: [0, 0, 3], fov: 45 }}>
+      <Canvas shadows camera={{ position: [0, targetY, cameraZ], fov: 45 }}>
         <color attach="background" args={['#1a1a1a']} />
         <ambientLight intensity={0.5} />
         <directionalLight position={[10, 10, 10]} intensity={1} castShadow />
@@ -248,8 +373,8 @@ export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) =
         
         <WindowAssembly {...props} />
         
-        <OrbitControls makeDefault enablePan={true} enableZoom={true} />
-        <ContactShadows position={[0, -props.height * 0.001 / 2 - 0.1, 0]} opacity={0.4} scale={5} blur={2} far={10} />
+        <OrbitControls makeDefault enablePan={true} enableZoom={true} target={[0, targetY, 0]} />
+        <ContactShadows position={[0, -0.001, 0]} opacity={0.4} scale={5} blur={2} far={10} />
       </Canvas>
     </div>
   );

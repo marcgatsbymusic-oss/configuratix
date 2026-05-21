@@ -6,6 +6,7 @@ import { IGLO_EDGE_COLORS } from '../data/productDetails';
 import { WindowVisualizer } from '../components/SlateConfigurator/WindowVisualizer';
 import { SvgWindowEngine } from '../components/configurator/SvgWindowEngine';
 import { ThreejsWindowEngine } from '../components/configurator/ThreejsWindowEngine';
+import { ScrollWheel } from '../components/SlateConfigurator/ScrollWheel';
 import { ArViewer } from '../components/configurator/ArViewer';
 import glazingOptions from '../data/cantor_glazing_options.json';
 import shutterLookups from '../data/shutter_lookups.json';
@@ -47,12 +48,12 @@ export function DebugPricing() {
   const { t } = useTranslation();
 
   // 1) & 2) Profile System & Typology
-  const [typology, setTypology] = useState<string>('F100');
+  const [typology, setTypology] = useState<string>('F104');
   const [isTypologyOpen, setIsTypologyOpen] = useState(false);
   const [opening] = useState<string>('UR');
   const [profilsatz, setProfilsatz] = useState('1100'); // Maps to IG5
   const [activeCategory, setActiveCategory] = useState<string>('WINDOWS');
-  const [is3dMode, setIs3dMode] = useState(false);
+  const [is3dMode, setIs3dMode] = useState(true);
   const [arPlacement, setArPlacement] = useState<'wall' | 'floor' | null>(null);
 
   // 3) Dimensions
@@ -67,8 +68,8 @@ export function DebugPricing() {
 
   // 5) Joinery colors
   const [colorType, setColorType] = useState('W-W');
-  const [colorCode, setColorCode] = useState('0197'); // 0197 = White
-  const [interiorColorCode, setInteriorColorCode] = useState('');
+  const [colorCode, setColorCode] = useState('0223'); // 0223 = Winchester
+  const [interiorColorCode, setInteriorColorCode] = useState('0223');
   const [overwriteCoreColor, setOverwriteCoreColor] = useState(false);
   const [coreColor, setCoreColor] = useState('');
 
@@ -710,6 +711,38 @@ export function DebugPricing() {
                         <button onClick={() => setIs3dMode(false)} className={`px-2 py-1 text-xs font-bold rounded ${!is3dMode ? 'bg-mammut-gold text-black' : 'text-gray-400'}`}>2D</button>
                         <button onClick={() => setIs3dMode(true)} className={`px-2 py-1 text-xs font-bold rounded ${is3dMode ? 'bg-mammut-gold text-black' : 'text-gray-400'}`}>3D</button>
                      </div>
+
+                     {/* Vertical Scroll Wheel (Height) overlay on the left */}
+                     <div className="absolute left-3 top-10 bottom-10 w-8 z-30 flex items-center justify-center">
+                        <ScrollWheel
+                          value={height}
+                          onChange={setHeight}
+                          min={500}
+                          max={3000}
+                          orientation="vertical"
+                          className="h-full"
+                        />
+                     </div>
+
+                     {/* Horizontal Scroll Wheel (Width) overlay at the bottom */}
+                     <div className="absolute bottom-3 left-12 right-12 h-8 z-30 flex items-center justify-center">
+                        <ScrollWheel
+                          value={width}
+                          onChange={setWidth}
+                          min={500}
+                          max={3000}
+                          orientation="horizontal"
+                          className="w-full"
+                        />
+                     </div>
+
+                     {/* Dimension pill overlay at the bottom center of the frame area */}
+                     <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
+                        <span className="bg-mammut-darker/90 border border-mammut-gold/60 text-mammut-gold px-3.5 py-1 rounded-full text-xs font-black tracking-widest shadow-lg backdrop-blur-sm select-none">
+                          {width} mm
+                        </span>
+                     </div>
+
                      {/* AR Buttons */}
                      {is3dMode && (
                        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 bg-black/80 p-2 rounded-full flex items-center gap-2 shadow-xl opacity-0 group-hover:opacity-100 transition-opacity">
@@ -853,13 +886,33 @@ export function DebugPricing() {
           <div className="grid grid-cols-2 gap-6">
             <div>
               <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">3) Width (mm)</label>
-              <input type="number" className="w-full bg-mammut-black border border-gray-700 rounded-lg p-3 text-mammut-white focus:border-mammut-gold focus:outline-none"
-                value={width} onChange={e => setWidth(Number(e.target.value))} />
+              <div className="flex items-center gap-3 bg-mammut-black border border-gray-700 rounded-lg p-2 h-[68px]">
+                <input type="number" className="w-16 bg-transparent text-mammut-white focus:outline-none text-lg font-black text-center"
+                  value={width} onChange={e => setWidth(Number(e.target.value))} />
+                <ScrollWheel
+                  value={width}
+                  onChange={setWidth}
+                  min={500}
+                  max={3000}
+                  orientation="horizontal"
+                  className="flex-grow h-10"
+                />
+              </div>
             </div>
             <div>
               <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">Height (mm)</label>
-              <input type="number" className="w-full bg-mammut-black border border-gray-700 rounded-lg p-3 text-mammut-white focus:border-mammut-gold focus:outline-none"
-                value={height} onChange={e => setHeight(Number(e.target.value))} />
+              <div className="flex items-center gap-3 bg-mammut-black border border-gray-700 rounded-lg p-2 h-[68px]">
+                <input type="number" className="w-16 bg-transparent text-mammut-white focus:outline-none text-lg font-black text-center"
+                  value={height} onChange={e => setHeight(Number(e.target.value))} />
+                <ScrollWheel
+                  value={height}
+                  onChange={setHeight}
+                  min={500}
+                  max={3000}
+                  orientation="horizontal"
+                  className="flex-grow h-10"
+                />
+              </div>
             </div>
           </div>
 

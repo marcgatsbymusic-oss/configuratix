@@ -13,6 +13,45 @@ interface FrameSegmentProps {
   scaleFactor?: number;
 }
 
+function applyTriplanarUVs(geometry: THREE.BufferGeometry) {
+  const posAttr = geometry.attributes.position;
+  const normAttr = geometry.attributes.normal;
+  if (!posAttr || !normAttr) return;
+
+  const count = posAttr.count;
+  const uvs = new Float32Array(count * 2);
+
+  for (let i = 0; i < count; i++) {
+    const px = posAttr.getX(i);
+    const py = posAttr.getY(i);
+    const pz = posAttr.getZ(i);
+
+    const nx = normAttr.getX(i);
+    const ny = normAttr.getY(i);
+    const nz = normAttr.getZ(i);
+
+    let u = 0;
+    let v = 0;
+
+    // Check normal direction
+    if (Math.abs(nz) > 0.707) {
+      // End caps or 45-degree cut planes: project onto Y-X
+      u = py * 15;
+      v = px * 15;
+    } else {
+      // Side walls: align texture U along Z (length), project V continuously using diagonal X-Y projection
+      u = pz * 15;
+      v = (px * 0.707 + py * 0.707) * 15;
+    }
+
+    uvs[i * 2] = u;
+    uvs[i * 2 + 1] = v;
+  }
+
+  geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
+  geometry.setAttribute('uv2', new THREE.BufferAttribute(uvs, 2));
+}
+
 export const FrameSegment: React.FC<FrameSegmentProps> = ({ 
   length, 
   vertices, 
@@ -89,6 +128,29 @@ export const FrameSegment: React.FC<FrameSegmentProps> = ({
     result = evaluator.evaluate(result, rightBrush, SUBTRACTION);
     
     const geo = result.geometry;
+    
+    // Apply robust triplanar UV mapping to eliminate CSG-induced UV corruption
+    applyTriplanarUVs(geo);
+    
+    const uvAttr = geo.attributes.uv;
+    if (uvAttr) {
+      let minU = Infinity, maxU = -Infinity, minV = Infinity, maxV = -Infinity;
+      const samples: string[] = [];
+      for (let i = 0; i < uvAttr.count; i++) {
+        const u = uvAttr.getX(i);
+        const v = uvAttr.getY(i);
+        if (u < minU) minU = u;
+        if (u > maxU) maxU = u;
+        if (v < minV) minV = v;
+        if (v > maxV) maxV = v;
+        if (i < 10) {
+          samples.push(`(${u.toFixed(4)}, ${v.toFixed(4)})`);
+        }
+      }
+      console.log(`[FrameSegment] Re-generated UV bounds: minU=${minU}, maxU=${maxU}, minV=${minV}, maxV=${maxV}`);
+      console.log(`[FrameSegment] Re-generated UV samples (first 10):`, samples.join(', '));
+    }
+    
     geo.clearGroups(); // Fixes GLTFExporter multi-material group crashes
     geo.computeBoundingBox();
     geo.computeBoundingSphere();
