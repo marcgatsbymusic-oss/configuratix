@@ -97,7 +97,6 @@ interface ScrollingDialProps {
 }
 
 function ScrollingDial({ value, onChange, items, onConfirm, closeOnSelect = true }: ScrollingDialProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [scrollTop, setScrollTop] = useState(0);
   const [localActiveId, setLocalActiveId] = useState(value);
@@ -415,60 +414,6 @@ const AccordionSection = ({
           {children}
         </div>
       )}
-    </div>
-  );
-};
-
-const TouchStepper = ({
-  label,
-  value,
-  onChange,
-  min = 500,
-  max = 3000,
-  step = 10
-}: {
-  label: string,
-  value: number,
-  onChange: (v: number) => void,
-  min?: number,
-  max?: number,
-  step?: number
-}) => {
-  const handleIncrement = () => {
-    if (value + step <= max) onChange(value + step);
-  };
-  const handleDecrement = () => {
-    if (value - step >= min) onChange(value - step);
-  };
-
-  return (
-    <div className="flex flex-col gap-1.5 w-full">
-      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide">{label}</label>
-      <div className="flex items-center bg-mammut-black border border-gray-800 rounded-xl overflow-hidden h-[54px] shadow-inner relative group focus-within:border-mammut-gold transition-colors">
-        <button 
-          type="button"
-          onClick={handleDecrement}
-          className="w-14 h-full flex items-center justify-center bg-gray-900/60 hover:bg-mammut-gold/20 hover:text-mammut-gold active:scale-95 text-gray-400 font-bold transition-all border-r border-gray-850 text-xl select-none touch-manipulation"
-        >
-          −
-        </button>
-        <input 
-          type="number" 
-          className="flex-1 bg-transparent text-mammut-white focus:outline-none text-base font-black text-center w-full min-w-0 font-mono"
-          value={value} 
-          onChange={e => {
-            const val = Number(e.target.value);
-            if (!isNaN(val)) onChange(val);
-          }} 
-        />
-        <button 
-          type="button"
-          onClick={handleIncrement}
-          className="w-14 h-full flex items-center justify-center bg-gray-900/60 hover:bg-mammut-gold/20 hover:text-mammut-gold active:scale-95 text-gray-400 font-bold transition-all border-l border-gray-850 text-xl select-none touch-manipulation"
-        >
-          +
-        </button>
-      </div>
     </div>
   );
 };
@@ -866,7 +811,6 @@ const ColorScrollWheel = ({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [scrollPos, setScrollPos] = useState(0);
   const [visibleDim, setVisibleDim] = useState(300);
-  const [isHovered, setIsHovered] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   const [isOverActiveSwatch, setIsOverActiveSwatch] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -934,7 +878,6 @@ const ColorScrollWheel = ({
   // Responsive sizes based on container width
   const stepWidth = visibleDim < 640 ? 90 : 130;
   const baseSize = visibleDim < 640 ? 110 : 160;
-  const indicatorWidth = visibleDim < 640 ? 120 : 172;
 
   const currentIndex = options.findIndex(o => o.code === value);
   const activeIdx = currentIndex !== -1 ? currentIndex : 0;
@@ -1115,7 +1058,6 @@ const ColorScrollWheel = ({
       <div 
         ref={containerRef}
         onWheel={handleWheel}
-        onMouseEnter={() => setIsHovered(true)}
         onMouseMove={(e) => {
           if (!containerRef.current) return;
           const rect = containerRef.current.getBoundingClientRect();
@@ -1134,7 +1076,6 @@ const ColorScrollWheel = ({
           }
         }}
         onMouseLeave={() => {
-          setIsHovered(false);
           setIsOverActiveSwatch(false);
         }}
         className="relative bg-mammut-dark border border-gray-855 rounded-xl overflow-visible select-none shadow-inner flex items-center justify-center group w-full h-[140px] md:h-[190px]"
@@ -1299,8 +1240,6 @@ const HandleImage = ({
   };
 
   const getFallbacks = (type: string) => {
-    const hoppeSeries = ['AtlantaK', 'AtlantaP', 'Toulon', 'ToulonSF', 'Hamburg', 'HamburgSF', 'Tokyo'];
-    const aliasType = hoppeSeries.includes(type) ? 'Atlanta' : (type === 'ALU_B' ? 'ALU_A' : type);
     return [
       getSrcForColor(type, 'white'), 
       getSrcForColor(type, 'ral9016'), 
@@ -2222,7 +2161,7 @@ export function DebugPricing() {
     'kremowy': 'Cream (kremowy)'
   };
 
-  const IMAGE_COLOR_MAP: Record<string, string> = {}; // Tokens already match file suffixes
+
 
   const HANDLE_COLOR_MAP: Record<string, string[]> = {
     'Atlanta': ['white', 'brown', 'f1', 'f2', 'f4', 'f9'],
