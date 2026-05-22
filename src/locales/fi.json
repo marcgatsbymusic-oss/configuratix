@@ -195,7 +195,10 @@
         "title": "Mosquito Nets",
         "description": "Keep insects out while letting fresh air in."
       }
-    }
+    },
+    "searchColorPlaceholder": "Hae (esim. puu, metalli, sininen...)",
+    "noColorsFound": "Sopivia värejä ei löytynyt",
+    "clearSearch": "Tyhjennä haku"
   },
   "footer": {
     "newsletter": {
@@ -362,7 +365,8 @@
       "openingDirection": "Avaussuunta",
       "fixedNoOpening": "Kiinteä (ei avaamista)",
       "turnTilt": "Sisälehti (käännös/kallistus)",
-      "sashes": "{{count}} Puitteet"
+      "sashes": "{{count}} Puitteet",
+      "closeOnSelect": "Sulje ikkuna valittaessa"
     },
     "blueprint": {
       "interiorView": "Näkymä sisätiloihin",

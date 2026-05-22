@@ -195,7 +195,10 @@
         "title": "Moustiquaires",
         "description": "Gardez les insectes à l'extérieur tout en laissant entrer l'air frais."
       }
-    }
+    },
+    "searchColorPlaceholder": "Rechercher (ex: bois, métal, bleu...)",
+    "noColorsFound": "Aucune couleur correspondante trouvée",
+    "clearSearch": "Effacer la recherche"
   },
   "footer": {
     "newsletter": {
@@ -362,7 +365,8 @@
       "openingDirection": "Sens d'ouverture",
       "fixedNoOpening": "Fixe (pas d'ouverture)",
       "turnTilt": "Feuille intérieure (tourner/incliner)",
-      "sashes": "{{count}} Configuration des ouvrants"
+      "sashes": "{{count}} Configuration des ouvrants",
+      "closeOnSelect": "Fermer la fenêtre lors de la sélection"
     },
     "blueprint": {
       "interiorView": "Vue intérieure",

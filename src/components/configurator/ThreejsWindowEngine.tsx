@@ -239,7 +239,7 @@ const WindowAssembly = ({
   }), [spacerColor]);
 
   const profileData = useMemo(() => {
-    return typology === 'F100' ? IG5_F100 : IG5_F104;
+    return typology !== 'F104' ? IG5_F100 : IG5_F104;
   }, [typology]);
 
   const frmExt = profileData.profiles.FRM_EXT?.vertices || [];

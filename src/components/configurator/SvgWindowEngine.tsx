@@ -145,7 +145,7 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
     }
   };
 
-  const isSash = typology === 'F100';
+  const isSash = typology !== 'F104';
   const glassOffset = isSash ? 130 : 90;
   const beadOuter = isSash ? 110 : 70;
   const beadInner = glassOffset;
@@ -286,7 +286,7 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
       onPointerLeave={(e) => e.pointerType !== 'touch' && setShowLens(false)}
     >
       {/* Mode Toggle for Mobile & Touch Devices */}
-      <div className="absolute top-4 left-4 z-40 bg-gray-900/90 border border-gray-700/80 p-1 rounded-lg flex items-center gap-1 shadow-2xl backdrop-blur-sm">
+      <div className="absolute top-2 left-1/2 -translate-x-1/2 z-40 bg-gray-900/90 border border-gray-700/80 p-1 rounded-lg flex items-center gap-1 shadow-2xl backdrop-blur-sm">
         <button 
           onClick={() => { setMode('rotate'); setShowLens(false); }} 
           className={`px-2 py-1 rounded text-[10px] font-bold uppercase transition-all duration-200 flex items-center gap-1 ${mode === 'rotate' ? 'bg-mammut-gold text-black shadow-md' : 'text-gray-400 hover:text-white'}`}
@@ -368,20 +368,6 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
         </svg>
       </div>
 
-      {/* HTML Overlays for Dimension Lines (Identical to WindowVisualizer structure) */}
-      <div className="absolute bottom-4 left-16 right-16 flex flex-col items-center justify-center z-20 pointer-events-none">
-        <div className="w-full border-b border-gray-400 relative">
-          <div className="absolute top-1/2 left-0 w-2 h-2 border-l border-gray-400 -translate-y-1/2"></div>
-          <div className="absolute top-1/2 right-0 w-2 h-2 border-r border-gray-400 -translate-y-1/2"></div>
-        </div>
-      </div>
-
-      <div className="absolute top-16 bottom-16 left-4 flex flex-col items-center justify-center z-20 pointer-events-none">
-        <div className="h-full border-l border-gray-400 relative">
-          <div className="absolute top-0 left-1/2 w-2 h-2 border-t border-gray-400 -translate-x-1/2"></div>
-          <div className="absolute bottom-0 left-1/2 w-2 h-2 border-b border-gray-400 -translate-x-1/2"></div>
-        </div>
-      </div>
 
     </div>
   );

@@ -58,6 +58,8 @@ const PROFILE_TO_PROFILSATZ: Record<string, { profilsatz: string; materialart: 1
 const WINDOWTYPE_TO_ARTNR: Record<string, string> = {
   F100: 'F100',
   F101: 'F100',
+  F102: 'F100',
+  F103: 'F100',
 };
 
 // Sash opening UI codes to Cantor opening behaviour.

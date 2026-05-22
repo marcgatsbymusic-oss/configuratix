@@ -195,7 +195,10 @@
         "title": "Mosquito Nets",
         "description": "Keep insects out while letting fresh air in."
       }
-    }
+    },
+    "searchColorPlaceholder": "Căutare (de ex. lemn, metal, albastru...)",
+    "noColorsFound": "Nu s-au găsit culori potrivite",
+    "clearSearch": "Șterge căutarea"
   },
   "footer": {
     "newsletter": {
@@ -362,7 +365,8 @@
       "openingDirection": "Direcția de deschidere",
       "fixedNoOpening": "Fix (fără deschidere)",
       "turnTilt": "Frunză interioară (Întoarcere/Înclinare)",
-      "sashes": "{{count}} Configurația cercevelor"
+      "sashes": "{{count}} Configurația cercevelor",
+      "closeOnSelect": "Închide fereastra la selectare"
     },
     "blueprint": {
       "interiorView": "Vedere interioară",

@@ -195,7 +195,10 @@
         "title": "Moskitiery",
         "description": "Zatrzymaj owady na zewnątrz, wpuszczając świeże powietrze."
       }
-    }
+    },
+    "searchColorPlaceholder": "Szukaj (np. drewno, metal, niebieski...)",
+    "noColorsFound": "Nie znaleziono pasujących kolorów",
+    "clearSearch": "Wyczyść wyszukiwanie"
   },
   "footer": {
     "newsletter": {
@@ -362,7 +365,8 @@
       "openingDirection": "Kierunek otwarcia",
       "fixedNoOpening": "Naprawiono (bez otwierania)",
       "turnTilt": "Skrzydło wewnętrzne (obrót/przechylenie)",
-      "sashes": "<span Translation=\"no\">liczba</span> Konfiguracja skrzydeł"
+      "sashes": "<span Translation=\"no\">liczba</span> Konfiguracja skrzydeł",
+      "closeOnSelect": "Zamknij okno po wyborze"
     },
     "blueprint": {
       "interiorView": "Widok wnętrza",

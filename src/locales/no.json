@@ -195,7 +195,10 @@
         "title": "Mosquito Nets",
         "description": "Keep insects out while letting fresh air in."
       }
-    }
+    },
+    "searchColorPlaceholder": "Søk (f.eks. tre, metall, blå...)",
+    "noColorsFound": "Ingen matchende farger funnet",
+    "clearSearch": "Tøm søk"
   },
   "footer": {
     "newsletter": {
@@ -362,7 +365,8 @@
       "openingDirection": "Åpningsretning",
       "fixedNoOpening": "Fast (ingen åpning)",
       "turnTilt": "Innerleaf (Turn/Tilt)",
-      "sashes": "{{count}} Konfigurasjon av rammeramme"
+      "sashes": "{{count}} Konfigurasjon av rammeramme",
+      "closeOnSelect": "Lukk vindu ved valg"
     },
     "blueprint": {
       "interiorView": "Innvendig utsikt",

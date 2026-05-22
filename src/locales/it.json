@@ -195,7 +195,10 @@
         "title": "Zanzariere",
         "description": "Tieni fuori gli insetti lasciando entrare aria fresca."
       }
-    }
+    },
+    "searchColorPlaceholder": "Cerca (es. legno, metallo, blu...)",
+    "noColorsFound": "Nessun colore corrispondente trovato",
+    "clearSearch": "Cancella ricerca"
   },
   "footer": {
     "newsletter": {
@@ -362,7 +365,8 @@
       "openingDirection": "Direzione di apertura",
       "fixedNoOpening": "Fisso (nessuna apertura)",
       "turnTilt": "Foglia interna (Gira/Inclina)",
-      "sashes": "{{conteggio}} Configurazione delle ante"
+      "sashes": "{{conteggio}} Configurazione delle ante",
+      "closeOnSelect": "Chiudi finestra alla selezione"
     },
     "blueprint": {
       "interiorView": "Vista interna",

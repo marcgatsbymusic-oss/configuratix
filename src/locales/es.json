@@ -146,6 +146,9 @@
     "colorsDesc": "Personalice su {{nombre}} con más de {{count}} acabados premium, que van desde sólidos arquitectónicos modernos hasta vetas de madera hiperrealistas.",
     "preview": "AVANCE",
     "selectedFinish": "Acabado seleccionado",
+    "searchColorPlaceholder": "Buscar (ej. madera, metal, azul...)",
+    "noColorsFound": "No se encontraron colores que coincidan",
+    "clearSearch": "Limpar búsqueda",
     "selectedColor": "Color seleccionado:",
     "infillsTitle": "Patrones de relleno",
     "infillsSubtitle": "Algunos patrones están disponibles en su imagen especular.",
@@ -645,7 +648,8 @@
       "openingDirection": "Dirección de apertura",
       "fixedNoOpening": "Fija (sin apertura)",
       "turnTilt": "Hoja interior (girar/inclinar)",
-      "sashes": "{{count}} Configuración de marcos"
+      "sashes": "{{count}} Configuración de marcos",
+      "closeOnSelect": "Cerrar ventana al seleccionar"
     },
     "blueprint": {
       "interiorView": "Vista interior",

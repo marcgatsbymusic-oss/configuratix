@@ -28,7 +28,278 @@ import { useOrderStore } from '../../store/useOrderStore';
 import fittingVariants from '../../data/fitting_variants.json';
 import { getDefaultSashOpenings } from '../../utils/windowOpenings';
 
+const FRAME_STYLES_MAP: Record<string, { name: string, hex: string, ext: string }> = {
+  'BI': { name: 'Ultimate white (RAL 9016)', hex: '#f4f8f4', ext: 'jpg' },
+  'JB': { name: 'Ultimate light brown (RAL 8003)', hex: '#8a5a44', ext: 'jpg' },
+  'JS': { name: 'Ultimate light grey (RAL 7035)', hex: '#c5c7c4', ext: 'jpg' },
+  'S': { name: 'Steel', hex: '#b0b5b9', ext: 'jpg' },
+  'U': { name: 'Ultimate grey (RAL 9023)', hex: '#797b7a', ext: 'webp' },
+  'UC': { name: 'Ultimate black (RAL 9005)', hex: '#0a0a0a', ext: 'jpg' },
+  'X': { name: 'Ultimate brown', hex: '#59351f', ext: 'jpg' }
+};
 
+const SpacerScrollWheel = ({
+  label,
+  value,
+  onChange,
+  options
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  options: any[];
+}) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [scrollPos, setScrollPos] = useState(0);
+  const [visibleDim, setVisibleDim] = useState(300);
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+
+  const dragStartRef = useRef<{ x: number; y: number; time: number } | null>(null);
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    dragStartRef.current = {
+      x: e.clientX,
+      y: e.clientY,
+      time: Date.now()
+    };
+  };
+
+  const handleSnapClick = (e: React.MouseEvent, code: string) => {
+    if (dragStartRef.current) {
+      const dx = Math.abs(e.clientX - dragStartRef.current.x);
+      const dy = Math.abs(e.clientY - dragStartRef.current.y);
+      const dt = Date.now() - dragStartRef.current.time;
+      if (dx > 15 || dy > 15 || dt > 300) {
+        return;
+      }
+    }
+    onChange(code);
+  };
+
+  const stepWidth = visibleDim < 640 ? 90 : 130;
+  const baseSize = visibleDim < 640 ? 50 : 70;
+
+  const currentIndex = options.findIndex(o => o.code === value);
+  const activeIdx = currentIndex !== -1 ? currentIndex : 0;
+
+  const lastValueRef = useRef<string | null>(null);
+  const lastProgrammaticScrollRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (lastValueRef.current === null || value !== lastValueRef.current) {
+      const idx = options.findIndex(o => o.code === value);
+      if (idx !== -1 && scrollContainerRef.current) {
+        const targetScroll = idx * stepWidth;
+        const currentScroll = scrollContainerRef.current.scrollLeft;
+        if (Math.abs(currentScroll - targetScroll) > 1) {
+          lastProgrammaticScrollRef.current = targetScroll;
+          scrollContainerRef.current.scrollLeft = targetScroll;
+          setScrollPos(targetScroll);
+        }
+      }
+      lastValueRef.current = value;
+    }
+  }, [value, options, stepWidth]);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setVisibleDim(entry.contentRect.width);
+      }
+    });
+    resizeObserver.observe(containerRef.current);
+    setVisibleDim(containerRef.current.clientWidth);
+    return () => resizeObserver.disconnect();
+  }, []);
+
+  const handleScroll = () => {
+    if (scrollContainerRef.current) {
+      const sPos = scrollContainerRef.current.scrollLeft;
+      if (lastProgrammaticScrollRef.current !== null && Math.abs(sPos - lastProgrammaticScrollRef.current) < 1.1) {
+        lastProgrammaticScrollRef.current = null;
+        setScrollPos(sPos);
+        return;
+      }
+      setScrollPos(sPos);
+    }
+  };
+
+  const handleWheel = (e: React.WheelEvent) => {
+    if (scrollContainerRef.current) {
+      e.preventDefault();
+      scrollContainerRef.current.scrollLeft += e.deltaY;
+    }
+  };
+
+  const adjustIndex = (dir: 'prev' | 'next') => {
+    const nextIdx = dir === 'prev' ? activeIdx - 1 : activeIdx + 1;
+    if (nextIdx >= 0 && nextIdx < options.length) {
+      onChange(options[nextIdx].code);
+    }
+  };
+
+  const centerIdx = Math.round(scrollPos / stepWidth);
+  const visibleHalf = Math.ceil((visibleDim / 2) / stepWidth) + 4;
+  const startIdx = Math.max(0, centerIdx - visibleHalf);
+  const endIdx = Math.min(options.length - 1, centerIdx + visibleHalf);
+
+  const R = Math.max(120, visibleDim / 1.9);
+
+  const items = [];
+  for (let i = startIdx; i <= endIdx; i++) {
+    const itemOffset = i * stepWidth - scrollPos;
+    const angle = itemOffset / R;
+    if (Math.abs(angle) > 1.6) continue;
+
+    const trigVal = R * Math.sin(angle);
+    const cosVal = Math.cos(angle);
+    const scale = Math.pow(cosVal, 1.8);
+
+    const opt = options[i];
+    const isSelected = opt.code === value;
+
+    const baseItemSize = isSelected ? baseSize * 2.0 : baseSize;
+    const size = baseItemSize * scale;
+    const opacity = Math.max(0, cosVal * cosVal);
+
+    const isHoveredItem = hoveredIdx === i;
+    const hoverScale = isHoveredItem ? 1.4 : 1.0;
+
+    const distance = Math.abs(i - centerIdx);
+    const zIndex = isSelected ? 40 : Math.max(10, 30 - distance);
+
+    const styleCode = opt.spacer_style?.replace('_NAR', '') || 'S';
+    const ext = FRAME_STYLES_MAP[styleCode]?.ext || 'jpg';
+    const imageUrl = `/assets/spacers/${styleCode}.${ext}`;
+    const fallbackHex = FRAME_STYLES_MAP[styleCode]?.hex || '#4B4B4D';
+
+    items.push(
+      <div
+        key={`spacer-${i}-${opt.code}`}
+        onClick={(e) => {
+          handleSnapClick(e, opt.code);
+        }}
+        className={`absolute cursor-pointer rounded-full border transition-all duration-300 ease-out flex items-center justify-center bg-white ${
+          isSelected 
+            ? 'border-mammut-gold border-[1px] shadow-[0_0_12px_rgba(217,119,6,0.35)]' 
+            : 'border-gray-800 hover:border-gray-600 bg-mammut-black'
+        }`}
+        style={{
+          left: `calc(50% + ${trigVal}px - ${size / 2}px)`,
+          top: `calc(50% - ${size / 2}px)`,
+          width: size,
+          height: size,
+          opacity: opacity,
+          zIndex: zIndex,
+          transform: `scale(${hoverScale})`
+        }}
+        title={`${opt.code} - ${opt.thickness}mm`}
+      >
+        <img 
+          src={imageUrl} 
+          alt={opt.code} 
+          className="w-full h-full object-cover rounded-full"
+          onError={(e) => {
+            e.currentTarget.style.display = 'none';
+          }}
+        />
+        <div 
+          className="absolute inset-0 z-[-1] rounded-full" 
+          style={{ backgroundColor: fallbackHex }} 
+        />
+        {isSelected && (
+          <div 
+            className="absolute -top-1 -right-1 bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-lg border border-mammut-dark z-50 p-0.5 animate-in fade-in zoom-in duration-200"
+            style={{ 
+              width: Math.max(16, size * 0.28), 
+              height: Math.max(16, size * 0.28) 
+            }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-full h-full">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  const paddingVal = Math.max(0, visibleDim / 2 - stepWidth / 2);
+  const activeOpt = options[activeIdx] || options[0];
+
+  return (
+    <div className="flex flex-col gap-1.5 w-full relative overflow-visible z-20">
+      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide mb-1 md:mb-2">{label}</label>
+      <div 
+        ref={containerRef}
+        onWheel={handleWheel}
+        className="relative bg-mammut-dark border border-gray-850 rounded-xl overflow-visible select-none shadow-inner flex items-center justify-center group w-full h-[140px] md:h-[190px]"
+      >
+        <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-visible z-10">
+          {items}
+        </div>
+
+        <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-mammut-dark to-transparent pointer-events-none z-15 opacity-90" />
+        <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-mammut-dark to-transparent pointer-events-none z-15 opacity-90" />
+
+        <div 
+          ref={scrollContainerRef}
+          onScroll={handleScroll}
+          onPointerDown={handlePointerDown}
+          className="absolute inset-0 z-20 cursor-grab active:cursor-grabbing flex overflow-x-scroll snap-x snap-mandatory"
+          style={{ 
+            scrollbarWidth: 'none', 
+            msOverflowStyle: 'none',
+          }}
+        >
+          <div style={{ width: paddingVal, flexShrink: 0 }} />
+          {options.map((opt, i) => (
+            <div 
+              key={`snap-${i}`}
+              className="snap-center shrink-0 pointer-events-auto"
+              style={{ width: stepWidth, height: '100%' }}
+              onClick={(e) => handleSnapClick(e, opt.code)}
+              onMouseEnter={() => setHoveredIdx(i)}
+              onMouseLeave={() => setHoveredIdx(null)}
+            />
+          ))}
+          <div style={{ width: paddingVal, flexShrink: 0 }} />
+        </div>
+
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); adjustIndex('prev'); }}
+          className="absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg bg-mammut-black/85 border border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50 active:scale-90 transition-all duration-150 cursor-pointer select-none left-2 md:left-3 top-1/2 -translate-y-1/2"
+          title="Previous"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
+        </button>
+
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); adjustIndex('next'); }}
+          className="absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg bg-mammut-black/85 border border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50 active:scale-90 transition-all duration-150 cursor-pointer select-none right-2 md:right-3 top-1/2 -translate-y-1/2"
+          title="Next"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          </svg>
+        </button>
+      </div>
+
+      <div className="flex flex-col items-center justify-center py-2 bg-mammut-dark/40 border border-gray-850/60 rounded-xl mt-1 md:mt-2 px-3">
+        <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Selected Spacer</span>
+        <span className="text-sm md:text-base font-black font-mono text-mammut-gold tracking-wide text-center mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
+          {activeOpt ? `${activeOpt.code} (${activeOpt.thickness}mm Spacer)` : ''}
+        </span>
+      </div>
+    </div>
+  );
+};
 
 
 const TiltProfileCard = ({ profile, isActive, onClick, tags }: { profile: any, isActive: boolean, onClick: () => void, tags: any[] }) => {
@@ -636,9 +907,14 @@ export function MainConfigurator() {
                             {items.map(wt => (
                               <button
                                 key={wt.id}
-                                onClick={() => { dispatch({ type: 'SET_WINDOW_TYPE', payload: wt.id }); advanceStep(3, 5); }}
-                                className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center justify-between gap-3 h-[160px] ${state.windowTypeId === wt.id ? 'border-mammut-gold bg-mammut-gold/10 text-mammut-gold shadow-md ring-4 ring-[#eab676]/10' : 'border-mammut-border hover:border-mammut-border shadow-sm hover:shadow-md group bg-mammut-dark'}`}
+                                onClick={() => dispatch({ type: 'SET_WINDOW_TYPE', payload: wt.id })}
+                                className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center justify-between gap-3 h-[160px] relative ${state.windowTypeId === wt.id ? 'border-mammut-gold bg-mammut-gold/10 text-mammut-gold shadow-md ring-4 ring-[#eab676]/10' : 'border-mammut-border hover:border-mammut-border shadow-sm hover:shadow-md group bg-mammut-dark'}`}
                               >
+                                {state.windowTypeId === wt.id && (
+                                  <div className="absolute top-2 right-2 w-5 h-5 bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-md z-20 animate-scale-in">
+                                    <Check size={12} strokeWidth={3} className="text-white" />
+                                  </div>
+                                )}
                                 <div className="w-full h-20 flex items-center justify-center relative p-2 overflow-hidden bg-mammut-darker/50 rounded-lg">
                                   <div className={`w-16 h-16 flex items-center justify-center transition-all duration-300 ${state.windowTypeId === wt.id ? 'opacity-100 scale-110 drop-shadow-[0_0_8px_rgba(234,182,118,0.5)] text-mammut-gold' : 'opacity-40 group-hover:opacity-100 group-hover:scale-105 text-mammut-white'}`}>
                                     <WindowTypeGraphic 
@@ -656,8 +932,17 @@ export function MainConfigurator() {
                       )
                     })}
                   </div>
-                  <div className="pt-6 mt-6 border-t border-mammut-border flex justify-start">
+                  <div className="pt-6 mt-6 border-t border-mammut-border flex justify-between items-center w-full">
                     <button onClick={(e) => { e.stopPropagation(); openStep(2); }} className="text-[11px] font-black uppercase tracking-widest text-mammut-gold bg-mammut-gold/10 px-4 py-2 rounded-lg hover:bg-mammut-gold/20 transition-colors flex items-center gap-2"><ChevronLeft size={14} /> {t('configurator.buttons.previous') || "Previous Step"}</button>
+                    <button 
+                      onClick={(e) => { 
+                        e.stopPropagation(); 
+                        advanceStep(3, 5); 
+                      }} 
+                      className="text-[11px] font-black uppercase tracking-widest text-[#111112] bg-mammut-gold px-6 py-2.5 rounded-lg hover:bg-[#d9a565] transition-colors flex items-center gap-2"
+                    >
+                      {t('configurator.buttons.next') || "Next Step"} <ChevronRight size={14} />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -767,23 +1052,23 @@ export function MainConfigurator() {
                         .filter(colorId => activeColors ? activeColors.includes(colorId) : true)
                         .map(colorId => {
                           const colorData = COLOR_LOCALE.colors[colorId];
-                          const isActive = completedSteps.includes(5) && (colorTab === 'interior' ? state.interiorColor === colorId : state.exteriorColor === colorId);
+                          const isActive = colorTab === 'interior' ? state.interiorColor === colorId : state.exteriorColor === colorId;
                           return (
                             <button
                               key={colorId}
                               onClick={() => { 
                                 dispatch({ type: colorTab === 'interior' ? 'SET_INTERIOR_COLOR' : 'SET_EXTERIOR_COLOR', payload: colorId }); 
-                                if (colorTab === 'interior') {
-                                    setTimeout(() => setColorTab('exterior'), 150);
-                                } else {
-                                    advanceStep(5, 6); 
-                                }
                               }}
                               className={`relative group w-12 h-12 transition-all duration-200 outline outline-offset-2 ${
                                 isActive ? 'outline-[#eab676] scale-105 z-10' : 'outline-transparent hover:outline-white/30'
                               }`}
                               title={colorData.name}
                             >
+                              {isActive && (
+                                <div className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-md z-20 animate-scale-in">
+                                  <Check size={10} strokeWidth={4} className="text-white" />
+                                </div>
+                              )}
                               <div 
                                 className="w-full h-full border border-white/10 bg-cover bg-center"
                                 style={{ backgroundImage: colorData.swatch }}
@@ -797,8 +1082,20 @@ export function MainConfigurator() {
                       })}
                     </div>
                   </div>
-                  <div className="pt-6 mt-6 border-t border-mammut-border flex justify-start">
+                  <div className="pt-6 mt-6 border-t border-mammut-border flex justify-between items-center w-full">
                     <button onClick={(e) => { e.stopPropagation(); openStep(3); }} className="text-[11px] font-black uppercase tracking-widest text-mammut-gold bg-mammut-gold/10 px-4 py-2 rounded-lg hover:bg-mammut-gold/20 transition-colors flex items-center gap-2"><ChevronLeft size={14} /> {t('configurator.buttons.previous') || "Previous Step"}</button>
+                    <button 
+                      onClick={() => {
+                        if (colorTab === 'interior') {
+                          setColorTab('exterior');
+                        } else {
+                          advanceStep(5, 6);
+                        }
+                      }}
+                      className="text-[11px] font-black uppercase tracking-widest text-[#111112] bg-mammut-gold px-6 py-2.5 rounded-lg hover:bg-[#d9a565] transition-colors flex items-center gap-2"
+                    >
+                      {colorTab === 'interior' ? "Next: Exterior Color" : "Confirm & Next Step"} <ChevronRight size={14} />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -1039,17 +1336,13 @@ export function MainConfigurator() {
                         </div>
 
                         {activeSpacers && activeSpacers.length > 0 && (
-                          <div>
-                             <label className="block text-xs font-bold text-mammut-white/50 uppercase tracking-widest mb-2">Spacer / Frame Type</label>
-                             <select 
+                          <div className="col-span-1 md:col-span-2 mt-4">
+                             <SpacerScrollWheel 
+                               label="Spacer / Frame Type"
                                value={state.glassSpacer} 
-                               onChange={(e) => dispatch({ type: 'SET_GLASS_SPACER', payload: e.target.value })}
-                               className="w-full bg-mammut-darker border border-mammut-border rounded-lg p-3 text-mammut-white focus:border-mammut-gold focus:outline-none transition-colors"
-                             >
-                                {activeSpacers.map((s: any) => (
-                                   <option key={s.code} value={s.code}>{s.code} ({s.thickness}mm Spacer)</option>
-                                ))}
-                             </select>
+                               onChange={(val) => dispatch({ type: 'SET_GLASS_SPACER', payload: val })}
+                               options={activeSpacers}
+                             />
                           </div>
                         )}
                       </div>

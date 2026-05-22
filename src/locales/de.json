@@ -195,7 +195,10 @@
         "title": "Fliegengitter",
         "description": "Halten Sie Insekten draußen, während Sie frische Luft hereinlassen."
       }
-    }
+    },
+    "searchColorPlaceholder": "Suche (z.B. Holz, Metall, Blau...)",
+    "noColorsFound": "Keine passenden Farben gefunden",
+    "clearSearch": "Suche löschen"
   },
   "footer": {
     "newsletter": {
@@ -362,7 +365,8 @@
       "openingDirection": "Öffnungsrichtung",
       "fixedNoOpening": "Behoben (keine Öffnung)",
       "turnTilt": "Innenblatt (drehen/kippen)",
-      "sashes": "<span translator=\"no\">count</span> Sashes-Konfiguration"
+      "sashes": "<span translator=\"no\">count</span> Sashes-Konfiguration",
+      "closeOnSelect": "Fenster bei Auswahl schließen"
     },
     "blueprint": {
       "interiorView": "Innenansicht",

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { fetchPrice, type PricingApiResponse } from '../utils/cantorPricing/pricingApi';
 import type { ConfiguratorInput } from '../utils/cantorPricing/input';
 import { CONFIG_SCHEMA, WINDOW_TYPES, PROFILE_GLAZING_LIMITS, getTypologyImagePath } from '../components/SlateConfigurator/types';
@@ -6,7 +6,6 @@ import { IGLO_EDGE_COLORS } from '../data/productDetails';
 import { WindowVisualizer } from '../components/SlateConfigurator/WindowVisualizer';
 import { SvgWindowEngine } from '../components/configurator/SvgWindowEngine';
 import { ThreejsWindowEngine } from '../components/configurator/ThreejsWindowEngine';
-import { ScrollWheel } from '../components/SlateConfigurator/ScrollWheel';
 import { ArViewer } from '../components/configurator/ArViewer';
 import glazingOptions from '../data/cantor_glazing_options.json';
 import shutterLookups from '../data/shutter_lookups.json';
@@ -47,9 +46,10 @@ const getPaneImage = (paneCode: string) => {
 interface TypologyThumbnailProps {
   id: string;
   className?: string;
+  style?: React.CSSProperties;
 }
 
-function TypologyThumbnail({ id, className }: TypologyThumbnailProps) {
+function TypologyThumbnail({ id, className, style }: TypologyThumbnailProps) {
   const [src, setSrc] = useState(() => getTypologyImagePath(id));
   const [hasError, setHasError] = useState(false);
 
@@ -68,7 +68,10 @@ function TypologyThumbnail({ id, className }: TypologyThumbnailProps) {
 
   if (hasError) {
     return (
-      <div className={`${className} flex items-center justify-center bg-gray-800 text-gray-400 font-bold text-[10px] border border-gray-600 shadow-inner`}>
+      <div 
+        className={`${className} flex items-center justify-center bg-gray-800 text-gray-400 font-bold text-[10px] border border-gray-600 shadow-inner`}
+        style={style}
+      >
         {id}
       </div>
     );
@@ -79,8 +82,299 @@ function TypologyThumbnail({ id, className }: TypologyThumbnailProps) {
       src={src}
       alt={id}
       className={className}
+      style={style}
       onError={handleError}
     />
+  );
+}
+
+interface ScrollingDialProps {
+  value: string;
+  onChange: (value: string) => void;
+  items: string[];
+  onConfirm?: () => void;
+  closeOnSelect?: boolean;
+}
+
+function ScrollingDial({ value, onChange, items, onConfirm, closeOnSelect = true }: ScrollingDialProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [scrollTop, setScrollTop] = useState(0);
+  const [localActiveId, setLocalActiveId] = useState(value);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isFirstRender = useRef(true);
+
+  const itemHeight = 130; // height of each placeholder/step
+  const visibleHeight = 320; // height of the viewport
+  const R = 170; // radius of cylinder
+
+  // Generate background visual ticks to match the main configurator scroll wheels
+  const tickStepWidth = 26; // perfectly aligned with itemHeight = 130 (130 / 26 = 5) for consistent alignment
+  const tickCenterIdx = Math.round(scrollTop / tickStepWidth);
+  const tickVisibleHalf = Math.ceil((visibleHeight / 2) / tickStepWidth) + 6;
+  const tickStartIdx = tickCenterIdx - tickVisibleHalf;
+  const tickEndIdx = tickCenterIdx + tickVisibleHalf;
+
+  const ticks = [];
+  for (let i = tickStartIdx; i <= tickEndIdx; i++) {
+    const itemOffset = i * tickStepWidth - scrollTop;
+    const angle = itemOffset / R;
+    if (Math.abs(angle) > 1.6) continue;
+
+    const trigVal = R * Math.sin(angle);
+    const cosVal = Math.cos(angle);
+    const scale = 0.5 + 0.5 * cosVal;
+
+    // Horizontal bars for a vertical cylinder matching NumericScrollWheel's aesthetics
+    const rectHeight = 14 * scale; // Matching NumericScrollWheel's bar thickness of 14px!
+    const rectWidth = 240 * scale; // 240px width to extend beautifully behind the thumbnails
+    const opacity = Math.max(0, cosVal * cosVal) * 0.85; // 85% max opacity to look premium and visible
+
+    const absAngle = Math.abs(angle);
+    let h = 35;
+    let s = 90;
+    let l = 60;
+    if (absAngle > 0) {
+      const t = Math.min(1, absAngle / 1.57);
+      h = 35 - t * 45;
+      s = 90 - t * 25;
+      l = 60 - t * 30;
+    }
+    const rectColor = `hsl(${h}, ${s}%, ${l}%)`;
+
+    ticks.push(
+      <div
+        key={`tick-${i}`}
+        className="absolute pointer-events-none rounded-[3px]"
+        style={{
+          left: `calc(50% - ${rectWidth / 2}px)`,
+          top: `calc(50% + ${trigVal}px - ${rectHeight / 2}px)`,
+          width: rectWidth,
+          height: rectHeight,
+          backgroundColor: rectColor,
+          opacity: opacity,
+          zIndex: Math.round(cosVal * 10) - 5
+        }}
+      />
+    );
+  }
+
+  // Synchronize local active item with incoming value
+  useEffect(() => {
+    setLocalActiveId(value);
+    const idx = items.indexOf(value);
+    if (idx !== -1 && scrollContainerRef.current) {
+      const targetScrollTop = idx * itemHeight;
+      if (Math.abs(scrollContainerRef.current.scrollTop - targetScrollTop) > 2) {
+        if (isFirstRender.current) {
+          scrollContainerRef.current.scrollTop = targetScrollTop;
+          setScrollTop(targetScrollTop);
+          isFirstRender.current = false;
+        } else {
+          scrollContainerRef.current.scrollTo({
+            top: targetScrollTop,
+            behavior: 'smooth'
+          });
+        }
+      }
+    }
+  }, [value, items]);
+
+  const handleScroll = () => {
+    if (scrollContainerRef.current) {
+      const sTop = scrollContainerRef.current.scrollTop;
+      setScrollTop(sTop);
+      
+      const activeIndex = Math.round(sTop / itemHeight);
+      if (activeIndex >= 0 && activeIndex < items.length) {
+        const activeId = items[activeIndex];
+        setLocalActiveId(activeId);
+      }
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    };
+  }, []);
+
+  const scrollByItems = (direction: number) => {
+    if (scrollContainerRef.current) {
+      const currentIdx = items.indexOf(localActiveId);
+      const nextIdx = Math.max(0, Math.min(items.length - 1, currentIdx + direction));
+      scrollContainerRef.current.scrollTo({
+        top: nextIdx * itemHeight,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  return (
+    <div className="relative w-full h-[320px] bg-mammut-darker/90 rounded-2xl border border-gray-800 overflow-hidden select-none shadow-inner flex flex-col items-center justify-center">
+      {/* Up Arrow Button */}
+      <button 
+        type="button"
+        onClick={(e) => { e.stopPropagation(); scrollByItems(-1); }}
+        className="absolute top-2 z-30 w-8 h-8 rounded-full bg-mammut-dark/80 hover:bg-mammut-gold/20 text-mammut-gold border border-gray-800 flex items-center justify-center transition-colors cursor-pointer"
+        title="Scroll Up"
+      >
+        ▲
+      </button>
+
+      {/* Down Arrow Button */}
+      <button 
+        type="button"
+        onClick={(e) => { e.stopPropagation(); scrollByItems(1); }}
+        className="absolute bottom-2 z-30 w-8 h-8 rounded-full bg-mammut-dark/80 hover:bg-mammut-gold/20 text-mammut-gold border border-gray-800 flex items-center justify-center transition-colors cursor-pointer"
+        title="Scroll Down"
+      >
+        ▼
+      </button>
+
+      {/* Background Ticks Cylinder */}
+      <div className="absolute inset-0 pointer-events-none flex flex-col justify-center items-center overflow-hidden z-0">
+        {ticks}
+      </div>
+
+      {/* Gradient Fades for cylinder realism */}
+      <div className="absolute top-0 inset-x-0 h-16 bg-gradient-to-b from-mammut-darker via-mammut-darker/80 to-transparent pointer-events-none z-10" />
+      <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-mammut-darker via-mammut-darker/80 to-transparent pointer-events-none z-10" />
+
+      {/* Center Target Indicator Pointer (Yellow/Gold borders) */}
+      <div className="absolute inset-x-4 h-[138px] border-y-2 border-mammut-gold/40 bg-mammut-gold/5 rounded-xl pointer-events-none z-0 top-1/2 -translate-y-1/2" />
+
+      {/* Visual Dial Layer */}
+      <div className="absolute inset-0 pointer-events-none flex flex-col justify-center items-center overflow-hidden">
+        {items.map((id, index) => {
+          const itemOffset = index * itemHeight - scrollTop;
+          const angle = itemOffset / R;
+
+          // Clip items beyond front-half of the cylinder
+          if (Math.abs(angle) > 1.6) return null;
+
+          const y = R * Math.sin(angle);
+          const cosVal = Math.cos(angle);
+
+          // Base scale of item container (creates perspective depth)
+          const baseScale = 0.55 + 0.45 * cosVal;
+
+          // Zoom image scale: expand to 300% when exactly in the middle
+          // Goes from 1.0 (far away) up to 3.0 (exact middle)
+          const distanceFactor = Math.max(0, 1 - Math.abs(itemOffset) / (itemHeight * 1.5));
+          const imgScale = 1.0 + 2.0 * distanceFactor;
+
+          const isCenter = Math.abs(itemOffset) < itemHeight / 2;
+          const wt = WINDOW_TYPES.find(w => w.id === id) || { id, sashes: 1, name: 'Frame' };
+
+          // Dynamic margin/translate shift to clear the scaled image without overlap
+          const textShift = (imgScale - 1.0) * 16; 
+
+          return (
+            <div
+              key={id}
+              className="absolute w-full flex items-center justify-center transition-all duration-75"
+              style={{
+                transform: `translateY(${y}px) scale(${baseScale})`,
+                opacity: Math.max(0.15, cosVal * cosVal),
+                zIndex: isCenter ? 30 : Math.round(cosVal * 10),
+                height: itemHeight,
+                top: `calc(50% - ${itemHeight / 2}px)`
+              }}
+            >
+              <div 
+                className={`flex flex-col items-center justify-center rounded-xl transition-all duration-300 ${
+                  isCenter 
+                    ? 'text-mammut-gold font-black' 
+                    : 'text-gray-400 opacity-60'
+                }`}
+              >
+                {/* Image Container with 300% Zoom - Double the base size (48x48) */}
+                <div className="relative flex items-center justify-center" style={{ width: 80, height: 80 }}>
+                  <TypologyThumbnail 
+                    id={id}
+                    className="object-contain transition-all duration-100 bg-white border border-gray-700 p-1 rounded shadow-sm"
+                    style={{ 
+                      transform: `scale(${imgScale})`,
+                      width: 48, 
+                      height: 48,
+                      boxShadow: isCenter ? '0 0 15px rgba(234, 182, 118, 0.5)' : 'none'
+                    }}
+                  />
+                  {/* Small green ticker (checkmark badge) */}
+                  {id === value && (
+                    <div 
+                      className="absolute w-5 h-5 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center shadow-lg border border-mammut-darker text-white z-35 transition-all duration-300"
+                      style={{
+                        top: `calc(50% - ${24 * imgScale}px - 6px)`,
+                        right: `calc(50% - ${24 * imgScale}px - 6px)`,
+                      }}
+                      title="Selected typology"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-3 h-3">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      </svg>
+                    </div>
+                  )}
+                </div>
+                
+                {/* Details (Product Number and Description underneath) */}
+                <div 
+                  className="flex flex-col select-none items-center text-center transition-transform duration-100" 
+                  style={{ 
+                    width: 220,
+                    transform: `translateY(${textShift}px)`
+                  }}
+                >
+                  <span className="text-sm font-bold tracking-wide">{id}</span>
+                  <span className="text-[10px] text-gray-500 truncate w-full leading-tight">{wt.name || 'Window'}</span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Invisible Interactive Scroll Layer */}
+      <div 
+        ref={scrollContainerRef}
+        onScroll={handleScroll}
+        className="absolute inset-0 overflow-y-scroll snap-y snap-mandatory z-20 cursor-grab active:cursor-grabbing"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
+        {/* Top Spacer to center the first item */}
+        <div style={{ height: (visibleHeight - itemHeight) / 2 }} className="snap-align-none" />
+        
+        {/* Snapping placeholders */}
+        {items.map((id, idx) => (
+          <div 
+            key={`snap-${id}`} 
+            style={{ height: itemHeight }} 
+            className="snap-center w-full cursor-pointer pointer-events-auto"
+            onClick={(e) => {
+              e.stopPropagation();
+              const targetId = items[idx];
+              if (targetId === value) {
+                if (onConfirm) onConfirm();
+              } else {
+                onChange(targetId);
+                if (closeOnSelect && onConfirm) {
+                  onConfirm();
+                }
+              }
+            }}
+            onDoubleClick={(e) => {
+              e.stopPropagation();
+              onChange(items[idx]);
+              if (onConfirm) onConfirm();
+            }}
+          />
+        ))}
+        
+        {/* Bottom Spacer to center the last item */}
+        <div style={{ height: (visibleHeight - itemHeight) / 2 }} className="snap-align-none" />
+      </div>
+    </div>
   );
 }
 
@@ -101,7 +395,7 @@ const AccordionSection = ({
   children: React.ReactNode 
 }) => {
   return (
-    <div id={id} className="border border-gray-800 rounded-xl overflow-hidden mb-4 bg-mammut-darker/60 backdrop-blur-sm transition-all duration-300">
+    <div id={id} className={`border border-gray-800 rounded-xl mb-4 bg-mammut-darker/60 backdrop-blur-sm transition-all duration-300 ${isOpen ? 'relative z-20 overflow-visible' : 'overflow-hidden'}`}>
       <div 
         onClick={onToggle}
         className={`p-4 flex items-center justify-between cursor-pointer select-none transition-colors ${isOpen ? 'bg-mammut-gold/10 text-mammut-gold border-l-4 border-mammut-gold' : 'hover:bg-gray-800/40 text-gray-300 border-l-4 border-transparent'}`}
@@ -178,6 +472,1377 @@ const TouchStepper = ({
     </div>
   );
 };
+
+const NumericScrollWheel = ({
+  label,
+  value,
+  onChange,
+  min = 500,
+  max = 3000,
+  step = 10,
+  orientation = 'horizontal',
+  labelPosition
+}: {
+  label: string;
+  value: number;
+  onChange: (v: number) => void;
+  min?: number;
+  max?: number;
+  step?: number;
+  orientation?: 'horizontal' | 'vertical';
+  labelPosition?: 'top' | 'inside';
+}) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [scrollPos, setScrollPos] = useState(0);
+  const [visibleDim, setVisibleDim] = useState(300);
+  const [isEditing, setIsEditing] = useState(false);
+  const [tempInputVal, setTempInputVal] = useState(String(value));
+  const [isBadgeHovered, setIsBadgeHovered] = useState(false);
+
+  const lastValueRef = useRef<number | null>(null);
+  const lastProgrammaticScrollRef = useRef<number | null>(null);
+
+  const isVert = orientation === 'vertical';
+  const effectiveLabelPos = labelPosition || (isVert ? 'inside' : 'top');
+  const stepWidth = 14;
+  const totalSteps = Math.round((max - min) / step);
+
+  // Keep a mutable ref of the value for the repeat timers to access latest value
+  const valueRef = useRef(value);
+  valueRef.current = value;
+
+  const timerRef = useRef<{ timeout?: any; interval?: any }>({});
+
+  const stopAdjust = () => {
+    if (timerRef.current.timeout) clearTimeout(timerRef.current.timeout);
+    if (timerRef.current.interval) clearInterval(timerRef.current.interval);
+  };
+
+  const startAdjust = (direction: 'prev' | 'next') => {
+    stopAdjust();
+    const stepVal = direction === 'prev' ? -1 : 1;
+    const nextVal = Math.max(min, Math.min(max, valueRef.current + stepVal));
+    onChange(nextVal);
+
+    timerRef.current.timeout = setTimeout(() => {
+      timerRef.current.interval = setInterval(() => {
+        const current = valueRef.current;
+        const next = Math.max(min, Math.min(max, current + stepVal));
+        if (next !== current) {
+          onChange(next);
+        } else {
+          stopAdjust();
+        }
+      }, 40);
+    }, 350);
+  };
+
+  useEffect(() => {
+    return () => stopAdjust();
+  }, []);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setVisibleDim(isVert ? entry.contentRect.height : entry.contentRect.width);
+      }
+    });
+    resizeObserver.observe(containerRef.current);
+    setVisibleDim(isVert ? containerRef.current.clientHeight : containerRef.current.clientWidth);
+    return () => resizeObserver.disconnect();
+  }, [isVert]);
+
+  useEffect(() => {
+    if (lastValueRef.current === null || value !== lastValueRef.current) {
+      const idx = (value - min) / step;
+      if (idx >= 0 && idx <= totalSteps && scrollContainerRef.current) {
+        const targetScroll = idx * stepWidth;
+        const currentScroll = isVert ? scrollContainerRef.current.scrollTop : scrollContainerRef.current.scrollLeft;
+        if (Math.abs(currentScroll - targetScroll) > 1) {
+          lastProgrammaticScrollRef.current = targetScroll;
+          if (isVert) {
+            scrollContainerRef.current.scrollTop = targetScroll;
+          } else {
+            scrollContainerRef.current.scrollLeft = targetScroll;
+          }
+          setScrollPos(targetScroll);
+        }
+      }
+      lastValueRef.current = value;
+    }
+    setTempInputVal(String(value));
+  }, [value, min, step, totalSteps, isVert]);
+
+  const handleScroll = () => {
+    if (scrollContainerRef.current) {
+      const sPos = isVert ? scrollContainerRef.current.scrollTop : scrollContainerRef.current.scrollLeft;
+      
+      // If this scroll event was triggered programmatically, ignore the value update
+      if (lastProgrammaticScrollRef.current !== null && Math.abs(sPos - lastProgrammaticScrollRef.current) < 1.1) {
+        lastProgrammaticScrollRef.current = null;
+        setScrollPos(sPos);
+        return;
+      }
+
+      setScrollPos(sPos);
+      
+      // Calculate activeValue in step increments (matching the visual ticks and snapping)
+      const activeValue = min + Math.round(sPos / stepWidth) * step;
+      if (activeValue >= min && activeValue <= max) {
+        if (activeValue !== value) {
+          lastValueRef.current = activeValue;
+          onChange(activeValue);
+        }
+      }
+    }
+  };
+
+  const handleWheel = (e: React.WheelEvent) => {
+    if (scrollContainerRef.current) {
+      e.preventDefault();
+      if (isVert) {
+        scrollContainerRef.current.scrollTop += e.deltaY;
+      } else {
+        scrollContainerRef.current.scrollLeft += e.deltaY;
+      }
+    }
+  };
+
+  const handleCommit = () => {
+    setIsEditing(false);
+    const val = Number(tempInputVal);
+    if (!isNaN(val)) {
+      const clamped = Math.max(min, Math.min(max, Math.round(val)));
+      onChange(clamped);
+    }
+  };
+
+  const centerIdx = Math.round(scrollPos / stepWidth);
+  const visibleHalf = Math.ceil((visibleDim / 2) / stepWidth) + 12; // Pre-render buffer expanded to prevent clipping
+  const startIdx = centerIdx - visibleHalf;
+  const endIdx = centerIdx + visibleHalf;
+
+  const R = Math.max(140, visibleDim / 1.7);
+
+  const bars = [];
+  for (let i = startIdx; i <= endIdx; i++) {
+    const itemOffset = i * stepWidth - scrollPos;
+    const angle = itemOffset / R;
+    if (Math.abs(angle) > 1.6) continue;
+
+    const trigVal = R * Math.sin(angle);
+    const cosVal = Math.cos(angle);
+    const scale = 0.5 + 0.5 * cosVal;
+    
+    // In horizontal: rectangles are vertical (width 14, height 32).
+    // In vertical: rectangles are horizontal (width 32, height 14).
+    const rectHeight = isVert ? 14 * scale : 32 * scale;
+    const rectWidth = isVert ? 32 * scale : 14 * scale;
+    // Let opacity fall to 0 smoothly at edges to avoid popping
+    const opacity = Math.max(0, cosVal * cosVal);
+
+    const absAngle = Math.abs(angle);
+    let h = 35;
+    let s = 90;
+    let l = 60;
+    if (absAngle > 0) {
+      const t = Math.min(1, absAngle / 1.57);
+      h = 35 - t * 45;
+      s = 90 - t * 25;
+      l = 60 - t * 30;
+    }
+    const rectColor = `hsl(${h}, ${s}%, ${l}%)`;
+
+    bars.push(
+      <div
+        key={`bar-${i}`}
+        className="absolute pointer-events-none rounded-[3px]"
+        style={{
+          left: isVert ? `calc(50% - ${rectWidth / 2}px)` : `calc(50% + ${trigVal}px - ${rectWidth / 2}px)`,
+          top: isVert ? `calc(50% + ${trigVal}px - ${rectHeight / 2}px)` : `calc(50% - ${rectHeight / 2}px)`,
+          width: rectWidth,
+          height: rectHeight,
+          backgroundColor: rectColor,
+          opacity: opacity,
+          zIndex: Math.round(cosVal * 10)
+        }}
+      />
+    );
+  }
+
+  const paddingVal = Math.max(0, visibleDim / 2 - stepWidth / 2);
+
+  return (
+    <div className={`flex flex-col gap-1.5 ${isVert ? 'h-full w-full' : 'w-full'}`}>
+      {effectiveLabelPos === 'top' && label && (
+        <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide">{label}</label>
+      )}
+      <div 
+        ref={containerRef}
+        onWheel={handleWheel}
+        className={`relative bg-transparent rounded-xl overflow-visible select-none flex items-center justify-center group/wheel ${
+          isVert ? 'w-full h-full' : 'w-full h-10 md:h-[55px]'
+        }`}
+      >
+        {/* Background & Border track overlay - faded when idle, solid on hover */}
+        <div className="absolute inset-0 bg-mammut-dark border border-gray-800 rounded-xl shadow-inner pointer-events-none z-0 transition-opacity duration-300 opacity-[0.12] group-hover/wheel:opacity-100" />
+
+        <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden z-10 transition-opacity duration-300 opacity-[0.08] group-hover/wheel:opacity-100">
+          {bars}
+        </div>
+
+        {/* Gradients */}
+        <div className={`absolute pointer-events-none z-15 transition-opacity duration-300 opacity-[0.12] group-hover/wheel:opacity-80 ${
+          isVert 
+            ? 'inset-x-0 top-0 h-12 bg-gradient-to-b from-mammut-dark to-transparent'
+            : 'inset-y-0 left-0 w-12 bg-gradient-to-r from-mammut-dark to-transparent'
+        }`} />
+        <div className={`absolute pointer-events-none z-15 transition-opacity duration-300 opacity-[0.12] group-hover/wheel:opacity-80 ${
+          isVert 
+            ? 'inset-x-0 bottom-0 h-12 bg-gradient-to-t from-mammut-dark to-transparent'
+            : 'inset-y-0 right-0 w-12 bg-gradient-to-l from-mammut-dark to-transparent'
+        }`} />
+
+        {/* Center overlay display */}
+        <div className={`absolute inset-0 flex items-center pointer-events-none z-25 transition-all duration-300 ${
+          isVert ? 'justify-start pl-1.5 md:pl-2' : 'justify-center'
+        } ${
+          isEditing ? 'z-45' : (isBadgeHovered ? 'z-35' : '')
+        }`}>
+          <div 
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsEditing(true);
+            }}
+            onMouseEnter={() => setIsBadgeHovered(true)}
+            onMouseLeave={() => setIsBadgeHovered(false)}
+            className={`bg-mammut-black/95 border backdrop-blur-md px-3.5 py-1 md:px-6 md:py-1.5 rounded-xl shadow-2xl flex items-center justify-center pointer-events-auto cursor-pointer select-none transition-all duration-300 transform active:scale-95 ${
+              isVert ? 'origin-left' : 'origin-center'
+            } ${
+              isEditing 
+                ? 'scale-[1.8] md:scale-[2.0] border-mammut-gold shadow-[0_0_20px_rgba(217,119,6,0.35)]'
+                : (isBadgeHovered
+                    ? 'scale-[1.6] md:scale-[1.8] border-mammut-gold shadow-[0_0_15px_rgba(217,119,6,0.25)]'
+                    : 'scale-100 border-gray-700'
+                  )
+            }`}
+            title="Click to type value"
+          >
+            {isEditing ? (
+              <div className="flex items-center gap-1.5">
+                <input 
+                  type="number"
+                  value={tempInputVal}
+                  onChange={(e) => setTempInputVal(e.target.value)}
+                  onBlur={handleCommit}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleCommit();
+                    if (e.key === 'Escape') setIsEditing(false);
+                  }}
+                  className="w-16 md:w-28 bg-transparent text-center text-mammut-gold font-black text-sm md:text-xl focus:outline-none font-mono"
+                  autoFocus
+                  onClick={(e) => e.stopPropagation()}
+                />
+                <span className="text-[9px] md:text-xs text-gray-400 font-bold">mm</span>
+              </div>
+            ) : (
+              <span className="text-sm md:text-xl font-black font-mono text-mammut-gold tracking-wide flex flex-col items-center leading-tight">
+                {effectiveLabelPos === 'inside' && label && <span className="text-[8px] md:text-[10px] text-gray-500 uppercase font-bold tracking-tight pb-0.5">{label.replace(/ \(mm\)/i, '')}</span>}
+                <span>{value} <span className="text-[9px] md:text-xs text-gray-400 font-bold">mm</span></span>
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Scroll Container with conditional snapping classes based on multiple of 10 */}
+        <div 
+          ref={scrollContainerRef}
+          onScroll={handleScroll}
+          className={`absolute inset-0 z-20 cursor-grab active:cursor-grabbing flex ${
+            isVert 
+              ? `overflow-y-scroll flex-col ${value % 10 === 0 ? 'snap-y snap-mandatory' : ''}`
+              : `overflow-x-scroll flex-row ${value % 10 === 0 ? 'snap-x snap-mandatory' : ''}`
+          }`}
+          style={{ 
+            scrollbarWidth: 'none', 
+            msOverflowStyle: 'none',
+          }}
+        >
+          {/* Explicit flex spacers replace buggy padding values */}
+          <div style={isVert ? { height: paddingVal, flexShrink: 0 } : { width: paddingVal, flexShrink: 0 }} />
+          {Array.from({ length: totalSteps + 1 }).map((_, i) => (
+            <div 
+              key={`snap-${i}`}
+              className="snap-center shrink-0 pointer-events-auto"
+              style={isVert ? { height: stepWidth, width: '100%' } : { width: stepWidth, height: '100%' }}
+            />
+          ))}
+          <div style={isVert ? { height: paddingVal, flexShrink: 0 } : { width: paddingVal, flexShrink: 0 }} />
+        </div>
+
+        {/* First Button (Left/Top) - Decrease by 1mm (Hold-to-repeat supported) */}
+        <button
+          type="button"
+          onMouseDown={(e) => {
+            e.stopPropagation();
+            startAdjust('prev');
+          }}
+          onMouseUp={stopAdjust}
+          onMouseLeave={stopAdjust}
+          onTouchStart={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            startAdjust('prev');
+          }}
+          onTouchEnd={stopAdjust}
+          className={`absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg bg-mammut-black/85 border border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50 active:scale-90 transition-all duration-300 opacity-0 group-hover/wheel:opacity-100 cursor-pointer select-none ${
+            isVert ? 'top-2 md:top-3 left-1/2 -translate-x-1/2' : 'left-2 md:left-3 top-1/2 -translate-y-1/2'
+          }`}
+          title={isVert ? "Decrease height" : "Decrease width"}
+        >
+          {isVert ? (
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+          )}
+        </button>
+
+        {/* Second Button (Right/Bottom) - Increase by 1mm (Hold-to-repeat supported) */}
+        <button
+          type="button"
+          onMouseDown={(e) => {
+            e.stopPropagation();
+            startAdjust('next');
+          }}
+          onMouseUp={stopAdjust}
+          onMouseLeave={stopAdjust}
+          onTouchStart={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            startAdjust('next');
+          }}
+          onTouchEnd={stopAdjust}
+          className={`absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg bg-mammut-black/85 border border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50 active:scale-90 transition-all duration-300 opacity-0 group-hover/wheel:opacity-100 cursor-pointer select-none ${
+            isVert ? 'bottom-2 md:bottom-3 left-1/2 -translate-x-1/2' : 'right-2 md:right-3 top-1/2 -translate-y-1/2'
+          }`}
+          title={isVert ? "Increase height" : "Increase width"}
+        >
+          {isVert ? (
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          )}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const ColorScrollWheel = ({
+  label,
+  value,
+  onChange,
+  groupedOptions,
+  showDefault = false
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  groupedOptions: any;
+  showDefault?: boolean;
+}) => {
+  const { t } = useTranslation();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [scrollPos, setScrollPos] = useState(0);
+  const [visibleDim, setVisibleDim] = useState(300);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [isOverActiveSwatch, setIsOverActiveSwatch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isEditingSearch, setIsEditingSearch] = useState(false);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (scrollTimeoutRef.current !== null) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const flatOpts = (Object.values(groupedOptions).flat() as any[]) || [];
+  const rawOptions = showDefault 
+    ? [{ code: '', name: 'Default (same as Ext)', swatchUrl: '', hex: '#4B4B4D', group: 'Solid' }, ...flatOpts]
+    : flatOpts;
+
+  // Filter options using dynamic search terms
+  const matchSearch = (opt: any, query: string) => {
+    if (!query) return true;
+    const q = query.toLowerCase().trim();
+    
+    const name = opt.name.toLowerCase();
+    const code = opt.code.toLowerCase();
+    const group = (opt.group || '').toLowerCase();
+    
+    if (name.includes(q) || code.includes(q) || group.includes(q)) return true;
+    
+    // Custom synonyms and category filters requested
+    if (q === 'any color' || q === 'all' || q === 'any') {
+      return true;
+    }
+    if (q === 'wood') {
+      return group.includes('wood') || name.includes('oak') || name.includes('walnut') || name.includes('winchester') || name.includes('douglas') || name.includes('macore') || name.includes('mahogany') || name.includes('palisander') || name.includes('dab') || name.includes('orzech');
+    }
+    if (q === 'metal') {
+      return group.includes('metal') || name.includes('steel') || name.includes('bronze') || name.includes('quartz') || name.includes('stalowy') || name.includes('kwarcytowy');
+    }
+    if (q === 'dark') {
+      return name.includes('dark') || name.includes('black') || name.includes('anthracite') || name.includes('ciemny') || name.includes('czarny') || name.includes('negro') || name.includes('palisander') || name.includes('macore') || name.includes('mahogany') || name.includes('bronze') || name.includes('graphite') || name.includes('grafitowy') || name.includes('basalt') || name.includes('bazaltowy');
+    }
+    if (q === 'blue') {
+      return name.includes('blue') || name.includes('niebieski') || name.includes('azul');
+    }
+    if (q === 'green') {
+      return name.includes('green') || name.includes('zielony') || name.includes('zielen') || name.includes('verde');
+    }
+    if (q === 'red') {
+      return name.includes('red') || name.includes('czerwony') || name.includes('rojo');
+    }
+    if (q === 'grey' || q === 'gray') {
+      return name.includes('grey') || name.includes('gray') || name.includes('szary') || name.includes('gris') || name.includes('basalt') || name.includes('bazaltowy') || name.includes('graphite') || name.includes('grafitowy') || name.includes('silver') || name.includes('srebrny');
+    }
+    if (q === 'white') {
+      return name.includes('white') || name.includes('bialy') || name.includes('blanco') || name.includes('cream') || name.includes('kremowy') || name.includes('crema');
+    }
+    
+    return false;
+  };
+
+  const options = rawOptions.filter(opt => matchSearch(opt, searchQuery));
+
+  // Responsive sizes based on container width
+  const stepWidth = visibleDim < 640 ? 90 : 130;
+  const baseSize = visibleDim < 640 ? 110 : 160;
+  const indicatorWidth = visibleDim < 640 ? 120 : 172;
+
+  const currentIndex = options.findIndex(o => o.code === value);
+  const activeIdx = currentIndex !== -1 ? currentIndex : 0;
+
+  const lastValueRef = useRef<string | null>(null);
+  const lastProgrammaticScrollRef = useRef<number | null>(null);
+
+  // Synchronize scroll position with active value & handle filtered options changes
+  useEffect(() => {
+    if (options.length === 0) return;
+
+    const idx = options.findIndex(o => o.code === value);
+    if (idx === -1) {
+      // Selected value not found in current options (due to filter), select first match
+      onChange(options[0].code);
+    } else {
+      // Value is in the options list, make sure scroll matches
+      if (scrollContainerRef.current) {
+        const targetScroll = idx * stepWidth;
+        const currentScroll = scrollContainerRef.current.scrollLeft;
+        if (Math.abs(currentScroll - targetScroll) > 1.5) {
+          lastProgrammaticScrollRef.current = targetScroll;
+          scrollContainerRef.current.scrollLeft = targetScroll;
+          setScrollPos(targetScroll);
+        }
+      }
+      lastValueRef.current = value;
+    }
+  }, [value, options, stepWidth, onChange]);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setVisibleDim(entry.contentRect.width);
+      }
+    });
+    resizeObserver.observe(containerRef.current);
+    setVisibleDim(containerRef.current.clientWidth);
+    return () => resizeObserver.disconnect();
+  }, []);
+
+  const handleScroll = () => {
+    if (scrollContainerRef.current) {
+      const sPos = scrollContainerRef.current.scrollLeft;
+      
+      setIsScrolling(true);
+      if (scrollTimeoutRef.current !== null) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      scrollTimeoutRef.current = setTimeout(() => {
+        setIsScrolling(false);
+      }, 150);
+
+      if (lastProgrammaticScrollRef.current !== null && Math.abs(sPos - lastProgrammaticScrollRef.current) < 1.1) {
+        lastProgrammaticScrollRef.current = null;
+        setScrollPos(sPos);
+        return;
+      }
+
+      setScrollPos(sPos);
+      
+      const idx = Math.round(sPos / stepWidth);
+      if (idx >= 0 && idx < options.length) {
+        const activeOpt = options[idx];
+        if (activeOpt.code !== value) {
+          lastValueRef.current = activeOpt.code;
+          onChange(activeOpt.code);
+        }
+      }
+    }
+  };
+
+  const handleWheel = (e: React.WheelEvent) => {
+    if (scrollContainerRef.current) {
+      e.preventDefault();
+      scrollContainerRef.current.scrollLeft += e.deltaY;
+    }
+  };
+
+  const adjustIndex = (dir: 'prev' | 'next') => {
+    const nextIdx = dir === 'prev' ? activeIdx - 1 : activeIdx + 1;
+    if (nextIdx >= 0 && nextIdx < options.length) {
+      onChange(options[nextIdx].code);
+    }
+  };
+
+  const centerIdx = Math.round(scrollPos / stepWidth);
+  const visibleHalf = Math.ceil((visibleDim / 2) / stepWidth) + 4;
+  const startIdx = Math.max(0, centerIdx - visibleHalf);
+  const endIdx = Math.min(options.length - 1, centerIdx + visibleHalf);
+
+  const R = Math.max(120, visibleDim / 1.9);
+
+  const swatches = [];
+  for (let i = startIdx; i <= endIdx; i++) {
+    const itemOffset = i * stepWidth - scrollPos;
+    const angle = itemOffset / R;
+    if (Math.abs(angle) > 1.6) continue;
+
+    const trigVal = R * Math.sin(angle);
+    const cosVal = Math.cos(angle);
+    const scale = Math.pow(cosVal, 1.8);
+
+    const size = baseSize * scale;
+    const opacity = Math.max(0, cosVal * cosVal);
+
+    const opt = options[i];
+    const isSelected = opt.code === value;
+    const isDefault = opt.code === '';
+
+    // Active color doubles in size on hover, other colors shrink to 0.75x
+    const hoverScale = isSelected 
+      ? (isOverActiveSwatch ? 2.0 : 1.0) 
+      : (isOverActiveSwatch ? 0.75 : 1.0);
+
+    const distance = Math.abs(i - centerIdx);
+    const zIndex = isSelected ? 40 : Math.max(10, 30 - distance);
+
+    swatches.push(
+      <div
+        key={`swatch-${i}-${opt.code}`}
+        onClick={() => {
+          onChange(opt.code);
+        }}
+        className={`absolute cursor-pointer rounded-full border transition-all duration-300 ease-out flex items-center justify-center ${
+          isSelected 
+            ? 'border-mammut-gold ring-4 ring-mammut-gold/45 shadow-[0_0_20px_rgba(217,119,6,0.6)]' 
+            : 'border-gray-800 hover:border-gray-500'
+        }`}
+        style={{
+          left: `calc(50% + ${trigVal}px - ${size / 2}px)`,
+          top: `calc(50% - ${size / 2}px)`,
+          width: size,
+          height: size,
+          opacity: opacity,
+          zIndex: zIndex,
+          backgroundImage: opt.swatchUrl ? `url(${opt.swatchUrl})` : 'none',
+          backgroundColor: opt.swatchUrl ? 'transparent' : opt.hex || '#4B4B4D',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          boxShadow: isSelected ? 'none' : 'inset 0 4px 8px rgba(0,0,0,0.6)',
+          transform: `scale(${hoverScale})`
+        }}
+        title={`${opt.code} - ${opt.name}`}
+      >
+        {isDefault && (
+          <div className="text-[10px] md:text-xs font-black font-sans text-gray-300 bg-mammut-black/70 px-2 py-1 rounded border border-gray-700/50 text-center select-none pointer-events-none uppercase tracking-wide">
+            Default
+          </div>
+        )}
+        {isSelected && !isOverActiveSwatch && !isScrolling && (
+          <div 
+            className="absolute bg-gradient-to-br from-emerald-400 to-emerald-600 text-white rounded-full flex items-center justify-center shadow-lg border border-mammut-darker z-35 animate-scale-in"
+            style={{
+              top: '-3px',
+              right: '-3px',
+              width: visibleDim < 640 ? '16px' : '22px',
+              height: visibleDim < 640 ? '16px' : '22px',
+            }}
+            title="Selected finish"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-2.5 h-2.5 md:w-3.5 md:h-3.5 text-white">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  const paddingVal = Math.max(0, visibleDim / 2 - stepWidth / 2);
+  const activeOpt = options[activeIdx] || { code: '', name: t('noColorsFound', 'No matching colors found'), swatchUrl: '', hex: '#4B4B4D' };
+
+  return (
+    <div className="flex flex-col gap-1.5 w-full relative overflow-visible z-20">
+      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide mb-10 md:mb-16">{label}</label>
+      <div 
+        ref={containerRef}
+        onWheel={handleWheel}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseMove={(e) => {
+          if (!containerRef.current) return;
+          const rect = containerRef.current.getBoundingClientRect();
+          const mouseX = e.clientX - rect.left;
+          const mouseY = e.clientY - rect.top;
+          
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          
+          // Check if cursor is within the central swatch circle
+          const radius = baseSize / 2;
+          const distSq = Math.pow(mouseX - centerX, 2) + Math.pow(mouseY - centerY, 2);
+          const isOver = distSq <= radius * radius;
+          if (isOver !== isOverActiveSwatch) {
+            setIsOverActiveSwatch(isOver);
+          }
+        }}
+        onMouseLeave={() => {
+          setIsHovered(false);
+          setIsOverActiveSwatch(false);
+        }}
+        className="relative bg-mammut-dark border border-gray-855 rounded-xl overflow-visible select-none shadow-inner flex items-center justify-center group w-full h-[140px] md:h-[190px]"
+      >
+        {options.length === 0 ? (
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400 font-bold text-sm pointer-events-none px-4 z-35 bg-mammut-darker/60 backdrop-blur-sm rounded-xl">
+            <span className="text-center">{t('noColorsFound', 'No matching colors found')}</span>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSearchQuery('');
+                setIsEditingSearch(false);
+              }}
+              className="mt-3 text-xs text-mammut-gold hover:text-white pointer-events-auto bg-gray-800 hover:bg-gray-750 border border-gray-700 px-4 py-1.5 rounded-full cursor-pointer transition-colors"
+            >
+              {t('clearSearch', 'Clear Search')}
+            </button>
+          </div>
+        ) : (
+          <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden z-10">
+            {swatches}
+          </div>
+        )}
+
+        {/* Gradients */}
+        <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-mammut-dark to-transparent pointer-events-none z-15 opacity-90" />
+        <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-mammut-dark to-transparent pointer-events-none z-15 opacity-90" />
+
+        {/* Scroll Container */}
+        {options.length > 0 && (
+          <div 
+            ref={scrollContainerRef}
+            onScroll={handleScroll}
+            className="absolute inset-0 z-20 cursor-grab active:cursor-grabbing flex overflow-x-scroll snap-x snap-mandatory"
+            style={{ 
+              scrollbarWidth: 'none', 
+              msOverflowStyle: 'none',
+            }}
+          >
+            <div style={{ width: paddingVal, flexShrink: 0 }} />
+            {options.map((opt, i) => (
+              <div 
+                key={`snap-${i}`}
+                className="snap-center shrink-0 pointer-events-auto"
+                style={{ width: stepWidth, height: '100%' }}
+                onClick={() => onChange(opt.code)}
+              />
+            ))}
+            <div style={{ width: paddingVal, flexShrink: 0 }} />
+          </div>
+        )}
+
+        {/* Arrow Left */}
+        {options.length > 0 && (
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); adjustIndex('prev'); }}
+            className="absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg bg-mammut-black/85 border border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50 active:scale-90 transition-all duration-150 cursor-pointer select-none left-2 md:left-3 top-1/2 -translate-y-1/2"
+            title="Previous Color"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+        )}
+
+        {/* Arrow Right */}
+        {options.length > 0 && (
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); adjustIndex('next'); }}
+            className="absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg bg-mammut-black/85 border border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50 active:scale-90 transition-all duration-150 cursor-pointer select-none right-2 md:right-3 top-1/2 -translate-y-1/2"
+            title="Next Color"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
+        )}
+      </div>
+
+      {/* Description underneath with search/filtering capability */}
+      {isEditingSearch || searchQuery ? (
+        <div className="flex items-center bg-mammut-black border border-mammut-gold rounded-xl mt-10 md:mt-16 px-3 py-1.5 w-full relative shadow-md">
+          <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold absolute -top-2.5 left-3 bg-mammut-darker px-2 text-mammut-gold border border-gray-850 rounded">
+            {t('selectedFinish', 'Selected Finish')}
+          </span>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder={t('searchColorPlaceholder', 'Search (e.g. wood, metal, blue...)')}
+            className="w-full bg-transparent text-mammut-white focus:outline-none text-sm md:text-base font-bold font-mono pl-1 pr-8 py-1"
+            autoFocus
+            onBlur={() => {
+              if (!searchQuery) {
+                setIsEditingSearch(false);
+              }
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === 'Escape') {
+                e.currentTarget.blur();
+              }
+            }}
+          />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSearchQuery('');
+                setIsEditingSearch(false);
+              }}
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-gray-800 hover:bg-mammut-gold/20 text-gray-400 hover:text-mammut-gold flex items-center justify-center transition-colors cursor-pointer"
+              title="Clear search"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+      ) : (
+        <div 
+          onClick={() => setIsEditingSearch(true)}
+          className="flex flex-col items-center justify-center py-2 bg-mammut-dark/40 hover:bg-mammut-dark/70 hover:border-mammut-gold/50 cursor-pointer border border-gray-850/60 rounded-xl mt-10 md:mt-16 px-3 w-full transition-all group/finish"
+        >
+          <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold group-hover/finish:text-mammut-gold transition-colors flex items-center gap-1.5">
+            {t('selectedFinish', 'Selected Finish')}
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5 opacity-60">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.604 10.604z" />
+            </svg>
+          </span>
+          <span className="text-sm md:text-base font-black font-mono text-mammut-gold tracking-wide text-center mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
+            {activeOpt.code ? `${activeOpt.code} - ${activeOpt.name}` : activeOpt.name}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+};
+
+
+const HandleImage = ({ 
+  handleType, 
+  handleColor, 
+  className 
+}: { 
+  handleType: string; 
+  handleColor: string; 
+  className?: string; 
+}) => {
+  const [src, setSrc] = useState('');
+  const [fallbackIdx, setFallbackIdx] = useState(-1);
+
+  const getSrcForColor = (type: string, color: string) => {
+    const hoppeSeries = ['AtlantaK', 'AtlantaP', 'Toulon', 'ToulonSF', 'Hamburg', 'HamburgSF', 'Tokyo'];
+    const aliasType = hoppeSeries.includes(type) ? 'Atlanta' : (type === 'ALU_B' ? 'ALU_A' : type);
+    if (aliasType === 'Kwadrat') return `/assets/handles/kwadrat-${color}.png`;
+    if (aliasType === 'Mistral') return `/assets/handles/mistral-${color}.png`;
+    if (aliasType === 'MistralK') return `/assets/handles/mistral-${color}-key.png`;
+    return `/assets/handles/${aliasType}_${color}.webp`;
+  };
+
+  const getFallbacks = (type: string) => {
+    const hoppeSeries = ['AtlantaK', 'AtlantaP', 'Toulon', 'ToulonSF', 'Hamburg', 'HamburgSF', 'Tokyo'];
+    const aliasType = hoppeSeries.includes(type) ? 'Atlanta' : (type === 'ALU_B' ? 'ALU_A' : type);
+    return [
+      getSrcForColor(type, 'white'), 
+      getSrcForColor(type, 'ral9016'), 
+      getSrcForColor(type, 'ral9001'), 
+      getSrcForColor(type, 'f1'), 
+      getSrcForColor(type, 'silver'), 
+      getSrcForColor(type, 'f4'),
+      type === 'Kwadrat' ? '/assets/handles/kwadrat-ral9016.png' :
+      type === 'KwadratK' ? '/assets/handles/KwadratK_ral9016.webp' :
+      type === 'Mistral' ? '/assets/handles/mistral-ral9001.png' :
+      type === 'MistralK' ? '/assets/handles/mistral-f9-key.png' :
+      type === 'ALU_A' || type === 'ALU_B' ? '/assets/handles/ALU_A_ral9016.webp' :
+      type === 'ALU_AK' || type === 'ALU_BK' ? `/assets/handles/${type}_white.webp` :
+      type === 'ALU_AP' ? '/assets/handles/ALU_AP_white.webp' :
+      type === 'MA_1010' ? '/assets/handles/MA_1010_default.webp' :
+      `/assets/handles/${type}_white.webp`
+    ];
+  };
+
+  useEffect(() => {
+    const initialColor = handleColor ? handleColor : 'white';
+    setSrc(getSrcForColor(handleType, initialColor));
+    setFallbackIdx(-1);
+  }, [handleType, handleColor]);
+
+  const handleError = () => {
+    const fallbacks = getFallbacks(handleType);
+    const nextIdx = fallbackIdx + 1;
+    if (nextIdx < fallbacks.length) {
+      setFallbackIdx(nextIdx);
+      setSrc(fallbacks[nextIdx]);
+    }
+  };
+
+  return (
+    <img
+      src={src}
+      alt={handleType}
+      className={className}
+      onError={handleError}
+    />
+  );
+};
+
+const SpacerScrollWheel = ({
+  label,
+  value,
+  onChange,
+  options
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  options: any[];
+}) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [scrollPos, setScrollPos] = useState(0);
+  const [visibleDim, setVisibleDim] = useState(300);
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+
+  const dragStartRef = useRef<{ x: number; y: number; time: number } | null>(null);
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    dragStartRef.current = {
+      x: e.clientX,
+      y: e.clientY,
+      time: Date.now()
+    };
+  };
+
+  const handleSnapClick = (e: React.MouseEvent, code: string) => {
+    if (dragStartRef.current) {
+      const dx = Math.abs(e.clientX - dragStartRef.current.x);
+      const dy = Math.abs(e.clientY - dragStartRef.current.y);
+      const dt = Date.now() - dragStartRef.current.time;
+      if (dx > 15 || dy > 15 || dt > 300) {
+        return;
+      }
+    }
+    onChange(code);
+  };
+
+  const stepWidth = visibleDim < 640 ? 90 : 130;
+  const baseSize = visibleDim < 640 ? 50 : 70;
+
+  const currentIndex = options.findIndex(o => o.code === value);
+  const activeIdx = currentIndex !== -1 ? currentIndex : 0;
+
+  const lastValueRef = useRef<string | null>(null);
+  const lastProgrammaticScrollRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (lastValueRef.current === null || value !== lastValueRef.current) {
+      const idx = options.findIndex(o => o.code === value);
+      if (idx !== -1 && scrollContainerRef.current) {
+        const targetScroll = idx * stepWidth;
+        const currentScroll = scrollContainerRef.current.scrollLeft;
+        if (Math.abs(currentScroll - targetScroll) > 1) {
+          lastProgrammaticScrollRef.current = targetScroll;
+          scrollContainerRef.current.scrollLeft = targetScroll;
+          setScrollPos(targetScroll);
+        }
+      }
+      lastValueRef.current = value;
+    }
+  }, [value, options, stepWidth]);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setVisibleDim(entry.contentRect.width);
+      }
+    });
+    resizeObserver.observe(containerRef.current);
+    setVisibleDim(containerRef.current.clientWidth);
+    return () => resizeObserver.disconnect();
+  }, []);
+
+  const handleScroll = () => {
+    if (scrollContainerRef.current) {
+      const sPos = scrollContainerRef.current.scrollLeft;
+      if (lastProgrammaticScrollRef.current !== null && Math.abs(sPos - lastProgrammaticScrollRef.current) < 1.1) {
+        lastProgrammaticScrollRef.current = null;
+        setScrollPos(sPos);
+        return;
+      }
+      setScrollPos(sPos);
+    }
+  };
+
+  const handleWheel = (e: React.WheelEvent) => {
+    if (scrollContainerRef.current) {
+      e.preventDefault();
+      scrollContainerRef.current.scrollLeft += e.deltaY;
+    }
+  };
+
+  const adjustIndex = (dir: 'prev' | 'next') => {
+    const nextIdx = dir === 'prev' ? activeIdx - 1 : activeIdx + 1;
+    if (nextIdx >= 0 && nextIdx < options.length) {
+      onChange(options[nextIdx].code);
+    }
+  };
+
+  const centerIdx = Math.round(scrollPos / stepWidth);
+  const visibleHalf = Math.ceil((visibleDim / 2) / stepWidth) + 4;
+  const startIdx = Math.max(0, centerIdx - visibleHalf);
+  const endIdx = Math.min(options.length - 1, centerIdx + visibleHalf);
+
+  const R = Math.max(120, visibleDim / 1.9);
+
+  const items = [];
+  for (let i = startIdx; i <= endIdx; i++) {
+    const itemOffset = i * stepWidth - scrollPos;
+    const angle = itemOffset / R;
+    if (Math.abs(angle) > 1.6) continue;
+
+    const trigVal = R * Math.sin(angle);
+    const cosVal = Math.cos(angle);
+    const scale = Math.pow(cosVal, 1.8);
+
+    const opt = options[i];
+    const isSelected = opt.code === value;
+
+    const baseItemSize = isSelected ? baseSize * 2.0 : baseSize;
+    const size = baseItemSize * scale;
+    const opacity = Math.max(0, cosVal * cosVal);
+
+    const isHoveredItem = hoveredIdx === i;
+    const hoverScale = isHoveredItem ? 1.4 : 1.0;
+
+    const distance = Math.abs(i - centerIdx);
+    const zIndex = isSelected ? 40 : Math.max(10, 30 - distance);
+
+    const imageUrl = `${import.meta.env.BASE_URL}assets/spacers/${opt.code}.${opt.ext || 'jpg'}`;
+
+    items.push(
+      <div
+        key={`spacer-${i}-${opt.code}`}
+        onClick={(e) => {
+          handleSnapClick(e, opt.code);
+        }}
+        className={`absolute cursor-pointer rounded-full border transition-all duration-300 ease-out flex items-center justify-center bg-white ${
+          isSelected 
+            ? 'border-mammut-gold border-[1px] shadow-[0_0_12px_rgba(217,119,6,0.35)]' 
+            : 'border-gray-800 hover:border-gray-600 bg-mammut-black'
+        }`}
+        style={{
+          left: `calc(50% + ${trigVal}px - ${size / 2}px)`,
+          top: `calc(50% - ${size / 2}px)`,
+          width: size,
+          height: size,
+          opacity: opacity,
+          zIndex: zIndex,
+          transform: `scale(${hoverScale})`
+        }}
+        title={`${opt.code} - ${opt.name}`}
+      >
+        <img 
+          src={imageUrl} 
+          alt={opt.name} 
+          className="w-full h-full object-cover rounded-full"
+          onError={(e) => {
+            e.currentTarget.style.display = 'none';
+          }}
+        />
+        <div 
+          className="absolute inset-0 z-[-1] rounded-full" 
+          style={{ backgroundColor: opt.hex || '#4B4B4D' }} 
+        />
+        {isSelected && (
+          <div 
+            className="absolute -top-1 -right-1 bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-lg border border-mammut-dark z-50 p-0.5 animate-in fade-in zoom-in duration-200"
+            style={{ 
+              width: Math.max(16, size * 0.28), 
+              height: Math.max(16, size * 0.28) 
+            }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-full h-full">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  const paddingVal = Math.max(0, visibleDim / 2 - stepWidth / 2);
+  const activeOpt = options[activeIdx] || options[0];
+
+  return (
+    <div className="flex flex-col gap-1.5 w-full relative overflow-visible z-20">
+      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide mb-1 md:mb-2">{label}</label>
+      <div 
+        ref={containerRef}
+        onWheel={handleWheel}
+        className="relative bg-mammut-dark border border-gray-850 rounded-xl overflow-visible select-none shadow-inner flex items-center justify-center group w-full h-[140px] md:h-[190px]"
+      >
+        <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-visible z-10">
+          {items}
+        </div>
+
+        <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-mammut-dark to-transparent pointer-events-none z-15 opacity-90" />
+        <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-mammut-dark to-transparent pointer-events-none z-15 opacity-90" />
+
+        <div 
+          ref={scrollContainerRef}
+          onScroll={handleScroll}
+          onPointerDown={handlePointerDown}
+          className="absolute inset-0 z-20 cursor-grab active:cursor-grabbing flex overflow-x-scroll snap-x snap-mandatory"
+          style={{ 
+            scrollbarWidth: 'none', 
+            msOverflowStyle: 'none',
+          }}
+        >
+          <div style={{ width: paddingVal, flexShrink: 0 }} />
+          {options.map((opt, i) => (
+            <div 
+              key={`snap-${i}`}
+              className="snap-center shrink-0 pointer-events-auto"
+              style={{ width: stepWidth, height: '100%' }}
+              onClick={(e) => handleSnapClick(e, opt.code)}
+              onMouseEnter={() => setHoveredIdx(i)}
+              onMouseLeave={() => setHoveredIdx(null)}
+            />
+          ))}
+          <div style={{ width: paddingVal, flexShrink: 0 }} />
+        </div>
+
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); adjustIndex('prev'); }}
+          className="absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg bg-mammut-black/85 border border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50 active:scale-90 transition-all duration-150 cursor-pointer select-none left-2 md:left-3 top-1/2 -translate-y-1/2"
+          title="Previous"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
+        </button>
+
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); adjustIndex('next'); }}
+          className="absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg bg-mammut-black/85 border border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50 active:scale-90 transition-all duration-150 cursor-pointer select-none right-2 md:right-3 top-1/2 -translate-y-1/2"
+          title="Next"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          </svg>
+        </button>
+      </div>
+
+      <div className="flex flex-col items-center justify-center py-2 bg-mammut-dark/40 border border-gray-850/60 rounded-xl mt-1 md:mt-2 px-3">
+        <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Selected Spacer</span>
+        <span className="text-sm md:text-base font-black font-mono text-mammut-gold tracking-wide text-center mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
+          {activeOpt ? `${activeOpt.code} - ${activeOpt.name}` : ''}
+        </span>
+      </div>
+    </div>
+  );
+};
+
+const HandleScrollWheel = ({
+  label,
+  value,
+  onChange,
+  options,
+  handleColor
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  options: any[];
+  handleColor: string;
+}) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [scrollPos, setScrollPos] = useState(0);
+  const [visibleDim, setVisibleDim] = useState(300);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const stepWidth = visibleDim < 640 ? 90 : 130;
+  const baseSize = visibleDim < 640 ? 50 : 70;
+  const indicatorWidth = visibleDim < 640 ? 120 : 172;
+
+  const currentIndex = options.findIndex(o => o.code === value);
+  const activeIdx = currentIndex !== -1 ? currentIndex : 0;
+
+  const lastValueRef = useRef<string | null>(null);
+  const lastProgrammaticScrollRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (lastValueRef.current === null || value !== lastValueRef.current) {
+      const idx = options.findIndex(o => o.code === value);
+      if (idx !== -1 && scrollContainerRef.current) {
+        const targetScroll = idx * stepWidth;
+        const currentScroll = scrollContainerRef.current.scrollLeft;
+        if (Math.abs(currentScroll - targetScroll) > 1) {
+          lastProgrammaticScrollRef.current = targetScroll;
+          scrollContainerRef.current.scrollLeft = targetScroll;
+          setScrollPos(targetScroll);
+        }
+      }
+      lastValueRef.current = value;
+    }
+  }, [value, options, stepWidth]);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setVisibleDim(entry.contentRect.width);
+      }
+    });
+    resizeObserver.observe(containerRef.current);
+    setVisibleDim(containerRef.current.clientWidth);
+    return () => resizeObserver.disconnect();
+  }, []);
+
+  const handleScroll = () => {
+    if (scrollContainerRef.current) {
+      const sPos = scrollContainerRef.current.scrollLeft;
+      if (lastProgrammaticScrollRef.current !== null && Math.abs(sPos - lastProgrammaticScrollRef.current) < 1.1) {
+        lastProgrammaticScrollRef.current = null;
+        setScrollPos(sPos);
+        return;
+      }
+      setScrollPos(sPos);
+      const idx = Math.round(sPos / stepWidth);
+      if (idx >= 0 && idx < options.length) {
+        const activeOpt = options[idx];
+        if (activeOpt.code !== value) {
+          lastValueRef.current = activeOpt.code;
+          onChange(activeOpt.code);
+        }
+      }
+    }
+  };
+
+  const handleWheel = (e: React.WheelEvent) => {
+    if (scrollContainerRef.current) {
+      e.preventDefault();
+      scrollContainerRef.current.scrollLeft += e.deltaY;
+    }
+  };
+
+  const adjustIndex = (dir: 'prev' | 'next') => {
+    const nextIdx = dir === 'prev' ? activeIdx - 1 : activeIdx + 1;
+    if (nextIdx >= 0 && nextIdx < options.length) {
+      onChange(options[nextIdx].code);
+    }
+  };
+
+  const centerIdx = Math.round(scrollPos / stepWidth);
+  const visibleHalf = Math.ceil((visibleDim / 2) / stepWidth) + 4;
+  const startIdx = Math.max(0, centerIdx - visibleHalf);
+  const endIdx = Math.min(options.length - 1, centerIdx + visibleHalf);
+
+  const R = Math.max(120, visibleDim / 1.9);
+
+  const items = [];
+  for (let i = startIdx; i <= endIdx; i++) {
+    const itemOffset = i * stepWidth - scrollPos;
+    const angle = itemOffset / R;
+    if (Math.abs(angle) > 1.6) continue;
+
+    const trigVal = R * Math.sin(angle);
+    const cosVal = Math.cos(angle);
+    const scale = Math.pow(cosVal, 1.8);
+
+    const opt = options[i];
+    const isSelected = opt.code === value;
+
+    const baseItemSize = isSelected ? baseSize * 2.0 : baseSize;
+    const size = baseItemSize * scale;
+    const opacity = Math.max(0, cosVal * cosVal);
+
+    const hoverScale = isSelected 
+      ? (isHovered ? 1.1 : 1.0) 
+      : (isHovered ? 0.9 : 1.0);
+
+    const distance = Math.abs(i - centerIdx);
+    const zIndex = isSelected ? 40 : Math.max(10, 30 - distance);
+
+    items.push(
+      <div
+        key={`handle-${i}-${opt.code}`}
+        onClick={() => {
+          onChange(opt.code);
+        }}
+        className={`absolute cursor-pointer rounded-full border transition-all duration-300 ease-out flex items-center justify-center bg-white p-2 overflow-hidden ${
+          isSelected 
+            ? 'border-mammut-gold ring-4 ring-mammut-gold/45 shadow-[0_0_20px_rgba(217,119,6,0.6)]' 
+            : 'border-gray-800 hover:border-gray-500'
+        }`}
+        style={{
+          left: `calc(50% + ${trigVal}px - ${size / 2}px)`,
+          top: `calc(50% - ${size / 2}px)`,
+          width: size,
+          height: size,
+          opacity: opacity,
+          zIndex: zIndex,
+          transform: `scale(${hoverScale})`
+        }}
+        title={`${opt.code} - ${opt.name}`}
+      >
+        {opt.code === '-' ? (
+          <div className="text-[9px] md:text-[10px] font-black font-sans text-gray-500 text-center leading-none select-none pointer-events-none uppercase">
+            None
+          </div>
+        ) : (
+          <HandleImage
+            handleType={opt.code}
+            handleColor={handleColor}
+            className="max-h-full max-w-full object-contain mix-blend-multiply p-0.5"
+          />
+        )}
+      </div>
+    );
+  }
+
+  const paddingVal = Math.max(0, visibleDim / 2 - stepWidth / 2);
+  const activeOpt = options[activeIdx] || options[0];
+
+  return (
+    <div className="flex flex-col gap-1.5 w-full relative overflow-visible z-20">
+      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide mb-1 md:mb-2">{label}</label>
+      <div 
+        ref={containerRef}
+        onWheel={handleWheel}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className="relative bg-mammut-dark border border-gray-850 rounded-xl overflow-visible select-none shadow-inner flex items-center justify-center group w-full h-[140px] md:h-[190px]"
+      >
+        <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden z-10">
+          {items}
+        </div>
+
+        <div className="absolute inset-y-1.5 left-1/2 -translate-x-1/2 pointer-events-none z-20 flex justify-between transition-all duration-300" style={{ width: `${indicatorWidth}px` }}>
+          <div className="w-3.5 h-full border-l-2 border-t-2 border-b-2 border-mammut-gold/40 rounded-l-2xl shadow-[inset_1px_0_0_rgba(217,119,6,0.1)]" />
+          <div className="w-3.5 h-full border-r-2 border-t-2 border-b-2 border-mammut-gold/40 rounded-r-2xl shadow-[inset_-1px_0_0_rgba(217,119,6,0.1)]" />
+        </div>
+
+        <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-mammut-dark to-transparent pointer-events-none z-15 opacity-90" />
+        <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-mammut-dark to-transparent pointer-events-none z-15 opacity-90" />
+
+        <div 
+          ref={scrollContainerRef}
+          onScroll={handleScroll}
+          className="absolute inset-0 z-20 cursor-grab active:cursor-grabbing flex overflow-x-scroll snap-x snap-mandatory"
+          style={{ 
+            scrollbarWidth: 'none', 
+            msOverflowStyle: 'none',
+          }}
+        >
+          <div style={{ width: paddingVal, flexShrink: 0 }} />
+          {options.map((opt, i) => (
+            <div 
+              key={`snap-${i}`}
+              className="snap-center shrink-0 pointer-events-auto"
+              style={{ width: stepWidth, height: '100%' }}
+              onClick={() => onChange(opt.code)}
+            />
+          ))}
+          <div style={{ width: paddingVal, flexShrink: 0 }} />
+        </div>
+
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); adjustIndex('prev'); }}
+          className="absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg bg-mammut-black/85 border border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50 active:scale-90 transition-all duration-150 cursor-pointer select-none left-2 md:left-3 top-1/2 -translate-y-1/2"
+          title="Previous"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
+        </button>
+
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); adjustIndex('next'); }}
+          className="absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg bg-mammut-black/85 border border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50 active:scale-90 transition-all duration-150 cursor-pointer select-none right-2 md:right-3 top-1/2 -translate-y-1/2"
+          title="Next"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          </svg>
+        </button>
+      </div>
+
+      <div className="flex flex-col items-center justify-center py-2 bg-mammut-dark/40 border border-gray-850/60 rounded-xl mt-1 md:mt-2 px-3">
+        <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Selected Handle</span>
+        <span className="text-sm md:text-base font-black font-mono text-mammut-gold tracking-wide text-center mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
+          {activeOpt ? `${activeOpt.code} - ${activeOpt.name}` : ''}
+        </span>
+      </div>
+    </div>
+  );
+};
+
 
 const SegmentedControl = ({
   label,
@@ -300,6 +1965,15 @@ const CarouselSelector = <T extends CarouselOption>({
   );
 };
 
+const TYPOLOGY_GROUPS = [
+  {
+    category: "Windows",
+    subgroups: [
+      { name: "TYPE 1 Window", ids: ["F100","F101","F102","F103","F104","F105","F106","F200","F201","F203","F204","F205","F206","F207","F208","F250","F251","F252","F253","F254","F255","F300","F301","F302","F303","F304","F350","F351","F352","F353","F309","F400","F401","F402","F403","F450","F451","F542","F453"] },
+    ]
+  }
+];
+
 export function DebugPricing() {
   const { t } = useTranslation();
 
@@ -320,6 +1994,7 @@ export function DebugPricing() {
   // 1) & 2) Profile System & Typology
   const [typology, setTypology] = useState<string>('F104');
   const [isTypologyOpen, setIsTypologyOpen] = useState(false);
+  const [closeOnSelect, setCloseOnSelect] = useState(true);
   const [opening] = useState<string>('UR');
   const [profilsatz, setProfilsatz] = useState('1100'); // Maps to IG5
   const [activeCategory, setActiveCategory] = useState<string>('WINDOWS');
@@ -612,14 +2287,7 @@ export function DebugPricing() {
     { code: 'X', name: 'Ultimate brown', hex: '#59351f', ext: 'jpg' }
   ];
 
-  const TYPOLOGY_GROUPS = [
-    {
-      category: "Windows",
-      subgroups: [
-        { name: "TYPE 1 Window", ids: ["F100","F101","F103","F104","F105","F106","F200","F201","F203","F204","F205","F206","F207","F208","F250","F251","F252","F253","F254","F255","F300","F301","F302","F303","F304","F350","F351","F352","F353","F309","F400","F401","F402","F403","F450","F451","F542","F453"] },
-      ]
-    }
-  ];
+  // TYPOLOGY_GROUPS moved to file level to prevent infinite loops from recreated items array reference
 
   const WINDOW_MODELS = [
     { group: "1 Cut", options: [
@@ -965,8 +2633,8 @@ export function DebugPricing() {
 
     return (
       <div className="w-full mt-2">
-        {(typology === 'F104' || typology === 'F100') ? (
-          <div className="w-full aspect-square border border-gray-800 rounded-lg bg-gray-900 flex items-center justify-center p-2 md:p-12 overflow-hidden shadow-inner relative group">
+        {(['F100', 'F101', 'F102', 'F103', 'F104', 'F105', 'F106'].includes(typology)) ? (
+          <div className="w-full aspect-square border border-gray-800 rounded-lg bg-gray-900 flex items-center justify-center pt-12 pb-[48px] pl-[48px] pr-2 md:pt-14 md:pb-[65px] md:pl-[65px] md:pr-4 overflow-hidden shadow-inner relative group">
              {/* 3D Toggle */}
              <div className="absolute top-2 left-2 z-30 bg-black/50 p-1 rounded flex items-center gap-2">
                 <button onClick={() => setIs3dMode(false)} className={`px-2 py-1 text-xs font-bold rounded ${!is3dMode ? 'bg-mammut-gold text-black' : 'text-gray-400'}`}>2D</button>
@@ -992,35 +2660,39 @@ export function DebugPricing() {
              )}
 
              {/* Vertical Scroll Wheel (Height) overlay on the left */}
-             <div className="absolute left-3 top-10 bottom-10 w-8 z-30 flex items-center justify-center font-mono">
-                <ScrollWheel
+             <div className="absolute left-1 md:left-2 top-12 md:top-14 bottom-[48px] md:bottom-[65px] w-10 md:w-[55px] z-30 flex items-center justify-center font-mono">
+                <NumericScrollWheel
+                  label="Height"
                   value={height}
                   onChange={setHeight}
                   min={500}
                   max={3000}
+                  step={10}
                   orientation="vertical"
-                  className="h-full"
+                  labelPosition="inside"
                 />
              </div>
 
              {/* Horizontal Scroll Wheel (Width) overlay at the bottom */}
-             <div className="absolute bottom-3 left-12 right-12 h-8 z-30 flex items-center justify-center font-mono">
-                <ScrollWheel
+             <div className="absolute bottom-1 md:bottom-2 left-[48px] md:left-[65px] right-1 md:right-2 h-10 md:h-[55px] z-30 flex items-center justify-center font-mono">
+                <NumericScrollWheel
+                  label="Width"
                   value={width}
                   onChange={setWidth}
                   min={500}
                   max={3000}
+                  step={10}
                   orientation="horizontal"
-                  className="w-full"
+                  labelPosition="inside"
                 />
              </div>
 
              {/* AR Buttons - always visible in 3D mode */}
              {is3dMode && (
-               <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 bg-black/80 p-2 rounded-full flex items-center gap-2 shadow-xl">
-                  <button onClick={() => setArPlacement('wall')} className="bg-mammut-gold text-black px-4 py-1 rounded-full text-xs font-black uppercase whitespace-nowrap">AR Wall</button>
-                  <button onClick={() => setArPlacement('floor')} className="bg-white text-black px-4 py-1 rounded-full text-xs font-black uppercase whitespace-nowrap">AR Floor</button>
-               </div>
+                <div className="absolute bottom-[48px] md:bottom-[65px] left-1/2 -translate-x-1/2 z-35 bg-black/80 p-2 rounded-full flex items-center gap-2 shadow-xl">
+                   <button onClick={() => setArPlacement('wall')} className="bg-mammut-gold text-black px-4 py-1 rounded-full text-xs font-black uppercase whitespace-nowrap">AR Wall</button>
+                   <button onClick={() => setArPlacement('floor')} className="bg-white text-black px-4 py-1 rounded-full text-xs font-black uppercase whitespace-nowrap">AR Floor</button>
+                </div>
              )}
 
              {is3dMode ? (
@@ -1288,40 +2960,46 @@ export function DebugPricing() {
                 {isTypologyOpen && (
                   <>
                     <div className="fixed inset-0 z-40 bg-black/60 md:bg-transparent" onClick={() => setIsTypologyOpen(false)}></div>
-                    <div className="fixed md:absolute top-1/2 md:top-full left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 w-[92vw] md:w-[450px] mt-1 bg-mammut-dark border border-gray-700 rounded-lg shadow-2xl z-50 pb-1 max-h-[75vh] md:max-h-[500px] overflow-y-auto">
-                      {TYPOLOGY_GROUPS.map((group, gIdx) => (
-                        <div key={gIdx}>
-                          <div className="p-2 border-b border-gray-800 bg-mammut-black sticky top-0 z-10 text-xs text-mammut-gold font-bold uppercase tracking-widest shadow-sm">
-                            {group.category}
-                          </div>
-                          {group.subgroups.map((subg, sIdx) => (
-                            <div key={sIdx}>
-                              <div className="p-1 px-3 bg-mammut-darker text-[10px] text-gray-500 font-bold uppercase tracking-wide border-b border-gray-800">
-                                {subg.name}
-                              </div>
-                              {subg.ids.map(id => {
-                                  const wt = WINDOW_TYPES.find(w => w.id === id) || { id, sashes: 1, name: 'Frame' };
-                                  return (
-                                    <div 
-                                      key={id} 
-                                      onClick={() => { setTypology(id); setIsTypologyOpen(false); }} 
-                                      className="p-3 hover:bg-mammut-gold/20 cursor-pointer flex items-center gap-4 border-b border-gray-800 transition-colors group"
-                                    >
-                                       <TypologyThumbnail 
-                                         id={id}
-                                         className="w-10 h-10 object-contain rounded bg-mammut-black border border-gray-700 p-0.5 shrink-0"
-                                       />
-                                       <div className="flex flex-col">
-                                         <span className="font-bold text-mammut-white text-sm">{id}</span>
-                                         <span className="text-xs text-gray-400 leading-tight">{wt.name || 'Window'}</span>
-                                       </div>
-                                    </div>
-                                  );
-                              })}
-                            </div>
-                          ))}
-                        </div>
-                      ))}
+                    <div className="fixed md:absolute top-1/2 md:top-full left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 w-[92vw] md:w-[380px] mt-1 bg-mammut-dark border border-gray-700 rounded-2xl shadow-2xl z-50 p-4 flex flex-col gap-3">
+                      <div className="flex justify-between items-center border-b border-gray-850 pb-2 mb-1">
+                        <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Select Window Type</span>
+                        <button 
+                          type="button"
+                          onClick={() => setIsTypologyOpen(false)}
+                          className="text-gray-500 hover:text-white transition-colors cursor-pointer text-sm font-bold p-1 leading-none select-none"
+                          title="Close"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                      <ScrollingDial 
+                        value={typology}
+                        onChange={(val) => setTypology(val)}
+                        items={TYPOLOGY_GROUPS.flatMap(g => g.subgroups.flatMap(sg => sg.ids))}
+                        onConfirm={() => setIsTypologyOpen(false)}
+                        closeOnSelect={closeOnSelect}
+                      />
+                      <div className="flex items-center gap-2 px-1 py-0.5">
+                        <input 
+                          type="checkbox"
+                          id="closeOnSelectCheckbox"
+                          checked={closeOnSelect}
+                          onChange={(e) => setCloseOnSelect(e.target.checked)}
+                          className="w-4 h-4 rounded border-gray-700 bg-mammut-black text-mammut-gold focus:ring-mammut-gold focus:ring-offset-0 cursor-pointer accent-mammut-gold"
+                        />
+                        <label 
+                          htmlFor="closeOnSelectCheckbox" 
+                          className="text-xs text-gray-300 font-semibold cursor-pointer select-none"
+                        >
+                          {t('configurator.state.closeOnSelect')}
+                        </label>
+                      </div>
+                      <button 
+                        onClick={() => setIsTypologyOpen(false)}
+                        className="w-full bg-mammut-gold hover:bg-[#ffc882] text-mammut-black font-black uppercase text-[11px] tracking-wider py-3 rounded-xl transition-all cursor-pointer shadow-md hover:scale-[1.02] active:scale-[0.98]"
+                      >
+                        Confirm
+                      </button>
                     </div>
                   </>
                 )}
@@ -1344,10 +3022,10 @@ export function DebugPricing() {
                 </select>
               </div>
 
-              {/* Touch Steppers for Width and Height */}
+              {/* Horizontal Scroll Wheels for Width and Height */}
               <div className="col-span-1 sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <TouchStepper label="Width (mm)" value={width} onChange={setWidth} min={500} max={3000} step={10} />
-                <TouchStepper label="Height (mm)" value={height} onChange={setHeight} min={500} max={3000} step={10} />
+                <NumericScrollWheel label="Width (mm)" value={width} onChange={setWidth} min={500} max={3000} step={10} />
+                <NumericScrollWheel label="Height (mm)" value={height} onChange={setHeight} min={500} max={3000} step={10} />
               </div>
             </div>
           </AccordionSection>
@@ -1375,9 +3053,9 @@ export function DebugPricing() {
               />
 
               {colorType !== 'W-W' && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <ColorSelect label="Exterior Color" value={colorCode} onChange={setColorCode} groupedOptions={groupedColors} />
-                  <ColorSelect label="Interior Color" value={interiorColorCode} onChange={setInteriorColorCode} groupedOptions={groupedColors} />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-25 overflow-visible">
+                  <ColorScrollWheel label="Exterior Color" value={colorCode} onChange={setColorCode} groupedOptions={groupedColors} showDefault={false} />
+                  <ColorScrollWheel label="Interior Color" value={interiorColorCode} onChange={setInteriorColorCode} groupedOptions={groupedColors} showDefault={true} />
                 </div>
               )}
 
@@ -1551,14 +3229,13 @@ export function DebugPricing() {
                     </div>
                   </div>
 
-                  {/* Spacer / Frame Style Carousel Selector */}
+                  {/* Spacer / Frame Style Scroll Wheel */}
                   <div className="pt-2">
-                    <CarouselSelector
+                    <SpacerScrollWheel
                       label="Spacer Type"
                       value={inf.frameStyle}
                       onChange={val => updateInf('frameStyle', val)}
                       options={FRAME_STYLES}
-                      getImagePath={opt => `${import.meta.env.BASE_URL}assets/spacers/${opt.code}.${(opt as any).ext || 'jpg'}`}
                     />
                   </div>
                 </div>
@@ -1674,69 +3351,6 @@ export function DebugPricing() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-gray-800/60 pt-4">
                 <GenericSelect label="Hardware System" value={hardwareSystem} onChange={setHardwareSystem} />
                 
-                <div className="flex flex-col gap-2">
-                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide">Handle Type</label>
-                  <div className="flex gap-3 items-start">
-                    <select className="flex-1 bg-mammut-black border border-gray-800 rounded-xl p-3 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none h-[50px]"
-                      value={handleType} onChange={e => setHandleType(e.target.value)}>
-                       {HANDLE_OPTIONS.map(h => <option key={h.code} value={h.code}>{h.code}, {h.name}</option>)}
-                    </select>
-                    {handleType && handleType !== '-' && (
-                      <div className="w-[50px] h-[50px] bg-white border border-gray-800 rounded-xl overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-inner">
-                        <img 
-                          src={(() => {
-                            const getSrc = (c: string) => {
-                              const hoppeSeries = ['AtlantaK', 'AtlantaP', 'Toulon', 'ToulonSF', 'Hamburg', 'HamburgSF', 'Tokyo'];
-                              const aliasType = hoppeSeries.includes(handleType) ? 'Atlanta' : (handleType === 'ALU_B' ? 'ALU_A' : handleType);
-                              if (aliasType === 'Kwadrat') return `/assets/handles/kwadrat-${c}.png`;
-                              if (aliasType === 'Mistral') return `/assets/handles/mistral-${c}.png`;
-                              if (aliasType === 'MistralK') return `/assets/handles/mistral-${c}-key.png`;
-                              return `/assets/handles/${aliasType}_${c}.webp`;
-                            };
-                            return getSrc(handleColor ? (IMAGE_COLOR_MAP[handleColor] || handleColor) : 'white');
-                          })()} 
-                          alt={handleType} 
-                          className="max-h-full max-w-full object-contain mix-blend-multiply p-0.5" 
-                          onError={(e) => {
-                            const t = e.currentTarget;
-                            const getSrc = (c: string) => {
-                              const hoppeSeries = ['AtlantaK', 'AtlantaP', 'Toulon', 'ToulonSF', 'Hamburg', 'HamburgSF', 'Tokyo'];
-                              const aliasType = hoppeSeries.includes(handleType) ? 'Atlanta' : (handleType === 'ALU_B' ? 'ALU_A' : handleType);
-                              if (aliasType === 'Kwadrat') return `/assets/handles/kwadrat-${c}.png`;
-                              if (aliasType === 'Mistral') return `/assets/handles/mistral-${c}.png`;
-                              if (aliasType === 'MistralK') return `/assets/handles/mistral-${c}-key.png`;
-                              return `/assets/handles/${aliasType}_${c}.webp`;
-                            };
-                            const fallbacks = [
-                              getSrc('white'), getSrc('ral9016'), getSrc('ral9001'), getSrc('f1'), getSrc('silver'), getSrc('f4'),
-                              handleType === 'Kwadrat' ? '/assets/handles/kwadrat-ral9016.png' :
-                              handleType === 'KwadratK' ? '/assets/handles/KwadratK_ral9016.webp' :
-                              handleType === 'Mistral' ? '/assets/handles/mistral-ral9001.png' :
-                              handleType === 'MistralK' ? '/assets/handles/mistral-f9-key.png' :
-                              handleType === 'ALU_A' || handleType === 'ALU_B' ? '/assets/handles/ALU_A_ral9016.webp' :
-                              handleType === 'ALU_AK' || handleType === 'ALU_BK' ? `/assets/handles/${handleType}_white.webp` :
-                              handleType === 'ALU_AP' ? '/assets/handles/ALU_AP_white.webp' :
-                              handleType === 'MA_1010' ? '/assets/handles/MA_1010_default.webp' :
-                              `/assets/handles/${handleType}_white.webp`
-                            ];
-                            let currentIdx = parseInt(t.dataset.fallbackIdx || '-1');
-                            let nextIdx = currentIdx + 1;
-                            while (nextIdx < fallbacks.length) {
-                              const targetSrc = fallbacks[nextIdx];
-                              if (!t.src.endsWith(targetSrc)) {
-                                t.dataset.fallbackIdx = nextIdx.toString();
-                                t.src = targetSrc;
-                                return;
-                              }
-                              nextIdx++;
-                            }
-                          }}
-                        />
-                      </div>
-                    )}
-                  </div>
-                </div>
-
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs font-bold mb-1.5 text-gray-400 uppercase tracking-wide">Handle Color</label>
@@ -1755,7 +3369,17 @@ export function DebugPricing() {
                     </select>
                   </div>
                 </div>
+              </div>
 
+              {/* Handle Type Scroll Wheel */}
+              <div className="pt-2">
+                <HandleScrollWheel
+                  label="Handle Type"
+                  value={handleType}
+                  onChange={setHandleType}
+                  options={HANDLE_OPTIONS}
+                  handleColor={handleColor}
+                />
               </div>
 
             </div>

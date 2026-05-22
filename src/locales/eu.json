@@ -195,7 +195,10 @@
         "title": "Mosquito Nets",
         "description": "Keep insects out while letting fresh air in."
       }
-    }
+    },
+    "searchColorPlaceholder": "Bilatu (adibidez: egurra, metala, urdina...)",
+    "noColorsFound": "Ez da bat datorren kolorerik aurkitu",
+    "clearSearch": "Garbitu bilaketa"
   },
   "footer": {
     "newsletter": {
@@ -362,7 +365,8 @@
       "openingDirection": "Irekiera norabidea",
       "fixedNoOpening": "Konpontua (Irekitzerik ez)",
       "turnTilt": "Barneko hostoa (biratu/inklinatu)",
-      "sashes": "{{count}} Sashes konfigurazioa"
+      "sashes": "{{count}} Sashes konfigurazioa",
+      "closeOnSelect": "Itxi leihoa hautatzerakoan"
     },
     "blueprint": {
       "interiorView": "Barruko ikuspegia",

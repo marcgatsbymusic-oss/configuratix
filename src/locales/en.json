@@ -154,6 +154,9 @@
     "colorsDesc": "Customize your {{name}} with over {{count}} premium finishes, ranging from modern architectural solids to hyper-realistic woodgrains.",
     "preview": "PREVIEW",
     "selectedFinish": "Selected Finish",
+    "searchColorPlaceholder": "Search (e.g. wood, metal, blue...)",
+    "noColorsFound": "No matching colors found",
+    "clearSearch": "Clear Search",
     "selectedColor": "Selected color:",
     "glassTitle": "Glass",
     "glassDesc": "DRUTEX, with over 30 years of experience in the production of composite glass, offers a very wide range of glass with which you can fit your windows and doors. They meet strict requirements for energy efficiency and sound insulation. The offer also includes laminated glass (safe and burglar-proof), sun protected glass, glass with enhanced sound insulation, tempered, ornamental and sandblasted glass.",
@@ -659,7 +662,8 @@
       "openingDirection": "Opening Direction",
       "fixedNoOpening": "Fixed (No Opening)",
       "turnTilt": "Innerleaf (Turn/Tilt)",
-      "sashes": "{{count}} Sashes configuration"
+      "sashes": "{{count}} Sashes configuration",
+      "closeOnSelect": "Close window on selection"
     },
     "blueprint": {
       "interiorView": "Interior View",

@@ -1,8 +1,6 @@
 import Database from 'better-sqlite3';
-import { resolve } from 'node:path';
-
-const dbPath = resolve(process.cwd(), 'src/data/cantor/cantor.sqlite');
-const db = new Database(dbPath);
-
-const rows = db.prepare(`SELECT DISTINCT KLASSE1, KLASSE2 FROM PREISMAT WHERE PREISMATRIX = 'PVC_F100'`).all();
-console.log(rows);
+const db = new Database('src/data/cantor/cantor.sqlite');
+console.log('Tables:', db.prepare("SELECT name FROM sqlite_master WHERE type='table'").all());
+try {
+  console.log('ARTIKEL:', db.prepare("SELECT ARTNR, COUNT(*) FROM ARTIKEL WHERE ARTNR IN ('F100','F101','F102','F103','F104') GROUP BY ARTNR").all());
+} catch(e) { console.log(e); }
