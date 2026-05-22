@@ -251,12 +251,12 @@ function AdditionalOptionSlider({ items }: { items: { name: string; image: strin
 
       <div className="flex-1 grid grid-cols-3 gap-4">
         {visible.map((item, i) => (
-          <div key={i} className="flex flex-col items-center gap-2">
+          <div key={i} className="flex flex-col items-center gap-2 group cursor-pointer">
             <div className="w-full aspect-square bg-white border border-gray-200 overflow-hidden flex items-center justify-center p-3">
               <img
                 src={item.image}
                 alt={item.name}
-                className="w-full h-full object-contain hover:scale-105 transition-transform duration-300"
+                className="w-full h-full object-contain group-hover:scale-[1.8] transition-transform duration-500"
               />
             </div>
             <p className="!text-gray-600 text-[11px] text-center leading-tight px-1 whitespace-pre-line">{item.name}</p>

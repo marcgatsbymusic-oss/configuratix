@@ -50,7 +50,7 @@ function startServer() {
     console.log("Starting server (npm run dev)...");
     
     const child = spawn('npm', ['run', 'dev'], {
-        stdio: 'inherit',
+        stdio: 'ignore',
         detached: true,
         shell: true
     });

@@ -84,8 +84,238 @@ function TypologyThumbnail({ id, className }: TypologyThumbnailProps) {
   );
 }
 
+// Mobile-friendly custom components
+const AccordionSection = ({ 
+  id, 
+  title, 
+  summary, 
+  isOpen, 
+  onToggle, 
+  children 
+}: { 
+  id: string, 
+  title: string, 
+  summary: string, 
+  isOpen: boolean, 
+  onToggle: () => void, 
+  children: React.ReactNode 
+}) => {
+  return (
+    <div id={id} className="border border-gray-800 rounded-xl overflow-hidden mb-4 bg-mammut-darker/60 backdrop-blur-sm transition-all duration-300">
+      <div 
+        onClick={onToggle}
+        className={`p-4 flex items-center justify-between cursor-pointer select-none transition-colors ${isOpen ? 'bg-mammut-gold/10 text-mammut-gold border-l-4 border-mammut-gold' : 'hover:bg-gray-800/40 text-gray-300 border-l-4 border-transparent'}`}
+      >
+        <div className="flex flex-col gap-1 pr-4 min-w-0">
+          <span className="font-bold text-sm tracking-wide uppercase">{title}</span>
+          {!isOpen && summary && (
+            <span className="text-xs text-gray-500 truncate">{summary}</span>
+          )}
+        </div>
+        <span className={`text-xs transition-transform duration-300 ${isOpen ? 'rotate-180 text-mammut-gold' : 'text-gray-500'}`}>
+          ▼
+        </span>
+      </div>
+      {isOpen && (
+        <div className="p-4 sm:p-6 border-t border-gray-800 bg-mammut-darker/30 space-y-6">
+          {children}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const TouchStepper = ({
+  label,
+  value,
+  onChange,
+  min = 500,
+  max = 3000,
+  step = 10
+}: {
+  label: string,
+  value: number,
+  onChange: (v: number) => void,
+  min?: number,
+  max?: number,
+  step?: number
+}) => {
+  const handleIncrement = () => {
+    if (value + step <= max) onChange(value + step);
+  };
+  const handleDecrement = () => {
+    if (value - step >= min) onChange(value - step);
+  };
+
+  return (
+    <div className="flex flex-col gap-1.5 w-full">
+      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide">{label}</label>
+      <div className="flex items-center bg-mammut-black border border-gray-800 rounded-xl overflow-hidden h-[54px] shadow-inner relative group focus-within:border-mammut-gold transition-colors">
+        <button 
+          type="button"
+          onClick={handleDecrement}
+          className="w-14 h-full flex items-center justify-center bg-gray-900/60 hover:bg-mammut-gold/20 hover:text-mammut-gold active:scale-95 text-gray-400 font-bold transition-all border-r border-gray-850 text-xl select-none touch-manipulation"
+        >
+          −
+        </button>
+        <input 
+          type="number" 
+          className="flex-1 bg-transparent text-mammut-white focus:outline-none text-base font-black text-center w-full min-w-0 font-mono"
+          value={value} 
+          onChange={e => {
+            const val = Number(e.target.value);
+            if (!isNaN(val)) onChange(val);
+          }} 
+        />
+        <button 
+          type="button"
+          onClick={handleIncrement}
+          className="w-14 h-full flex items-center justify-center bg-gray-900/60 hover:bg-mammut-gold/20 hover:text-mammut-gold active:scale-95 text-gray-400 font-bold transition-all border-l border-gray-850 text-xl select-none touch-manipulation"
+        >
+          +
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const SegmentedControl = ({
+  label,
+  value,
+  onChange,
+  options,
+  gridCols = 'grid-cols-2'
+}: {
+  label: string,
+  value: string,
+  onChange: (v: string) => void,
+  options: { value: string, label: string }[],
+  gridCols?: string
+}) => {
+  return (
+    <div className="flex flex-col gap-1.5 w-full">
+      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide">{label}</label>
+      <div className={`grid ${gridCols} bg-mammut-black border border-gray-850 rounded-xl p-1 gap-1`}>
+        {options.map((opt) => {
+          const isActive = value === opt.value;
+          return (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => onChange(opt.value)}
+              className={`py-2 px-2 rounded-lg text-xs font-bold uppercase transition-all text-center leading-tight ${
+                isActive 
+                  ? 'bg-mammut-gold text-black shadow-md' 
+                  : 'text-gray-400 hover:text-white hover:bg-gray-800/40'
+              }`}
+            >
+              {opt.label}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+interface CarouselOption {
+  code: string;
+  name: string;
+  image?: string;
+  hex?: string;
+}
+
+const CarouselSelector = <T extends CarouselOption>({
+  label,
+  value,
+  onChange,
+  options,
+  getImagePath
+}: {
+  label: string,
+  value: string,
+  onChange: (v: string) => void,
+  options: T[],
+  getImagePath?: (opt: T) => string
+}) => {
+  return (
+    <div className="flex flex-col gap-1.5 w-full">
+      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide">{label}</label>
+      <div className="flex gap-3 overflow-x-auto pb-8 pt-8 -my-6 scrollbar-none snap-x snap-mandatory">
+        {options.map((opt) => {
+          const isActive = value === opt.code;
+          const imageSrc = getImagePath ? getImagePath(opt) : opt.image;
+          return (
+            <button
+              key={opt.code}
+              type="button"
+              onClick={() => onChange(opt.code)}
+              className={`flex-none w-28 h-28 bg-gray-900 border rounded-xl p-2 flex flex-col items-center justify-between transition-all select-none snap-start relative group hover:z-30 ${
+                isActive 
+                  ? 'border-mammut-gold bg-mammut-gold/5 shadow-lg scale-[1.02]' 
+                  : 'border-gray-800 hover:border-gray-700 hover:bg-gray-800/30'
+              }`}
+            >
+              {/* Selection badge */}
+              {isActive && (
+                <div className="absolute top-1.5 right-1.5 bg-mammut-gold text-black rounded-full w-4.5 h-4.5 flex items-center justify-center text-[10px] font-black z-10">
+                  ✓
+                </div>
+              )}
+              
+              {/* Visual Image / Hex Swatch */}
+              {imageSrc ? (
+                <div className="w-16 h-16 rounded-lg bg-white overflow-hidden flex items-center justify-center p-1 group-hover:scale-[1.8] group-hover:z-30 shadow-md transition-transform duration-300 relative">
+                  <img 
+                    src={imageSrc} 
+                    alt={opt.name} 
+                    className="max-h-full max-w-full object-contain"
+                    onError={(e) => { 
+                      const target = e.currentTarget;
+                      target.style.display = 'none'; 
+                      const sibling = target.nextElementSibling as HTMLElement;
+                      if (sibling) sibling.classList.remove('hidden');
+                    }}
+                  />
+                  <div className="hidden absolute inset-0 bg-gray-850 flex items-center justify-center text-[10px] font-bold text-gray-500 rounded-lg">
+                    {opt.code}
+                  </div>
+                </div>
+              ) : opt.hex ? (
+                <div className="w-16 h-16 rounded-lg shadow-inner border border-gray-700 transition-transform duration-300 group-hover:scale-[1.8] group-hover:z-30 shadow-md relative" style={{ backgroundColor: opt.hex }}></div>
+              ) : (
+                <div className="w-16 h-16 rounded-lg bg-gray-850 flex items-center justify-center text-[10px] font-bold text-gray-500 transition-transform duration-300 group-hover:scale-[1.8] group-hover:z-30 shadow-md relative">
+                  {opt.code || 'Std'}
+                </div>
+              )}
+              
+              <span className={`text-[10px] font-bold truncate w-full text-center leading-none ${isActive ? 'text-mammut-gold' : 'text-gray-400'}`}>
+                {opt.name}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
 export function DebugPricing() {
   const { t } = useTranslation();
+
+  // Mobile-friendly layout and interactive states
+  const [activeAccordion, setActiveAccordion] = useState<string | null>('product');
+  const [isPreviewDrawerOpen, setIsPreviewDrawerOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // 1) & 2) Profile System & Typology
   const [typology, setTypology] = useState<string>('F104');
@@ -117,7 +347,6 @@ export function DebugPricing() {
   const [windowUnit] = useState('');
   const [safetyClass, setSafetyClass] = useState('');
   const [model, setModel] = useState('');
-  const [isModelOpen, setIsModelOpen] = useState(false);
   const [hardwareSystem, setHardwareSystem] = useState('');
   const [handleType, setHandleType] = useState('-');
   const [handleColor, setHandleColor] = useState('');
@@ -676,598 +905,419 @@ export function DebugPricing() {
 
   const [sceneGroup, setSceneGroup] = useState<{group: THREE.Group, ts: number} | null>(null);
 
-  return (
-    <div className="min-h-screen bg-mammut-black text-mammut-white p-6 pt-32 relative">
-      {arPlacement && (
-         <ArViewer sceneGroup={sceneGroup?.group || null} placement={arPlacement} onClose={() => setArPlacement(null)} />
-      )}
-      <div className="absolute top-6 right-6">
-        <ThemeToggle />
-      </div>
-      <div className="max-w-screen-2xl mx-auto grid md:grid-cols-[250px_1fr_400px] gap-8">
-        
-        {/* LEFT COLUMN: Categories Menu */}
-        <div className="bg-mammut-darker p-4 rounded-xl border border-gray-800 shadow-2xl flex flex-col gap-2 overflow-y-auto max-h-[85vh]">
-          {DRUTEX_CATEGORIES.map(cat => {
-            const Icon = cat.icon;
-            const isActive = activeCategory === cat.id;
-            return (
-              <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className={`flex items-center gap-4 px-4 py-3 rounded text-sm font-bold uppercase transition-colors ${
-                  isActive 
-                    ? 'bg-mammut-black border border-mammut-gold text-mammut-white shadow-inner' 
-                    : 'bg-transparent text-gray-500 hover:text-mammut-white hover:bg-mammut-black'
-                }`}
-              >
-                <Icon size={20} className={isActive ? 'text-mammut-gold' : 'text-gray-500'} />
-                <span className="text-left text-[11px] tracking-wide leading-tight">{cat.label}</span>
-              </button>
-            )
-          })}
-        </div>
+  // Summary helpers for accordions
+  const getProductSummary = () => {
+    const sysName = PRODUCT_CATEGORIES
+      .flatMap(c => c.subgroups.flatMap(sg => sg.options))
+      .find(o => o.val === profilsatz)?.label || profilsatz;
+    return `${typology} (${sysName}), ${width} × ${height} mm`;
+  };
 
-        {/* MIDDLE COLUMN: Configurator Options */}
-        <div className="bg-mammut-darker p-6 rounded-xl border border-gray-800 shadow-2xl flex flex-col gap-6 overflow-y-auto max-h-[85vh]">
-          
-          <h2 className="text-mammut-gold font-bold text-xl uppercase border-b border-gray-800 pb-2">Configurator Options</h2>
+  const getColorsSummary = () => {
+    if (colorType === 'W-W') return 'W-W (White / White)';
+    const extName = IGLO_EDGE_COLORS.find(c => c.id.replace('c', '').padStart(4, '0') === colorCode.padStart(4, '0'))?.name || colorCode;
+    const intName = IGLO_EDGE_COLORS.find(c => c.id.replace('c', '').padStart(4, '0') === interiorColorCode.padStart(4, '0'))?.name || interiorColorCode;
+    return `${colorType} [Ext: ${extName}, Int: ${intName}]`;
+  };
 
-          <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8 mb-6 relative pt-8 md:pt-0">
-            <div className="absolute top-0 left-0 text-mammut-gold font-bold text-sm tracking-widest uppercase text-center w-full md:w-auto md:text-left">1) Image of profile (eg Iglo 5 etc.)</div>
-            {/* Image of the chosen profile system above Option 1 */}
-            <div className="h-24 md:h-32 flex-none md:flex-1 flex justify-center md:justify-end mt-4 md:mt-6 w-full md:w-auto">
-              <img 
-                src={`/assets/profiles/${PROFILE_IMAGE_MAP[profilsatz] || profilsatz}.png`} 
-                alt={profilsatz} 
-                className="max-h-24 md:max-h-32 object-contain"
-                onError={(e) => { 
-                  e.currentTarget.style.display = 'none'; 
-                  if (!e.currentTarget.parentElement?.querySelector('.fallback')) {
-                    e.currentTarget.parentElement!.innerHTML += `<div class="fallback h-32 w-48 flex items-center justify-center border border-gray-800 rounded bg-mammut-black text-gray-500 font-bold">${profilsatz}</div>`;
-                  }
-                }}
-              />
-            </div>
-            
-            <div className="text-gray-600 font-bold text-2xl hidden md:block">+</div>
+  const getGlazingSummary = () => {
+    return infills.map((inf, idx) => {
+      const spacerName = FRAME_STYLES.find(fs => fs.code === inf.frameStyle)?.name || 'Default';
+      return `Pane ${idx + 1}: ${inf.code} (${spacerName})`;
+    }).join(' | ');
+  };
 
-            {/* Image of the window opening/type */}
-            <div className="w-full md:flex-[2] flex flex-col justify-center items-center max-w-sm relative mt-4 md:mt-0">
-              
-              <div className="w-full mt-4 md:mt-8">
-                {(typology === 'F104' || typology === 'F100') ? (
-                  <div className="w-full aspect-square border border-gray-800 rounded-lg bg-gray-900 flex items-center justify-center p-2 md:p-12 overflow-hidden shadow-inner relative group">
-                     {/* 3D Toggle */}
-                     <div className="absolute top-2 left-2 z-30 bg-black/50 p-1 rounded flex items-center gap-2">
-                        <button onClick={() => setIs3dMode(false)} className={`px-2 py-1 text-xs font-bold rounded ${!is3dMode ? 'bg-mammut-gold text-black' : 'text-gray-400'}`}>2D</button>
-                        <button onClick={() => setIs3dMode(true)} className={`px-2 py-1 text-xs font-bold rounded ${is3dMode ? 'bg-mammut-gold text-black' : 'text-gray-400'}`}>3D</button>
-                     </div>
+  const getHardwareSummary = () => {
+    const handleName = HANDLE_OPTIONS.find(h => h.code === handleType)?.name || handleType;
+    const modelName = WINDOW_MODELS.flatMap(m => m.options).find(o => o.code === model)?.name || 'Standard';
+    return `Safety: ${safetyClass || 'Standard'}, Model: ${modelName}, Handle: ${handleName}`;
+  };
 
-                     {/* Inside/Outside View Side Toggle (Move inside visualizer frame & hide in 3D Mode) */}
-                     {!is3dMode && (
-                       <div className="absolute top-2 right-2 z-30 flex bg-black/50 rounded p-1 border border-gray-800 shadow-xl gap-1">
-                         <button 
-                           onClick={() => setViewSide('interior')}
-                           className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded transition-colors ${viewSide === 'interior' ? 'bg-mammut-gold text-black' : 'text-gray-400 hover:text-white'}`}
-                         >
-                           Inside
-                         </button>
-                         <button 
-                           onClick={() => setViewSide('exterior')}
-                           className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded transition-colors ${viewSide === 'exterior' ? 'bg-mammut-gold text-black' : 'text-gray-400 hover:text-white'}`}
-                         >
-                           Outside
-                         </button>
-                       </div>
-                     )}
+  const getShuttersSummary = () => {
+    if (!includeShutter) return 'No Shutter';
+    const typeLabel = shutterLookups.rollerBlindTypes.find(o => o.value === rollerBlindType)?.label || 'Standard';
+    return `${typeLabel} Shutter`;
+  };
 
-                     {/* Vertical Scroll Wheel (Height) overlay on the left */}
-                     <div className="absolute left-3 top-10 bottom-10 w-8 z-30 flex items-center justify-center">
-                        <ScrollWheel
-                          value={height}
-                          onChange={setHeight}
-                          min={500}
-                          max={3000}
-                          orientation="vertical"
-                          className="h-full"
-                        />
-                     </div>
+  const getInstallationSummary = () => {
+    const dowels = dowelHoles ? `Dowels: ${dowelHoles}` : 'No Dowels';
+    const grilles = grilleType ? `Grilles: ${grilleType}` : 'No Grilles';
+    const gasket = sealColor ? `Seal: ${sealColor}` : 'Default Seal';
+    return `${dowels}, ${grilles}, ${gasket}`;
+  };
 
-                     {/* Horizontal Scroll Wheel (Width) overlay at the bottom */}
-                     <div className="absolute bottom-3 left-12 right-12 h-8 z-30 flex items-center justify-center">
-                        <ScrollWheel
-                          value={width}
-                          onChange={setWidth}
-                          min={500}
-                          max={3000}
-                          orientation="horizontal"
-                          className="w-full"
-                        />
-                     </div>
-
-                     {/* AR Buttons - always visible in 3D mode */}
-                     {is3dMode && (
-                       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 bg-black/80 p-2 rounded-full flex items-center gap-2 shadow-xl">
-                          <button onClick={() => setArPlacement('wall')} className="bg-mammut-gold text-black px-4 py-1 rounded-full text-xs font-black uppercase whitespace-nowrap">AR Wall</button>
-                          <button onClick={() => setArPlacement('floor')} className="bg-white text-black px-4 py-1 rounded-full text-xs font-black uppercase whitespace-nowrap">AR Floor</button>
-                       </div>
-                     )}
-
-                     {is3dMode ? (
-                        <ThreejsWindowEngine 
-                          width={width} 
-                          height={height} 
-                          colorExt={extDetails.hex}
-                          colorInt={intDetails.hex}
-                          colorExtTexture={extDetails.textureUrl}
-                          colorIntTexture={intDetails.textureUrl}
-                          spacerColor={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
-                          onSceneReady={setSceneGroup}
-                          typology={typology}
-                          sealColor={sealColor}
-                        />
-                     ) : (
-                        <SvgWindowEngine 
-                          width={width} 
-                          height={height} 
-                          colorExt={extDetails.hex}
-                          colorExtTexture={extDetails.textureUrl}
-                          colorInt={intDetails.hex}
-                          colorIntTexture={intDetails.textureUrl}
-                          viewSide={viewSide}
-                          weldType={weld as any}
-                          typology={typology}
-                          sealColor={sealColor}
-                        />
-                     )}
-                  </div>
-                ) : (
-                  <WindowVisualizer width={width} height={height} typology={typology} infills={infills} />
-                )}
-              </div>
-            </div>
+  const renderVisualizer = (isDrawer: boolean) => {
+    // WebGL context collision prevention:
+    // If it's a mobile viewport and we are rendering for the drawer but the drawer is closed, return null.
+    // If it's a mobile viewport and we are rendering for the main page options but the drawer is open, return a placeholder.
+    if (isMobile) {
+      if (isDrawer && !isPreviewDrawerOpen) return null;
+      if (!isDrawer && isPreviewDrawerOpen) {
+        return (
+          <div className="w-full aspect-square border border-gray-800 rounded-lg bg-gray-900 flex items-center justify-center p-4 text-gray-500 font-bold text-xs">
+            {t('configurator.visualizer.renderingInDrawer', 'Rendering in Preview Drawer...')}
           </div>
+        );
+      }
+    } else {
+      if (isDrawer) return null;
+    }
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-end">
-            {/* 1) Product Number (Window opening/type) */}
-            <div className="relative">
-              <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">1) Product Number (Window opening/type)</label>
-              <div 
-                onClick={() => setIsTypologyOpen(!isTypologyOpen)}
-                className="w-full bg-mammut-black border border-gray-700 rounded-lg p-3 text-mammut-white cursor-pointer flex items-center justify-between hover:border-mammut-gold transition-colors h-[76px]"
-              >
-                <div className="flex items-center gap-3 group">
-                   <TypologyThumbnail 
-                     id={typology}
-                     className="w-14 h-14 object-contain rounded bg-white border border-gray-700 shrink-0 p-1 transition-transform duration-300 ease-in-out group-hover:scale-[2.5] group-hover:z-50 origin-left relative"
-                   />
-                   <div className="w-10 h-10 rounded border border-gray-600 shadow-inner shrink-0 hidden items-center justify-center bg-gray-800 text-[10px]">{typology}</div>
-                   <div className="flex flex-col">
-                     <span className="font-bold text-sm leading-tight">{typology}</span>
-                   </div>
-                </div>
-                <span className="text-gray-500 text-xs">▼</span>
-              </div>
-              
-              {isTypologyOpen && (
-                <>
-                  <div className="fixed inset-0 z-40 bg-black/60 md:bg-transparent" onClick={() => setIsTypologyOpen(false)}></div>
-                  <div className="fixed md:absolute top-1/2 md:top-full left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 w-[92vw] md:w-[450px] mt-1 bg-mammut-dark border border-gray-700 rounded-lg shadow-2xl z-50 pb-1 max-h-[75vh] md:max-h-[500px] overflow-y-auto">
-                    {TYPOLOGY_GROUPS.map((group, gIdx) => (
-                      <div key={gIdx}>
-                        <div className="p-2 border-b border-gray-800 bg-mammut-black sticky top-0 z-10 text-xs text-mammut-gold font-bold uppercase tracking-widest shadow-sm">
-                          {group.category}
-                        </div>
-                        {group.subgroups.map((subg, sIdx) => (
-                          <div key={sIdx}>
-                            <div className="p-1 px-3 bg-mammut-darker text-[10px] text-gray-500 font-bold uppercase tracking-wide border-b border-gray-800">
-                              {subg.name}
-                            </div>
-                            {subg.ids.map(id => {
-                                const wt = WINDOW_TYPES.find(w => w.id === id) || { id, sashes: 1, name: 'Frame' };
-                                return (
-                                  <div 
-                                    key={id} 
-                                    onClick={() => { setTypology(id); setIsTypologyOpen(false); }} 
-                                    className="p-3 hover:bg-mammut-gold/20 cursor-pointer flex items-center gap-4 border-b border-gray-800 transition-colors group"
-                                  >
-                                     <TypologyThumbnail 
-                                       id={id}
-                                       className="w-16 h-16 object-contain rounded bg-mammut-black border border-gray-700 p-1 shrink-0 transition-transform duration-300 ease-in-out group-hover:scale-[2.5] group-hover:z-50 origin-left relative"
-                                     />
-                                     <div className="flex flex-col">
-                                       <span className="font-bold text-mammut-white mb-1">{id}</span>
-                                       <span className="text-xs text-gray-400 leading-tight">{wt.name || 'Window'}</span>
-                                       <span className="text-[10px] text-gray-500 uppercase mt-1">{wt.sashes} sash{wt.sashes !== 1 ? 'es' : ''}</span>
-                                     </div>
-                                  </div>
-                                );
-                            })}
-                          </div>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
+    return (
+      <div className="w-full mt-2">
+        {(typology === 'F104' || typology === 'F100') ? (
+          <div className="w-full aspect-square border border-gray-800 rounded-lg bg-gray-900 flex items-center justify-center p-2 md:p-12 overflow-hidden shadow-inner relative group">
+             {/* 3D Toggle */}
+             <div className="absolute top-2 left-2 z-30 bg-black/50 p-1 rounded flex items-center gap-2">
+                <button onClick={() => setIs3dMode(false)} className={`px-2 py-1 text-xs font-bold rounded ${!is3dMode ? 'bg-mammut-gold text-black' : 'text-gray-400'}`}>2D</button>
+                <button onClick={() => setIs3dMode(true)} className={`px-2 py-1 text-xs font-bold rounded ${is3dMode ? 'bg-mammut-gold text-black' : 'text-gray-400'}`}>3D</button>
+             </div>
 
-            {/* 2) Profile System */}
-            <div>
-              <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">2) {t('configurator.steps.system', 'Profile System')} / {t('home.categories.title', 'Category')}</label>
-              <select className="w-full bg-mammut-black border border-gray-700 rounded-lg p-3 text-mammut-white focus:border-mammut-gold focus:outline-none h-[68px]"
-                value={profilsatz} onChange={e => setProfilsatz(e.target.value)}>
-                {PRODUCT_CATEGORIES.filter(c => c.group === activeCategory).map((category) => (
-                  category.subgroups.map((subgroup, subIdx) => (
-                    <optgroup key={`${category.group}-${subIdx}`} label={`${t('header.megaMenu.cats.' + category.group.toLowerCase().split(' ')[0], category.group)} — ${subgroup.name}`}>
-                      {subgroup.options.map(opt => (
-                        <option key={opt.val} value={opt.val}>{opt.val} — {opt.label}</option>
-                      ))}
-                    </optgroup>
-                  ))
-                ))}
-                {PRODUCT_CATEGORIES.filter(c => c.group === activeCategory).length === 0 && (
-                  <option value="">No products available yet</option>
-                )}
-              </select>
-            </div>
-          </div>
+             {/* Inside/Outside View Side Toggle (Move inside visualizer frame & hide in 3D Mode) */}
+             {!is3dMode && (
+               <div className="absolute top-2 right-2 z-30 flex bg-black/50 rounded p-1 border border-gray-800 shadow-xl gap-1">
+                  <button 
+                    onClick={() => setViewSide('interior')}
+                    className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded transition-colors ${viewSide === 'interior' ? 'bg-mammut-gold text-black' : 'text-gray-400 hover:text-white'}`}
+                  >
+                    {t('configurator.viewSide.inside', 'Inside')}
+                  </button>
+                  <button 
+                    onClick={() => setViewSide('exterior')}
+                    className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded transition-colors ${viewSide === 'exterior' ? 'bg-mammut-gold text-black' : 'text-gray-400 hover:text-white'}`}
+                  >
+                    {t('configurator.viewSide.outside', 'Outside')}
+                  </button>
+               </div>
+             )}
 
-          {/* 3) Dimensions */}
-          <div className="grid grid-cols-2 gap-6">
-            <div>
-              <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">3) Width (mm)</label>
-              <div className="flex items-center gap-3 bg-mammut-black border border-gray-700 rounded-lg p-2 h-[68px]">
-                <input type="number" className="w-16 bg-transparent text-mammut-white focus:outline-none text-lg font-black text-center"
-                  value={width} onChange={e => setWidth(Number(e.target.value))} />
+             {/* Vertical Scroll Wheel (Height) overlay on the left */}
+             <div className="absolute left-3 top-10 bottom-10 w-8 z-30 flex items-center justify-center font-mono">
+                <ScrollWheel
+                  value={height}
+                  onChange={setHeight}
+                  min={500}
+                  max={3000}
+                  orientation="vertical"
+                  className="h-full"
+                />
+             </div>
+
+             {/* Horizontal Scroll Wheel (Width) overlay at the bottom */}
+             <div className="absolute bottom-3 left-12 right-12 h-8 z-30 flex items-center justify-center font-mono">
                 <ScrollWheel
                   value={width}
                   onChange={setWidth}
                   min={500}
                   max={3000}
                   orientation="horizontal"
-                  className="flex-grow h-10"
+                  className="w-full"
                 />
-              </div>
-            </div>
-            <div>
-              <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">Height (mm)</label>
-              <div className="flex items-center gap-3 bg-mammut-black border border-gray-700 rounded-lg p-2 h-[68px]">
-                <input type="number" className="w-16 bg-transparent text-mammut-white focus:outline-none text-lg font-black text-center"
-                  value={height} onChange={e => setHeight(Number(e.target.value))} />
-                <ScrollWheel
-                  value={height}
-                  onChange={setHeight}
-                  min={500}
-                  max={3000}
-                  orientation="horizontal"
-                  className="flex-grow h-10"
+             </div>
+
+             {/* AR Buttons - always visible in 3D mode */}
+             {is3dMode && (
+               <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 bg-black/80 p-2 rounded-full flex items-center gap-2 shadow-xl">
+                  <button onClick={() => setArPlacement('wall')} className="bg-mammut-gold text-black px-4 py-1 rounded-full text-xs font-black uppercase whitespace-nowrap">AR Wall</button>
+                  <button onClick={() => setArPlacement('floor')} className="bg-white text-black px-4 py-1 rounded-full text-xs font-black uppercase whitespace-nowrap">AR Floor</button>
+               </div>
+             )}
+
+             {is3dMode ? (
+                <ThreejsWindowEngine 
+                  width={width} 
+                  height={height} 
+                  colorExt={extDetails.hex}
+                  colorInt={intDetails.hex}
+                  colorExtTexture={extDetails.textureUrl}
+                  colorIntTexture={intDetails.textureUrl}
+                  spacerColor={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
+                  onSceneReady={setSceneGroup}
+                  typology={typology}
+                  sealColor={sealColor}
                 />
-              </div>
-            </div>
+             ) : (
+                <SvgWindowEngine 
+                  width={width} 
+                  height={height} 
+                  colorExt={extDetails.hex}
+                  colorExtTexture={extDetails.textureUrl}
+                  colorInt={intDetails.hex}
+                  colorIntTexture={intDetails.textureUrl}
+                  viewSide={viewSide}
+                  weldType={weld as any}
+                  typology={typology}
+                  sealColor={sealColor}
+                />
+             )}
+          </div>
+        ) : (
+          <WindowVisualizer width={width} height={height} typology={typology} infills={infills} />
+        )}
+      </div>
+    );
+  };
+
+  const renderLeftColumn = () => {
+    return (
+      <div className="bg-mammut-darker p-4 rounded-xl border border-gray-800 shadow-2xl flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-y-auto max-h-[85vh] md:max-h-[85vh] shrink-0 scrollbar-none snap-x snap-mandatory">
+        {DRUTEX_CATEGORIES.map(cat => {
+          const Icon = cat.icon;
+          const isActive = activeCategory === cat.id;
+          return (
+            <button
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id)}
+              className={`flex items-center gap-4 px-4 py-3 rounded text-sm font-bold uppercase transition-colors shrink-0 snap-start whitespace-nowrap md:whitespace-normal ${
+                isActive 
+                  ? 'bg-mammut-black border border-mammut-gold text-mammut-white shadow-inner' 
+                  : 'bg-transparent text-gray-500 hover:text-mammut-white hover:bg-mammut-black'
+              }`}
+            >
+              <Icon size={20} className={isActive ? 'text-mammut-gold' : 'text-gray-500'} />
+              <span className="text-left text-[11px] tracking-wide leading-tight">{cat.label}</span>
+            </button>
+          );
+        })}
+      </div>
+    );
+  };
+
+  const renderRightColumn = () => {
+    return (
+      <div className="flex flex-col gap-6 max-h-[85vh]">
+        {/* Pricing Summary Card */}
+        <div className="bg-gradient-to-br from-gray-900 to-black rounded-xl border border-mammut-gold/30 shadow-lg p-6 font-mono shrink-0">
+          <div className="border-b border-gray-800 pb-3 mb-3">
+            <h1 className="text-xl font-bold text-mammut-gold uppercase tracking-tighter">Cantor Pricing Engine</h1>
+            <p className="text-[10px] text-gray-500 mt-1">Live calculation via SCHEMA 41 PREISE rules</p>
           </div>
 
-          <hr className="border-gray-800 my-4" />
+          {loading && <div className="text-gray-500 text-sm py-4">Evaluating formulas...</div>}
+          {error && <div className="text-red-400 text-sm py-4">Error: {error}</div>}
+          {result && !error && (
+            <>
+              <div className="flex justify-between items-baseline pb-2">
+                <span className="text-xs text-gray-500 uppercase tracking-widest">SCHEMA 41 base (EK)</span>
+                <span className="text-lg text-gray-300">{result.ek_pln.toFixed(2)} PLN</span>
+              </div>
+              <div className="flex justify-between items-baseline pb-3 border-b border-gray-800">
+                <span className="text-xs text-gray-500 uppercase tracking-widest">PREISZYK × FAKTOR {result.faktor}</span>
+                <span className="text-lg text-gray-300">{result.vk_pln.toFixed(2)} PLN</span>
+              </div>
+              <div className="flex justify-between items-center pt-3">
+                <span className="text-mammut-white font-bold tracking-widest uppercase">Dealer price ({result.currency}):</span>
+                <span className="text-3xl text-emerald-400 font-black">{result.vk_local.toFixed(2)}</span>
+              </div>
+            </>
+          )}
+        </div>
 
-          {/* 3.5) Joinery Colors */}
-          <div>
-            <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">
-              3.5) Joinery Colors
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-              <ColorSelect 
-                label="Exterior Color" 
-                value={colorCode} 
-                onChange={setColorCode} 
-                groupedOptions={groupedColors} 
-              />
-              <ColorSelect 
-                label="Interior Color" 
-                value={interiorColorCode || colorCode} 
-                onChange={setInteriorColorCode} 
-                groupedOptions={groupedColors} 
-              />
-            </div>
+        {/* Pricing Ledger Card */}
+        <div className="bg-white text-black p-6 rounded-xl shadow-2xl font-mono text-xs overflow-y-auto flex-1">
+          <div className="border-b-2 border-black pb-2 mb-4 sticky top-0 bg-white z-10">
+            <h2 className="text-lg font-bold uppercase tracking-tighter">SCHEMA 41 ledger</h2>
+            <div className="text-gray-500 mt-1 text-[10px]">One row per PREISE formula. GRPRS accumulates.</div>
           </div>
 
-          <hr className="border-gray-800 my-4" />
+          {result && !error && (
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b-2 border-black">
+                  <th className="py-1 pr-2">#</th>
+                  <th className="py-1 pr-2">Description</th>
+                  <th className="py-1 pr-2">Gruppe</th>
+                  <th className="py-1 text-right">Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                {result.lines.map((l, i) => (
+                  <tr key={i} className={`border-b border-gray-200 ${l.value !== 0 ? 'font-bold' : 'text-gray-400'}`}>
+                    <td className="py-1 pr-2">{i + 1}</td>
+                    <td className="py-1 pr-2">{l.formelText ?? '(no label)'}</td>
+                    <td className="py-1 pr-2">{l.preisgruppe ?? '—'}</td>
+                    <td className="py-1 text-right">{l.value.toFixed(2)}</td>
+                  </tr>
+                ))}
+                <tr className="border-t-2 border-black font-black">
+                  <td colSpan={3} className="py-2">GRPRS total (EK PLN)</td>
+                  <td className="py-2 text-right">{result.ek_pln.toFixed(2)}</td>
+                </tr>
+              </tbody>
+            </table>
+          )}
+          {!result && !error && !loading && <div className="text-gray-500">Waiting for first response...</div>}
+        </div>
+      </div>
+    );
+  };
 
-          {/* 4) Glazing Options / Infills */}
-          {(typology.match(/^F2[0-5][0-9]$/) ? [0, 1] : [0]).map((infillIdx) => {
-            const inf = infills[infillIdx];
-            const updateInf = (field: string, val: string | number) => {
-              const newInf = [...infills];
-              newInf[infillIdx] = { ...newInf[infillIdx], [field]: val };
-              setInfills(newInf);
-            };
-            
-            const schemaPkg = CONFIG_SCHEMA.glazing.find(g => g.id === inf.code);
-            const isFixed = !!schemaPkg?.fixedPanes;
-            return (
-              <div key={infillIdx}>
-                <h3 className="text-mammut-gold font-bold mt-6 mb-4 uppercase tracking-wider text-sm">
-                  4) Glazing Options / Infill {typology.match(/^F2[0-5][0-9]$/) ? infillIdx + 1 : ''}
-                </h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Package Code</label>
-                    <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
-                      value={inf.code} onChange={e => {
-                        const newCode = e.target.value;
-                        const newInf = [...infills];
-                        const updatedInf = { ...newInf[infillIdx], code: newCode };
-                        
-                        // Apply Cantor standard presets based on package type
-                        const selectedSchema = CONFIG_SCHEMA.glazing.find(g => g.id === newCode);
-                        if (selectedSchema?.fixedPanes) {
-                          updatedInf.pane1 = selectedSchema.fixedPanes[0] || '';
-                          updatedInf.pane2 = selectedSchema.fixedPanes[1] || '';
-                          updatedInf.pane3 = selectedSchema.fixedPanes[2] || '';
-                        } else if (newCode.startsWith('2-')) {
-                          updatedInf.pane1 = 'T4';
-                          updatedInf.pane3 = 'FL4';
-                          updatedInf.pane2 = '';
-                        } else if (newCode.startsWith('3-')) {
-                          updatedInf.pane1 = 'T4';
-                          updatedInf.pane2 = 'FL4';
-                          updatedInf.pane3 = 'T4';
-                        } else {
-                          // Non-glazing
-                          updatedInf.pane1 = '';
-                          updatedInf.pane2 = '';
-                          updatedInf.pane3 = '';
-                        }
-                        
-                        newInf[infillIdx] = updatedInf;
-                        setInfills(newInf);
-                      }}>
-                      <optgroup label="Standard Glazing">
-                        {CONFIG_SCHEMA.glazing
-                          .filter(g => g.group !== 'Non Glazing' && g.group !== 'Fixed Pane Packages')
-                          .filter(g => {
-                            const limits = PROFILE_GLAZING_LIMITS[profilsatz] || PROFILE_GLAZING_LIMITS['DEFAULT'];
-                            return limits.packages.includes(g.id);
-                          })
-                          .map(g => (
-                            <option key={g.id} value={g.id}>{g.id} ({g.name})</option>
-                        ))}
-                      </optgroup>
-                      <optgroup label="Fixed Pane Packages">
-                        {CONFIG_SCHEMA.glazing
-                          .filter(g => g.group === 'Fixed Pane Packages')
-                          .filter(g => {
-                            const limits = PROFILE_GLAZING_LIMITS[profilsatz] || PROFILE_GLAZING_LIMITS['DEFAULT'];
-                            return limits.packages.includes(g.id);
-                          })
-                          .map(g => (
-                            <option key={g.id} value={g.id}>{g.id} ({g.name})</option>
-                        ))}
-                      </optgroup>
-                      <optgroup label="Non Glazing / Blinds">
-                        {CONFIG_SCHEMA.glazing.filter(g => g.group === 'Non Glazing').map(g => (
-                            <option key={g.id} value={g.id}>{g.id} ({g.name})</option>
-                        ))}
-                      </optgroup>
-                    </select>
-                  </div>
-                  
-                  {typology.match(/^F2[0-5][0-9]$/) && (
-                    <div className="flex gap-4">
-                      <div className="flex-1">
-                        <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">Width (mm)</label>
-                        <input type="number" className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
-                          value={inf.width} onChange={e => updateInf('width', e.target.value)} placeholder="Auto" />
-                      </div>
-                      <div className="flex-1">
-                        <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">Height (mm)</label>
-                        <input type="number" className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
-                          value={inf.height} onChange={e => updateInf('height', e.target.value)} placeholder="Auto" />
-                      </div>
-                    </div>
-                  )}
-                  
-                    <div className="flex flex-col sm:flex-row gap-4">
-                      <div className="flex-1">
-                        <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Glass Outside</label>
-                        <select disabled={isFixed} className={`w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm ${isFixed ? 'opacity-50 cursor-not-allowed' : ''}`}
-                          value={inf.pane1} onChange={e => updateInf('pane1', e.target.value)}>
-                          <option value="">-- None --</option>
-                          {glazingOptions.outside.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
-                        </select>
-                      </div>
-                      {inf.pane1 && (
-                      <div className="flex-none bg-white border border-gray-800 rounded overflow-hidden flex items-center justify-center min-w-[60px] max-w-[60px]">
-                        <img src={`/assets/glass/thumbs/${getPaneImage(inf.pane1)}`} alt={`Pane ${inf.pane1}`} className="max-h-16 w-full object-cover mix-blend-multiply" />
-                      </div>
-                    )}
-                  </div>
-                  
-                    {inf.code.startsWith('3-') && (
-                      <div className="flex flex-col sm:flex-row gap-4">
-                        <div className="flex-1">
-                          <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">c) Glass Middle</label>
-                          <select disabled={isFixed} className={`w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm ${isFixed ? 'opacity-50 cursor-not-allowed' : ''}`}
-                            value={inf.pane2} onChange={e => updateInf('pane2', e.target.value)}>
-                            <option value="">-- None --</option>
-                            {glazingOptions.middle.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
-                          </select>
-                        </div>
-                        {inf.pane2 && (
-                          <div className="flex-none bg-white border border-gray-800 rounded overflow-hidden flex items-center justify-center min-w-[60px] max-w-[60px]">
-                            <img src={`/assets/glass/thumbs/${getPaneImage(inf.pane2)}`} alt={`Pane ${inf.pane2}`} className="max-h-16 w-full object-cover mix-blend-multiply" />
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  
-                    <div className="flex flex-col sm:flex-row gap-4">
-                      <div className="flex-1">
-                        <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">d) Glass Inside</label>
-                        <select disabled={isFixed} className={`w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm ${isFixed ? 'opacity-50 cursor-not-allowed' : ''}`}
-                          value={inf.pane3} onChange={e => updateInf('pane3', e.target.value)}>
-                          <option value="">-- None --</option>
-                          {glazingOptions.inside.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
-                        </select>
-                      </div>
-                      {inf.pane3 && (
-                      <div className="flex-none bg-white border border-gray-800 rounded overflow-hidden flex items-center justify-center min-w-[60px] max-w-[60px]">
-                        <img src={`/assets/glass/thumbs/${getPaneImage(inf.pane3)}`} alt={`Pane ${inf.pane3}`} className="max-h-16 w-full object-cover mix-blend-multiply" />
-                      </div>
-                    )}
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-1 gap-4 mt-4">           
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <div className="flex-1">
-                      <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">e) Frame Style (Spacer / Frame Style)</label>
-                      <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
-                        value={inf.frameStyle} onChange={e => updateInf('frameStyle', e.target.value)}>
-                        <option value="">-- None --</option>
-                        {FRAME_STYLES.map(fs => <option key={fs.code} value={fs.code}>{fs.code} - {fs.name}</option>)}
-                      </select>
-                    </div>
-                    {inf.frameStyle && (
-                      <div className="flex-none bg-white border border-gray-800 rounded overflow-hidden flex items-center justify-center min-w-[120px] max-w-[120px]">
-                        <img 
-                          src={`/assets/spacers/${inf.frameStyle === 'U' ? 'U.webp' : inf.frameStyle + '.jpg'}`} 
-                          alt={`Spacer ${inf.frameStyle}`} 
-                          className="max-h-24 w-full object-contain mix-blend-multiply" 
-                          onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                        />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-
-          <hr className="border-gray-800 my-2" />
-
-          {/* 5) Joinery colors */}
-          <div>
-            <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">5) ---Joinery colors---</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Color (options W-W etc.)</label>
-                <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
-                  value={colorType} onChange={e => setColorType(e.target.value)}>
-                  <option value="W-W">W-W (White / White)</option>
-                  <option value="DEK-DEK">DEK-DEK (Decor / Decor)</option>
-                  <option value="W-DEK">W-DEK (White / Decor)</option>
-                  <option value="DEK-W">DEK-W (Decor / White)</option>
-                </select>
-              </div>
-              {colorType !== 'W-W' && (
-                <>
-                  <ColorSelect label="b) Exterior color code" value={colorCode} onChange={setColorCode} groupedOptions={groupedColors} />
-                  <ColorSelect label="c) Interior color code" value={interiorColorCode} onChange={setInteriorColorCode} groupedOptions={groupedColors} />
-                </>
-              )}
-              <div className="flex flex-col justify-end">
-                <label className="flex items-center gap-2 text-sm text-gray-300 pb-2">
-                  <input type="checkbox" checked={overwriteCoreColor} onChange={e => setOverwriteCoreColor(e.target.checked)} className="rounded border-gray-700 bg-mammut-black text-mammut-gold focus:ring-[#eab676]" />
-                  d) Overwrite the default core colour
-                </label>
-              </div>
-              <ColorSelect label="e) Core color" value={coreColor} onChange={setCoreColor} groupedOptions={groupedColors} />
-            </div>
+  const renderMobileDrawer = () => {
+    if (!isMobile) return null;
+    return (
+      <div 
+        className={`fixed inset-x-0 bottom-0 z-50 bg-mammut-darker/95 backdrop-blur-md border-t border-gray-800 rounded-t-3xl shadow-2xl transition-transform duration-300 transform flex flex-col ${
+          isPreviewDrawerOpen ? 'translate-y-0 h-[65vh]' : 'translate-y-full h-[0vh]'
+        }`}
+      >
+        {/* Drag/Close Handle */}
+        <div className="w-full py-3 flex flex-col items-center cursor-pointer border-b border-gray-850" onClick={() => setIsPreviewDrawerOpen(false)}>
+          <div className="w-12 h-1.5 bg-gray-700 rounded-full mb-1"></div>
+          <span className="text-[10px] text-gray-500 uppercase tracking-widest font-black">Close Preview</span>
+        </div>
+        
+        <div className="flex-1 overflow-y-auto p-4 flex flex-col items-center justify-between">
+          <div className="w-full flex-1 flex items-center justify-center min-h-[300px]">
+            {renderVisualizer(true)}
           </div>
+          
+          <div className="w-full bg-mammut-black/60 rounded-xl p-3 border border-gray-850 flex items-center justify-between mt-4">
+            <div className="flex flex-col">
+              <span className="text-[10px] text-mammut-gold font-bold uppercase tracking-wider">{typology}</span>
+              <span className="text-xs text-gray-400 mt-0.5">{width} × {height} mm</span>
+            </div>
+            <span className="text-lg font-black text-emerald-400 font-mono">
+              {result ? `${result.vk_local.toFixed(2)} ${result.currency}` : '---'}
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
-          <hr className="border-gray-800 my-2" />
+  const renderStickyBottomBar = () => {
+    if (!isMobile) return null;
+    return (
+      <div className="fixed bottom-0 inset-x-0 bg-mammut-black/95 backdrop-blur-md border-t border-gray-800 px-6 py-4 z-40 flex items-center justify-between shadow-2xl h-[76px]">
+        <div className="flex flex-col">
+          <span className="text-[9px] text-gray-500 uppercase tracking-widest leading-none font-bold">Total Dealer Price</span>
+          <span className="text-xl font-black text-emerald-450 font-mono mt-1 leading-none">
+            {loading ? '...' : result ? `${result.vk_local.toFixed(2)} ${result.currency}` : '---'}
+          </span>
+        </div>
+        <button 
+          onClick={() => setIsPreviewDrawerOpen(!isPreviewDrawerOpen)}
+          className="bg-mammut-gold hover:bg-mammut-gold/90 text-black font-black px-6 py-3 rounded-xl text-xs uppercase tracking-widest transition-all active:scale-95 shadow-lg border border-mammut-gold"
+        >
+          {isPreviewDrawerOpen ? 'Close Design' : 'View Design'}
+        </button>
+      </div>
+    );
+  };
 
-          {/* 6) Window options */}
-          <div>
-            <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">6) ---Window options---</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* a) Window options - unit (removed) */}
-              
-              <div>
-                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Fitting safety class (options)</label>
-                <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
-                  value={safetyClass} onChange={e => setSafetyClass(e.target.value)}>
-                   <option value="">STD (Standard)</option>
-                   <option value="RC1">RC1</option>
-                   <option value="RC2">RC2</option>
-                   <option value="RC2N">RC2N</option>
-                   <option value="4ZA">4ZA</option>
-                </select>
-              </div>
+  const renderMiddleColumn = () => {
+    const sysName = PRODUCT_CATEGORIES
+      .flatMap(c => c.subgroups.flatMap(sg => sg.options))
+      .find(o => o.val === profilsatz)?.label || profilsatz;
 
+    const flatModels = [
+      { code: '', name: 'Standard (Rectangle)' },
+      ...WINDOW_MODELS.flatMap(group => group.options)
+    ];
+
+    const sealOptions = [
+      { code: '', name: 'Default / Standard' },
+      { code: 'czarny', name: 'Black' },
+      { code: 'czarny/sz', name: 'Out Black / In Grey' },
+      { code: 'mix', name: 'Mix' },
+      { code: 'szary', name: 'Gray' },
+      { code: 'szary/czar', name: 'Out Grey / In Black' }
+    ];
+
+    return (
+      <div className="bg-mammut-darker p-4 sm:p-6 rounded-xl border border-gray-800 shadow-2xl flex flex-col gap-4 sm:gap-6 overflow-y-auto max-h-[85vh]">
+        <div className="border-b border-gray-800 pb-4">
+          <h2 className="text-mammut-gold font-bold text-xl uppercase">{t('configurator.options.title', 'Configurator Options')}</h2>
+          <p className="text-xs text-gray-500 mt-1">{sysName} — {typology}</p>
+        </div>
+
+        {/* Profile Image & Visualizer Row */}
+        <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8 mb-4 relative pt-2 md:pt-0">
+          {/* Profile cross-section image */}
+          <div className="h-24 md:h-32 flex-none md:flex-1 flex justify-center md:justify-end w-full md:w-auto">
+            <img 
+              src={`/assets/profiles/${PROFILE_IMAGE_MAP[profilsatz] || profilsatz}.png`} 
+              alt={profilsatz} 
+              className="max-h-24 md:max-h-32 object-contain"
+              onError={(e) => { 
+                e.currentTarget.style.display = 'none'; 
+                if (!e.currentTarget.parentElement?.querySelector('.fallback')) {
+                  e.currentTarget.parentElement!.innerHTML += `<div class="fallback h-24 md:h-32 w-48 flex items-center justify-center border border-gray-800 rounded bg-mammut-black text-gray-500 font-bold text-xs">${profilsatz}</div>`;
+                }
+              }}
+            />
+          </div>
+          
+          <div className="text-gray-650 font-bold text-2xl hidden md:block">+</div>
+
+          {/* Visualizer window rendering */}
+          <div className="w-full md:flex-[2] flex flex-col justify-center items-center max-w-lg md:max-w-sm relative">
+            {renderVisualizer(false)}
+          </div>
+        </div>
+
+        {/* The 6 Collapsible Accordions */}
+        <div className="space-y-2">
+          
+          {/* 1. Product & Dimensions */}
+          <AccordionSection
+            id="product"
+            title="1. Product & Dimensions"
+            summary={getProductSummary()}
+            isOpen={activeAccordion === 'product'}
+            onToggle={() => setActiveAccordion(activeAccordion === 'product' ? null : 'product')}
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {/* Product opening/type Selector */}
               <div className="relative">
-                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">c) Model (options)</label>
+                <label className="block text-xs font-bold mb-1.5 text-gray-400 uppercase tracking-wide">Product Number</label>
                 <div 
-                  onClick={() => setIsModelOpen(!isModelOpen)}
-                  className="w-full bg-mammut-black border border-gray-700 rounded-lg p-3 text-mammut-white cursor-pointer flex items-center justify-between hover:border-mammut-gold transition-colors h-[68px]"
+                  onClick={() => setIsTypologyOpen(!isTypologyOpen)}
+                  className="w-full bg-mammut-black border border-gray-800 rounded-xl p-3 text-mammut-white cursor-pointer flex items-center justify-between hover:border-mammut-gold transition-colors h-[54px]"
                 >
                   <div className="flex items-center gap-3">
-                     {model ? (
-                       <>
-                         <img 
-                           src={`/assets/models/${model}.png`} 
-                           className="w-10 h-10 object-contain rounded bg-white shrink-0 p-1"
-                           onError={(e) => { 
-                             const t = e.currentTarget;
-                             if (!t.dataset.retriedJpg) { t.dataset.retriedJpg = 'true'; t.src = `/assets/models/${model}.jpg`; }
-                             else { t.style.display = 'none'; t.parentElement!.children[1].classList.remove('hidden'); }
-                           }}
-                           alt={model} 
-                         />
-                         <div className="w-10 h-10 rounded border border-gray-600 shadow-inner shrink-0 hidden flex items-center justify-center bg-gray-800 text-[10px] font-bold">{model}</div>
-                         <div className="flex flex-col">
-                           <span className="font-bold text-sm leading-tight text-mammut-white">{model}</span>
-                           <span className="text-[10px] text-gray-400 truncate max-w-[120px]">
-                              {WINDOW_MODELS.flatMap(g => g.options).find(o => o.code === model)?.name || 'Custom Model'}
-                           </span>
-                         </div>
-                       </>
-                     ) : (
-                       <span className="text-gray-500 text-sm">-- Standard (Rectangle) --</span>
-                     )}
+                     <TypologyThumbnail 
+                       id={typology}
+                       className="w-8 h-8 object-contain rounded bg-white border border-gray-700 shrink-0 p-0.5"
+                     />
+                     <span className="font-bold text-sm">{typology}</span>
                   </div>
                   <span className="text-gray-500 text-xs">▼</span>
                 </div>
                 
-                {isModelOpen && (
+                {isTypologyOpen && (
                   <>
-                    <div className="fixed inset-0 z-40 bg-black/60 md:bg-transparent" onClick={() => setIsModelOpen(false)}></div>
-                    <div className="fixed md:absolute top-1/2 md:top-full left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 w-[92vw] md:w-[400px] mt-1 bg-mammut-dark border border-gray-700 rounded-lg shadow-2xl z-50 pb-1 max-h-[75vh] md:max-h-[400px] overflow-y-auto">
-                      <div 
-                        onClick={() => { setModel(''); setIsModelOpen(false); }} 
-                        className="p-3 hover:bg-mammut-gold/20 cursor-pointer border-b border-gray-800 transition-colors flex items-center gap-3"
-                      >
-                         <div className="w-12 h-12 rounded border border-gray-600 bg-gray-800 flex items-center justify-center text-xs font-bold shrink-0 text-gray-500">STD</div>
-                         <span className="font-bold text-sm text-gray-300">Standard (Rectangle)</span>
-                      </div>
-
-                      {WINDOW_MODELS.map((group, gIdx) => (
+                    <div className="fixed inset-0 z-40 bg-black/60 md:bg-transparent" onClick={() => setIsTypologyOpen(false)}></div>
+                    <div className="fixed md:absolute top-1/2 md:top-full left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 w-[92vw] md:w-[450px] mt-1 bg-mammut-dark border border-gray-700 rounded-lg shadow-2xl z-50 pb-1 max-h-[75vh] md:max-h-[500px] overflow-y-auto">
+                      {TYPOLOGY_GROUPS.map((group, gIdx) => (
                         <div key={gIdx}>
                           <div className="p-2 border-b border-gray-800 bg-mammut-black sticky top-0 z-10 text-xs text-mammut-gold font-bold uppercase tracking-widest shadow-sm">
-                            {group.group}
+                            {group.category}
                           </div>
-                          {group.options.map(opt => (
-                            <div 
-                              key={opt.code} 
-                              onClick={() => { setModel(opt.code); setIsModelOpen(false); }} 
-                              className="p-3 hover:bg-mammut-gold/20 cursor-pointer flex items-center gap-4 border-b border-gray-800 transition-colors"
-                            >
-                               <img 
-                                 src={`/assets/models/${opt.code}.png`} 
-                                 className="w-12 h-12 object-contain rounded bg-white p-1 shrink-0"
-                                 onError={(e) => { 
-                                   const t = e.currentTarget;
-                                   if (!t.dataset.retriedJpg) { t.dataset.retriedJpg = 'true'; t.src = `/assets/models/${opt.code}.jpg`; }
-                                   else { t.style.display = 'none'; t.parentElement!.children[1].classList.remove('hidden'); }
-                                 }}
-                                 alt={opt.code} 
-                               />
-                               <div className="w-12 h-12 rounded border border-gray-600 shadow-inner shrink-0 hidden items-center justify-center bg-gray-800 font-bold text-xs">{opt.code}</div>
-                               <div className="flex flex-col">
-                                 <span className="font-bold text-mammut-white mb-0.5 text-sm">{opt.code}</span>
-                                 <span className="text-[11px] text-gray-400 leading-tight">{opt.name}</span>
-                               </div>
+                          {group.subgroups.map((subg, sIdx) => (
+                            <div key={sIdx}>
+                              <div className="p-1 px-3 bg-mammut-darker text-[10px] text-gray-500 font-bold uppercase tracking-wide border-b border-gray-800">
+                                {subg.name}
+                              </div>
+                              {subg.ids.map(id => {
+                                  const wt = WINDOW_TYPES.find(w => w.id === id) || { id, sashes: 1, name: 'Frame' };
+                                  return (
+                                    <div 
+                                      key={id} 
+                                      onClick={() => { setTypology(id); setIsTypologyOpen(false); }} 
+                                      className="p-3 hover:bg-mammut-gold/20 cursor-pointer flex items-center gap-4 border-b border-gray-800 transition-colors group"
+                                    >
+                                       <TypologyThumbnail 
+                                         id={id}
+                                         className="w-10 h-10 object-contain rounded bg-mammut-black border border-gray-700 p-0.5 shrink-0"
+                                       />
+                                       <div className="flex flex-col">
+                                         <span className="font-bold text-mammut-white text-sm">{id}</span>
+                                         <span className="text-xs text-gray-400 leading-tight">{wt.name || 'Window'}</span>
+                                       </div>
+                                    </div>
+                                  );
+                              })}
                             </div>
                           ))}
                         </div>
@@ -1276,502 +1326,638 @@ export function DebugPricing() {
                   </>
                 )}
               </div>
-              <GenericSelect label="d) Hardware system (options)" value={hardwareSystem} onChange={setHardwareSystem} />
-              
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="flex-1">
-                  <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">e) Handle type (options)</label>
-                  <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
-                    value={handleType} onChange={e => setHandleType(e.target.value)}>
-                     {HANDLE_OPTIONS.map(h => <option key={h.code} value={h.code}>{h.code}, {h.name}</option>)}
-                  </select>
-                </div>
-                {handleType && handleType !== '-' && (
-                  <div className="flex-none bg-white border border-gray-800 rounded overflow-hidden flex items-center justify-center min-w-[80px] max-w-[80px] h-[80px]">
-                    <img 
-                      src={(() => {
-                        const getSrc = (c: string) => {
-                          const hoppeSeries = ['AtlantaK', 'AtlantaP', 'Toulon', 'ToulonSF', 'Hamburg', 'HamburgSF', 'Tokyo'];
-                          const aliasType = hoppeSeries.includes(handleType) ? 'Atlanta' : (handleType === 'ALU_B' ? 'ALU_A' : handleType);
 
-                          if (aliasType === 'Kwadrat') return `/assets/handles/kwadrat-${c}.png`;
-                          if (aliasType === 'Mistral') return `/assets/handles/mistral-${c}.png`;
-                          if (aliasType === 'MistralK') return `/assets/handles/mistral-${c}-key.png`;
-                          return `/assets/handles/${aliasType}_${c}.webp`;
-                        };
-                        return getSrc(handleColor ? (IMAGE_COLOR_MAP[handleColor] || handleColor) : 'white');
-                      })()} 
-                      alt={`Handle ${handleType}`} 
-                      className="max-h-full max-w-full object-contain mix-blend-multiply p-1" 
-                      onError={(e) => {
-                        const t = e.currentTarget;
-                        const getSrc = (c: string) => {
-                          const hoppeSeries = ['AtlantaK', 'AtlantaP', 'Toulon', 'ToulonSF', 'Hamburg', 'HamburgSF', 'Tokyo'];
-                          const aliasType = hoppeSeries.includes(handleType) ? 'Atlanta' : (handleType === 'ALU_B' ? 'ALU_A' : handleType);
-
-                          if (aliasType === 'Kwadrat') return `/assets/handles/kwadrat-${c}.png`;
-                          if (aliasType === 'Mistral') return `/assets/handles/mistral-${c}.png`;
-                          if (aliasType === 'MistralK') return `/assets/handles/mistral-${c}-key.png`;
-                          return `/assets/handles/${aliasType}_${c}.webp`;
-                        };
-                        
-                        const fallbacks = [
-                          getSrc('white'),
-                          getSrc('ral9016'),
-                          getSrc('ral9001'),
-                          getSrc('f1'),
-                          getSrc('silver'),
-                          getSrc('f4'),
-                          // Explicit Standard/White Fallbacks per Handle
-                          handleType === 'Kwadrat' ? '/assets/handles/kwadrat-ral9016.png' :
-                          handleType === 'KwadratK' ? '/assets/handles/KwadratK_ral9016.webp' :
-                          handleType === 'Mistral' ? '/assets/handles/mistral-ral9001.png' :
-                          handleType === 'MistralK' ? '/assets/handles/mistral-f9-key.png' :
-                          handleType === 'ALU_A' || handleType === 'ALU_B' ? '/assets/handles/ALU_A_ral9016.webp' :
-                          handleType === 'ALU_AK' || handleType === 'ALU_BK' ? `/assets/handles/${handleType}_white.webp` :
-                          handleType === 'ALU_AP' ? '/assets/handles/ALU_AP_white.webp' :
-                          handleType === 'MA_1010' ? '/assets/handles/MA_1010_default.webp' :
-                          `/assets/handles/${handleType}_white.webp` // Generic Hoppe/Dublin
-                        ];
-
-                        let currentIdx = parseInt(t.dataset.fallbackIdx || '-1');
-                        let nextIdx = currentIdx + 1;
-                        
-                        while (nextIdx < fallbacks.length) {
-                          const targetSrc = fallbacks[nextIdx];
-                          // If the current src already resolves to this fallback, skip it to prevent browser ignoring the assignment
-                          if (!t.src.endsWith(targetSrc)) {
-                            t.dataset.fallbackIdx = nextIdx.toString();
-                            t.src = targetSrc;
-                            return;
-                          }
-                          nextIdx++;
-                        }
-                        // If we exhaust all fallbacks, do nothing (broken image)
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
-              
+              {/* Profile System Dropdown */}
               <div>
-                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">f) Interior handle color (options)</label>
-                <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
-                  value={handleColor} onChange={e => setHandleColor(e.target.value)}>
-                   <option value="">-- Default --</option>
-                   {(HANDLE_COLOR_MAP[handleType] || []).map(c => <option key={c} value={c}>{HANDLE_COLOR_OPTIONS[c] || c}</option>)}
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">g) Fitting covers color (options)</label>
-                <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
-                  value={coverColor} onChange={e => setCoverColor(e.target.value)}>
-                   <option value="">-- Default --</option>
-                   {Object.entries(COVER_COLOR_OPTIONS).map(([code, name]) => <option key={code} value={code}>{name}</option>)}
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <hr className="border-gray-800 my-2" />
-
-          {/* 7) Profile options */}
-          <div>
-            <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">7) ---Profile options---</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Frame profile</label>
-                <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
-                  value={frameProfile} onChange={e => setFrameProfile(e.target.value)}>
-                   <option value="50001">50001 (Standard Frame)</option>
-                   <option value="50002">50002 (Renovation Frame)</option>
-                </select>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="flex-1">
-                  <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Weld type</label>
-                  <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
-                    value={weld} onChange={e => setWeld(e.target.value)}>
-                     <option value="standard">Standard Weld</option>
-                     <option value="v-perfect">V-Perfect (Invisible)</option>
-                  </select>
-                </div>
-                {weld && (
-                  <div className="flex-none bg-white border border-gray-800 rounded overflow-hidden flex items-center justify-center min-w-[120px] max-w-[120px]">
-                    <img 
-                      src={`/assets/welds/${weld}_weld.png`} 
-                      alt={`Weld ${weld}`} 
-                      className="max-h-24 w-full object-contain mix-blend-multiply" 
-                    />
-                  </div>
-                )}
-              </div>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="flex-1">
-                  <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">c) Glazing bead style</label>
-                  <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
-                    value={glazingBeadStyle} onChange={e => setGlazingBeadStyle(e.target.value)}>
-                     <option value="Z">Rounded (Z)</option>
-                     <option value="P">Rectangular (P)</option>
-                  </select>
-                </div>
-                {glazingBeadStyle && (
-                  <div className="flex-none bg-white border border-gray-800 rounded overflow-hidden flex items-center justify-center min-w-[120px] max-w-[120px]">
-                    <img 
-                      src={`/assets/beads/bead_${glazingBeadStyle}.png`} 
-                      alt={`Bead ${glazingBeadStyle}`} 
-                      className="max-h-24 w-full object-contain mix-blend-multiply" 
-                    />
-                  </div>
-                )}
-              </div>
-              <div>
-                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">d) Frame reinforcement</label>
-                <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
-                  value={frameReinforcement} onChange={e => setFrameReinforcement(e.target.value)}>
-                   <option value="standard">Standard / U-shape</option>
-                   <option value="full">Full Closed Steel</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <hr className="border-gray-800 my-2" />
-
-          {/* 8) Seals */}
-          <div>
-            <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">8) ---Seals---</h3>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="flex-1">
-                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Gaskets color</label>
-                <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
-                  value={sealColor} onChange={e => setSealColor(e.target.value)}>
-                   <option value="">Default / Standard</option>
-                   <option value="czarny">Black (czarny)</option>
-                   <option value="czarny/sz">out black / in grey (czarny/sz)</option>
-                   <option value="mix">Mix (mix)</option>
-                   <option value="szary">Gray (szary)</option>
-                   <option value="szary/czar">Out grey / in black (szary/czar)</option>
-                </select>
-              </div>
-              {sealColor && (
-                <div className="flex-none bg-white border border-gray-800 rounded overflow-hidden flex items-center justify-center min-w-[120px] max-w-[120px]">
-                  <img 
-                    src={`/assets/seals/${sealColor === 'czarny/sz' ? 'czarny_sz' : sealColor === 'szary/czar' ? 'szary_czar' : sealColor}.png`} 
-                    alt={sealColor} 
-                    className="max-h-24 w-full object-contain mix-blend-multiply" 
-                    onError={(e) => { 
-                      const t = e.currentTarget;
-                      const base = `/assets/seals/${sealColor === 'czarny/sz' ? 'czarny_sz' : sealColor === 'szary/czar' ? 'szary_czar' : sealColor}`;
-                      if (!t.dataset.retriedJpg) { t.dataset.retriedJpg = 'true'; t.src = `${base}.jpg`; }
-                      else { t.style.display = 'none'; t.parentElement!.classList.add('hidden'); }
-                    }}
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-
-          <hr className="border-gray-800 my-2" />
-
-          {/* 9) Shutter options */}
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <input type="checkbox" id="includeShutter" className="w-5 h-5 accent-[#eab676]" checked={includeShutter} onChange={e => setIncludeShutter(e.target.checked)} />
-              <label htmlFor="includeShutter" className="text-mammut-gold font-bold uppercase tracking-wider text-sm cursor-pointer select-none">9) ---Shutter options--- (Include Shutter)</label>
-            </div>
-            
-            {includeShutter && (
-              <div className="space-y-6 border-l-2 border-mammut-gold/30 pl-4 ml-2">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <GenericSelect label="a) Roller blind Type (options)" value={rollerBlindType} onChange={setRollerBlindType} options={shutterLookups.rollerBlindTypes} />
-              <GenericSelect label="b) Window screen (options)" value={windowScreen} onChange={setWindowScreen} options={shutterLookups.windowScreens} />
-              {windowScreen && (
-                <GenericSelect label="c) Window screen location" value={windowScreenLocation} onChange={setWindowScreenLocation} options={shutterLookups.windowScreenLocations} />
-              )}
-            </div>
-            {/* End of Section 9 Grid */}
-
-            <hr className="border-gray-800 my-2" />
-
-            {/* 10) Pancerz */}
-            <div>
-              <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">10) ---Pancerz---</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <GenericSelect label="a) Curtain type (options)" value={curtainType} onChange={setCurtainType} options={shutterLookups.curtainTypes} />
-                <GenericSelect label="b) Fins perforation (options)" value={finsPerforation} onChange={setFinsPerforation} options={shutterLookups.finsPerforations} />
-                <ColorSelect label="c) Curtain color (options)" value={curtainColor} onChange={setCurtainColor} groupedOptions={groupedColors} />
-                <ColorSelect label="d) Bottom slat colour (options)" value={bottomSlatColor} onChange={setBottomSlatColor} groupedOptions={groupedColors} />
-                <ColorSelect label="e) Window screen bottom slat colour" value={windowScreenBottomSlatColor} onChange={setWindowScreenBottomSlatColor} groupedOptions={groupedColors} />
-              </div>
-            </div>
-
-            <hr className="border-gray-800 my-2" />
-
-            {/* 11) Service - Field I */}
-            <div>
-              <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">11) ---Service - Field I---</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Drive Type (options)</label>
-                  <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm" value={driveType} onChange={e => setDriveType(e.target.value)}>
-                     {shutterLookups.driveTypes.map(o => (
-                       <option key={o.value} value={o.value}>{o.label}</option>
-                     ))}
-                  </select>
-                </div>
-                <GenericSelect label="b) Control side (options)" value={controlSide} onChange={setControlSide} options={shutterLookups.controlSides} />
-              </div>
-            </div>
-
-            <hr className="border-gray-800 my-2" />
-
-            {/* 12) Service */}
-            <div>
-              <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">12) ---Service---</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <GenericSelect label="a) Door checks Type I (options)" value={doorChecksTypeI} onChange={setDoorChecksTypeI} options={shutterLookups.doorChecks} />
-                <div>
-                  <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Impose 60mm arbour</label>
-                  <label className="flex items-center gap-2 text-mammut-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800">
-                    <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={imposeArbour} onChange={e => setImposeArbour(e.target.checked)} />
-                    Enable 60mm Arbour
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <hr className="border-gray-800 my-2" />
-
-            {/* 13) Box */}
-            <div>
-              <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">13) ---Box---</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <GenericSelect label="a) Box Type (options)" value={boxType} onChange={setBoxType} options={shutterLookups.boxTypes} />
-                <ColorSelect label="b) Outer box colour (options)" value={outerBoxColor} onChange={setOuterBoxColor} groupedOptions={groupedColors} />
-                <ColorSelect label="c) other box colour (options)" value={otherBoxColor} onChange={setOtherBoxColor} groupedOptions={groupedColors} />
-                <GenericSelect label="d) Plaster carrier (options)" value={plasterCarrier} onChange={setPlasterCarrier} options={shutterLookups.plasterCarriers} />
-                
-                <div>
-                  <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">e) Flush-mounted slat (in)</label>
-                  <label className="flex items-center gap-2 text-mammut-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800">
-                    <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={flushMountedSlatIn} onChange={e => setFlushMountedSlatIn(e.target.checked)} />
-                    Enable Flush-mounted Slat (In)
-                  </label>
-                </div>
-                
-                {flushMountedSlatIn && (
-                  <ColorSelect label="e.1) Flush-mounted slat colour (in)" value={flushMountedSlatColorIn} onChange={setFlushMountedSlatColorIn} groupedOptions={groupedColors} />
-                )}
-                
-                <div>
-                  <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">f) Flush-mounted slat (out)</label>
-                  <label className="flex items-center gap-2 text-mammut-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800">
-                    <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={flushMountedSlatOut} onChange={e => setFlushMountedSlatOut(e.target.checked)} />
-                    Enable Flush-mounted Slat (Out)
-                  </label>
-                </div>
-                
-                {flushMountedSlatOut && (
-                  <ColorSelect label="f.1) Flush-mounted slat colour (out)" value={flushMountedSlatColorOut} onChange={setFlushMountedSlatColorOut} groupedOptions={groupedColors} />
-                )}
-                
-                <GenericSelect label="g) Review (options)" value={review} onChange={setReview} options={shutterLookups.reviews} />
-                <ColorSelect label="h) Side cover cap colour" value={sideCoverCapColor} onChange={setSideCoverCapColor} groupedOptions={groupedColors} />
-              </div>
-            </div>
-
-            <hr className="border-gray-800 my-2" />
-
-            {/* 14) Guide rails */}
-            <div>
-              <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">14) ---Guide rails---</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <ColorSelect label="a) Guide rails colour (options)" value={guideRailsColor} onChange={setGuideRailsColor} groupedOptions={groupedColors} />
-                <GenericSelect label="b) Guide rails cutting (options)" value={guideRailsCutting} onChange={setGuideRailsCutting} options={shutterLookups.guideRailsCuttings} />
-                <GenericSelect label="c) Extreme left guide rail" value={extremeLeftGuideRail} onChange={setExtremeLeftGuideRail} options={[{value: 'STD', label: 'Standard'}]} />
-                <GenericSelect label="d) Extreme right guide rail" value={extremeRightGuideRail} onChange={setExtremeRightGuideRail} options={[{value: 'STD', label: 'Standard'}]} />
-                <div>
-                  <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">e) Guide rails Types</label>
-                  <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm" value={guideRailsTypes} onChange={e => setGuideRailsTypes(e.target.value)}>
-                     {shutterLookups.guideRailsTypes.map(o => (
-                       <option key={o.value} value={o.value}>{o.label}</option>
-                     ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <hr className="border-gray-800 my-2" />
-
-            {/* 15) Other */}
-            <div>
-              <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">15) ---Other---</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Guide rail gasketing</label>
-                  <label className="flex items-center gap-2 text-mammut-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800">
-                    <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={guideRailGasketing} onChange={e => setGuideRailGasketing(e.target.checked)} />
-                    Enable Guide Rail Gasketing
-                  </label>
-                </div>
-                <div>
-                  <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Soundproof mat + gasket</label>
-                  <label className="flex items-center gap-2 text-mammut-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800">
-                    <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={soundproofMat} onChange={e => setSoundproofMat(e.target.checked)} />
-                    Enable Soundproof Mat + Gasket
-                  </label>
-                </div>
-              </div>
-            </div>
-            
-              </div>
-            )}
-          </div>
-
-          <hr className="border-gray-800 my-2" />
-
-          {/* 16) Dowel holes */}
-          <div>
-            <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">16) ---Dowel holes---</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Dowel holes</label>
-                <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
-                  value={dowelHoles} onChange={e => setDowelHoles(e.target.value)}>
-                   <option value="">Lack (-)</option>
-                   <option value="O_06">6mm assembly holes (O_06)</option>
-                   <option value="O_10">10mm assembly holes (O_10)</option>
-                   <option value="ADJUFIX_M16">Assembly holes ADJUFIX 14mm/M16</option>
-                   <option value="ADJUFIX_18">Assembly holes ADJUFIX 14mm/18mm</option>
-                </select>
-              </div>
-            </div>
-            
-            {dowelHoles && dowelHoles !== '' && (
-              <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2">
-                <label className="flex items-center gap-2 text-mammut-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800 hover:border-gray-600 transition-colors">
-                  <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={dowelLeft} onChange={e => setDowelLeft(e.target.checked)} />
-                  Left
-                </label>
-                <label className="flex items-center gap-2 text-mammut-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800 hover:border-gray-600 transition-colors">
-                  <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={dowelRight} onChange={e => setDowelRight(e.target.checked)} />
-                  Right
-                </label>
-                <label className="flex items-center gap-2 text-mammut-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800 hover:border-gray-600 transition-colors">
-                  <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={dowelTop} onChange={e => setDowelTop(e.target.checked)} />
-                  Top
-                </label>
-                <label className="flex items-center gap-2 text-mammut-white text-sm bg-gray-900 p-2 rounded cursor-pointer border border-gray-800 hover:border-gray-600 transition-colors">
-                  <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={dowelBottom} onChange={e => setDowelBottom(e.target.checked)} />
-                  Bottom
-                </label>
-              </div>
-            )}
-          </div>
-
-          <hr className="border-gray-800 my-2" />
-
-          {/* 17) Grilles / Muntins */}
-          <div>
-            <h3 className="text-mammut-gold font-bold mb-4 uppercase tracking-wider text-sm">17) ---Grilles & Muntins---</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">a) Grille Type</label>
-                <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm"
-                  value={grilleType} onChange={e => setGrilleType(e.target.value)}>
-                   <option value="">None</option>
-                   <optgroup label="Internal Grilles (Międzyszybowe)">
-                     <option value="SPR08">SPR08 (8mm Internal)</option>
-                     <option value="SPR18">SPR18 (18mm Internal)</option>
-                     <option value="SPR26">SPR26 (26mm Internal)</option>
-                     <option value="SPR45">SPR45 (45mm Internal)</option>
-                   </optgroup>
-                   <optgroup label="Stick-on Grilles (Naklejane)">
-                     <option value="SPRN27">SPRN27 (27mm Stick-on)</option>
-                     <option value="SPRN45">SPRN45 (45mm Stick-on)</option>
-                   </optgroup>
-                </select>
-              </div>
-              <div>
-                <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">b) Number of Fields</label>
-                <input type="number" className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm disabled:opacity-50"
-                  value={grilleFields} onChange={e => setGrilleFields(Number(e.target.value))} disabled={!grilleType} min={1} max={30} />
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-
-        {/* RIGHT COLUMN: Current pricing information */}
-        <div className="flex flex-col gap-6 max-h-[85vh]">
-          {/* Pricing Summary Card */}
-          <div className="bg-gradient-to-br from-gray-900 to-black rounded-xl border border-mammut-gold/30 shadow-lg p-6 font-mono shrink-0">
-            <div className="border-b border-gray-800 pb-3 mb-3">
-              <h1 className="text-xl font-bold text-mammut-gold uppercase tracking-tighter">Cantor Pricing Engine</h1>
-              <p className="text-[10px] text-gray-500 mt-1">Live calculation via SCHEMA 41 PREISE rules</p>
-            </div>
-
-            {loading && <div className="text-gray-500 text-sm py-4">Evaluating formulas...</div>}
-            {error && <div className="text-red-400 text-sm py-4">Error: {error}</div>}
-            {result && !error && (
-              <>
-                <div className="flex justify-between items-baseline pb-2">
-                  <span className="text-xs text-gray-500 uppercase tracking-widest">SCHEMA 41 base (EK)</span>
-                  <span className="text-lg text-gray-300">{result.ek_pln.toFixed(2)} PLN</span>
-                </div>
-                <div className="flex justify-between items-baseline pb-3 border-b border-gray-800">
-                  <span className="text-xs text-gray-500 uppercase tracking-widest">PREISZYK × FAKTOR {result.faktor}</span>
-                  <span className="text-lg text-gray-300">{result.vk_pln.toFixed(2)} PLN</span>
-                </div>
-                <div className="flex justify-between items-center pt-3">
-                  <span className="text-mammut-white font-bold tracking-widest uppercase">Dealer price ({result.currency}):</span>
-                  <span className="text-3xl text-emerald-400 font-black">{result.vk_local.toFixed(2)}</span>
-                </div>
-              </>
-            )}
-          </div>
-
-          {/* Pricing Ledger Card */}
-          <div className="bg-white text-black p-6 rounded-xl shadow-2xl font-mono text-xs overflow-y-auto flex-1">
-            <div className="border-b-2 border-black pb-2 mb-4 sticky top-0 bg-white z-10">
-              <h2 className="text-lg font-bold uppercase tracking-tighter">SCHEMA 41 ledger</h2>
-              <div className="text-gray-500 mt-1 text-[10px]">One row per PREISE formula. GRPRS accumulates.</div>
-            </div>
-
-            {result && !error && (
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b-2 border-black">
-                    <th className="py-1 pr-2">#</th>
-                    <th className="py-1 pr-2">Description</th>
-                    <th className="py-1 pr-2">Gruppe</th>
-                    <th className="py-1 text-right">Value</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {result.lines.map((l, i) => (
-                    <tr key={i} className={`border-b border-gray-200 ${l.value !== 0 ? 'font-bold' : 'text-gray-400'}`}>
-                      <td className="py-1 pr-2">{i + 1}</td>
-                      <td className="py-1 pr-2">{l.formelText ?? '(no label)'}</td>
-                      <td className="py-1 pr-2">{l.preisgruppe ?? '—'}</td>
-                      <td className="py-1 text-right">{l.value.toFixed(2)}</td>
-                    </tr>
+                <label className="block text-xs font-bold mb-1.5 text-gray-400 uppercase tracking-wide">Profile System</label>
+                <select className="w-full bg-mammut-black border border-gray-800 rounded-xl p-3 text-mammut-white focus:border-mammut-gold focus:outline-none h-[54px] text-sm"
+                  value={profilsatz} onChange={e => setProfilsatz(e.target.value)}>
+                  {PRODUCT_CATEGORIES.filter(c => c.group === activeCategory).map((category) => (
+                    category.subgroups.map((subgroup, subgroupIndex) => (
+                      <optgroup key={`${category.group}-${subgroupIndex}`} label={`${t('header.megaMenu.cats.' + category.group.toLowerCase().split(' ')[0], category.group)} — ${subgroup.name}`}>
+                        {subgroup.options.map(opt => (
+                          <option key={opt.val} value={opt.val}>{opt.val} — {opt.label}</option>
+                        ))}
+                      </optgroup>
+                    ))
                   ))}
-                  <tr className="border-t-2 border-black font-black">
-                    <td colSpan={3} className="py-2">GRPRS total (EK PLN)</td>
-                    <td className="py-2 text-right">{result.ek_pln.toFixed(2)}</td>
-                  </tr>
-                </tbody>
-              </table>
-            )}
-            {!result && !error && !loading && <div className="text-gray-500">Waiting for first response...</div>}
-          </div>
-        </div>
+                </select>
+              </div>
 
+              {/* Touch Steppers for Width and Height */}
+              <div className="col-span-1 sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <TouchStepper label="Width (mm)" value={width} onChange={setWidth} min={500} max={3000} step={10} />
+                <TouchStepper label="Height (mm)" value={height} onChange={setHeight} min={500} max={3000} step={10} />
+              </div>
+            </div>
+          </AccordionSection>
+
+          {/* 2. Colors & Finishes */}
+          <AccordionSection
+            id="colors"
+            title="2. Colors & Finishes"
+            summary={getColorsSummary()}
+            isOpen={activeAccordion === 'colors'}
+            onToggle={() => setActiveAccordion(activeAccordion === 'colors' ? null : 'colors')}
+          >
+            <div className="space-y-4">
+              <SegmentedControl
+                label="Color Style"
+                value={colorType}
+                onChange={setColorType}
+                options={[
+                  { value: 'W-W', label: 'W-W (White / White)' },
+                  { value: 'DEK-DEK', label: 'DEK-DEK (Decor / Decor)' },
+                  { value: 'W-DEK', label: 'W-DEK (White / Decor)' },
+                  { value: 'DEK-W', label: 'DEK-W (Decor / White)' }
+                ]}
+                gridCols="grid-cols-2"
+              />
+
+              {colorType !== 'W-W' && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <ColorSelect label="Exterior Color" value={colorCode} onChange={setColorCode} groupedOptions={groupedColors} />
+                  <ColorSelect label="Interior Color" value={interiorColorCode} onChange={setInteriorColorCode} groupedOptions={groupedColors} />
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                <div className="flex items-center">
+                  <label className="flex items-center gap-3 text-sm text-gray-300 cursor-pointer select-none">
+                    <input type="checkbox" checked={overwriteCoreColor} onChange={e => setOverwriteCoreColor(e.target.checked)} className="rounded border-gray-700 bg-mammut-black text-mammut-gold focus:ring-[#eab676] w-4.5 h-4.5" />
+                    Overwrite core color
+                  </label>
+                </div>
+                {overwriteCoreColor && (
+                  <ColorSelect label="Core Color" value={coreColor} onChange={setCoreColor} groupedOptions={groupedColors} />
+                )}
+              </div>
+            </div>
+          </AccordionSection>
+
+          {/* 3. Glazing & Spacers */}
+          <AccordionSection
+            id="glazing"
+            title="3. Glazing & Spacers"
+            summary={getGlazingSummary()}
+            isOpen={activeAccordion === 'glazing'}
+            onToggle={() => setActiveAccordion(activeAccordion === 'glazing' ? null : 'glazing')}
+          >
+            {(typology.match(/^F2[0-5][0-9]$/) ? [0, 1] : [0]).map((infillIdx) => {
+              const inf = infills[infillIdx];
+              const updateInf = (field: string, val: string) => {
+                const newInf = [...infills];
+                newInf[infillIdx] = { ...newInf[infillIdx], [field]: val };
+                setInfills(newInf);
+              };
+              
+              const schemaPkg = CONFIG_SCHEMA.glazing.find(g => g.id === inf.code);
+              const isFixed = !!schemaPkg?.fixedPanes;
+              return (
+                <div key={infillIdx} className="border border-gray-800/80 rounded-xl p-4 bg-mammut-black/20 space-y-4">
+                  <div className="font-bold text-xs text-mammut-gold uppercase tracking-wider">
+                    Infill {typology.match(/^F2[0-5][0-9]$/) ? infillIdx + 1 : ''}
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold mb-1.5 text-gray-400 uppercase tracking-wide">Package Code</label>
+                      <select className="w-full bg-mammut-black border border-gray-800 rounded-xl p-3 text-mammut-white focus:border-mammut-gold focus:outline-none text-sm h-[50px]"
+                        value={inf.code} onChange={e => {
+                          const newCode = e.target.value;
+                          const newInf = [...infills];
+                          const updatedInf = { ...newInf[infillIdx], code: newCode };
+                          
+                          const selectedSchema = CONFIG_SCHEMA.glazing.find(g => g.id === newCode);
+                          if (selectedSchema?.fixedPanes) {
+                            updatedInf.pane1 = selectedSchema.fixedPanes[0] || '';
+                            updatedInf.pane2 = selectedSchema.fixedPanes[1] || '';
+                            updatedInf.pane3 = selectedSchema.fixedPanes[2] || '';
+                          } else if (newCode.startsWith('2-')) {
+                            updatedInf.pane1 = 'T4';
+                            updatedInf.pane3 = 'FL4';
+                            updatedInf.pane2 = '';
+                          } else if (newCode.startsWith('3-')) {
+                            updatedInf.pane1 = 'T4';
+                            updatedInf.pane2 = 'FL4';
+                            updatedInf.pane3 = 'T4';
+                          } else {
+                            updatedInf.pane1 = '';
+                            updatedInf.pane2 = '';
+                            updatedInf.pane3 = '';
+                          }
+                          
+                          newInf[infillIdx] = updatedInf;
+                          setInfills(newInf);
+                        }}>
+                        <optgroup label="Standard Glazing">
+                          {CONFIG_SCHEMA.glazing
+                            .filter(g => g.group !== 'Non Glazing' && g.group !== 'Fixed Pane Packages')
+                            .filter(g => {
+                              const limits = PROFILE_GLAZING_LIMITS[profilsatz] || PROFILE_GLAZING_LIMITS['DEFAULT'];
+                              return limits.packages.includes(g.id);
+                            })
+                            .map(g => (
+                              <option key={g.id} value={g.id}>{g.id} ({g.name})</option>
+                          ))}
+                        </optgroup>
+                        <optgroup label="Fixed Pane Packages">
+                          {CONFIG_SCHEMA.glazing
+                            .filter(g => g.group === 'Fixed Pane Packages')
+                            .filter(g => {
+                              const limits = PROFILE_GLAZING_LIMITS[profilsatz] || PROFILE_GLAZING_LIMITS['DEFAULT'];
+                              return limits.packages.includes(g.id);
+                            })
+                            .map(g => (
+                              <option key={g.id} value={g.id}>{g.id} ({g.name})</option>
+                          ))}
+                        </optgroup>
+                        <optgroup label="Non Glazing / Blinds">
+                          {CONFIG_SCHEMA.glazing.filter(g => g.group === 'Non Glazing').map(g => (
+                              <option key={g.id} value={g.id}>{g.id} ({g.name})</option>
+                          ))}
+                        </optgroup>
+                      </select>
+                    </div>
+
+                    {typology.match(/^F2[0-5][0-9]$/) && (
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-xs font-bold mb-1.5 text-gray-400 uppercase tracking-wide">Width (mm)</label>
+                          <input type="number" className="w-full bg-mammut-black border border-gray-800 rounded-xl p-3 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none h-[50px]"
+                            value={inf.width} onChange={e => updateInf('width', e.target.value)} placeholder="Auto" />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-bold mb-1.5 text-gray-400 uppercase tracking-wide">Height (mm)</label>
+                          <input type="number" className="w-full bg-mammut-black border border-gray-800 rounded-xl p-3 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none h-[50px]"
+                            value={inf.height} onChange={e => updateInf('height', e.target.value)} placeholder="Auto" />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    {/* Glass Outside */}
+                    <div className="flex flex-col gap-1.5">
+                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide">Glass Outside</label>
+                      <div className="flex gap-2">
+                        <select disabled={isFixed} className="flex-1 bg-mammut-black border border-gray-800 rounded-xl p-2.5 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none disabled:opacity-50 h-[46px]"
+                          value={inf.pane1} onChange={e => updateInf('pane1', e.target.value)}>
+                          <option value="">-- None --</option>
+                          {glazingOptions.outside.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
+                        </select>
+                        {inf.pane1 && (
+                          <div className="w-[46px] h-[46px] bg-white border border-gray-800 rounded-xl overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-inner">
+                            <img src={`/assets/glass/thumbs/${getPaneImage(inf.pane1)}`} alt={inf.pane1} className="max-h-full max-w-full object-cover mix-blend-multiply" />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Glass Middle */}
+                    {inf.code.startsWith('3-') && (
+                      <div className="flex flex-col gap-1.5">
+                        <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide">Glass Middle</label>
+                        <div className="flex gap-2">
+                          <select disabled={isFixed} className="flex-1 bg-mammut-black border border-gray-800 rounded-xl p-2.5 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none disabled:opacity-50 h-[46px]"
+                            value={inf.pane2} onChange={e => updateInf('pane2', e.target.value)}>
+                            <option value="">-- None --</option>
+                            {glazingOptions.middle.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
+                          </select>
+                          {inf.pane2 && (
+                            <div className="w-[46px] h-[46px] bg-white border border-gray-800 rounded-xl overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-inner">
+                              <img src={`/assets/glass/thumbs/${getPaneImage(inf.pane2)}`} alt={inf.pane2} className="max-h-full max-w-full object-cover mix-blend-multiply" />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Glass Inside */}
+                    <div className="flex flex-col gap-1.5">
+                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide">Glass Inside</label>
+                      <div className="flex gap-2">
+                        <select disabled={isFixed} className="flex-1 bg-mammut-black border border-gray-800 rounded-xl p-2.5 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none disabled:opacity-50 h-[46px]"
+                          value={inf.pane3} onChange={e => updateInf('pane3', e.target.value)}>
+                          <option value="">-- None --</option>
+                          {glazingOptions.inside.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
+                        </select>
+                        {inf.pane3 && (
+                          <div className="w-[46px] h-[46px] bg-white border border-gray-800 rounded-xl overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-inner">
+                            <img src={`/assets/glass/thumbs/${getPaneImage(inf.pane3)}`} alt={inf.pane3} className="max-h-full max-w-full object-cover mix-blend-multiply" />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Spacer / Frame Style Carousel Selector */}
+                  <div className="pt-2">
+                    <CarouselSelector
+                      label="Spacer Type"
+                      value={inf.frameStyle}
+                      onChange={val => updateInf('frameStyle', val)}
+                      options={FRAME_STYLES}
+                      getImagePath={opt => `${import.meta.env.BASE_URL}assets/spacers/${opt.code}.${(opt as any).ext || 'jpg'}`}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </AccordionSection>
+
+          {/* 4. Hardware & Profile Options */}
+          <AccordionSection
+            id="hardware"
+            title="4. Hardware & Profiles"
+            summary={getHardwareSummary()}
+            isOpen={activeAccordion === 'hardware'}
+            onToggle={() => setActiveAccordion(activeAccordion === 'hardware' ? null : 'hardware')}
+          >
+            <div className="space-y-6">
+              
+              {/* Segmented Controls for low count options */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                
+                <SegmentedControl
+                  label="Safety Class"
+                  value={safetyClass}
+                  onChange={setSafetyClass}
+                  options={[
+                    { value: '', label: 'Standard' },
+                    { value: 'RC1', label: 'RC1' },
+                    { value: 'RC2', label: 'RC2' },
+                    { value: 'RC2N', label: 'RC2N' },
+                    { value: '4ZA', label: '4ZA' }
+                  ]}
+                  gridCols="grid-cols-3 sm:grid-cols-5"
+                />
+
+                <SegmentedControl
+                  label="Frame Profile"
+                  value={frameProfile}
+                  onChange={setFrameProfile}
+                  options={[
+                    { value: '50001', label: 'Standard' },
+                    { value: '50002', label: 'Renovation' }
+                  ]}
+                />
+
+                <div className="flex flex-col gap-2">
+                  <SegmentedControl
+                    label="Weld Type"
+                    value={weld}
+                    onChange={setWeld}
+                    options={[
+                      { value: 'standard', label: 'Standard' },
+                      { value: 'v-perfect', label: 'V-Perfect' }
+                    ]}
+                  />
+                  {weld && (
+                    <div className="bg-white border border-gray-800 rounded-xl overflow-hidden flex items-center justify-center p-1 w-32 h-20 self-start shadow-inner">
+                      <img src={`/assets/welds/${weld}_weld.png`} alt={weld} className="max-h-full max-w-full object-contain mix-blend-multiply" />
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <SegmentedControl
+                    label="Glazing Bead Style"
+                    value={glazingBeadStyle}
+                    onChange={setGlazingBeadStyle}
+                    options={[
+                      { value: 'Z', label: 'Rounded (Z)' },
+                      { value: 'P', label: 'Rectangular (P)' }
+                    ]}
+                  />
+                  {glazingBeadStyle && (
+                    <div className="bg-white border border-gray-800 rounded-xl overflow-hidden flex items-center justify-center p-1 w-32 h-20 self-start shadow-inner">
+                      <img src={`/assets/beads/bead_${glazingBeadStyle}.png`} alt={glazingBeadStyle} className="max-h-full max-w-full object-contain mix-blend-multiply" />
+                    </div>
+                  )}
+                </div>
+
+                <SegmentedControl
+                  label="Frame Reinforcement"
+                  value={frameReinforcement}
+                  onChange={setFrameReinforcement}
+                  options={[
+                    { value: 'standard', label: 'Standard' },
+                    { value: 'full', label: 'Full Steel' }
+                  ]}
+                />
+              </div>
+
+              {/* Model Profile Carousel */}
+              <div className="pt-2">
+                <CarouselSelector
+                  label="Model Profile"
+                  value={model}
+                  onChange={setModel}
+                  options={flatModels}
+                  getImagePath={opt => opt.code ? `${import.meta.env.BASE_URL}assets/models/${opt.code}.png` : ''}
+                />
+              </div>
+
+              {/* Gasket / Seal Color Carousel */}
+              <div className="pt-2">
+                <CarouselSelector
+                  label="Gasket / Seal Color"
+                  value={sealColor}
+                  onChange={setSealColor}
+                  options={sealOptions}
+                  getImagePath={opt => opt.code ? `${import.meta.env.BASE_URL}assets/seals/${opt.code === 'czarny/sz' ? 'czarny_sz' : opt.code === 'szary/czar' ? 'szary_czar' : opt.code}.png` : ''}
+                />
+              </div>
+
+              {/* Hardware, Handles details dropdowns */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-gray-800/60 pt-4">
+                <GenericSelect label="Hardware System" value={hardwareSystem} onChange={setHardwareSystem} />
+                
+                <div className="flex flex-col gap-2">
+                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide">Handle Type</label>
+                  <div className="flex gap-3 items-start">
+                    <select className="flex-1 bg-mammut-black border border-gray-800 rounded-xl p-3 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none h-[50px]"
+                      value={handleType} onChange={e => setHandleType(e.target.value)}>
+                       {HANDLE_OPTIONS.map(h => <option key={h.code} value={h.code}>{h.code}, {h.name}</option>)}
+                    </select>
+                    {handleType && handleType !== '-' && (
+                      <div className="w-[50px] h-[50px] bg-white border border-gray-800 rounded-xl overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-inner">
+                        <img 
+                          src={(() => {
+                            const getSrc = (c: string) => {
+                              const hoppeSeries = ['AtlantaK', 'AtlantaP', 'Toulon', 'ToulonSF', 'Hamburg', 'HamburgSF', 'Tokyo'];
+                              const aliasType = hoppeSeries.includes(handleType) ? 'Atlanta' : (handleType === 'ALU_B' ? 'ALU_A' : handleType);
+                              if (aliasType === 'Kwadrat') return `/assets/handles/kwadrat-${c}.png`;
+                              if (aliasType === 'Mistral') return `/assets/handles/mistral-${c}.png`;
+                              if (aliasType === 'MistralK') return `/assets/handles/mistral-${c}-key.png`;
+                              return `/assets/handles/${aliasType}_${c}.webp`;
+                            };
+                            return getSrc(handleColor ? (IMAGE_COLOR_MAP[handleColor] || handleColor) : 'white');
+                          })()} 
+                          alt={handleType} 
+                          className="max-h-full max-w-full object-contain mix-blend-multiply p-0.5" 
+                          onError={(e) => {
+                            const t = e.currentTarget;
+                            const getSrc = (c: string) => {
+                              const hoppeSeries = ['AtlantaK', 'AtlantaP', 'Toulon', 'ToulonSF', 'Hamburg', 'HamburgSF', 'Tokyo'];
+                              const aliasType = hoppeSeries.includes(handleType) ? 'Atlanta' : (handleType === 'ALU_B' ? 'ALU_A' : handleType);
+                              if (aliasType === 'Kwadrat') return `/assets/handles/kwadrat-${c}.png`;
+                              if (aliasType === 'Mistral') return `/assets/handles/mistral-${c}.png`;
+                              if (aliasType === 'MistralK') return `/assets/handles/mistral-${c}-key.png`;
+                              return `/assets/handles/${aliasType}_${c}.webp`;
+                            };
+                            const fallbacks = [
+                              getSrc('white'), getSrc('ral9016'), getSrc('ral9001'), getSrc('f1'), getSrc('silver'), getSrc('f4'),
+                              handleType === 'Kwadrat' ? '/assets/handles/kwadrat-ral9016.png' :
+                              handleType === 'KwadratK' ? '/assets/handles/KwadratK_ral9016.webp' :
+                              handleType === 'Mistral' ? '/assets/handles/mistral-ral9001.png' :
+                              handleType === 'MistralK' ? '/assets/handles/mistral-f9-key.png' :
+                              handleType === 'ALU_A' || handleType === 'ALU_B' ? '/assets/handles/ALU_A_ral9016.webp' :
+                              handleType === 'ALU_AK' || handleType === 'ALU_BK' ? `/assets/handles/${handleType}_white.webp` :
+                              handleType === 'ALU_AP' ? '/assets/handles/ALU_AP_white.webp' :
+                              handleType === 'MA_1010' ? '/assets/handles/MA_1010_default.webp' :
+                              `/assets/handles/${handleType}_white.webp`
+                            ];
+                            let currentIdx = parseInt(t.dataset.fallbackIdx || '-1');
+                            let nextIdx = currentIdx + 1;
+                            while (nextIdx < fallbacks.length) {
+                              const targetSrc = fallbacks[nextIdx];
+                              if (!t.src.endsWith(targetSrc)) {
+                                t.dataset.fallbackIdx = nextIdx.toString();
+                                t.src = targetSrc;
+                                return;
+                              }
+                              nextIdx++;
+                            }
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-bold mb-1.5 text-gray-400 uppercase tracking-wide">Handle Color</label>
+                    <select className="w-full bg-mammut-black border border-gray-800 rounded-xl p-3 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none h-[50px]"
+                      value={handleColor} onChange={e => setHandleColor(e.target.value)}>
+                       <option value="">-- Default --</option>
+                       {(HANDLE_COLOR_MAP[handleType] || []).map(c => <option key={c} value={c}>{HANDLE_COLOR_OPTIONS[c] || c}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold mb-1.5 text-gray-400 uppercase tracking-wide">Covers Color</label>
+                    <select className="w-full bg-mammut-black border border-gray-800 rounded-xl p-3 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none h-[50px]"
+                      value={coverColor} onChange={e => setCoverColor(e.target.value)}>
+                       <option value="">-- Default --</option>
+                       {Object.entries(COVER_COLOR_OPTIONS).map(([code, name]) => <option key={code} value={code}>{name}</option>)}
+                    </select>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </AccordionSection>
+
+          {/* 5. Roller Shutter Options */}
+          <AccordionSection
+            id="shutters"
+            title="5. Roller Shutters"
+            summary={getShuttersSummary()}
+            isOpen={activeAccordion === 'shutters'}
+            onToggle={() => setActiveAccordion(activeAccordion === 'shutters' ? null : 'shutters')}
+          >
+            <div className="space-y-4">
+              <label className="flex items-center gap-3 text-sm text-gray-300 cursor-pointer select-none pb-2 border-b border-gray-800">
+                <input type="checkbox" className="w-5 h-5 accent-[#eab676]" checked={includeShutter} onChange={e => setIncludeShutter(e.target.checked)} />
+                Include Roller Shutter System
+              </label>
+
+              {includeShutter && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                  <GenericSelect label="Roller Blind Type" value={rollerBlindType} onChange={setRollerBlindType} options={shutterLookups.rollerBlindTypes} />
+                  <GenericSelect label="Window Screen" value={windowScreen} onChange={setWindowScreen} options={shutterLookups.windowScreens} />
+                  {windowScreen && (
+                    <GenericSelect label="Window Screen Location" value={windowScreenLocation} onChange={setWindowScreenLocation} options={shutterLookups.windowScreenLocations} />
+                  )}
+                  
+                  <div className="col-span-1 sm:col-span-2 border-t border-gray-800/60 my-2"></div>
+                  
+                  <GenericSelect label="Curtain Type" value={curtainType} onChange={setCurtainType} options={shutterLookups.curtainTypes} />
+                  <GenericSelect label="Fins Perforation" value={finsPerforation} onChange={setFinsPerforation} options={shutterLookups.finsPerforations} />
+                  
+                  <ColorSelect label="Curtain Color" value={curtainColor} onChange={setCurtainColor} groupedOptions={groupedColors} />
+                  <ColorSelect label="Bottom Slat Color" value={bottomSlatColor} onChange={setBottomSlatColor} groupedOptions={groupedColors} />
+                  <ColorSelect label="Screen Bottom Slat Color" value={windowScreenBottomSlatColor} onChange={setWindowScreenBottomSlatColor} groupedOptions={groupedColors} />
+                  
+                  <div className="col-span-1 sm:col-span-2 border-t border-gray-800/60 my-2"></div>
+
+                  <GenericSelect label="Drive Type" value={driveType} onChange={setDriveType} options={shutterLookups.driveTypes} />
+                  <GenericSelect label="Control Side" value={controlSide} onChange={setControlSide} options={shutterLookups.controlSides} />
+                  <GenericSelect label="Door Checks Type" value={doorChecksTypeI} onChange={setDoorChecksTypeI} options={shutterLookups.doorChecks} />
+                  
+                  <div className="flex items-center">
+                    <label className="flex items-center gap-3 text-sm text-gray-300 cursor-pointer select-none">
+                      <input type="checkbox" className="w-4.5 h-4.5 accent-[#eab676]" checked={imposeArbour} onChange={e => setImposeArbour(e.target.checked)} />
+                      Impose 60mm arbour
+                    </label>
+                  </div>
+
+                  <div className="col-span-1 sm:col-span-2 border-t border-gray-800/60 my-2"></div>
+
+                  <GenericSelect label="Box Type" value={boxType} onChange={setBoxType} options={shutterLookups.boxTypes} />
+                  <ColorSelect label="Outer Box Color" value={outerBoxColor} onChange={setOuterBoxColor} groupedOptions={groupedColors} />
+                  <ColorSelect label="Other Box Color" value={otherBoxColor} onChange={setOtherBoxColor} groupedOptions={groupedColors} />
+                  <GenericSelect label="Plaster Carrier" value={plasterCarrier} onChange={setPlasterCarrier} options={shutterLookups.plasterCarriers} />
+
+                  <div className="flex items-center">
+                    <label className="flex items-center gap-3 text-sm text-gray-300 cursor-pointer select-none">
+                      <input type="checkbox" className="w-4.5 h-4.5 accent-[#eab676]" checked={flushMountedSlatIn} onChange={e => setFlushMountedSlatIn(e.target.checked)} />
+                      Flush-mounted Slat (In)
+                    </label>
+                  </div>
+                  {flushMountedSlatIn && (
+                    <ColorSelect label="Slat Color (In)" value={flushMountedSlatColorIn} onChange={setFlushMountedSlatColorIn} groupedOptions={groupedColors} />
+                  )}
+
+                  <div className="flex items-center">
+                    <label className="flex items-center gap-3 text-sm text-gray-300 cursor-pointer select-none">
+                      <input type="checkbox" className="w-4.5 h-4.5 accent-[#eab676]" checked={flushMountedSlatOut} onChange={e => setFlushMountedSlatOut(e.target.checked)} />
+                      Flush-mounted Slat (Out)
+                    </label>
+                  </div>
+                  {flushMountedSlatOut && (
+                    <ColorSelect label="Slat Color (Out)" value={flushMountedSlatColorOut} onChange={setFlushMountedSlatColorOut} groupedOptions={groupedColors} />
+                  )}
+
+                  <GenericSelect label="Review / Inspection Slat" value={review} onChange={setReview} options={shutterLookups.reviews} />
+                  <ColorSelect label="Side Cover Cap Color" value={sideCoverCapColor} onChange={setSideCoverCapColor} groupedOptions={groupedColors} />
+
+                  <div className="col-span-1 sm:col-span-2 border-t border-gray-800/60 my-2"></div>
+
+                  <ColorSelect label="Guide Rails Color" value={guideRailsColor} onChange={setGuideRailsColor} groupedOptions={groupedColors} />
+                  <GenericSelect label="Guide Rails Cutting" value={guideRailsCutting} onChange={setGuideRailsCutting} options={shutterLookups.guideRailsCuttings} />
+                  <GenericSelect label="Extreme Left Guide Rail" value={extremeLeftGuideRail} onChange={setExtremeLeftGuideRail} options={[{value: 'STD', label: 'Standard'}]} />
+                  <GenericSelect label="Extreme Right Guide Rail" value={extremeRightGuideRail} onChange={setExtremeRightGuideRail} options={[{value: 'STD', label: 'Standard'}]} />
+                  <GenericSelect label="Guide Rails Type" value={guideRailsTypes} onChange={setGuideRailsTypes} options={shutterLookups.guideRailsTypes} />
+
+                  <div className="col-span-1 sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+                    <label className="flex items-center gap-3 text-sm text-gray-300 cursor-pointer select-none">
+                      <input type="checkbox" className="w-4.5 h-4.5 accent-[#eab676]" checked={guideRailGasketing} onChange={e => setGuideRailGasketing(e.target.checked)} />
+                      Guide rail gasketing
+                    </label>
+                    <label className="flex items-center gap-3 text-sm text-gray-300 cursor-pointer select-none">
+                      <input type="checkbox" className="w-4.5 h-4.5 accent-[#eab676]" checked={soundproofMat} onChange={e => setSoundproofMat(e.target.checked)} />
+                      Soundproof mat + gasket
+                    </label>
+                  </div>
+                </div>
+              )}
+            </div>
+          </AccordionSection>
+
+          {/* 6. Installation & Accessories */}
+          <AccordionSection
+            id="installation"
+            title="6. Extras & Accessories"
+            summary={getInstallationSummary()}
+            isOpen={activeAccordion === 'installation'}
+            onToggle={() => setActiveAccordion(activeAccordion === 'installation' ? null : 'installation')}
+          >
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold mb-1.5 text-gray-400 uppercase tracking-wide">Dowel Holes</label>
+                  <select className="w-full bg-mammut-black border border-gray-800 rounded-xl p-3 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none h-[50px]"
+                    value={dowelHoles} onChange={e => setDowelHoles(e.target.value)}>
+                     <option value="">Lack (-)</option>
+                     <option value="O_06">6mm assembly holes (O_06)</option>
+                     <option value="O_10">10mm assembly holes (O_10)</option>
+                     <option value="ADJUFIX_M16">Assembly holes ADJUFIX 14mm/M16</option>
+                     <option value="ADJUFIX_18">Assembly holes ADJUFIX 14mm/18mm</option>
+                  </select>
+                </div>
+
+                {dowelHoles && (
+                  <div className="flex flex-col gap-1.5 justify-end">
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide">Locations</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      <label className="flex items-center gap-2 text-sm text-gray-305 cursor-pointer">
+                        <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={dowelLeft} onChange={e => setDowelLeft(e.target.checked)} />
+                        Left
+                      </label>
+                      <label className="flex items-center gap-2 text-sm text-gray-305 cursor-pointer">
+                        <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={dowelRight} onChange={e => setDowelRight(e.target.checked)} />
+                        Right
+                      </label>
+                      <label className="flex items-center gap-2 text-sm text-gray-305 cursor-pointer">
+                        <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={dowelTop} onChange={e => setDowelTop(e.target.checked)} />
+                        Top
+                      </label>
+                      <label className="flex items-center gap-2 text-sm text-gray-305 cursor-pointer">
+                        <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={dowelBottom} onChange={e => setDowelBottom(e.target.checked)} />
+                        Bottom
+                      </label>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="col-span-1 sm:col-span-2 border-t border-gray-800/60 my-2"></div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold mb-1.5 text-gray-400 uppercase tracking-wide">Grille Type</label>
+                  <select className="w-full bg-mammut-black border border-gray-800 rounded-xl p-3 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none h-[50px]"
+                    value={grilleType} onChange={e => setGrilleType(e.target.value)}>
+                     <option value="">None</option>
+                     <optgroup label="Internal Grilles (Międzyszybowe)">
+                       <option value="SPR08">SPR08 (8mm Internal)</option>
+                       <option value="SPR18">SPR18 (18mm Internal)</option>
+                       <option value="SPR26">SPR26 (26mm Internal)</option>
+                       <option value="SPR45">SPR45 (45mm Internal)</option>
+                     </optgroup>
+                     <optgroup label="Stick-on Grilles (Naklejane)">
+                       <option value="SPRN27">SPRN27 (27mm Stick-on)</option>
+                       <option value="SPRN45">SPRN45 (45mm Stick-on)</option>
+                     </optgroup>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-bold mb-1.5 text-gray-400 uppercase tracking-wide">Number of Fields</label>
+                  <input type="number" className="w-full bg-mammut-black border border-gray-800 rounded-xl p-3 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none h-[50px] disabled:opacity-50"
+                    value={grilleFields} onChange={e => setGrilleFields(Number(e.target.value))} disabled={!grilleType} min={1} max={30} />
+                </div>
+              </div>
+            </div>
+          </AccordionSection>
+
+        </div>
       </div>
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-mammut-black text-mammut-white p-3 sm:p-6 pt-24 sm:pt-32 relative pb-[90px] md:pb-6">
+      {arPlacement && (
+         <ArViewer sceneGroup={sceneGroup?.group || null} placement={arPlacement} onClose={() => setArPlacement(null)} />
+      )}
+      <div className="absolute top-6 right-6">
+        <ThemeToggle />
+      </div>
+      
+      {/* 3-column Layout grid */}
+      <div className="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-[250px_1fr_400px] gap-8">
+        {renderLeftColumn()}
+        {renderMiddleColumn()}
+        {!isMobile && renderRightColumn()}
+      </div>
+
+      {/* Mobile-only drawers and bars */}
+      {renderMobileDrawer()}
+      {renderStickyBottomBar()}
     </div>
   );
 }

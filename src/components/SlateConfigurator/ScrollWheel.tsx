@@ -275,7 +275,7 @@ export const ScrollWheel: React.FC<ScrollWheelProps> = ({
           isHorizontal ? 'w-8 h-8 mr-1' : 'w-8 h-8 mb-1'
         }`}
       >
-        ▲
+        <span className={isHorizontal ? 'inline-block transform -rotate-90' : ''}>▲</span>
       </button>
 
       {/* Track */}
@@ -315,7 +315,7 @@ export const ScrollWheel: React.FC<ScrollWheelProps> = ({
           isHorizontal ? 'w-8 h-8 ml-1' : 'w-8 h-8 mt-1'
         }`}
       >
-        ▼
+        <span className={isHorizontal ? 'inline-block transform -rotate-90' : ''}>▼</span>
       </button>
     </div>
   );
