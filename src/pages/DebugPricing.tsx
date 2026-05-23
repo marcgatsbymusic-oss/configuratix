@@ -10,7 +10,6 @@ import { ThreejsWindowEngine } from '../components/configurator/ThreejsWindowEng
 import { ArViewer } from '../components/configurator/ArViewer';
 import glazingOptions from '../data/cantor_glazing_options.json';
 import shutterLookups from '../data/shutter_lookups.json';
-import { ThemeToggle } from '../components/common/ThemeToggle';
 import { useThemeStore } from '../store/useThemeStore';
 import { 
   IconWindows, IconDoors, IconPatioDoors, IconRollerShutters, 
