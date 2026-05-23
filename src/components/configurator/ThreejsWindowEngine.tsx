@@ -526,30 +526,30 @@ export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) =
   // Dynamic camera distance to frame the window perfectly regardless of size
   const cameraZ = Math.max(1.2, maxDim * 1.35);
 
-  const getEnvPreset = (scenery: string) => {
+  const getEnvFiles = (scenery: string) => {
     switch (scenery) {
       case 'custom':
-        return 'apartment';
+        return '/assets/hdri/lebombo_1k.hdr';
       case 'studio-grey':
-        return 'studio';
+        return '/assets/hdri/studio_small_03_1k.hdr';
       case 'studio-dark':
-        return 'night';
+        return '/assets/hdri/dikhololo_night_1k.hdr';
       case 'modern-minimalist':
-        return 'apartment';
+        return '/assets/hdri/lebombo_1k.hdr';
       case 'warm-nordic':
-        return 'lobby';
+        return '/assets/hdri/st_fagans_interior_1k.hdr';
       case 'industrial-loft':
-        return 'warehouse';
+        return '/assets/hdri/empty_warehouse_01_1k.hdr';
       case 'suburban-garden':
-        return 'park';
+        return '/assets/hdri/rooitou_park_1k.hdr';
       case 'nordic-forest':
-        return 'forest';
+        return '/assets/hdri/forest_slope_1k.hdr';
       case 'urban-skyline':
-        return 'sunset';
+        return '/assets/hdri/venice_sunset_1k.hdr';
       case 'coastal-mediterranean':
-        return 'city';
+        return '/assets/hdri/potsdamer_platz_1k.hdr';
       default:
-        return 'apartment';
+        return '/assets/hdri/lebombo_1k.hdr';
     }
   };
 
@@ -599,7 +599,7 @@ export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) =
           shadow-bias={-0.0001} 
         />
         <Environment 
-          preset={getEnvPreset(activeScenery)} 
+          files={getEnvFiles(activeScenery)} 
           background={activeScenery !== 'studio-grey' && activeScenery !== 'studio-dark' && activeScenery !== 'custom'} 
         />
         
