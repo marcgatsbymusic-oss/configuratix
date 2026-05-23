@@ -373,9 +373,7 @@ export function Header() {
              </button>
 
              <button className="hidden lg:block text-mammut-white/60 hover:text-mammut-gold transition-colors duration-200 p-2"><Search size={18} /></button>
-            <div className="hidden lg:block">
-              <ThemeToggle />
-            </div>
+            <ThemeToggle />
             {/* Language Switcher */}
             <div className="relative">
               <button 
