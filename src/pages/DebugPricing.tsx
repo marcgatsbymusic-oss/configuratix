@@ -19,7 +19,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import * as THREE from 'three';
 
-const isLight = true;
+const isLight = false;
 
 const getPaneImage = (paneCode: string) => {
   if (!paneCode) return null;
@@ -2075,7 +2075,7 @@ export function DebugPricing() {
 
   // Keep the store in sync so ThemeToggle widget reflects the correct state
   useEffect(() => {
-    setTheme('light');
+    setTheme('dark');
   }, []);
 
   const handleDownload = () => {
