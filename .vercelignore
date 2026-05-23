@@ -25,6 +25,7 @@ vercel_error_utf8.txt
 
 # Databases and large dumps
 cantor_mirror.sqlite
+src/data/cantor/cantor.sqlite*
 matrix_data_dump.json
 database_tables_dump.json
 schema_cols.json
