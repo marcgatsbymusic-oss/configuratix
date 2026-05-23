@@ -1459,7 +1459,65 @@ export function MainConfigurator() {
                    )}
                 </div>
                 {show3D ? (
-                  <NeedlePreview state={state} />
+                  <>
+                    <NeedlePreview state={state} />
+                    
+                    {/* Vertical scroll wheel for Height in 3D */}
+                    <div 
+                      className="absolute z-30 flex items-center justify-center pointer-events-auto"
+                      style={{
+                        left: '16px',
+                        top: '15%',
+                        height: '70%',
+                        width: '20px'
+                      }}
+                    >
+                      <ScrollWheel
+                        value={state.dimensions.height}
+                        onChange={(h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: state.dimensions.width, height: h } })}
+                        min={activeLimits?.minHeight || 500}
+                        max={activeLimits?.maxHeight || 2500}
+                        orientation="vertical"
+                        variant="half-stick"
+                        className="h-full"
+                      />
+                    </div>
+
+                    {/* Horizontal scroll wheel for Width in 3D */}
+                    <div 
+                      className="absolute z-30 flex items-center justify-center pointer-events-auto"
+                      style={{
+                        left: '15%',
+                        bottom: '16px',
+                        width: '70%',
+                        height: '20px'
+                      }}
+                    >
+                      <ScrollWheel
+                        value={state.dimensions.width}
+                        onChange={(w) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: state.dimensions.height } })}
+                        min={activeLimits?.minWidth || 500}
+                        max={activeLimits?.maxWidth || 3000}
+                        orientation="horizontal"
+                        variant="half-stick"
+                        className="w-full"
+                      />
+                    </div>
+
+                    {/* Width dimension pill in 3D */}
+                    <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
+                      <span className="bg-mammut-darker/90 border border-mammut-gold/60 text-mammut-gold px-3.5 py-1 rounded-full text-xs font-black tracking-widest shadow-lg backdrop-blur-sm select-none">
+                        {state.dimensions.width} mm
+                      </span>
+                    </div>
+
+                    {/* Height dimension pill in 3D */}
+                    <div className="absolute left-12 top-1/2 -translate-y-1/2 z-20 pointer-events-none">
+                      <span className="bg-mammut-darker/90 border border-mammut-gold/60 text-mammut-gold px-3.5 py-1 rounded-full text-xs font-black tracking-widest shadow-lg backdrop-blur-sm select-none">
+                        {state.dimensions.height} mm
+                      </span>
+                    </div>
+                  </>
                 ) : (
                   <BlueprintPreview 
                     state={state} 

@@ -185,10 +185,10 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state, onDim
           <div 
             className="absolute z-30 flex items-center justify-center"
             style={{
-              left: `calc(${overlayLeft} - 45px)`,
+              left: `calc(${overlayLeft} - 26px)`,
               top: overlayTop,
               height: overlayHeight,
-              width: '32px'
+              width: '20px'
             }}
           >
             <ScrollWheel
@@ -197,6 +197,7 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state, onDim
               min={minH}
               max={maxH}
               orientation="vertical"
+              variant="half-stick"
               className="h-full"
             />
           </div>
@@ -206,9 +207,9 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state, onDim
             className="absolute z-30 flex items-center justify-center"
             style={{
               left: overlayLeft,
-              top: `calc(${overlayTop} + ${overlayHeight} + 12px)`,
+              top: `calc(${overlayTop} + ${overlayHeight} + 6px)`,
               width: overlayWidth,
-              height: '32px'
+              height: '20px'
             }}
           >
             <ScrollWheel
@@ -217,11 +218,12 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state, onDim
               min={minW}
               max={maxW}
               orientation="horizontal"
+              variant="half-stick"
               className="w-full"
             />
           </div>
 
-          {/* Dimension pill overlay at the bottom center of the frame */}
+          {/* Width Dimension pill overlay at the bottom center of the frame */}
           <div 
             className="absolute z-20 flex justify-center pointer-events-none"
             style={{
@@ -232,6 +234,20 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state, onDim
           >
             <span className="bg-mammut-darker/90 border border-mammut-gold/60 text-mammut-gold px-3.5 py-1 rounded-full text-xs font-black tracking-widest shadow-lg backdrop-blur-sm select-none">
               {realW} mm
+            </span>
+          </div>
+
+          {/* Height Dimension pill overlay on the left side inside the frame */}
+          <div 
+            className="absolute z-20 flex items-center pointer-events-none"
+            style={{
+              left: `calc(${overlayLeft} + 12px)`,
+              top: overlayTop,
+              height: overlayHeight,
+            }}
+          >
+            <span className="bg-mammut-darker/90 border border-mammut-gold/60 text-mammut-gold px-3.5 py-1 rounded-full text-xs font-black tracking-widest shadow-lg backdrop-blur-sm select-none">
+              {realH} mm
             </span>
           </div>
         </>

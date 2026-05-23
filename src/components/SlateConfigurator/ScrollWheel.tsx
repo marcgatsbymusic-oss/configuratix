@@ -10,6 +10,7 @@ interface ScrollWheelProps {
   tickSpacing?: number;   // Distance in pixels between ticks (default: 12)
   unitsPerTick?: number;  // How many mm one tick represents (default: 10)
   className?: string;
+  variant?: 'standard' | 'half-stick';
 }
 
 export const ScrollWheel: React.FC<ScrollWheelProps> = ({
@@ -22,6 +23,7 @@ export const ScrollWheel: React.FC<ScrollWheelProps> = ({
   tickSpacing = 12,
   unitsPerTick = 10,
   className = '',
+  variant = 'standard',
 }) => {
   const trackRef = useRef<HTMLDivElement>(null);
   const currentValueRef = useRef(value);
@@ -121,7 +123,7 @@ export const ScrollWheel: React.FC<ScrollWheelProps> = ({
     const valueDelta = -dp * (unitsPerTick / tickSpacing) * accelFactor;
     
     // Calculate new target value and clamp it
-    const nextVal = value + valueDelta;
+    const nextVal = currentValueRef.current + valueDelta;
     updateValue(nextVal);
 
     // Save for next step calculation
@@ -132,6 +134,44 @@ export const ScrollWheel: React.FC<ScrollWheelProps> = ({
   const handlePointerUp = (e: React.PointerEvent) => {
     setIsDragging(false);
     e.currentTarget.releasePointerCapture(e.pointerId);
+  };
+
+  // Explicit Touch Events for iOS support (safari touch compatibility)
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsDragging(true);
+    const touch = e.touches[0];
+    const pos = orientation === 'horizontal' ? touch.clientX : touch.clientY;
+    dragStartPos.current = pos;
+    dragStartValue.current = value;
+    lastPos.current = pos;
+    lastTime.current = Date.now();
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return;
+    const touch = e.touches[0];
+    const pos = orientation === 'horizontal' ? touch.clientX : touch.clientY;
+    const now = Date.now();
+    const dt = now - lastTime.current || 1;
+    const dp = pos - lastPos.current;
+
+    const velocity = Math.abs(dp) / dt;
+    const accelFactor = velocity > 0.2 ? Math.min(10, 1 + (velocity - 0.2) * 4) : 1;
+    const valueDelta = -dp * (unitsPerTick / tickSpacing) * accelFactor;
+    
+    const nextVal = currentValueRef.current + valueDelta;
+    updateValue(nextVal);
+
+    lastPos.current = pos;
+    lastTime.current = now;
+
+    if (e.cancelable) {
+      e.preventDefault();
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
   };
 
   // Arrow button click & continuous hold action
@@ -169,8 +209,11 @@ export const ScrollWheel: React.FC<ScrollWheelProps> = ({
     return () => clearTimers();
   }, []);
 
+  const isHorizontal = orientation === 'horizontal';
+  const isHalfStick = variant === 'half-stick';
+
   // Compute ticks to render
-  const size = orientation === 'horizontal' ? trackWidth : trackHeight;
+  const size = isHorizontal ? trackWidth : trackHeight;
   const center = size / 2;
   
   // Calculate viewport range of values
@@ -196,7 +239,20 @@ export const ScrollWheel: React.FC<ScrollWheelProps> = ({
 
     const isCenterOverlap = Math.abs(offset) < 2; // Close to center indicator
 
-    if (orientation === 'horizontal') {
+    if (isHorizontal) {
+      // Define tick height for horizontal
+      let tickHeightClass = 'h-2';
+      let tickColorClass = 'bg-[#e14d2a]/70';
+      if (isMajor) {
+        tickHeightClass = isHalfStick ? 'h-3' : 'h-4';
+        tickColorClass = 'bg-[#e14d2a]';
+      } else if (isMedium) {
+        tickHeightClass = isHalfStick ? 'h-2' : 'h-3';
+        tickColorClass = 'bg-[#e14d2a]/80';
+      } else {
+        tickHeightClass = isHalfStick ? 'h-1.5' : 'h-2';
+      }
+
       ticks.push(
         <div
           key={`tick-${tickValue}`}
@@ -206,25 +262,32 @@ export const ScrollWheel: React.FC<ScrollWheelProps> = ({
             transform: 'translateX(-50%)',
           }}
         >
-          {isMajor && (
+          {isMajor && !isHalfStick && (
             <span className="text-[9px] font-bold text-mammut-white/40 mb-1 leading-none select-none">
               {tickValue}
             </span>
           )}
           <div
             className={`w-[2px] rounded-full transition-colors ${
-              isCenterOverlap 
-                ? 'opacity-0' 
-                : isMajor 
-                  ? 'h-4 bg-[#e14d2a]' 
-                  : isMedium 
-                    ? 'h-3 bg-[#e14d2a]/80' 
-                    : 'h-2 bg-[#e14d2a]/50'
+              isCenterOverlap ? 'opacity-0' : `${tickHeightClass} ${tickColorClass}`
             }`}
           />
         </div>
       );
     } else {
+      // Define tick width for vertical
+      let tickWidthClass = 'w-2';
+      let tickColorClass = 'bg-[#e14d2a]/70';
+      if (isMajor) {
+        tickWidthClass = isHalfStick ? 'w-3' : 'w-4';
+        tickColorClass = 'bg-[#e14d2a]';
+      } else if (isMedium) {
+        tickWidthClass = isHalfStick ? 'w-2' : 'w-3';
+        tickColorClass = 'bg-[#e14d2a]/80';
+      } else {
+        tickWidthClass = isHalfStick ? 'w-1.5' : 'w-2';
+      }
+
       ticks.push(
         <div
           key={`tick-${tickValue}`}
@@ -234,20 +297,14 @@ export const ScrollWheel: React.FC<ScrollWheelProps> = ({
             transform: 'translateY(-50%)',
           }}
         >
-          {isMajor && (
+          {isMajor && !isHalfStick && (
             <span className="text-[9px] font-bold text-mammut-white/40 mr-2 leading-none select-none">
               {tickValue}
             </span>
           )}
           <div
             className={`h-[2px] rounded-full transition-colors ${
-              isCenterOverlap 
-                ? 'opacity-0' 
-                : isMajor 
-                  ? 'w-4 bg-[#e14d2a]' 
-                  : isMedium 
-                    ? 'w-3 bg-[#e14d2a]/80' 
-                    : 'w-2 bg-[#e14d2a]/50'
+              isCenterOverlap ? 'opacity-0' : `${tickWidthClass} ${tickColorClass}`
             }`}
           />
         </div>
@@ -255,7 +312,20 @@ export const ScrollWheel: React.FC<ScrollWheelProps> = ({
     }
   }
 
-  const isHorizontal = orientation === 'horizontal';
+  // Cross-browser inline masking styles for iOS Safari support (replaces Tailwind arbitrary classes)
+  const maskStyle: React.CSSProperties = isHorizontal
+    ? {
+        WebkitMaskImage: 'linear-gradient(to right, transparent, white 15%, white 85%, transparent)',
+        maskImage: 'linear-gradient(to right, transparent, white 15%, white 85%, transparent)',
+      }
+    : {
+        WebkitMaskImage: 'linear-gradient(to bottom, transparent, white 15%, white 85%, transparent)',
+        maskImage: 'linear-gradient(to bottom, transparent, white 15%, white 85%, transparent)',
+      };
+
+  const trackSizeClass = isHorizontal 
+    ? (isHalfStick ? 'h-5 w-full' : 'h-10 w-full')
+    : (isHalfStick ? 'w-5 h-full' : 'w-10 h-full');
 
   return (
     <div 
@@ -266,17 +336,19 @@ export const ScrollWheel: React.FC<ScrollWheelProps> = ({
       tabIndex={0}
     >
       {/* Decrement Button */}
-      <button
-        type="button"
-        onPointerDown={() => startContinuousChange(-1)}
-        onPointerUp={clearTimers}
-        onPointerLeave={clearTimers}
-        className={`flex items-center justify-center bg-mammut-dark hover:bg-mammut-gold/20 active:bg-mammut-gold/40 border border-mammut-border text-mammut-gold transition-colors font-bold shadow-md rounded-md cursor-pointer select-none shrink-0 ${
-          isHorizontal ? 'w-8 h-8 mr-1' : 'w-8 h-8 mb-1'
-        }`}
-      >
-        <span className={isHorizontal ? 'inline-block transform -rotate-90' : ''}>▲</span>
-      </button>
+      {!isHalfStick && (
+        <button
+          type="button"
+          onPointerDown={() => startContinuousChange(-1)}
+          onPointerUp={clearTimers}
+          onPointerLeave={clearTimers}
+          className={`flex items-center justify-center bg-mammut-dark hover:bg-mammut-gold/20 active:bg-mammut-gold/40 border border-mammut-border text-mammut-gold transition-colors font-bold shadow-md rounded-md cursor-pointer select-none shrink-0 ${
+            isHorizontal ? 'w-8 h-8 mr-1' : 'w-8 h-8 mb-1'
+          }`}
+        >
+          <span className={isHorizontal ? 'inline-block transform -rotate-90' : ''}>▲</span>
+        </button>
+      )}
 
       {/* Track */}
       <div
@@ -285,12 +357,13 @@ export const ScrollWheel: React.FC<ScrollWheelProps> = ({
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerLeave={handlePointerUp}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onTouchCancel={handleTouchEnd}
         onWheel={handleWheel}
-        className={`relative overflow-hidden cursor-ew-resize bg-mammut-darker/60 border border-mammut-border/50 rounded-lg flex-grow flex items-center justify-center select-none touch-none ${
-          isHorizontal 
-            ? 'h-10 w-full [mask-image:linear-gradient(to_right,transparent,white_15%,white_85%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,white_15%,white_85%,transparent)]' 
-            : 'w-10 h-full [mask-image:linear-gradient(to_bottom,transparent,white_15%,white_85%,transparent)] [-webkit-mask-image:linear-gradient(to_bottom,transparent,white_15%,white_85%,transparent)]'
-        }`}
+        style={maskStyle}
+        className={`relative overflow-hidden cursor-ew-resize bg-mammut-darker/85 border border-mammut-border/80 hover:border-mammut-gold/40 hover:bg-mammut-darker/95 transition-colors duration-200 rounded-lg flex-grow flex items-center justify-center select-none touch-none ${trackSizeClass}`}
       >
         {/* Sliding Ticks */}
         {ticks}
@@ -299,24 +372,40 @@ export const ScrollWheel: React.FC<ScrollWheelProps> = ({
         <div
           className={`absolute pointer-events-none rounded-full shadow-[0_0_8px_rgba(234,182,118,0.4)] ${
             isHorizontal 
-              ? 'left-1/2 bottom-0 w-[3px] h-6 bg-[#ffc882] -translate-x-1/2 z-10' 
-              : 'top-1/2 right-0 h-[3px] w-6 bg-[#ffc882] -translate-y-1/2 z-10'
+              ? `left-1/2 bottom-0 w-[3px] ${isHalfStick ? 'h-4' : 'h-6'} bg-[#ffc882] -translate-x-1/2 z-10` 
+              : `top-1/2 right-0 ${isHalfStick ? 'w-4' : 'w-6'} h-[3px] bg-[#ffc882] -translate-y-1/2 z-10`
           }`}
         />
+
+        {/* Floating tooltip badge while dragging to clear finger occlusion */}
+        {isDragging && (
+          <div 
+            className={`absolute bg-mammut-gold text-black text-[10px] font-black px-2.5 py-1.5 rounded-md shadow-lg pointer-events-none whitespace-nowrap z-30 transition-opacity duration-150 ${
+              isHorizontal 
+                ? 'bottom-full mb-3 left-1/2 -translate-x-1/2' 
+                : 'left-full ml-3 top-1/2 -translate-y-1/2'
+            }`}
+          >
+            {value} mm
+          </div>
+        )}
       </div>
 
       {/* Increment Button */}
-      <button
-        type="button"
-        onPointerDown={() => startContinuousChange(1)}
-        onPointerUp={clearTimers}
-        onPointerLeave={clearTimers}
-        className={`flex items-center justify-center bg-mammut-dark hover:bg-mammut-gold/20 active:bg-mammut-gold/40 border border-mammut-border text-mammut-gold transition-colors font-bold shadow-md rounded-md cursor-pointer select-none shrink-0 ${
-          isHorizontal ? 'w-8 h-8 ml-1' : 'w-8 h-8 mt-1'
-        }`}
-      >
-        <span className={isHorizontal ? 'inline-block transform -rotate-90' : ''}>▼</span>
-      </button>
+      {!isHalfStick && (
+        <button
+          type="button"
+          onPointerDown={() => startContinuousChange(1)}
+          onPointerUp={clearTimers}
+          onPointerLeave={clearTimers}
+          className={`flex items-center justify-center bg-mammut-dark hover:bg-mammut-gold/20 active:bg-mammut-gold/40 border border-mammut-border text-mammut-gold transition-colors font-bold shadow-md rounded-md cursor-pointer select-none shrink-0 ${
+            isHorizontal ? 'w-8 h-8 ml-1' : 'w-8 h-8 mt-1'
+          }`}
+        >
+          <span className={isHorizontal ? 'inline-block transform -rotate-90' : ''}>▼</span>
+        </button>
+      )}
     </div>
   );
 };
+

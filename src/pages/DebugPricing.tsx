@@ -581,10 +581,10 @@ const NumericScrollWheel = ({
     const cosVal = Math.cos(angle);
     const scale = 0.5 + 0.5 * cosVal;
     
-    // In horizontal: rectangles are vertical (width 14, height 32).
-    // In vertical: rectangles are horizontal (width 32, height 14).
-    const rectHeight = isVert ? 14 * scale : 32 * scale;
-    const rectWidth = isVert ? 32 * scale : 14 * scale;
+    // In horizontal: rectangles are vertical (width 14, height 16).
+    // In vertical: rectangles are horizontal (width 16, height 14).
+    const rectHeight = isVert ? 14 * scale : 16 * scale;
+    const rectWidth = isVert ? 16 * scale : 14 * scale;
     // Let opacity fall to 0 smoothly at edges to avoid popping
     const opacity = Math.max(0, cosVal * cosVal);
 
@@ -628,26 +628,26 @@ const NumericScrollWheel = ({
         ref={containerRef}
         onWheel={handleWheel}
         className={`relative bg-transparent rounded-xl overflow-visible select-none flex items-center justify-center group/wheel ${
-          isVert ? 'w-full h-full' : 'w-full h-10 md:h-[55px]'
+          isVert ? 'w-full h-full' : 'w-full h-5 md:h-7'
         }`}
       >
         {/* Background & Border track overlay - faded when idle, solid on hover */}
-        <div className="absolute inset-0 bg-mammut-dark border border-gray-800 rounded-xl shadow-inner pointer-events-none z-0 transition-opacity duration-300 opacity-[0.12] group-hover/wheel:opacity-100" />
+        <div className="absolute inset-0 bg-mammut-dark border border-gray-800 rounded-xl shadow-inner pointer-events-none z-0 transition-opacity duration-300 opacity-[0.4] group-hover/wheel:opacity-100" />
 
-        <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden z-10 transition-opacity duration-300 opacity-[0.08] group-hover/wheel:opacity-100">
+        <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden z-10 transition-opacity duration-300 opacity-[0.35] group-hover/wheel:opacity-100">
           {bars}
         </div>
 
         {/* Gradients */}
         <div className={`absolute pointer-events-none z-15 transition-opacity duration-300 opacity-[0.12] group-hover/wheel:opacity-80 ${
           isVert 
-            ? 'inset-x-0 top-0 h-12 bg-gradient-to-b from-mammut-dark to-transparent'
-            : 'inset-y-0 left-0 w-12 bg-gradient-to-r from-mammut-dark to-transparent'
+            ? 'inset-x-0 top-0 h-4 bg-gradient-to-b from-mammut-dark to-transparent'
+            : 'inset-y-0 left-0 w-4 bg-gradient-to-r from-mammut-dark to-transparent'
         }`} />
         <div className={`absolute pointer-events-none z-15 transition-opacity duration-300 opacity-[0.12] group-hover/wheel:opacity-80 ${
           isVert 
-            ? 'inset-x-0 bottom-0 h-12 bg-gradient-to-t from-mammut-dark to-transparent'
-            : 'inset-y-0 right-0 w-12 bg-gradient-to-l from-mammut-dark to-transparent'
+            ? 'inset-x-0 bottom-0 h-4 bg-gradient-to-t from-mammut-dark to-transparent'
+            : 'inset-y-0 right-0 w-4 bg-gradient-to-l from-mammut-dark to-transparent'
         }`} />
 
         {/* Center overlay display */}
@@ -663,14 +663,14 @@ const NumericScrollWheel = ({
             }}
             onMouseEnter={() => setIsBadgeHovered(true)}
             onMouseLeave={() => setIsBadgeHovered(false)}
-            className={`bg-mammut-black/95 border backdrop-blur-md px-3.5 py-1 md:px-6 md:py-1.5 rounded-xl shadow-2xl flex items-center justify-center pointer-events-auto cursor-pointer select-none transition-all duration-300 transform active:scale-95 ${
+            className={`flex items-center justify-center pointer-events-auto cursor-pointer select-none transition-all duration-300 transform active:scale-95 ${
               isVert ? 'origin-left' : 'origin-center'
             } ${
               isEditing 
-                ? 'scale-[1.8] md:scale-[2.0] border-mammut-gold shadow-[0_0_20px_rgba(217,119,6,0.35)]'
+                ? 'bg-mammut-black/95 border border-mammut-gold backdrop-blur-md px-3.5 py-1 md:px-6 md:py-1.5 rounded-xl shadow-2xl scale-[1.8] md:scale-[2.0] shadow-[0_0_20px_rgba(217,119,6,0.35)]'
                 : (isBadgeHovered
-                    ? 'scale-[1.6] md:scale-[1.8] border-mammut-gold shadow-[0_0_15px_rgba(217,119,6,0.25)]'
-                    : 'scale-100 border-gray-700'
+                    ? 'bg-transparent border border-transparent backdrop-blur-none px-0 py-0 shadow-none scale-[1.1]'
+                    : 'bg-transparent border border-transparent backdrop-blur-none px-0 py-0 shadow-none scale-100'
                   )
             }`}
             title="Click to type value"
@@ -1939,6 +1939,22 @@ export function DebugPricing() {
   const [activeCategory, setActiveCategory] = useState<string>('WINDOWS');
   const [is3dMode, setIs3dMode] = useState(true);
   const [arPlacement, setArPlacement] = useState<'wall' | 'floor' | null>(null);
+  const [arMenuOpen, setArMenuOpen] = useState(false);
+  const arMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent | TouchEvent) {
+      if (arMenuRef.current && !arMenuRef.current.contains(event.target as Node)) {
+        setArMenuOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, []);
 
   // 3) Dimensions
   const [width, setWidth] = useState(1000);
@@ -2599,7 +2615,7 @@ export function DebugPricing() {
              )}
 
              {/* Vertical Scroll Wheel (Height) overlay on the left */}
-             <div className="absolute left-1 md:left-2 top-12 md:top-14 bottom-[48px] md:bottom-[65px] w-10 md:w-[55px] z-30 flex items-center justify-center font-mono">
+             <div className="absolute left-1 md:left-2 top-12 md:top-14 bottom-[48px] md:bottom-[65px] w-5 md:w-[28px] z-30 flex items-center justify-center font-mono">
                 <NumericScrollWheel
                   label="Height"
                   value={height}
@@ -2613,7 +2629,7 @@ export function DebugPricing() {
              </div>
 
              {/* Horizontal Scroll Wheel (Width) overlay at the bottom */}
-             <div className="absolute bottom-1 md:bottom-2 left-[48px] md:left-[65px] right-1 md:right-2 h-10 md:h-[55px] z-30 flex items-center justify-center font-mono">
+             <div className="absolute bottom-1 md:bottom-2 left-[48px] md:left-[65px] right-1 md:right-2 h-5 md:h-[28px] z-30 flex items-center justify-center font-mono">
                 <NumericScrollWheel
                   label="Width"
                   value={width}
@@ -2628,11 +2644,73 @@ export function DebugPricing() {
 
              {/* AR Buttons - always visible in 3D mode */}
              {is3dMode && (
-                <div className="absolute bottom-[48px] md:bottom-[65px] left-1/2 -translate-x-1/2 z-35 bg-black/80 p-2 rounded-full flex items-center gap-2 shadow-xl">
-                   <button onClick={() => setArPlacement('wall')} className="bg-mammut-gold text-black px-4 py-1 rounded-full text-xs font-black uppercase whitespace-nowrap">AR Wall</button>
-                   <button onClick={() => setArPlacement('floor')} className="bg-white text-black px-4 py-1 rounded-full text-xs font-black uppercase whitespace-nowrap">AR Floor</button>
-                </div>
-             )}
+                 <div 
+                   ref={arMenuRef}
+                   className="absolute bottom-3 right-3 md:bottom-4 md:right-4 z-35 flex items-center justify-end"
+                   onMouseEnter={() => setArMenuOpen(true)}
+                   onMouseLeave={() => setArMenuOpen(false)}
+                 >
+                    <div className={`flex items-center bg-mammut-black/90 border border-gray-800 backdrop-blur-md rounded-xl shadow-lg transition-all duration-300 ${
+                      arMenuOpen ? 'max-w-[320px] px-2 py-1.5 gap-2' : 'max-w-[44px] px-0.5 py-0.5'
+                    } overflow-hidden`}>
+                      
+                      {/* Expanded options */}
+                      {arMenuOpen && (
+                        <div className="flex items-center gap-1.5 whitespace-nowrap">
+                          {/* AR Wall button */}
+                          <button 
+                            onClick={() => {
+                              setArPlacement('wall');
+                              setArMenuOpen(false);
+                            }} 
+                            className="h-9 flex items-center gap-1.5 px-3 bg-white/5 hover:bg-mammut-gold hover:text-black text-mammut-gold rounded-lg transition-all active:scale-95 cursor-pointer text-[10px] font-black uppercase tracking-wider"
+                            title="AR Wall"
+                          >
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M6 3v18l12-3V6L6 3z" fill="currentColor" fillOpacity={0.1} />
+                              <path d="M6 8l12-1.5M6 13l12-2M6 17l12-2.5" strokeOpacity={0.4} />
+                            </svg>
+                            Wall
+                          </button>
+
+                          {/* AR Floor button */}
+                          <button 
+                            onClick={() => {
+                              setArPlacement('floor');
+                              setArMenuOpen(false);
+                            }} 
+                            className="h-9 flex items-center gap-1.5 px-3 bg-white/5 hover:bg-white hover:text-black text-white rounded-lg transition-all active:scale-95 cursor-pointer text-[10px] font-black uppercase tracking-wider"
+                            title="AR Floor"
+                          >
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M4 18h16l-3-8H7l-3 8z" fill="currentColor" fillOpacity={0.1} />
+                              <path d="M10 10l-2.5 8M14 10l2.5 8M6.5 13.5h11" strokeOpacity={0.4} />
+                            </svg>
+                            Floor
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Main AR Trigger button */}
+                      <button 
+                        onClick={() => setArMenuOpen(prev => !prev)} 
+                        className={`w-9 h-9 flex items-center justify-center rounded-lg transition-all active:scale-90 cursor-pointer shrink-0 ${
+                          arMenuOpen 
+                            ? 'bg-white/10 text-white hover:bg-white/20' 
+                            : 'bg-transparent text-mammut-gold hover:bg-mammut-gold hover:text-black'
+                        }`}
+                        title="AR Preview Options"
+                      >
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
+                          <path d="M12 2L2 7l10 5 10-5-10-5z" fill="currentColor" fillOpacity={0.1} />
+                          <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
+                          <path d="M2 7v10M12 12v10M22 7v10" />
+                        </svg>
+                      </button>
+                      
+                    </div>
+                 </div>
+              )}
 
              {is3dMode ? (
                 <ThreejsWindowEngine 

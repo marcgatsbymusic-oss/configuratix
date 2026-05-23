@@ -394,15 +394,15 @@ export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) =
   return (
     <div className="w-full h-full relative cursor-move touch-pan-y">
       <Canvas shadows camera={{ position: [0, targetY, cameraZ], fov: 45 }}>
-        <color attach="background" args={['#1a1a1a']} />
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[10, 10, 10]} intensity={1} castShadow />
+        <color attach="background" args={['#ffffff']} />
+        <ambientLight intensity={0.7} />
+        <directionalLight position={[5, 10, 5]} intensity={1.2} castShadow />
         <Environment preset="city" />
         
         <WindowAssembly {...props} />
         
         <OrbitControls makeDefault enablePan={true} enableZoom={true} target={[0, targetY, 0]} />
-        <ContactShadows position={[0, -0.001, 0]} opacity={0.4} scale={5} blur={2} far={10} />
+        <ContactShadows position={[0, -0.001, 0]} opacity={0.6} scale={5} blur={1.5} far={10} />
       </Canvas>
     </div>
   );
