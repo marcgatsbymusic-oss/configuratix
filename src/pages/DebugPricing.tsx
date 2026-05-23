@@ -19,6 +19,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import * as THREE from 'three';
 
+const isLight = true;
+
 const getPaneImage = (paneCode: string) => {
   if (!paneCode) return null;
   const code = paneCode.toUpperCase();
@@ -98,8 +100,6 @@ interface ScrollingDialProps {
 }
 
 function ScrollingDial({ value, onChange, items, onConfirm, closeOnSelect = true }: ScrollingDialProps) {
-  const { theme } = useThemeStore();
-  const isLight = theme === 'light';
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [scrollTop, setScrollTop] = useState(0);
   const [localActiveId, setLocalActiveId] = useState(value);
@@ -415,9 +415,6 @@ const AccordionSection = ({
   onToggle: () => void, 
   children: React.ReactNode 
 }) => {
-  const { theme } = useThemeStore();
-  const isLight = theme === 'light';
-
   // Extract number prefix (e.g. "1. Product" → "01", "Product")
   const numMatch = title.match(/^(\d+)\.\s*(.*)$/);
   const numLabel = numMatch ? String(numMatch[1]).padStart(2, '0') : null;
@@ -516,9 +513,6 @@ const NumericScrollWheel = ({
   orientation?: 'horizontal' | 'vertical';
   labelPosition?: 'top' | 'inside';
 }) => {
-  const { theme } = useThemeStore();
-  const isLight = theme === 'light';
-
   const trackRef = useRef<HTMLDivElement>(null);
   const currentValueRef = useRef(value);
   currentValueRef.current = value;
@@ -872,9 +866,6 @@ const ColorScrollWheel = ({
   showDefault?: boolean;
 }) => {
   const { t } = useTranslation();
-  const { theme } = useThemeStore();
-  const isLight = theme === 'light';
-
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [scrollPos, setScrollPos] = useState(0);
@@ -1403,9 +1394,6 @@ const HandleImage = ({
   onChange: (v: string) => void;
   options: any[];
 }) => {
-  const { theme } = useThemeStore();
-  const isLight = theme === 'light';
-
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [scrollPos, setScrollPos] = useState(0);
@@ -1692,9 +1680,6 @@ const HandleImage = ({
   options: any[];
   handleColor: string;
 }) => {
-  const { theme } = useThemeStore();
-  const isLight = theme === 'light';
-
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [scrollPos, setScrollPos] = useState(0);
@@ -1959,9 +1944,6 @@ const SegmentedControl = ({
   options: { value: string, label: string }[],
   gridCols?: string
 }) => {
-  const { theme } = useThemeStore();
-  const isLight = theme === 'light';
-
   return (
     <div className="flex flex-col gap-1.5 w-full">
       <label className={`block text-xs font-bold uppercase tracking-wide ${isLight ? 'text-zinc-550' : 'text-gray-400'}`}>{label}</label>
@@ -2010,9 +1992,6 @@ const CarouselSelector = <T extends CarouselOption>({
   options: T[],
   getImagePath?: (opt: T) => string
 }) => {
-  const { theme } = useThemeStore();
-  const isLight = theme === 'light';
-
   return (
     <div className="flex flex-col gap-1.5 w-full">
       <label className={`block text-xs font-bold uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>{label}</label>
@@ -2093,9 +2072,6 @@ const TYPOLOGY_GROUPS = [
 export function DebugPricing() {
   const { t } = useTranslation();
   const { setTheme } = useThemeStore();
-  // This page is permanently day-mode — isLight is not derived from the store
-  // to avoid the async rehydration gap that causes a dark-flash on first render.
-  const isLight = true;
 
   // Keep the store in sync so ThemeToggle widget reflects the correct state
   useEffect(() => {

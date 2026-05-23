@@ -38,3 +38,5 @@ src/data/cantor/cantor.sqlite-wal
 src/data/cantor/cantor.sqlite-shm
 src/data/cantor/_research/
 tmp_*.json
+
+.vercel
