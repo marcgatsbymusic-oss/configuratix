@@ -744,11 +744,18 @@ const NumericScrollWheel = ({
             )}
           </div>
         </div>
-
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-            </svg>
-          )}
-        </button>
+        {/* Floating tooltip badge while dragging to clear finger occlusion */}
+        {isDragging && (
+          <div 
+            className={`absolute bg-mammut-gold text-black text-[10px] font-black px-2.5 py-1.5 rounded-md shadow-lg pointer-events-none whitespace-nowrap z-30 transition-opacity duration-150 ${
+              isVert 
+                ? 'left-full ml-3 top-1/2 -translate-y-1/2' 
+                : 'bottom-full mb-3 left-1/2 -translate-x-1/2'
+            }`}
+          >
+            {value} mm
+          </div>
+        )}
       </div>
     </div>
   );
