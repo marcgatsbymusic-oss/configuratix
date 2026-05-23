@@ -437,122 +437,143 @@ const NumericScrollWheel = ({
   orientation?: 'horizontal' | 'vertical';
   labelPosition?: 'top' | 'inside';
 }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [scrollPos, setScrollPos] = useState(0);
-  const [visibleDim, setVisibleDim] = useState(300);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const currentValueRef = useRef(value);
+  currentValueRef.current = value;
+
+  const [isDragging, setIsDragging] = useState(false);
+  const [trackWidth, setTrackWidth] = useState(200);
+  const [trackHeight, setTrackHeight] = useState(200);
   const [isEditing, setIsEditing] = useState(false);
   const [tempInputVal, setTempInputVal] = useState(String(value));
   const [isBadgeHovered, setIsBadgeHovered] = useState(false);
 
-  const lastValueRef = useRef<number | null>(null);
-  const lastProgrammaticScrollRef = useRef<number | null>(null);
-
   const isVert = orientation === 'vertical';
   const effectiveLabelPos = labelPosition || (isVert ? 'inside' : 'top');
-  const stepWidth = 14;
-  const totalSteps = Math.round((max - min) / step);
-
-  // Keep a mutable ref of the value for the repeat timers to access latest value
-  const valueRef = useRef(value);
-  valueRef.current = value;
-
-  const timerRef = useRef<{ timeout?: any; interval?: any }>({});
-
-  const stopAdjust = () => {
-    if (timerRef.current.timeout) clearTimeout(timerRef.current.timeout);
-    if (timerRef.current.interval) clearInterval(timerRef.current.interval);
-  };
-
-  const startAdjust = (direction: 'prev' | 'next') => {
-    stopAdjust();
-    const stepVal = direction === 'prev' ? -1 : 1;
-    const nextVal = Math.max(min, Math.min(max, valueRef.current + stepVal));
-    onChange(nextVal);
-
-    timerRef.current.timeout = setTimeout(() => {
-      timerRef.current.interval = setInterval(() => {
-        const current = valueRef.current;
-        const next = Math.max(min, Math.min(max, current + stepVal));
-        if (next !== current) {
-          onChange(next);
-        } else {
-          stopAdjust();
-        }
-      }, 40);
-    }, 350);
-  };
+  
+  const tickSpacing = 12;
+  const unitsPerTick = 10;
+  
+  const dragStartPos = useRef(0);
+  const dragStartValue = useRef(0);
+  const lastPos = useRef(0);
+  const lastTime = useRef(0);
 
   useEffect(() => {
-    return () => stopAdjust();
-  }, []);
-
-  useEffect(() => {
-    if (!containerRef.current) return;
+    if (!trackRef.current) return;
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
-        setVisibleDim(isVert ? entry.contentRect.height : entry.contentRect.width);
+        setTrackWidth(entry.contentRect.width);
+        setTrackHeight(entry.contentRect.height);
       }
     });
-    resizeObserver.observe(containerRef.current);
-    setVisibleDim(isVert ? containerRef.current.clientHeight : containerRef.current.clientWidth);
+    resizeObserver.observe(trackRef.current);
+    setTrackWidth(trackRef.current.clientWidth);
+    setTrackHeight(trackRef.current.clientHeight);
     return () => resizeObserver.disconnect();
-  }, [isVert]);
+  }, []);
 
-  useEffect(() => {
-    if (lastValueRef.current === null || value !== lastValueRef.current) {
-      const idx = (value - min) / step;
-      if (idx >= 0 && idx <= totalSteps && scrollContainerRef.current) {
-        const targetScroll = idx * stepWidth;
-        const currentScroll = isVert ? scrollContainerRef.current.scrollTop : scrollContainerRef.current.scrollLeft;
-        if (Math.abs(currentScroll - targetScroll) > 1) {
-          lastProgrammaticScrollRef.current = targetScroll;
-          if (isVert) {
-            scrollContainerRef.current.scrollTop = targetScroll;
-          } else {
-            scrollContainerRef.current.scrollLeft = targetScroll;
-          }
-          setScrollPos(targetScroll);
-        }
+  const updateValue = (newValue: number) => {
+    const clamped = Math.max(min, Math.min(max, Math.round(newValue / step) * step));
+    onChange(clamped);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (orientation === 'horizontal') {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+        updateValue(value + step);
+        e.preventDefault();
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+        updateValue(value - step);
+        e.preventDefault();
       }
-      lastValueRef.current = value;
-    }
-    setTempInputVal(String(value));
-  }, [value, min, step, totalSteps, isVert]);
-
-  const handleScroll = () => {
-    if (scrollContainerRef.current) {
-      const sPos = isVert ? scrollContainerRef.current.scrollTop : scrollContainerRef.current.scrollLeft;
-      
-      // If this scroll event was triggered programmatically, ignore the value update
-      if (lastProgrammaticScrollRef.current !== null && Math.abs(sPos - lastProgrammaticScrollRef.current) < 1.1) {
-        lastProgrammaticScrollRef.current = null;
-        setScrollPos(sPos);
-        return;
-      }
-
-      setScrollPos(sPos);
-      
-      // Calculate activeValue in step increments (matching the visual ticks and snapping)
-      const activeValue = min + Math.round(sPos / stepWidth) * step;
-      if (activeValue >= min && activeValue <= max) {
-        if (activeValue !== value) {
-          lastValueRef.current = activeValue;
-          onChange(activeValue);
-        }
+    } else {
+      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+        updateValue(value + step);
+        e.preventDefault();
+      } else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+        updateValue(value - step);
+        e.preventDefault();
       }
     }
   };
 
   const handleWheel = (e: React.WheelEvent) => {
-    if (scrollContainerRef.current) {
+    e.preventDefault();
+    const delta = e.deltaY < 0 ? step : -step;
+    updateValue(value + delta);
+  };
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    if (isEditing) return;
+    setIsDragging(true);
+    const pos = isVert ? e.clientY : e.clientX;
+    dragStartPos.current = pos;
+    dragStartValue.current = value;
+    lastPos.current = pos;
+    lastTime.current = Date.now();
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!isDragging) return;
+    const pos = isVert ? e.clientY : e.clientX;
+    const now = Date.now();
+    const dt = now - lastTime.current || 1;
+    const dp = pos - lastPos.current;
+
+    const velocity = Math.abs(dp) / dt;
+    const accelFactor = velocity > 0.2 ? Math.min(10, 1 + (velocity - 0.2) * 4) : 1;
+    
+    const valueDelta = -dp * (unitsPerTick / tickSpacing) * accelFactor;
+    const nextVal = currentValueRef.current + valueDelta;
+    updateValue(nextVal);
+
+    lastPos.current = pos;
+    lastTime.current = now;
+  };
+
+  const handlePointerUp = (e: React.PointerEvent) => {
+    setIsDragging(false);
+    e.currentTarget.releasePointerCapture(e.pointerId);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (isEditing) return;
+    setIsDragging(true);
+    const touch = e.touches[0];
+    const pos = isVert ? touch.clientY : touch.clientX;
+    dragStartPos.current = pos;
+    dragStartValue.current = value;
+    lastPos.current = pos;
+    lastTime.current = Date.now();
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return;
+    const touch = e.touches[0];
+    const pos = isVert ? touch.clientY : touch.clientX;
+    const now = Date.now();
+    const dt = now - lastTime.current || 1;
+    const dp = pos - lastPos.current;
+
+    const velocity = Math.abs(dp) / dt;
+    const accelFactor = velocity > 0.2 ? Math.min(10, 1 + (velocity - 0.2) * 4) : 1;
+    const valueDelta = -dp * (unitsPerTick / tickSpacing) * accelFactor;
+
+    const nextVal = currentValueRef.current + valueDelta;
+    updateValue(nextVal);
+
+    lastPos.current = pos;
+    lastTime.current = now;
+
+    if (e.cancelable) {
       e.preventDefault();
-      if (isVert) {
-        scrollContainerRef.current.scrollTop += e.deltaY;
-      } else {
-        scrollContainerRef.current.scrollLeft += e.deltaY;
-      }
     }
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
   };
 
   const handleCommit = () => {
@@ -564,36 +585,47 @@ const NumericScrollWheel = ({
     }
   };
 
-  const centerIdx = Math.round(scrollPos / stepWidth);
-  const visibleHalf = Math.ceil((visibleDim / 2) / stepWidth) + 12; // Pre-render buffer expanded to prevent clipping
-  const startIdx = centerIdx - visibleHalf;
-  const endIdx = centerIdx + visibleHalf;
+  useEffect(() => {
+    setTempInputVal(String(value));
+  }, [value]);
 
-  const R = Math.max(140, visibleDim / 1.7);
+  const size = isVert ? trackHeight : trackWidth;
+  const center = size / 2;
+  const pxPerUnit = tickSpacing / unitsPerTick;
+  const visibleRange = center / pxPerUnit;
+  const minVisibleVal = value - visibleRange;
+  const maxVisibleVal = value + visibleRange;
+
+  const minK = Math.floor(minVisibleVal / unitsPerTick);
+  const maxK = Math.ceil(maxVisibleVal / unitsPerTick);
 
   const bars = [];
-  for (let i = startIdx; i <= endIdx; i++) {
-    const itemOffset = i * stepWidth - scrollPos;
-    const angle = itemOffset / R;
-    if (Math.abs(angle) > 1.6) continue;
+  for (let k = minK; k <= maxK; k++) {
+    const tickValue = k * unitsPerTick;
+    const offset = (tickValue - value) * pxPerUnit;
+    if (tickValue < min || tickValue > max) continue;
 
-    const trigVal = R * Math.sin(angle);
-    const cosVal = Math.cos(angle);
-    const scale = 0.5 + 0.5 * cosVal;
-    
-    // In horizontal: rectangles are vertical (width 14, height 16).
-    // In vertical: rectangles are horizontal (width 16, height 14).
-    const rectHeight = isVert ? 14 * scale : 16 * scale;
-    const rectWidth = isVert ? 16 * scale : 14 * scale;
-    // Let opacity fall to 0 smoothly at edges to avoid popping
-    const opacity = Math.max(0, cosVal * cosVal);
+    const isMajor = k % 10 === 0;
+    const isMedium = k % 5 === 0 && !isMajor;
 
-    const absAngle = Math.abs(angle);
+    let rectWidth = 1.5;
+    let rectHeight = 6;
+    if (isMajor) {
+      rectHeight = 10;
+      rectWidth = 2;
+    } else if (isMedium) {
+      rectHeight = 8;
+    }
+
+    const distFromCenter = Math.abs(offset);
+    const maxDist = center || 100;
+    const opacity = Math.max(0, 1 - distFromCenter / maxDist) * 0.35;
+
     let h = 35;
     let s = 90;
     let l = 60;
-    if (absAngle > 0) {
-      const t = Math.min(1, absAngle / 1.57);
+    if (distFromCenter > 0) {
+      const t = Math.min(1, distFromCenter / maxDist);
       h = 35 - t * 45;
       s = 90 - t * 25;
       l = 60 - t * 30;
@@ -602,55 +634,67 @@ const NumericScrollWheel = ({
 
     bars.push(
       <div
-        key={`bar-${i}`}
-        className="absolute pointer-events-none rounded-[3px]"
+        key={`tick-${tickValue}`}
+        className="absolute pointer-events-none rounded-full"
         style={{
-          left: isVert ? `calc(50% - ${rectWidth / 2}px)` : `calc(50% + ${trigVal}px - ${rectWidth / 2}px)`,
-          top: isVert ? `calc(50% + ${trigVal}px - ${rectHeight / 2}px)` : `calc(50% - ${rectHeight / 2}px)`,
-          width: rectWidth,
-          height: rectHeight,
+          left: isVert ? `calc(50% - ${rectHeight / 2}px)` : `${center + offset}px`,
+          top: isVert ? `${center + offset}px` : `calc(50% - ${rectHeight / 2}px)`,
+          width: isVert ? rectHeight : rectWidth,
+          height: isVert ? rectWidth : rectHeight,
           backgroundColor: rectColor,
-          opacity: opacity,
-          zIndex: Math.round(cosVal * 10)
+          opacity: isDragging ? opacity * 1.5 : opacity,
+          transform: isVert ? 'translateY(-50%)' : 'translateX(-50%)',
         }}
       />
     );
   }
 
-  const paddingVal = Math.max(0, visibleDim / 2 - stepWidth / 2);
+  const maskStyle: React.CSSProperties = isVert
+    ? {
+        WebkitMaskImage: 'linear-gradient(to bottom, transparent, white 15%, white 85%, transparent)',
+        maskImage: 'linear-gradient(to bottom, transparent, white 15%, white 85%, transparent)',
+      }
+    : {
+        WebkitMaskImage: 'linear-gradient(to right, transparent, white 15%, white 85%, transparent)',
+        maskImage: 'linear-gradient(to right, transparent, white 15%, white 85%, transparent)',
+      };
+
+  const trackSizeClass = isVert ? 'w-5 md:w-[28px] h-full' : 'w-full h-5 md:h-[28px]';
 
   return (
-    <div className={`flex flex-col gap-1.5 ${isVert ? 'h-full w-full' : 'w-full'}`}>
-      {effectiveLabelPos === 'top' && label && (
-        <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide">{label}</label>
-      )}
-      <div 
-        ref={containerRef}
+    <div 
+      className={`flex select-none touch-none ${
+        isVert ? 'flex-col items-center h-full w-full' : 'flex-row items-center w-full'
+      }`}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+    >
+      <div
+        ref={trackRef}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerLeave={handlePointerUp}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onTouchCancel={handleTouchEnd}
         onWheel={handleWheel}
-        className={`relative bg-transparent rounded-xl overflow-visible select-none flex items-center justify-center group/wheel ${
-          isVert ? 'w-full h-full' : 'w-full h-5 md:h-7'
-        }`}
+        style={maskStyle}
+        className={`relative overflow-hidden bg-mammut-dark border border-gray-850 hover:border-mammut-gold/40 hover:bg-mammut-darker transition-colors duration-200 rounded-lg flex-grow flex items-center justify-center select-none touch-none opacity-[0.4] hover:opacity-100 transition-opacity ${trackSizeClass}`}
       >
-        {/* Background & Border track overlay - faded when idle, solid on hover */}
-        <div className="absolute inset-0 bg-mammut-dark border border-gray-800 rounded-xl shadow-inner pointer-events-none z-0 transition-opacity duration-300 opacity-[0.4] group-hover/wheel:opacity-100" />
+        {bars}
 
-        <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden z-10 transition-opacity duration-300 opacity-[0.35] group-hover/wheel:opacity-100">
-          {bars}
-        </div>
+        {/* Center Target Indicator Pointer (Yellow/Gold) */}
+        <div
+          className={`absolute pointer-events-none rounded-full shadow-[0_0_8px_rgba(234,182,118,0.4)] ${
+            isVert 
+              ? 'top-1/2 left-0 w-full h-[2px] bg-[#ffc882] -translate-y-1/2 z-10' 
+              : 'left-1/2 top-0 w-[2px] h-full bg-[#ffc882] -translate-x-1/2 z-10'
+          }`}
+        />
 
-        {/* Gradients */}
-        <div className={`absolute pointer-events-none z-15 transition-opacity duration-300 opacity-[0.12] group-hover/wheel:opacity-80 ${
-          isVert 
-            ? 'inset-x-0 top-0 h-4 bg-gradient-to-b from-mammut-dark to-transparent'
-            : 'inset-y-0 left-0 w-4 bg-gradient-to-r from-mammut-dark to-transparent'
-        }`} />
-        <div className={`absolute pointer-events-none z-15 transition-opacity duration-300 opacity-[0.12] group-hover/wheel:opacity-80 ${
-          isVert 
-            ? 'inset-x-0 bottom-0 h-4 bg-gradient-to-t from-mammut-dark to-transparent'
-            : 'inset-y-0 right-0 w-4 bg-gradient-to-l from-mammut-dark to-transparent'
-        }`} />
-
-        {/* Center overlay display */}
+        {/* Center overlay display (clean value) */}
         <div className={`absolute inset-0 flex items-center pointer-events-none z-25 transition-all duration-300 ${
           isVert ? 'justify-start pl-1.5 md:pl-2' : 'justify-center'
         } ${
@@ -676,7 +720,7 @@ const NumericScrollWheel = ({
             title="Click to type value"
           >
             {isEditing ? (
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1.5 font-mono">
                 <input 
                   type="number"
                   value={tempInputVal}
@@ -686,7 +730,7 @@ const NumericScrollWheel = ({
                     if (e.key === 'Enter') handleCommit();
                     if (e.key === 'Escape') setIsEditing(false);
                   }}
-                  className="w-16 md:w-28 bg-transparent text-center text-mammut-gold font-black text-sm md:text-xl focus:outline-none font-mono"
+                  className="w-16 md:w-28 bg-transparent text-center text-mammut-gold font-black text-sm md:text-xl focus:outline-none"
                   autoFocus
                   onClick={(e) => e.stopPropagation()}
                 />
@@ -701,89 +745,6 @@ const NumericScrollWheel = ({
           </div>
         </div>
 
-        {/* Scroll Container with conditional snapping classes based on multiple of 10 */}
-        <div 
-          ref={scrollContainerRef}
-          onScroll={handleScroll}
-          className={`absolute inset-0 z-20 cursor-grab active:cursor-grabbing flex ${
-            isVert 
-              ? `overflow-y-scroll flex-col ${value % 10 === 0 ? 'snap-y snap-mandatory' : ''}`
-              : `overflow-x-scroll flex-row ${value % 10 === 0 ? 'snap-x snap-mandatory' : ''}`
-          }`}
-          style={{ 
-            scrollbarWidth: 'none', 
-            msOverflowStyle: 'none',
-          }}
-        >
-          {/* Explicit flex spacers replace buggy padding values */}
-          <div style={isVert ? { height: paddingVal, flexShrink: 0 } : { width: paddingVal, flexShrink: 0 }} />
-          {Array.from({ length: totalSteps + 1 }).map((_, i) => (
-            <div 
-              key={`snap-${i}`}
-              className="snap-center shrink-0 pointer-events-auto"
-              style={isVert ? { height: stepWidth, width: '100%' } : { width: stepWidth, height: '100%' }}
-            />
-          ))}
-          <div style={isVert ? { height: paddingVal, flexShrink: 0 } : { width: paddingVal, flexShrink: 0 }} />
-        </div>
-
-        {/* First Button (Left/Top) - Decrease by 1mm (Hold-to-repeat supported) */}
-        <button
-          type="button"
-          onMouseDown={(e) => {
-            e.stopPropagation();
-            startAdjust('prev');
-          }}
-          onMouseUp={stopAdjust}
-          onMouseLeave={stopAdjust}
-          onTouchStart={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            startAdjust('prev');
-          }}
-          onTouchEnd={stopAdjust}
-          className={`absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg bg-mammut-black/85 border border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50 active:scale-90 transition-all duration-300 opacity-0 group-hover/wheel:opacity-100 cursor-pointer select-none ${
-            isVert ? 'top-2 md:top-3 left-1/2 -translate-x-1/2' : 'left-2 md:left-3 top-1/2 -translate-y-1/2'
-          }`}
-          title={isVert ? "Decrease height" : "Decrease width"}
-        >
-          {isVert ? (
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
-            </svg>
-          ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-            </svg>
-          )}
-        </button>
-
-        {/* Second Button (Right/Bottom) - Increase by 1mm (Hold-to-repeat supported) */}
-        <button
-          type="button"
-          onMouseDown={(e) => {
-            e.stopPropagation();
-            startAdjust('next');
-          }}
-          onMouseUp={stopAdjust}
-          onMouseLeave={stopAdjust}
-          onTouchStart={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            startAdjust('next');
-          }}
-          onTouchEnd={stopAdjust}
-          className={`absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg bg-mammut-black/85 border border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50 active:scale-90 transition-all duration-300 opacity-0 group-hover/wheel:opacity-100 cursor-pointer select-none ${
-            isVert ? 'bottom-2 md:bottom-3 left-1/2 -translate-x-1/2' : 'right-2 md:right-3 top-1/2 -translate-y-1/2'
-          }`}
-          title={isVert ? "Increase height" : "Increase width"}
-        >
-          {isVert ? (
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-            </svg>
-          ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
               <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
           )}
