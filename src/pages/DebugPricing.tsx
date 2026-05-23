@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { Download, Camera, Trash2, RotateCcw, Share2 } from 'lucide-react';
+import { Download, Camera, Trash2, RotateCcw, Share2, ChevronDown } from 'lucide-react';
 import { fetchPrice, type PricingApiResponse } from '../utils/cantorPricing/pricingApi';
 import type { ConfiguratorInput } from '../utils/cantorPricing/input';
 import { CONFIG_SCHEMA, WINDOW_TYPES, PROFILE_GLAZING_LIMITS, getTypologyImagePath } from '../components/SlateConfigurator/types';
@@ -49,11 +49,15 @@ interface TypologyThumbnailProps {
   id: string;
   className?: string;
   style?: React.CSSProperties;
+  hoverZoom?: boolean;
 }
 
-function TypologyThumbnail({ id, className, style }: TypologyThumbnailProps) {
+function TypologyThumbnail({ id, className, style, hoverZoom = false }: TypologyThumbnailProps) {
   const [src, setSrc] = useState(() => getTypologyImagePath(id));
   const [hasError, setHasError] = useState(false);
+  const { theme } = useThemeStore();
+  const isLight = theme === 'light' || document.documentElement.getAttribute('data-theme') === 'light';
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     setSrc(getTypologyImagePath(id));
@@ -71,20 +75,65 @@ function TypologyThumbnail({ id, className, style }: TypologyThumbnailProps) {
   if (hasError) {
     return (
       <div 
-        className={`${className} flex items-center justify-center bg-gray-800 text-gray-400 font-bold text-[10px] border border-gray-600 shadow-inner`}
-        style={style}
+        className={`${className} flex items-center justify-center font-bold text-[10px] shadow-inner`}
+        style={{
+          ...style,
+          backgroundColor: isLight ? '#f1f5f9' : '#1f2937',
+          color: isLight ? '#475569' : '#9ca3af',
+          borderColor: isLight ? '#cbd5e1' : '#4b5563'
+        }}
       >
         {id}
       </div>
     );
   }
 
+  const isSvg = src.endsWith('.svg') || src.includes('.svg?');
+
+  if (hoverZoom) {
+    const wrapperStyle: React.CSSProperties = {
+      ...style,
+      position: 'relative',
+      transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s, background-color 0.2s, border-color 0.2s',
+      transform: isHovered ? `${style?.transform || ''} scale(4)`.trim() : style?.transform,
+      transformOrigin: 'left center',
+      zIndex: isHovered ? 100 : style?.zIndex,
+      backgroundColor: isHovered ? (isLight ? '#ffffff' : '#1a1a1b') : undefined,
+      borderColor: isHovered ? (isLight ? '#94a3b8' : '#eab676') : undefined,
+      boxShadow: isHovered ? '0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' : undefined,
+    };
+
+    return (
+      <div
+        className={`${className} flex items-center justify-center`}
+        style={wrapperStyle}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <img
+          src={src}
+          alt={id}
+          className="w-full h-full object-contain pointer-events-none"
+          style={{
+            filter: (isLight && isSvg) ? 'invert(1)' : 'none',
+          }}
+          onError={handleError}
+        />
+      </div>
+    );
+  }
+
+  const finalStyle: React.CSSProperties = {
+    ...style,
+    filter: (isLight && isSvg) ? 'invert(1)' : 'none'
+  };
+
   return (
     <img
       src={src}
       alt={id}
       className={className}
-      style={style}
+      style={finalStyle}
       onError={handleError}
     />
   );
@@ -100,7 +149,7 @@ interface ScrollingDialProps {
 
 function ScrollingDial({ value, onChange, items, onConfirm, closeOnSelect = true }: ScrollingDialProps) {
   const { theme } = useThemeStore();
-  const isLight = theme === 'light';
+  const isLight = theme === 'light' || document.documentElement.getAttribute('data-theme') === 'light';
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [scrollTop, setScrollTop] = useState(0);
   const [localActiveId, setLocalActiveId] = useState(value);
@@ -221,16 +270,23 @@ function ScrollingDial({ value, onChange, items, onConfirm, closeOnSelect = true
   };
 
   return (
-    <div className={`relative w-full h-[320px] rounded-2xl border overflow-hidden select-none shadow-inner flex flex-col items-center justify-center ${
-      isLight ? 'bg-slate-100 border-slate-200' : 'bg-mammut-darker/90 border-gray-800'
-    }`}>
+    <div 
+      style={{
+        backgroundColor: isLight ? '#ffffff' : 'var(--theme-mammut-darker)',
+        borderColor: isLight ? '#cbd5e1' : 'var(--theme-mammut-border)'
+      }}
+      className="relative w-full h-[320px] rounded-2xl border overflow-hidden select-none shadow-inner flex flex-col items-center justify-center"
+    >
       {/* Up Arrow Button */}
       <button 
         type="button"
         onClick={(e) => { e.stopPropagation(); scrollByItems(-1); }}
-        className={`absolute top-2 z-30 w-8 h-8 rounded-full border flex items-center justify-center transition-colors cursor-pointer ${
-          isLight ? 'bg-white border-slate-300 text-slate-700 hover:border-black hover:text-black shadow-sm' : 'bg-mammut-dark/80 hover:bg-mammut-gold/20 text-mammut-gold border-gray-800'
-        }`}
+        style={{
+          backgroundColor: isLight ? '#ffffff' : 'var(--theme-mammut-dark)',
+          borderColor: isLight ? '#cbd5e1' : 'var(--theme-mammut-border)',
+          color: isLight ? '#334155' : 'var(--theme-mammut-gold)'
+        }}
+        className="absolute top-2 z-30 w-8 h-8 rounded-full border flex items-center justify-center transition-colors cursor-pointer hover:border-zinc-500 hover:text-black shadow-sm"
         title="Scroll Up"
       >
         ▲
@@ -240,31 +296,16 @@ function ScrollingDial({ value, onChange, items, onConfirm, closeOnSelect = true
       <button 
         type="button"
         onClick={(e) => { e.stopPropagation(); scrollByItems(1); }}
-        className={`absolute bottom-2 z-30 w-8 h-8 rounded-full border flex items-center justify-center transition-colors cursor-pointer ${
-          isLight ? 'bg-white border-slate-300 text-slate-700 hover:border-black hover:text-black shadow-sm' : 'bg-mammut-dark/80 hover:bg-mammut-gold/20 text-mammut-gold border-gray-800'
-        }`}
+        style={{
+          backgroundColor: isLight ? '#ffffff' : 'var(--theme-mammut-dark)',
+          borderColor: isLight ? '#cbd5e1' : 'var(--theme-mammut-border)',
+          color: isLight ? '#334155' : 'var(--theme-mammut-gold)'
+        }}
+        className="absolute bottom-2 z-30 w-8 h-8 rounded-full border flex items-center justify-center transition-colors cursor-pointer hover:border-zinc-500 hover:text-black shadow-sm"
         title="Scroll Down"
       >
         ▼
       </button>
-
-      {/* Background Ticks Cylinder */}
-      <div className="absolute inset-0 pointer-events-none flex flex-col justify-center items-center overflow-hidden z-0">
-        {ticks}
-      </div>
-
-      {/* Gradient Fades for cylinder realism */}
-      <div className={`absolute top-0 inset-x-0 h-16 bg-gradient-to-b to-transparent pointer-events-none z-10 ${
-        isLight ? 'from-slate-100 via-slate-100/80' : 'from-mammut-darker via-mammut-darker/80'
-      }`} />
-      <div className={`absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t to-transparent pointer-events-none z-10 ${
-        isLight ? 'from-slate-100 via-slate-100/80' : 'from-mammut-darker via-mammut-darker/80'
-      }`} />
-
-      {/* Center Target Indicator Pointer (Yellow/Gold borders) */}
-      <div className={`absolute inset-x-4 h-[138px] border-y-2 rounded-xl pointer-events-none z-0 top-1/2 -translate-y-1/2 ${
-        isLight ? 'border-slate-400/50 bg-slate-200/40' : 'border-mammut-gold/40 bg-mammut-gold/5'
-      }`} />
 
       {/* Visual Dial Layer */}
       <div className="absolute inset-0 pointer-events-none flex flex-col justify-center items-center overflow-hidden">
@@ -315,7 +356,9 @@ function ScrollingDial({ value, onChange, items, onConfirm, closeOnSelect = true
                 <div className="relative flex items-center justify-center" style={{ width: 80, height: 80 }}>
                   <TypologyThumbnail 
                     id={id}
-                    className="object-contain transition-all duration-100 bg-white border border-gray-700 p-1 rounded shadow-sm"
+                    className={`object-contain transition-all duration-100 p-1 rounded shadow-sm border ${
+                      isLight ? 'bg-transparent border-zinc-200' : 'bg-mammut-darker border-gray-700'
+                    }`}
                     style={{ 
                       transform: `scale(${imgScale})`,
                       width: 48, 
@@ -417,7 +460,7 @@ const AccordionSection = ({
   children: React.ReactNode 
 }) => {
   const { theme } = useThemeStore();
-  const isLight = theme === 'light';
+  const isLight = theme === 'light' || document.documentElement.getAttribute('data-theme') === 'light';
 
   // Extract number prefix (e.g. "1. Product" → "01", "Product")
   const numMatch = title.match(/^(\d+)\.\s*(.*)$/);
@@ -426,9 +469,9 @@ const AccordionSection = ({
 
   if (isLight) {
     return (
-      <div id={id} className={`rounded-xl transition-all duration-300 bg-white shadow-sm ${
+      <div id={id} className={`rounded-xl transition-all duration-300 shadow-sm ${
           isOpen ? 'relative z-20 overflow-visible' : 'overflow-hidden'
-        }`}>
+        }`} style={{ backgroundColor: '#ffffff' }}>
           <div
             onClick={onToggle}
             className={`px-6 py-5 flex items-center justify-between cursor-pointer select-none transition-colors group ${
@@ -446,21 +489,40 @@ const AccordionSection = ({
                 <span className="text-xs text-slate-500 truncate mt-0.5">{summary}</span>
               )}
             </div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16" height="16" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" strokeWidth="2.5"
-              strokeLinecap="round" strokeLinejoin="round"
-              className={`shrink-0 transition-transform duration-300 text-slate-400 ${
-                isOpen ? 'rotate-180 !text-black' : 'group-hover:text-slate-600'
-              }`}
-            >
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
+            {isOpen ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16" height="16" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" strokeWidth="2.5"
+                strokeLinecap="round" strokeLinejoin="round"
+                className="shrink-0 text-slate-600 transition-transform duration-300"
+              >
+                <polyline points="18 15 12 9 6 15" />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16" height="16" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" strokeWidth="2.5"
+                strokeLinecap="round" strokeLinejoin="round"
+                className="shrink-0 text-slate-400 group-hover:text-slate-600 transition-transform duration-300"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            )}
           </div>
           {isOpen && (
-            <div className="px-6 pb-6 pt-1 bg-white space-y-6">
+            <div className="px-6 pb-6 pt-1 space-y-6 relative accordion-content" style={{ backgroundColor: '#ffffff' }}>
               {children}
+              <div className="flex justify-end pt-4 border-t border-zinc-150">
+                <button
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); onToggle(); }}
+                  className="px-4 py-2 border border-zinc-300 text-zinc-700 hover:border-black hover:text-black text-xs font-bold uppercase tracking-wider rounded transition-colors cursor-pointer flex items-center gap-1.5 bg-transparent hover:bg-zinc-50 shadow-sm"
+                >
+                  ▲ Collapse Section
+                </button>
+              </div>
             </div>
           )}
         </div>
@@ -483,32 +545,147 @@ const AccordionSection = ({
             <span className="text-xs truncate text-gray-500">{summary}</span>
           )}
         </div>
-        <span className={`text-xs transition-transform duration-300 ${
-          isOpen ? 'rotate-180 text-mammut-gold' : 'text-gray-500'
-        }`}>
-          ▼
-        </span>
+        {isOpen ? (
+          <span className="text-xs text-mammut-gold font-bold">▲</span>
+        ) : (
+          <span className="text-xs text-gray-500">▼</span>
+        )}
       </div>
       {isOpen && (
-        <div className="p-4 sm:p-6 bg-mammut-darker/30 space-y-6">
+        <div className="p-4 sm:p-6 bg-mammut-darker/30 space-y-6 relative accordion-content">
           {children}
+          <div className="flex justify-end pt-4 border-t border-gray-800">
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); onToggle(); }}
+              className="px-4 py-2 border border-gray-750 text-gray-400 hover:border-mammut-gold hover:text-mammut-gold text-xs font-bold uppercase tracking-wider rounded transition-all cursor-pointer bg-transparent hover:bg-gray-800/40 shadow-sm flex items-center gap-1.5"
+            >
+              ▲ Collapse Section
+            </button>
+          </div>
         </div>
       )}
+    </div>
+  );
+};const DimensionAdjuster = ({
+  label,
+  value,
+  onChange,
+  min = 500,
+  max = 3000,
+  isLight
+}: {
+  label: string;
+  value: number;
+  onChange: (v: number) => void;
+  min?: number;
+  max?: number;
+  isLight: boolean;
+}) => {
+  const [inputValue, setInputValue] = useState(value.toString());
+
+  useEffect(() => {
+    setInputValue(value.toString());
+  }, [value]);
+
+  const handleBlur = () => {
+    let num = parseInt(inputValue, 10);
+    if (isNaN(num)) {
+      num = value;
+    }
+    const clamped = Math.max(min, Math.min(max, num));
+    onChange(clamped);
+    setInputValue(clamped.toString());
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleBlur();
+      e.currentTarget.blur();
+    }
+  };
+
+  const adjust = (amount: number) => {
+    const next = Math.max(min, Math.min(max, value + amount));
+    onChange(next);
+    setInputValue(next.toString());
+  };
+
+  return (
+    <div className="flex flex-col gap-1.5 w-full">
+      <label className={`text-xs font-bold mb-1 uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>
+        {label}
+      </label>
+      <div className="flex items-center gap-2">
+        {/* Left Arrow (Micro decrement) */}
+        <button
+          type="button"
+          onClick={() => adjust(-1)}
+          className={`w-10 h-[50px] rounded-xl flex items-center justify-center border font-black text-lg transition-all active:scale-90 hover:scale-105 cursor-pointer ${
+            isLight
+              ? 'bg-zinc-100 hover:bg-zinc-200 border-zinc-300 text-zinc-700'
+              : 'bg-mammut-black hover:bg-gray-800 border-gray-800 text-mammut-gold'
+          }`}
+          title="Decrease by 1 mm (Shift-click for 10 mm)"
+          onMouseDown={(e) => {
+            if (e.shiftKey) {
+              e.preventDefault();
+              adjust(-10);
+            }
+          }}
+        >
+          ←
+        </button>
+
+        {/* Text Input */}
+        <input
+          type="text"
+          inputMode="numeric"
+          pattern="[0-9]*"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value.replace(/\D/g, ''))}
+          onBlur={handleBlur}
+          onKeyDown={handleKeyDown}
+          className={`flex-1 text-center font-mono text-lg font-bold rounded-xl h-[50px] focus:outline-none border transition-colors ${
+            isLight
+              ? 'bg-white border-zinc-300 text-black focus:border-black'
+              : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+          }`}
+        />
+
+        {/* Right Arrow (Micro increment) */}
+        <button
+          type="button"
+          onClick={() => adjust(1)}
+          className={`w-10 h-[50px] rounded-xl flex items-center justify-center border font-black text-lg transition-all active:scale-90 hover:scale-105 cursor-pointer ${
+            isLight
+              ? 'bg-zinc-100 hover:bg-zinc-200 border-zinc-300 text-zinc-700'
+              : 'bg-mammut-black hover:bg-gray-800 border-gray-800 text-mammut-gold'
+          }`}
+          title="Increase by 1 mm (Shift-click for 10 mm)"
+          onMouseDown={(e) => {
+            if (e.shiftKey) {
+              e.preventDefault();
+              adjust(10);
+            }
+          }}
+        >
+          →
+        </button>
+      </div>
     </div>
   );
 };
 
 const NumericScrollWheel = ({
-  label,
   value,
   onChange,
   min = 500,
   max = 3000,
   step = 10,
   orientation = 'horizontal',
-  labelPosition
 }: {
-  label: string;
+  label?: string;
   value: number;
   onChange: (v: number) => void;
   min?: number;
@@ -518,7 +695,7 @@ const NumericScrollWheel = ({
   labelPosition?: 'top' | 'inside';
 }) => {
   const { theme } = useThemeStore();
-  const isLight = theme === 'light';
+  const isLight = theme === 'light' || document.documentElement.getAttribute('data-theme') === 'light';
 
   const trackRef = useRef<HTMLDivElement>(null);
   const currentValueRef = useRef(value);
@@ -528,11 +705,9 @@ const NumericScrollWheel = ({
   const [trackWidth, setTrackWidth] = useState(200);
   const [trackHeight, setTrackHeight] = useState(200);
   const [isEditing, setIsEditing] = useState(false);
-  const [tempInputVal, setTempInputVal] = useState(String(value));
   const [isBadgeHovered, setIsBadgeHovered] = useState(false);
 
   const isVert = orientation === 'vertical';
-  const effectiveLabelPos = labelPosition || (isVert ? 'inside' : 'top');
   
   const tickSpacing = 12;
   const unitsPerTick = 10;
@@ -659,20 +834,36 @@ const NumericScrollWheel = ({
     setIsDragging(false);
   };
 
-  const handleCommit = () => {
-    setIsEditing(false);
-    const val = Number(tempInputVal);
-    if (!isNaN(val)) {
-      const clamped = Math.max(min, Math.min(max, Math.round(val)));
-      onChange(clamped);
-    }
-  };
 
-  useEffect(() => {
-    setTempInputVal(String(value));
-  }, [value]);
 
   const size = isVert ? trackHeight : trackWidth;
+  const editBg = isLight ? '#ffffff' : 'var(--theme-mammut-darker)';
+  const editBorder = isLight ? '#c88a3e' : 'var(--theme-mammut-gold)';
+  const editTextColor = isLight ? '#000000' : 'var(--theme-mammut-gold)';
+  const btnBg = isLight ? '#f4f4f5' : '#000000';
+  const btnBorder = isLight ? '#d4d4d8' : 'var(--theme-mammut-border)';
+  const btnTextColor = isLight ? '#000000' : 'var(--theme-mammut-gold)';
+
+  const scale = size < 640 ? 1.6 : 1.8;
+  const badgeStyle: React.CSSProperties = isEditing
+    ? {
+        backgroundColor: editBg,
+        borderColor: editBorder,
+        color: editTextColor,
+        borderRadius: '4px',
+        borderWidth: `${(1 / scale).toFixed(3)}px`,
+        boxShadow: isLight 
+          ? '0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)'
+          : '0 20px 25px -5px rgba(0,0,0,0.5), 0 0 20px rgba(217,119,6,0.2)',
+        transform: isVert 
+          ? `scale(${scale}) translateX(14px)` 
+          : `scale(${scale}) translateY(-14px)`,
+      }
+    : (isVert
+        ? { transform: `rotate(-90deg) scale(${isBadgeHovered ? 1.1 : 1.0})` }
+        : { transform: `scale(${isBadgeHovered ? 1.1 : 1.0})` }
+      );
+
   const center = size / 2;
   const pxPerUnit = tickSpacing / unitsPerTick;
   const visibleRange = center / pxPerUnit;
@@ -748,12 +939,31 @@ const NumericScrollWheel = ({
 
   return (
     <div 
-      className={`flex select-none touch-none ${
+      className={`relative flex select-none touch-none ${
         isVert ? 'flex-col items-center h-full w-full' : 'flex-row items-center w-full'
       }`}
       onKeyDown={handleKeyDown}
       tabIndex={0}
     >
+      {isEditing && (
+        <div 
+          className="fixed inset-0 z-40 cursor-default" 
+          style={{ backgroundColor: 'transparent' }}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsEditing(false);
+          }}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+            setIsEditing(false);
+          }}
+          onTouchStart={(e) => {
+            e.stopPropagation();
+            setIsEditing(false);
+          }}
+        />
+      )}
+
       <div
         ref={trackRef}
         onPointerDown={handlePointerDown}
@@ -766,11 +976,7 @@ const NumericScrollWheel = ({
         onTouchCancel={handleTouchEnd}
         onWheel={handleWheel}
         style={maskStyle}
-        className={`relative overflow-hidden transition-colors duration-200 rounded-lg flex-grow flex items-center justify-center select-none touch-none transition-opacity ${
-          isLight 
-            ? 'bg-zinc-50 border border-zinc-200 opacity-90 hover:bg-zinc-100 hover:border-zinc-300' 
-            : 'bg-mammut-dark border border-gray-850 hover:border-mammut-gold/40 hover:bg-mammut-darker opacity-[0.4] hover:opacity-100'
-        } ${trackSizeClass}`}
+        className={`relative overflow-hidden flex-grow flex items-center justify-center select-none touch-none dimension-scroll-wheel ${trackSizeClass}`}
       >
         {bars}
 
@@ -786,75 +992,106 @@ const NumericScrollWheel = ({
                 }`
           }`}
         />
-
-        {/* Center overlay display (clean value) */}
-        <div className={`absolute inset-0 flex items-center pointer-events-none z-25 transition-all duration-300 ${
-          isVert ? 'justify-start pl-1.5 md:pl-2' : 'justify-center'
-        } ${
-          isEditing ? 'z-45' : (isBadgeHovered ? 'z-35' : '')
-        }`}>
-          <div 
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsEditing(true);
-            }}
-            onMouseEnter={() => setIsBadgeHovered(true)}
-            onMouseLeave={() => setIsBadgeHovered(false)}
-            className={`flex items-center justify-center pointer-events-auto cursor-pointer select-none transition-all duration-300 transform active:scale-95 ${
-              isVert ? 'origin-left' : 'origin-center'
-            } ${
-              isEditing 
-                ? (isLight 
-                    ? 'bg-white border border-black px-3.5 py-1 md:px-6 md:py-1.5 rounded-xl shadow-lg scale-[1.8] md:scale-[2.0]'
-                    : 'bg-mammut-black/95 border border-mammut-gold backdrop-blur-md px-3.5 py-1 md:px-6 md:py-1.5 rounded-xl shadow-2xl scale-[1.8] md:scale-[2.0] shadow-[0_0_20px_rgba(217,119,6,0.35)]'
-                  )
-                : (isBadgeHovered
-                    ? 'bg-transparent border border-transparent backdrop-blur-none px-0 py-0 shadow-none scale-[1.1]'
-                    : 'bg-transparent border border-transparent backdrop-blur-none px-0 py-0 shadow-none scale-100'
-                  )
-            }`}
-            title="Click to type value"
-          >
-            {isEditing ? (
-              <div className="flex items-center gap-1.5 font-mono">
-                <input 
-                  type="number"
-                  value={tempInputVal}
-                  onChange={(e) => setTempInputVal(e.target.value)}
-                  onBlur={handleCommit}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') handleCommit();
-                    if (e.key === 'Escape') setIsEditing(false);
-                  }}
-                  className={`w-16 md:w-28 bg-transparent text-center font-black text-sm md:text-xl focus:outline-none ${isLight ? 'text-black' : 'text-mammut-gold'}`}
-                  autoFocus
-                  onClick={(e) => e.stopPropagation()}
-                />
-                <span className={`text-[9px] md:text-xs font-bold ${isLight ? 'text-zinc-550' : 'text-gray-400'}`}>mm</span>
-              </div>
-            ) : (
-              <span className={`text-sm md:text-xl font-black font-mono tracking-wide flex flex-col items-center leading-tight ${isLight ? 'text-black' : 'text-mammut-gold'}`}>
-                {effectiveLabelPos === 'inside' && label && <span className={`text-[8px] md:text-[10px] uppercase font-bold tracking-tight pb-0.5 ${isLight ? 'text-zinc-400 font-extrabold' : 'text-gray-500'}`}>{label.replace(/ \(mm\)/i, '')}</span>}
-                <span>{value} <span className={`text-[9px] md:text-xs font-bold ${isLight ? 'text-zinc-400' : 'text-gray-400'}`}>mm</span></span>
-              </span>
-            )}
-          </div>
-        </div>
-        {/* Floating tooltip badge while dragging to clear finger occlusion */}
-        {isDragging && (
-          <div 
-            className={`absolute text-[10px] font-black px-2.5 py-1.5 rounded-md shadow-lg pointer-events-none whitespace-nowrap z-30 transition-opacity duration-150 ${
-              isLight ? 'bg-black text-white' : 'bg-mammut-gold text-black'
-            } ${
-              isVert 
-                ? 'left-full ml-3 top-1/2 -translate-y-1/2' 
-                : 'bottom-full mb-3 left-1/2 -translate-x-1/2'
-            }`}
-          >
-            {value} mm
-          </div>
-        )}
       </div>
+
+      {/* Center overlay display (clean value) */}
+      <div className={`absolute inset-0 flex items-center pointer-events-none z-50 transition-all duration-300 justify-center`}>
+        <div 
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsEditing(true);
+          }}
+          onMouseEnter={() => setIsBadgeHovered(true)}
+          onMouseLeave={() => setIsBadgeHovered(false)}
+          className={`flex items-center justify-center pointer-events-auto cursor-pointer select-none transition-all duration-300 transform active:scale-95 ${
+            isVert && !isEditing ? 'origin-center' : (isVert ? 'origin-left' : 'origin-center')
+          } ${
+            isEditing 
+              ? `border px-3.5 py-1 md:px-6 md:py-1.5 ${isLight ? '' : 'backdrop-blur-md'}`
+              : 'bg-transparent border border-transparent backdrop-blur-none px-0 py-0 shadow-none'
+          }`}
+          style={badgeStyle}
+          title="Click to adjust value"
+        >
+          {isEditing ? (
+            <div className="flex items-center gap-1 font-mono" onClick={(e) => e.stopPropagation()}>
+              {/* Decrement Button */}
+              <button
+                type="button"
+                onMouseDown={(e) => e.preventDefault()}
+                onTouchStart={(e) => e.preventDefault()}
+                onClick={() => {
+                  const nextVal = Math.max(min, value - 1);
+                  onChange(nextVal);
+                }}
+                style={{
+                  backgroundColor: btnBg,
+                  borderColor: btnBorder,
+                  color: btnTextColor,
+                  borderRadius: '4px',
+                  borderWidth: `${(1 / scale).toFixed(3)}px`,
+                }}
+                className="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center border text-xs md:text-sm font-black transition-all active:scale-90 hover:scale-105 cursor-pointer"
+                title="-1 mm"
+              >
+                -
+              </button>
+
+              {/* Display Value Text */}
+              <span 
+                style={{ color: editTextColor }}
+                className="px-2.5 text-xs md:text-sm font-black"
+              >
+                {value}
+              </span>
+
+              {/* Increment Button */}
+              <button
+                type="button"
+                onMouseDown={(e) => e.preventDefault()}
+                onTouchStart={(e) => e.preventDefault()}
+                onClick={() => {
+                  const nextVal = Math.min(max, value + 1);
+                  onChange(nextVal);
+                }}
+                style={{
+                  backgroundColor: btnBg,
+                  borderColor: btnBorder,
+                  color: btnTextColor,
+                  borderRadius: '4px',
+                  borderWidth: `${(1 / scale).toFixed(3)}px`,
+                }}
+                className="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center border text-xs md:text-sm font-black transition-all active:scale-90 hover:scale-105 cursor-pointer"
+                title="+1 mm"
+              >
+                +
+              </button>
+            </div>
+          ) : (
+            <span 
+              style={{ color: isLight ? '#000000' : 'var(--theme-mammut-gold)' }}
+              className="text-lg md:text-2xl font-black font-mono tracking-wide"
+            >
+              {value}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Floating tooltip badge while dragging to clear finger occlusion */}
+      {isDragging && (
+        <div 
+          className={`absolute text-[10px] font-black px-2.5 py-1.5 rounded-md shadow-lg pointer-events-none whitespace-nowrap z-30 transition-opacity duration-150 ${
+            isLight ? 'bg-black text-white' : 'bg-mammut-gold text-black'
+          } ${
+            isVert 
+              ? 'left-full ml-3 top-1/2 -translate-y-1/2' 
+              : 'bottom-full mb-3 left-1/2 -translate-x-1/2'
+          }`}
+        >
+          {value}
+        </div>
+      )}
     </div>
   );
 };
@@ -874,7 +1111,7 @@ const ColorScrollWheel = ({
 }) => {
   const { t } = useTranslation();
   const { theme } = useThemeStore();
-  const isLight = theme === 'light';
+  const isLight = theme === 'light' || document.documentElement.getAttribute('data-theme') === 'light';
 
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -884,6 +1121,7 @@ const ColorScrollWheel = ({
   const [isOverActiveSwatch, setIsOverActiveSwatch] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isEditingSearch, setIsEditingSearch] = useState(false);
+  const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -942,7 +1180,15 @@ const ColorScrollWheel = ({
     return false;
   };
 
-  const options = rawOptions.filter(opt => matchSearch(opt, searchQuery));
+  const options = rawOptions.filter(opt => {
+    if (!matchSearch(opt, searchQuery)) return false;
+    if (selectedGroup) {
+      const targetGroup = selectedGroup === 'Metal' ? 'Metal Effect' : selectedGroup;
+      if (opt.code === '') return true;
+      return opt.group === targetGroup;
+    }
+    return true;
+  });
 
   // Responsive sizes based on container width
   const stepWidth = visibleDim < 640 ? 90 : 130;
@@ -1127,9 +1373,66 @@ const ColorScrollWheel = ({
 
   return (
     <div className="flex flex-col gap-1.5 w-full relative overflow-visible z-20">
-      <label className={`block text-xs font-bold uppercase tracking-wide mb-10 md:mb-16 ${
+      <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${
         isLight ? 'text-zinc-500' : 'text-gray-400'
       }`}>{label}</label>
+
+      {/* Color Group Filters */}
+      <div className="flex items-center justify-between mb-2 text-xs font-bold w-full">
+        <div className="flex gap-2">
+          {['Metal', 'Solid', 'Wood Effect'].map(groupName => {
+            const isActive = selectedGroup === groupName;
+            return (
+              <button
+                key={groupName}
+                type="button"
+                onClick={() => {
+                  setSelectedGroup(isActive ? null : groupName);
+                }}
+                className={`px-3 py-1.5 rounded transition-all cursor-pointer border ${
+                  isActive
+                    ? (isLight
+                        ? 'bg-black border-black text-white shadow-sm'
+                        : 'bg-mammut-gold border-mammut-gold text-black shadow-md'
+                      )
+                    : (isLight
+                        ? 'bg-zinc-50 border-zinc-200 text-zinc-600 hover:text-black hover:border-zinc-300'
+                        : 'bg-mammut-dark/40 border-gray-800 text-gray-400 hover:text-white hover:border-gray-700'
+                      )
+                }`}
+                style={{ borderRadius: '4px' }}
+              >
+                {groupName}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Magnifying Glass Button */}
+        <button
+          type="button"
+          onClick={() => {
+            setIsEditingSearch(!isEditingSearch);
+          }}
+          className={`p-1.5 border rounded transition-all cursor-pointer flex items-center justify-center ${
+            isEditingSearch
+              ? (isLight
+                  ? 'bg-black border-black text-white shadow-sm'
+                  : 'bg-mammut-gold border-mammut-gold text-black shadow-md'
+                )
+              : (isLight
+                  ? 'bg-zinc-50 border-zinc-200 text-zinc-500 hover:text-black hover:border-zinc-300'
+                  : 'bg-mammut-dark/40 border-gray-800 text-gray-400 hover:text-white hover:border-gray-700'
+                )
+          }`}
+          style={{ borderRadius: '4px', width: '28px', height: '28px' }}
+          title="Search color"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.604 10.604z" />
+          </svg>
+        </button>
+      </div>
       <div 
         ref={containerRef}
         onWheel={handleWheel}
@@ -1255,9 +1558,12 @@ const ColorScrollWheel = ({
 
       {/* Description underneath with search/filtering capability */}
       {isEditingSearch || searchQuery ? (
-        <div className={`flex items-center rounded-xl mt-10 md:mt-16 px-3 py-1.5 w-full relative shadow-sm border ${
-          isLight ? 'bg-white border-zinc-300 text-black' : 'bg-mammut-black border-mammut-gold text-mammut-white shadow-md'
-        }`}>
+        <div 
+          className={`flex items-center mt-3 md:mt-4 px-3 py-1.5 w-full relative shadow-sm border ${
+            isLight ? 'bg-white border-zinc-300 text-black' : 'bg-mammut-black border-mammut-gold text-mammut-white shadow-md'
+          }`}
+          style={{ borderRadius: '4px' }}
+        >
           <span className={`text-[10px] uppercase tracking-widest font-bold absolute -top-2.5 left-3 px-2 border rounded ${
             isLight ? 'bg-white text-zinc-500 border-zinc-200' : 'bg-mammut-darker text-mammut-gold border-gray-855'
           }`}>
@@ -1303,22 +1609,28 @@ const ColorScrollWheel = ({
       ) : (
         <div 
           onClick={() => setIsEditingSearch(true)}
-          className={`flex flex-col items-center justify-center py-2 cursor-pointer border rounded-xl mt-10 md:mt-16 px-3 w-full transition-all group/finish ${
-            isLight ? 'bg-zinc-50 hover:bg-zinc-100 border-zinc-200 hover:border-black' : 'bg-mammut-dark/40 hover:bg-mammut-dark/70 hover:border-mammut-gold/50 border-gray-855/60'
-          }`}
+          className="flex flex-col items-center justify-center p-2 cursor-pointer border mt-3 md:mt-4 w-full transition-all group/finish relative overflow-hidden"
+          style={{
+            backgroundImage: activeOpt.swatchUrl ? `url(${activeOpt.swatchUrl})` : 'none',
+            backgroundColor: activeOpt.hex || '#4B4B4D',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            borderRadius: '4px',
+            borderColor: isLight ? '#d4d4d8' : 'var(--theme-mammut-border)',
+            minHeight: '64px',
+          }}
         >
-          <span className={`text-[10px] uppercase tracking-widest font-bold transition-colors flex items-center gap-1.5 ${
-            isLight ? 'text-zinc-500 group-hover/finish:text-black' : 'text-gray-500 group-hover/finish:text-mammut-gold'
-          }`}>
-            {t('selectedFinish', 'Selected Finish')}
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5 opacity-60">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.604 10.604z" />
-            </svg>
-          </span>
-          <span className={`text-sm md:text-base font-black font-mono tracking-wide text-center mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis max-w-full ${
-            isLight ? 'text-black' : 'text-mammut-gold'
-          }`}>
-            {activeOpt.code ? `${activeOpt.code} - ${activeOpt.name}` : activeOpt.name}
+          {/* Only display the name of the Texture with text shadow glow */}
+          <span 
+            className="text-base md:text-lg font-black tracking-wide text-center whitespace-nowrap overflow-hidden text-ellipsis max-w-full select-none"
+            style={{
+              color: isLight ? '#000000' : 'var(--theme-mammut-gold)',
+              textShadow: isLight
+                ? '0 0 3px #ffffff, 0 0 1px #ffffff'
+                : '0 0 3px #000000, 0 0 1px #000000',
+            }}
+          >
+            {activeOpt.name}
           </span>
         </div>
       )}
@@ -1405,7 +1717,7 @@ const HandleImage = ({
   options: any[];
 }) => {
   const { theme } = useThemeStore();
-  const isLight = theme === 'light';
+  const isLight = theme === 'light' || document.documentElement.getAttribute('data-theme') === 'light';
 
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -1694,7 +2006,7 @@ const HandleImage = ({
   handleColor: string;
 }) => {
   const { theme } = useThemeStore();
-  const isLight = theme === 'light';
+  const isLight = theme === 'light' || document.documentElement.getAttribute('data-theme') === 'light';
 
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -1961,7 +2273,7 @@ const SegmentedControl = ({
   gridCols?: string
 }) => {
   const { theme } = useThemeStore();
-  const isLight = theme === 'light';
+  const isLight = theme === 'light' || document.documentElement.getAttribute('data-theme') === 'light';
 
   return (
     <div className="flex flex-col gap-1.5 w-full">
@@ -2012,7 +2324,7 @@ const CarouselSelector = <T extends CarouselOption>({
   getImagePath?: (opt: T) => string
 }) => {
   const { theme } = useThemeStore();
-  const isLight = theme === 'light';
+  const isLight = theme === 'light' || document.documentElement.getAttribute('data-theme') === 'light';
 
   return (
     <div className="flex flex-col gap-1.5 w-full">
@@ -2094,7 +2406,7 @@ const TYPOLOGY_GROUPS = [
 export function DebugPricing() {
   const { t } = useTranslation();
   const { theme } = useThemeStore();
-  const isLight = theme === 'light';
+  const isLight = theme === 'light' || document.documentElement.getAttribute('data-theme') === 'light';
 
   const handleDownload = () => {
     const canvas = document.querySelector('.visualizer-container canvas') as HTMLCanvasElement;
@@ -2252,6 +2564,10 @@ export function DebugPricing() {
   const [result, setResult] = useState<PricingApiResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const euroPrice = result
+    ? (result.currency === 'EUR' ? result.vk_local : (result.currency === 'PLN' ? result.vk_local / 4.3 : result.vk_local))
+    : 0;
   
   // 19) Visualizer View Side
   const [viewSide, setViewSide] = useState<'interior' | 'exterior'>('interior');
@@ -2396,7 +2712,7 @@ export function DebugPricing() {
     const group = val.group || 'Other';
     if (!acc[group]) acc[group] = [];
     const cantorCode = val.id.replace('c', '').padStart(4, '0');
-    acc[group].push({ code: cantorCode, name: val.name, originalKey: val.id, swatchUrl: val.image, hex: val.hex });
+    acc[group].push({ code: cantorCode, name: val.name, originalKey: val.id, swatchUrl: val.image, hex: val.hex, group });
     return acc;
   }, {});
 
@@ -2842,9 +3158,13 @@ export function DebugPricing() {
     return (
       <div className="w-full mt-2">
         {(['F100', 'F101', 'F102', 'F103', 'F104', 'F105', 'F106'].includes(typology)) ? (
-          <div className={`visualizer-container w-full aspect-square rounded-lg flex items-center justify-center pt-12 pb-[48px] pl-[48px] pr-2 md:pt-14 md:pb-[65px] md:pl-[65px] md:pr-4 overflow-hidden shadow-inner relative group border ${
-            isLight ? 'bg-slate-100 border-slate-200' : 'bg-gray-900 border-gray-800'
-          }`}>
+          <div 
+            style={{
+              backgroundColor: isLight ? '#ffffff' : 'var(--theme-mammut-dark)',
+              borderColor: isLight ? '#cbd5e1' : 'var(--theme-mammut-border)'
+            }}
+            className="visualizer-container w-full aspect-square rounded-lg flex items-center justify-center pt-12 pb-[48px] pl-[48px] pr-2 md:pt-14 md:pb-[65px] md:pl-[65px] md:pr-4 overflow-hidden shadow-inner relative group border"
+          >
              {/* 3D Toggle */}
              <div className="absolute top-2 left-2 z-30 bg-black/50 p-1 rounded flex items-center gap-2">
                 <button onClick={() => setIs3dMode(false)} className={`px-2 py-1 text-xs font-bold rounded ${!is3dMode ? 'bg-mammut-gold text-black' : (isLight ? 'text-slate-500 hover:text-black' : 'text-gray-400')}`}>2D</button>
@@ -2941,32 +3261,32 @@ export function DebugPricing() {
              )}
 
              {/* Vertical Scroll Wheel (Height) overlay on the left */}
-             <div className="absolute left-1 md:left-2 top-12 md:top-14 bottom-[48px] md:bottom-[65px] w-5 md:w-[28px] z-30 flex items-center justify-center font-mono">
-                <NumericScrollWheel
-                  label="Height"
-                  value={height}
-                  onChange={setHeight}
-                  min={500}
-                  max={3000}
-                  step={10}
-                  orientation="vertical"
-                  labelPosition="inside"
-                />
-             </div>
+              <div className="absolute left-3 md:left-4 top-12 md:top-14 bottom-[60px] md:bottom-[80px] w-5 md:w-[28px] z-30 flex items-center justify-center font-mono">
+                 <NumericScrollWheel
+                   label="Height"
+                   value={height}
+                   onChange={setHeight}
+                   min={500}
+                   max={3000}
+                   step={10}
+                   orientation="vertical"
+                   labelPosition="inside"
+                 />
+              </div>
 
-             {/* Horizontal Scroll Wheel (Width) overlay at the bottom */}
-             <div className="absolute bottom-1 md:bottom-2 left-[48px] md:left-[65px] right-1 md:right-2 h-5 md:h-[28px] z-30 flex items-center justify-center font-mono">
-                <NumericScrollWheel
-                  label="Width"
-                  value={width}
-                  onChange={setWidth}
-                  min={500}
-                  max={3000}
-                  step={10}
-                  orientation="horizontal"
-                  labelPosition="inside"
-                />
-             </div>
+              {/* Horizontal Scroll Wheel (Width) overlay at the bottom */}
+              <div className="absolute bottom-3 md:bottom-4 left-[60px] md:left-[80px] right-3 md:right-4 h-5 md:h-[28px] z-30 flex items-center justify-center font-mono">
+                 <NumericScrollWheel
+                   label="Width"
+                   value={width}
+                   onChange={setWidth}
+                   min={500}
+                   max={3000}
+                   step={10}
+                   orientation="horizontal"
+                   labelPosition="inside"
+                 />
+              </div>
 
              {/* Scenery Selector - always visible in 3D mode */}
              {is3dMode && (
@@ -3308,29 +3628,7 @@ export function DebugPricing() {
 
   const renderLeftColumn = () => {
     if (isLight) {
-      // Day Mode: horizontal tab strip, rendered inside the right panel above accordions
-      return (
-        <div className="flex flex-row gap-1 overflow-x-auto scrollbar-none border-b border-gray-200 pb-3">
-          {DRUTEX_CATEGORIES.map(cat => {
-            const Icon = cat.icon;
-            const isActive = activeCategory === cat.id;
-            return (
-              <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className={`group flex flex-col items-center gap-1 px-3 py-2 rounded-lg text-[10px] font-semibold uppercase transition-all shrink-0 whitespace-nowrap ${
-                  isActive
-                    ? 'border-b-2 border-black text-black rounded-none pb-2'
-                    : 'text-slate-400 hover:text-slate-700 border-b-2 border-transparent pb-2'
-                }`}
-              >
-                <Icon size={22} className={isActive ? 'text-black' : 'text-slate-400 group-hover:text-slate-600'} />
-                <span className="tracking-wider">{cat.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      );
+      return null;
     }
 
     // Dark Mode: original vertical left column
@@ -3360,14 +3658,91 @@ export function DebugPricing() {
     );
   };
 
+  const renderPricingCards = () => {
+    const cardBg = isLight ? '#0f1115' : '#111112';
+    const cardBorder = isLight ? 'border-zinc-800' : 'border-gray-800';
+
+    return (
+      <>
+        {/* Pricing Summary Card */}
+        <div 
+          style={{ backgroundColor: cardBg }}
+          className={`pricing-engine-card rounded-xl p-6 font-mono shrink-0 border shadow-lg text-slate-100 transition-all ${cardBorder}`}
+        >
+          <div className="border-b pb-3 mb-3 border-zinc-800">
+            <h1 className="text-xl font-bold uppercase tracking-tighter text-slate-100">Cantor Pricing Engine</h1>
+            <p className="text-[10px] mt-1 text-slate-400">Live calculation via SCHEMA 41 PREISE rules</p>
+          </div>
+
+          {loading && <div className="text-slate-400 text-sm py-4">Evaluating formulas...</div>}
+          {error && <div className="text-red-400 text-sm py-4">Error: {error}</div>}
+          {result && !error && (
+            <>
+              <div className="flex justify-between items-baseline pb-2">
+                <span className="text-xs uppercase tracking-widest text-slate-400">SCHEMA 41 base (EK)</span>
+                <span className="text-lg font-bold text-slate-100">{result.ek_pln.toFixed(2)} PLN</span>
+              </div>
+              <div className="flex justify-between items-baseline pb-3 border-b border-zinc-800">
+                <span className="text-xs uppercase tracking-widest text-slate-400">PREISZYK × FAKTOR {result.faktor}</span>
+                <span className="text-lg font-bold text-slate-100">{result.vk_pln.toFixed(2)} PLN</span>
+              </div>
+              <div className="flex justify-between items-center pt-3">
+                <span className="font-bold tracking-widest uppercase text-slate-300">Dealer price ({result.currency}):</span>
+                <span className="text-3xl font-black text-slate-100">{result.vk_local.toFixed(2)}</span>
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Pricing Ledger Card */}
+        <div 
+          style={{ backgroundColor: cardBg }}
+          className={`pricing-ledger-card p-6 rounded-xl font-mono text-xs md:overflow-y-auto flex-1 border shadow-lg text-slate-100 transition-all ${cardBorder}`}
+        >
+          <div 
+            style={{ backgroundColor: cardBg }}
+            className="border-b-2 pb-2 mb-4 sticky top-0 z-10 border-zinc-800"
+          >
+            <h2 className="text-lg font-bold uppercase tracking-tighter text-slate-100">SCHEMA 41 ledger</h2>
+            <div className="text-slate-400 mt-1 text-[10px]">One row per PREISE formula. GRPRS accumulates.</div>
+          </div>
+
+          {result && !error && (
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b-2 border-zinc-800">
+                  <th className="py-1 pr-2 text-slate-300">#</th>
+                  <th className="py-1 pr-2 text-slate-300">Description</th>
+                  <th className="py-1 pr-2 text-slate-300">Gruppe</th>
+                  <th className="py-1 text-right text-slate-300">Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                {result.lines.map((l, i) => (
+                  <tr key={i} className={`border-b border-zinc-800/40 ${l.value !== 0 ? 'font-bold text-slate-100' : 'text-slate-500'}`}>
+                    <td className="py-1 pr-2">{i + 1}</td>
+                    <td className="py-1 pr-2">{l.formelText ?? '(no label)'}</td>
+                    <td className="py-1 pr-2">{l.preisgruppe ?? '—'}</td>
+                    <td className="py-1 text-right">{l.value.toFixed(2)}</td>
+                  </tr>
+                ))}
+                <tr className="border-t-2 border-zinc-800 font-black text-slate-100">
+                  <td colSpan={3} className="py-2">GRPRS total (EK PLN)</td>
+                  <td className="py-2 text-right">{result.ek_pln.toFixed(2)}</td>
+                </tr>
+              </tbody>
+            </table>
+          )}
+          {!result && !error && !loading && <div className="text-slate-400">Waiting for first response...</div>}
+        </div>
+      </>
+    );
+  };
+
   const renderRightColumn = () => {
     const sysName = PRODUCT_CATEGORIES
       .flatMap(c => c.subgroups.flatMap(sg => sg.options))
       .find(o => o.val === profilsatz)?.label || profilsatz;
-
-    const euroPrice = result
-      ? (result.currency === 'EUR' ? result.vk_local : (result.currency === 'PLN' ? result.vk_local / 4.3 : result.vk_local))
-      : 0;
 
     // Both light and dark mode render the full Cantor pricing panel on desktop
 
@@ -3375,96 +3750,34 @@ export function DebugPricing() {
       <div className="flex flex-col gap-6">
         {/* Mobile-only Pricing Card */}
         <div className="flex md:hidden flex-col gap-6">
-          <div className="rounded-xl p-6 font-mono border transition-all bg-gradient-to-br from-gray-900 to-black border-mammut-gold/30 shadow-lg">
-            <div className="border-b pb-3 mb-3 border-gray-800">
-              <h1 className="text-xl font-bold uppercase tracking-tighter text-mammut-gold">{sysName}</h1>
-              <p className="text-[10px] mt-1 text-gray-500">Configured Profile System</p>
+          <div 
+            style={{ backgroundColor: isLight ? '#0f1115' : '#111112' }}
+            className={`pricing-engine-card rounded-xl p-6 font-mono border shadow-lg text-slate-100 transition-all ${isLight ? 'border-zinc-800' : 'border-gray-800'}`}
+          >
+            <div className="border-b pb-3 mb-3 border-zinc-800">
+              <h1 className="text-xl font-bold uppercase tracking-tighter text-slate-100">{sysName}</h1>
+              <p className="text-[10px] mt-1 text-slate-400">Configured Profile System</p>
             </div>
-            {loading && <div className="text-gray-500 text-sm py-4">Evaluating price...</div>}
+            {loading && <div className="text-slate-400 text-sm py-4">Evaluating price...</div>}
             {error && <div className="text-red-400 text-sm py-4">Error: {error}</div>}
             {result && !error && (
               <>
                 <div className="flex justify-between items-baseline pb-2">
-                  <span className="text-xs uppercase tracking-widest text-gray-500">Model & Size</span>
-                  <span className="text-sm text-gray-300">{typology} ({width} × {height} mm)</span>
+                  <span className="text-xs uppercase tracking-widest text-slate-400">Model & Size</span>
+                  <span className="text-sm font-bold text-slate-100">{typology} ({width} × {height} mm)</span>
                 </div>
-                <div className="flex justify-between items-center pt-3 border-t border-gray-800">
-                  <span className="font-bold tracking-widest uppercase text-mammut-white">Price:</span>
-                  <span className="text-3xl font-black text-emerald-400">{euroPrice.toFixed(2)} €</span>
+                <div className="flex justify-between items-center pt-3 border-t border-zinc-800">
+                  <span className="font-bold tracking-widest uppercase text-slate-300">Price:</span>
+                  <span className="text-3xl font-black text-slate-100">{euroPrice.toFixed(2)} €</span>
                 </div>
               </>
             )}
           </div>
         </div>
 
-        {/* Desktop-only Cards */}
-        <div className="hidden md:flex flex-col gap-6 md:max-h-[85vh] flex-1">
-          {/* Pricing Summary Card */}
-          <div className={`rounded-xl p-6 font-mono shrink-0 border transition-all ${
-            isLight ? 'bg-white border-zinc-200 shadow-sm text-black' : 'bg-gradient-to-br from-gray-900 to-black border-mammut-gold/30 shadow-lg'
-          }`}>
-            <div className={`border-b pb-3 mb-3 ${isLight ? 'border-zinc-200' : 'border-gray-800'}`}>
-              <h1 className={`text-xl font-bold uppercase tracking-tighter ${isLight ? 'text-black' : 'text-mammut-gold'}`}>Cantor Pricing Engine</h1>
-              <p className={`text-[10px] mt-1 ${isLight ? 'text-zinc-500' : 'text-gray-500'}`}>Live calculation via SCHEMA 41 PREISE rules</p>
-            </div>
-
-            {loading && <div className={`${isLight ? 'text-zinc-450' : 'text-gray-500'} text-sm py-4`}>Evaluating formulas...</div>}
-            {error && <div className="text-red-400 text-sm py-4">Error: {error}</div>}
-            {result && !error && (
-              <>
-                <div className="flex justify-between items-baseline pb-2">
-                  <span className={`text-xs uppercase tracking-widest ${isLight ? 'text-zinc-500' : 'text-gray-500'}`}>SCHEMA 41 base (EK)</span>
-                  <span className={`text-lg ${isLight ? 'text-zinc-800' : 'text-gray-300'}`}>{result.ek_pln.toFixed(2)} PLN</span>
-                </div>
-                <div className={`flex justify-between items-baseline pb-3 border-b ${isLight ? 'border-zinc-200' : 'border-gray-800'}`}>
-                  <span className={`text-xs uppercase tracking-widest ${isLight ? 'text-zinc-500' : 'text-gray-500'}`}>PREISZYK × FAKTOR {result.faktor}</span>
-                  <span className={`text-lg ${isLight ? 'text-zinc-800' : 'text-gray-300'}`}>{result.vk_pln.toFixed(2)} PLN</span>
-                </div>
-                <div className="flex justify-between items-center pt-3">
-                  <span className={`font-bold tracking-widest uppercase ${isLight ? 'text-black' : 'text-mammut-white'}`}>Dealer price ({result.currency}):</span>
-                  <span className={`text-3xl font-black ${isLight ? 'text-black' : 'text-emerald-400'}`}>{result.vk_local.toFixed(2)}</span>
-                </div>
-              </>
-            )}
-          </div>
-
-          {/* Pricing Ledger Card */}
-          <div className={`p-6 rounded-xl font-mono text-xs md:overflow-y-auto flex-1 border transition-all ${
-            isLight ? 'bg-white border-zinc-200 shadow-sm text-black' : 'bg-white text-black shadow-2xl'
-          }`}>
-            <div className={`border-b-2 pb-2 mb-4 sticky top-0 z-10 ${isLight ? 'bg-white border-black' : 'bg-white border-black'}`}>
-              <h2 className="text-lg font-bold uppercase tracking-tighter">SCHEMA 41 ledger</h2>
-              <div className="text-gray-500 mt-1 text-[10px]">One row per PREISE formula. GRPRS accumulates.</div>
-            </div>
-
-            {result && !error && (
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b-2 border-black">
-                    <th className="py-1 pr-2">#</th>
-                    <th className="py-1 pr-2">Description</th>
-                    <th className="py-1 pr-2">Gruppe</th>
-                    <th className="py-1 text-right">Value</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {result.lines.map((l, i) => (
-                    <tr key={i} className={`border-b border-gray-200 ${l.value !== 0 ? 'font-bold' : 'text-gray-400'}`}>
-                      <td className="py-1 pr-2">{i + 1}</td>
-                      <td className="py-1 pr-2">{l.formelText ?? '(no label)'}</td>
-                      <td className="py-1 pr-2">{l.preisgruppe ?? '—'}</td>
-                      <td className="py-1 text-right">{l.value.toFixed(2)}</td>
-                    </tr>
-                  ))}
-                  <tr className="border-t-2 border-black font-black">
-                    <td colSpan={3} className="py-2">GRPRS total (EK PLN)</td>
-                    <td className="py-2 text-right">{result.ek_pln.toFixed(2)}</td>
-                  </tr>
-                </tbody>
-              </table>
-            )}
-            {!result && !error && !loading && <div className="text-gray-500">Waiting for first response...</div>}
-          </div>
+        {/* Desktop or Mobile stacked cards */}
+        <div className="flex flex-col gap-6 md:max-h-[85vh] flex-1">
+          {renderPricingCards()}
         </div>
       </div>
     );
@@ -3494,7 +3807,7 @@ export function DebugPricing() {
         <div className="flex flex-col gap-4 sm:gap-5">
 
         {/* The 6 Collapsible Accordions */}
-        <div className="space-y-2">
+        <div className="configurator-accordions space-y-2">
           
           {/* 1. Product & Dimensions */}
           <AccordionSection
@@ -3510,26 +3823,37 @@ export function DebugPricing() {
                 <label className={`block text-xs font-bold mb-1.5 uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Product Number</label>
                 <div 
                   onClick={() => setIsTypologyOpen(!isTypologyOpen)}
-                  className={`w-full rounded-xl p-3 cursor-pointer flex items-center justify-between transition-colors h-[54px] border ${
-                    isLight ? 'bg-white border-zinc-300 text-black hover:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white hover:border-mammut-gold'
-                  }`}
+                  style={{
+                    backgroundColor: isLight ? '#ffffff' : 'var(--theme-mammut-black)',
+                    borderColor: isLight ? '#cbd5e1' : 'var(--theme-mammut-border)',
+                    color: isLight ? '#0f172a' : 'var(--theme-text-base)'
+                  }}
+                  className="w-full rounded-xl p-3 cursor-pointer flex items-center justify-between transition-colors h-[54px] border hover:border-zinc-400"
                 >
                   <div className="flex items-center gap-3">
                      <TypologyThumbnail 
                        id={typology}
-                       className="w-8 h-8 object-contain rounded bg-white border border-gray-700 shrink-0 p-0.5"
+                       className={`w-8 h-8 object-contain rounded bg-transparent border shrink-0 p-0.5 ${
+                         isLight ? 'border-zinc-200' : 'border-gray-700'
+                       }`}
+                       hoverZoom={true}
                      />
-                     <span className="font-bold text-sm">{typology}</span>
+                     <span className="font-bold text-sm" style={{ color: isLight ? '#0f172a' : 'inherit' }}>{typology}</span>
                   </div>
-                  <span className="text-gray-500 text-xs">▼</span>
+                  <span className={`${isLight ? 'text-zinc-400' : 'text-gray-500'} text-xs`}>▼</span>
                 </div>
                 
                 {isTypologyOpen && (
                   <>
                     <div className="fixed inset-0 z-40 bg-black/60 md:bg-transparent" onClick={() => setIsTypologyOpen(false)}></div>
-                    <div className={`fixed md:absolute top-1/2 md:top-full left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 w-[92vw] md:w-[380px] mt-1 rounded-2xl shadow-2xl p-4 flex flex-col gap-3 border z-50 ${
-                      isLight ? 'bg-white border-zinc-300 text-black shadow-lg' : 'bg-mammut-dark border-gray-700 text-mammut-white shadow-2xl'
-                    }`}>
+                    <div 
+                      style={{
+                        backgroundColor: isLight ? '#ffffff' : 'var(--theme-mammut-dark)',
+                        borderColor: isLight ? '#cbd5e1' : 'var(--theme-mammut-border)',
+                        color: isLight ? '#0f172a' : 'var(--theme-text-base)'
+                      }}
+                      className="fixed md:absolute top-1/2 md:top-full left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 w-[92vw] md:w-[380px] mt-1 rounded-2xl shadow-2xl p-4 flex flex-col gap-3 border z-50"
+                    >
                       <div className={`flex justify-between items-center border-b pb-2 mb-1 ${isLight ? 'border-zinc-200' : 'border-gray-850'}`}>
                         <span className={`text-[10px] font-bold uppercase tracking-widest ${isLight ? 'text-zinc-550' : 'text-gray-400'}`}>Select Window Type</span>
                         <button 
@@ -3599,10 +3923,10 @@ export function DebugPricing() {
                 </select>
               </div>
 
-              {/* Horizontal Scroll Wheels for Width and Height */}
+              {/* Manual Input with Micro-adjustment Arrows for Width and Height */}
               <div className="col-span-1 sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <NumericScrollWheel label="Width (mm)" value={width} onChange={setWidth} min={500} max={3000} step={10} />
-                <NumericScrollWheel label="Height (mm)" value={height} onChange={setHeight} min={500} max={3000} step={10} />
+                <DimensionAdjuster label="Width (mm)" value={width} onChange={setWidth} min={500} max={3000} isLight={false} />
+                <DimensionAdjuster label="Height (mm)" value={height} onChange={setHeight} min={500} max={3000} isLight={false} />
               </div>
             </div>
           </AccordionSection>
@@ -4293,9 +4617,40 @@ export function DebugPricing() {
               </div>
             </div>
           </AccordionSection>
+        </div>
+
+        {/* Pricing Box */}
+          <div style={{ backgroundColor: '#ffffff' }} className="border border-zinc-200 rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row justify-between items-center gap-4 mt-4">
+            <div className="flex flex-col">
+              <span className="text-[10px] font-semibold tracking-[0.15em] text-slate-400 uppercase">Estimated Total</span>
+              {loading && <span className="text-sm text-slate-400">Calculating…</span>}
+              {error && <span className="text-sm text-red-500">Price error</span>}
+              {!loading && !error && (
+                <div className="text-3xl font-black text-slate-900 leading-none mt-0.5">
+                  {euroPrice > 0 ? `${euroPrice.toFixed(2)} €` : '—'}
+                </div>
+              )}
+            </div>
+            <div className="flex gap-3 w-full sm:w-auto">
+              <button
+                onClick={handleShare}
+                style={{ backgroundColor: '#ffffff' }}
+                className="flex-1 sm:flex-none border-2 border-black font-bold text-sm px-5 py-3 rounded-xl hover:bg-slate-50 transition-colors text-slate-900"
+              >
+                Share
+              </button>
+              <button className="flex-1 sm:flex-none bg-black text-white font-bold text-sm px-7 py-3 rounded-xl hover:bg-slate-800 transition-colors">
+                Request Quote →
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile-only Pricing Cards in Light Mode */}
+          <div className="lg:hidden flex flex-col gap-6 mt-4">
+            {renderPricingCards()}
+          </div>
 
         </div>
-      </div>
       );
     }
 
@@ -4326,18 +4681,30 @@ export function DebugPricing() {
                 <label className="block text-xs font-bold mb-1.5 uppercase tracking-wide text-gray-400">Product Number</label>
                 <div
                   onClick={() => setIsTypologyOpen(!isTypologyOpen)}
-                  className="w-full rounded-xl p-3 cursor-pointer flex items-center justify-between transition-colors h-[54px] border bg-mammut-black border-gray-800 text-mammut-white hover:border-mammut-gold"
+                  style={{
+                    backgroundColor: '#ffffff',
+                    borderColor: '#cbd5e1',
+                    color: '#0f172a'
+                  }}
+                  className="w-full rounded-xl p-3 cursor-pointer flex items-center justify-between transition-colors h-[54px] border hover:border-zinc-400"
                 >
                   <div className="flex items-center gap-3">
-                    <TypologyThumbnail id={typology} className="w-8 h-8 object-contain rounded bg-white border border-gray-700 shrink-0 p-0.5" />
-                    <span className="font-bold text-sm">{typology}</span>
+                    <TypologyThumbnail id={typology} className="w-8 h-8 object-contain rounded bg-transparent border border-zinc-200 shrink-0 p-0.5" hoverZoom={true} />
+                    <span className="font-bold text-sm" style={{ color: '#0f172a' }}>{typology}</span>
                   </div>
-                  <span className="text-gray-500 text-xs">▼</span>
+                  <span className="text-zinc-400 text-xs">▼</span>
                 </div>
                 {isTypologyOpen && (
                   <>
                     <div className="fixed inset-0 z-40 bg-black/60" onClick={() => setIsTypologyOpen(false)}></div>
-                    <div className="fixed inset-x-4 top-[10vh] z-50 bg-mammut-dark border border-gray-700 rounded-2xl shadow-2xl p-4 max-h-[80vh] overflow-y-auto md:absolute md:inset-auto md:top-full md:left-0 md:w-full md:mt-1">
+                    <div 
+                      style={{
+                        backgroundColor: '#ffffff',
+                        borderColor: '#cbd5e1',
+                        color: '#0f172a'
+                      }}
+                      className="fixed inset-x-4 top-[10vh] z-50 border rounded-2xl shadow-2xl p-4 max-h-[80vh] overflow-y-auto md:absolute md:inset-auto md:top-full md:left-0 md:w-full md:mt-1"
+                    >
                       <ScrollingDial
                         value={typology}
                         onChange={(val) => setTypology(val)}
@@ -4346,10 +4713,23 @@ export function DebugPricing() {
                         closeOnSelect={closeOnSelect}
                       />
                       <div className="flex items-center gap-2 px-1 py-0.5">
-                        <input type="checkbox" id="closeOnSelectCheckboxDark" checked={closeOnSelect} onChange={(e) => setCloseOnSelect(e.target.checked)} className="w-4 h-4 rounded cursor-pointer accent-[#eab676] border-gray-700 bg-mammut-black focus:ring-mammut-gold" />
-                        <label htmlFor="closeOnSelectCheckboxDark" className="text-xs font-semibold cursor-pointer select-none text-gray-300">{t('configurator.state.closeOnSelect')}</label>
+                        <input 
+                          type="checkbox" 
+                          id="closeOnSelectCheckboxDark" 
+                          checked={closeOnSelect} 
+                          onChange={(e) => setCloseOnSelect(e.target.checked)} 
+                          className="w-4 h-4 rounded cursor-pointer accent-black border-zinc-300 bg-zinc-100 focus:ring-black" 
+                        />
+                        <label htmlFor="closeOnSelectCheckboxDark" className="text-xs font-semibold cursor-pointer select-none text-zinc-700">
+                          {t('configurator.state.closeOnSelect')}
+                        </label>
                       </div>
-                      <button onClick={() => setIsTypologyOpen(false)} className="w-full font-black uppercase text-[11px] tracking-wider py-3 rounded-xl transition-all cursor-pointer shadow-md hover:scale-[1.02] active:scale-[0.98] bg-mammut-gold text-mammut-black hover:bg-[#ffc882]">Confirm</button>
+                      <button 
+                        onClick={() => setIsTypologyOpen(false)} 
+                        className="w-full font-black uppercase text-[11px] tracking-wider py-3 rounded-xl transition-all cursor-pointer shadow-md hover:scale-[1.02] active:scale-[0.98] bg-black text-white hover:bg-zinc-800"
+                      >
+                        Confirm
+                      </button>
                     </div>
                   </>
                 )}
@@ -4367,8 +4747,8 @@ export function DebugPricing() {
                 </select>
               </div>
               <div className="col-span-1 sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <NumericScrollWheel label="Width (mm)" value={width} onChange={setWidth} min={500} max={3000} step={10} />
-                <NumericScrollWheel label="Height (mm)" value={height} onChange={setHeight} min={500} max={3000} step={10} />
+                <DimensionAdjuster label="Width (mm)" value={width} onChange={setWidth} min={500} max={3000} isLight={true} />
+                <DimensionAdjuster label="Height (mm)" value={height} onChange={setHeight} min={500} max={3000} isLight={true} />
               </div>
             </div>
           </AccordionSection>
@@ -4376,10 +4756,6 @@ export function DebugPricing() {
       </div>
     );
   };
-
-  const euroPrice = result
-    ? (result.currency === 'EUR' ? result.vk_local : (result.currency === 'PLN' ? result.vk_local / 4.3 : result.vk_local))
-    : 0;
 
   const sysNameForFooter = PRODUCT_CATEGORIES
     .flatMap(c => c.subgroups.flatMap(sg => sg.options))
@@ -4408,9 +4784,13 @@ export function DebugPricing() {
           }
 
           /* Force accordion headers, titles, labels legible */
-          div[class*="text-blue"],
-          span[class*="text-slate-400"],
-          h2, h3, label, p, span {
+          .configurator-accordions div[class*="text-blue"],
+          .configurator-accordions span[class*="text-slate-400"],
+          .configurator-accordions h2,
+          .configurator-accordions h3,
+          .configurator-accordions label,
+          .configurator-accordions p,
+          .configurator-accordions span {
             color: #1e293b !important;
           }
 
@@ -4419,6 +4799,56 @@ export function DebugPricing() {
             background-color: #f1f5f9 !important;
             color: #0f172a !important;
             border: 1px solid #cbd5e1 !important;
+          }
+
+          /* Apply 4px radius to all boxes inside the accordions */
+          .accordion-content select,
+          .accordion-content input:not([type="checkbox"]):not([type="radio"]),
+          .accordion-content textarea,
+          .accordion-content button:not(.rounded-full),
+          .accordion-content [class*="rounded-"]:not(.rounded-full),
+          .accordion-content .rounded:not(.rounded-full) {
+            border-radius: 4px !important;
+          }
+
+          /* Force Cantor Pricing cards text white/slate on dark background in light mode */
+          .pricing-engine-card,
+          .pricing-engine-card h1 {
+            color: #f1f5f9 !important;
+          }
+          .pricing-engine-card p,
+          .pricing-engine-card .text-slate-400 {
+            color: #94a3b8 !important;
+          }
+          .pricing-engine-card .text-slate-300 {
+            color: #cbd5e1 !important;
+          }
+          .pricing-engine-card span {
+            color: #f1f5f9 !important;
+          }
+          .pricing-engine-card span.text-slate-400 {
+            color: #94a3b8 !important;
+          }
+          .pricing-engine-card span.text-slate-300 {
+            color: #cbd5e1 !important;
+          }
+
+          .pricing-ledger-card,
+          .pricing-ledger-card h2,
+          .pricing-ledger-card th {
+            color: #f1f5f9 !important;
+          }
+          .pricing-ledger-card .text-slate-400 {
+            color: #94a3b8 !important;
+          }
+          .pricing-ledger-card tr.text-slate-100 td {
+            color: #f1f5f9 !important;
+          }
+          .pricing-ledger-card tr.text-slate-500 td {
+            color: #64748b !important;
+          }
+          .pricing-ledger-card tr.font-black td {
+            color: #f1f5f9 !important;
           }
         `}} />
         {arPlacement && (
@@ -4434,13 +4864,93 @@ export function DebugPricing() {
 
           {/* LEFT STICKY PILLAR — Visualizer */}
           <div className="lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] flex flex-col">
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm flex-1 flex flex-col overflow-hidden">
+            <div 
+              style={{
+                backgroundColor: isLight ? '#ffffff' : 'var(--theme-mammut-darker)',
+                borderColor: isLight ? '#e2e8f0' : 'var(--theme-mammut-border)'
+              }}
+              className="rounded-2xl border shadow-sm flex-1 flex flex-col overflow-hidden"
+            >
               {/* Visualizer header */}
-              <div className="px-6 pt-5 pb-4 border-b border-gray-100 flex items-center justify-between shrink-0">
+              <div 
+                style={{
+                  borderBottomColor: isLight ? '#e2e8f0' : 'var(--theme-mammut-border)'
+                }}
+                className="px-6 pt-5 pb-4 border-b flex items-center justify-between shrink-0"
+              >
                 <div>
-                  <p className="text-[10px] font-semibold tracking-[0.15em] text-slate-400 uppercase">Live Preview</p>
-                  <h1 className="text-xl font-bold text-slate-900 tracking-tight mt-0.5">{sysNameForFooter}</h1>
-                  <p className="text-xs text-slate-500 mt-0.5">{typology} — {width} × {height} mm</p>
+                  <p 
+                    style={{ color: isLight ? '#94a3b8' : '#9ca3af' }}
+                    className="text-[10px] font-semibold tracking-[0.15em] uppercase"
+                  >
+                    Live Preview
+                  </p>
+                  <h1 
+                    style={{ color: isLight ? '#0f172a' : 'var(--theme-mammut-gold)' }}
+                    className="text-xl font-bold tracking-tight mt-0.5"
+                  >
+                    {sysNameForFooter}
+                  </h1>
+                  <div className="flex flex-row items-center gap-2 mt-1 relative select-none">
+                    <div className="relative group z-40">
+                      {/* Active category pill button with Icon first and Name to the right */}
+                      <div className={`flex items-center gap-2 cursor-pointer px-3 py-1.5 rounded-[4px] border transition-all duration-250 ${
+                        isLight 
+                          ? 'bg-transparent hover:bg-transparent border-slate-200 hover:border-slate-300 text-slate-800' 
+                          : 'bg-transparent hover:bg-transparent border-gray-800 text-mammut-white'
+                      }`}>
+                        {(() => {
+                          const activeCat = DRUTEX_CATEGORIES.find(c => c.id === activeCategory);
+                          if (!activeCat) return null;
+                          const CatIcon = activeCat.icon;
+                          return <CatIcon size={24} className={isLight ? 'text-slate-700 shrink-0' : 'text-mammut-gold shrink-0'} />;
+                        })()}
+                        <span className="text-sm font-bold uppercase tracking-wider">
+                          {DRUTEX_CATEGORIES.find(c => c.id === activeCategory)?.label || activeCategory}
+                        </span>
+                        <ChevronDown size={14} className={isLight ? 'text-slate-400 shrink-0' : 'text-gray-500 shrink-0'} />
+                      </div>
+
+                      {/* Dropdown menu expanded on HOVER */}
+                      <div className={`absolute left-0 mt-1 w-64 border rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-1 group-hover:translate-y-0 ${
+                        isLight 
+                          ? 'bg-white/95 backdrop-blur-md border-slate-200 text-slate-900 shadow-slate-200/50' 
+                          : 'bg-mammut-dark/95 backdrop-blur-md border-gray-800 text-mammut-white shadow-black/80'
+                      }`}>
+                        <div className="p-1.5 flex flex-col gap-0.5">
+                          {DRUTEX_CATEGORIES.map(cat => {
+                            const CatIcon = cat.icon;
+                            const isCatActive = activeCategory === cat.id;
+                            return (
+                              <button
+                                key={cat.id}
+                                onClick={() => setActiveCategory(cat.id)}
+                                className={`flex items-center gap-3 w-full px-3 py-2 rounded-lg text-left text-xs font-bold uppercase transition-all duration-150 ${
+                                  isCatActive
+                                    ? (isLight 
+                                        ? 'bg-slate-100 text-slate-950 border border-slate-200 shadow-sm' 
+                                        : 'bg-mammut-gold/10 text-mammut-white border border-mammut-gold/30 shadow-sm shadow-mammut-gold/5')
+                                    : (isLight 
+                                        ? 'text-slate-500 hover:text-slate-800 hover:bg-slate-50 border border-transparent' 
+                                        : 'text-gray-400 hover:text-mammut-white hover:bg-mammut-black border border-transparent')
+                                }`}
+                              >
+                                <CatIcon size={16} className={isCatActive ? (isLight ? 'text-slate-800' : 'text-mammut-gold') : 'text-slate-450'} />
+                                <span>{cat.label}</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+
+                    <span 
+                      style={{ color: isLight ? '#475569' : '#9ca3af' }}
+                      className="text-xs font-bold self-center whitespace-nowrap ml-1"
+                    >
+                      — {typology} — {width} × {height} mm
+                    </span>
+                  </div>
                 </div>
               </div>
               {/* Visualizer canvas area */}
@@ -4451,7 +4961,7 @@ export function DebugPricing() {
           </div>
 
           {/* CENTRE SCROLLABLE PANEL — Config Accordions */}
-          <div className="flex flex-col gap-4 overflow-y-auto lg:max-h-[calc(100vh-3rem)] pb-28 pt-4 lg:pt-0">
+          <div className="flex flex-col gap-4 overflow-y-auto lg:max-h-[calc(100vh-3rem)] pb-12 pt-4 lg:pt-0">
             {/* Category tab strip */}
             {renderLeftColumn()}
 
@@ -4465,33 +4975,6 @@ export function DebugPricing() {
           </div>
 
         </div>
-
-        {/* STICKY BOTTOM PRICING FOOTER */}
-        <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-6 py-4 shadow-xl z-50">
-          <div className="max-w-[1700px] mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
-            <div className="flex flex-col">
-              <span className="text-[10px] font-semibold tracking-[0.15em] text-slate-400 uppercase">Estimated Total</span>
-              {loading && <span className="text-sm text-slate-400">Calculating…</span>}
-              {error && <span className="text-sm text-red-500">Price error</span>}
-              {!loading && !error && (
-                <div className="text-3xl font-black text-slate-900 leading-none mt-0.5">
-                  {euroPrice > 0 ? `${euroPrice.toFixed(2)} €` : '—'}
-                </div>
-              )}
-            </div>
-            <div className="flex gap-3 w-full sm:w-auto">
-              <button
-                onClick={() => navigator.share?.({ title: 'Mammut Configurator', url: window.location.href })}
-                className="flex-1 sm:flex-none border-2 border-black font-bold text-sm px-5 py-3 rounded-xl hover:bg-slate-50 transition-colors text-slate-900"
-              >
-                Share
-              </button>
-              <button className="flex-1 sm:flex-none bg-black text-white font-bold text-sm px-7 py-3 rounded-xl hover:bg-slate-800 transition-colors">
-                Request Quote →
-              </button>
-            </div>
-          </div>
-        </footer>
       </div>
     );
   }
@@ -4499,6 +4982,17 @@ export function DebugPricing() {
   // Dark mode: original 3-column layout
   return (
     <div className="min-h-screen p-3 sm:p-6 pt-24 sm:pt-32 relative pb-6 transition-colors bg-mammut-black text-mammut-white">
+      <style dangerouslySetInnerHTML={{__html: `
+        /* Apply 4px radius to all boxes inside the accordions */
+        .accordion-content select,
+        .accordion-content input:not([type="checkbox"]):not([type="radio"]),
+        .accordion-content textarea,
+        .accordion-content button:not(.rounded-full),
+        .accordion-content [class*="rounded-"]:not(.rounded-full),
+        .accordion-content .rounded:not(.rounded-full) {
+          border-radius: 4px !important;
+        }
+      `}} />
       {arPlacement && (
         <ArViewer sceneGroup={sceneGroup?.group || null} placement={arPlacement} onClose={() => setArPlacement(null)} />
       )}

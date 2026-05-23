@@ -305,20 +305,6 @@ export const OPENING_TYPES: OpeningType[] = [
   { id: 'o6', name: 'Kipp', shortCode: 'K', imgUrl: '/assets/opening_types/o6_k.png' }
 ];
 
-const JPG_TYPOLOGIES = new Set([
-  'F100', 'F101', 'F102', 'F103', 'F104', 'F105', 'F106',
-  'F200', 'F201', 'F202', 'F203', 'F204', 'F205', 'F206', 'F207', 'F208',
-  'F250', 'F251', 'F252', 'F253', 'F254', 'F255',
-  'F300', 'F301', 'F302', 'F303',
-  'F354', 'F355'
-]);
-
 export function getTypologyImagePath(id: string): string {
-  if (JPG_TYPOLOGIES.has(id)) {
-    return `/assets/windowtypes/${id}.jpg?v=2`;
-  }
-  if (id === 'F304') {
-    return `/assets/windowtypes/F304.png?v=2`;
-  }
   return `/assets/windowtypes/${id}.svg?v=2`;
 }

@@ -275,17 +275,37 @@ export function Header() {
       {/* Main nav inline context */}
       <div className="relative">
         <nav className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <img 
-              src="/assets/mammut-logo-icon.png" 
-              alt="Mammut Icon" 
-              className="w-10 h-10 object-contain"
-            />
-            <span className="text-mammut-white font-black text-lg tracking-[0.2em] uppercase group-hover:text-mammut-gold transition-colors duration-200">
-              MAMMUT
-            </span>
-          </Link>
+          {/* Mobile Hamburger (Left on mobile, hidden on desktop) */}
+          <div className="flex items-center justify-start flex-1 lg:hidden">
+            <button
+              className="text-mammut-white/60 hover:text-mammut-gold transition-colors duration-200 p-1"
+              onClick={() => {
+                setMenuOpen(!menuOpen);
+                setLangMenuOpen(false);
+              }}
+            >
+              {menuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+            {menuOpen && (
+              <button className="text-mammut-white/60 hover:text-mammut-gold transition-colors duration-200 p-1 ml-2">
+                <Search size={16} />
+              </button>
+            )}
+          </div>
+
+          {/* Logo (Centered on mobile, left-aligned on desktop) */}
+          <div className="flex items-center justify-center flex-1 lg:flex-initial lg:justify-start">
+            <Link to="/" className="flex items-center gap-3 group">
+              <img 
+                src="/assets/mammut-logo-icon.png" 
+                alt="Mammut Icon" 
+                className="w-12 h-12 lg:w-10 lg:h-10 object-contain"
+              />
+              <span className="hidden lg:inline text-mammut-white font-black text-lg tracking-[0.2em] uppercase group-hover:text-mammut-gold transition-colors duration-200">
+                MAMMUT
+              </span>
+            </Link>
+          </div>
 
           {/* Desktop nav links */}
           <div className="hidden lg:flex items-center gap-8 h-full">
@@ -329,7 +349,7 @@ export function Header() {
           </div>
 
           {/* Right actions */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center justify-end gap-4 flex-1 lg:flex-initial">
             <Link
               to="/configurator"
               className="hidden lg:flex items-center gap-2 border border-mammut-gold text-mammut-gold text-xs uppercase tracking-widest px-4 py-2 hover:bg-mammut-gold hover:text-black transition-all duration-200 font-semibold"
@@ -353,7 +373,9 @@ export function Header() {
              </button>
 
              <button className="hidden lg:block text-mammut-white/60 hover:text-mammut-gold transition-colors duration-200 p-2"><Search size={18} /></button>
-            <ThemeToggle />
+            <div className="hidden lg:block">
+              <ThemeToggle />
+            </div>
             {/* Language Switcher */}
             <div className="relative">
               <button 
@@ -403,22 +425,6 @@ export function Header() {
                  </div>
               )}
             </div>
-             <div className="flex flex-col items-center gap-1 lg:hidden -mr-2">
-               <button
-                 className="text-mammut-white/60 hover:text-mammut-gold transition-colors duration-200 p-1"
-                 onClick={() => {
-                   setMenuOpen(!menuOpen);
-                   setLangMenuOpen(false);
-                 }}
-               >
-                 {menuOpen ? <X size={20} /> : <Menu size={20} />}
-               </button>
-               {menuOpen && (
-                 <button className="text-mammut-white/60 hover:text-mammut-gold transition-colors duration-200 p-1">
-                   <Search size={16} />
-                 </button>
-               )}
-             </div>
           </div>
         </nav>
 

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getTypologyImagePath } from './types';
+import { useThemeStore } from '../../store/useThemeStore';
 
 export interface WindowVisualizerProps {
   typology: string;
@@ -12,6 +13,8 @@ export function WindowVisualizer({ typology, infills }: WindowVisualizerProps) {
   const isMultiSash = typology.match(/^F2[0-5][0-9]$/) && infills && infills.length >= 2;
   const [imgSrc, setImgSrc] = useState(() => getTypologyImagePath(typology));
   const [hasError, setHasError] = useState(false);
+  const { theme } = useThemeStore();
+  const isLight = theme === 'light' || document.documentElement.getAttribute('data-theme') === 'light';
 
   useEffect(() => {
     setImgSrc(getTypologyImagePath(typology));
@@ -27,19 +30,26 @@ export function WindowVisualizer({ typology, infills }: WindowVisualizerProps) {
   };
   
   return (
-    <div className="relative w-full aspect-square border border-gray-800 rounded-lg bg-white flex items-center justify-center p-16">
+    <div 
+      style={{
+        backgroundColor: isLight ? '#ffffff' : 'var(--theme-bg-base)',
+        borderColor: isLight ? '#e2e8f0' : 'var(--theme-mammut-border)'
+      }}
+      className="relative w-full aspect-square border rounded-lg flex items-center justify-center p-16"
+    >
       
       {/* Base Image */}
       {hasError ? (
         <div className="fallback w-full h-full flex flex-col items-center justify-center border-2 border-dashed border-gray-400 rounded-lg bg-gray-100 text-gray-500 font-bold z-10 relative">
           <span>Missing Image</span>
-          <span className="text-xs font-normal mt-2">{typology}.jpg</span>
+          <span className="text-xs font-normal mt-2">{typology}.svg</span>
         </div>
       ) : (
         <img 
           src={imgSrc} 
           alt={typology}
           className="w-full h-full object-contain relative z-10 drop-shadow-md"
+          style={{ filter: isLight ? 'invert(1)' : 'none' }}
           onError={handleError}
         />
       )}

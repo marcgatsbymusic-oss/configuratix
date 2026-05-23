@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
 import { FrameSegment } from './FrameSegment';
+import { useThemeStore } from '../../store/useThemeStore';
 
 // We import the specific JSON payloads. 
 // In a dynamic app, this would be fetched via API based on the selected typology.
@@ -372,8 +373,10 @@ const WindowAssembly = ({
 
   return (
     <group ref={setGroupObj}>
-      {/* Shift so: X centered, Y bottom at origin, Z back-face at origin */}
-      <group position={[-W / 2, 0, 0]}>
+      {/* Rotated 180 degrees around Y so the Interior view is presented first by default */}
+      <group rotation={[0, Math.PI, 0]}>
+        {/* Shift so: X centered, Y bottom at origin, Z back-face at origin */}
+        <group position={[-W / 2, 0, 0]}>
         {/* Bottom Segment */}
         <group position={[0, 0, 0]} rotation={[0, 0, 0]}>
           <group rotation={[0, Math.PI / 2, 0]}>
@@ -457,6 +460,7 @@ const WindowAssembly = ({
           </mesh>
         )}
 
+        </group>
       </group>
 
       {/* Landscape Backdrop Plane */}
@@ -513,6 +517,9 @@ const WindowAssembly = ({
 };
 
 export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) => {
+  const { theme } = useThemeStore();
+  const isLight = theme === 'light';
+
   const targetY = (props.height * 0.001) / 2;
   const maxDim = Math.max(props.width, props.height) * 0.001;
   // Dynamic camera distance to frame the window perfectly regardless of size
@@ -546,6 +553,9 @@ export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) =
   };
 
   const getBgColor = (scenery: string) => {
+    if (isLight && (scenery === 'studio-grey' || scenery === 'custom')) {
+      return '#ffffff';
+    }
     switch (scenery) {
       case 'custom':
         return '#f1f5f9';
@@ -587,7 +597,10 @@ export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) =
           shadow-mapSize-height={2048} 
           shadow-bias={-0.0001} 
         />
-        <Environment preset={getEnvPreset(activeScenery)} />
+        <Environment 
+          preset={getEnvPreset(activeScenery)} 
+          background={activeScenery !== 'studio-grey' && activeScenery !== 'studio-dark' && activeScenery !== 'custom'} 
+        />
         
         <WindowAssembly {...props} />
         

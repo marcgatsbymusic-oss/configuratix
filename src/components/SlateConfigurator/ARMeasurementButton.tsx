@@ -151,7 +151,7 @@ export function ARMeasurementButton({ onMeasureComplete }: ARMeasurementButtonPr
       
       <button 
         onClick={startCamera}
-        className="w-full bg-mammut-darker text-indigo-400 border-2 border-indigo-400/30 px-4 py-3 rounded-xl flex items-center justify-center gap-2 font-black tracking-widest uppercase text-[10px] md:text-xs shadow-[0_0_15px_rgba(99,102,241,0.2)] hover:border-indigo-400 hover:bg-mammut-dark transition-all active:scale-95"
+        className="w-full bg-slate-100 text-indigo-600 border border-slate-200/80 px-4 py-3 rounded-xl flex items-center justify-center gap-2 font-black tracking-widest uppercase text-[10px] md:text-xs shadow-sm hover:border-indigo-400 hover:bg-slate-200/50 transition-all active:scale-95"
       >
         <Scan size={16} /> Beta: {isWebXRSupported ? 'SLAM AR Scanner' : 'Smart AI Scanner'}
       </button>

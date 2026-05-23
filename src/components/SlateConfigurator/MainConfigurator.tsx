@@ -331,13 +331,14 @@ const TiltProfileCard = ({ profile, isActive, onClick, tags }: { profile: any, i
       style={{ perspective: '1200px' }}
     >
       <div 
-        className={`w-full h-full flex flex-col rounded-2xl border-2 transition-all duration-200 overflow-visible shadow-sm group-hover/btn:shadow-xl ${isActive ? 'border-mammut-gold ring-4 ring-[#eab676]/10 bg-mammut-gold/10/10' : 'border-mammut-border group-hover/btn:border-mammut-border bg-mammut-dark'}`}
+        className={`w-full h-full flex flex-col rounded-2xl border-2 transition-all duration-200 overflow-visible shadow-sm group-hover/btn:shadow-xl ${isActive ? 'border-mammut-gold ring-4 ring-[#eab676]/10 bg-mammut-gold/10' : 'border-slate-200 group-hover/btn:border-slate-300'}`}
         style={{
           transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) scale(${isActive ? 1.02 : 1})`,
-          transformStyle: 'preserve-3d'
+          transformStyle: 'preserve-3d',
+          backgroundColor: isActive ? undefined : '#ffffff'
         }}
       >
-        <div className="h-44 flex items-center justify-center bg-mammut-darker p-4 border-b border-mammut-border relative rounded-t-xl" style={{ transformStyle: 'preserve-3d' }}>
+        <div className="h-44 flex items-center justify-center bg-slate-50 p-4 border-b border-slate-100 relative rounded-t-xl" style={{ transformStyle: 'preserve-3d' }}>
           <img 
             src={profile.image} 
             alt={profile.name} 
@@ -349,33 +350,33 @@ const TiltProfileCard = ({ profile, isActive, onClick, tags }: { profile: any, i
           />
           <div className="absolute top-3 left-3 flex flex-col gap-1 items-start z-10" style={{ transform: 'translateZ(30px)' }}>
             {(tags || []).map((tag: any, i: number) => (
-              <span key={i} className={`text-[9px] font-bold text-mammut-white px-2 py-0.5 rounded shadow-sm tracking-wider uppercase ${tag.color === 'emerald' ? 'bg-emerald-500' : 'bg-blue-600'}`}>
+              <span key={i} className={`text-[9px] font-bold text-white px-2 py-0.5 rounded shadow-sm tracking-wider uppercase ${tag.color === 'emerald' ? 'bg-emerald-500' : 'bg-blue-600'}`}>
                 {tag.text}
               </span>
             ))}
           </div>
           {profile.technical && profile.technical.energyGrade && (
-            <div className="absolute top-3 right-3 flex items-center justify-center w-8 h-8 rounded-full border-2 border-white/10 shadow-lg z-20 font-black text-sm text-mammut-white" 
+            <div className="absolute top-3 right-3 flex items-center justify-center w-8 h-8 rounded-full border-2 border-white/10 shadow-lg z-20 font-black text-sm text-white" 
                  style={{ transform: 'translateZ(40px)', background: profile.technical.energyGrade === 'A+' ? '#10b981' : profile.technical.energyGrade === 'A' ? '#84cc16' : profile.technical.energyGrade === 'B' ? '#eab308' : '#f97316' }}>
                {profile.technical.energyGrade}
             </div>
           )}
         </div>
-        <div className="p-4 bg-mammut-dark rounded-b-xl relative z-20 flex-grow flex flex-col" style={{ transform: 'translateZ(20px)' }}>
-          <div className="font-bold text-lg text-mammut-white/90">{String(t(`configurator.profiles.${profile.id}`, profile.name))}</div>
+        <div className="p-4 rounded-b-xl relative z-20 flex-grow flex flex-col" style={{ transform: 'translateZ(20px)', backgroundColor: '#ffffff' }}>
+          <div className="font-bold text-lg text-slate-800">{String(t(`configurator.profiles.${profile.id}`, profile.name))}</div>
           {profile.technical && (
-             <div className="mt-3 border-t border-mammut-border pt-3 flex-grow flex flex-col justify-end">
-               <p className={`text-[10px] text-mammut-white/50 leading-relaxed mb-3 ${isExpanded ? 'line-clamp-none' : 'line-clamp-3'}`}>{profile.technical.description}</p>
-               <div className="grid grid-cols-2 gap-2 text-[10px] bg-mammut-darker p-2 rounded-lg border border-mammut-border/50">
-                  <div className="flex flex-col col-span-2"><span className="text-mammut-white/40 uppercase tracking-widest text-[8px]">Thermal Transmittance</span><span className="font-bold text-mammut-gold">{profile.technical.uwValue} <span className="font-normal text-mammut-white/30 text-[8px]">W/(m²K)</span></span></div>
-                  {profile.technical.soundInsulation && <div className="flex flex-col col-span-2"><span className="text-mammut-white/40 uppercase tracking-widest text-[8px]">Sound Insulation</span><span className="font-bold text-mammut-white/90">{profile.technical.soundInsulation}</span></div>}
-                  <div className="flex flex-col"><span className="text-mammut-white/40 uppercase tracking-widest text-[8px]">Depth</span><span className="font-bold text-mammut-white/90">{profile.technical.profileDepth} <span className="font-normal text-mammut-white/30 text-[8px]">mm</span></span></div>
-                  {profile.technical.chambers && <div className="flex flex-col"><span className="text-mammut-white/40 uppercase tracking-widest text-[8px]">Chambers</span><span className="font-bold text-mammut-white/90">{profile.technical.chambers}</span></div>}
-                  <div className="flex flex-col"><span className="text-mammut-white/40 uppercase tracking-widest text-[8px]">Gaskets</span><span className="font-bold text-mammut-white/90">{profile.technical.gaskets}</span></div>
+             <div className="mt-3 border-t border-slate-100 pt-3 flex-grow flex flex-col justify-end">
+               <p className={`text-[10px] text-slate-500 leading-relaxed mb-3 ${isExpanded ? 'line-clamp-none' : 'line-clamp-3'}`}>{profile.technical.description}</p>
+               <div className="grid grid-cols-2 gap-2 text-[10px] bg-slate-50 p-2 rounded-lg border border-slate-200/60">
+                  <div className="flex flex-col col-span-2"><span className="text-slate-500 uppercase tracking-widest text-[8px]">Thermal Transmittance</span><span className="font-bold text-mammut-gold">{profile.technical.uwValue} <span className="font-normal text-slate-500 text-[8px]">W/(m²K)</span></span></div>
+                  {profile.technical.soundInsulation && <div className="flex flex-col col-span-2"><span className="text-slate-500 uppercase tracking-widest text-[8px]">Sound Insulation</span><span className="font-bold text-slate-700">{profile.technical.soundInsulation}</span></div>}
+                  <div className="flex flex-col"><span className="text-slate-500 uppercase tracking-widest text-[8px]">Depth</span><span className="font-bold text-slate-700">{profile.technical.profileDepth} <span className="font-normal text-slate-500 text-[8px]">mm</span></span></div>
+                  {profile.technical.chambers && <div className="flex flex-col"><span className="text-slate-500 uppercase tracking-widest text-[8px]">Chambers</span><span className="font-bold text-slate-700">{profile.technical.chambers}</span></div>}
+                  <div className="flex flex-col"><span className="text-slate-500 uppercase tracking-widest text-[8px]">Gaskets</span><span className="font-bold text-slate-700">{profile.technical.gaskets}</span></div>
                </div>
                <button 
                  onClick={(e) => { e.stopPropagation(); setIsExpanded(!isExpanded); }}
-                 className="mt-3 bg-mammut-gold text-black w-full py-1.5 rounded text-[10px] font-black uppercase tracking-widest hover:bg-white transition-colors"
+                 className="mt-3 bg-mammut-gold text-black w-full py-1.5 rounded text-[10px] font-black uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-colors"
                >
                  {isExpanded ? 'Less' : 'More'}
                </button>
@@ -383,7 +384,7 @@ const TiltProfileCard = ({ profile, isActive, onClick, tags }: { profile: any, i
           )}
         </div>
         {isActive && (
-          <div className="absolute bottom-4 right-4 w-7 h-7 bg-mammut-gold !text-black rounded-full flex items-center justify-center text-mammut-white shadow-md z-30" style={{ transform: 'translateZ(40px)' }}>
+          <div className="absolute bottom-4 right-4 w-7 h-7 bg-mammut-gold text-black rounded-full flex items-center justify-center shadow-md z-30" style={{ transform: 'translateZ(40px)' }}>
             <Check size={14} strokeWidth={4} />
           </div>
         )}
@@ -668,16 +669,16 @@ export function MainConfigurator() {
             )}
             
             {/* Step 1: Material */}
-            <section className={`bg-mammut-dark p-6 md:p-8 rounded-2xl shadow-sm border border-mammut-border transition-all duration-500 ${activeStep !== 1 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(1) }}>
+            <section className={`border border-slate-200/80 p-6 md:p-8 rounded-2xl shadow-sm transition-all duration-500 ${activeStep !== 1 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(1), backgroundColor: '#ffffff' }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 1 ? 'mb-6' : ''}`}
                 onClick={() => openStep(1)}
               >
                 <div className="flex items-center gap-3 w-full relative">
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 1 ? 'bg-mammut-gold/20 text-mammut-gold' : 'bg-mammut-darker text-mammut-white/40'}`}>1</div> 
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 1 ? 'bg-mammut-gold/20 text-mammut-gold' : 'bg-slate-100 text-slate-400'}`}>1</div> 
  {completedSteps.includes(1) && <Check size={20} className="text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.4)]" strokeWidth={3} />}
-                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 1 ? 'text-mammut-white/90' : 'text-mammut-white/40'}`}>{t('configurator.steps.category')}</h2>
-                  <button onClick={(e) => { e.stopPropagation(); toggleHelp(1); }} className="text-mammut-white/40 hover:text-mammut-gold transition-colors ml-1" title="Toggle Help"><HelpCircle size={18} /></button>
+                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 1 ? 'text-slate-900' : 'text-slate-400'}`}>{t('configurator.steps.category')}</h2>
+                  <button onClick={(e) => { e.stopPropagation(); toggleHelp(1); }} className="text-slate-450 hover:text-mammut-gold transition-colors ml-1" title="Toggle Help"><HelpCircle size={18} /></button>
                 </div>
                 {expandedHelpSection === 1 && <MaterialHelp onClose={() => setExpandedHelpSection(null)} />}
                 {activeStep !== 1 && <div className="text-xs font-bold text-mammut-gold bg-mammut-gold/10 px-3 py-1.5 rounded-full uppercase tracking-wider">{state.category}</div>}
@@ -689,7 +690,8 @@ export function MainConfigurator() {
                   <div className="relative group pt-2">
                     <button 
                       onClick={() => categoryScrollRef.current?.scrollBy({ left: -300, behavior: 'smooth' })}
-                      className="absolute left-2 top-1/2 -translate-y-1/2 z-20 text-amber-500 hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] bg-mammut-dark/80 backdrop-blur-sm rounded-full p-1 opacity-0 group-hover:opacity-100 hidden md:block"
+                      className="absolute left-2 top-1/2 -translate-y-1/2 z-20 text-amber-500 hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] border border-slate-200 backdrop-blur-sm rounded-full p-1 opacity-0 group-hover:opacity-100 hidden md:block"
+                      style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}
                     >
                       <ChevronLeft size={40} strokeWidth={2.5} />
                     </button>
@@ -699,17 +701,18 @@ export function MainConfigurator() {
                         <button
                           key={cat}
                           onClick={() => { dispatch({ type: 'SET_CATEGORY', payload: cat }); advanceStep(1, 2); }}
-                          className={`group/btn relative w-56 shrink-0 snap-start rounded-2xl border-2 text-left transition-all overflow-hidden bg-mammut-dark shadow-sm hover:shadow-md ${(completedSteps.includes(1) && state.category === cat) ? 'border-mammut-gold ring-4 ring-[#eab676]/10 scale-[1.02]' : 'border-mammut-border hover:border-mammut-border'}`}
+                          className={`group/btn relative w-56 shrink-0 snap-start rounded-2xl border-2 text-left transition-all overflow-hidden shadow-sm hover:shadow-md ${(completedSteps.includes(1) && state.category === cat) ? 'border-mammut-gold ring-4 ring-[#eab676]/10 scale-[1.02]' : 'border-slate-200 hover:border-slate-300'}`}
+                          style={{ backgroundColor: '#ffffff' }}
                         >
-                          <div className="h-48 flex items-center justify-center bg-mammut-darker p-4 border-b border-mammut-border overflow-hidden">
+                          <div className="h-48 flex items-center justify-center bg-slate-50 p-4 border-b border-slate-100 overflow-hidden">
                             <img src={CONFIG_SCHEMA.categories[cat].image} alt={cat} className="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-500 group-hover/btn:scale-110" />
                           </div>
                           <div className="p-5">
-                            <div className="font-bold text-lg text-mammut-white/90">{t(`configurator.categories.${cat}`, cat)}</div>
+                            <div className="font-bold text-lg text-slate-800">{t(`configurator.categories.${cat}`, cat)}</div>
                           </div>
                           
                           {(completedSteps.includes(1) && state.category === cat) && (
-                            <div className="absolute top-3 right-3 w-7 h-7 bg-mammut-gold !text-black rounded-full flex items-center justify-center text-mammut-white shadow-md">
+                            <div className="absolute top-3 right-3 w-7 h-7 bg-mammut-gold text-black rounded-full flex items-center justify-center shadow-md">
                               <Check size={14} strokeWidth={4} />
                             </div>
                           )}
@@ -719,25 +722,25 @@ export function MainConfigurator() {
 
                     <button 
                       onClick={() => categoryScrollRef.current?.scrollBy({ left: 300, behavior: 'smooth' })}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 z-20 text-amber-500 hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] bg-mammut-dark/80 backdrop-blur-sm rounded-full p-1 opacity-0 group-hover:opacity-100 hidden md:block"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 z-20 text-amber-500 hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] border border-slate-200 backdrop-blur-sm rounded-full p-1 opacity-0 group-hover:opacity-100 hidden md:block"
+                      style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}
                     >
                       <ChevronRight size={40} strokeWidth={2.5} />
                     </button>
                   </div>
                 </div>
               </div>
-            </section>
-            {/* Step 2: System Profile */}
-            <section className={`bg-mammut-dark p-6 md:p-8 rounded-2xl shadow-sm border border-mammut-border transition-all duration-500 ${activeStep !== 2 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(2) }}>
+            </section>            {/* Step 2: System Profile */}
+            <section className={`border border-slate-200/80 p-6 md:p-8 rounded-2xl shadow-sm transition-all duration-500 ${activeStep !== 2 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(2), backgroundColor: '#ffffff' }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 2 ? 'mb-6' : ''}`}
                 onClick={() => openStep(2)}
               >
                 <div className="flex items-center gap-3">
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 2 ? 'bg-mammut-gold/20 text-mammut-gold' : 'bg-mammut-darker text-mammut-white/40'}`}>2</div> 
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 2 ? 'bg-mammut-gold/20 text-mammut-gold' : 'bg-slate-100 text-slate-400'}`}>2</div> 
  {completedSteps.includes(2) && <Check size={20} className="text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.4)]" strokeWidth={3} />}
-                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 2 ? 'text-mammut-white/90' : 'text-mammut-white/40'}`}>{t('configurator.steps.system')}</h2>
-                  <button onClick={(e) => { e.stopPropagation(); toggleHelp(2); }} className="text-mammut-white/40 hover:text-mammut-gold transition-colors ml-1" title="Toggle Help"><HelpCircle size={18} /></button>
+                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 2 ? 'text-slate-900' : 'text-slate-400'}`}>{t('configurator.steps.system')}</h2>
+                  <button onClick={(e) => { e.stopPropagation(); toggleHelp(2); }} className="text-slate-450 hover:text-mammut-gold transition-colors ml-1" title="Toggle Help"><HelpCircle size={18} /></button>
                 </div>
                 {state.profile && <div className="text-xs font-bold text-mammut-gold bg-mammut-gold/10 px-3 py-1.5 rounded-full uppercase tracking-wider transition-opacity">{CONFIG_SCHEMA.categories[state.category].profiles.find(p => p.id === state.profile)?.name || state.profile}</div>}
               </div>
@@ -747,7 +750,7 @@ export function MainConfigurator() {
                   <div className="pt-2">
                     {(() => {
                       const profiles = CONFIG_SCHEMA.categories[state.category].profiles;
-                      if (profiles.length === 0) return <div className="text-sm text-mammut-white/50 font-medium italic p-5 bg-mammut-darker border border-mammut-border rounded-xl text-center">No specific profiles available for this category.</div>;
+                      if (profiles.length === 0) return <div className="text-sm text-slate-500 font-medium italic p-5 bg-slate-50 border border-slate-200 rounded-xl text-center">No specific profiles available for this category.</div>;
                       
                       const availableMaterials = Array.from(new Set(profiles.map(p => (p as any).material).filter(Boolean)));
                       const visibleProfiles = state.materialFilter ? profiles.filter(p => (p as any).material === state.materialFilter) : profiles;
@@ -764,7 +767,7 @@ export function MainConfigurator() {
                                   const priceA = estimateFramePrice(a.id, openingCls, state.dimensions.width, state.dimensions.height);
                                   const priceB = estimateFramePrice(b.id, openingCls, state.dimensions.width, state.dimensions.height);
                                   return (priceA - priceB) * dir;
-                               }
+                                }
                                
                                if (!techA || !techB) return 0;
                                if (state.sortByTracker === 'energy') return (techA.uwValue - techB.uwValue) * dir;
@@ -794,12 +797,13 @@ export function MainConfigurator() {
                         <>
                           <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                             {availableMaterials.length > 0 && (
-                              <div className="flex gap-2 p-1 bg-mammut-darker border border-mammut-border rounded-xl overflow-x-auto hide-scrollbar flex-grow md:flex-grow-0">
+                              <div className="flex gap-2 p-1 bg-slate-100 border border-slate-200 rounded-xl overflow-x-auto hide-scrollbar flex-grow md:flex-grow-0">
                                  {availableMaterials.map(mat => (
                                     <button 
                                       key={String(mat)}
                                       onClick={() => dispatch({ type: 'SET_MATERIAL_FILTER', payload: String(mat) })} 
-                                      className={`px-6 py-2.5 text-xs tracking-widest uppercase font-bold rounded-lg transition-all shadow-sm ${state.materialFilter === mat ? 'bg-mammut-dark text-mammut-gold ring-1 ring-[#eab676]/30 shadow shadow-[#eab676]/10' : 'text-mammut-white/50 hover:text-mammut-white/80 hover:bg-[#2a2a2b]'}`}
+                                      className={`px-6 py-2.5 text-xs tracking-widest uppercase font-bold rounded-lg transition-all shadow-sm ${state.materialFilter === mat ? 'text-mammut-gold ring-1 ring-[#eab676]/30 shadow shadow-[#eab676]/10' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50'}`}
+                                      style={state.materialFilter === mat ? { backgroundColor: '#ffffff' } : undefined}
                                     >
                                       {String(mat)}
                                     </button>
@@ -807,24 +811,24 @@ export function MainConfigurator() {
                               </div>
                             )}
                             <div className="flex items-center gap-3">
-                              <span className="text-xs font-bold text-mammut-white/40 uppercase tracking-widest">Sort By:</span>
-                              <div className="flex items-center bg-mammut-darker border border-mammut-border rounded-lg overflow-hidden transition-colors hover:border-mammut-border focus-within:border-mammut-gold/50">
+                              <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Sort By:</span>
+                              <div className="flex items-center border border-slate-200 rounded-lg overflow-hidden transition-colors hover:border-slate-300 focus-within:border-mammut-gold/50" style={{ backgroundColor: '#ffffff' }}>
                                 <select 
                                   value={state.sortByTracker}
                                   onChange={(e) => dispatch({ type: 'SET_SORT_BY', payload: e.target.value as any })}
-                                  className="bg-transparent text-mammut-white/90 text-sm font-medium px-4 py-2 outline-none cursor-pointer appearance-none pr-8 relative"
-                                  style={{ background: 'url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSI4IiB2aWV3Qm94PSIwIDAgMTQgOCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIwLjUiIGQ9Ik03IDhMMCAwbDE0IDB6Ii8+PC9zdmc+) right 12px center no-repeat' }}
+                                  className="bg-transparent text-slate-800 text-sm font-medium px-4 py-2 outline-none cursor-pointer appearance-none pr-8 relative"
+                                  style={{ background: 'url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSI4IiB2aWV3Qm94PSIwIDAgMTQgOCI+PHBhdGggZmlsbD0iIzMzNDE1NSIgZmlsbC1vcGFjaXR5PSIwLjciIGQ9Ik03IDhMMCAwbDE0IDB6Ii8+PC9zdmc+) right 12px center no-repeat' }}
                                 >
-                                  <option value="default" className="bg-mammut-darker text-mammut-white">Default Order</option>
-                                  <option value="energy" className="bg-mammut-darker text-mammut-white">Energy Efficiency</option>
-                                  <option value="sound" className="bg-mammut-darker text-mammut-white">Sound Insulation</option>
-                                  <option value="depth" className="bg-mammut-darker text-mammut-white">Profile Depth</option>
-                                  <option value="price" className="bg-mammut-darker text-mammut-white">Price</option>
+                                  <option value="default" className="text-slate-800" style={{ backgroundColor: '#ffffff' }}>Default Order</option>
+                                  <option value="energy" className="text-slate-800" style={{ backgroundColor: '#ffffff' }}>Energy Efficiency</option>
+                                  <option value="sound" className="text-slate-800" style={{ backgroundColor: '#ffffff' }}>Sound Insulation</option>
+                                  <option value="depth" className="text-slate-800" style={{ backgroundColor: '#ffffff' }}>Profile Depth</option>
+                                  <option value="price" className="text-slate-800" style={{ backgroundColor: '#ffffff' }}>Price</option>
                                 </select>
-                                <div className="h-6 w-px bg-[#2a2a2b]"></div>
+                                <div className="h-6 w-px bg-slate-200"></div>
                                 <button 
                                   onClick={() => dispatch({ type: 'SET_SORT_DIRECTION', payload: state.sortDirection === 'asc' ? 'desc' : 'asc' })}
-                                  className="px-3 py-2 text-mammut-white/50 hover:text-mammut-gold transition-colors"
+                                  className="px-3 py-2 text-slate-500 hover:text-mammut-gold transition-colors"
                                   title={`Toggle Direction (Current: ${state.sortDirection === 'asc' ? 'Lowest/Thinnest to Highest' : 'Highest/Thickest to Lowest'})`}
                                 >
                                   {state.sortDirection === 'asc' ? <ChevronUp size={16} strokeWidth={3} /> : <ChevronDown size={16} strokeWidth={3} />}
@@ -835,14 +839,15 @@ export function MainConfigurator() {
                           <div className="relative group">
                             <button 
                               onClick={() => profileScrollRef.current?.scrollBy({ left: -300, behavior: 'smooth' })}
-                              className="absolute left-2 top-1/2 -translate-y-1/2 z-20 text-amber-500 hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] bg-mammut-dark/80 backdrop-blur-sm rounded-full p-1 opacity-0 group-hover:opacity-100 hidden md:block"
+                              className="absolute left-2 top-1/2 -translate-y-1/2 z-20 text-amber-500 hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] border border-slate-200 backdrop-blur-sm rounded-full p-1 opacity-0 group-hover:opacity-100 hidden md:block"
+                              style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}
                             >
                               <ChevronLeft size={40} strokeWidth={2.5} />
                             </button>
 
                             <div ref={profileScrollRef} className="flex overflow-x-auto gap-5 py-4 px-2 snap-x hide-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                               {sortedProfiles.length === 0 ? (
-                                <div className="text-sm text-mammut-white/50 font-medium italic p-5 text-center w-full">No profiles found.</div>
+                                <div className="text-sm text-slate-500 font-medium italic p-5 text-center w-full">No profiles found.</div>
                               ) : sortedProfiles.map(profile => (
                                 <TiltProfileCard 
                                   key={profile.id} 
@@ -856,7 +861,8 @@ export function MainConfigurator() {
 
                             <button 
                               onClick={() => profileScrollRef.current?.scrollBy({ left: 300, behavior: 'smooth' })}
-                              className="absolute right-2 top-1/2 -translate-y-1/2 z-20 text-amber-500 hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] bg-mammut-dark/80 backdrop-blur-sm rounded-full p-1 opacity-0 group-hover:opacity-100 hidden md:block"
+                              className="absolute right-2 top-1/2 -translate-y-1/2 z-20 text-amber-500 hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] border border-slate-200 backdrop-blur-sm rounded-full p-1 opacity-0 group-hover:opacity-100 hidden md:block"
+                              style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}
                             >
                               <ChevronRight size={40} strokeWidth={2.5} />
                             </button>
@@ -865,24 +871,23 @@ export function MainConfigurator() {
                       );
                     })()}
                   </div>
-                  <div className="pt-6 mt-6 border-t border-mammut-border flex justify-start">
+                  <div className="pt-6 mt-6 border-t border-slate-100 flex justify-start">
                     <button onClick={(e) => { e.stopPropagation(); openStep(1); }} className="text-[11px] font-black uppercase tracking-widest text-mammut-gold bg-mammut-gold/10 px-4 py-2 rounded-lg hover:bg-mammut-gold/20 transition-colors flex items-center gap-2"><ChevronLeft size={14} /> {t('configurator.buttons.previous') || "Previous Step"}</button>
                   </div>
                 </div>
               </div>
             </section>
-
-        {/* Step 3: Window Type (Fenstertyp) */}
-            <section className={`bg-mammut-dark p-6 md:p-8 rounded-2xl shadow-sm border border-mammut-border transition-all duration-500 ${activeStep !== 3 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(3) }}>
+            {/* Step 3: Window Type (Fenstertyp) */}
+            <section className={`border border-slate-200/80 p-6 md:p-8 rounded-2xl shadow-sm transition-all duration-500 ${activeStep !== 3 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(3), backgroundColor: '#ffffff' }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 3 ? 'mb-6' : ''}`}
                 onClick={() => openStep(3)}
               >
                 <div className="flex items-center gap-3">
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 3 ? 'bg-mammut-gold/20 text-mammut-gold' : 'bg-mammut-darker text-mammut-white/40'}`}>3</div> 
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 3 ? 'bg-mammut-gold/20 text-mammut-gold' : 'bg-slate-100 text-slate-400'}`}>3</div> 
  {completedSteps.includes(3) && <Check size={20} className="text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.4)]" strokeWidth={3} />}
-                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 3 ? 'text-mammut-white/90' : 'text-mammut-white/40'}`}>{t('configurator.steps.windowType')}</h2>
-                  <button onClick={(e) => { e.stopPropagation(); toggleHelp(3); }} className="text-mammut-white/40 hover:text-mammut-gold transition-colors ml-1" title="Toggle Help"><HelpCircle size={18} /></button>
+                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 3 ? 'text-slate-900' : 'text-slate-400'}`}>{t('configurator.steps.windowType')}</h2>
+                  <button onClick={(e) => { e.stopPropagation(); toggleHelp(3); }} className="text-slate-450 hover:text-mammut-gold transition-colors ml-1" title="Toggle Help"><HelpCircle size={18} /></button>
                 </div>
                 {expandedHelpSection === 3 && <WindowTypeHelp onClose={() => setExpandedHelpSection(null)} />}
                 {activeStep !== 3 && <div className="text-xs font-bold text-mammut-gold bg-mammut-gold/10 px-3 py-1.5 rounded-full uppercase tracking-wider">{String(t(`configurator.windowTypes.${state.windowTypeId}`, WINDOW_TYPES.find(w => w.id === state.windowTypeId)?.name || state.windowTypeId))}</div>}
@@ -902,21 +907,22 @@ export function MainConfigurator() {
                       if (items.length === 0) return null;
                       return (
                         <div key={group.title} className="mb-8">
-                          <h3 className="text-sm font-bold text-mammut-white/50 uppercase tracking-widest mb-4">{group.title}</h3>
+                          <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4">{group.title}</h3>
                           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4">
                             {items.map(wt => (
                               <button
                                 key={wt.id}
                                 onClick={() => dispatch({ type: 'SET_WINDOW_TYPE', payload: wt.id })}
-                                className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center justify-between gap-3 h-[160px] relative ${state.windowTypeId === wt.id ? 'border-mammut-gold bg-mammut-gold/10 text-mammut-gold shadow-md ring-4 ring-[#eab676]/10' : 'border-mammut-border hover:border-mammut-border shadow-sm hover:shadow-md group bg-mammut-dark'}`}
+                                className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center justify-between gap-3 h-[160px] relative ${state.windowTypeId === wt.id ? 'border-mammut-gold bg-mammut-gold/10 text-mammut-gold shadow-md ring-4 ring-[#eab676]/10' : 'border-slate-200 hover:border-slate-300 shadow-sm hover:shadow-md group'}`}
+                                style={{ backgroundColor: state.windowTypeId === wt.id ? undefined : '#ffffff' }}
                               >
                                 {state.windowTypeId === wt.id && (
                                   <div className="absolute top-2 right-2 w-5 h-5 bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-md z-20 animate-scale-in">
                                     <Check size={12} strokeWidth={3} className="text-white" />
                                   </div>
                                 )}
-                                <div className="w-full h-20 flex items-center justify-center relative p-2 overflow-hidden bg-mammut-darker/50 rounded-lg">
-                                  <div className={`w-16 h-16 flex items-center justify-center transition-all duration-300 ${state.windowTypeId === wt.id ? 'opacity-100 scale-110 drop-shadow-[0_0_8px_rgba(234,182,118,0.5)] text-mammut-gold' : 'opacity-40 group-hover:opacity-100 group-hover:scale-105 text-mammut-white'}`}>
+                                <div className="w-full h-20 flex items-center justify-center relative p-2 overflow-hidden bg-slate-50 rounded-lg">
+                                  <div className={`w-16 h-16 flex items-center justify-center transition-all duration-300 ${state.windowTypeId === wt.id ? 'opacity-100 scale-110 drop-shadow-[0_0_8px_rgba(234,182,118,0.5)] text-mammut-gold' : 'opacity-40 group-hover:opacity-100 group-hover:scale-105 text-slate-500'}`}>
                                     <WindowTypeGraphic 
                                       id={wt.id}
                                       sashOpenings={state.windowTypeId === wt.id ? state.sashOpenings : getDefaultSashOpenings(wt.id, wt.sashes)}
@@ -924,7 +930,7 @@ export function MainConfigurator() {
                                     />
                                   </div>
                                 </div>
-                                <div className="font-bold text-[10px] text-center leading-tight whitespace-pre-wrap">{wt.name}<br/><span className="text-mammut-white/30 truncate mt-1 block">[{wt.id}]</span></div>
+                                <div className="font-bold text-[10px] text-center leading-tight whitespace-pre-wrap text-slate-700">{wt.name}<br/><span className="text-slate-500 truncate mt-1 block">[{wt.id}]</span></div>
                               </button>
                             ))}
                           </div>
@@ -932,7 +938,7 @@ export function MainConfigurator() {
                       )
                     })}
                   </div>
-                  <div className="pt-6 mt-6 border-t border-mammut-border flex justify-between items-center w-full">
+                  <div className="pt-6 mt-6 border-t border-slate-100 flex justify-between items-center w-full">
                     <button onClick={(e) => { e.stopPropagation(); openStep(2); }} className="text-[11px] font-black uppercase tracking-widest text-mammut-gold bg-mammut-gold/10 px-4 py-2 rounded-lg hover:bg-mammut-gold/20 transition-colors flex items-center gap-2"><ChevronLeft size={14} /> {t('configurator.buttons.previous') || "Previous Step"}</button>
                     <button 
                       onClick={(e) => { 
@@ -949,16 +955,16 @@ export function MainConfigurator() {
             </section>
 
             {/* Step 4: Unit Options */}
-            <section className={`bg-mammut-dark p-6 md:p-8 rounded-2xl shadow-sm border border-mammut-border transition-all duration-500 hidden`} style={{ order: stepOrder.indexOf(4) }}>
+            <section className={`border border-slate-200/80 p-6 md:p-8 rounded-2xl shadow-sm transition-all duration-500 hidden`} style={{ order: stepOrder.indexOf(4), backgroundColor: '#ffffff' }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 4 ? 'mb-6' : ''}`}
                 onClick={() => openStep(4)}
               >
                 <div className="flex items-center gap-3 w-full relative">
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 4 ? 'bg-mammut-gold/20 text-mammut-gold' : 'bg-mammut-darker text-mammut-white/40'}`}>4</div> 
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 4 ? 'bg-mammut-gold/20 text-mammut-gold' : 'bg-slate-100 text-slate-400'}`}>4</div> 
                   {completedSteps.includes(4) && <Check size={20} className="text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.4)]" strokeWidth={3} />}
-                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 4 ? 'text-mammut-white/90' : 'text-mammut-white/40'}`}>Unit Options</h2>
-                  <button onClick={(e) => { e.stopPropagation(); toggleHelp(4); }} className="text-mammut-white/40 hover:text-mammut-gold transition-colors ml-1" title="Toggle Help"><HelpCircle size={18} /></button>
+                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 4 ? 'text-slate-900' : 'text-slate-400'}`}>Unit Options</h2>
+                  <button onClick={(e) => { e.stopPropagation(); toggleHelp(4); }} className="text-slate-455 hover:text-mammut-gold transition-colors ml-1" title="Toggle Help"><HelpCircle size={18} /></button>
                 </div>
                 {activeStep !== 4 && <div className="text-xs font-bold text-mammut-gold bg-mammut-gold/10 px-3 py-1.5 rounded-full uppercase tracking-wider">{state.fittingVariant}</div>}
               </div>
@@ -967,25 +973,26 @@ export function MainConfigurator() {
                 <div className="overflow-hidden">
                   <div className="pt-2">
                     <div className="mb-6">
-                      <label className="text-sm font-bold text-mammut-white/50 uppercase tracking-widest mb-4 block">Fitting variant 1</label>
+                      <label className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4 block">Fitting variant 1</label>
                       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         {fittingVariants.map((fv) => (
                           <button
                             key={fv.id}
                             onClick={() => { dispatch({ type: 'SET_FITTING_VARIANT', payload: fv.id }); advanceStep(4, 5); }}
-                            className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center justify-between gap-3 h-[180px] ${state.fittingVariant === fv.id ? 'border-mammut-gold bg-mammut-gold/10 text-mammut-gold shadow-md ring-4 ring-[#eab676]/10' : 'border-mammut-border hover:border-mammut-border shadow-sm hover:shadow-md group bg-mammut-dark'}`}
+                            className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center justify-between gap-3 h-[180px] ${state.fittingVariant === fv.id ? 'border-mammut-gold bg-mammut-gold/10 text-mammut-gold shadow-md ring-4 ring-[#eab676]/10' : 'border-slate-200 hover:border-slate-300 shadow-sm hover:shadow-md group'}`}
+                            style={{ backgroundColor: state.fittingVariant === fv.id ? undefined : '#ffffff' }}
                           >
-                            <div className="flex-1 w-full flex items-center justify-center p-2 rounded-lg bg-mammut-darker/50">
+                            <div className="flex-1 w-full flex items-center justify-center p-2 rounded-lg bg-slate-50">
                               {fv.image ? <img src={fv.image} alt={fv.name} className={`h-full object-contain max-h-[80px] transition-opacity ${state.fittingVariant === fv.id ? 'opacity-100' : 'opacity-40 grayscale group-hover:opacity-75 group-hover:grayscale-0'}`} /> : <div className="w-10 h-10 border border-dashed rounded opacity-30"/>}
                             </div>
-                            <div className="font-bold text-[10px] text-center leading-tight whitespace-pre-wrap">{fv.name}<br/><span className="text-mammut-white/30 truncate mt-1 block">[{fv.id}]</span></div>
+                            <div className="font-bold text-[10px] text-center leading-tight whitespace-pre-wrap text-slate-700">{fv.name}<br/><span className="text-slate-500 truncate mt-1 block">[{fv.id}]</span></div>
                           </button>
                         ))}
                       </div>
-                      <p className="text-[10px] text-mammut-white/30 italic mt-4">Determines the opening mechanism of the first sash.</p>
+                      <p className="text-[10px] text-slate-500 italic mt-4">Determines the opening mechanism of the first sash.</p>
                     </div>
                   </div>
-                  <div className="pt-6 mt-6 border-t border-mammut-border flex justify-start">
+                  <div className="pt-6 mt-6 border-t border-slate-100 flex justify-start">
                     <button onClick={(e) => { e.stopPropagation(); openStep(3); }} className="text-[11px] font-black uppercase tracking-widest text-mammut-gold bg-mammut-gold/10 px-4 py-2 rounded-lg hover:bg-mammut-gold/20 transition-colors flex items-center gap-2"><ChevronLeft size={14} /> {t('configurator.buttons.previous') || "Previous Step"}</button>
                   </div>
                 </div>
@@ -993,16 +1000,16 @@ export function MainConfigurator() {
             </section>
 
             {/* Step 5: Color & Decor */}
-            <section className={`bg-mammut-dark p-6 md:p-8 rounded-2xl shadow-sm border border-mammut-border transition-all duration-500 ${activeStep !== 5 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(5) }}>
+            <section className={`border border-slate-200/80 p-6 md:p-8 rounded-2xl shadow-sm transition-all duration-500 ${activeStep !== 5 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(5), backgroundColor: '#ffffff' }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 5 ? 'mb-6' : ''}`}
                 onClick={() => openStep(5)}
               >
                 <div className="flex items-center gap-3">
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 5 ? 'bg-mammut-gold/20 text-mammut-gold' : 'bg-mammut-darker text-mammut-white/40'}`}>5</div> 
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 5 ? 'bg-mammut-gold/20 text-mammut-gold' : 'bg-slate-100 text-slate-400'}`}>5</div> 
  {completedSteps.includes(5) && <Check size={20} className="text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.4)]" strokeWidth={3} />}
-                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 5 ? 'text-mammut-white/90' : 'text-mammut-white/40'}`}>{t('configurator.steps.color')}</h2>
-                  <button onClick={(e) => { e.stopPropagation(); toggleHelp(5); }} className="text-mammut-white/40 hover:text-mammut-gold transition-colors ml-1" title="Toggle Help"><HelpCircle size={18} /></button>
+                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 5 ? 'text-slate-900' : 'text-slate-400'}`}>{t('configurator.steps.color')}</h2>
+                  <button onClick={(e) => { e.stopPropagation(); toggleHelp(5); }} className="text-slate-450 hover:text-mammut-gold transition-colors ml-1" title="Toggle Help"><HelpCircle size={18} /></button>
                 </div>
                 {activeStep !== 5 && <div className="text-[10px] font-bold text-mammut-gold bg-mammut-gold/10 px-3 py-1.5 rounded-full uppercase tracking-wider">In: {COLOR_LOCALE.colors[state.interiorColor]?.name} | Ex: {COLOR_LOCALE.colors[state.exteriorColor]?.name}</div>}
               </div>
@@ -1012,23 +1019,25 @@ export function MainConfigurator() {
                   <div className="pt-2">
 
                     {/* Dual Color Tabs */}
-                    <div className="flex gap-2 w-full mb-6 p-1 bg-mammut-darker rounded-xl">
+                    <div className="flex gap-2 w-full mb-6 p-1 bg-slate-100 rounded-xl">
                       <button 
                         onClick={() => setColorTab('interior')} 
-                        className={`flex-1 py-3 text-sm tracking-widest uppercase font-bold rounded-lg transition-all shadow-sm ${colorTab === 'interior' ? 'bg-mammut-dark text-mammut-gold ring-1 ring-slate-200' : 'text-mammut-white/50 hover:text-mammut-white/80 hover:bg-[#2a2a2b]'}`}
+                        className={`flex-1 py-3 text-sm tracking-widest uppercase font-bold rounded-lg transition-all shadow-sm ${colorTab === 'interior' ? 'text-mammut-gold ring-1 ring-slate-200' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50'}`}
+                        style={{ backgroundColor: colorTab === 'interior' ? '#ffffff' : 'transparent' }}
                       >
                         Interior Color
                       </button>
                       <button 
                         onClick={() => setColorTab('exterior')} 
-                        className={`flex-1 py-3 text-sm tracking-widest uppercase font-bold rounded-lg transition-all shadow-sm ${colorTab === 'exterior' ? 'bg-mammut-dark text-mammut-gold ring-1 ring-slate-200' : 'text-mammut-white/50 hover:text-mammut-white/80 hover:bg-[#2a2a2b]'}`}
+                        className={`flex-1 py-3 text-sm tracking-widest uppercase font-bold rounded-lg transition-all shadow-sm ${colorTab === 'exterior' ? 'text-mammut-gold ring-1 ring-slate-200' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50'}`}
+                        style={{ backgroundColor: colorTab === 'exterior' ? '#ffffff' : 'transparent' }}
                       >
                         Exterior Color
                       </button>
                     </div>
 
                     {/* Color Group Selector */}
-                    <div className="flex flex-wrap gap-2 mb-6 p-1 bg-mammut-darker border border-mammut-border rounded-xl inline-flex w-full md:w-auto">
+                    <div className="flex flex-wrap gap-2 mb-6 p-1 bg-slate-100 border border-slate-200 rounded-xl inline-flex w-full md:w-auto">
                       {(Object.keys(COLOR_LOCALE.colorGroups) as Array<string>).map(grp => {
                         const activeGrp = colorTab === 'interior' ? state.interiorColorGroup : state.exteriorColorGroup;
                         return (
@@ -1037,7 +1046,8 @@ export function MainConfigurator() {
                             onClick={() => {
                               dispatch({ type: colorTab === 'interior' ? 'SET_INTERIOR_COLOR_GROUP' : 'SET_EXTERIOR_COLOR_GROUP', payload: grp });
                             }}
-                            className={`flex-1 md:flex-none px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${activeGrp === grp ? 'bg-mammut-dark text-mammut-gold shadow shadow-[#eab676]/10' : 'text-mammut-white/50 hover:text-mammut-white/80 hover:bg-mammut-darker'}`}
+                            className={`flex-1 md:flex-none px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${activeGrp === grp ? 'text-mammut-gold shadow shadow-[#eab676]/10' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50'}`}
+                            style={{ backgroundColor: activeGrp === grp ? '#ffffff' : 'transparent' }}
                           >
                             {COLOR_LOCALE.colorGroups[grp]}
                           </button>
@@ -1060,7 +1070,7 @@ export function MainConfigurator() {
                                 dispatch({ type: colorTab === 'interior' ? 'SET_INTERIOR_COLOR' : 'SET_EXTERIOR_COLOR', payload: colorId }); 
                               }}
                               className={`relative group w-12 h-12 transition-all duration-200 outline outline-offset-2 ${
-                                isActive ? 'outline-[#eab676] scale-105 z-10' : 'outline-transparent hover:outline-white/30'
+                                isActive ? 'outline-[#eab676] scale-105 z-10' : 'outline-transparent hover:outline-slate-300'
                               }`}
                               title={colorData.name}
                             >
@@ -1070,11 +1080,11 @@ export function MainConfigurator() {
                                 </div>
                               )}
                               <div 
-                                className="w-full h-full border border-white/10 bg-cover bg-center"
+                                className="w-full h-full border border-slate-200/50 bg-cover bg-center"
                                 style={{ backgroundImage: colorData.swatch }}
                               />
                               {/* Tooltip on hover */}
-                              <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max px-2 py-1 bg-mammut-dark border border-mammut-border text-mammut-white/90 text-[10px] uppercase font-semibold opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20 shadow-lg shadow-black/50">
+                              <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max px-2 py-1 border border-slate-200 text-slate-700 text-[10px] uppercase font-semibold opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20 shadow-lg" style={{ backgroundColor: '#ffffff' }}>
                                 {colorData.name}
                               </span>
                             </button>
@@ -1082,7 +1092,7 @@ export function MainConfigurator() {
                       })}
                     </div>
                   </div>
-                  <div className="pt-6 mt-6 border-t border-mammut-border flex justify-between items-center w-full">
+                  <div className="pt-6 mt-6 border-t border-slate-100 flex justify-between items-center w-full">
                     <button onClick={(e) => { e.stopPropagation(); openStep(3); }} className="text-[11px] font-black uppercase tracking-widest text-mammut-gold bg-mammut-gold/10 px-4 py-2 rounded-lg hover:bg-mammut-gold/20 transition-colors flex items-center gap-2"><ChevronLeft size={14} /> {t('configurator.buttons.previous') || "Previous Step"}</button>
                     <button 
                       onClick={() => {
@@ -1102,16 +1112,16 @@ export function MainConfigurator() {
             </section>
 
             {/* Step 6: Dimensions */}
-            <section className={`bg-mammut-dark p-6 md:p-8 rounded-2xl shadow-sm border border-mammut-border transition-all duration-500 ${activeStep !== 6 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(6) }}>
+            <section className={`border border-slate-200/80 p-6 md:p-8 rounded-2xl shadow-sm transition-all duration-500 ${activeStep !== 6 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(6), backgroundColor: '#ffffff' }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 6 ? 'mb-6' : ''}`}
                 onClick={() => openStep(6)}
               >
                 <div className="flex items-center gap-3">
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 6 ? 'bg-mammut-gold/20 text-mammut-gold' : 'bg-mammut-darker text-mammut-white/40'}`}>6</div> 
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 6 ? 'bg-mammut-gold/20 text-mammut-gold' : 'bg-slate-100 text-slate-400'}`}>6</div> 
  {completedSteps.includes(6) && <Check size={20} className="text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.4)]" strokeWidth={3} />}
-                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 6 ? 'text-mammut-white/90' : 'text-mammut-white/40'}`}>{t('configurator.steps.dimensions')}</h2>
-                  <button onClick={(e) => { e.stopPropagation(); toggleHelp(6); }} className="text-mammut-white/40 hover:text-mammut-gold transition-colors ml-1" title="Toggle Help"><HelpCircle size={18} /></button>
+                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 6 ? 'text-slate-900' : 'text-slate-400'}`}>{t('configurator.steps.dimensions')}</h2>
+                  <button onClick={(e) => { e.stopPropagation(); toggleHelp(6); }} className="text-slate-450 hover:text-mammut-gold transition-colors ml-1" title="Toggle Help"><HelpCircle size={18} /></button>
                 </div>
                 {activeStep !== 6 && <div className="text-xs font-bold text-mammut-gold bg-mammut-gold/10 px-3 py-1.5 rounded-full uppercase tracking-wider">{state.dimensions.width} x {state.dimensions.height}</div>}
               </div>
@@ -1120,9 +1130,9 @@ export function MainConfigurator() {
                 <div className="overflow-hidden">
                   <div className="pt-2 grid md:grid-cols-2 gap-8">
                     {/* Width Control */}
-                    <div className="bg-mammut-darker p-5 rounded-xl border border-mammut-border">
+                    <div className="bg-slate-50 p-5 rounded-xl border border-slate-200">
                       <div className="flex justify-between items-start mb-4">
-                        <label className="text-sm font-bold text-mammut-white/80 flex items-center gap-2 uppercase tracking-widest leading-none">
+                        <label className="text-sm font-bold text-slate-600 flex items-center gap-2 uppercase tracking-widest leading-none">
                           <Ruler size={16} className="text-mammut-gold"/> {t('configurator.inputs.w')}
                         </label>
                         <div className="flex flex-col items-end gap-0.5">
@@ -1144,11 +1154,12 @@ export function MainConfigurator() {
                                 dispatch({ type: 'SET_DIMENSIONS', payload: { width: val, height: state.dimensions.height }});
                                 setWidthText(val.toString());
                               }}
-                              className="w-[60px] bg-transparent text-right font-black text-mammut-gold focus:outline-none"
+                              className="w-[70px] text-slate-800 text-right font-black border border-slate-200 focus:border-mammut-gold rounded px-1.5 py-0.5 outline-none"
+                              style={{ backgroundColor: '#ffffff' }}
                             />
-                            <span className="text-xs font-bold text-mammut-gold/70">{t('configurator.inputs.mm')}</span>
+                            <span className="text-xs font-bold text-slate-500">{t('configurator.inputs.mm')}</span>
                           </div>
-                          <span className="text-[10px] font-bold text-mammut-white/40 tracking-wider">({(state.dimensions.width / 10).toFixed(0)} {t('configurator.inputs.cm')}</span>
+                          <span className="text-[10px] font-bold text-slate-500 tracking-wider">({(state.dimensions.width / 10).toFixed(0)} {t('configurator.inputs.cm')}</span>
                         </div>
                       </div>
                       <input
@@ -1158,18 +1169,18 @@ export function MainConfigurator() {
                         step="10"
                         value={state.dimensions.width}
                         onChange={(e) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: Number(e.target.value), height: state.dimensions.height } })}
-                        className="w-full accent-mammut-gold mb-2 cursor-pointer bg-mammut-darker/60 border border-mammut-border/50 rounded-lg h-2"
+                        className="w-full accent-mammut-gold mb-2 cursor-pointer bg-slate-200/60 border border-slate-200/50 rounded-lg h-2"
                       />
-                      <div className="flex justify-between items-center text-[10px] font-bold text-mammut-white/30">
+                      <div className="flex justify-between items-center text-[10px] font-bold text-slate-500">
                         <span>{activeLimits.minWidth} mm</span>
                         <span>{activeLimits.maxWidth} mm</span>
                       </div>
                     </div>
 
                     {/* Height Control */}
-                    <div className="bg-mammut-darker p-5 rounded-xl border border-mammut-border">
+                    <div className="bg-slate-50 p-5 rounded-xl border border-slate-200">
                       <div className="flex justify-between items-start mb-4">
-                        <label className="text-sm font-bold text-mammut-white/80 flex items-center gap-2 uppercase tracking-widest leading-none">
+                        <label className="text-sm font-bold text-slate-600 flex items-center gap-2 uppercase tracking-widest leading-none">
                           <Ruler size={16} className="rotate-90 text-mammut-gold"/> {t('configurator.inputs.h')}
                         </label>
                         <div className="flex flex-col items-end gap-0.5">
@@ -1191,11 +1202,12 @@ export function MainConfigurator() {
                                 dispatch({ type: 'SET_DIMENSIONS', payload: { width: state.dimensions.width, height: val }});
                                 setHeightText(val.toString());
                               }}
-                              className="w-[60px] bg-transparent text-right font-black text-mammut-gold focus:outline-none"
+                              className="w-[70px] text-slate-800 text-right font-black border border-slate-200 focus:border-mammut-gold rounded px-1.5 py-0.5 outline-none"
+                              style={{ backgroundColor: '#ffffff' }}
                             />
-                            <span className="text-xs font-bold text-mammut-gold/70">{t('configurator.inputs.mm')}</span>
+                            <span className="text-xs font-bold text-slate-500">{t('configurator.inputs.mm')}</span>
                           </div>
-                          <span className="text-[10px] font-bold text-mammut-white/40 tracking-wider">({(state.dimensions.height / 10).toFixed(0)} {t('configurator.inputs.cm')}</span>
+                          <span className="text-[10px] font-bold text-slate-500 tracking-wider">({(state.dimensions.height / 10).toFixed(0)} {t('configurator.inputs.cm')}</span>
                         </div>
                       </div>
                       <input
@@ -1205,9 +1217,9 @@ export function MainConfigurator() {
                         step="10"
                         value={state.dimensions.height}
                         onChange={(e) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: state.dimensions.width, height: Number(e.target.value) } })}
-                        className="w-full accent-mammut-gold mb-2 cursor-pointer bg-mammut-darker/60 border border-mammut-border/50 rounded-lg h-2"
+                        className="w-full accent-mammut-gold mb-2 cursor-pointer bg-slate-200/60 border border-slate-200/50 rounded-lg h-2"
                       />
-                      <div className="flex justify-between items-center text-[10px] font-bold text-mammut-white/30">
+                      <div className="flex justify-between items-center text-[10px] font-bold text-slate-500">
                         <span>{activeLimits.minHeight} mm</span>
                         <span>{activeLimits.maxHeight} mm</span>
                       </div>
@@ -1230,7 +1242,7 @@ export function MainConfigurator() {
                     </div>
                   )}
 
-                  <div className="mt-8 flex justify-between items-center w-full pt-6 border-t border-mammut-border">
+                  <div className="mt-8 flex justify-between items-center w-full pt-6 border-t border-slate-100">
                     <button onClick={(e) => { e.stopPropagation(); openStep(5); }} className="text-[11px] font-black uppercase tracking-widest text-mammut-gold bg-mammut-gold/10 px-4 py-2 rounded-lg hover:bg-mammut-gold/20 transition-colors flex items-center gap-2"><ChevronLeft size={14} /> {t('configurator.buttons.previous') || "Previous Step"}</button>
                     <button 
                       onClick={() => advanceStep(6, 8)}
@@ -1244,7 +1256,7 @@ export function MainConfigurator() {
             </section>
 
             {/* Step 7: Glazing Package */}
-            <section className={`bg-mammut-dark p-6 md:p-8 rounded-2xl shadow-sm border border-mammut-border transition-all duration-500 ${activeStep !== 7 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(7) }}>
+            <section className={`bg-mammut-dark p-6 md:p-8 rounded-2xl shadow-sm transition-all duration-500 ${activeStep !== 7 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(7) }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 7 ? 'mb-6' : ''}`}
                 onClick={() => openStep(7)}
@@ -1365,7 +1377,7 @@ export function MainConfigurator() {
             </section>
 
             {/* Step 8: Accessories & Add-ons */}
-            <section className={`bg-mammut-dark p-6 md:p-8 rounded-2xl shadow-sm border border-mammut-border transition-all duration-500 ${activeStep !== 8 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(8) }}>
+            <section className={`bg-mammut-dark p-6 md:p-8 rounded-2xl shadow-sm transition-all duration-500 ${activeStep !== 8 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(8) }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 8 ? 'mb-6' : ''}`}
                 onClick={() => openStep(8)}

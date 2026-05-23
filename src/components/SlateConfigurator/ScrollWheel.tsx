@@ -363,7 +363,7 @@ export const ScrollWheel: React.FC<ScrollWheelProps> = ({
         onTouchCancel={handleTouchEnd}
         onWheel={handleWheel}
         style={maskStyle}
-        className={`relative overflow-hidden cursor-ew-resize bg-mammut-darker/85 border border-mammut-border/80 hover:border-mammut-gold/40 hover:bg-mammut-darker/95 transition-colors duration-200 rounded-lg flex-grow flex items-center justify-center select-none touch-none ${trackSizeClass}`}
+        className={`relative overflow-hidden cursor-ew-resize flex-grow flex items-center justify-center select-none touch-none dimension-scroll-wheel ${trackSizeClass}`}
       >
         {/* Sliding Ticks */}
         {ticks}
