@@ -22,6 +22,8 @@ interface ThreejsWindowEngineProps {
   arPlacement?: 'wall' | 'floor';
   typology?: string;
   sealColor?: string;
+  scenery?: string;
+  customBackground?: string;
 }
 
 const WindowAssembly = ({ 
@@ -34,6 +36,8 @@ const WindowAssembly = ({
   spacerColor = '#b0b5b9', 
   onSceneReady,
   typology = 'F104',
+  scenery = 'studio-grey',
+  customBackground = '',
 }: ThreejsWindowEngineProps) => {
   const [groupObj, setGroupObj] = React.useState<THREE.Group | null>(null);
 
@@ -102,7 +106,8 @@ const WindowAssembly = ({
     const configureTexture = (tex: THREE.Texture, colorSpace: THREE.ColorSpace) => {
       tex.wrapS = THREE.RepeatWrapping;
       tex.wrapT = THREE.RepeatWrapping;
-      tex.repeat.set(1.0, 1.0);
+      // Since UVs are in meters, repeat.set(1.5, 1.5) provides a realistic texture scale (repeating every 66cm)
+      tex.repeat.set(1.5, 1.5);
       tex.colorSpace = colorSpace;
       tex.anisotropy = 8;
     };
@@ -181,6 +186,78 @@ const WindowAssembly = ({
     }
   }, [colorIntTexture]);
 
+  const [wallTexture, setWallTexture] = React.useState<THREE.Texture | null>(null);
+  const [backdropTexture, setBackdropTexture] = React.useState<THREE.Texture | null>(null);
+
+  React.useEffect(() => {
+    let isCurrent = true;
+    let wallUrl = '';
+    let backdropUrl = '';
+
+    if (scenery === 'custom' && customBackground) {
+      backdropUrl = customBackground;
+    } else if (scenery === 'modern-minimalist') {
+      wallUrl = '/assets/scenery/concrete_wall.png';
+      backdropUrl = '/assets/scenery/garden_backdrop.png';
+    } else if (scenery === 'warm-nordic') {
+      wallUrl = '/assets/scenery/wood_wall.png';
+      backdropUrl = '/assets/scenery/forest_backdrop.png';
+    } else if (scenery === 'industrial-loft') {
+      wallUrl = '/assets/scenery/brick_wall.png';
+      backdropUrl = '/assets/scenery/skyline_backdrop.png';
+    } else if (scenery === 'suburban-garden') {
+      backdropUrl = '/assets/scenery/garden_backdrop.png';
+    } else if (scenery === 'nordic-forest') {
+      backdropUrl = '/assets/scenery/forest_backdrop.png';
+    } else if (scenery === 'urban-skyline') {
+      backdropUrl = '/assets/scenery/skyline_backdrop.png';
+    } else if (scenery === 'coastal-mediterranean') {
+      backdropUrl = '/assets/scenery/coastal_backdrop.png';
+    }
+
+    const loader = new THREE.TextureLoader();
+
+    if (wallUrl) {
+      loader.load(wallUrl, (tex) => {
+        if (!isCurrent) {
+          tex.dispose();
+          return;
+        }
+        tex.wrapS = THREE.RepeatWrapping;
+        tex.wrapT = THREE.RepeatWrapping;
+        tex.repeat.set(3, 2.5); // Adjust repeat tiling scale for wall texture
+        setWallTexture(tex);
+      });
+    } else {
+      setWallTexture(null);
+    }
+
+    if (backdropUrl) {
+      loader.load(backdropUrl, (tex) => {
+        if (!isCurrent) {
+          tex.dispose();
+          return;
+        }
+        setBackdropTexture(tex);
+      });
+    } else {
+      setBackdropTexture(null);
+    }
+
+    return () => {
+      isCurrent = false;
+      setWallTexture(prev => {
+        if (prev) prev.dispose();
+        return null;
+      });
+      setBackdropTexture(prev => {
+        if (prev) prev.dispose();
+        return null;
+      });
+    };
+  }, [scenery, customBackground]);
+
+
   const extMaterial = useMemo(() => {
     if (extMaps.diffuse) {
       return new THREE.MeshStandardMaterial({
@@ -222,14 +299,14 @@ const WindowAssembly = ({
   }, [colorInt, intMaps]);
 
   const glassMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({ 
-     color: "#aaccff", 
-     transparent: true,
-     opacity: 0.4, 
-     roughness: 0.05,
-     metalness: 0.1,
-     transmission: 0.9,
-     thickness: 0.004,
+     color: "#ffffff", 
+     roughness: 0.0,
+     metalness: 0.0,
+     transmission: 1.0,
      ior: 1.5,
+     thickness: 0.01,
+     transparent: false,
+     opacity: 1.0,
   }), []);
 
   const spacerMaterial = useMemo(() => new THREE.MeshStandardMaterial({
@@ -300,48 +377,48 @@ const WindowAssembly = ({
         {/* Bottom Segment */}
         <group position={[0, 0, 0]} rotation={[0, 0, 0]}>
           <group rotation={[0, Math.PI / 2, 0]}>
-            <FrameSegment scaleFactor={scale} length={width} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
-            <FrameSegment scaleFactor={scale} length={width} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
-            {bzd.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={bzd} material={intMaterial} origin={commonOrigin} />}
-            {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshExt} material={extMaterial} origin={commonOrigin} />}
-            {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshInt} material={intMaterial} origin={commonOrigin} />}
-            {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={spacer1} material={spacerMaterial} origin={commonOrigin} />}
+            <FrameSegment scaleFactor={scale} length={width} vertices={frmExt} material={extMaterial} origin={commonOrigin} uSign={1} uOffset={0} />
+            <FrameSegment scaleFactor={scale} length={width} vertices={frmInt} material={intMaterial} origin={commonOrigin} uSign={1} uOffset={0} />
+            {bzd.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={bzd} material={intMaterial} origin={commonOrigin} uSign={1} uOffset={0} />}
+            {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshExt} material={extMaterial} origin={commonOrigin} uSign={1} uOffset={0} />}
+            {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshInt} material={intMaterial} origin={commonOrigin} uSign={1} uOffset={0} />}
+            {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={spacer1} material={spacerMaterial} origin={commonOrigin} uSign={1} uOffset={0} />}
           </group>
         </group>
 
         {/* Right Segment */}
         <group position={[W, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
           <group rotation={[0, Math.PI / 2, 0]}>
-            <FrameSegment scaleFactor={scale} length={height} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
-            <FrameSegment scaleFactor={scale} length={height} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
-            {bzd.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={bzd} material={intMaterial} origin={commonOrigin} />}
-            {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshExt} material={extMaterial} origin={commonOrigin} />}
-            {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshInt} material={intMaterial} origin={commonOrigin} />}
-            {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={spacer1} material={spacerMaterial} origin={commonOrigin} />}
+            <FrameSegment scaleFactor={scale} length={height} vertices={frmExt} material={extMaterial} origin={commonOrigin} uSign={-1} uOffset={W} />
+            <FrameSegment scaleFactor={scale} length={height} vertices={frmInt} material={intMaterial} origin={commonOrigin} uSign={-1} uOffset={W} />
+            {bzd.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={bzd} material={intMaterial} origin={commonOrigin} uSign={-1} uOffset={W} />}
+            {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshExt} material={extMaterial} origin={commonOrigin} uSign={-1} uOffset={W} />}
+            {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshInt} material={intMaterial} origin={commonOrigin} uSign={-1} uOffset={W} />}
+            {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={spacer1} material={spacerMaterial} origin={commonOrigin} uSign={-1} uOffset={W} />}
           </group>
         </group>
 
         {/* Top Segment */}
         <group position={[W, H, 0]} rotation={[0, 0, Math.PI]}>
           <group rotation={[0, Math.PI / 2, 0]}>
-            <FrameSegment scaleFactor={scale} length={width} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
-            <FrameSegment scaleFactor={scale} length={width} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
-            {bzd.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={bzd} material={intMaterial} origin={commonOrigin} />}
-            {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshExt} material={extMaterial} origin={commonOrigin} />}
-            {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshInt} material={intMaterial} origin={commonOrigin} />}
-            {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={spacer1} material={spacerMaterial} origin={commonOrigin} />}
+            <FrameSegment scaleFactor={scale} length={width} vertices={frmExt} material={extMaterial} origin={commonOrigin} uSign={1} uOffset={W - H} />
+            <FrameSegment scaleFactor={scale} length={width} vertices={frmInt} material={intMaterial} origin={commonOrigin} uSign={1} uOffset={W - H} />
+            {bzd.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={bzd} material={intMaterial} origin={commonOrigin} uSign={1} uOffset={W - H} />}
+            {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshExt} material={extMaterial} origin={commonOrigin} uSign={1} uOffset={W - H} />}
+            {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshInt} material={intMaterial} origin={commonOrigin} uSign={1} uOffset={W - H} />}
+            {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={spacer1} material={spacerMaterial} origin={commonOrigin} uSign={1} uOffset={W - H} />}
           </group>
         </group>
 
         {/* Left Segment */}
         <group position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}>
           <group rotation={[0, Math.PI / 2, 0]}>
-            <FrameSegment scaleFactor={scale} length={height} vertices={frmExt} material={extMaterial} origin={commonOrigin} />
-            <FrameSegment scaleFactor={scale} length={height} vertices={frmInt} material={intMaterial} origin={commonOrigin} />
-            {bzd.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={bzd} material={intMaterial} origin={commonOrigin} />}
-            {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshExt} material={extMaterial} origin={commonOrigin} />}
-            {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshInt} material={intMaterial} origin={commonOrigin} />}
-            {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={spacer1} material={spacerMaterial} origin={commonOrigin} />}
+            <FrameSegment scaleFactor={scale} length={height} vertices={frmExt} material={extMaterial} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />
+            <FrameSegment scaleFactor={scale} length={height} vertices={frmInt} material={intMaterial} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />
+            {bzd.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={bzd} material={intMaterial} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
+            {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshExt} material={extMaterial} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
+            {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshInt} material={intMaterial} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
+            {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={spacer1} material={spacerMaterial} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
           </group>
         </group>
 
@@ -381,6 +458,56 @@ const WindowAssembly = ({
         )}
 
       </group>
+
+      {/* Landscape Backdrop Plane */}
+      {backdropTexture && (
+        <mesh position={[0, H / 2, -3.0]}>
+          <planeGeometry args={[16, 12]} />
+          <meshBasicMaterial map={backdropTexture} toneMapped={false} />
+        </mesh>
+      )}
+
+      {/* Wall Fragment (Inside-Looking-Out) */}
+      {wallTexture && (
+        <mesh position={[0, 0, -0.04]} castShadow receiveShadow>
+          <extrudeGeometry args={[
+            // Shape
+            (() => {
+              const shape = new THREE.Shape();
+              const wallW = 8;
+              const wallH = 6;
+              // Center the wall around the window's vertical center (H / 2)
+              shape.moveTo(-wallW / 2, -wallH / 2 + H / 2);
+              shape.lineTo(wallW / 2, -wallH / 2 + H / 2);
+              shape.lineTo(wallW / 2, wallH / 2 + H / 2);
+              shape.lineTo(-wallW / 2, wallH / 2 + H / 2);
+              shape.closePath();
+
+              // Cutout hole centered vertically and horizontally
+              const hole = new THREE.Path();
+              hole.moveTo(-W / 2, 0);
+              hole.lineTo(W / 2, 0);
+              hole.lineTo(W / 2, H);
+              hole.lineTo(-W / 2, H);
+              hole.closePath();
+              shape.holes.push(hole);
+
+              return shape;
+            })(),
+            // Extrude settings
+            {
+              depth: 0.08,
+              bevelEnabled: false
+            }
+          ]} />
+          <meshStandardMaterial 
+            map={wallTexture} 
+            roughness={0.95} 
+            metalness={0.0} 
+          />
+        </mesh>
+      )}
+
     </group>
   );
 };
@@ -391,18 +518,81 @@ export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) =
   // Dynamic camera distance to frame the window perfectly regardless of size
   const cameraZ = Math.max(1.2, maxDim * 1.35);
 
+  const getEnvPreset = (scenery: string) => {
+    switch (scenery) {
+      case 'custom':
+        return 'apartment';
+      case 'studio-grey':
+        return 'studio';
+      case 'studio-dark':
+        return 'night';
+      case 'modern-minimalist':
+        return 'apartment';
+      case 'warm-nordic':
+        return 'lobby';
+      case 'industrial-loft':
+        return 'warehouse';
+      case 'suburban-garden':
+        return 'park';
+      case 'nordic-forest':
+        return 'forest';
+      case 'urban-skyline':
+        return 'sunset';
+      case 'coastal-mediterranean':
+        return 'city';
+      default:
+        return 'apartment';
+    }
+  };
+
+  const getBgColor = (scenery: string) => {
+    switch (scenery) {
+      case 'custom':
+        return '#f1f5f9';
+      case 'studio-grey':
+        return '#f1f5f9';
+      case 'studio-dark':
+        return '#111112';
+      case 'modern-minimalist':
+        return '#f8fafc';
+      case 'warm-nordic':
+        return '#2d241e';
+      case 'industrial-loft':
+        return '#1e1b18';
+      case 'suburban-garden':
+        return '#dbeafe';
+      case 'nordic-forest':
+        return '#1e293b';
+      case 'urban-skyline':
+        return '#3b0764';
+      case 'coastal-mediterranean':
+        return '#bae6fd';
+      default:
+        return '#f8fafc';
+    }
+  };
+
+  const activeScenery = props.scenery || 'studio-grey';
+
   return (
     <div className="w-full h-full relative cursor-move touch-pan-y">
-      <Canvas shadows camera={{ position: [0, targetY, cameraZ], fov: 45 }}>
-        <color attach="background" args={['#ffffff']} />
-        <ambientLight intensity={0.7} />
-        <directionalLight position={[5, 10, 5]} intensity={1.2} castShadow />
-        <Environment preset="city" />
+      <Canvas shadows camera={{ position: [0, targetY, cameraZ], fov: 45 }} gl={{ preserveDrawingBuffer: true }}>
+        <color attach="background" args={[getBgColor(activeScenery)]} />
+        <ambientLight intensity={0.15} />
+        <directionalLight 
+          position={[5, 10, 5]} 
+          intensity={0.4} 
+          castShadow 
+          shadow-mapSize-width={2048} 
+          shadow-mapSize-height={2048} 
+          shadow-bias={-0.0001} 
+        />
+        <Environment preset={getEnvPreset(activeScenery)} />
         
         <WindowAssembly {...props} />
         
         <OrbitControls makeDefault enablePan={true} enableZoom={true} target={[0, targetY, 0]} />
-        <ContactShadows position={[0, -0.001, 0]} opacity={0.6} scale={5} blur={1.5} far={10} />
+        <ContactShadows position={[0, -0.001, 0]} opacity={0.4} scale={5} blur={2.0} far={10} />
       </Canvas>
     </div>
   );

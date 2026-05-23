@@ -653,7 +653,15 @@
     },
     "blueprint": {
       "interiorView": "Vista interior",
-      "dragToRotate": "Arrastra para rotar libremente en 3D"
+      "exteriorView": "Vista exterior",
+      "dragToRotate": "Arrastra para rotar libremente en 3D",
+      "uploadPhoto": "Subir foto",
+      "removePhoto": "Eliminar foto",
+      "positionOptions": "Ajustes de imagen",
+      "resetWindowFit": "Restablecer",
+      "scale": "Escala",
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
     },
     "windowTypes": {
       "1-flugel": "1 hoja",

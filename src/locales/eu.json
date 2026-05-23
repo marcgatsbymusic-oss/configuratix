@@ -370,7 +370,15 @@
     },
     "blueprint": {
       "interiorView": "Barruko ikuspegia",
-      "dragToRotate": "Arrastatu 3Dn libreki biratzeko"
+      "dragToRotate": "Arrastatu 3Dn libreki biratzeko",
+      "exteriorView": "Exterior View",
+      "uploadPhoto": "Upload Photo",
+      "removePhoto": "Remove Photo",
+      "positionOptions": "Position & Size Options",
+      "resetWindowFit": "Reset Window Fit",
+      "scale": "Scale",
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
     },
     "windowTypes": {
       "1-flugel": "1 Hostoa",

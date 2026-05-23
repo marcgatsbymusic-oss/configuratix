@@ -370,7 +370,15 @@
     },
     "blueprint": {
       "interiorView": "Binnenaanzicht",
-      "dragToRotate": "Sleep om vrij te roteren in 3D"
+      "dragToRotate": "Sleep om vrij te roteren in 3D",
+      "exteriorView": "Exterior View",
+      "uploadPhoto": "Upload Photo",
+      "removePhoto": "Remove Photo",
+      "positionOptions": "Position & Size Options",
+      "resetWindowFit": "Reset Window Fit",
+      "scale": "Scale",
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
     },
     "windowTypes": {
       "1-flugel": "1 blad",

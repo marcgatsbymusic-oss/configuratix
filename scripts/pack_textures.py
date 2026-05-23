@@ -60,6 +60,15 @@ def convolve2d_wrap(img_arr, kernel, scale=1.0, offset=0.0):
     output = output / scale + offset
     return np.clip(output, 0, 255).astype(np.uint8)
 
+def convolve2d_wrap_float(img_arr, kernel):
+    padded = np.pad(img_arr, 1, mode='wrap')
+    output = (
+        padded[:-2, :-2] * kernel[0, 0] + padded[:-2, 1:-1] * kernel[0, 1] + padded[:-2, 2:] * kernel[0, 2] +
+        padded[1:-1, :-2] * kernel[1, 0] + padded[1:-1, 1:-1] * kernel[1, 1] + padded[1:-1, 2:] * kernel[1, 2] +
+        padded[2:, :-2] * kernel[2, 0] + padded[2:, 1:-1] * kernel[2, 1] + padded[2:, 2:] * kernel[2, 2]
+    )
+    return output
+
 def process_flat_image(filename, src_dir, dest_dir):
     name = clean_name(filename)
     print(f"\nProcessing flat image material: {name}...")
@@ -84,24 +93,41 @@ def process_flat_image(filename, src_dir, dest_dir):
         # Convert to grayscale for height map / gradient calculation
         gray = img.convert("L")
         
-        # 2. Generate Procedural Normal Map (Sobel filter with wrap padding)
+        # 2. Generate Procedural Normal Map (Sobel filter with wrap padding and vector normalization)
         is_wood = is_wood_material(name)
-        # Low scale = stronger normal map effect
-        scale_val = 2 if is_wood else 5
+        # Strength of normal maps: wood needs higher strength (more pronounced grain)
+        strength = 2.0 if is_wood else 0.3
         
         gray_arr = np.array(gray, dtype=np.float32)
         sobel_x_kernel = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]], dtype=np.float32)
         sobel_y_kernel = np.array([[-1, -2, -1], [0, 0, 0], [1, 2, 1]], dtype=np.float32)
         
-        sx = convolve2d_wrap(gray_arr, sobel_x_kernel, scale=scale_val, offset=128.0)
-        sy = convolve2d_wrap(gray_arr, sobel_y_kernel, scale=scale_val, offset=128.0)
+        # Sobel gradients normalized to [0, 1] range
+        dx = convolve2d_wrap_float(gray_arr, sobel_x_kernel) / (8.0 * 255.0)
+        dy = convolve2d_wrap_float(gray_arr, sobel_y_kernel) / (8.0 * 255.0)
         
-        sobel_x = Image.fromarray(sx)
-        sobel_y = Image.fromarray(sy)
+        # Scale derivatives by strength
+        dx *= strength
+        dy *= strength
         
-        # Normal Blue channel is solid 255 (facing vector Z = 1)
-        blue_chan = Image.new("L", (width, height), 255)
-        normal_img = Image.merge("RGB", (sobel_x, sobel_y, blue_chan))
+        # Construct normals: (nx, ny, nz) where nz is 1.0 (pointing up from surface)
+        # Note: dx and dy represent the slope. Normal is (-dx, -dy, 1)
+        nx = -dx
+        ny = -dy
+        nz = np.ones_like(gray_arr)
+        
+        # Normalize
+        norm = np.sqrt(nx*nx + ny*ny + nz*nz)
+        nx /= norm
+        ny /= norm
+        nz /= norm
+        
+        # Map from [-1, 1] to [0, 255]
+        r = ((nx + 1.0) * 127.5).astype(np.uint8)
+        g = ((ny + 1.0) * 127.5).astype(np.uint8)
+        b = ((nz + 1.0) * 127.5).astype(np.uint8)
+        
+        normal_img = Image.merge("RGB", (Image.fromarray(r), Image.fromarray(g), Image.fromarray(b)))
         normal_img.save(os.path.join(mat_dest_path, "normal.jpg"), "JPEG", quality=95)
         
         # 3. Generate ORM Map using numpy for accurate channel ranges
@@ -115,8 +141,8 @@ def process_flat_image(filename, src_dir, dest_dir):
         # G: Roughness
         # Wood grain (darker lines) is rougher, solid foils have uniform satin roughness
         if is_wood:
-            # Wood grain: range [130, 210]
-            rough_arr = 130.0 + (255.0 - gray_arr) * 0.3
+            # Wood grain: range [76, 178] (approx. 0.3 to 0.7 roughness in Three.js)
+            rough_arr = 76.0 + (255.0 - gray_arr) * 0.4
         else:
             # Solid satin: uniform 150 roughness + very minor grain noise
             noise = np.random.normal(0, 3, gray_arr.shape)

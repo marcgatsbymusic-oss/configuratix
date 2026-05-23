@@ -370,7 +370,15 @@
     },
     "blueprint": {
       "interiorView": "Внутрішній вигляд",
-      "dragToRotate": "Перетягніть, щоб вільно обертати в 3D"
+      "dragToRotate": "Перетягніть, щоб вільно обертати в 3D",
+      "exteriorView": "Exterior View",
+      "uploadPhoto": "Upload Photo",
+      "removePhoto": "Remove Photo",
+      "positionOptions": "Position & Size Options",
+      "resetWindowFit": "Reset Window Fit",
+      "scale": "Scale",
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
     },
     "windowTypes": {
       "1-flugel": "1 лист",

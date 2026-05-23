@@ -4,23 +4,19 @@ import { COLOR_LOCALE } from './types';
 import { useTranslation } from 'react-i18next';
 import { Rotate3D } from 'lucide-react';
 import { WindowTypeGraphic } from './WindowTypeGraphic';
-import { ScrollWheel } from './ScrollWheel';
 
 interface BlueprintPreviewProps {
   state: ConfiguratorState;
-  onDimensionChange?: (width: number, height: number) => void;
-  activeLimits?: {
-    minWidth: number;
-    maxWidth: number;
-    minHeight: number;
-    maxHeight: number;
-  };
+  uploadedImage: string | null;
 }
 
-export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state, onDimensionChange, activeLimits }) => {
+export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state, uploadedImage }) => {
   const { t } = useTranslation();
   const [rotationY, setRotationY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [scaleFactor, setScaleFactor] = useState(1.0);
+  const [posX, setPosX] = useState(0);
+  const [posY, setPosY] = useState(0);
   const dragStartX = useRef(0);
   const currentRotation = useRef(0);
 
@@ -65,10 +61,10 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state, onDim
   // Dimension layout constants (in SVG user units)
   const SVG_W = 500;
   const SVG_H = 600;
-  const DIM_PAD_BOTTOM = 80; // slightly increased to make space for the bottom wheel
+  const DIM_PAD_BOTTOM = 60;
   const DIM_PAD_RIGHT = 60;
   const DIM_PAD_TOP = 20;
-  const DIM_PAD_LEFT = 60; // slightly increased to make space for the left wheel
+  const DIM_PAD_LEFT = 20;
 
   const MAX_W = SVG_W - DIM_PAD_LEFT - DIM_PAD_RIGHT;
   const MAX_H = SVG_H - DIM_PAD_TOP - DIM_PAD_BOTTOM;
@@ -81,11 +77,6 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state, onDim
 
   const offsetX = DIM_PAD_LEFT + (MAX_W - frameW) / 2;
   const offsetY = DIM_PAD_TOP + (MAX_H - frameH) / 2;
-
-  const minW = activeLimits?.minWidth || 500;
-  const maxW = activeLimits?.maxWidth || 3000;
-  const minH = activeLimits?.minHeight || 500;
-  const maxH = activeLimits?.maxHeight || 2500;
 
   // Convert SVG frame box to % of the container for the overlay
   // The SVG viewBox is SVG_W × SVG_H; the overlay div fills 100%
@@ -174,83 +165,10 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state, onDim
       </div>
 
       {/* Drag hint */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-mammut-white/50 opacity-60 pointer-events-none">
-        <Rotate3D size={14} /> {t('configurator.blueprint.dragToRotate', 'Drag to rotate freely in 3D')}
-      </div>
-
-      {/* Scrollable tuning wheels for dimensions (Static screen-space overlay) */}
-      {onDimensionChange && (
-        <>
-          {/* Vertical scroll wheel for Height on the left */}
-          <div 
-            className="absolute z-30 flex items-center justify-center"
-            style={{
-              left: `calc(${overlayLeft} - 26px)`,
-              top: overlayTop,
-              height: overlayHeight,
-              width: '20px'
-            }}
-          >
-            <ScrollWheel
-              value={realH}
-              onChange={(h) => onDimensionChange(realW, h)}
-              min={minH}
-              max={maxH}
-              orientation="vertical"
-              variant="half-stick"
-              className="h-full"
-            />
-          </div>
-
-          {/* Horizontal scroll wheel for Width at the bottom */}
-          <div 
-            className="absolute z-30 flex items-center justify-center"
-            style={{
-              left: overlayLeft,
-              top: `calc(${overlayTop} + ${overlayHeight} + 6px)`,
-              width: overlayWidth,
-              height: '20px'
-            }}
-          >
-            <ScrollWheel
-              value={realW}
-              onChange={(w) => onDimensionChange(w, realH)}
-              min={minW}
-              max={maxW}
-              orientation="horizontal"
-              variant="half-stick"
-              className="w-full"
-            />
-          </div>
-
-          {/* Width Dimension pill overlay at the bottom center of the frame */}
-          <div 
-            className="absolute z-20 flex justify-center pointer-events-none"
-            style={{
-              left: overlayLeft,
-              top: `calc(${overlayTop} + ${overlayHeight} - 44px)`,
-              width: overlayWidth,
-            }}
-          >
-            <span className="bg-mammut-darker/90 border border-mammut-gold/60 text-mammut-gold px-3.5 py-1 rounded-full text-xs font-black tracking-widest shadow-lg backdrop-blur-sm select-none">
-              {realW} mm
-            </span>
-          </div>
-
-          {/* Height Dimension pill overlay on the left side inside the frame */}
-          <div 
-            className="absolute z-20 flex items-center pointer-events-none"
-            style={{
-              left: `calc(${overlayLeft} + 12px)`,
-              top: overlayTop,
-              height: overlayHeight,
-            }}
-          >
-            <span className="bg-mammut-darker/90 border border-mammut-gold/60 text-mammut-gold px-3.5 py-1 rounded-full text-xs font-black tracking-widest shadow-lg backdrop-blur-sm select-none">
-              {realH} mm
-            </span>
-          </div>
-        </>
+      {!uploadedImage && (
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-mammut-white/50 opacity-60 pointer-events-none">
+          <Rotate3D size={14} /> {t('configurator.blueprint.dragToRotate', 'Drag to rotate freely in 3D')}
+        </div>
       )}
 
       {/* 3D flip container */}
@@ -258,7 +176,7 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state, onDim
         className="w-full h-full flex-1 relative cursor-grab active:cursor-grabbing hover:scale-105 select-none touch-none"
         style={{ 
           transformStyle: 'preserve-3d', 
-          transform: `rotateY(${rotationY}deg)`,
+          transform: `translate(${posX}px, ${posY}px) scale(${scaleFactor}) rotateY(${rotationY}deg)`,
           transition: isDragging ? 'none' : 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
           touchAction: 'none'
         }}
@@ -275,6 +193,61 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state, onDim
         {renderFace(false)}
         {renderFace(true)}
       </div>
+
+      {uploadedImage && (
+        <div className="absolute bottom-12 left-4 right-4 z-30 bg-mammut-dark/95 backdrop-blur border border-mammut-border p-4 rounded-2xl space-y-3 shadow-2xl pointer-events-auto">
+          <div className="flex items-center justify-between text-xs font-bold text-mammut-white/70">
+            <span className="tracking-wider uppercase text-mammut-gold">{t('configurator.blueprint.positionOptions', 'Position & Size')}</span>
+            <button 
+              onClick={() => { setScaleFactor(1.0); setPosX(0); setPosY(0); }}
+              className="text-[10px] text-mammut-gold hover:text-[#d9a565] transition-colors font-bold uppercase tracking-wider"
+            >
+              {t('configurator.blueprint.resetWindowFit', 'Reset Fit')}
+            </button>
+          </div>
+          <div className="space-y-2">
+            <div className="flex items-center gap-3">
+              <span className="text-[10px] font-bold text-mammut-white/40 w-12 tracking-wider uppercase">{t('configurator.blueprint.scale', 'Scale')}</span>
+              <input 
+                type="range" 
+                min="0.2" 
+                max="2.0" 
+                step="0.02" 
+                value={scaleFactor} 
+                onChange={(e) => setScaleFactor(parseFloat(e.target.value))}
+                className="flex-1 accent-mammut-gold h-1 bg-mammut-darker rounded-lg cursor-pointer animate-none"
+              />
+              <span className="text-[10px] text-mammut-gold font-mono w-10 text-right">{Math.round(scaleFactor * 100)}%</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="text-[10px] font-bold text-mammut-white/40 w-12 tracking-wider uppercase">{t('configurator.blueprint.horizontal', 'Horiz')}</span>
+              <input 
+                type="range" 
+                min="-200" 
+                max="200" 
+                step="1" 
+                value={posX} 
+                onChange={(e) => setPosX(parseInt(e.target.value))}
+                className="flex-1 accent-mammut-gold h-1 bg-mammut-darker rounded-lg cursor-pointer animate-none"
+              />
+              <span className="text-[10px] text-mammut-gold font-mono w-10 text-right">{posX}px</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="text-[10px] font-bold text-mammut-white/40 w-12 tracking-wider uppercase">{t('configurator.blueprint.vertical', 'Vert')}</span>
+              <input 
+                type="range" 
+                min="-200" 
+                max="200" 
+                step="1" 
+                value={posY} 
+                onChange={(e) => setPosY(parseInt(e.target.value))}
+                className="flex-1 accent-mammut-gold h-1 bg-mammut-darker rounded-lg cursor-pointer animate-none"
+              />
+              <span className="text-[10px] text-mammut-gold font-mono w-10 text-right">{posY}px</span>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

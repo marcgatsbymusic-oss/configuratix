@@ -11,9 +11,11 @@ interface FrameSegmentProps {
   invertCuts?: boolean;
   origin?: {x: number, y: number} | null;
   scaleFactor?: number;
+  uSign?: number;
+  uOffset?: number;
 }
 
-function applyTriplanarUVs(geometry: THREE.BufferGeometry) {
+function applyTriplanarUVs(geometry: THREE.BufferGeometry, uSign: number = 1, uOffset: number = 0) {
   const posAttr = geometry.attributes.position;
   const normAttr = geometry.attributes.normal;
   if (!posAttr || !normAttr) return;
@@ -34,12 +36,12 @@ function applyTriplanarUVs(geometry: THREE.BufferGeometry) {
     // Check normal direction
     if (Math.abs(nz) > 0.707) {
       // End caps or 45-degree cut planes: project onto Y-X
-      u = py * 15;
-      v = px * 15;
+      u = py;
+      v = px;
     } else {
       // Side walls: align texture U along Z (length), project V continuously using diagonal X-Y projection
-      u = pz * 15;
-      v = (px * 0.707 + py * 0.707) * 15;
+      u = uOffset + uSign * pz;
+      v = px * 0.707 + py * 0.707;
     }
 
     uvs[i * 2] = u;
@@ -58,7 +60,9 @@ export const FrameSegment: React.FC<FrameSegmentProps> = ({
   rotation = [0, 0, 0],
   invertCuts = false,
   origin = null,
-  scaleFactor = 1
+  scaleFactor = 1,
+  uSign = 1,
+  uOffset = 0
 }) => {
   const geometry = useMemo(() => {
     if (!vertices || vertices.length === 0) return new THREE.BufferGeometry();
@@ -128,7 +132,7 @@ export const FrameSegment: React.FC<FrameSegmentProps> = ({
     const geo = result.geometry;
     
     // Apply robust triplanar UV mapping to eliminate CSG-induced UV corruption
-    applyTriplanarUVs(geo);
+    applyTriplanarUVs(geo, uSign, uOffset);
     
     const uvAttr = geo.attributes.uv;
     if (uvAttr) {
@@ -153,7 +157,7 @@ export const FrameSegment: React.FC<FrameSegmentProps> = ({
     geo.computeBoundingBox();
     geo.computeBoundingSphere();
     return geo;
-  }, [length, vertices, invertCuts, scaleFactor]);
+  }, [length, vertices, invertCuts, scaleFactor, uSign, uOffset]);
 
   return (
     <mesh geometry={geometry} material={material} position={position} rotation={rotation} castShadow receiveShadow />

@@ -370,7 +370,15 @@
     },
     "blueprint": {
       "interiorView": "المنظر الداخلي",
-      "dragToRotate": "اسحب للتدوير بحرية في صورة ثلاثية الأبعاد"
+      "dragToRotate": "اسحب للتدوير بحرية في صورة ثلاثية الأبعاد",
+      "exteriorView": "Exterior View",
+      "uploadPhoto": "Upload Photo",
+      "removePhoto": "Remove Photo",
+      "positionOptions": "Position & Size Options",
+      "resetWindowFit": "Reset Window Fit",
+      "scale": "Scale",
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
     },
     "windowTypes": {
       "1-flugel": "1 ورقة",
