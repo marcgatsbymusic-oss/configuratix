@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { Download, Camera, Trash2, RotateCcw, Share2 } from 'lucide-react';
 import { fetchPrice, type PricingApiResponse } from '../utils/cantorPricing/pricingApi';
 import type { ConfiguratorInput } from '../utils/cantorPricing/input';
 import { CONFIG_SCHEMA, WINDOW_TYPES, PROFILE_GLAZING_LIMITS, getTypologyImagePath } from '../components/SlateConfigurator/types';
@@ -10,6 +11,7 @@ import { ArViewer } from '../components/configurator/ArViewer';
 import glazingOptions from '../data/cantor_glazing_options.json';
 import shutterLookups from '../data/shutter_lookups.json';
 import { ThemeToggle } from '../components/common/ThemeToggle';
+import { useThemeStore } from '../store/useThemeStore';
 import { 
   IconWindows, IconDoors, IconPatioDoors, IconRollerShutters, 
   IconExteriorBlinds, IconGarageDoors, IconMosquitoNets, 
@@ -97,6 +99,8 @@ interface ScrollingDialProps {
 }
 
 function ScrollingDial({ value, onChange, items, onConfirm, closeOnSelect = true }: ScrollingDialProps) {
+  const { theme } = useThemeStore();
+  const isLight = theme === 'light';
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [scrollTop, setScrollTop] = useState(0);
   const [localActiveId, setLocalActiveId] = useState(value);
@@ -130,16 +134,23 @@ function ScrollingDial({ value, onChange, items, onConfirm, closeOnSelect = true
     const opacity = Math.max(0, cosVal * cosVal) * 0.85; // 85% max opacity to look premium and visible
 
     const absAngle = Math.abs(angle);
-    let h = 35;
-    let s = 90;
-    let l = 60;
-    if (absAngle > 0) {
-      const t = Math.min(1, absAngle / 1.57);
-      h = 35 - t * 45;
-      s = 90 - t * 25;
-      l = 60 - t * 30;
+    let rectColor: string;
+    if (isLight) {
+      // Neutral slate ticks for light mode
+      const lightness = Math.round(55 + absAngle * 20);
+      rectColor = `hsl(215, 12%, ${lightness}%)`;
+    } else {
+      let h = 35;
+      let s = 90;
+      let l = 60;
+      if (absAngle > 0) {
+        const t = Math.min(1, absAngle / 1.57);
+        h = 35 - t * 45;
+        s = 90 - t * 25;
+        l = 60 - t * 30;
+      }
+      rectColor = `hsl(${h}, ${s}%, ${l}%)`;
     }
-    const rectColor = `hsl(${h}, ${s}%, ${l}%)`;
 
     ticks.push(
       <div
@@ -210,12 +221,16 @@ function ScrollingDial({ value, onChange, items, onConfirm, closeOnSelect = true
   };
 
   return (
-    <div className="relative w-full h-[320px] bg-mammut-darker/90 rounded-2xl border border-gray-800 overflow-hidden select-none shadow-inner flex flex-col items-center justify-center">
+    <div className={`relative w-full h-[320px] rounded-2xl border overflow-hidden select-none shadow-inner flex flex-col items-center justify-center ${
+      isLight ? 'bg-slate-100 border-slate-200' : 'bg-mammut-darker/90 border-gray-800'
+    }`}>
       {/* Up Arrow Button */}
       <button 
         type="button"
         onClick={(e) => { e.stopPropagation(); scrollByItems(-1); }}
-        className="absolute top-2 z-30 w-8 h-8 rounded-full bg-mammut-dark/80 hover:bg-mammut-gold/20 text-mammut-gold border border-gray-800 flex items-center justify-center transition-colors cursor-pointer"
+        className={`absolute top-2 z-30 w-8 h-8 rounded-full border flex items-center justify-center transition-colors cursor-pointer ${
+          isLight ? 'bg-white border-slate-300 text-slate-700 hover:border-black hover:text-black shadow-sm' : 'bg-mammut-dark/80 hover:bg-mammut-gold/20 text-mammut-gold border-gray-800'
+        }`}
         title="Scroll Up"
       >
         ▲
@@ -225,7 +240,9 @@ function ScrollingDial({ value, onChange, items, onConfirm, closeOnSelect = true
       <button 
         type="button"
         onClick={(e) => { e.stopPropagation(); scrollByItems(1); }}
-        className="absolute bottom-2 z-30 w-8 h-8 rounded-full bg-mammut-dark/80 hover:bg-mammut-gold/20 text-mammut-gold border border-gray-800 flex items-center justify-center transition-colors cursor-pointer"
+        className={`absolute bottom-2 z-30 w-8 h-8 rounded-full border flex items-center justify-center transition-colors cursor-pointer ${
+          isLight ? 'bg-white border-slate-300 text-slate-700 hover:border-black hover:text-black shadow-sm' : 'bg-mammut-dark/80 hover:bg-mammut-gold/20 text-mammut-gold border-gray-800'
+        }`}
         title="Scroll Down"
       >
         ▼
@@ -237,11 +254,17 @@ function ScrollingDial({ value, onChange, items, onConfirm, closeOnSelect = true
       </div>
 
       {/* Gradient Fades for cylinder realism */}
-      <div className="absolute top-0 inset-x-0 h-16 bg-gradient-to-b from-mammut-darker via-mammut-darker/80 to-transparent pointer-events-none z-10" />
-      <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-mammut-darker via-mammut-darker/80 to-transparent pointer-events-none z-10" />
+      <div className={`absolute top-0 inset-x-0 h-16 bg-gradient-to-b to-transparent pointer-events-none z-10 ${
+        isLight ? 'from-slate-100 via-slate-100/80' : 'from-mammut-darker via-mammut-darker/80'
+      }`} />
+      <div className={`absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t to-transparent pointer-events-none z-10 ${
+        isLight ? 'from-slate-100 via-slate-100/80' : 'from-mammut-darker via-mammut-darker/80'
+      }`} />
 
       {/* Center Target Indicator Pointer (Yellow/Gold borders) */}
-      <div className="absolute inset-x-4 h-[138px] border-y-2 border-mammut-gold/40 bg-mammut-gold/5 rounded-xl pointer-events-none z-0 top-1/2 -translate-y-1/2" />
+      <div className={`absolute inset-x-4 h-[138px] border-y-2 rounded-xl pointer-events-none z-0 top-1/2 -translate-y-1/2 ${
+        isLight ? 'border-slate-400/50 bg-slate-200/40' : 'border-mammut-gold/40 bg-mammut-gold/5'
+      }`} />
 
       {/* Visual Dial Layer */}
       <div className="absolute inset-0 pointer-events-none flex flex-col justify-center items-center overflow-hidden">
@@ -284,8 +307,8 @@ function ScrollingDial({ value, onChange, items, onConfirm, closeOnSelect = true
               <div 
                 className={`flex flex-col items-center justify-center rounded-xl transition-all duration-300 ${
                   isCenter 
-                    ? 'text-mammut-gold font-black' 
-                    : 'text-gray-400 opacity-60'
+                    ? (isLight ? 'text-slate-900 font-black' : 'text-mammut-gold font-black')
+                    : (isLight ? 'text-slate-400 opacity-60' : 'text-gray-400 opacity-60')
                 }`}
               >
                 {/* Image Container with 300% Zoom - Double the base size (48x48) */}
@@ -393,24 +416,81 @@ const AccordionSection = ({
   onToggle: () => void, 
   children: React.ReactNode 
 }) => {
+  const { theme } = useThemeStore();
+  const isLight = theme === 'light';
+
+  // Extract number prefix (e.g. "1. Product" → "01", "Product")
+  const numMatch = title.match(/^(\d+)\.\s*(.*)$/);
+  const numLabel = numMatch ? String(numMatch[1]).padStart(2, '0') : null;
+  const titleText = numMatch ? numMatch[2] : title;
+
+  if (isLight) {
+    return (
+      <div id={id} className={`rounded-xl transition-all duration-300 bg-white shadow-sm ${
+          isOpen ? 'relative z-20 overflow-visible' : 'overflow-hidden'
+        }`}>
+          <div
+            onClick={onToggle}
+            className={`px-6 py-5 flex items-center justify-between cursor-pointer select-none transition-colors group ${
+              isOpen ? 'border-l-4 border-black' : 'border-l-4 border-transparent hover:border-gray-300'
+            }`}
+          >
+            <div className="flex flex-col gap-0.5 pr-4 min-w-0">
+              {numLabel && (
+                <span className="text-[10px] font-semibold tracking-[0.15em] text-slate-400 uppercase">{numLabel}</span>
+              )}
+              <span className={`font-bold text-base tracking-tight text-slate-900 ${
+                !numLabel ? 'uppercase text-sm tracking-wide' : ''
+              }`}>{titleText}</span>
+              {!isOpen && summary && (
+                <span className="text-xs text-slate-500 truncate mt-0.5">{summary}</span>
+              )}
+            </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16" height="16" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" strokeWidth="2.5"
+              strokeLinecap="round" strokeLinejoin="round"
+              className={`shrink-0 transition-transform duration-300 text-slate-400 ${
+                isOpen ? 'rotate-180 !text-black' : 'group-hover:text-slate-600'
+              }`}
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </div>
+          {isOpen && (
+            <div className="px-6 pb-6 pt-1 bg-white space-y-6">
+              {children}
+            </div>
+          )}
+        </div>
+    );
+  }
+
   return (
-    <div id={id} className={`border border-gray-800 rounded-xl mb-4 bg-mammut-darker/60 backdrop-blur-sm transition-all duration-300 ${isOpen ? 'relative z-20 overflow-visible' : 'overflow-hidden'}`}>
-      <div 
+    <div id={id} className={`rounded-xl mb-4 transition-all duration-300 bg-mammut-darker/60 backdrop-blur-sm shadow-[0_1px_4px_rgba(0,0,0,0.2)] ${
+      isOpen ? 'relative z-20 overflow-visible' : 'overflow-hidden'
+    }`}>
+      <div
         onClick={onToggle}
-        className={`p-4 flex items-center justify-between cursor-pointer select-none transition-colors ${isOpen ? 'bg-mammut-gold/10 text-mammut-gold border-l-4 border-mammut-gold' : 'hover:bg-gray-800/40 text-gray-300 border-l-4 border-transparent'}`}
+        className={`p-4 flex items-center justify-between cursor-pointer select-none transition-colors ${
+          isOpen ? 'bg-mammut-gold/10 text-mammut-gold border-l-4 border-mammut-gold' : 'hover:bg-gray-800/40 text-gray-300 border-l-4 border-transparent'
+        }`}
       >
         <div className="flex flex-col gap-1 pr-4 min-w-0">
           <span className="font-bold text-sm tracking-wide uppercase">{title}</span>
           {!isOpen && summary && (
-            <span className="text-xs text-gray-500 truncate">{summary}</span>
+            <span className="text-xs truncate text-gray-500">{summary}</span>
           )}
         </div>
-        <span className={`text-xs transition-transform duration-300 ${isOpen ? 'rotate-180 text-mammut-gold' : 'text-gray-500'}`}>
+        <span className={`text-xs transition-transform duration-300 ${
+          isOpen ? 'rotate-180 text-mammut-gold' : 'text-gray-500'
+        }`}>
           ▼
         </span>
       </div>
       {isOpen && (
-        <div className="p-4 sm:p-6 border-t border-gray-800 bg-mammut-darker/30 space-y-6">
+        <div className="p-4 sm:p-6 bg-mammut-darker/30 space-y-6">
           {children}
         </div>
       )}
@@ -437,6 +517,9 @@ const NumericScrollWheel = ({
   orientation?: 'horizontal' | 'vertical';
   labelPosition?: 'top' | 'inside';
 }) => {
+  const { theme } = useThemeStore();
+  const isLight = theme === 'light';
+
   const trackRef = useRef<HTMLDivElement>(null);
   const currentValueRef = useRef(value);
   currentValueRef.current = value;
@@ -630,7 +713,9 @@ const NumericScrollWheel = ({
       s = 90 - t * 25;
       l = 60 - t * 30;
     }
-    const rectColor = `hsl(${h}, ${s}%, ${l}%)`;
+    const rectColor = isLight 
+      ? (isDragging ? 'rgba(0,0,0,0.45)' : 'rgba(0,0,0,0.25)') 
+      : `hsl(${h}, ${s}%, ${l}%)`;
 
     bars.push(
       <div
@@ -681,16 +766,24 @@ const NumericScrollWheel = ({
         onTouchCancel={handleTouchEnd}
         onWheel={handleWheel}
         style={maskStyle}
-        className={`relative overflow-hidden bg-mammut-dark border border-gray-850 hover:border-mammut-gold/40 hover:bg-mammut-darker transition-colors duration-200 rounded-lg flex-grow flex items-center justify-center select-none touch-none opacity-[0.4] hover:opacity-100 transition-opacity ${trackSizeClass}`}
+        className={`relative overflow-hidden transition-colors duration-200 rounded-lg flex-grow flex items-center justify-center select-none touch-none transition-opacity ${
+          isLight 
+            ? 'bg-zinc-50 border border-zinc-200 opacity-90 hover:bg-zinc-100 hover:border-zinc-300' 
+            : 'bg-mammut-dark border border-gray-850 hover:border-mammut-gold/40 hover:bg-mammut-darker opacity-[0.4] hover:opacity-100'
+        } ${trackSizeClass}`}
       >
         {bars}
 
-        {/* Center Target Indicator Pointer (Yellow/Gold) */}
+        {/* Center Target Indicator Pointer */}
         <div
-          className={`absolute pointer-events-none rounded-full shadow-[0_0_8px_rgba(234,182,118,0.4)] ${
+          className={`absolute pointer-events-none rounded-full ${
             isVert 
-              ? 'top-1/2 left-0 w-full h-[2px] bg-[#ffc882] -translate-y-1/2 z-10' 
-              : 'left-1/2 top-0 w-[2px] h-full bg-[#ffc882] -translate-x-1/2 z-10'
+              ? `top-1/2 left-0 w-full h-[2px] -translate-y-1/2 z-10 ${
+                  isLight ? 'bg-black shadow-[0_0_8px_rgba(0,0,0,0.15)]' : 'bg-[#ffc882] shadow-[0_0_8px_rgba(234,182,118,0.4)]'
+                }` 
+              : `left-1/2 top-0 w-[2px] h-full -translate-x-1/2 z-10 ${
+                  isLight ? 'bg-black shadow-[0_0_8px_rgba(0,0,0,0.15)]' : 'bg-[#ffc882] shadow-[0_0_8px_rgba(234,182,118,0.4)]'
+                }`
           }`}
         />
 
@@ -711,7 +804,10 @@ const NumericScrollWheel = ({
               isVert ? 'origin-left' : 'origin-center'
             } ${
               isEditing 
-                ? 'bg-mammut-black/95 border border-mammut-gold backdrop-blur-md px-3.5 py-1 md:px-6 md:py-1.5 rounded-xl shadow-2xl scale-[1.8] md:scale-[2.0] shadow-[0_0_20px_rgba(217,119,6,0.35)]'
+                ? (isLight 
+                    ? 'bg-white border border-black px-3.5 py-1 md:px-6 md:py-1.5 rounded-xl shadow-lg scale-[1.8] md:scale-[2.0]'
+                    : 'bg-mammut-black/95 border border-mammut-gold backdrop-blur-md px-3.5 py-1 md:px-6 md:py-1.5 rounded-xl shadow-2xl scale-[1.8] md:scale-[2.0] shadow-[0_0_20px_rgba(217,119,6,0.35)]'
+                  )
                 : (isBadgeHovered
                     ? 'bg-transparent border border-transparent backdrop-blur-none px-0 py-0 shadow-none scale-[1.1]'
                     : 'bg-transparent border border-transparent backdrop-blur-none px-0 py-0 shadow-none scale-100'
@@ -730,16 +826,16 @@ const NumericScrollWheel = ({
                     if (e.key === 'Enter') handleCommit();
                     if (e.key === 'Escape') setIsEditing(false);
                   }}
-                  className="w-16 md:w-28 bg-transparent text-center text-mammut-gold font-black text-sm md:text-xl focus:outline-none"
+                  className={`w-16 md:w-28 bg-transparent text-center font-black text-sm md:text-xl focus:outline-none ${isLight ? 'text-black' : 'text-mammut-gold'}`}
                   autoFocus
                   onClick={(e) => e.stopPropagation()}
                 />
-                <span className="text-[9px] md:text-xs text-gray-400 font-bold">mm</span>
+                <span className={`text-[9px] md:text-xs font-bold ${isLight ? 'text-zinc-550' : 'text-gray-400'}`}>mm</span>
               </div>
             ) : (
-              <span className="text-sm md:text-xl font-black font-mono text-mammut-gold tracking-wide flex flex-col items-center leading-tight">
-                {effectiveLabelPos === 'inside' && label && <span className="text-[8px] md:text-[10px] text-gray-500 uppercase font-bold tracking-tight pb-0.5">{label.replace(/ \(mm\)/i, '')}</span>}
-                <span>{value} <span className="text-[9px] md:text-xs text-gray-400 font-bold">mm</span></span>
+              <span className={`text-sm md:text-xl font-black font-mono tracking-wide flex flex-col items-center leading-tight ${isLight ? 'text-black' : 'text-mammut-gold'}`}>
+                {effectiveLabelPos === 'inside' && label && <span className={`text-[8px] md:text-[10px] uppercase font-bold tracking-tight pb-0.5 ${isLight ? 'text-zinc-400 font-extrabold' : 'text-gray-500'}`}>{label.replace(/ \(mm\)/i, '')}</span>}
+                <span>{value} <span className={`text-[9px] md:text-xs font-bold ${isLight ? 'text-zinc-400' : 'text-gray-400'}`}>mm</span></span>
               </span>
             )}
           </div>
@@ -747,7 +843,9 @@ const NumericScrollWheel = ({
         {/* Floating tooltip badge while dragging to clear finger occlusion */}
         {isDragging && (
           <div 
-            className={`absolute bg-mammut-gold text-black text-[10px] font-black px-2.5 py-1.5 rounded-md shadow-lg pointer-events-none whitespace-nowrap z-30 transition-opacity duration-150 ${
+            className={`absolute text-[10px] font-black px-2.5 py-1.5 rounded-md shadow-lg pointer-events-none whitespace-nowrap z-30 transition-opacity duration-150 ${
+              isLight ? 'bg-black text-white' : 'bg-mammut-gold text-black'
+            } ${
               isVert 
                 ? 'left-full ml-3 top-1/2 -translate-y-1/2' 
                 : 'bottom-full mb-3 left-1/2 -translate-x-1/2'
@@ -775,6 +873,9 @@ const ColorScrollWheel = ({
   showDefault?: boolean;
 }) => {
   const { t } = useTranslation();
+  const { theme } = useThemeStore();
+  const isLight = theme === 'light';
+
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [scrollPos, setScrollPos] = useState(0);
@@ -971,10 +1072,10 @@ const ColorScrollWheel = ({
         onClick={() => {
           onChange(opt.code);
         }}
-        className={`absolute cursor-pointer rounded-full border transition-all duration-300 ease-out flex items-center justify-center ${
+        className={`absolute cursor-pointer rounded-xl border transition-all duration-300 ease-out flex items-center justify-center ${
           isSelected 
-            ? 'border-mammut-gold ring-4 ring-mammut-gold/45 shadow-[0_0_20px_rgba(217,119,6,0.6)]' 
-            : 'border-gray-800 hover:border-gray-500'
+            ? (isLight ? 'border-black ring-4 ring-black/25 shadow-md bg-white' : 'border-mammut-gold ring-4 ring-mammut-gold/45 shadow-[0_0_20px_rgba(217,119,6,0.6)]') 
+            : (isLight ? 'border-zinc-200 hover:border-zinc-400 bg-zinc-50' : 'border-gray-800 hover:border-gray-500')
         }`}
         style={{
           left: `calc(50% + ${trigVal}px - ${size / 2}px)`,
@@ -987,19 +1088,23 @@ const ColorScrollWheel = ({
           backgroundColor: opt.swatchUrl ? 'transparent' : opt.hex || '#4B4B4D',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          boxShadow: isSelected ? 'none' : 'inset 0 4px 8px rgba(0,0,0,0.6)',
+          boxShadow: isSelected ? 'none' : (isLight ? 'inset 0 2px 4px rgba(0,0,0,0.15)' : 'inset 0 4px 8px rgba(0,0,0,0.6)'),
           transform: `scale(${hoverScale})`
         }}
         title={`${opt.code} - ${opt.name}`}
       >
         {isDefault && (
-          <div className="text-[10px] md:text-xs font-black font-sans text-gray-300 bg-mammut-black/70 px-2 py-1 rounded border border-gray-700/50 text-center select-none pointer-events-none uppercase tracking-wide">
+          <div className={`text-[10px] md:text-xs font-black font-sans px-2 py-1 rounded border text-center select-none pointer-events-none uppercase tracking-wide ${
+            isLight ? 'text-zinc-650 bg-white/95 border-zinc-250' : 'text-gray-300 bg-mammut-black/70 border-gray-700/50'
+          }`}>
             Default
           </div>
         )}
         {isSelected && !isOverActiveSwatch && !isScrolling && (
           <div 
-            className="absolute bg-gradient-to-br from-emerald-400 to-emerald-600 text-white rounded-full flex items-center justify-center shadow-lg border border-mammut-darker z-35 animate-scale-in"
+            className={`absolute bg-gradient-to-br from-emerald-400 to-emerald-600 text-white rounded-full flex items-center justify-center shadow-lg border z-35 animate-scale-in ${
+              isLight ? 'border-white' : 'border-mammut-darker'
+            }`}
             style={{
               top: '-3px',
               right: '-3px',
@@ -1022,7 +1127,9 @@ const ColorScrollWheel = ({
 
   return (
     <div className="flex flex-col gap-1.5 w-full relative overflow-visible z-20">
-      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide mb-10 md:mb-16">{label}</label>
+      <label className={`block text-xs font-bold uppercase tracking-wide mb-10 md:mb-16 ${
+        isLight ? 'text-zinc-500' : 'text-gray-400'
+      }`}>{label}</label>
       <div 
         ref={containerRef}
         onWheel={handleWheel}
@@ -1046,10 +1153,14 @@ const ColorScrollWheel = ({
         onMouseLeave={() => {
           setIsOverActiveSwatch(false);
         }}
-        className="relative bg-mammut-dark border border-gray-855 rounded-xl overflow-visible select-none shadow-inner flex items-center justify-center group w-full h-[140px] md:h-[190px]"
+        className={`relative rounded-xl overflow-visible select-none shadow-inner flex items-center justify-center group w-full h-[140px] md:h-[190px] border ${
+          isLight ? 'bg-zinc-50 border-zinc-200' : 'bg-mammut-dark border-gray-855'
+        }`}
       >
         {options.length === 0 ? (
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400 font-bold text-sm pointer-events-none px-4 z-35 bg-mammut-darker/60 backdrop-blur-sm rounded-xl">
+          <div className={`absolute inset-0 flex flex-col items-center justify-center font-bold text-sm pointer-events-none px-4 z-35 backdrop-blur-sm rounded-xl ${
+            isLight ? 'bg-white/80 text-zinc-650' : 'bg-mammut-darker/60 text-gray-400'
+          }`}>
             <span className="text-center">{t('noColorsFound', 'No matching colors found')}</span>
             <button
               type="button"
@@ -1058,7 +1169,11 @@ const ColorScrollWheel = ({
                 setSearchQuery('');
                 setIsEditingSearch(false);
               }}
-              className="mt-3 text-xs text-mammut-gold hover:text-white pointer-events-auto bg-gray-800 hover:bg-gray-750 border border-gray-700 px-4 py-1.5 rounded-full cursor-pointer transition-colors"
+              className={`mt-3 text-xs pointer-events-auto border px-4 py-1.5 rounded-full cursor-pointer transition-colors ${
+                isLight 
+                  ? 'text-black bg-zinc-100 hover:bg-zinc-200 border-zinc-300' 
+                  : 'text-mammut-gold hover:text-white bg-gray-800 hover:bg-gray-750 border-gray-700'
+              }`}
             >
               {t('clearSearch', 'Clear Search')}
             </button>
@@ -1070,8 +1185,12 @@ const ColorScrollWheel = ({
         )}
 
         {/* Gradients */}
-        <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-mammut-dark to-transparent pointer-events-none z-15 opacity-90" />
-        <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-mammut-dark to-transparent pointer-events-none z-15 opacity-90" />
+        <div className={`absolute inset-y-0 left-0 w-20 bg-gradient-to-r to-transparent pointer-events-none z-15 opacity-90 ${
+          isLight ? 'from-zinc-50' : 'from-mammut-dark'
+        }`} />
+        <div className={`absolute inset-y-0 right-0 w-20 bg-gradient-to-l to-transparent pointer-events-none z-15 opacity-90 ${
+          isLight ? 'from-zinc-50' : 'from-mammut-dark'
+        }`} />
 
         {/* Scroll Container */}
         {options.length > 0 && (
@@ -1102,7 +1221,11 @@ const ColorScrollWheel = ({
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); adjustIndex('prev'); }}
-            className="absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg bg-mammut-black/85 border border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50 active:scale-90 transition-all duration-150 cursor-pointer select-none left-2 md:left-3 top-1/2 -translate-y-1/2"
+            className={`absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg active:scale-90 transition-all duration-150 cursor-pointer select-none left-2 md:left-3 top-1/2 -translate-y-1/2 border ${
+              isLight 
+                ? 'bg-white border-zinc-200 text-zinc-700 hover:text-black hover:border-black shadow-sm' 
+                : 'bg-mammut-black/85 border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50'
+            }`}
             title="Previous Color"
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
@@ -1116,7 +1239,11 @@ const ColorScrollWheel = ({
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); adjustIndex('next'); }}
-            className="absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg bg-mammut-black/85 border border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50 active:scale-90 transition-all duration-150 cursor-pointer select-none right-2 md:right-3 top-1/2 -translate-y-1/2"
+            className={`absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg active:scale-90 transition-all duration-150 cursor-pointer select-none right-2 md:right-3 top-1/2 -translate-y-1/2 border ${
+              isLight 
+                ? 'bg-white border-zinc-200 text-zinc-700 hover:text-black hover:border-black shadow-sm' 
+                : 'bg-mammut-black/85 border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50'
+            }`}
             title="Next Color"
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
@@ -1128,8 +1255,12 @@ const ColorScrollWheel = ({
 
       {/* Description underneath with search/filtering capability */}
       {isEditingSearch || searchQuery ? (
-        <div className="flex items-center bg-mammut-black border border-mammut-gold rounded-xl mt-10 md:mt-16 px-3 py-1.5 w-full relative shadow-md">
-          <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold absolute -top-2.5 left-3 bg-mammut-darker px-2 text-mammut-gold border border-gray-850 rounded">
+        <div className={`flex items-center rounded-xl mt-10 md:mt-16 px-3 py-1.5 w-full relative shadow-sm border ${
+          isLight ? 'bg-white border-zinc-300 text-black' : 'bg-mammut-black border-mammut-gold text-mammut-white shadow-md'
+        }`}>
+          <span className={`text-[10px] uppercase tracking-widest font-bold absolute -top-2.5 left-3 px-2 border rounded ${
+            isLight ? 'bg-white text-zinc-500 border-zinc-200' : 'bg-mammut-darker text-mammut-gold border-gray-855'
+          }`}>
             {t('selectedFinish', 'Selected Finish')}
           </span>
           <input
@@ -1137,7 +1268,9 @@ const ColorScrollWheel = ({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={t('searchColorPlaceholder', 'Search (e.g. wood, metal, blue...)')}
-            className="w-full bg-transparent text-mammut-white focus:outline-none text-sm md:text-base font-bold font-mono pl-1 pr-8 py-1"
+            className={`w-full bg-transparent focus:outline-none text-sm md:text-base font-bold font-mono pl-1 pr-8 py-1 ${
+              isLight ? 'text-black placeholder-zinc-400' : 'text-mammut-white'
+            }`}
             autoFocus
             onBlur={() => {
               if (!searchQuery) {
@@ -1158,7 +1291,9 @@ const ColorScrollWheel = ({
                 setSearchQuery('');
                 setIsEditingSearch(false);
               }}
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-gray-800 hover:bg-mammut-gold/20 text-gray-400 hover:text-mammut-gold flex items-center justify-center transition-colors cursor-pointer"
+              className={`absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center transition-colors cursor-pointer ${
+                isLight ? 'bg-zinc-100 hover:bg-zinc-200 text-zinc-500 hover:text-black' : 'bg-gray-800 hover:bg-mammut-gold/20 text-gray-400 hover:text-mammut-gold'
+              }`}
               title="Clear search"
             >
               ✕
@@ -1168,15 +1303,21 @@ const ColorScrollWheel = ({
       ) : (
         <div 
           onClick={() => setIsEditingSearch(true)}
-          className="flex flex-col items-center justify-center py-2 bg-mammut-dark/40 hover:bg-mammut-dark/70 hover:border-mammut-gold/50 cursor-pointer border border-gray-850/60 rounded-xl mt-10 md:mt-16 px-3 w-full transition-all group/finish"
+          className={`flex flex-col items-center justify-center py-2 cursor-pointer border rounded-xl mt-10 md:mt-16 px-3 w-full transition-all group/finish ${
+            isLight ? 'bg-zinc-50 hover:bg-zinc-100 border-zinc-200 hover:border-black' : 'bg-mammut-dark/40 hover:bg-mammut-dark/70 hover:border-mammut-gold/50 border-gray-855/60'
+          }`}
         >
-          <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold group-hover/finish:text-mammut-gold transition-colors flex items-center gap-1.5">
+          <span className={`text-[10px] uppercase tracking-widest font-bold transition-colors flex items-center gap-1.5 ${
+            isLight ? 'text-zinc-500 group-hover/finish:text-black' : 'text-gray-500 group-hover/finish:text-mammut-gold'
+          }`}>
             {t('selectedFinish', 'Selected Finish')}
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5 opacity-60">
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.604 10.604z" />
             </svg>
           </span>
-          <span className="text-sm md:text-base font-black font-mono text-mammut-gold tracking-wide text-center mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
+          <span className={`text-sm md:text-base font-black font-mono tracking-wide text-center mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis max-w-full ${
+            isLight ? 'text-black' : 'text-mammut-gold'
+          }`}>
             {activeOpt.code ? `${activeOpt.code} - ${activeOpt.name}` : activeOpt.name}
           </span>
         </div>
@@ -1252,7 +1393,7 @@ const HandleImage = ({
   );
 };
 
-const SpacerScrollWheel = ({
+ const SpacerScrollWheel = ({
   label,
   value,
   onChange,
@@ -1263,6 +1404,9 @@ const SpacerScrollWheel = ({
   onChange: (v: string) => void;
   options: any[];
 }) => {
+  const { theme } = useThemeStore();
+  const isLight = theme === 'light';
+
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [scrollPos, setScrollPos] = useState(0);
@@ -1392,10 +1536,10 @@ const SpacerScrollWheel = ({
         onClick={(e) => {
           handleSnapClick(e, opt.code);
         }}
-        className={`absolute cursor-pointer rounded-full border transition-all duration-300 ease-out flex items-center justify-center bg-white ${
+        className={`absolute cursor-pointer rounded-xl border transition-all duration-300 ease-out flex items-center justify-center bg-white ${
           isSelected 
-            ? 'border-mammut-gold border-[1px] shadow-[0_0_12px_rgba(217,119,6,0.35)]' 
-            : 'border-gray-800 hover:border-gray-600 bg-mammut-black'
+            ? (isLight ? 'border-black border-[1px] shadow-sm' : 'border-mammut-gold border-[1px] shadow-[0_0_12px_rgba(217,119,6,0.35)]') 
+            : (isLight ? 'border-zinc-200 hover:border-zinc-400 bg-zinc-100' : 'border-gray-800 hover:border-gray-600 bg-mammut-black')
         }`}
         style={{
           left: `calc(50% + ${trigVal}px - ${size / 2}px)`,
@@ -1411,18 +1555,20 @@ const SpacerScrollWheel = ({
         <img 
           src={imageUrl} 
           alt={opt.name} 
-          className="w-full h-full object-cover rounded-full"
+          className="w-full h-full object-cover rounded-xl"
           onError={(e) => {
             e.currentTarget.style.display = 'none';
           }}
         />
         <div 
-          className="absolute inset-0 z-[-1] rounded-full" 
+          className="absolute inset-0 z-[-1] rounded-xl" 
           style={{ backgroundColor: opt.hex || '#4B4B4D' }} 
         />
         {isSelected && (
           <div 
-            className="absolute -top-1 -right-1 bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-lg border border-mammut-dark z-50 p-0.5 animate-in fade-in zoom-in duration-200"
+            className={`absolute -top-1 -right-1 bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-lg border z-50 p-0.5 animate-in fade-in zoom-in duration-200 ${
+              isLight ? 'border-white' : 'border-mammut-dark'
+            }`}
             style={{ 
               width: Math.max(16, size * 0.28), 
               height: Math.max(16, size * 0.28) 
@@ -1442,18 +1588,26 @@ const SpacerScrollWheel = ({
 
   return (
     <div className="flex flex-col gap-1.5 w-full relative overflow-visible z-20">
-      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide mb-1 md:mb-2">{label}</label>
+      <label className={`block text-xs font-bold uppercase tracking-wide mb-1 md:mb-2 ${
+        isLight ? 'text-zinc-500' : 'text-gray-400'
+      }`}>{label}</label>
       <div 
         ref={containerRef}
         onWheel={handleWheel}
-        className="relative bg-mammut-dark border border-gray-850 rounded-xl overflow-visible select-none shadow-inner flex items-center justify-center group w-full h-[140px] md:h-[190px]"
+        className={`relative rounded-xl overflow-visible select-none shadow-inner flex items-center justify-center group w-full h-[140px] md:h-[190px] border ${
+          isLight ? 'bg-zinc-50 border-zinc-200' : 'bg-mammut-dark border-gray-850'
+        }`}
       >
         <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-visible z-10">
           {items}
         </div>
 
-        <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-mammut-dark to-transparent pointer-events-none z-15 opacity-90" />
-        <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-mammut-dark to-transparent pointer-events-none z-15 opacity-90" />
+        <div className={`absolute inset-y-0 left-0 w-20 bg-gradient-to-r to-transparent pointer-events-none z-15 opacity-90 ${
+          isLight ? 'from-zinc-50' : 'from-mammut-dark'
+        }`} />
+        <div className={`absolute inset-y-0 right-0 w-20 bg-gradient-to-l to-transparent pointer-events-none z-15 opacity-90 ${
+          isLight ? 'from-zinc-50' : 'from-mammut-dark'
+        }`} />
 
         <div 
           ref={scrollContainerRef}
@@ -1482,7 +1636,11 @@ const SpacerScrollWheel = ({
         <button
           type="button"
           onClick={(e) => { e.stopPropagation(); adjustIndex('prev'); }}
-          className="absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg bg-mammut-black/85 border border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50 active:scale-90 transition-all duration-150 cursor-pointer select-none left-2 md:left-3 top-1/2 -translate-y-1/2"
+          className={`absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg active:scale-90 transition-all duration-150 cursor-pointer select-none left-2 md:left-3 top-1/2 -translate-y-1/2 border ${
+            isLight 
+              ? 'bg-white border-zinc-200 text-zinc-700 hover:text-black hover:border-black shadow-sm' 
+              : 'bg-mammut-black/85 border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50'
+          }`}
           title="Previous"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
@@ -1493,7 +1651,11 @@ const SpacerScrollWheel = ({
         <button
           type="button"
           onClick={(e) => { e.stopPropagation(); adjustIndex('next'); }}
-          className="absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg bg-mammut-black/85 border border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50 active:scale-90 transition-all duration-150 cursor-pointer select-none right-2 md:right-3 top-1/2 -translate-y-1/2"
+          className={`absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg active:scale-90 transition-all duration-150 cursor-pointer select-none right-2 md:right-3 top-1/2 -translate-y-1/2 border ${
+            isLight 
+              ? 'bg-white border-zinc-200 text-zinc-700 hover:text-black hover:border-black shadow-sm' 
+              : 'bg-mammut-black/85 border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50'
+          }`}
           title="Next"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
@@ -1502,9 +1664,15 @@ const SpacerScrollWheel = ({
         </button>
       </div>
 
-      <div className="flex flex-col items-center justify-center py-2 bg-mammut-dark/40 border border-gray-850/60 rounded-xl mt-1 md:mt-2 px-3">
-        <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Selected Spacer</span>
-        <span className="text-sm md:text-base font-black font-mono text-mammut-gold tracking-wide text-center mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
+      <div className={`flex flex-col items-center justify-center py-2 border rounded-xl mt-1 md:mt-2 px-3 ${
+        isLight ? 'bg-zinc-50 border-zinc-200' : 'bg-mammut-dark/40 border border-gray-850/60'
+      }`}>
+        <span className={`text-[10px] uppercase tracking-widest font-bold ${
+          isLight ? 'text-zinc-500' : 'text-gray-500'
+        }`}>Selected Spacer</span>
+        <span className={`text-sm md:text-base font-black font-mono tracking-wide text-center mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis max-w-full ${
+          isLight ? 'text-black' : 'text-mammut-gold'
+        }`}>
           {activeOpt ? `${activeOpt.code} - ${activeOpt.name}` : ''}
         </span>
       </div>
@@ -1512,7 +1680,7 @@ const SpacerScrollWheel = ({
   );
 };
 
-const HandleScrollWheel = ({
+ const HandleScrollWheel = ({
   label,
   value,
   onChange,
@@ -1525,6 +1693,9 @@ const HandleScrollWheel = ({
   options: any[];
   handleColor: string;
 }) => {
+  const { theme } = useThemeStore();
+  const isLight = theme === 'light';
+
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [scrollPos, setScrollPos] = useState(0);
@@ -1640,10 +1811,10 @@ const HandleScrollWheel = ({
         onClick={() => {
           onChange(opt.code);
         }}
-        className={`absolute cursor-pointer rounded-full border transition-all duration-300 ease-out flex items-center justify-center bg-white p-2 overflow-hidden ${
+        className={`absolute cursor-pointer rounded-xl border transition-all duration-300 ease-out flex items-center justify-center p-2 overflow-hidden bg-white ${
           isSelected 
-            ? 'border-mammut-gold ring-4 ring-mammut-gold/45 shadow-[0_0_20px_rgba(217,119,6,0.6)]' 
-            : 'border-gray-800 hover:border-gray-500'
+            ? (isLight ? 'border-black ring-4 ring-black/25 shadow-md' : 'border-mammut-gold ring-4 ring-mammut-gold/45 shadow-[0_0_20px_rgba(217,119,6,0.6)]') 
+            : (isLight ? 'border-zinc-200 hover:border-zinc-400 bg-zinc-50' : 'border-gray-800 hover:border-gray-500')
         }`}
         style={{
           left: `calc(50% + ${trigVal}px - ${size / 2}px)`,
@@ -1676,25 +1847,37 @@ const HandleScrollWheel = ({
 
   return (
     <div className="flex flex-col gap-1.5 w-full relative overflow-visible z-20">
-      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide mb-1 md:mb-2">{label}</label>
+      <label className={`block text-xs font-bold uppercase tracking-wide mb-1 md:mb-2 ${
+        isLight ? 'text-zinc-500' : 'text-gray-400'
+      }`}>{label}</label>
       <div 
         ref={containerRef}
         onWheel={handleWheel}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="relative bg-mammut-dark border border-gray-850 rounded-xl overflow-visible select-none shadow-inner flex items-center justify-center group w-full h-[140px] md:h-[190px]"
+        className={`relative rounded-xl overflow-visible select-none shadow-inner flex items-center justify-center group w-full h-[140px] md:h-[190px] border ${
+          isLight ? 'bg-zinc-50 border-zinc-200' : 'bg-mammut-dark border-gray-850'
+        }`}
       >
         <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden z-10">
           {items}
         </div>
 
         <div className="absolute inset-y-1.5 left-1/2 -translate-x-1/2 pointer-events-none z-20 flex justify-between transition-all duration-300" style={{ width: `${indicatorWidth}px` }}>
-          <div className="w-3.5 h-full border-l-2 border-t-2 border-b-2 border-mammut-gold/40 rounded-l-2xl shadow-[inset_1px_0_0_rgba(217,119,6,0.1)]" />
-          <div className="w-3.5 h-full border-r-2 border-t-2 border-b-2 border-mammut-gold/40 rounded-r-2xl shadow-[inset_-1px_0_0_rgba(217,119,6,0.1)]" />
+          <div className={`w-3.5 h-full border-l-2 border-t-2 border-b-2 rounded-l-2xl ${
+            isLight ? 'border-zinc-400 shadow-[inset_1px_0_0_rgba(0,0,0,0.05)]' : 'border-mammut-gold/40 shadow-[inset_1px_0_0_rgba(217,119,6,0.1)]'
+          }`} />
+          <div className={`w-3.5 h-full border-r-2 border-t-2 border-b-2 rounded-r-2xl ${
+            isLight ? 'border-zinc-400 shadow-[inset_-1px_0_0_rgba(0,0,0,0.05)]' : 'border-mammut-gold/40 shadow-[inset_-1px_0_0_rgba(217,119,6,0.1)]'
+          }`} />
         </div>
 
-        <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-mammut-dark to-transparent pointer-events-none z-15 opacity-90" />
-        <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-mammut-dark to-transparent pointer-events-none z-15 opacity-90" />
+        <div className={`absolute inset-y-0 left-0 w-20 bg-gradient-to-r to-transparent pointer-events-none z-15 opacity-90 ${
+          isLight ? 'from-zinc-50' : 'from-mammut-dark'
+        }`} />
+        <div className={`absolute inset-y-0 right-0 w-20 bg-gradient-to-l to-transparent pointer-events-none z-15 opacity-90 ${
+          isLight ? 'from-zinc-50' : 'from-mammut-dark'
+        }`} />
 
         <div 
           ref={scrollContainerRef}
@@ -1720,7 +1903,11 @@ const HandleScrollWheel = ({
         <button
           type="button"
           onClick={(e) => { e.stopPropagation(); adjustIndex('prev'); }}
-          className="absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg bg-mammut-black/85 border border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50 active:scale-90 transition-all duration-150 cursor-pointer select-none left-2 md:left-3 top-1/2 -translate-y-1/2"
+          className={`absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg active:scale-90 transition-all duration-150 cursor-pointer select-none left-2 md:left-3 top-1/2 -translate-y-1/2 border ${
+            isLight 
+              ? 'bg-white border-zinc-200 text-zinc-700 hover:text-black hover:border-black shadow-sm' 
+              : 'bg-mammut-black/85 border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50'
+          }`}
           title="Previous"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
@@ -1731,7 +1918,11 @@ const HandleScrollWheel = ({
         <button
           type="button"
           onClick={(e) => { e.stopPropagation(); adjustIndex('next'); }}
-          className="absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg bg-mammut-black/85 border border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50 active:scale-90 transition-all duration-150 cursor-pointer select-none right-2 md:right-3 top-1/2 -translate-y-1/2"
+          className={`absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg active:scale-90 transition-all duration-150 cursor-pointer select-none right-2 md:right-3 top-1/2 -translate-y-1/2 border ${
+            isLight 
+              ? 'bg-white border-zinc-200 text-zinc-700 hover:text-black hover:border-black shadow-sm' 
+              : 'bg-mammut-black/85 border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50'
+          }`}
           title="Next"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
@@ -1740,16 +1931,21 @@ const HandleScrollWheel = ({
         </button>
       </div>
 
-      <div className="flex flex-col items-center justify-center py-2 bg-mammut-dark/40 border border-gray-850/60 rounded-xl mt-1 md:mt-2 px-3">
-        <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Selected Handle</span>
-        <span className="text-sm md:text-base font-black font-mono text-mammut-gold tracking-wide text-center mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
+      <div className={`flex flex-col items-center justify-center py-2 border rounded-xl mt-1 md:mt-2 px-3 ${
+        isLight ? 'bg-zinc-50 border-zinc-200' : 'bg-mammut-dark/40 border border-gray-855/60'
+      }`}>
+        <span className={`text-[10px] uppercase tracking-widest font-bold ${
+          isLight ? 'text-zinc-500' : 'text-gray-500'
+        }`}>Selected Handle</span>
+        <span className={`text-sm md:text-base font-black font-mono tracking-wide text-center mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis max-w-full ${
+          isLight ? 'text-black' : 'text-mammut-gold'
+        }`}>
           {activeOpt ? `${activeOpt.code} - ${activeOpt.name}` : ''}
         </span>
       </div>
     </div>
   );
 };
-
 
 const SegmentedControl = ({
   label,
@@ -1764,10 +1960,15 @@ const SegmentedControl = ({
   options: { value: string, label: string }[],
   gridCols?: string
 }) => {
+  const { theme } = useThemeStore();
+  const isLight = theme === 'light';
+
   return (
     <div className="flex flex-col gap-1.5 w-full">
-      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide">{label}</label>
-      <div className={`grid ${gridCols} bg-mammut-black border border-gray-850 rounded-xl p-1 gap-1`}>
+      <label className={`block text-xs font-bold uppercase tracking-wide ${isLight ? 'text-zinc-550' : 'text-gray-400'}`}>{label}</label>
+      <div className={`grid ${gridCols} border rounded-xl p-1 gap-1 ${
+        isLight ? 'bg-zinc-100 border-zinc-200' : 'bg-mammut-black border-gray-855'
+      }`}>
         {options.map((opt) => {
           const isActive = value === opt.value;
           return (
@@ -1775,10 +1976,10 @@ const SegmentedControl = ({
               key={opt.value}
               type="button"
               onClick={() => onChange(opt.value)}
-              className={`py-2 px-2 rounded-lg text-xs font-bold uppercase transition-all text-center leading-tight ${
+              className={`py-2 px-2 rounded-lg text-xs font-bold uppercase transition-all text-center leading-tight cursor-pointer ${
                 isActive 
-                  ? 'bg-mammut-gold text-black shadow-md' 
-                  : 'text-gray-400 hover:text-white hover:bg-gray-800/40'
+                  ? (isLight ? 'bg-white text-black shadow-sm' : 'bg-mammut-gold text-black shadow-md') 
+                  : (isLight ? 'text-zinc-550 hover:text-black hover:bg-white/40' : 'text-gray-400 hover:text-white hover:bg-gray-800/40')
               }`}
             >
               {opt.label}
@@ -1810,9 +2011,12 @@ const CarouselSelector = <T extends CarouselOption>({
   options: T[],
   getImagePath?: (opt: T) => string
 }) => {
+  const { theme } = useThemeStore();
+  const isLight = theme === 'light';
+
   return (
     <div className="flex flex-col gap-1.5 w-full">
-      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide">{label}</label>
+      <label className={`block text-xs font-bold uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>{label}</label>
       <div className="flex gap-3 overflow-x-auto pb-8 pt-8 -my-6 scrollbar-none snap-x snap-mandatory">
         {options.map((opt) => {
           const isActive = value === opt.code;
@@ -1822,15 +2026,17 @@ const CarouselSelector = <T extends CarouselOption>({
               key={opt.code}
               type="button"
               onClick={() => onChange(opt.code)}
-              className={`flex-none w-28 h-28 bg-gray-900 border rounded-xl p-2 flex flex-col items-center justify-between transition-all select-none snap-start relative group hover:z-30 ${
+              className={`flex-none w-28 h-28 border rounded-xl p-2 flex flex-col items-center justify-between transition-all select-none snap-start relative group hover:z-30 cursor-pointer ${
                 isActive 
-                  ? 'border-mammut-gold bg-mammut-gold/5 shadow-lg scale-[1.02]' 
-                  : 'border-gray-800 hover:border-gray-700 hover:bg-gray-800/30'
+                  ? (isLight ? 'border-black bg-zinc-100/50 shadow-md scale-[1.02]' : 'border-mammut-gold bg-mammut-gold/5 shadow-lg scale-[1.02]') 
+                  : (isLight ? 'border-zinc-200 bg-zinc-50 hover:border-zinc-400 hover:bg-zinc-100' : 'border-gray-800 bg-gray-900 hover:border-gray-700 hover:bg-gray-800/30')
               }`}
             >
               {/* Selection badge */}
               {isActive && (
-                <div className="absolute top-1.5 right-1.5 bg-mammut-gold text-black rounded-full w-4.5 h-4.5 flex items-center justify-center text-[10px] font-black z-10">
+                <div className={`absolute top-1.5 right-1.5 rounded-full w-4.5 h-4.5 flex items-center justify-center text-[10px] font-black z-10 ${
+                  isLight ? 'bg-black text-white' : 'bg-mammut-gold text-black'
+                }`}>
                   ✓
                 </div>
               )}
@@ -1849,19 +2055,23 @@ const CarouselSelector = <T extends CarouselOption>({
                       if (sibling) sibling.classList.remove('hidden');
                     }}
                   />
-                  <div className="hidden absolute inset-0 bg-gray-850 flex items-center justify-center text-[10px] font-bold text-gray-500 rounded-lg">
+                  <div className={`hidden absolute inset-0 flex items-center justify-center text-[10px] font-bold rounded-lg ${isLight ? 'bg-zinc-100 text-zinc-500' : 'bg-gray-850 text-gray-500'}`}>
                     {opt.code}
                   </div>
                 </div>
               ) : opt.hex ? (
-                <div className="w-16 h-16 rounded-lg shadow-inner border border-gray-700 transition-transform duration-300 group-hover:scale-[1.8] group-hover:z-30 shadow-md relative" style={{ backgroundColor: opt.hex }}></div>
+                <div className={`w-16 h-16 rounded-lg shadow-inner border transition-transform duration-300 group-hover:scale-[1.8] group-hover:z-30 shadow-md relative ${isLight ? 'border-zinc-200' : 'border-gray-700'}`} style={{ backgroundColor: opt.hex }}></div>
               ) : (
-                <div className="w-16 h-16 rounded-lg bg-gray-850 flex items-center justify-center text-[10px] font-bold text-gray-500 transition-transform duration-300 group-hover:scale-[1.8] group-hover:z-30 shadow-md relative">
+                <div className={`w-16 h-16 rounded-lg flex items-center justify-center text-[10px] font-bold transition-transform duration-300 group-hover:scale-[1.8] group-hover:z-30 shadow-md relative ${isLight ? 'bg-zinc-200 text-zinc-500' : 'bg-gray-855 text-gray-500'}`}>
                   {opt.code || 'Std'}
                 </div>
               )}
               
-              <span className={`text-[10px] font-bold truncate w-full text-center leading-none ${isActive ? 'text-mammut-gold' : 'text-gray-400'}`}>
+              <span className={`text-[10px] font-bold truncate w-full text-center leading-none ${
+                isActive 
+                  ? (isLight ? 'text-black font-extrabold' : 'text-mammut-gold') 
+                  : (isLight ? 'text-zinc-550 group-hover:text-black' : 'text-gray-400')
+              }`}>
                 {opt.name}
               </span>
             </button>
@@ -1883,20 +2093,36 @@ const TYPOLOGY_GROUPS = [
 
 export function DebugPricing() {
   const { t } = useTranslation();
+  const { setTheme } = useThemeStore();
+  // This page is permanently day-mode — isLight is not derived from the store
+  // to avoid the async rehydration gap that causes a dark-flash on first render.
+  const isLight = true;
 
-  // Mobile-friendly layout and interactive states
-  const [activeAccordion, setActiveAccordion] = useState<string | null>('product');
-  const [isPreviewDrawerOpen, setIsPreviewDrawerOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
+  // Keep the store in sync so ThemeToggle widget reflects the correct state
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    setTheme('light');
   }, []);
+
+  const handleDownload = () => {
+    const canvas = document.querySelector('.visualizer-container canvas') as HTMLCanvasElement;
+    if (!canvas) {
+      console.warn("[DebugPricing] WebGL Canvas not found in .visualizer-container");
+      alert("WebGL canvas not found.");
+      return;
+    }
+    try {
+      const dataUrl = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.download = `3d-window-${typology}-${width}x${height}.png`;
+      link.href = dataUrl;
+      link.click();
+    } catch (e) {
+      console.error("Failed to capture 3D frame:", e);
+      alert("Failed to capture 3D frame. Make sure WebGL is enabled.");
+    }
+  };
+
+  const [activeAccordion, setActiveAccordion] = useState<string | null>('product');
 
   // 1) & 2) Profile System & Typology
   const [typology, setTypology] = useState<string>('F104');
@@ -1910,10 +2136,18 @@ export function DebugPricing() {
   const [arMenuOpen, setArMenuOpen] = useState(false);
   const arMenuRef = useRef<HTMLDivElement>(null);
 
+  const [scenery, setScenery] = useState('studio-grey');
+  const [isSceneryMenuOpen, setIsSceneryMenuOpen] = useState(false);
+  const sceneryMenuRef = useRef<HTMLDivElement>(null);
+  const [customBackground, setCustomBackground] = useState<string | null>(null);
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent | TouchEvent) {
       if (arMenuRef.current && !arMenuRef.current.contains(event.target as Node)) {
         setArMenuOpen(false);
+      }
+      if (sceneryMenuRef.current && !sceneryMenuRef.current.contains(event.target as Node)) {
+        setIsSceneryMenuOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
@@ -2028,6 +2262,78 @@ export function DebugPricing() {
   
   // 19) Visualizer View Side
   const [viewSide, setViewSide] = useState<'interior' | 'exterior'>('interior');
+
+  const handleShare = async () => {
+    const canvas = document.querySelector('.visualizer-container canvas') as HTMLCanvasElement;
+    if (!canvas) {
+      console.warn("[DebugPricing] WebGL Canvas not found in .visualizer-container");
+      alert("WebGL canvas not found.");
+      return;
+    }
+
+    try {
+      const dataUrl = canvas.toDataURL('image/png');
+      const response = await fetch(dataUrl);
+      const blob = await response.blob();
+      const file = new File([blob], `3d-window-${typology}-${width}x${height}.png`, { type: 'image/png' });
+
+      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({
+            files: [file],
+            title: 'Mammut Window Design',
+            text: `My window configuration: ${typology} (${width}x${height} mm)`,
+          });
+          return;
+        } catch (err) {
+          console.warn("Web Share failed, trying clipboard copy:", err);
+        }
+      }
+
+      if (navigator.clipboard && (window as any).ClipboardItem) {
+        try {
+          await navigator.clipboard.write([
+            new ((window as any).ClipboardItem)({
+              'image/png': blob
+            })
+          ]);
+          alert("Screenshot copied to clipboard! You can paste it directly.");
+          return;
+        } catch (err) {
+          console.warn("Copying image to clipboard failed:", err);
+        }
+      }
+
+      // Fallback: download the image
+      const link = document.createElement('a');
+      link.download = `3d-window-${typology}-${width}x${height}.png`;
+      link.href = dataUrl;
+      link.click();
+      alert("Screenshot downloaded to your device.");
+
+    } catch (e) {
+      console.error("Failed to share screenshot:", e);
+      alert("Failed to capture or share screenshot.");
+    }
+  };
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const cat = params.get('category');
+    if (cat) setActiveCategory(cat);
+    const typo = params.get('typology');
+    if (typo) setTypology(typo);
+    const w = params.get('width');
+    if (w) setWidth(Number(w) || 1000);
+    const h = params.get('height');
+    if (h) setHeight(Number(h) || 1000);
+    const col = params.get('color');
+    if (col) setColorCode(col);
+    const intCol = params.get('intColor');
+    if (intCol) setInteriorColorCode(intCol);
+    const scen = params.get('scenery');
+    if (scen) setScenery(scen);
+  }, []);
 
   // Debounce input changes so we don't spam the API on every keypress.
   useEffect(() => {
@@ -2390,16 +2696,6 @@ export function DebugPricing() {
     }
   ];
 
-  const PROFILE_IMAGE_MAP: Record<string, string> = {
-    "1100": "iglo5",
-    "1101": "iglo5psk",
-    "1103": "iglo5",
-    "1110": "iglo5classic",
-    "1300": "igloenergy",
-    "1310": "igloenergyclassic",
-    "3350": "mb86nsi",
-    "3904": "corvisionplus"
-  };
 
   const SYSTEM_CODE_MAP: Record<string, string> = {
     "1100": "IG5",
@@ -2415,8 +2711,10 @@ export function DebugPricing() {
   // Helper for generic unmapped dropdowns
   const GenericSelect = ({ label, value, onChange, options }: { label: string, value: string, onChange: (v: string) => void, options?: {value: string, label: string}[] }) => (
     <div>
-      <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">{label}</label>
-      <select className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none"
+      <label className={`block text-[10px] font-bold mb-1 uppercase ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>{label}</label>
+      <select className={`w-full rounded p-2 text-sm focus:outline-none border ${
+        isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+      }`}
         value={value} onChange={e => onChange(e.target.value)}>
         <option value="">Lack (-)</option>
         {options ? options.map(o => <option key={o.value} value={o.value}>{o.label}</option>) : (
@@ -2437,16 +2735,18 @@ export function DebugPricing() {
 
     return (
       <div className="relative z-20">
-        <label className="block text-[10px] font-bold mb-1 text-gray-400 uppercase">{label}</label>
+        <label className={`block text-[10px] font-bold mb-1 uppercase ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>{label}</label>
         <div 
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full bg-mammut-black border border-gray-800 rounded p-2 text-mammut-white text-sm cursor-pointer flex items-center justify-between hover:border-mammut-gold transition-colors h-[38px]"
+          className={`w-full rounded p-2 text-sm cursor-pointer flex items-center justify-between transition-colors h-[38px] border ${
+            isLight ? 'bg-white border-zinc-300 text-black hover:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white hover:border-mammut-gold'
+          }`}
         >
           <div className="flex items-center gap-3">
              {activeOpt && activeOpt.swatchUrl ? (
-                <div className="w-5 h-5 rounded-sm border border-gray-600 shadow-inner" style={{ backgroundImage: `url(${activeOpt.swatchUrl})`, backgroundSize: 'cover' }}></div>
+                <div className={`w-5 h-5 rounded-sm border shadow-inner ${isLight ? 'border-zinc-300' : 'border-gray-600'}`} style={{ backgroundImage: `url(${activeOpt.swatchUrl})`, backgroundSize: 'cover' }}></div>
              ) : (
-                <div className="w-5 h-5 rounded-sm border border-gray-600 shadow-inner bg-gray-800"></div>
+                <div className={`w-5 h-5 rounded-sm border shadow-inner ${isLight ? 'border-zinc-300 bg-zinc-100' : 'border-gray-600 bg-gray-800'}`}></div>
              )}
              <span>{activeOpt ? `${activeOpt.code} - ${activeOpt.name}` : '-- Default --'}</span>
           </div>
@@ -2456,29 +2756,37 @@ export function DebugPricing() {
         {isOpen && (
           <>
             <div className="fixed inset-0 z-30" onClick={() => setIsOpen(false)}></div>
-            <div className="absolute top-full left-0 mt-1 w-full bg-mammut-dark border border-gray-700 rounded-lg shadow-2xl z-40 max-h-[300px] overflow-y-auto">
+            <div className={`absolute top-full left-0 mt-1 w-full border rounded-lg shadow-2xl z-40 max-h-[300px] overflow-y-auto ${
+              isLight ? 'bg-white border-zinc-300 text-black shadow-lg' : 'bg-mammut-dark border-gray-700 text-mammut-white shadow-2xl'
+            }`}>
               <div 
                 onClick={() => { onChange(''); setIsOpen(false); }} 
-                className="p-2 hover:bg-mammut-gold/20 cursor-pointer flex items-center gap-3 border-b border-gray-800 text-sm"
+                className={`p-2 cursor-pointer flex items-center gap-3 border-b text-sm ${
+                  isLight ? 'hover:bg-zinc-100 border-zinc-200' : 'hover:bg-mammut-gold/20 border-gray-800'
+                }`}
               >
-                 <div className="w-5 h-5 rounded-sm border border-gray-600 shadow-inner bg-gray-800"></div>
+                 <div className={`w-5 h-5 rounded-sm border shadow-inner ${isLight ? 'border-zinc-300 bg-zinc-105' : 'border-gray-600 bg-gray-800'}`}></div>
                  <span>-- Default --</span>
               </div>
               {Object.entries(groupedOptions).map(([group, opts]: any) => (
                 <div key={group}>
-                  <div className="p-1 px-2 bg-mammut-black text-[10px] text-mammut-gold font-bold uppercase tracking-wide border-y border-gray-800 sticky top-0 z-10 shadow-sm">
+                  <div className={`p-1 px-2 text-[10px] font-bold uppercase tracking-wide border-y sticky top-0 z-10 shadow-sm ${
+                    isLight ? 'bg-zinc-50 border-zinc-200 text-zinc-600' : 'bg-mammut-black border-gray-800 text-mammut-gold'
+                  }`}>
                     {group}
                   </div>
                   {opts.map((opt: any) => (
                     <div 
                       key={opt.code} 
                       onClick={() => { onChange(opt.code); setIsOpen(false); }} 
-                      className="p-2 hover:bg-mammut-gold/20 cursor-pointer flex items-center gap-3 border-b border-gray-800 transition-colors text-sm"
+                      className={`p-2 cursor-pointer flex items-center gap-3 border-b transition-colors text-sm ${
+                        isLight ? 'hover:bg-zinc-100 border-zinc-200' : 'hover:bg-mammut-gold/20 border-gray-800'
+                      }`}
                     >
                        {opt.swatchUrl ? (
-                         <div className="w-5 h-5 rounded-sm border border-gray-600 shadow-inner shrink-0" style={{ backgroundImage: `url(${opt.swatchUrl})`, backgroundSize: 'cover' }}></div>
+                         <div className={`w-5 h-5 rounded-sm border shadow-inner shrink-0 ${isLight ? 'border-zinc-300' : 'border-gray-600'}`} style={{ backgroundImage: `url(${opt.swatchUrl})`, backgroundSize: 'cover' }}></div>
                        ) : (
-                         <div className="w-5 h-5 rounded-sm border border-gray-600 shadow-inner shrink-0 bg-gray-800"></div>
+                         <div className={`w-5 h-5 rounded-sm border shadow-inner shrink-0 ${isLight ? 'border-zinc-300 bg-zinc-100' : 'border-gray-600 bg-gray-800'}`}></div>
                        )}
                        <div className="flex flex-col">
                          <span>{opt.code} - {opt.name}</span>
@@ -2537,48 +2845,105 @@ export function DebugPricing() {
     return `${dowels}, ${grilles}, ${gasket}`;
   };
 
-  const renderVisualizer = (isDrawer: boolean) => {
-    // WebGL context collision prevention:
-    // If it's a mobile viewport and we are rendering for the drawer but the drawer is closed, return null.
-    // If it's a mobile viewport and we are rendering for the main page options but the drawer is open, return a placeholder.
-    if (isMobile) {
-      if (isDrawer && !isPreviewDrawerOpen) return null;
-      if (!isDrawer && isPreviewDrawerOpen) {
-        return (
-          <div className="w-full aspect-square border border-gray-800 rounded-lg bg-gray-900 flex items-center justify-center p-4 text-gray-500 font-bold text-xs">
-            {t('configurator.visualizer.renderingInDrawer', 'Rendering in Preview Drawer...')}
-          </div>
-        );
-      }
-    } else {
-      if (isDrawer) return null;
-    }
-
+  const renderVisualizer = () => {
     return (
       <div className="w-full mt-2">
         {(['F100', 'F101', 'F102', 'F103', 'F104', 'F105', 'F106'].includes(typology)) ? (
-          <div className="w-full aspect-square border border-gray-800 rounded-lg bg-gray-900 flex items-center justify-center pt-12 pb-[48px] pl-[48px] pr-2 md:pt-14 md:pb-[65px] md:pl-[65px] md:pr-4 overflow-hidden shadow-inner relative group">
+          <div className={`visualizer-container w-full aspect-square rounded-lg flex items-center justify-center pt-12 pb-[48px] pl-[48px] pr-2 md:pt-14 md:pb-[65px] md:pl-[65px] md:pr-4 overflow-hidden shadow-inner relative group border ${
+            isLight ? 'bg-slate-100 border-slate-200' : 'bg-gray-900 border-gray-800'
+          }`}>
              {/* 3D Toggle */}
              <div className="absolute top-2 left-2 z-30 bg-black/50 p-1 rounded flex items-center gap-2">
-                <button onClick={() => setIs3dMode(false)} className={`px-2 py-1 text-xs font-bold rounded ${!is3dMode ? 'bg-mammut-gold text-black' : 'text-gray-400'}`}>2D</button>
-                <button onClick={() => setIs3dMode(true)} className={`px-2 py-1 text-xs font-bold rounded ${is3dMode ? 'bg-mammut-gold text-black' : 'text-gray-400'}`}>3D</button>
+                <button onClick={() => setIs3dMode(false)} className={`px-2 py-1 text-xs font-bold rounded ${!is3dMode ? 'bg-mammut-gold text-black' : (isLight ? 'text-slate-500 hover:text-black' : 'text-gray-400')}`}>2D</button>
+                <button onClick={() => setIs3dMode(true)} className={`px-2 py-1 text-xs font-bold rounded ${is3dMode ? 'bg-mammut-gold text-black' : (isLight ? 'text-slate-500 hover:text-black' : 'text-gray-400')}`}>3D</button>
+                {is3dMode && (
+                  <>
+                    <div className="w-[1px] h-4 bg-gray-800 mx-1"></div>
+                    <button 
+                      onClick={handleDownload} 
+                      className="p-1 text-gray-400 hover:text-mammut-gold transition-colors flex items-center justify-center"
+                      title="Download snapshot"
+                    >
+                      <Download size={14} />
+                    </button>
+                    <button 
+                      onClick={handleShare} 
+                      className="p-1 text-gray-400 hover:text-mammut-gold transition-colors flex items-center justify-center"
+                      title="Share configuration"
+                    >
+                      <Share2 size={14} />
+                    </button>
+                    <label 
+                      className="p-1 !text-gray-400 hover:!text-mammut-gold transition-colors flex items-center justify-center cursor-pointer"
+                      title="Upload photo / Use Camera"
+                    >
+                      <Camera size={14} />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (event) => {
+                              const dataUrl = event.target?.result as string;
+                              setCustomBackground(dataUrl);
+                              setScenery('custom');
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                      />
+                    </label>
+                    {customBackground && (
+                      <button 
+                        onClick={() => {
+                          setCustomBackground(null);
+                          if (scenery === 'custom') {
+                            setScenery('studio-grey');
+                          }
+                        }}
+                        className="p-1 text-red-400 hover:text-red-300 transition-colors flex items-center justify-center"
+                        title="Remove custom background"
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    )}
+                  </>
+                )}
              </div>
 
              {/* Inside/Outside View Side Toggle (Move inside visualizer frame & hide in 3D Mode) */}
              {!is3dMode && (
-               <div className="absolute top-2 right-2 z-30 flex bg-black/50 rounded p-1 border border-gray-800 shadow-xl gap-1">
-                  <button 
-                    onClick={() => setViewSide('interior')}
-                    className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded transition-colors ${viewSide === 'interior' ? 'bg-mammut-gold text-black' : 'text-gray-400 hover:text-white'}`}
-                  >
-                    {t('configurator.viewSide.inside', 'Inside')}
-                  </button>
-                  <button 
-                    onClick={() => setViewSide('exterior')}
-                    className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded transition-colors ${viewSide === 'exterior' ? 'bg-mammut-gold text-black' : 'text-gray-400 hover:text-white'}`}
-                  >
-                    {t('configurator.viewSide.outside', 'Outside')}
-                  </button>
+                <div className="absolute top-2 right-2 z-30 flex bg-black/50 rounded p-1 border border-gray-800 shadow-xl gap-1">
+                   <button 
+                     onClick={() => setViewSide('interior')}
+                     className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded transition-colors ${viewSide === 'interior' ? 'bg-mammut-gold text-black' : 'text-gray-400 hover:text-white'}`}
+                   >
+                     {t('configurator.viewSide.inside', 'Inside')}
+                   </button>
+                   <button 
+                     onClick={() => setViewSide('exterior')}
+                     className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded transition-colors ${viewSide === 'exterior' ? 'bg-mammut-gold text-black' : 'text-gray-400 hover:text-white'}`}
+                   >
+                     {t('configurator.viewSide.outside', 'Outside')}
+                   </button>
+                </div>
+             )}
+
+             {/* 3D Navigation Hint (Centered curved arrows + "3D" text) */}
+             {is3dMode && (
+               <div className="absolute bottom-14 md:bottom-20 left-1/2 -translate-x-1/2 pointer-events-none z-20 transition-opacity duration-500 opacity-100 group-hover:opacity-0 nav-hint select-none">
+                 <div className="bg-black/60 border border-white/10 rounded-full p-2 flex flex-col items-center justify-center shadow-2xl backdrop-blur-sm">
+                   <svg viewBox="0 0 100 50" className="w-10 h-5 text-gray-400 animate-pulse opacity-90">
+                     {/* Curved double-ended arrow */}
+                     <path d="M 15,35 C 25,47 75,47 85,35" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+                     <path d="M 80,38 L 85,35 L 83,29" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                     <path d="M 20,38 L 15,35 L 17,29" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                     <text x="50" y="24" fontFamily="Montserrat, sans-serif" fontSize="22" fontWeight="900" textAnchor="middle" fill="currentColor">3D</text>
+                   </svg>
+                 </div>
                </div>
              )}
 
@@ -2610,75 +2975,306 @@ export function DebugPricing() {
                 />
              </div>
 
-             {/* AR Buttons - always visible in 3D mode */}
+             {/* Scenery Selector - always visible in 3D mode */}
              {is3dMode && (
-                 <div 
-                   ref={arMenuRef}
-                   className="absolute bottom-3 right-3 md:bottom-4 md:right-4 z-35 flex items-center justify-end"
-                   onMouseEnter={() => setArMenuOpen(true)}
-                   onMouseLeave={() => setArMenuOpen(false)}
-                 >
-                    <div className={`flex items-center bg-mammut-black/90 border border-gray-800 backdrop-blur-md rounded-xl shadow-lg transition-all duration-300 ${
-                      arMenuOpen ? 'max-w-[320px] px-2 py-1.5 gap-2' : 'max-w-[44px] px-0.5 py-0.5'
-                    } overflow-hidden`}>
+                  <div 
+                    ref={sceneryMenuRef}
+                    className={`absolute bottom-3 md:bottom-4 md:right-18 z-35 flex flex-col gap-2 ${
+                      isSceneryMenuOpen 
+                        ? 'left-3 right-3 items-center' 
+                        : 'right-15 items-end'
+                    } md:left-auto md:right-18 md:items-end`}
+                  >
+                     <div className={`flex items-center bg-mammut-black/90 border border-gray-800 backdrop-blur-md rounded-2xl shadow-lg transition-all duration-300 ${
+                       isSceneryMenuOpen 
+                         ? 'w-full md:w-auto max-w-[700px] p-3 md:p-4 gap-4 justify-between md:justify-start' 
+                         : 'max-w-[44px] max-h-[44px] px-0.5 py-0.5 overflow-hidden'
+                     }`}>
                       
-                      {/* Expanded options */}
-                      {arMenuOpen && (
-                        <div className="flex items-center gap-1.5 whitespace-nowrap">
-                          {/* AR Wall button */}
-                          <button 
-                            onClick={() => {
-                              setArPlacement('wall');
-                              setArMenuOpen(false);
-                            }} 
-                            className="h-9 flex items-center gap-1.5 px-3 bg-white/5 hover:bg-mammut-gold hover:text-black text-mammut-gold rounded-lg transition-all active:scale-95 cursor-pointer text-[10px] font-black uppercase tracking-wider"
-                            title="AR Wall"
-                          >
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M6 3v18l12-3V6L6 3z" fill="currentColor" fillOpacity={0.1} />
-                              <path d="M6 8l12-1.5M6 13l12-2M6 17l12-2.5" strokeOpacity={0.4} />
-                            </svg>
-                            Wall
-                          </button>
+                      {/* Expanded Scenery Groups */}
+                      {isSceneryMenuOpen && (
+                        <div className="flex flex-nowrap overflow-x-auto scrollbar-none items-start justify-start gap-4 text-xs select-none w-full py-1">
+                          {/* Studio Category */}
+                          <div className="flex flex-col gap-1 items-center border-r border-gray-800 pr-4 shrink-0">
+                            <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">Studio</span>
+                            <div className="flex gap-2">
+                              <button 
+                                onClick={() => { setScenery('studio-grey'); setIsSceneryMenuOpen(false); }}
+                                className={`w-24 h-24 rounded-xl bg-slate-300 transition-all active:scale-95 cursor-pointer ${
+                                  scenery === 'studio-grey' 
+                                    ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
+                                    : ''
+                                }`}
+                                title="Studio Grey"
+                              />
+                              <button 
+                                onClick={() => { setScenery('studio-dark'); setIsSceneryMenuOpen(false); }}
+                                className={`w-24 h-24 rounded-xl bg-zinc-800 transition-all active:scale-95 cursor-pointer ${
+                                  scenery === 'studio-dark' 
+                                    ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
+                                    : ''
+                                }`}
+                                title="Dark Studio"
+                              />
+                            </div>
+                          </div>
 
-                          {/* AR Floor button */}
-                          <button 
-                            onClick={() => {
-                              setArPlacement('floor');
-                              setArMenuOpen(false);
-                            }} 
-                            className="h-9 flex items-center gap-1.5 px-3 bg-white/5 hover:bg-white hover:text-black text-white rounded-lg transition-all active:scale-95 cursor-pointer text-[10px] font-black uppercase tracking-wider"
-                            title="AR Floor"
-                          >
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M4 18h16l-3-8H7l-3 8z" fill="currentColor" fillOpacity={0.1} />
-                              <path d="M10 10l-2.5 8M14 10l2.5 8M6.5 13.5h11" strokeOpacity={0.4} />
-                            </svg>
-                            Floor
-                          </button>
+                          {/* Home Category (Wall Cutouts) */}
+                          <div className="flex flex-col gap-1 items-center border-r border-gray-800 pr-4 shrink-0">
+                            <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">Home</span>
+                            <div className="flex gap-2">
+                              <button 
+                                onClick={() => { setScenery('modern-minimalist'); setIsSceneryMenuOpen(false); }}
+                                className={`w-24 h-24 rounded-xl bg-slate-100 transition-all active:scale-95 relative overflow-hidden cursor-pointer ${
+                                  scenery === 'modern-minimalist' 
+                                    ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
+                                    : ''
+                                }`}
+                                title="Modern Plaster Wall"
+                              >
+                                <div className="absolute inset-0 bg-cover" style={{ backgroundImage: "url('/assets/scenery/concrete_wall.png')" }} />
+                              </button>
+                              <button 
+                                onClick={() => { setScenery('warm-nordic'); setIsSceneryMenuOpen(false); }}
+                                className={`w-24 h-24 rounded-xl bg-orange-200 transition-all active:scale-95 relative overflow-hidden cursor-pointer ${
+                                  scenery === 'warm-nordic' 
+                                    ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
+                                    : ''
+                                }`}
+                                title="Nordic Wood Planking"
+                              >
+                                <div className="absolute inset-0 bg-cover" style={{ backgroundImage: "url('/assets/scenery/wood_wall.png')" }} />
+                              </button>
+                              <button 
+                                onClick={() => { setScenery('industrial-loft'); setIsSceneryMenuOpen(false); }}
+                                className={`w-24 h-24 rounded-xl bg-red-800 transition-all active:scale-95 relative overflow-hidden cursor-pointer ${
+                                  scenery === 'industrial-loft' 
+                                    ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
+                                    : ''
+                                }`}
+                                title="Industrial Brick Wall"
+                              >
+                                <div className="absolute inset-0 bg-cover" style={{ backgroundImage: "url('/assets/scenery/brick_wall.png')" }} />
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Nature Category */}
+                          <div className="flex flex-col gap-1 items-center border-r border-gray-800 pr-4 shrink-0">
+                            <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">Nature</span>
+                            <div className="flex gap-2">
+                              <button 
+                                onClick={() => { setScenery('suburban-garden'); setIsSceneryMenuOpen(false); }}
+                                className={`w-24 h-24 rounded-xl bg-emerald-500 transition-all active:scale-95 relative overflow-hidden cursor-pointer ${
+                                  scenery === 'suburban-garden' 
+                                    ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
+                                    : ''
+                                }`}
+                                title="Suburban Garden"
+                              >
+                                <div className="absolute inset-0 bg-cover" style={{ backgroundImage: "url('/assets/scenery/garden_backdrop.png')" }} />
+                              </button>
+                              <button 
+                                onClick={() => { setScenery('nordic-forest'); setIsSceneryMenuOpen(false); }}
+                                className={`w-24 h-24 rounded-xl bg-teal-800 transition-all active:scale-95 relative overflow-hidden cursor-pointer ${
+                                  scenery === 'nordic-forest' 
+                                    ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
+                                    : ''
+                                }`}
+                                title="Nordic Forest"
+                              >
+                                <div className="absolute inset-0 bg-cover" style={{ backgroundImage: "url('/assets/scenery/forest_backdrop.png')" }} />
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* City Category */}
+                          <div className="flex flex-col gap-1 items-center border-r border-gray-800 pr-4 shrink-0">
+                            <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">City</span>
+                            <div className="flex gap-2">
+                              <button 
+                                onClick={() => { setScenery('urban-skyline'); setIsSceneryMenuOpen(false); }}
+                                className={`w-24 h-24 rounded-xl bg-purple-700 transition-all active:scale-95 relative overflow-hidden cursor-pointer ${
+                                  scenery === 'urban-skyline' 
+                                    ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
+                                    : ''
+                                }`}
+                                title="Urban Skyline"
+                              >
+                                <div className="absolute inset-0 bg-cover" style={{ backgroundImage: "url('/assets/scenery/skyline_backdrop.png')" }} />
+                              </button>
+                              <button 
+                                onClick={() => { setScenery('coastal-mediterranean'); setIsSceneryMenuOpen(false); }}
+                                className={`w-24 h-24 rounded-xl bg-sky-400 transition-all active:scale-95 relative overflow-hidden cursor-pointer ${
+                                  scenery === 'coastal-mediterranean' 
+                                    ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
+                                    : ''
+                                }`}
+                                title="Coastal Sea"
+                              >
+                                <div className="absolute inset-0 bg-cover" style={{ backgroundImage: "url('/assets/scenery/coastal_backdrop.png')" }} />
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Custom Category */}
+                          <div className="flex flex-col gap-1 items-center shrink-0">
+                            <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">Custom</span>
+                            <div className="flex gap-2">
+                              <label 
+                                className={`w-24 h-24 rounded-xl flex items-center justify-center transition-all active:scale-95 cursor-pointer relative overflow-hidden ${
+                                  scenery === 'custom' 
+                                    ? 'bg-mammut-gold/20 text-mammut-gold scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
+                                    : 'bg-transparent text-gray-400 hover:text-white'
+                                }`}
+                                title="Upload Custom Photo / Use Camera"
+                              >
+                                {customBackground ? (
+                                  <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${customBackground})` }} />
+                                ) : (
+                                  <Camera size={48} strokeWidth={2.5} />
+                                )}
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  className="hidden"
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                      const reader = new FileReader();
+                                      reader.onload = (event) => {
+                                        const dataUrl = event.target?.result as string;
+                                        setCustomBackground(dataUrl);
+                                        setScenery('custom');
+                                        setIsSceneryMenuOpen(false);
+                                      };
+                                      reader.readAsDataURL(file);
+                                    }
+                                  }}
+                                />
+                              </label>
+                              <button
+                                onClick={() => {
+                                  setScenery('studio-grey');
+                                  setCustomBackground(null);
+                                  setIsSceneryMenuOpen(false);
+                                }}
+                                className="w-24 h-24 rounded-xl bg-transparent text-gray-400 hover:text-white flex items-center justify-center transition-all active:scale-95 cursor-pointer"
+                                title="Reset scenery to default"
+                              >
+                                <RotateCcw size={48} strokeWidth={2.5} />
+                              </button>
+                              {customBackground && (
+                                <button
+                                  onClick={() => {
+                                    setCustomBackground(null);
+                                    if (scenery === 'custom') {
+                                      setScenery('studio-grey');
+                                    }
+                                    setIsSceneryMenuOpen(false);
+                                  }}
+                                  className="w-24 h-24 rounded-xl bg-transparent text-red-400 hover:text-red-300 flex items-center justify-center transition-all active:scale-95 cursor-pointer"
+                                  title="Remove custom background"
+                                >
+                                  <Trash2 size={48} strokeWidth={2.5} />
+                                </button>
+                              )}
+                            </div>
+                          </div>
                         </div>
                       )}
 
-                      {/* Main AR Trigger button */}
+                      {/* Main Landscape Trigger button */}
                       <button 
-                        onClick={() => setArMenuOpen(prev => !prev)} 
+                        onClick={() => setIsSceneryMenuOpen(prev => !prev)} 
                         className={`w-9 h-9 flex items-center justify-center rounded-lg transition-all active:scale-90 cursor-pointer shrink-0 ${
-                          arMenuOpen 
+                          isSceneryMenuOpen 
                             ? 'bg-white/10 text-white hover:bg-white/20' 
-                            : 'bg-transparent text-mammut-gold hover:bg-mammut-gold hover:text-black'
+                            : 'bg-transparent text-gray-400 hover:bg-mammut-gold hover:text-black'
                         }`}
-                        title="AR Preview Options"
+                        title="Environment Scenery Options"
                       >
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
-                          <path d="M12 2L2 7l10 5 10-5-10-5z" fill="currentColor" fillOpacity={0.1} />
-                          <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
-                          <path d="M2 7v10M12 12v10M22 7v10" />
+                        {/* Landscape Mountains & Sun SVG icon */}
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5">
+                          <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                          <circle cx="8.5" cy="8.5" r="1.5" />
+                          <polyline points="21 15 16 10 5 21" />
                         </svg>
                       </button>
                       
                     </div>
-                 </div>
+                  </div>
               )}
+
+             {/* AR Buttons - always visible in 3D mode */}
+             {is3dMode && (
+                  <div 
+                    ref={arMenuRef}
+                    className="absolute bottom-3 right-3 md:bottom-4 md:right-4 z-35 flex items-center justify-end"
+                    onMouseEnter={() => setArMenuOpen(true)}
+                    onMouseLeave={() => setArMenuOpen(false)}
+                  >
+                     <div className={`flex items-center bg-mammut-black/90 border border-gray-800 backdrop-blur-md rounded-xl shadow-lg transition-all duration-300 ${
+                       arMenuOpen ? 'max-w-[320px] px-2 py-1.5 gap-2' : 'max-w-[44px] px-0.5 py-0.5'
+                     } overflow-hidden`}>
+                       
+                       {/* Expanded options */}
+                       {arMenuOpen && (
+                         <div className="flex items-center gap-1.5 whitespace-nowrap">
+                           {/* AR Wall button */}
+                           <button 
+                             onClick={() => {
+                               setArPlacement('wall');
+                               setArMenuOpen(false);
+                             }} 
+                             className="h-9 flex items-center gap-1.5 px-3 bg-white/5 hover:bg-mammut-gold hover:text-black text-mammut-gold rounded-lg transition-all active:scale-95 cursor-pointer text-[10px] font-black uppercase tracking-wider"
+                             title="AR Wall"
+                           >
+                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
+                               <path strokeLinecap="round" strokeLinejoin="round" d="M6 3v18l12-3V6L6 3z" fill="currentColor" fillOpacity={0.1} />
+                               <path d="M6 8l12-1.5M6 13l12-2M6 17l12-2.5" strokeOpacity={0.4} />
+                             </svg>
+                             Wall
+                           </button>
+
+                           {/* AR Floor button */}
+                           <button 
+                             onClick={() => {
+                               setArPlacement('floor');
+                               setArMenuOpen(false);
+                             }} 
+                             className="h-9 flex items-center gap-1.5 px-3 bg-white/5 hover:bg-white hover:text-black text-white rounded-lg transition-all active:scale-95 cursor-pointer text-[10px] font-black uppercase tracking-wider"
+                             title="AR Floor"
+                           >
+                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
+                               <path strokeLinecap="round" strokeLinejoin="round" d="M4 18h16l-3-8H7l-3 8z" fill="currentColor" fillOpacity={0.1} />
+                               <path d="M10 10l-2.5 8M14 10l2.5 8M6.5 13.5h11" strokeOpacity={0.4} />
+                             </svg>
+                             Floor
+                           </button>
+                         </div>
+                       )}
+
+                       {/* Main AR Trigger button */}
+                       <button 
+                         onClick={() => setArMenuOpen(prev => !prev)} 
+                         className={`w-9 h-9 flex items-center justify-center rounded-lg transition-all active:scale-90 cursor-pointer shrink-0 ${
+                           arMenuOpen 
+                             ? 'bg-white/10 text-white hover:bg-white/20' 
+                             : 'bg-transparent text-gray-400 hover:bg-mammut-gold hover:text-black'
+                         }`}
+                         title="AR Preview Options"
+                       >
+                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
+                           <path d="M12 2L2 7l10 5 10-5-10-5z" fill="currentColor" fillOpacity={0.1} />
+                           <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
+                           <path d="M2 7v10M12 12v10M22 7v10" />
+                         </svg>
+                       </button>
+                       
+                     </div>
+                  </div>
+             )}
 
              {is3dMode ? (
                 <ThreejsWindowEngine 
@@ -2692,6 +3288,8 @@ export function DebugPricing() {
                   onSceneReady={setSceneGroup}
                   typology={typology}
                   sealColor={sealColor}
+                  scenery={scenery}
+                  customBackground={customBackground || undefined}
                 />
              ) : (
                 <SvgWindowEngine 
@@ -2716,8 +3314,35 @@ export function DebugPricing() {
   };
 
   const renderLeftColumn = () => {
+    if (isLight) {
+      // Day Mode: horizontal tab strip, rendered inside the right panel above accordions
+      return (
+        <div className="flex flex-row gap-1 overflow-x-auto scrollbar-none border-b border-gray-200 pb-3">
+          {DRUTEX_CATEGORIES.map(cat => {
+            const Icon = cat.icon;
+            const isActive = activeCategory === cat.id;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`group flex flex-col items-center gap-1 px-3 py-2 rounded-lg text-[10px] font-semibold uppercase transition-all shrink-0 whitespace-nowrap ${
+                  isActive
+                    ? 'border-b-2 border-black text-black rounded-none pb-2'
+                    : 'text-slate-400 hover:text-slate-700 border-b-2 border-transparent pb-2'
+                }`}
+              >
+                <Icon size={22} className={isActive ? 'text-black' : 'text-slate-400 group-hover:text-slate-600'} />
+                <span className="tracking-wider">{cat.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      );
+    }
+
+    // Dark Mode: original vertical left column
     return (
-      <div className="bg-mammut-darker p-4 rounded-xl border border-gray-800 shadow-2xl flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-y-auto max-h-[85vh] md:max-h-[85vh] shrink-0 scrollbar-none snap-x snap-mandatory">
+      <div className="p-4 rounded-xl flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-y-auto md:max-h-[85vh] shrink-0 scrollbar-none snap-x snap-mandatory border shadow-2xl bg-mammut-darker border-gray-800">
         {DRUTEX_CATEGORIES.map(cat => {
           const Icon = cat.icon;
           const isActive = activeCategory === cat.id;
@@ -2725,14 +3350,16 @@ export function DebugPricing() {
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`flex items-center gap-4 px-4 py-3 rounded text-sm font-bold uppercase transition-colors shrink-0 snap-start whitespace-nowrap md:whitespace-normal ${
-                isActive 
-                  ? 'bg-mammut-black border border-mammut-gold text-mammut-white shadow-inner' 
+              className={`group flex items-center gap-0 md:gap-4 p-3 md:px-4 md:py-3 rounded text-sm font-bold uppercase transition-all shrink-0 snap-start whitespace-nowrap md:whitespace-normal ${
+                isActive
+                  ? 'bg-mammut-black border border-mammut-gold text-mammut-white shadow-inner'
                   : 'bg-transparent text-gray-500 hover:text-mammut-white hover:bg-mammut-black'
               }`}
             >
-              <Icon size={20} className={isActive ? 'text-mammut-gold' : 'text-gray-500'} />
-              <span className="text-left text-[11px] tracking-wide leading-tight">{cat.label}</span>
+              <Icon size={40} className={isActive ? 'text-mammut-gold' : 'text-gray-500'} />
+              <span className="hidden md:block group-hover:block text-left text-[11px] tracking-wide leading-tight ml-0 group-hover:ml-2 md:ml-0">
+                {cat.label}
+              </span>
             </button>
           );
         })}
@@ -2741,123 +3368,111 @@ export function DebugPricing() {
   };
 
   const renderRightColumn = () => {
+    const sysName = PRODUCT_CATEGORIES
+      .flatMap(c => c.subgroups.flatMap(sg => sg.options))
+      .find(o => o.val === profilsatz)?.label || profilsatz;
+
+    const euroPrice = result
+      ? (result.currency === 'EUR' ? result.vk_local : (result.currency === 'PLN' ? result.vk_local / 4.3 : result.vk_local))
+      : 0;
+
+    // Both light and dark mode render the full Cantor pricing panel on desktop
+
     return (
-      <div className="flex flex-col gap-6 max-h-[85vh]">
-        {/* Pricing Summary Card */}
-        <div className="bg-gradient-to-br from-gray-900 to-black rounded-xl border border-mammut-gold/30 shadow-lg p-6 font-mono shrink-0">
-          <div className="border-b border-gray-800 pb-3 mb-3">
-            <h1 className="text-xl font-bold text-mammut-gold uppercase tracking-tighter">Cantor Pricing Engine</h1>
-            <p className="text-[10px] text-gray-500 mt-1">Live calculation via SCHEMA 41 PREISE rules</p>
-          </div>
-
-          {loading && <div className="text-gray-500 text-sm py-4">Evaluating formulas...</div>}
-          {error && <div className="text-red-400 text-sm py-4">Error: {error}</div>}
-          {result && !error && (
-            <>
-              <div className="flex justify-between items-baseline pb-2">
-                <span className="text-xs text-gray-500 uppercase tracking-widest">SCHEMA 41 base (EK)</span>
-                <span className="text-lg text-gray-300">{result.ek_pln.toFixed(2)} PLN</span>
-              </div>
-              <div className="flex justify-between items-baseline pb-3 border-b border-gray-800">
-                <span className="text-xs text-gray-500 uppercase tracking-widest">PREISZYK × FAKTOR {result.faktor}</span>
-                <span className="text-lg text-gray-300">{result.vk_pln.toFixed(2)} PLN</span>
-              </div>
-              <div className="flex justify-between items-center pt-3">
-                <span className="text-mammut-white font-bold tracking-widest uppercase">Dealer price ({result.currency}):</span>
-                <span className="text-3xl text-emerald-400 font-black">{result.vk_local.toFixed(2)}</span>
-              </div>
-            </>
-          )}
-        </div>
-
-        {/* Pricing Ledger Card */}
-        <div className="bg-white text-black p-6 rounded-xl shadow-2xl font-mono text-xs overflow-y-auto flex-1">
-          <div className="border-b-2 border-black pb-2 mb-4 sticky top-0 bg-white z-10">
-            <h2 className="text-lg font-bold uppercase tracking-tighter">SCHEMA 41 ledger</h2>
-            <div className="text-gray-500 mt-1 text-[10px]">One row per PREISE formula. GRPRS accumulates.</div>
-          </div>
-
-          {result && !error && (
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b-2 border-black">
-                  <th className="py-1 pr-2">#</th>
-                  <th className="py-1 pr-2">Description</th>
-                  <th className="py-1 pr-2">Gruppe</th>
-                  <th className="py-1 text-right">Value</th>
-                </tr>
-              </thead>
-              <tbody>
-                {result.lines.map((l, i) => (
-                  <tr key={i} className={`border-b border-gray-200 ${l.value !== 0 ? 'font-bold' : 'text-gray-400'}`}>
-                    <td className="py-1 pr-2">{i + 1}</td>
-                    <td className="py-1 pr-2">{l.formelText ?? '(no label)'}</td>
-                    <td className="py-1 pr-2">{l.preisgruppe ?? '—'}</td>
-                    <td className="py-1 text-right">{l.value.toFixed(2)}</td>
-                  </tr>
-                ))}
-                <tr className="border-t-2 border-black font-black">
-                  <td colSpan={3} className="py-2">GRPRS total (EK PLN)</td>
-                  <td className="py-2 text-right">{result.ek_pln.toFixed(2)}</td>
-                </tr>
-              </tbody>
-            </table>
-          )}
-          {!result && !error && !loading && <div className="text-gray-500">Waiting for first response...</div>}
-        </div>
-      </div>
-    );
-  };
-
-  const renderMobileDrawer = () => {
-    if (!isMobile) return null;
-    return (
-      <div 
-        className={`fixed inset-x-0 bottom-0 z-50 bg-mammut-darker/95 backdrop-blur-md border-t border-gray-800 rounded-t-3xl shadow-2xl transition-transform duration-300 transform flex flex-col ${
-          isPreviewDrawerOpen ? 'translate-y-0 h-[65vh]' : 'translate-y-full h-[0vh]'
-        }`}
-      >
-        {/* Drag/Close Handle */}
-        <div className="w-full py-3 flex flex-col items-center cursor-pointer border-b border-gray-850" onClick={() => setIsPreviewDrawerOpen(false)}>
-          <div className="w-12 h-1.5 bg-gray-700 rounded-full mb-1"></div>
-          <span className="text-[10px] text-gray-500 uppercase tracking-widest font-black">Close Preview</span>
-        </div>
-        
-        <div className="flex-1 overflow-y-auto p-4 flex flex-col items-center justify-between">
-          <div className="w-full flex-1 flex items-center justify-center min-h-[300px]">
-            {renderVisualizer(true)}
-          </div>
-          
-          <div className="w-full bg-mammut-black/60 rounded-xl p-3 border border-gray-850 flex items-center justify-between mt-4">
-            <div className="flex flex-col">
-              <span className="text-[10px] text-mammut-gold font-bold uppercase tracking-wider">{typology}</span>
-              <span className="text-xs text-gray-400 mt-0.5">{width} × {height} mm</span>
+      <div className="flex flex-col gap-6">
+        {/* Mobile-only Pricing Card */}
+        <div className="flex md:hidden flex-col gap-6">
+          <div className="rounded-xl p-6 font-mono border transition-all bg-gradient-to-br from-gray-900 to-black border-mammut-gold/30 shadow-lg">
+            <div className="border-b pb-3 mb-3 border-gray-800">
+              <h1 className="text-xl font-bold uppercase tracking-tighter text-mammut-gold">{sysName}</h1>
+              <p className="text-[10px] mt-1 text-gray-500">Configured Profile System</p>
             </div>
-            <span className="text-lg font-black text-emerald-400 font-mono">
-              {result ? `${result.vk_local.toFixed(2)} ${result.currency}` : '---'}
-            </span>
+            {loading && <div className="text-gray-500 text-sm py-4">Evaluating price...</div>}
+            {error && <div className="text-red-400 text-sm py-4">Error: {error}</div>}
+            {result && !error && (
+              <>
+                <div className="flex justify-between items-baseline pb-2">
+                  <span className="text-xs uppercase tracking-widest text-gray-500">Model & Size</span>
+                  <span className="text-sm text-gray-300">{typology} ({width} × {height} mm)</span>
+                </div>
+                <div className="flex justify-between items-center pt-3 border-t border-gray-800">
+                  <span className="font-bold tracking-widest uppercase text-mammut-white">Price:</span>
+                  <span className="text-3xl font-black text-emerald-400">{euroPrice.toFixed(2)} €</span>
+                </div>
+              </>
+            )}
           </div>
         </div>
-      </div>
-    );
-  };
 
-  const renderStickyBottomBar = () => {
-    if (!isMobile) return null;
-    return (
-      <div className="fixed bottom-0 inset-x-0 bg-mammut-black/95 backdrop-blur-md border-t border-gray-800 px-6 py-4 z-40 flex items-center justify-between shadow-2xl h-[76px]">
-        <div className="flex flex-col">
-          <span className="text-[9px] text-gray-500 uppercase tracking-widest leading-none font-bold">Total Dealer Price</span>
-          <span className="text-xl font-black text-emerald-450 font-mono mt-1 leading-none">
-            {loading ? '...' : result ? `${result.vk_local.toFixed(2)} ${result.currency}` : '---'}
-          </span>
+        {/* Desktop-only Cards */}
+        <div className="hidden md:flex flex-col gap-6 md:max-h-[85vh] flex-1">
+          {/* Pricing Summary Card */}
+          <div className={`rounded-xl p-6 font-mono shrink-0 border transition-all ${
+            isLight ? 'bg-white border-zinc-200 shadow-sm text-black' : 'bg-gradient-to-br from-gray-900 to-black border-mammut-gold/30 shadow-lg'
+          }`}>
+            <div className={`border-b pb-3 mb-3 ${isLight ? 'border-zinc-200' : 'border-gray-800'}`}>
+              <h1 className={`text-xl font-bold uppercase tracking-tighter ${isLight ? 'text-black' : 'text-mammut-gold'}`}>Cantor Pricing Engine</h1>
+              <p className={`text-[10px] mt-1 ${isLight ? 'text-zinc-500' : 'text-gray-500'}`}>Live calculation via SCHEMA 41 PREISE rules</p>
+            </div>
+
+            {loading && <div className={`${isLight ? 'text-zinc-450' : 'text-gray-500'} text-sm py-4`}>Evaluating formulas...</div>}
+            {error && <div className="text-red-400 text-sm py-4">Error: {error}</div>}
+            {result && !error && (
+              <>
+                <div className="flex justify-between items-baseline pb-2">
+                  <span className={`text-xs uppercase tracking-widest ${isLight ? 'text-zinc-500' : 'text-gray-500'}`}>SCHEMA 41 base (EK)</span>
+                  <span className={`text-lg ${isLight ? 'text-zinc-800' : 'text-gray-300'}`}>{result.ek_pln.toFixed(2)} PLN</span>
+                </div>
+                <div className={`flex justify-between items-baseline pb-3 border-b ${isLight ? 'border-zinc-200' : 'border-gray-800'}`}>
+                  <span className={`text-xs uppercase tracking-widest ${isLight ? 'text-zinc-500' : 'text-gray-500'}`}>PREISZYK × FAKTOR {result.faktor}</span>
+                  <span className={`text-lg ${isLight ? 'text-zinc-800' : 'text-gray-300'}`}>{result.vk_pln.toFixed(2)} PLN</span>
+                </div>
+                <div className="flex justify-between items-center pt-3">
+                  <span className={`font-bold tracking-widest uppercase ${isLight ? 'text-black' : 'text-mammut-white'}`}>Dealer price ({result.currency}):</span>
+                  <span className={`text-3xl font-black ${isLight ? 'text-black' : 'text-emerald-400'}`}>{result.vk_local.toFixed(2)}</span>
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Pricing Ledger Card */}
+          <div className={`p-6 rounded-xl font-mono text-xs md:overflow-y-auto flex-1 border transition-all ${
+            isLight ? 'bg-white border-zinc-200 shadow-sm text-black' : 'bg-white text-black shadow-2xl'
+          }`}>
+            <div className={`border-b-2 pb-2 mb-4 sticky top-0 z-10 ${isLight ? 'bg-white border-black' : 'bg-white border-black'}`}>
+              <h2 className="text-lg font-bold uppercase tracking-tighter">SCHEMA 41 ledger</h2>
+              <div className="text-gray-500 mt-1 text-[10px]">One row per PREISE formula. GRPRS accumulates.</div>
+            </div>
+
+            {result && !error && (
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b-2 border-black">
+                    <th className="py-1 pr-2">#</th>
+                    <th className="py-1 pr-2">Description</th>
+                    <th className="py-1 pr-2">Gruppe</th>
+                    <th className="py-1 text-right">Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {result.lines.map((l, i) => (
+                    <tr key={i} className={`border-b border-gray-200 ${l.value !== 0 ? 'font-bold' : 'text-gray-400'}`}>
+                      <td className="py-1 pr-2">{i + 1}</td>
+                      <td className="py-1 pr-2">{l.formelText ?? '(no label)'}</td>
+                      <td className="py-1 pr-2">{l.preisgruppe ?? '—'}</td>
+                      <td className="py-1 text-right">{l.value.toFixed(2)}</td>
+                    </tr>
+                  ))}
+                  <tr className="border-t-2 border-black font-black">
+                    <td colSpan={3} className="py-2">GRPRS total (EK PLN)</td>
+                    <td className="py-2 text-right">{result.ek_pln.toFixed(2)}</td>
+                  </tr>
+                </tbody>
+              </table>
+            )}
+            {!result && !error && !loading && <div className="text-gray-500">Waiting for first response...</div>}
+          </div>
         </div>
-        <button 
-          onClick={() => setIsPreviewDrawerOpen(!isPreviewDrawerOpen)}
-          className="bg-mammut-gold hover:bg-mammut-gold/90 text-black font-black px-6 py-3 rounded-xl text-xs uppercase tracking-widest transition-all active:scale-95 shadow-lg border border-mammut-gold"
-        >
-          {isPreviewDrawerOpen ? 'Close Design' : 'View Design'}
-        </button>
       </div>
     );
   };
@@ -2881,37 +3496,9 @@ export function DebugPricing() {
       { code: 'szary/czar', name: 'Out Grey / In Black' }
     ];
 
-    return (
-      <div className="bg-mammut-darker p-4 sm:p-6 rounded-xl border border-gray-800 shadow-2xl flex flex-col gap-4 sm:gap-6 overflow-y-auto max-h-[85vh]">
-        <div className="border-b border-gray-800 pb-4">
-          <h2 className="text-mammut-gold font-bold text-xl uppercase">{t('configurator.options.title', 'Configurator Options')}</h2>
-          <p className="text-xs text-gray-500 mt-1">{sysName} — {typology}</p>
-        </div>
-
-        {/* Profile Image & Visualizer Row */}
-        <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8 mb-4 relative pt-2 md:pt-0">
-          {/* Profile cross-section image */}
-          <div className="h-24 md:h-32 flex-none md:flex-1 flex justify-center md:justify-end w-full md:w-auto">
-            <img 
-              src={`/assets/profiles/${PROFILE_IMAGE_MAP[profilsatz] || profilsatz}.png`} 
-              alt={profilsatz} 
-              className="max-h-24 md:max-h-32 object-contain"
-              onError={(e) => { 
-                e.currentTarget.style.display = 'none'; 
-                if (!e.currentTarget.parentElement?.querySelector('.fallback')) {
-                  e.currentTarget.parentElement!.innerHTML += `<div class="fallback h-24 md:h-32 w-48 flex items-center justify-center border border-gray-800 rounded bg-mammut-black text-gray-500 font-bold text-xs">${profilsatz}</div>`;
-                }
-              }}
-            />
-          </div>
-          
-          <div className="text-gray-650 font-bold text-2xl hidden md:block">+</div>
-
-          {/* Visualizer window rendering */}
-          <div className="w-full md:flex-[2] flex flex-col justify-center items-center max-w-lg md:max-w-sm relative">
-            {renderVisualizer(false)}
-          </div>
-        </div>
+    if (isLight) {
+      return (
+        <div className="flex flex-col gap-4 sm:gap-5">
 
         {/* The 6 Collapsible Accordions */}
         <div className="space-y-2">
@@ -2927,10 +3514,12 @@ export function DebugPricing() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {/* Product opening/type Selector */}
               <div className="relative">
-                <label className="block text-xs font-bold mb-1.5 text-gray-400 uppercase tracking-wide">Product Number</label>
+                <label className={`block text-xs font-bold mb-1.5 uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Product Number</label>
                 <div 
                   onClick={() => setIsTypologyOpen(!isTypologyOpen)}
-                  className="w-full bg-mammut-black border border-gray-800 rounded-xl p-3 text-mammut-white cursor-pointer flex items-center justify-between hover:border-mammut-gold transition-colors h-[54px]"
+                  className={`w-full rounded-xl p-3 cursor-pointer flex items-center justify-between transition-colors h-[54px] border ${
+                    isLight ? 'bg-white border-zinc-300 text-black hover:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white hover:border-mammut-gold'
+                  }`}
                 >
                   <div className="flex items-center gap-3">
                      <TypologyThumbnail 
@@ -2945,13 +3534,17 @@ export function DebugPricing() {
                 {isTypologyOpen && (
                   <>
                     <div className="fixed inset-0 z-40 bg-black/60 md:bg-transparent" onClick={() => setIsTypologyOpen(false)}></div>
-                    <div className="fixed md:absolute top-1/2 md:top-full left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 w-[92vw] md:w-[380px] mt-1 bg-mammut-dark border border-gray-700 rounded-2xl shadow-2xl z-50 p-4 flex flex-col gap-3">
-                      <div className="flex justify-between items-center border-b border-gray-850 pb-2 mb-1">
-                        <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Select Window Type</span>
+                    <div className={`fixed md:absolute top-1/2 md:top-full left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 w-[92vw] md:w-[380px] mt-1 rounded-2xl shadow-2xl p-4 flex flex-col gap-3 border z-50 ${
+                      isLight ? 'bg-white border-zinc-300 text-black shadow-lg' : 'bg-mammut-dark border-gray-700 text-mammut-white shadow-2xl'
+                    }`}>
+                      <div className={`flex justify-between items-center border-b pb-2 mb-1 ${isLight ? 'border-zinc-200' : 'border-gray-850'}`}>
+                        <span className={`text-[10px] font-bold uppercase tracking-widest ${isLight ? 'text-zinc-550' : 'text-gray-400'}`}>Select Window Type</span>
                         <button 
                           type="button"
                           onClick={() => setIsTypologyOpen(false)}
-                          className="text-gray-500 hover:text-white transition-colors cursor-pointer text-sm font-bold p-1 leading-none select-none"
+                          className={`transition-colors cursor-pointer text-sm font-bold p-1 leading-none select-none ${
+                            isLight ? 'text-zinc-400 hover:text-black' : 'text-gray-500 hover:text-white'
+                          }`}
                           title="Close"
                         >
                           ✕
@@ -2970,18 +3563,22 @@ export function DebugPricing() {
                           id="closeOnSelectCheckbox"
                           checked={closeOnSelect}
                           onChange={(e) => setCloseOnSelect(e.target.checked)}
-                          className="w-4 h-4 rounded border-gray-700 bg-mammut-black text-mammut-gold focus:ring-mammut-gold focus:ring-offset-0 cursor-pointer accent-mammut-gold"
+                          className={`w-4 h-4 rounded cursor-pointer accent-black ${
+                            isLight ? 'border-zinc-300 bg-white' : 'border-gray-700 bg-mammut-black focus:ring-mammut-gold'
+                          }`}
                         />
                         <label 
                           htmlFor="closeOnSelectCheckbox" 
-                          className="text-xs text-gray-300 font-semibold cursor-pointer select-none"
+                          className={`text-xs font-semibold cursor-pointer select-none ${isLight ? 'text-zinc-700' : 'text-gray-300'}`}
                         >
                           {t('configurator.state.closeOnSelect')}
                         </label>
                       </div>
                       <button 
                         onClick={() => setIsTypologyOpen(false)}
-                        className="w-full bg-mammut-gold hover:bg-[#ffc882] text-mammut-black font-black uppercase text-[11px] tracking-wider py-3 rounded-xl transition-all cursor-pointer shadow-md hover:scale-[1.02] active:scale-[0.98]"
+                        className={`w-full font-black uppercase text-[11px] tracking-wider py-3 rounded-xl transition-all cursor-pointer shadow-md hover:scale-[1.02] active:scale-[0.98] ${
+                          isLight ? 'bg-black text-white hover:bg-zinc-800' : 'bg-mammut-gold text-mammut-black hover:bg-[#ffc882]'
+                        }`}
                       >
                         Confirm
                       </button>
@@ -2992,8 +3589,10 @@ export function DebugPricing() {
 
               {/* Profile System Dropdown */}
               <div>
-                <label className="block text-xs font-bold mb-1.5 text-gray-400 uppercase tracking-wide">Profile System</label>
-                <select className="w-full bg-mammut-black border border-gray-800 rounded-xl p-3 text-mammut-white focus:border-mammut-gold focus:outline-none h-[54px] text-sm"
+                <label className={`block text-xs font-bold mb-1.5 uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Profile System</label>
+                <select className={`w-full rounded-xl p-3 focus:outline-none h-[54px] text-sm border ${
+                  isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+                }`}
                   value={profilsatz} onChange={e => setProfilsatz(e.target.value)}>
                   {PRODUCT_CATEGORIES.filter(c => c.group === activeCategory).map((category) => (
                     category.subgroups.map((subgroup, subgroupIndex) => (
@@ -3046,8 +3645,19 @@ export function DebugPricing() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                 <div className="flex items-center">
-                  <label className="flex items-center gap-3 text-sm text-gray-300 cursor-pointer select-none">
-                    <input type="checkbox" checked={overwriteCoreColor} onChange={e => setOverwriteCoreColor(e.target.checked)} className="rounded border-gray-700 bg-mammut-black text-mammut-gold focus:ring-[#eab676] w-4.5 h-4.5" />
+                  <label className={`flex items-center gap-3 text-sm cursor-pointer select-none ${
+                    isLight ? 'text-zinc-800' : 'text-gray-300'
+                  }`}>
+                    <input 
+                      type="checkbox" 
+                      checked={overwriteCoreColor} 
+                      onChange={e => setOverwriteCoreColor(e.target.checked)} 
+                      className={`w-4.5 h-4.5 rounded cursor-pointer transition-colors ${
+                        isLight 
+                          ? 'border-zinc-300 bg-white text-black accent-black focus:ring-black' 
+                          : 'border-gray-700 bg-mammut-black text-mammut-gold focus:ring-[#eab676]'
+                      }`} 
+                    />
                     Overwrite core color
                   </label>
                 </div>
@@ -3077,15 +3687,19 @@ export function DebugPricing() {
               const schemaPkg = CONFIG_SCHEMA.glazing.find(g => g.id === inf.code);
               const isFixed = !!schemaPkg?.fixedPanes;
               return (
-                <div key={infillIdx} className="border border-gray-800/80 rounded-xl p-4 bg-mammut-black/20 space-y-4">
-                  <div className="font-bold text-xs text-mammut-gold uppercase tracking-wider">
+                <div key={infillIdx} className={`border rounded-xl p-4 space-y-4 transition-colors ${
+                  isLight ? 'border-zinc-200 bg-zinc-50/50' : 'border-gray-800/80 bg-mammut-black/20'
+                }`}>
+                  <div className={`font-bold text-xs uppercase tracking-wider ${isLight ? 'text-black' : 'text-mammut-gold'}`}>
                     Infill {typology.match(/^F2[0-5][0-9]$/) ? infillIdx + 1 : ''}
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-bold mb-1.5 text-gray-400 uppercase tracking-wide">Package Code</label>
-                      <select className="w-full bg-mammut-black border border-gray-800 rounded-xl p-3 text-mammut-white focus:border-mammut-gold focus:outline-none text-sm h-[50px]"
+                      <label className={`block text-xs font-bold mb-1.5 uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Package Code</label>
+                      <select className={`w-full rounded-xl p-3 text-sm h-[50px] focus:outline-none border transition-colors ${
+                        isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+                      }`}
                         value={inf.code} onChange={e => {
                           const newCode = e.target.value;
                           const newInf = [...infills];
@@ -3115,29 +3729,29 @@ export function DebugPricing() {
                         }}>
                         <optgroup label="Standard Glazing">
                           {CONFIG_SCHEMA.glazing
-                            .filter(g => g.group !== 'Non Glazing' && g.group !== 'Fixed Pane Packages')
-                            .filter(g => {
-                              const limits = PROFILE_GLAZING_LIMITS[profilsatz] || PROFILE_GLAZING_LIMITS['DEFAULT'];
-                              return limits.packages.includes(g.id);
-                            })
-                            .map(g => (
-                              <option key={g.id} value={g.id}>{g.id} ({g.name})</option>
+                             .filter(g => g.group !== 'Non Glazing' && g.group !== 'Fixed Pane Packages')
+                             .filter(g => {
+                               const limits = PROFILE_GLAZING_LIMITS[profilsatz] || PROFILE_GLAZING_LIMITS['DEFAULT'];
+                               return limits.packages.includes(g.id);
+                             })
+                             .map(g => (
+                               <option key={g.id} value={g.id}>{g.id} ({g.name})</option>
                           ))}
                         </optgroup>
                         <optgroup label="Fixed Pane Packages">
                           {CONFIG_SCHEMA.glazing
-                            .filter(g => g.group === 'Fixed Pane Packages')
-                            .filter(g => {
-                              const limits = PROFILE_GLAZING_LIMITS[profilsatz] || PROFILE_GLAZING_LIMITS['DEFAULT'];
-                              return limits.packages.includes(g.id);
-                            })
-                            .map(g => (
-                              <option key={g.id} value={g.id}>{g.id} ({g.name})</option>
+                             .filter(g => g.group === 'Fixed Pane Packages')
+                             .filter(g => {
+                               const limits = PROFILE_GLAZING_LIMITS[profilsatz] || PROFILE_GLAZING_LIMITS['DEFAULT'];
+                               return limits.packages.includes(g.id);
+                             })
+                             .map(g => (
+                               <option key={g.id} value={g.id}>{g.id} ({g.name})</option>
                           ))}
                         </optgroup>
                         <optgroup label="Non Glazing / Blinds">
                           {CONFIG_SCHEMA.glazing.filter(g => g.group === 'Non Glazing').map(g => (
-                              <option key={g.id} value={g.id}>{g.id} ({g.name})</option>
+                               <option key={g.id} value={g.id}>{g.id} ({g.name})</option>
                           ))}
                         </optgroup>
                       </select>
@@ -3146,13 +3760,17 @@ export function DebugPricing() {
                     {typology.match(/^F2[0-5][0-9]$/) && (
                       <div className="grid grid-cols-2 gap-3">
                         <div>
-                          <label className="block text-xs font-bold mb-1.5 text-gray-400 uppercase tracking-wide">Width (mm)</label>
-                          <input type="number" className="w-full bg-mammut-black border border-gray-800 rounded-xl p-3 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none h-[50px]"
+                          <label className={`block text-xs font-bold mb-1.5 uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Width (mm)</label>
+                          <input type="number" className={`w-full rounded-xl p-3 text-sm h-[50px] focus:outline-none border transition-colors ${
+                            isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+                          }`}
                             value={inf.width} onChange={e => updateInf('width', e.target.value)} placeholder="Auto" />
                         </div>
                         <div>
-                          <label className="block text-xs font-bold mb-1.5 text-gray-400 uppercase tracking-wide">Height (mm)</label>
-                          <input type="number" className="w-full bg-mammut-black border border-gray-800 rounded-xl p-3 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none h-[50px]"
+                          <label className={`block text-xs font-bold mb-1.5 uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Height (mm)</label>
+                          <input type="number" className={`w-full rounded-xl p-3 text-sm h-[50px] focus:outline-none border transition-colors ${
+                            isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+                          }`}
                             value={inf.height} onChange={e => updateInf('height', e.target.value)} placeholder="Auto" />
                         </div>
                       </div>
@@ -3162,15 +3780,19 @@ export function DebugPricing() {
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     {/* Glass Outside */}
                     <div className="flex flex-col gap-1.5">
-                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide">Glass Outside</label>
+                      <label className={`block text-xs font-bold uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Glass Outside</label>
                       <div className="flex gap-2">
-                        <select disabled={isFixed} className="flex-1 bg-mammut-black border border-gray-800 rounded-xl p-2.5 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none disabled:opacity-50 h-[46px]"
+                        <select disabled={isFixed} className={`flex-1 rounded-xl p-2.5 text-sm focus:outline-none disabled:opacity-50 h-[46px] border transition-colors ${
+                          isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+                        }`}
                           value={inf.pane1} onChange={e => updateInf('pane1', e.target.value)}>
                           <option value="">-- None --</option>
                           {glazingOptions.outside.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
                         </select>
                         {inf.pane1 && (
-                          <div className="w-[46px] h-[46px] bg-white border border-gray-800 rounded-xl overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-inner">
+                          <div className={`w-[46px] h-[46px] bg-white rounded-xl overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-inner border transition-colors ${
+                            isLight ? 'border-zinc-200' : 'border-gray-800'
+                          }`}>
                             <img src={`/assets/glass/thumbs/${getPaneImage(inf.pane1)}`} alt={inf.pane1} className="max-h-full max-w-full object-cover mix-blend-multiply" />
                           </div>
                         )}
@@ -3180,15 +3802,19 @@ export function DebugPricing() {
                     {/* Glass Middle */}
                     {inf.code.startsWith('3-') && (
                       <div className="flex flex-col gap-1.5">
-                        <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide">Glass Middle</label>
+                        <label className={`block text-xs font-bold uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Glass Middle</label>
                         <div className="flex gap-2">
-                          <select disabled={isFixed} className="flex-1 bg-mammut-black border border-gray-800 rounded-xl p-2.5 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none disabled:opacity-50 h-[46px]"
+                          <select disabled={isFixed} className={`flex-1 rounded-xl p-2.5 text-sm focus:outline-none disabled:opacity-50 h-[46px] border transition-colors ${
+                            isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+                          }`}
                             value={inf.pane2} onChange={e => updateInf('pane2', e.target.value)}>
                             <option value="">-- None --</option>
                             {glazingOptions.middle.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
                           </select>
                           {inf.pane2 && (
-                            <div className="w-[46px] h-[46px] bg-white border border-gray-800 rounded-xl overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-inner">
+                            <div className={`w-[46px] h-[46px] bg-white rounded-xl overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-inner border transition-colors ${
+                              isLight ? 'border-zinc-200' : 'border-gray-800'
+                            }`}>
                               <img src={`/assets/glass/thumbs/${getPaneImage(inf.pane2)}`} alt={inf.pane2} className="max-h-full max-w-full object-cover mix-blend-multiply" />
                             </div>
                           )}
@@ -3198,15 +3824,19 @@ export function DebugPricing() {
 
                     {/* Glass Inside */}
                     <div className="flex flex-col gap-1.5">
-                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide">Glass Inside</label>
+                      <label className={`block text-xs font-bold uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Glass Inside</label>
                       <div className="flex gap-2">
-                        <select disabled={isFixed} className="flex-1 bg-mammut-black border border-gray-800 rounded-xl p-2.5 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none disabled:opacity-50 h-[46px]"
+                        <select disabled={isFixed} className={`flex-1 rounded-xl p-2.5 text-sm focus:outline-none disabled:opacity-50 h-[46px] border transition-colors ${
+                          isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+                        }`}
                           value={inf.pane3} onChange={e => updateInf('pane3', e.target.value)}>
                           <option value="">-- None --</option>
                           {glazingOptions.inside.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
                         </select>
                         {inf.pane3 && (
-                          <div className="w-[46px] h-[46px] bg-white border border-gray-800 rounded-xl overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-inner">
+                          <div className={`w-[46px] h-[46px] bg-white rounded-xl overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-inner border transition-colors ${
+                            isLight ? 'border-zinc-200' : 'border-gray-800'
+                          }`}>
                             <img src={`/assets/glass/thumbs/${getPaneImage(inf.pane3)}`} alt={inf.pane3} className="max-h-full max-w-full object-cover mix-blend-multiply" />
                           </div>
                         )}
@@ -3276,7 +3906,9 @@ export function DebugPricing() {
                     ]}
                   />
                   {weld && (
-                    <div className="bg-white border border-gray-800 rounded-xl overflow-hidden flex items-center justify-center p-1 w-32 h-20 self-start shadow-inner">
+                    <div className={`bg-white rounded-xl overflow-hidden flex items-center justify-center p-1 w-32 h-20 self-start shadow-inner border transition-colors ${
+                      isLight ? 'border-zinc-200' : 'border-gray-800'
+                    }`}>
                       <img src={`/assets/welds/${weld}_weld.png`} alt={weld} className="max-h-full max-w-full object-contain mix-blend-multiply" />
                     </div>
                   )}
@@ -3293,7 +3925,9 @@ export function DebugPricing() {
                     ]}
                   />
                   {glazingBeadStyle && (
-                    <div className="bg-white border border-gray-800 rounded-xl overflow-hidden flex items-center justify-center p-1 w-32 h-20 self-start shadow-inner">
+                    <div className={`bg-white rounded-xl overflow-hidden flex items-center justify-center p-1 w-32 h-20 self-start shadow-inner border transition-colors ${
+                      isLight ? 'border-zinc-200' : 'border-gray-800'
+                    }`}>
                       <img src={`/assets/beads/bead_${glazingBeadStyle}.png`} alt={glazingBeadStyle} className="max-h-full max-w-full object-contain mix-blend-multiply" />
                     </div>
                   )}
@@ -3333,21 +3967,27 @@ export function DebugPricing() {
               </div>
 
               {/* Hardware, Handles details dropdowns */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-gray-800/60 pt-4">
+              <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 border-t pt-4 transition-colors ${
+                isLight ? 'border-zinc-200' : 'border-gray-800/60'
+              }`}>
                 <GenericSelect label="Hardware System" value={hardwareSystem} onChange={setHardwareSystem} />
                 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-bold mb-1.5 text-gray-400 uppercase tracking-wide">Handle Color</label>
-                    <select className="w-full bg-mammut-black border border-gray-800 rounded-xl p-3 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none h-[50px]"
+                    <label className={`block text-xs font-bold mb-1.5 uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Handle Color</label>
+                    <select className={`w-full rounded-xl p-3 text-sm h-[50px] focus:outline-none border transition-colors ${
+                      isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+                    }`}
                       value={handleColor} onChange={e => setHandleColor(e.target.value)}>
                        <option value="">-- Default --</option>
                        {(HANDLE_COLOR_MAP[handleType] || []).map(c => <option key={c} value={c}>{HANDLE_COLOR_OPTIONS[c] || c}</option>)}
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-bold mb-1.5 text-gray-400 uppercase tracking-wide">Covers Color</label>
-                    <select className="w-full bg-mammut-black border border-gray-800 rounded-xl p-3 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none h-[50px]"
+                    <label className={`block text-xs font-bold mb-1.5 uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Covers Color</label>
+                    <select className={`w-full rounded-xl p-3 text-sm h-[50px] focus:outline-none border transition-colors ${
+                      isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+                    }`}
                       value={coverColor} onChange={e => setCoverColor(e.target.value)}>
                        <option value="">-- Default --</option>
                        {Object.entries(COVER_COLOR_OPTIONS).map(([code, name]) => <option key={code} value={code}>{name}</option>)}
@@ -3379,8 +4019,19 @@ export function DebugPricing() {
             onToggle={() => setActiveAccordion(activeAccordion === 'shutters' ? null : 'shutters')}
           >
             <div className="space-y-4">
-              <label className="flex items-center gap-3 text-sm text-gray-300 cursor-pointer select-none pb-2 border-b border-gray-800">
-                <input type="checkbox" className="w-5 h-5 accent-[#eab676]" checked={includeShutter} onChange={e => setIncludeShutter(e.target.checked)} />
+              <label className={`flex items-center gap-3 text-sm cursor-pointer select-none pb-2 border-b transition-colors ${
+                isLight ? 'text-zinc-800 border-zinc-200' : 'text-gray-300 border-gray-800'
+              }`}>
+                <input 
+                  type="checkbox" 
+                  className={`w-5 h-5 cursor-pointer transition-colors ${
+                    isLight 
+                      ? 'border-zinc-300 bg-white text-black accent-black focus:ring-black' 
+                      : 'accent-[#eab676]'
+                  }`} 
+                  checked={includeShutter} 
+                  onChange={e => setIncludeShutter(e.target.checked)} 
+                />
                 Include Roller Shutter System
               </label>
 
@@ -3392,7 +4043,9 @@ export function DebugPricing() {
                     <GenericSelect label="Window Screen Location" value={windowScreenLocation} onChange={setWindowScreenLocation} options={shutterLookups.windowScreenLocations} />
                   )}
                   
-                  <div className="col-span-1 sm:col-span-2 border-t border-gray-800/60 my-2"></div>
+                  <div className={`col-span-1 sm:col-span-2 border-t my-2 transition-colors ${
+                    isLight ? 'border-zinc-200' : 'border-gray-800/60'
+                  }`}></div>
                   
                   <GenericSelect label="Curtain Type" value={curtainType} onChange={setCurtainType} options={shutterLookups.curtainTypes} />
                   <GenericSelect label="Fins Perforation" value={finsPerforation} onChange={setFinsPerforation} options={shutterLookups.finsPerforations} />
@@ -3401,20 +4054,35 @@ export function DebugPricing() {
                   <ColorSelect label="Bottom Slat Color" value={bottomSlatColor} onChange={setBottomSlatColor} groupedOptions={groupedColors} />
                   <ColorSelect label="Screen Bottom Slat Color" value={windowScreenBottomSlatColor} onChange={setWindowScreenBottomSlatColor} groupedOptions={groupedColors} />
                   
-                  <div className="col-span-1 sm:col-span-2 border-t border-gray-800/60 my-2"></div>
+                  <div className={`col-span-1 sm:col-span-2 border-t my-2 transition-colors ${
+                    isLight ? 'border-zinc-200' : 'border-gray-800/60'
+                  }`}></div>
 
                   <GenericSelect label="Drive Type" value={driveType} onChange={setDriveType} options={shutterLookups.driveTypes} />
                   <GenericSelect label="Control Side" value={controlSide} onChange={setControlSide} options={shutterLookups.controlSides} />
                   <GenericSelect label="Door Checks Type" value={doorChecksTypeI} onChange={setDoorChecksTypeI} options={shutterLookups.doorChecks} />
                   
                   <div className="flex items-center">
-                    <label className="flex items-center gap-3 text-sm text-gray-300 cursor-pointer select-none">
-                      <input type="checkbox" className="w-4.5 h-4.5 accent-[#eab676]" checked={imposeArbour} onChange={e => setImposeArbour(e.target.checked)} />
+                    <label className={`flex items-center gap-3 text-sm cursor-pointer select-none ${
+                      isLight ? 'text-zinc-800' : 'text-gray-300'
+                    }`}>
+                      <input 
+                        type="checkbox" 
+                        className={`w-4.5 h-4.5 rounded cursor-pointer transition-colors ${
+                          isLight 
+                            ? 'border-zinc-300 bg-white text-black accent-black focus:ring-black' 
+                            : 'accent-[#eab676]'
+                        }`} 
+                        checked={imposeArbour} 
+                        onChange={e => setImposeArbour(e.target.checked)} 
+                      />
                       Impose 60mm arbour
                     </label>
                   </div>
 
-                  <div className="col-span-1 sm:col-span-2 border-t border-gray-800/60 my-2"></div>
+                  <div className={`col-span-1 sm:col-span-2 border-t my-2 transition-colors ${
+                    isLight ? 'border-zinc-200' : 'border-gray-800/60'
+                  }`}></div>
 
                   <GenericSelect label="Box Type" value={boxType} onChange={setBoxType} options={shutterLookups.boxTypes} />
                   <ColorSelect label="Outer Box Color" value={outerBoxColor} onChange={setOuterBoxColor} groupedOptions={groupedColors} />
@@ -3422,8 +4090,19 @@ export function DebugPricing() {
                   <GenericSelect label="Plaster Carrier" value={plasterCarrier} onChange={setPlasterCarrier} options={shutterLookups.plasterCarriers} />
 
                   <div className="flex items-center">
-                    <label className="flex items-center gap-3 text-sm text-gray-300 cursor-pointer select-none">
-                      <input type="checkbox" className="w-4.5 h-4.5 accent-[#eab676]" checked={flushMountedSlatIn} onChange={e => setFlushMountedSlatIn(e.target.checked)} />
+                    <label className={`flex items-center gap-3 text-sm cursor-pointer select-none ${
+                      isLight ? 'text-zinc-800' : 'text-gray-300'
+                    }`}>
+                      <input 
+                        type="checkbox" 
+                        className={`w-4.5 h-4.5 rounded cursor-pointer transition-colors ${
+                          isLight 
+                            ? 'border-zinc-300 bg-white text-black accent-black focus:ring-black' 
+                            : 'accent-[#eab676]'
+                        }`} 
+                        checked={flushMountedSlatIn} 
+                        onChange={e => setFlushMountedSlatIn(e.target.checked)} 
+                      />
                       Flush-mounted Slat (In)
                     </label>
                   </div>
@@ -3432,8 +4111,19 @@ export function DebugPricing() {
                   )}
 
                   <div className="flex items-center">
-                    <label className="flex items-center gap-3 text-sm text-gray-300 cursor-pointer select-none">
-                      <input type="checkbox" className="w-4.5 h-4.5 accent-[#eab676]" checked={flushMountedSlatOut} onChange={e => setFlushMountedSlatOut(e.target.checked)} />
+                    <label className={`flex items-center gap-3 text-sm cursor-pointer select-none ${
+                      isLight ? 'text-zinc-800' : 'text-gray-300'
+                    }`}>
+                      <input 
+                        type="checkbox" 
+                        className={`w-4.5 h-4.5 rounded cursor-pointer transition-colors ${
+                          isLight 
+                            ? 'border-zinc-300 bg-white text-black accent-black focus:ring-black' 
+                            : 'accent-[#eab676]'
+                        }`} 
+                        checked={flushMountedSlatOut} 
+                        onChange={e => setFlushMountedSlatOut(e.target.checked)} 
+                      />
                       Flush-mounted Slat (Out)
                     </label>
                   </div>
@@ -3444,7 +4134,9 @@ export function DebugPricing() {
                   <GenericSelect label="Review / Inspection Slat" value={review} onChange={setReview} options={shutterLookups.reviews} />
                   <ColorSelect label="Side Cover Cap Color" value={sideCoverCapColor} onChange={setSideCoverCapColor} groupedOptions={groupedColors} />
 
-                  <div className="col-span-1 sm:col-span-2 border-t border-gray-800/60 my-2"></div>
+                  <div className={`col-span-1 sm:col-span-2 border-t my-2 transition-colors ${
+                    isLight ? 'border-zinc-200' : 'border-gray-800/60'
+                  }`}></div>
 
                   <ColorSelect label="Guide Rails Color" value={guideRailsColor} onChange={setGuideRailsColor} groupedOptions={groupedColors} />
                   <GenericSelect label="Guide Rails Cutting" value={guideRailsCutting} onChange={setGuideRailsCutting} options={shutterLookups.guideRailsCuttings} />
@@ -3453,12 +4145,34 @@ export function DebugPricing() {
                   <GenericSelect label="Guide Rails Type" value={guideRailsTypes} onChange={setGuideRailsTypes} options={shutterLookups.guideRailsTypes} />
 
                   <div className="col-span-1 sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
-                    <label className="flex items-center gap-3 text-sm text-gray-300 cursor-pointer select-none">
-                      <input type="checkbox" className="w-4.5 h-4.5 accent-[#eab676]" checked={guideRailGasketing} onChange={e => setGuideRailGasketing(e.target.checked)} />
+                    <label className={`flex items-center gap-3 text-sm cursor-pointer select-none ${
+                      isLight ? 'text-zinc-800' : 'text-gray-300'
+                    }`}>
+                      <input 
+                        type="checkbox" 
+                        className={`w-4.5 h-4.5 rounded cursor-pointer transition-colors ${
+                          isLight 
+                            ? 'border-zinc-300 bg-white text-black accent-black focus:ring-black' 
+                            : 'accent-[#eab676]'
+                        }`} 
+                        checked={guideRailGasketing} 
+                        onChange={e => setGuideRailGasketing(e.target.checked)} 
+                      />
                       Guide rail gasketing
                     </label>
-                    <label className="flex items-center gap-3 text-sm text-gray-300 cursor-pointer select-none">
-                      <input type="checkbox" className="w-4.5 h-4.5 accent-[#eab676]" checked={soundproofMat} onChange={e => setSoundproofMat(e.target.checked)} />
+                    <label className={`flex items-center gap-3 text-sm cursor-pointer select-none ${
+                      isLight ? 'text-zinc-800' : 'text-gray-300'
+                    }`}>
+                      <input 
+                        type="checkbox" 
+                        className={`w-4.5 h-4.5 rounded cursor-pointer transition-colors ${
+                          isLight 
+                            ? 'border-zinc-300 bg-white text-black accent-black focus:ring-black' 
+                            : 'accent-[#eab676]'
+                        }`} 
+                        checked={soundproofMat} 
+                        onChange={e => setSoundproofMat(e.target.checked)} 
+                      />
                       Soundproof mat + gasket
                     </label>
                   </div>
@@ -3478,8 +4192,10 @@ export function DebugPricing() {
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold mb-1.5 text-gray-400 uppercase tracking-wide">Dowel Holes</label>
-                  <select className="w-full bg-mammut-black border border-gray-800 rounded-xl p-3 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none h-[50px]"
+                  <label className={`block text-xs font-bold mb-1.5 uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>{t('dowelHoles', 'Dowel Holes')}</label>
+                  <select className={`w-full rounded-xl p-3 text-sm h-[50px] focus:outline-none border transition-colors ${
+                    isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+                  }`}
                     value={dowelHoles} onChange={e => setDowelHoles(e.target.value)}>
                      <option value="">Lack (-)</option>
                      <option value="O_06">6mm assembly holes (O_06)</option>
@@ -3491,22 +4207,58 @@ export function DebugPricing() {
 
                 {dowelHoles && (
                   <div className="flex flex-col gap-1.5 justify-end">
-                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide">Locations</label>
+                    <label className={`block text-xs font-bold uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Locations</label>
                     <div className="grid grid-cols-2 gap-2">
-                      <label className="flex items-center gap-2 text-sm text-gray-305 cursor-pointer">
-                        <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={dowelLeft} onChange={e => setDowelLeft(e.target.checked)} />
+                      <label className={`flex items-center gap-2 text-sm cursor-pointer select-none ${
+                        isLight ? 'text-zinc-800' : 'text-gray-350'
+                      }`}>
+                        <input 
+                          type="checkbox" 
+                          className={`w-4 h-4 rounded cursor-pointer transition-colors ${
+                            isLight ? 'border-zinc-300 bg-white text-black accent-black focus:ring-black' : 'accent-[#eab676]'
+                          }`} 
+                          checked={dowelLeft} 
+                          onChange={e => setDowelLeft(e.target.checked)} 
+                        />
                         Left
                       </label>
-                      <label className="flex items-center gap-2 text-sm text-gray-305 cursor-pointer">
-                        <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={dowelRight} onChange={e => setDowelRight(e.target.checked)} />
+                      <label className={`flex items-center gap-2 text-sm cursor-pointer select-none ${
+                        isLight ? 'text-zinc-800' : 'text-gray-350'
+                      }`}>
+                        <input 
+                          type="checkbox" 
+                          className={`w-4 h-4 rounded cursor-pointer transition-colors ${
+                            isLight ? 'border-zinc-300 bg-white text-black accent-black focus:ring-black' : 'accent-[#eab676]'
+                          }`} 
+                          checked={dowelRight} 
+                          onChange={e => setDowelRight(e.target.checked)} 
+                        />
                         Right
                       </label>
-                      <label className="flex items-center gap-2 text-sm text-gray-305 cursor-pointer">
-                        <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={dowelTop} onChange={e => setDowelTop(e.target.checked)} />
+                      <label className={`flex items-center gap-2 text-sm cursor-pointer select-none ${
+                        isLight ? 'text-zinc-800' : 'text-gray-350'
+                      }`}>
+                        <input 
+                          type="checkbox" 
+                          className={`w-4 h-4 rounded cursor-pointer transition-colors ${
+                            isLight ? 'border-zinc-300 bg-white text-black accent-black focus:ring-black' : 'accent-[#eab676]'
+                          }`} 
+                          checked={dowelTop} 
+                          onChange={e => setDowelTop(e.target.checked)} 
+                        />
                         Top
                       </label>
-                      <label className="flex items-center gap-2 text-sm text-gray-305 cursor-pointer">
-                        <input type="checkbox" className="w-4 h-4 accent-[#eab676]" checked={dowelBottom} onChange={e => setDowelBottom(e.target.checked)} />
+                      <label className={`flex items-center gap-2 text-sm cursor-pointer select-none ${
+                        isLight ? 'text-zinc-800' : 'text-gray-355'
+                      }`}>
+                        <input 
+                          type="checkbox" 
+                          className={`w-4 h-4 rounded cursor-pointer transition-colors ${
+                            isLight ? 'border-zinc-300 bg-white text-black accent-black focus:ring-black' : 'accent-[#eab676]'
+                          }`} 
+                          checked={dowelBottom} 
+                          onChange={e => setDowelBottom(e.target.checked)} 
+                        />
                         Bottom
                       </label>
                     </div>
@@ -3514,12 +4266,16 @@ export function DebugPricing() {
                 )}
               </div>
 
-              <div className="col-span-1 sm:col-span-2 border-t border-gray-800/60 my-2"></div>
+              <div className={`col-span-1 sm:col-span-2 border-t my-2 transition-colors ${
+                isLight ? 'border-zinc-200' : 'border-gray-800/60'
+              }`}></div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold mb-1.5 text-gray-400 uppercase tracking-wide">Grille Type</label>
-                  <select className="w-full bg-mammut-black border border-gray-800 rounded-xl p-3 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none h-[50px]"
+                  <label className={`block text-xs font-bold mb-1.5 uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Grille Type</label>
+                  <select className={`w-full rounded-xl p-3 text-sm h-[50px] focus:outline-none border transition-colors ${
+                    isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+                  }`}
                     value={grilleType} onChange={e => setGrilleType(e.target.value)}>
                      <option value="">None</option>
                      <optgroup label="Internal Grilles (Międzyszybowe)">
@@ -3535,8 +4291,10 @@ export function DebugPricing() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold mb-1.5 text-gray-400 uppercase tracking-wide">Number of Fields</label>
-                  <input type="number" className="w-full bg-mammut-black border border-gray-800 rounded-xl p-3 text-mammut-white text-sm focus:border-mammut-gold focus:outline-none h-[50px] disabled:opacity-50"
+                  <label className={`block text-xs font-bold mb-1.5 uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Number of Fields</label>
+                  <input type="number" className={`w-full rounded-xl p-3 text-sm h-[50px] focus:outline-none border disabled:opacity-50 transition-colors ${
+                    isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+                  }`}
                     value={grilleFields} onChange={e => setGrilleFields(Number(e.target.value))} disabled={!grilleType} min={1} max={30} />
                 </div>
               </div>
@@ -3545,28 +4303,215 @@ export function DebugPricing() {
 
         </div>
       </div>
+      );
+    }
+
+    // Dark mode: original bordered card wrapper
+    return (
+      <div className="p-4 sm:p-6 rounded-xl shadow-2xl flex flex-col gap-4 sm:gap-6 md:overflow-y-auto md:max-h-[85vh] border bg-mammut-darker border-gray-800">
+        <div className="border-b pb-4 border-gray-800">
+          <h2 className="font-bold text-xl uppercase text-mammut-gold">{t('configurator.options.title', 'Configurator Options')}</h2>
+          <p className="text-xs mt-1 text-gray-500">{sysName} — {typology}</p>
+        </div>
+
+        {/* Visualizer window rendering */}
+        <div className="w-full flex flex-col justify-center items-center relative">
+          {renderVisualizer()}
+        </div>
+
+        {/* The 6 Collapsible Accordions */}
+        <div className="space-y-2">
+          <AccordionSection
+            id="product"
+            title="1. Product & Dimensions"
+            summary={getProductSummary()}
+            isOpen={activeAccordion === 'product'}
+            onToggle={() => setActiveAccordion(activeAccordion === 'product' ? null : 'product')}
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="relative">
+                <label className="block text-xs font-bold mb-1.5 uppercase tracking-wide text-gray-400">Product Number</label>
+                <div
+                  onClick={() => setIsTypologyOpen(!isTypologyOpen)}
+                  className="w-full rounded-xl p-3 cursor-pointer flex items-center justify-between transition-colors h-[54px] border bg-mammut-black border-gray-800 text-mammut-white hover:border-mammut-gold"
+                >
+                  <div className="flex items-center gap-3">
+                    <TypologyThumbnail id={typology} className="w-8 h-8 object-contain rounded bg-white border border-gray-700 shrink-0 p-0.5" />
+                    <span className="font-bold text-sm">{typology}</span>
+                  </div>
+                  <span className="text-gray-500 text-xs">▼</span>
+                </div>
+                {isTypologyOpen && (
+                  <>
+                    <div className="fixed inset-0 z-40 bg-black/60" onClick={() => setIsTypologyOpen(false)}></div>
+                    <div className="fixed inset-x-4 top-[10vh] z-50 bg-mammut-dark border border-gray-700 rounded-2xl shadow-2xl p-4 max-h-[80vh] overflow-y-auto md:absolute md:inset-auto md:top-full md:left-0 md:w-full md:mt-1">
+                      <ScrollingDial
+                        value={typology}
+                        onChange={(val) => setTypology(val)}
+                        items={TYPOLOGY_GROUPS.flatMap(g => g.subgroups.flatMap(sg => sg.ids))}
+                        onConfirm={() => setIsTypologyOpen(false)}
+                        closeOnSelect={closeOnSelect}
+                      />
+                      <div className="flex items-center gap-2 px-1 py-0.5">
+                        <input type="checkbox" id="closeOnSelectCheckboxDark" checked={closeOnSelect} onChange={(e) => setCloseOnSelect(e.target.checked)} className="w-4 h-4 rounded cursor-pointer accent-[#eab676] border-gray-700 bg-mammut-black focus:ring-mammut-gold" />
+                        <label htmlFor="closeOnSelectCheckboxDark" className="text-xs font-semibold cursor-pointer select-none text-gray-300">{t('configurator.state.closeOnSelect')}</label>
+                      </div>
+                      <button onClick={() => setIsTypologyOpen(false)} className="w-full font-black uppercase text-[11px] tracking-wider py-3 rounded-xl transition-all cursor-pointer shadow-md hover:scale-[1.02] active:scale-[0.98] bg-mammut-gold text-mammut-black hover:bg-[#ffc882]">Confirm</button>
+                    </div>
+                  </>
+                )}
+              </div>
+              <div>
+                <label className="block text-xs font-bold mb-1.5 uppercase tracking-wide text-gray-400">Profile System</label>
+                <select className="w-full rounded-xl p-3 focus:outline-none h-[54px] text-sm border bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold" value={profilsatz} onChange={e => setProfilsatz(e.target.value)}>
+                  {PRODUCT_CATEGORIES.filter(c => c.group === activeCategory).map((category) => (
+                    category.subgroups.map((subgroup, subgroupIndex) => (
+                      <optgroup key={`${category.group}-${subgroupIndex}`} label={`${t('header.megaMenu.cats.' + category.group.toLowerCase().split(' ')[0], category.group)} — ${subgroup.name}`}>
+                        {subgroup.options.map(opt => (<option key={opt.val} value={opt.val}>{opt.val} — {opt.label}</option>))}
+                      </optgroup>
+                    ))
+                  ))}
+                </select>
+              </div>
+              <div className="col-span-1 sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <NumericScrollWheel label="Width (mm)" value={width} onChange={setWidth} min={500} max={3000} step={10} />
+                <NumericScrollWheel label="Height (mm)" value={height} onChange={setHeight} min={500} max={3000} step={10} />
+              </div>
+            </div>
+          </AccordionSection>
+        </div>
+      </div>
     );
   };
 
-  return (
-    <div className="min-h-screen bg-mammut-black text-mammut-white p-3 sm:p-6 pt-24 sm:pt-32 relative pb-[90px] md:pb-6">
-      {arPlacement && (
-         <ArViewer sceneGroup={sceneGroup?.group || null} placement={arPlacement} onClose={() => setArPlacement(null)} />
-      )}
-      <div className="absolute top-6 right-6">
-        <ThemeToggle />
+  const euroPrice = result
+    ? (result.currency === 'EUR' ? result.vk_local : (result.currency === 'PLN' ? result.vk_local / 4.3 : result.vk_local))
+    : 0;
+
+  const sysNameForFooter = PRODUCT_CATEGORIES
+    .flatMap(c => c.subgroups.flatMap(sg => sg.options))
+    .find(o => o.val === profilsatz)?.label || profilsatz;
+
+  if (isLight) {
+    return (
+      <div className="min-h-screen bg-slate-50 text-slate-900 antialiased relative">
+        <style dangerouslySetInnerHTML={{__html: `
+          /* Force the main container to day-mode */
+          .min-h-screen {
+            background-color: #f8fafc !important;
+            color: #0f172a !important;
+          }
+
+          /* Nuke any dark background on accordion wrapper divs */
+          div[class*="bg-mammut"],
+          div[class*="bg-black"],
+          div[class*="bg-neutral"],
+          div[class*="bg-slate-950"],
+          .bg-black,
+          [data-theme="dark"] .bg-black {
+            background-color: #ffffff !important;
+            border-color: #e2e8f0 !important;
+            color: #0f172a !important;
+          }
+
+          /* Force accordion headers, titles, labels legible */
+          div[class*="text-blue"],
+          span[class*="text-slate-400"],
+          h2, h3, label, p, span {
+            color: #1e293b !important;
+          }
+
+          /* Fix dropdowns and inputs for legibility */
+          select, input {
+            background-color: #f1f5f9 !important;
+            color: #0f172a !important;
+            border: 1px solid #cbd5e1 !important;
+          }
+        `}} />
+        {arPlacement && (
+          <ArViewer sceneGroup={sceneGroup?.group || null} placement={arPlacement} onClose={() => setArPlacement(null)} />
+        )}
+
+
+        {/* Split-view container — 3 columns on desktop: Visualizer | Config | Pricing */}
+        <div className="max-w-[1700px] mx-auto grid grid-cols-1 lg:grid-cols-[1fr_380px_340px] lg:gap-6 lg:px-6 lg:pt-6 pt-4 px-3">
+
+          {/* LEFT STICKY PILLAR — Visualizer */}
+          <div className="lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] flex flex-col">
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm flex-1 flex flex-col overflow-hidden">
+              {/* Visualizer header */}
+              <div className="px-6 pt-5 pb-4 border-b border-gray-100 flex items-center justify-between shrink-0">
+                <div>
+                  <p className="text-[10px] font-semibold tracking-[0.15em] text-slate-400 uppercase">Live Preview</p>
+                  <h1 className="text-xl font-bold text-slate-900 tracking-tight mt-0.5">{sysNameForFooter}</h1>
+                  <p className="text-xs text-slate-500 mt-0.5">{typology} — {width} × {height} mm</p>
+                </div>
+              </div>
+              {/* Visualizer canvas area */}
+              <div className="flex-1 flex flex-col justify-center items-center p-4 overflow-hidden">
+                {renderVisualizer()}
+              </div>
+            </div>
+          </div>
+
+          {/* CENTRE SCROLLABLE PANEL — Config Accordions */}
+          <div className="flex flex-col gap-4 overflow-y-auto lg:max-h-[calc(100vh-3rem)] pb-28 pt-4 lg:pt-0">
+            {/* Category tab strip */}
+            {renderLeftColumn()}
+
+            {/* Accordion sections */}
+            {renderMiddleColumn()}
+          </div>
+
+          {/* RIGHT STICKY PANEL — Cantor Pricing */}
+          <div className="hidden lg:flex flex-col gap-4 lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] overflow-y-auto pb-6">
+            {renderRightColumn()}
+          </div>
+
+        </div>
+
+        {/* STICKY BOTTOM PRICING FOOTER */}
+        <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-6 py-4 shadow-xl z-50">
+          <div className="max-w-[1700px] mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div className="flex flex-col">
+              <span className="text-[10px] font-semibold tracking-[0.15em] text-slate-400 uppercase">Estimated Total</span>
+              {loading && <span className="text-sm text-slate-400">Calculating…</span>}
+              {error && <span className="text-sm text-red-500">Price error</span>}
+              {!loading && !error && (
+                <div className="text-3xl font-black text-slate-900 leading-none mt-0.5">
+                  {euroPrice > 0 ? `${euroPrice.toFixed(2)} €` : '—'}
+                </div>
+              )}
+            </div>
+            <div className="flex gap-3 w-full sm:w-auto">
+              <button
+                onClick={() => navigator.share?.({ title: 'Mammut Configurator', url: window.location.href })}
+                className="flex-1 sm:flex-none border-2 border-black font-bold text-sm px-5 py-3 rounded-xl hover:bg-slate-50 transition-colors text-slate-900"
+              >
+                Share
+              </button>
+              <button className="flex-1 sm:flex-none bg-black text-white font-bold text-sm px-7 py-3 rounded-xl hover:bg-slate-800 transition-colors">
+                Request Quote →
+              </button>
+            </div>
+          </div>
+        </footer>
       </div>
-      
+    );
+  }
+
+  // Dark mode: original 3-column layout
+  return (
+    <div className="min-h-screen p-3 sm:p-6 pt-24 sm:pt-32 relative pb-6 transition-colors bg-mammut-black text-mammut-white">
+      {arPlacement && (
+        <ArViewer sceneGroup={sceneGroup?.group || null} placement={arPlacement} onClose={() => setArPlacement(null)} />
+      )}
       {/* 3-column Layout grid */}
-      <div className="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-[250px_1fr_400px] gap-8">
+      <div className="w-full px-4 md:px-8 grid grid-cols-1 md:grid-cols-[250px_1fr_400px] gap-8">
         {renderLeftColumn()}
         {renderMiddleColumn()}
-        {!isMobile && renderRightColumn()}
+        {renderRightColumn()}
       </div>
-
-      {/* Mobile-only drawers and bars */}
-      {renderMobileDrawer()}
-      {renderStickyBottomBar()}
     </div>
   );
 }

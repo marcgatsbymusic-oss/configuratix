@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { Component, type ReactNode } from 'react'
 import { AuthProvider } from './hooks/useAuth'
 import { Header } from './components/layout/Header'
@@ -66,6 +66,10 @@ import { PartnerProfile } from './pages/partner/PartnerProfile'
 import { PartnerLanding } from './pages/partner/PartnerLanding'
 
 function StorefrontLayout() {
+  const location = useLocation();
+  const isDebugConfigurator = location.pathname === '/configurator-test';
+  const isDebugPricing = location.pathname === '/debug-pricing';
+
   return (
     <div className="flex flex-col min-h-screen bg-mammut-black">
       <Header />
@@ -97,7 +101,15 @@ function StorefrontLayout() {
         </Routes>
       </div>
       <CartDrawer />
-      <Footer />
+      {!isDebugConfigurator && (
+        isDebugPricing ? (
+          <div className="hidden md:block">
+            <Footer />
+          </div>
+        ) : (
+          <Footer />
+        )
+      )}
       <CookieConsentModal />
       <CookieConsentBadge />
     </div>

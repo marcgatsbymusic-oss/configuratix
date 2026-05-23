@@ -337,18 +337,23 @@ export function Header() {
               {t('header.nav.configurator')}
             </Link>
             
-            {/* Global Shopping Cart */}
-            <button onClick={toggleCart} className="text-mammut-white/60 hover:text-mammut-gold transition-colors duration-200 p-2 relative">
-               <ShoppingCart size={18} />
-               {totalCartItems > 0 && (
-                  <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-mammut-gold text-black text-[9px] font-black h-4 w-4 flex flex-col items-center justify-center rounded-full shadow-md">
-                     {totalCartItems}
-                  </span>
-               )}
-            </button>
+             {/* Global Shopping Cart */}
+             <button 
+                onClick={toggleCart} 
+                className={`text-mammut-white/60 hover:text-mammut-gold transition-colors duration-200 p-2 relative ${
+                  totalCartItems === 0 ? 'hidden lg:block' : 'block'
+                }`}
+             >
+                <ShoppingCart size={18} />
+                {totalCartItems > 0 && (
+                   <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-mammut-gold text-black text-[9px] font-black h-4 w-4 flex flex-col items-center justify-center rounded-full shadow-md">
+                      {totalCartItems}
+                   </span>
+                )}
+             </button>
 
-            <button className="text-mammut-white/60 hover:text-mammut-gold transition-colors duration-200 p-2"><Search size={18} /></button>
-            <ThemeToggle />
+             <button className="hidden lg:block text-mammut-white/60 hover:text-mammut-gold transition-colors duration-200 p-2"><Search size={18} /></button>
+            {location.pathname !== '/debug-pricing' && <ThemeToggle />}
             {/* Language Switcher */}
             <div className="relative">
               <button 
@@ -398,15 +403,22 @@ export function Header() {
                  </div>
               )}
             </div>
-            <button
-              className="lg:hidden text-mammut-white/60 hover:text-mammut-gold transition-colors duration-200 p-2 -mr-2"
-              onClick={() => {
-                setMenuOpen(!menuOpen);
-                setLangMenuOpen(false);
-              }}
-            >
-              {menuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
+             <div className="flex flex-col items-center gap-1 lg:hidden -mr-2">
+               <button
+                 className="text-mammut-white/60 hover:text-mammut-gold transition-colors duration-200 p-1"
+                 onClick={() => {
+                   setMenuOpen(!menuOpen);
+                   setLangMenuOpen(false);
+                 }}
+               >
+                 {menuOpen ? <X size={20} /> : <Menu size={20} />}
+               </button>
+               {menuOpen && (
+                 <button className="text-mammut-white/60 hover:text-mammut-gold transition-colors duration-200 p-1">
+                   <Search size={16} />
+                 </button>
+               )}
+             </div>
           </div>
         </nav>
 

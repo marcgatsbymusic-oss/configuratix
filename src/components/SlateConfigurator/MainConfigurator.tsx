@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useConfigurator } from './useConfigurator';
 import { CONFIG_SCHEMA, WINDOW_TYPES, COLOR_LOCALE, GLASS_LOCALE } from './types';
-import { Ruler, Layers, Check, ChevronLeft, ChevronRight, ChevronUp, ChevronDown, ShoppingCart, HelpCircle, X, Box } from 'lucide-react';
+import { Ruler, Layers, Check, ChevronLeft, ChevronRight, ChevronUp, ChevronDown, ShoppingCart, HelpCircle, X, Box, Camera, Trash2 } from 'lucide-react';
 import { WindowTypeGraphic } from './WindowTypeGraphic';
 import { estimateFramePrice, resolveOpeningClass } from '../../utils/pricingEngine';
 import { FloatingHelpMenu } from './FloatingHelpMenu';
@@ -10,7 +10,6 @@ import { ExitIntentModal } from './ExitIntentModal';
 import { MaterialHelp, WindowTypeHelp } from './HelpContents';
 import { BlueprintPreview } from './BlueprintPreview';
 import { NeedlePreview } from './NeedlePreview';
-import { ScrollWheel } from './ScrollWheel';
 
 import { useCartStore } from '../../store/useCartStore';
 
@@ -406,6 +405,7 @@ export function MainConfigurator() {
   const hasProduct = typeof window !== 'undefined' && window.location.search.includes('product=');
   const [activeStep, setActiveStep] = useState<number | null>(hasProduct ? 3 : 0);
   const [show3D, setShow3D] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [stepOrder, setStepOrder] = useState<number[]>([1,2,3,4,7,5,6,8]);
   const [completedSteps, setCompletedSteps] = useState<number[]>(hasProduct ? [1, 2] : []);
   const openStep = (step: number) => { setActiveStep(step); setStepOrder(prev => [step, ...prev.filter(s => s !== step)]); };
@@ -611,11 +611,11 @@ export function MainConfigurator() {
         />
       )}
       <div className="min-h-screen bg-mammut-darker text-mammut-white pb-20 font-sans overflow-x-hidden max-w-[100vw] w-full">
-      <div className={`max-w-7xl mx-auto px-4 sm:px-6 w-full overflow-hidden sm:overflow-visible transition-all duration-700 ${activeStep === 0 ? "pt-24 lg:pt-28" : "pt-32 lg:pt-40"}`}>
+      <div className={`max-w-[1600px] mx-auto px-4 sm:px-6 w-full overflow-hidden sm:overflow-visible transition-all duration-700 ${activeStep === 0 ? "pt-24 lg:pt-28" : "pt-32 lg:pt-40"}`}>
         <div className="grid lg:grid-cols-12 gap-10 items-start">
           
           {/* LEFT: Configure Wizard */}
-          <div className={`flex flex-col gap-8 transition-all duration-700 ${activeStep === 0 ? "lg:col-span-12 max-w-4xl mx-auto w-full pt-10" : "lg:col-span-8"}`}>
+          <div className={`flex flex-col gap-8 transition-all duration-700 ${activeStep === 0 ? "lg:col-span-12 max-w-4xl mx-auto w-full pt-10" : "lg:col-span-6"}`}>
             
             {/* Order Loop Banner */}
             {orderStore.isActive && orderStore.items[orderStore.currentIndex] && activeStep !== null && activeStep > 0 && (
@@ -1151,15 +1151,19 @@ export function MainConfigurator() {
                           <span className="text-[10px] font-bold text-mammut-white/40 tracking-wider">({(state.dimensions.width / 10).toFixed(0)} {t('configurator.inputs.cm')}</span>
                         </div>
                       </div>
-                      
-                      <ScrollWheel
-                        value={state.dimensions.width}
-                        onChange={(val) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: val, height: state.dimensions.height } })}
+                      <input
+                        type="range"
                         min={activeLimits.minWidth}
                         max={activeLimits.maxWidth}
-                        orientation="horizontal"
-                        className="w-full mt-2"
+                        step="10"
+                        value={state.dimensions.width}
+                        onChange={(e) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: Number(e.target.value), height: state.dimensions.height } })}
+                        className="w-full accent-mammut-gold mb-2 cursor-pointer bg-mammut-darker/60 border border-mammut-border/50 rounded-lg h-2"
                       />
+                      <div className="flex justify-between items-center text-[10px] font-bold text-mammut-white/30">
+                        <span>{activeLimits.minWidth} mm</span>
+                        <span>{activeLimits.maxWidth} mm</span>
+                      </div>
                     </div>
 
                     {/* Height Control */}
@@ -1194,15 +1198,19 @@ export function MainConfigurator() {
                           <span className="text-[10px] font-bold text-mammut-white/40 tracking-wider">({(state.dimensions.height / 10).toFixed(0)} {t('configurator.inputs.cm')}</span>
                         </div>
                       </div>
-                      
-                      <ScrollWheel
-                        value={state.dimensions.height}
-                        onChange={(val) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: state.dimensions.width, height: val } })}
+                      <input
+                        type="range"
                         min={activeLimits.minHeight}
                         max={activeLimits.maxHeight}
-                        orientation="horizontal"
-                        className="w-full mt-2"
+                        step="10"
+                        value={state.dimensions.height}
+                        onChange={(e) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: state.dimensions.width, height: Number(e.target.value) } })}
+                        className="w-full accent-mammut-gold mb-2 cursor-pointer bg-mammut-darker/60 border border-mammut-border/50 rounded-lg h-2"
                       />
+                      <div className="flex justify-between items-center text-[10px] font-bold text-mammut-white/30">
+                        <span>{activeLimits.minHeight} mm</span>
+                        <span>{activeLimits.maxHeight} mm</span>
+                      </div>
                     </div>
                   </div>
                   
@@ -1419,13 +1427,16 @@ export function MainConfigurator() {
           </div>
 
           {/* RIGHT: Sticky Summary */}
-          <div className={`lg:col-span-4 sticky top-10 transition-all duration-700 ${activeStep === 0 ? "hidden" : completedSteps.length === 0 ? "opacity-0 translate-x-10 pointer-events-none hidden lg:block" : "opacity-100 translate-x-0"}`}>
+          <div className={`lg:col-span-6 sticky top-10 transition-all duration-700 ${activeStep === 0 ? "hidden" : completedSteps.length === 0 ? "opacity-0 translate-x-10 pointer-events-none hidden lg:block" : "opacity-100 translate-x-0"}`}>
             
             {/* Glassmorphism Summary Card */}
             <div className="bg-mammut-dark/70 backdrop-blur-xl border border-white/60 shadow-2xl shadow-indigo-900/5 rounded-3xl overflow-hidden">
               
               {/* Dynamic SVG Fensternorm-Style Blueprint Area */}
-              <div className="bg-mammut-dark w-full aspect-square flex flex-col items-center justify-center relative border-b border-mammut-gold/20 overflow-hidden">
+              <div 
+                className="bg-mammut-dark w-full aspect-square flex flex-col items-center justify-center relative border-b border-mammut-gold/20 overflow-hidden bg-cover bg-center"
+                style={uploadedImage ? { backgroundImage: `url(${uploadedImage})` } : {}}
+              >
                 <div className="absolute top-4 left-4 z-30 bg-mammut-darker/80 backdrop-blur-sm p-1 rounded-lg border border-mammut-border flex gap-1 shadow-md pointer-events-auto">
                    <button 
                      onClick={() => setShow3D(true)}
@@ -1457,72 +1468,42 @@ export function MainConfigurator() {
                        <Box size={12} strokeWidth={2.5} /> AR
                      </a>
                    )}
+                   <label className="px-3 py-1.5 flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-wider rounded-md transition-all text-mammut-gold hover:bg-mammut-gold/10 cursor-pointer border-l border-mammut-border pl-4">
+                     <Camera size={12} strokeWidth={2.5} /> {t('configurator.blueprint.uploadPhoto', 'Photo')}
+                     <input
+                       type="file"
+                       accept="image/*"
+                       capture="environment"
+                       className="hidden"
+                       onChange={(e) => {
+                         const file = e.target.files?.[0];
+                         if (file) {
+                           const reader = new FileReader();
+                           reader.onload = (event) => {
+                             setUploadedImage(event.target?.result as string);
+                             setShow3D(false); // Auto-switch to 2D Draft
+                           };
+                           reader.readAsDataURL(file);
+                         }
+                       }}
+                     />
+                   </label>
+                   {uploadedImage && (
+                     <button
+                       onClick={() => setUploadedImage(null)}
+                       className="px-2 py-1.5 text-red-400 hover:text-red-300 hover:bg-red-400/10 rounded-md transition-all border-l border-mammut-border pl-3 flex items-center justify-center"
+                       title={t('configurator.blueprint.removePhoto', 'Remove Photo')}
+                     >
+                       <Trash2 size={12} strokeWidth={2.5} />
+                     </button>
+                   )}
                 </div>
                 {show3D ? (
-                  <>
-                    <NeedlePreview state={state} />
-                    
-                    {/* Vertical scroll wheel for Height in 3D */}
-                    <div 
-                      className="absolute z-30 flex items-center justify-center pointer-events-auto"
-                      style={{
-                        left: '16px',
-                        top: '15%',
-                        height: '70%',
-                        width: '20px'
-                      }}
-                    >
-                      <ScrollWheel
-                        value={state.dimensions.height}
-                        onChange={(h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: state.dimensions.width, height: h } })}
-                        min={activeLimits?.minHeight || 500}
-                        max={activeLimits?.maxHeight || 2500}
-                        orientation="vertical"
-                        variant="half-stick"
-                        className="h-full"
-                      />
-                    </div>
-
-                    {/* Horizontal scroll wheel for Width in 3D */}
-                    <div 
-                      className="absolute z-30 flex items-center justify-center pointer-events-auto"
-                      style={{
-                        left: '15%',
-                        bottom: '16px',
-                        width: '70%',
-                        height: '20px'
-                      }}
-                    >
-                      <ScrollWheel
-                        value={state.dimensions.width}
-                        onChange={(w) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: state.dimensions.height } })}
-                        min={activeLimits?.minWidth || 500}
-                        max={activeLimits?.maxWidth || 3000}
-                        orientation="horizontal"
-                        variant="half-stick"
-                        className="w-full"
-                      />
-                    </div>
-
-                    {/* Width dimension pill in 3D */}
-                    <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
-                      <span className="bg-mammut-darker/90 border border-mammut-gold/60 text-mammut-gold px-3.5 py-1 rounded-full text-xs font-black tracking-widest shadow-lg backdrop-blur-sm select-none">
-                        {state.dimensions.width} mm
-                      </span>
-                    </div>
-
-                    {/* Height dimension pill in 3D */}
-                    <div className="absolute left-12 top-1/2 -translate-y-1/2 z-20 pointer-events-none">
-                      <span className="bg-mammut-darker/90 border border-mammut-gold/60 text-mammut-gold px-3.5 py-1 rounded-full text-xs font-black tracking-widest shadow-lg backdrop-blur-sm select-none">
-                        {state.dimensions.height} mm
-                      </span>
-                    </div>
-                  </>
+                  <NeedlePreview state={state} />
                 ) : (
                   <BlueprintPreview 
                     state={state} 
-                    onDimensionChange={(w, h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h } })}
-                    activeLimits={activeLimits}
+                    uploadedImage={uploadedImage}
                   />
                 )}
               </div>
