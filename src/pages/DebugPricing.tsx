@@ -3111,7 +3111,7 @@ export function DebugPricing() {
     );
   };
 
-  const [sceneGroup, setSceneGroup] = useState<{group: THREE.Group, ts: number} | null>(null);
+  const [sceneGroup, setSceneGroup] = useState<THREE.Group | null>(null);
 
   // Summary helpers for accordions
   const getProductSummary = () => {
@@ -4852,7 +4852,7 @@ export function DebugPricing() {
           }
         `}} />
         {arPlacement && (
-          <ArViewer sceneGroup={sceneGroup?.group || null} placement={arPlacement} onClose={() => setArPlacement(null)} />
+          <ArViewer sceneGroup={sceneGroup} placement={arPlacement} onClose={() => setArPlacement(null)} />
         )}
         <div className="absolute top-6 right-6 z-40">
           <ThemeToggle />
@@ -4994,7 +4994,7 @@ export function DebugPricing() {
         }
       `}} />
       {arPlacement && (
-        <ArViewer sceneGroup={sceneGroup?.group || null} placement={arPlacement} onClose={() => setArPlacement(null)} />
+        <ArViewer sceneGroup={sceneGroup} placement={arPlacement} onClose={() => setArPlacement(null)} />
       )}
       <div className="absolute top-6 right-6 z-40">
         <ThemeToggle />

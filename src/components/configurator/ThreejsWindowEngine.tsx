@@ -27,6 +27,8 @@ interface ThreejsWindowEngineProps {
   customBackground?: string;
 }
 
+const DEFAULT_MAPS = { diffuse: null, normal: null, orm: null };
+
 const WindowAssembly = ({ 
   width, 
   height, 
@@ -47,20 +49,19 @@ const WindowAssembly = ({
     diffuse: THREE.Texture | null;
     normal: THREE.Texture | null;
     orm: THREE.Texture | null;
-  }>({ diffuse: null, normal: null, orm: null });
+  }>(DEFAULT_MAPS);
 
   const [intMaps, setIntMaps] = React.useState<{
     diffuse: THREE.Texture | null;
     normal: THREE.Texture | null;
     orm: THREE.Texture | null;
-  }>({ diffuse: null, normal: null, orm: null });
+  }>(DEFAULT_MAPS);
 
   React.useEffect(() => {
     if (groupObj && onSceneReady) {
-      // Force state update by passing a new object with timestamp
-      onSceneReady({ group: groupObj, ts: Date.now() } as any);
+      onSceneReady(groupObj);
     }
-  }, [groupObj, onSceneReady, extMaps, intMaps, colorExt, colorInt]);
+  }, [groupObj, onSceneReady]);
 
   // Helper to extract the texture folder name and build PBR asset paths
   const resolveBakedPaths = (texturePath: string) => {
@@ -173,7 +174,7 @@ const WindowAssembly = ({
         setExtMaps(loaded);
       });
     } else {
-      setExtMaps({ diffuse: null, normal: null, orm: null });
+      setExtMaps(DEFAULT_MAPS);
     }
   }, [colorExtTexture]);
 
@@ -183,7 +184,7 @@ const WindowAssembly = ({
         setIntMaps(loaded);
       });
     } else {
-      setIntMaps({ diffuse: null, normal: null, orm: null });
+      setIntMaps(DEFAULT_MAPS);
     }
   }, [colorIntTexture]);
 
