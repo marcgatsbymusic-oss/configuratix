@@ -395,7 +395,51 @@ const WindowAssembly = ({
     return intMaterial;
   }, [typology, intMaterial]);
 
-  const finalBzdMat = intMaterial;
+  const bzdMaterial = useMemo(() => {
+    if (intMaps.diffuse) {
+      // BZD: interior glazing bead. Rotate texture by 90 degrees.
+      const repeatU = (height / 1000) / (TEX_MM_ALONG_GRAIN / 1000);
+      const repeatV = 1000 / TEX_MM_ACROSS_GRAIN;
+
+      const cloneRotateAndRepeat = (tex: THREE.Texture) => {
+        const t = tex.clone();
+        t.wrapS = THREE.RepeatWrapping;
+        t.wrapT = THREE.RepeatWrapping;
+        t.center.set(0.5, 0.5);
+        t.rotation = Math.PI / 2;
+        // Swap repeatU and repeatV since texture is rotated 90 degrees
+        t.repeat.set(repeatV, repeatU);
+        t.needsUpdate = true;
+        return t;
+      };
+
+      const mat = new THREE.MeshStandardMaterial({
+        color: 0xffffff,
+        map: cloneRotateAndRepeat(intMaps.diffuse),
+        normalMap: intMaps.normal ? cloneRotateAndRepeat(intMaps.normal) : null,
+        aoMap: intMaps.orm ? cloneRotateAndRepeat(intMaps.orm) : null,
+        roughnessMap: intMaps.orm ? cloneRotateAndRepeat(intMaps.orm) : null,
+        metalnessMap: intMaps.orm ? cloneRotateAndRepeat(intMaps.orm) : null,
+        roughness: 1.0,
+        metalness: 0.0,
+        aoMapIntensity: 0.8,
+      });
+      if (intMaps.normal) mat.normalScale.set(0.6, 0.6);
+      return mat;
+    }
+    return new THREE.MeshStandardMaterial({
+      color: colorInt || '#ffffff',
+      roughness: 0.6,
+      metalness: 0.1
+    });
+  }, [colorInt, intMaps, height]);
+
+  const finalBzdMat = useMemo(() => {
+    if (typology === 'F103') {
+      return new THREE.MeshStandardMaterial({ color: '#60a5fa', roughness: 0.6, metalness: 0.1 });
+    }
+    return bzdMaterial;
+  }, [typology, bzdMaterial]);
 
   const finalSpacerMat = useMemo(() => {
     if (typology === 'F103') {

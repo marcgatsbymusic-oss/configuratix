@@ -241,3 +241,11 @@ p {
   background: rgba(255, 255, 255, 0.5);
   border-color: #c49a45; /* Matching your gold brand accent */
 }
+
+/* Needle Engine background defaults */
+needle-engine {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  --background-color: #ffffff !important;
+  --loading-background: #ffffff !important;
+}

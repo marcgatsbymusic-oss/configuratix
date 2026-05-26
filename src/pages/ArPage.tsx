@@ -108,6 +108,60 @@ export function ArPage() {
       }
     };
 
+    const removeInsideOutsideButtons = () => {
+      const isInsideOutside = (el: HTMLElement) => {
+        const text = el.textContent?.trim().toLowerCase() || '';
+        if (!text) return false;
+        
+        const isMatch = ['inside', 'outside', 'interior', 'exterior', 'innen', 'außen'].includes(text);
+        if (isMatch) return true;
+
+        const isBtn = el.tagName === 'BUTTON' || el.tagName === 'A' || el.getAttribute('role') === 'button' || el.className?.includes('btn');
+        if (isBtn) {
+          return ['inside', 'outside', 'interior', 'exterior', 'innen', 'außen'].some(word => 
+            text === word || text.includes(' ' + word) || text.includes(word + ' ')
+          );
+        }
+        return false;
+      };
+
+      document.querySelectorAll('*').forEach((el: any) => {
+        if (isInsideOutside(el)) {
+          el.style.setProperty('display', 'none', 'important');
+        }
+      });
+
+      document.querySelectorAll('needle-engine').forEach((eng: any) => {
+        if (eng.shadowRoot) {
+          eng.shadowRoot.querySelectorAll('*').forEach((el: any) => {
+            if (isInsideOutside(el) || 
+                el.getAttribute('id')?.toLowerCase().includes('inside') || 
+                el.getAttribute('id')?.toLowerCase().includes('outside') ||
+                el.className?.toLowerCase?.().includes('inside') ||
+                el.className?.toLowerCase?.().includes('outside')) {
+              el.style.setProperty('display', 'none', 'important');
+            }
+          });
+
+          // Style shadow DOM backgrounds white
+          if (!eng.shadowRoot.querySelector('#mammut-needle-styles')) {
+            const style = document.createElement('style');
+            style.id = 'mammut-needle-styles';
+            style.textContent = `
+              :host, .loading, #loading, [part="canvas"], canvas {
+                background-color: #ffffff !important;
+                background: #ffffff !important;
+              }
+              div, section, main, article {
+                background-color: transparent !important;
+              }
+            `;
+            eng.shadowRoot.appendChild(style);
+          }
+        }
+      });
+    };
+
     // Continuous tick loop
     const tick = () => {
       if (!active) return;
@@ -115,6 +169,7 @@ export function ArPage() {
       if (ctx) {
         enforceWhiteBg(ctx);
       }
+      removeInsideOutsideButtons();
       requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
@@ -214,7 +269,8 @@ export function ArPage() {
           style: { width: '100%', height: '100%', display: 'block', backgroundColor: '#ffffff' },
           'camera-position': '0 0.9 2.5',
           'camera-target': '0 0.6 0',
-          'background-color': '#ffffff'
+          'background-color': '#ffffff',
+          'loading-background': '#ffffff'
         })}
       </div>
 
@@ -252,26 +308,7 @@ export function ArPage() {
         Start AR
       </button>
 
-      {/* Hint */}
-      <div style={{
-        position: 'absolute',
-        bottom: '80px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        color: '#666666',
-        fontSize: 10,
-        textAlign: 'center',
-        pointerEvents: 'none',
-        fontFamily: 'sans-serif',
-        whiteSpace: 'nowrap',
-        backgroundColor: 'rgba(0,0,0,0.05)',
-        padding: '6px 12px',
-        borderRadius: '999px',
-        border: '1px solid rgba(0,0,0,0.08)',
-        zIndex: 110,
-      }}>
-        Tap "Start AR" to place the window
-      </div>
+      {/* Hint removed */}
     </div>
   );
 }
