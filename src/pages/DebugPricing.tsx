@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Download, Camera, Trash2, RotateCcw, Share2, ChevronDown } from 'lucide-react';
 import { fetchPrice, type PricingApiResponse } from '../utils/cantorPricing/pricingApi';
 import type { ConfiguratorInput } from '../utils/cantorPricing/input';
@@ -2570,6 +2570,11 @@ export function DebugPricing() {
 
   const [sceneGroup, setSceneGroup] = useState<THREE.Group | null>(null);
   const [sceneTrigger, setSceneTrigger] = useState<number>(0);
+
+  const handleSceneReady = useCallback((group: THREE.Group) => {
+    setSceneGroup(group);
+    setSceneTrigger(prev => prev + 1);
+  }, []);
   // 3) Dimensions
   const [width, setWidth] = useState(1000);
   const [height, setHeight] = useState(1000);
@@ -2768,6 +2773,25 @@ export function DebugPricing() {
 
       // 2. Helper to check if text or element matches our targets (inside/outside view, tap hints, etc.)
       const isTargetElement = (el: HTMLElement) => {
+        // Skip structural elements
+        const tagName = el.tagName.toLowerCase();
+        if (['body', 'html', 'main', 'section', 'article', 'form'].includes(tagName) || el.id === 'root') {
+          return false;
+        }
+
+        // Never hide our custom buttons or widgets
+        if (el.id === 'mammut-start-ar' || el.className?.includes?.('bg-mammut-gold') || el.closest?.('#mammut-start-ar')) {
+          return false;
+        }
+
+        // Only target leaves or actual buttons/links
+        const isInteractive = tagName === 'button' || tagName === 'a' || el.getAttribute('role') === 'button' || el.className?.includes?.('btn');
+        const isLeaf = el.children.length === 0;
+
+        if (!isLeaf && !isInteractive) {
+          return false;
+        }
+
         const text = el.textContent?.trim().toLowerCase() || '';
         if (!text) return false;
         
@@ -2779,9 +2803,7 @@ export function DebugPricing() {
         const matchesHint = text.includes('tap') || text.includes('start ar') || text.includes('place the window') || text.includes('place window');
         if (matchesHint) return true;
 
-        // Check if button/link contains the words
-        const isBtn = el.tagName === 'BUTTON' || el.tagName === 'A' || el.getAttribute('role') === 'button' || el.className?.includes?.('btn');
-        if (isBtn) {
+        if (isInteractive) {
           return ['inside', 'outside', 'interior', 'exterior', 'innen', 'außen'].some(word => 
             text === word || text.includes(' ' + word) || text.includes(word + ' ')
           );
@@ -2794,9 +2816,17 @@ export function DebugPricing() {
       const recurse = (node: Node) => {
         if (node.nodeType === Node.ELEMENT_NODE) {
           const el = node as HTMLElement;
+          const tagName = el.tagName.toLowerCase();
+
+          // Skip core structural wrappers
+          if (tagName === 'body' || tagName === 'html' || el.id === 'root') {
+            node.childNodes.forEach(child => recurse(child));
+            return;
+          }
 
           if (isTargetElement(el)) {
             el.style.setProperty('display', 'none', 'important');
+            return;
           }
 
           // Check ID or class names for inside/outside
@@ -4004,10 +4034,7 @@ export function DebugPricing() {
                     colorExtTexture={extDetails.textureUrl}
                     colorIntTexture={intDetails.textureUrl}
                     spacerColor={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
-                    onSceneReady={(group) => {
-                      setSceneGroup(group);
-                      setSceneTrigger(prev => prev + 1);
-                    }}
+                    onSceneReady={handleSceneReady}
                     typology={typology}
                     sealColor={sealColor}
                     scenery={scenery}
@@ -4031,6 +4058,7 @@ export function DebugPricing() {
                        'loading-background': '#ffffff'
                      })}
                      <button
+                       id="mammut-start-ar"
                        onClick={startNeedleAR}
                        className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 px-6 py-2.5 bg-mammut-gold text-black rounded-full font-bold shadow-lg hover:bg-mammut-gold/90 transition-all flex items-center gap-2 text-xs md:text-sm active:scale-95 cursor-pointer uppercase tracking-wider font-sans border-none"
                      >

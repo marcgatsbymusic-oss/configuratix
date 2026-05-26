@@ -69,11 +69,16 @@ const WindowAssembly = ({
     orm: THREE.Texture | null;
   }>(DEFAULT_MAPS);
 
+  const onSceneReadyRef = React.useRef(onSceneReady);
   React.useEffect(() => {
-    if (groupObj && onSceneReady) {
-      onSceneReady(groupObj);
+    onSceneReadyRef.current = onSceneReady;
+  }, [onSceneReady]);
+
+  React.useEffect(() => {
+    if (groupObj && onSceneReadyRef.current) {
+      onSceneReadyRef.current(groupObj);
     }
-  }, [groupObj, onSceneReady, extMaps, intMaps]);
+  }, [groupObj, extMaps, intMaps]);
 
   // Helper to extract the texture folder name and build PBR asset paths
   const resolveBakedPaths = (texturePath: string) => {

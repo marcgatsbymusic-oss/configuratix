@@ -155,6 +155,25 @@ export const NeedlePreview: React.FC<NeedlePreviewProps> = ({ state }) => {
 
       // 2. Helper to check if text or element matches our targets (inside/outside view, tap hints, etc.)
       const isTargetElement = (el: HTMLElement) => {
+        // Skip structural elements
+        const tagName = el.tagName.toLowerCase();
+        if (['body', 'html', 'main', 'section', 'article', 'form'].includes(tagName) || el.id === 'root') {
+          return false;
+        }
+
+        // Never hide our custom buttons or widgets
+        if (el.id === 'mammut-start-ar' || el.className?.includes?.('bg-mammut-gold') || el.closest?.('#mammut-start-ar')) {
+          return false;
+        }
+
+        // Only target leaves or actual buttons/links
+        const isInteractive = tagName === 'button' || tagName === 'a' || el.getAttribute('role') === 'button' || el.className?.includes?.('btn');
+        const isLeaf = el.children.length === 0;
+
+        if (!isLeaf && !isInteractive) {
+          return false;
+        }
+
         const text = el.textContent?.trim().toLowerCase() || '';
         if (!text) return false;
         
@@ -166,9 +185,7 @@ export const NeedlePreview: React.FC<NeedlePreviewProps> = ({ state }) => {
         const matchesHint = text.includes('tap') || text.includes('start ar') || text.includes('place the window') || text.includes('place window');
         if (matchesHint) return true;
 
-        // Check if button/link contains the words
-        const isBtn = el.tagName === 'BUTTON' || el.tagName === 'A' || el.getAttribute('role') === 'button' || el.className?.includes?.('btn');
-        if (isBtn) {
+        if (isInteractive) {
           return ['inside', 'outside', 'interior', 'exterior', 'innen', 'außen'].some(word => 
             text === word || text.includes(' ' + word) || text.includes(word + ' ')
           );
@@ -181,9 +198,17 @@ export const NeedlePreview: React.FC<NeedlePreviewProps> = ({ state }) => {
       const recurse = (node: Node) => {
         if (node.nodeType === Node.ELEMENT_NODE) {
           const el = node as HTMLElement;
+          const tagName = el.tagName.toLowerCase();
+
+          // Skip core structural wrappers
+          if (tagName === 'body' || tagName === 'html' || el.id === 'root') {
+            node.childNodes.forEach(child => recurse(child));
+            return;
+          }
 
           if (isTargetElement(el)) {
             el.style.setProperty('display', 'none', 'important');
+            return;
           }
 
           // Check ID or class names for inside/outside
