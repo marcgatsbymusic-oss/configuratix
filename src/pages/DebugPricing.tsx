@@ -2569,6 +2569,7 @@ export function DebugPricing() {
   }, []);
 
   const [sceneGroup, setSceneGroup] = useState<THREE.Group | null>(null);
+  const [sceneTrigger, setSceneTrigger] = useState<number>(0);
   // 3) Dimensions
   const [width, setWidth] = useState(1000);
   const [height, setHeight] = useState(1000);
@@ -2651,7 +2652,8 @@ export function DebugPricing() {
     interiorColorCode,
     sealColor,
     typology,
-    displayMode
+    displayMode,
+    sceneTrigger
   ]);
 
   useEffect(() => {
@@ -3923,7 +3925,10 @@ export function DebugPricing() {
                     colorExtTexture={extDetails.textureUrl}
                     colorIntTexture={intDetails.textureUrl}
                     spacerColor={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
-                    onSceneReady={setSceneGroup}
+                    onSceneReady={(group) => {
+                      setSceneGroup(group);
+                      setSceneTrigger(prev => prev + 1);
+                    }}
                     typology={typology}
                     sealColor={sealColor}
                     scenery={scenery}

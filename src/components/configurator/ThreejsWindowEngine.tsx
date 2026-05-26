@@ -63,7 +63,7 @@ const WindowAssembly = ({
     if (groupObj && onSceneReady) {
       onSceneReady(groupObj);
     }
-  }, [groupObj, onSceneReady]);
+  }, [groupObj, onSceneReady, extMaps, intMaps]);
 
   // Helper to extract the texture folder name and build PBR asset paths
   const resolveBakedPaths = (texturePath: string) => {
