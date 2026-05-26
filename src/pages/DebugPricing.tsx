@@ -797,43 +797,62 @@ const NumericScrollWheel = ({
     e.currentTarget.releasePointerCapture(e.pointerId);
   };
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (isEditing) return;
-    setIsDragging(true);
-    const touch = e.touches[0];
-    const pos = isVert ? touch.clientY : touch.clientX;
-    dragStartPos.current = pos;
-    dragStartValue.current = value;
-    lastPos.current = pos;
-    lastTime.current = Date.now();
-  };
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging) return;
-    const touch = e.touches[0];
-    const pos = isVert ? touch.clientY : touch.clientX;
-    const now = Date.now();
-    const dt = now - lastTime.current || 1;
-    const dp = pos - lastPos.current;
+    const onTouchStart = (e: TouchEvent) => {
+      if (isEditing) return;
+      setIsDragging(true);
+      const touch = e.touches[0];
+      const pos = isVert ? touch.clientY : touch.clientX;
+      dragStartPos.current = pos;
+      dragStartValue.current = currentValueRef.current;
+      lastPos.current = pos;
+      lastTime.current = Date.now();
+    };
 
-    const velocity = Math.abs(dp) / dt;
-    const accelFactor = velocity > 0.2 ? Math.min(10, 1 + (velocity - 0.2) * 4) : 1;
-    const valueDelta = -dp * (unitsPerTick / tickSpacing) * accelFactor;
+    const onTouchMove = (e: TouchEvent) => {
+      if (!isDragging) return;
+      const touch = e.touches[0];
+      const pos = isVert ? touch.clientY : touch.clientX;
+      const now = Date.now();
+      const dt = now - lastTime.current || 1;
+      const dp = pos - lastPos.current;
 
-    const nextVal = currentValueRef.current + valueDelta;
-    updateValue(nextVal);
+      const velocity = Math.abs(dp) / dt;
+      const accelFactor = velocity > 0.2 ? Math.min(10, 1 + (velocity - 0.2) * 4) : 1;
+      const valueDelta = -dp * (unitsPerTick / tickSpacing) * accelFactor;
 
-    lastPos.current = pos;
-    lastTime.current = now;
+      const nextVal = currentValueRef.current + valueDelta;
+      
+      const clamped = Math.max(min, Math.min(max, Math.round(nextVal / step) * step));
+      onChange(clamped);
 
-    if (e.cancelable) {
-      e.preventDefault();
-    }
-  };
+      lastPos.current = pos;
+      lastTime.current = now;
 
-  const handleTouchEnd = () => {
-    setIsDragging(false);
-  };
+      if (e.cancelable) {
+        e.preventDefault();
+      }
+    };
+
+    const onTouchEnd = () => {
+      setIsDragging(false);
+    };
+
+    track.addEventListener('touchstart', onTouchStart, { passive: true });
+    track.addEventListener('touchmove', onTouchMove, { passive: false });
+    track.addEventListener('touchend', onTouchEnd, { passive: true });
+    track.addEventListener('touchcancel', onTouchEnd, { passive: true });
+
+    return () => {
+      track.removeEventListener('touchstart', onTouchStart);
+      track.removeEventListener('touchmove', onTouchMove);
+      track.removeEventListener('touchend', onTouchEnd);
+      track.removeEventListener('touchcancel', onTouchEnd);
+    };
+  }, [isDragging, isEditing, min, max, step, onChange, isVert]);
 
 
 
@@ -971,10 +990,6 @@ const NumericScrollWheel = ({
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerLeave={handlePointerUp}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        onTouchCancel={handleTouchEnd}
         onWheel={handleWheel}
         style={maskStyle}
         className={`relative overflow-hidden flex-grow flex items-center justify-center select-none touch-none dimension-scroll-wheel ${trackSizeClass}`}
@@ -1004,7 +1019,7 @@ const NumericScrollWheel = ({
           }}
           onMouseEnter={() => setIsBadgeHovered(true)}
           onMouseLeave={() => setIsBadgeHovered(false)}
-          className={`flex items-center justify-center pointer-events-auto cursor-pointer select-none transition-all duration-300 transform active:scale-95 ${
+          className={`flex items-center justify-center pointer-events-auto cursor-pointer select-none touch-none transition-all duration-300 transform active:scale-95 ${
             isVert && !isEditing ? 'origin-center' : (isVert ? 'origin-left' : 'origin-center')
           } ${
             isEditing 
@@ -2466,39 +2481,6 @@ export function DebugPricing() {
   }, []);
 
   const [sceneGroup, setSceneGroup] = useState<THREE.Group | null>(null);
-  const [needleModelUrl, setNeedleModelUrl] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!sceneGroup) return;
-
-    let active = true;
-    const timer = setTimeout(() => {
-      const exporter = new GLTFExporter();
-      exporter.parse(
-        sceneGroup,
-        (gltf: any) => {
-          if (!active) return;
-          const blob = new Blob([gltf as ArrayBuffer], { type: 'model/gltf-binary' });
-          const url = URL.createObjectURL(blob);
-          setNeedleModelUrl(url);
-        },
-        (err: any) => {
-          console.error('[Needle Export] GLTF Export Error:', err);
-        },
-        { binary: true }
-      );
-    }, 300);
-
-    return () => {
-      active = false;
-      clearTimeout(timer);
-      setNeedleModelUrl(prev => {
-        if (prev) URL.revokeObjectURL(prev);
-        return null;
-      });
-    };
-  }, [sceneGroup]);
-
   // 3) Dimensions
   const [width, setWidth] = useState(1000);
   const [height, setHeight] = useState(1000);
@@ -2540,6 +2522,80 @@ export function DebugPricing() {
       setSealColor('czarny');
     }
   }, [typology]);
+
+  const [needleModelUrl, setNeedleModelUrl] = useState<string | null>(null);
+  const needleEngineRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!sceneGroup) return;
+
+    let active = true;
+    const timer = setTimeout(() => {
+      const exporter = new GLTFExporter();
+      exporter.parse(
+        sceneGroup,
+        (gltf: any) => {
+          if (!active) return;
+          const blob = new Blob([gltf as ArrayBuffer], { type: 'model/gltf-binary' });
+          const url = URL.createObjectURL(blob);
+          setNeedleModelUrl(url);
+        },
+        (err: any) => {
+          console.error('[Needle Export] GLTF Export Error:', err);
+        },
+        { binary: true }
+      );
+    }, 300);
+
+    return () => {
+      active = false;
+      clearTimeout(timer);
+      setNeedleModelUrl(prev => {
+        if (prev) URL.revokeObjectURL(prev);
+        return null;
+      });
+    };
+  }, [
+    sceneGroup,
+    width,
+    height,
+    colorCode,
+    interiorColorCode,
+    sealColor,
+    typology,
+    displayMode
+  ]);
+
+  useEffect(() => {
+    const engine = needleEngineRef.current;
+    if (!engine) return;
+
+    let active = true;
+
+    const onReady = async (e: Event) => {
+      try {
+        const { WebXR, Context } = await import('@needle-tools/engine');
+        if (!active) return;
+        const ctx = (e as CustomEvent).detail?.context ?? (Context as any).Current;
+        if (ctx?.scene) {
+          const xr = ctx.scene.addComponent(WebXR);
+          if (xr) {
+            xr.createARButton = true;
+            xr.createVRButton = false;
+            console.log('[Needle Inline] WebXR component injected — AR button should appear');
+          }
+        }
+      } catch (err) {
+        console.warn('[Needle Inline] Could not inject WebXR component:', err);
+      }
+    };
+
+    engine.addEventListener('ready', onReady);
+    return () => {
+      active = false;
+      engine.removeEventListener('ready', onReady);
+    };
+  }, [displayMode]);
 
   // 9) Shutter options
   const [includeShutter, setIncludeShutter] = useState(false);
@@ -3666,6 +3722,7 @@ export function DebugPricing() {
                  {needleModelUrl ? (
                    <>
                      {React.createElement('needle-engine', {
+                       ref: needleEngineRef,
                        src: needleModelUrl,
                        style: { width: '100%', height: '100%', display: 'block' },
                        'camera-position': '0 0.9 2.5',
