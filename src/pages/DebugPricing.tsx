@@ -707,8 +707,27 @@ const NumericScrollWheel = ({
   const [trackHeight, setTrackHeight] = useState(200);
   const [isEditing, setIsEditing] = useState(false);
   const [isBadgeHovered, setIsBadgeHovered] = useState(false);
+  const [inputValue, setInputValue] = useState(value.toString());
+
+  useEffect(() => {
+    setInputValue(value.toString());
+  }, [value]);
 
   const isVert = orientation === 'vertical';
+
+  const isEditingRef = useRef(isEditing);
+  isEditingRef.current = isEditing;
+  const minRef = useRef(min);
+  minRef.current = min;
+  const maxRef = useRef(max);
+  maxRef.current = max;
+  const stepRef = useRef(step);
+  stepRef.current = step;
+  const onChangeRef = useRef(onChange);
+  onChangeRef.current = onChange;
+  const isVertRef = useRef(isVert);
+  isVertRef.current = isVert;
+  const isTouchDragging = useRef(false);
   
   const tickSpacing = 12;
   const unitsPerTick = 10;
@@ -735,6 +754,15 @@ const NumericScrollWheel = ({
   const updateValue = (newValue: number) => {
     const clamped = Math.max(min, Math.min(max, Math.round(newValue / step) * step));
     onChange(clamped);
+  };
+
+  const handleInputSubmit = () => {
+    const parsed = parseInt(inputValue, 10);
+    if (!isNaN(parsed)) {
+      const clamped = Math.max(min, Math.min(max, Math.round(parsed / step) * step));
+      onChange(clamped);
+    }
+    setIsEditing(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -802,10 +830,11 @@ const NumericScrollWheel = ({
     if (!track) return;
 
     const onTouchStart = (e: TouchEvent) => {
-      if (isEditing) return;
+      if (isEditingRef.current) return;
+      isTouchDragging.current = true;
       setIsDragging(true);
       const touch = e.touches[0];
-      const pos = isVert ? touch.clientY : touch.clientX;
+      const pos = isVertRef.current ? touch.clientY : touch.clientX;
       dragStartPos.current = pos;
       dragStartValue.current = currentValueRef.current;
       lastPos.current = pos;
@@ -813,9 +842,9 @@ const NumericScrollWheel = ({
     };
 
     const onTouchMove = (e: TouchEvent) => {
-      if (!isDragging) return;
+      if (!isTouchDragging.current) return;
       const touch = e.touches[0];
-      const pos = isVert ? touch.clientY : touch.clientX;
+      const pos = isVertRef.current ? touch.clientY : touch.clientX;
       const now = Date.now();
       const dt = now - lastTime.current || 1;
       const dp = pos - lastPos.current;
@@ -826,8 +855,8 @@ const NumericScrollWheel = ({
 
       const nextVal = currentValueRef.current + valueDelta;
       
-      const clamped = Math.max(min, Math.min(max, Math.round(nextVal / step) * step));
-      onChange(clamped);
+      const clamped = Math.max(minRef.current, Math.min(maxRef.current, Math.round(nextVal / stepRef.current) * stepRef.current));
+      onChangeRef.current(clamped);
 
       lastPos.current = pos;
       lastTime.current = now;
@@ -838,6 +867,7 @@ const NumericScrollWheel = ({
     };
 
     const onTouchEnd = () => {
+      isTouchDragging.current = false;
       setIsDragging(false);
     };
 
@@ -852,7 +882,7 @@ const NumericScrollWheel = ({
       track.removeEventListener('touchend', onTouchEnd);
       track.removeEventListener('touchcancel', onTouchEnd);
     };
-  }, [isDragging, isEditing, min, max, step, onChange, isVert]);
+  }, []);
 
 
 
@@ -1030,7 +1060,16 @@ const NumericScrollWheel = ({
           title="Click to adjust value"
         >
           {isEditing ? (
-            <div className="flex items-center gap-1 font-mono" onClick={(e) => e.stopPropagation()}>
+            <div 
+              className="flex items-center gap-1 font-mono" 
+              onClick={(e) => e.stopPropagation()}
+              onMouseDown={(e) => e.stopPropagation()}
+              onMouseUp={(e) => e.stopPropagation()}
+              onTouchStart={(e) => e.stopPropagation()}
+              onTouchEnd={(e) => e.stopPropagation()}
+              onPointerDown={(e) => e.stopPropagation()}
+              onPointerUp={(e) => e.stopPropagation()}
+            >
               {/* Decrement Button */}
               <button
                 type="button"
@@ -1053,13 +1092,24 @@ const NumericScrollWheel = ({
                 -
               </button>
 
-              {/* Display Value Text */}
-              <span 
+              {/* Display Value Text Input */}
+              <input
+                type="number"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onBlur={handleInputSubmit}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleInputSubmit();
+                  } else if (e.key === 'Escape') {
+                    setInputValue(value.toString());
+                    setIsEditing(false);
+                  }
+                }}
+                className="w-16 text-center bg-transparent border-none font-black outline-none focus:ring-0 px-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none text-xs md:text-sm select-text"
                 style={{ color: editTextColor }}
-                className="px-2.5 text-xs md:text-sm font-black"
-              >
-                {value}
-              </span>
+                autoFocus
+              />
 
               {/* Increment Button */}
               <button
@@ -2577,12 +2627,19 @@ export function DebugPricing() {
         const { WebXR, Context } = await import('@needle-tools/engine');
         if (!active) return;
         const ctx = (e as CustomEvent).detail?.context ?? (Context as any).Current;
-        if (ctx?.scene) {
-          const xr = ctx.scene.addComponent(WebXR);
+        if (ctx) {
+          // Set clear color and background color to white
+          if (ctx.renderer) {
+            ctx.renderer.setClearColor(0xffffff, 1);
+          }
+          if (ctx.scene) {
+            ctx.scene.background = new THREE.Color(0xffffff);
+          }
+          const xr = ctx.scene.getComponent(WebXR) || ctx.scene.addComponent(WebXR);
           if (xr) {
-            xr.createARButton = true;
+            xr.createARButton = false;
             xr.createVRButton = false;
-            console.log('[Needle Inline] WebXR component injected — AR button should appear');
+            console.log('[Needle Inline] WebXR component injected');
           }
         }
       } catch (err) {
@@ -2596,6 +2653,33 @@ export function DebugPricing() {
       engine.removeEventListener('ready', onReady);
     };
   }, [displayMode]);
+
+  const startNeedleAR = async () => {
+    try {
+      const { WebXR, Context } = await import('@needle-tools/engine');
+      const ctx = (Context as any).Current;
+      if (ctx) {
+        const xr = ctx.scene?.getComponent(WebXR);
+        if (xr) {
+          await xr.enterAR();
+        } else {
+          const newXr = ctx.scene?.addComponent(WebXR);
+          if (newXr) {
+            newXr.createARButton = false;
+            newXr.createVRButton = false;
+            await newXr.enterAR();
+          } else {
+            throw new Error("Could not find or add WebXR component");
+          }
+        }
+      } else {
+        throw new Error("Needle Context is not active");
+      }
+    } catch (err) {
+      console.error("Failed to start Needle AR:", err);
+      alert("AR is not supported on this device/browser.");
+    }
+  };
 
   // 9) Shutter options
   const [includeShutter, setIncludeShutter] = useState(false);
@@ -3718,18 +3802,29 @@ export function DebugPricing() {
 
              {/* Needle Engine */}
              {displayMode === 'Needle' && (
-               <div className="absolute inset-0 flex items-center justify-center bg-[#0a0a0b]">
+               <div className="absolute inset-0 flex items-center justify-center bg-[#ffffff]">
                  {needleModelUrl ? (
                    <>
                      {React.createElement('needle-engine', {
                        ref: needleEngineRef,
                        src: needleModelUrl,
-                       style: { width: '100%', height: '100%', display: 'block' },
+                       style: { width: '100%', height: '100%', display: 'block', backgroundColor: '#ffffff' },
                        'camera-position': '0 0.9 2.5',
                        'camera-target': '0 0.6 0',
                      })}
-                     <div className="absolute bottom-16 left-1/2 -translate-x-1/2 text-gray-400 text-[11px] pointer-events-none select-none bg-black/60 px-3 py-1.5 rounded-full border border-white/10 font-sans backdrop-blur-sm">
-                       Tap "Enter AR" to place the window
+                     <button
+                       onClick={startNeedleAR}
+                       className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 px-6 py-2.5 bg-mammut-gold text-black rounded-full font-bold shadow-lg hover:bg-mammut-gold/90 transition-all flex items-center gap-2 text-xs md:text-sm active:scale-95 cursor-pointer uppercase tracking-wider font-sans border-none"
+                     >
+                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-4 h-4">
+                         <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                         <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                         <line x1="12" y1="22.08" x2="12" y2="12" />
+                       </svg>
+                       Start AR
+                     </button>
+                     <div className="absolute bottom-16 left-1/2 -translate-x-1/2 text-gray-500 text-[10px] pointer-events-none select-none bg-black/5 px-2.5 py-1 rounded-full border border-black/10 font-sans backdrop-blur-sm">
+                       Tap "Start AR" to place the window
                      </div>
                    </>
                  ) : (

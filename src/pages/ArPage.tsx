@@ -1,16 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import * as THREE from 'three';
 import '@needle-tools/engine';
 
 /**
  * Full-screen Needle Engine AR page for Android.
- *
- * Why this exists:
- *  - model-viewer's WebXR triggers Chromium 147+ XRProjectionLayer regression → jitter, no model
- *  - blob: URLs can't be fetched by native Scene Viewer app
- *  - This page runs inside the Vite bundle, so `@needle-tools/engine` resolves correctly
- *  - Needle Engine manages its own XR session lifecycle (uses XRWebGLLayer, not XRProjectionLayer)
- *    which avoids the Chromium regression entirely
  */
 export function ArPage() {
   const engineRef = useRef<HTMLElement>(null);
@@ -20,35 +14,73 @@ export function ArPage() {
     const engine = engineRef.current;
     if (!engine) return;
 
+    let active = true;
+
     const onReady = async (e: Event) => {
       try {
         const { WebXR, Context } = await import('@needle-tools/engine');
+        if (!active) return;
         const ctx = (e as CustomEvent).detail?.context ?? (Context as any).Current;
-        if (ctx?.scene) {
-          const xr = ctx.scene.addComponent(WebXR);
+        if (ctx) {
+          // Set clear color and background color to white
+          if (ctx.renderer) {
+            ctx.renderer.setClearColor(0xffffff, 1);
+          }
+          if (ctx.scene) {
+            ctx.scene.background = new THREE.Color(0xffffff);
+          }
+          const xr = ctx.scene.getComponent(WebXR) || ctx.scene.addComponent(WebXR);
           if (xr) {
-            xr.createARButton = true;
+            xr.createARButton = false;
             xr.createVRButton = false;
-            console.log('[ArPage] WebXR component injected — AR button should appear');
+            console.log('[ArPage] WebXR component injected (button hidden)');
           }
         }
       } catch (err) {
         console.warn('[ArPage] Could not inject WebXR component:', err);
-        // Needle Engine may still expose AR button via its built-in UI
       }
     };
 
     engine.addEventListener('ready', onReady);
-    return () => engine.removeEventListener('ready', onReady);
+    return () => {
+      active = false;
+      engine.removeEventListener('ready', onReady);
+    };
   }, []);
 
+  const startNeedleAR = async () => {
+    try {
+      const { WebXR, Context } = await import('@needle-tools/engine');
+      const ctx = (Context as any).Current;
+      if (ctx) {
+        const xr = ctx.scene?.getComponent(WebXR);
+        if (xr) {
+          await xr.enterAR();
+        } else {
+          const newXr = ctx.scene?.addComponent(WebXR);
+          if (newXr) {
+            newXr.createARButton = false;
+            newXr.createVRButton = false;
+            await newXr.enterAR();
+          } else {
+            throw new Error("Could not find or add WebXR component");
+          }
+        }
+      } else {
+        throw new Error("Needle Context is not active");
+      }
+    } catch (err) {
+      console.error("Failed to start Needle AR:", err);
+      alert("AR is not supported on this device/browser.");
+    }
+  };
+
   return (
-    <div style={{ position: 'fixed', inset: 0, background: '#0a0a0b', display: 'flex', flexDirection: 'column', zIndex: 9999 }}>
+    <div style={{ position: 'fixed', inset: 0, background: '#ffffff', display: 'flex', flexDirection: 'column', zIndex: 9999 }}>
       {/* Header */}
       <div style={{
-        background: 'rgba(10,10,11,0.95)',
-        backdropFilter: 'blur(12px)',
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        background: '#ffffff',
+        borderBottom: '1px solid rgba(0,0,0,0.06)',
         padding: '0 16px',
         height: '56px',
         display: 'flex',
@@ -57,7 +89,7 @@ export function ArPage() {
         flexShrink: 0,
         zIndex: 100,
       }}>
-        <span style={{ fontSize: 13, fontWeight: 900, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#eab676', fontFamily: 'sans-serif' }}>
+        <span style={{ fontSize: 13, fontWeight: 900, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#c88a3e', fontFamily: 'sans-serif' }}>
           AR Preview
         </span>
         <button
@@ -85,26 +117,65 @@ export function ArPage() {
         {React.createElement('needle-engine', {
           ref: engineRef,
           src: '/models/window-scene.glb',
-          style: { width: '100%', height: '100%', display: 'block' },
+          style: { width: '100%', height: '100%', display: 'block', backgroundColor: '#ffffff' },
           'camera-position': '0 0.9 2.5',
           'camera-target': '0 0.6 0',
         })}
       </div>
 
+      {/* Control overlay */}
+      <button
+        onClick={startNeedleAR}
+        style={{
+          position: 'absolute',
+          bottom: '24px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 110,
+          padding: '12px 32px',
+          backgroundColor: '#c88a3e',
+          color: '#000000',
+          borderRadius: '999px',
+          fontWeight: 900,
+          border: 'none',
+          boxShadow: '0 10px 25px rgba(200, 138, 62, 0.4)',
+          textTransform: 'uppercase',
+          letterSpacing: '0.1em',
+          fontSize: '13px',
+          cursor: 'pointer',
+          fontFamily: 'sans-serif',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+        }}
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} style={{ width: '16px', height: '16px' }}>
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+          <line x1="12" y1="22.08" x2="12" y2="12" />
+        </svg>
+        Start AR
+      </button>
+
       {/* Hint */}
       <div style={{
         position: 'absolute',
-        bottom: 16,
+        bottom: '80px',
         left: '50%',
         transform: 'translateX(-50%)',
-        color: 'rgba(255,255,255,0.45)',
-        fontSize: 11,
+        color: '#666666',
+        fontSize: 10,
         textAlign: 'center',
         pointerEvents: 'none',
         fontFamily: 'sans-serif',
         whiteSpace: 'nowrap',
+        backgroundColor: 'rgba(0,0,0,0.05)',
+        padding: '6px 12px',
+        borderRadius: '999px',
+        border: '1px solid rgba(0,0,0,0.08)',
+        zIndex: 110,
       }}>
-        Tap "Enter AR" to place the window
+        Tap "Start AR" to place the window
       </div>
     </div>
   );
