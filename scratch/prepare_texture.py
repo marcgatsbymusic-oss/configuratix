@@ -107,8 +107,7 @@ def main():
     top = (h - crop_size) // 2
     img_cropped = img.crop((left, top, left + crop_size, top + crop_size))
     
-    # Rotate 90 degrees clockwise so the wood grain runs horizontally
-    img_cropped = img_cropped.rotate(-90, expand=False)
+    # No rotation applied — the source image is already rotated to the correct orientation
     
     # Scale up to 2048 for maximum quality, then apply seamless blending
     # Use 2048 internally, then save at 1024
