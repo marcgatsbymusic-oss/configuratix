@@ -69,7 +69,30 @@ export function ArPage() {
             ctx.renderer.setClearColor(0xffffff, 1);
           }
           if (ctx.scene) {
-            ctx.scene.background = new THREE.Color(0xffffff);
+            const whiteColor = new THREE.Color(0xffffff);
+            try {
+              Object.defineProperty(ctx.scene, 'background', {
+                get: () => whiteColor,
+                set: () => {},
+                configurable: true
+              });
+            } catch (err) {
+              ctx.scene.background = whiteColor;
+            }
+            ctx.scene.traverse((child: any) => {
+              if (child.name && (
+                child.name.toLowerCase().includes('sky') || 
+                child.name.toLowerCase().includes('dome') || 
+                child.name.toLowerCase().includes('skybox') || 
+                child.name.toLowerCase().includes('environment') || 
+                child.name.toLowerCase().includes('backdrop') || 
+                child.name.toLowerCase().includes('background') || 
+                child.name.toLowerCase().includes('scenery') || 
+                child.name.toLowerCase().includes('studio')
+              )) {
+                child.visible = false;
+              }
+            });
           }
           const xr = ctx.scene.getComponent(WebXR) || ctx.scene.addComponent(WebXR);
           if (xr) {

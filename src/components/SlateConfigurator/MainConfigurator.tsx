@@ -57,6 +57,7 @@ const SpacerScrollWheel = ({
   const dragStartRef = useRef<{ x: number; y: number; time: number } | null>(null);
 
   const handlePointerDown = (e: React.PointerEvent) => {
+    e.stopPropagation();
     dragStartRef.current = {
       x: e.clientX,
       y: e.clientY,
@@ -128,6 +129,7 @@ const SpacerScrollWheel = ({
   const handleWheel = (e: React.WheelEvent) => {
     if (scrollContainerRef.current) {
       e.preventDefault();
+      e.stopPropagation();
       scrollContainerRef.current.scrollLeft += e.deltaY;
     }
   };
@@ -247,6 +249,11 @@ const SpacerScrollWheel = ({
           ref={scrollContainerRef}
           onScroll={handleScroll}
           onPointerDown={handlePointerDown}
+          onPointerMove={(e) => e.stopPropagation()}
+          onPointerUp={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
+          onTouchMove={(e) => e.stopPropagation()}
+          onTouchEnd={(e) => e.stopPropagation()}
           className="absolute inset-0 z-20 cursor-grab active:cursor-grabbing flex overflow-x-scroll snap-x snap-mandatory"
           style={{ 
             scrollbarWidth: 'none', 

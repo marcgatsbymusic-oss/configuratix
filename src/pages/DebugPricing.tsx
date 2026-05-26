@@ -1352,6 +1352,7 @@ const ColorScrollWheel = ({
   const handleWheel = (e: React.WheelEvent) => {
     if (scrollContainerRef.current) {
       e.preventDefault();
+      e.stopPropagation();
       scrollContainerRef.current.scrollLeft += e.deltaY;
     }
   };
@@ -1583,6 +1584,12 @@ const ColorScrollWheel = ({
           <div 
             ref={scrollContainerRef}
             onScroll={handleScroll}
+            onPointerDown={(e) => e.stopPropagation()}
+            onPointerMove={(e) => e.stopPropagation()}
+            onPointerUp={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
+            onTouchMove={(e) => e.stopPropagation()}
+            onTouchEnd={(e) => e.stopPropagation()}
             className="absolute inset-0 z-20 cursor-grab active:cursor-grabbing flex overflow-x-scroll snap-x snap-mandatory"
             style={{ 
               scrollbarWidth: 'none', 
@@ -1811,6 +1818,7 @@ const HandleImage = ({
   const dragStartRef = useRef<{ x: number; y: number; time: number } | null>(null);
 
   const handlePointerDown = (e: React.PointerEvent) => {
+    e.stopPropagation();
     dragStartRef.current = {
       x: e.clientX,
       y: e.clientY,
@@ -1882,6 +1890,7 @@ const HandleImage = ({
   const handleWheel = (e: React.WheelEvent) => {
     if (scrollContainerRef.current) {
       e.preventDefault();
+      e.stopPropagation();
       scrollContainerRef.current.scrollLeft += e.deltaY;
     }
   };
@@ -2008,6 +2017,11 @@ const HandleImage = ({
           ref={scrollContainerRef}
           onScroll={handleScroll}
           onPointerDown={handlePointerDown}
+          onPointerMove={(e) => e.stopPropagation()}
+          onPointerUp={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
+          onTouchMove={(e) => e.stopPropagation()}
+          onTouchEnd={(e) => e.stopPropagation()}
           className="absolute inset-0 z-20 cursor-grab active:cursor-grabbing flex overflow-x-scroll snap-x snap-mandatory"
           style={{ 
             scrollbarWidth: 'none', 
@@ -2158,6 +2172,7 @@ const HandleImage = ({
   const handleWheel = (e: React.WheelEvent) => {
     if (scrollContainerRef.current) {
       e.preventDefault();
+      e.stopPropagation();
       scrollContainerRef.current.scrollLeft += e.deltaY;
     }
   };
@@ -2277,6 +2292,12 @@ const HandleImage = ({
         <div 
           ref={scrollContainerRef}
           onScroll={handleScroll}
+          onPointerDown={(e) => e.stopPropagation()}
+          onPointerMove={(e) => e.stopPropagation()}
+          onPointerUp={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
+          onTouchMove={(e) => e.stopPropagation()}
+          onTouchEnd={(e) => e.stopPropagation()}
           className="absolute inset-0 z-20 cursor-grab active:cursor-grabbing flex overflow-x-scroll snap-x snap-mandatory"
           style={{ 
             scrollbarWidth: 'none', 
@@ -2692,7 +2713,30 @@ export function DebugPricing() {
             ctx.renderer.setClearColor(0xffffff, 1);
           }
           if (ctx.scene) {
-            ctx.scene.background = new THREE.Color(0xffffff);
+            const whiteColor = new THREE.Color(0xffffff);
+            try {
+              Object.defineProperty(ctx.scene, 'background', {
+                get: () => whiteColor,
+                set: () => {},
+                configurable: true
+              });
+            } catch (err) {
+              ctx.scene.background = whiteColor;
+            }
+            ctx.scene.traverse((child: any) => {
+              if (child.name && (
+                child.name.toLowerCase().includes('sky') || 
+                child.name.toLowerCase().includes('dome') || 
+                child.name.toLowerCase().includes('skybox') || 
+                child.name.toLowerCase().includes('environment') || 
+                child.name.toLowerCase().includes('backdrop') || 
+                child.name.toLowerCase().includes('background') || 
+                child.name.toLowerCase().includes('scenery') || 
+                child.name.toLowerCase().includes('studio')
+              )) {
+                child.visible = false;
+              }
+            });
           }
           const xr = ctx.scene.getComponent(WebXR) || ctx.scene.addComponent(WebXR);
           if (xr) {

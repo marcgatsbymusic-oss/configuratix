@@ -38,12 +38,33 @@ export const NeedlePreview: React.FC<NeedlePreviewProps> = ({ state }) => {
         }
 
         if (ctx.scene) {
-          // Set scene background to white
-          ctx.scene.background = new THREE.Color(0xffffff);
+          // Force scene background to always be white
+          const whiteColor = new THREE.Color(0xffffff);
+          try {
+            Object.defineProperty(ctx.scene, 'background', {
+              get: () => whiteColor,
+              set: () => {},
+              configurable: true
+            });
+          } catch (e) {
+            ctx.scene.background = whiteColor;
+          }
 
-          // Traverse to enable shadows
+          // Traverse to enable shadows and hide skybox/backdrop meshes
           let hasDirectionalLight = false;
           ctx.scene.traverse((child: any) => {
+            if (child.name && (
+              child.name.toLowerCase().includes('sky') || 
+              child.name.toLowerCase().includes('dome') || 
+              child.name.toLowerCase().includes('skybox') || 
+              child.name.toLowerCase().includes('environment') || 
+              child.name.toLowerCase().includes('backdrop') || 
+              child.name.toLowerCase().includes('background') || 
+              child.name.toLowerCase().includes('scenery') || 
+              child.name.toLowerCase().includes('studio')
+            )) {
+              child.visible = false;
+            }
             if (child.isMesh) {
               child.castShadow = true;
               child.receiveShadow = true;
