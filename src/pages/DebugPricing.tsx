@@ -2624,8 +2624,50 @@ export function DebugPricing() {
 
     const onReady = async (e: Event) => {
       try {
-        const { WebXR, Context } = await import('@needle-tools/engine');
+        const { WebXR, Context, WebARSessionRoot } = await import('@needle-tools/engine');
         if (!active) return;
+
+        // Override the WebARSessionRoot prototype to support wall and floor placement
+        if (WebARSessionRoot) {
+          (WebARSessionRoot.prototype as any).applyViewBasedTransform = function (reticle: any) {
+            if (!reticle) return;
+            const camera = this.context.mainCamera;
+            if (!camera) return;
+
+            const camPos = new THREE.Vector3();
+            camera.getWorldPosition(camPos);
+
+            const reticlePos = new THREE.Vector3();
+            reticle.getWorldPosition(reticlePos);
+
+            // Get surface normal from the reticle's quaternion (where Y+ is normal)
+            const normal = new THREE.Vector3(0, 1, 0).applyQuaternion(reticle.quaternion).normalize();
+            const isHorizontal = Math.abs(normal.y) > 0.7;
+
+            if (isHorizontal) {
+              // Floor: face camera, lock Y upright
+              const dirToCam = new THREE.Vector3().subVectors(camPos, reticlePos);
+              dirToCam.y = 0;
+              dirToCam.normalize();
+              if (dirToCam.lengthSq() === 0) {
+                dirToCam.set(0, 0, 1);
+              }
+              const m = new THREE.Matrix4().lookAt(new THREE.Vector3(0, 0, 0), dirToCam, new THREE.Vector3(0, 1, 0));
+              reticle.quaternion.setFromRotationMatrix(m);
+            } else {
+              // Wall: align flush to the wall, lock Y upright
+              const wallNormal = normal.clone();
+              wallNormal.y = 0;
+              wallNormal.normalize();
+              if (wallNormal.lengthSq() === 0) {
+                wallNormal.set(0, 0, 1);
+              }
+              const m = new THREE.Matrix4().lookAt(new THREE.Vector3(0, 0, 0), wallNormal, new THREE.Vector3(0, 1, 0));
+              reticle.quaternion.setFromRotationMatrix(m);
+            }
+          };
+        }
+
         const ctx = (e as CustomEvent).detail?.context ?? (Context as any).Current;
         if (ctx) {
           // Set clear color and background color to white
