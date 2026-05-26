@@ -30,6 +30,16 @@ interface ThreejsWindowEngineProps {
 
 const DEFAULT_MAPS = { diffuse: null, normal: null, orm: null };
 
+// --- Texture Physical Scale ---
+// Source image: 724x1024px, no embedded DPI.
+// Professional wood veneer/foil textures are produced at 300 DPI.
+// After cropping to 724x724 square and rotating 90°:
+//   - U axis (along extrusion length) = grain direction = 1024px @ 300dpi = 86.7mm
+//   - V axis (across 70mm profile face) = 724px @ 300dpi = 61.3mm
+// These constants drive the proportional repeat calculation.
+const TEX_MM_ALONG_GRAIN = 86.7;  // mm per tile along the profile length (U axis)
+const TEX_MM_ACROSS_GRAIN = 61.3; // mm per tile across the profile face (V axis)
+
 const WindowAssembly = ({ 
   width, 
   height, 
@@ -110,7 +120,8 @@ const WindowAssembly = ({
     const configureTexture = (tex: THREE.Texture, colorSpace: THREE.ColorSpace) => {
       tex.wrapS = THREE.RepeatWrapping;
       tex.wrapT = THREE.RepeatWrapping;
-      // UVs are in meters. repeat.set(1.0, 1.0) = texture repeats every 1 meter (natural for a ~1m wood plank)
+      // Repeat will be set dynamically in the material useMemo based on window dimensions.
+      // We leave it at 1.0 here; the material memo will clone and override.
       tex.repeat.set(1.0, 1.0);
       tex.colorSpace = colorSpace;
       tex.anisotropy = 16;
@@ -264,22 +275,38 @@ const WindowAssembly = ({
 
   const extMaterial = useMemo(() => {
     if (extMaps.diffuse) {
+      // Proportional UV repeat: the texture physically represents TEX_MM_ALONG_GRAIN mm.
+      // UVs are in meters (U = Z position along extrusion length).
+      // We want the grain to tile seamlessly along the full profile length (= window width for horizontal rails,
+      // window height for vertical stiles). We use width as the dominant axis (widest profile = most visible).
+      // repeatU = window_length_m / (TEX_MM_ALONG_GRAIN / 1000)
+      // This produces N whole-number-ish repeats that fill the frame naturally.
+      const windowLengthM = width / 1000;
+      const repeatU = windowLengthM / (TEX_MM_ALONG_GRAIN / 1000);
+      // repeatV across the ~70mm profile face: show ~1 full tile across the face
+      const repeatV = (70 / TEX_MM_ACROSS_GRAIN);
+
+      // Clone textures so repeat is independent per material instance
+      const cloneAndRepeat = (tex: THREE.Texture) => {
+        const t = tex.clone();
+        t.wrapS = THREE.RepeatWrapping;
+        t.wrapT = THREE.RepeatWrapping;
+        t.repeat.set(repeatU, repeatV);
+        t.needsUpdate = true;
+        return t;
+      };
+
       const mat = new THREE.MeshStandardMaterial({
         color: 0xffffff,
-        map: extMaps.diffuse,
-        normalMap: extMaps.normal || null,
-        aoMap: extMaps.orm || null,
-        // ORM: roughness is in the GREEN channel, metalness in BLUE (=0 for wood)
-        // Three.js multiplies these maps by the base scalars below
-        roughnessMap: extMaps.orm || null,
-        metalnessMap: extMaps.orm || null,
-        // roughness=1.0 so the ORM green channel drives roughness (0.45-0.65 range)
+        map: cloneAndRepeat(extMaps.diffuse),
+        normalMap: extMaps.normal ? cloneAndRepeat(extMaps.normal) : null,
+        aoMap: extMaps.orm ? cloneAndRepeat(extMaps.orm) : null,
+        roughnessMap: extMaps.orm ? cloneAndRepeat(extMaps.orm) : null,
+        metalnessMap: extMaps.orm ? cloneAndRepeat(extMaps.orm) : null,
         roughness: 1.0,
-        // metalness=0.0 for wood — ORM blue=0 anyway, but base must be 0
         metalness: 0.0,
         aoMapIntensity: 0.8,
       });
-      // Subtle normal map — real wood has fine grain bumps, not deep ridges
       if (extMaps.normal) mat.normalScale.set(0.6, 0.6);
       return mat;
     }
@@ -288,17 +315,31 @@ const WindowAssembly = ({
       roughness: 0.6,
       metalness: 0.1
     });
-  }, [colorExt, extMaps]);
+  }, [colorExt, extMaps, width]);
   
   const intMaterial = useMemo(() => {
     if (intMaps.diffuse) {
+      // Interior uses height as its dominant extrusion axis (vertical stiles)
+      const windowLengthM = height / 1000;
+      const repeatU = windowLengthM / (TEX_MM_ALONG_GRAIN / 1000);
+      const repeatV = (70 / TEX_MM_ACROSS_GRAIN);
+
+      const cloneAndRepeat = (tex: THREE.Texture) => {
+        const t = tex.clone();
+        t.wrapS = THREE.RepeatWrapping;
+        t.wrapT = THREE.RepeatWrapping;
+        t.repeat.set(repeatU, repeatV);
+        t.needsUpdate = true;
+        return t;
+      };
+
       const mat = new THREE.MeshStandardMaterial({
         color: 0xffffff,
-        map: intMaps.diffuse,
-        normalMap: intMaps.normal || null,
-        aoMap: intMaps.orm || null,
-        roughnessMap: intMaps.orm || null,
-        metalnessMap: intMaps.orm || null,
+        map: cloneAndRepeat(intMaps.diffuse),
+        normalMap: intMaps.normal ? cloneAndRepeat(intMaps.normal) : null,
+        aoMap: intMaps.orm ? cloneAndRepeat(intMaps.orm) : null,
+        roughnessMap: intMaps.orm ? cloneAndRepeat(intMaps.orm) : null,
+        metalnessMap: intMaps.orm ? cloneAndRepeat(intMaps.orm) : null,
         roughness: 1.0,
         metalness: 0.0,
         aoMapIntensity: 0.8,
@@ -311,7 +352,7 @@ const WindowAssembly = ({
       roughness: 0.6,
       metalness: 0.1
     });
-  }, [colorInt, intMaps]);
+  }, [colorInt, intMaps, height]);
 
   const glassMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({ 
      color: "#ffffff", 
