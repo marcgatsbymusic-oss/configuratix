@@ -33,11 +33,11 @@ const DEFAULT_MAPS = { diffuse: null, normal: null, orm: null };
 // --- Texture Physical Scale ---
 // Source image: 724x1024px, no embedded DPI.
 // Professional wood veneer/foil textures are produced at 300 DPI.
-// After cropping to 724x724 square and rotating 90°:
-//   - U axis (along extrusion length) = grain direction = 1024px @ 300dpi = 86.7mm
-//   - V axis (across 70mm profile face) = 724px @ 300dpi = 61.3mm
-// These constants drive the proportional repeat calculation.
-const TEX_MM_ALONG_GRAIN = 86.7;  // mm per tile along the profile length (U axis)
+// Full portrait (724×1024) rotated 90° clockwise → landscape 1024×724:
+//   - U axis (along extrusion length) = LONGEST side = 1024px @ 300dpi = 86.7mm
+//   - V axis (across ~70mm profile face) = 724px @ 300dpi = 61.3mm
+// No square crop — the full long dimension is preserved and aligned to the profile length.
+const TEX_MM_ALONG_GRAIN = 86.7;  // mm per tile along the profile length (U axis = longest side)
 const TEX_MM_ACROSS_GRAIN = 61.3; // mm per tile across the profile face (V axis)
 
 const WindowAssembly = ({ 

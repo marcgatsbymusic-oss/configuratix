@@ -99,20 +99,17 @@ def main():
     print(f"Loading image from: {src_path}")
     img = Image.open(src_path).convert('RGB')
     
-    # Source image is 724x1024 (portrait, vertical grain)
-    # We want 1024x1024 — crop center square
-    w, h = img.size
-    crop_size = min(w, h)
-    left = (w - crop_size) // 2
-    top = (h - crop_size) // 2
-    img_cropped = img.crop((left, top, left + crop_size, top + crop_size))
+    # Source image is 724x1024 portrait. The LONGEST side (1024px) must align with
+    # the profile extrusion direction (U axis). Strategy:
+    #   1. Do NOT square-crop — keep the full portrait dimensions so no data is lost.
+    #   2. Rotate 90° clockwise (expand=True): 724x1024 → 1024x724 landscape.
+    #      Now the 1024px long axis is horizontal = U axis = along profile length.
+    #   3. Resize to 1024x1024 for power-of-two GPU compatibility.
+    #      The slight V compression (724→1024) is imperceptible on the ~70mm profile face.
+    img_rotated = img.rotate(-90, expand=True)  # landscape: 1024w × 724h
     
-    # Rotate 90 degrees clockwise
-    img_cropped = img_cropped.rotate(-90, expand=False)
-    
-    # Scale up to 2048 for maximum quality, then apply seamless blending
-    # Use 2048 internally, then save at 1024
-    img_2048 = img_cropped.resize((2048, 2048), Image.Resampling.LANCZOS)
+    # Scale up to 2048x2048 for maximum quality seamless blending, then save at 1024x1024
+    img_2048 = img_rotated.resize((2048, 2048), Image.Resampling.LANCZOS)
     arr_2048 = np.array(img_2048)
     
     # 1. Generate Seamless Diffuse (Albedo) — preserve original quality
@@ -127,8 +124,13 @@ def main():
     # Save at high quality to preserve original color fidelity
     diffuse_img.save(os.path.join(out_dir, "diffuse.jpg"), "JPEG", quality=97)
     
-    # Swatch: center crop of original, unblended — pure original quality
-    swatch = img_cropped.resize((400, 400), Image.Resampling.LANCZOS)
+    # Swatch: center crop of the rotated image — correct orientation, unblended
+    swatch_w, swatch_h = img_rotated.size
+    swatch_crop = min(swatch_w, swatch_h)
+    swatch_left = (swatch_w - swatch_crop) // 2
+    swatch_top = (swatch_h - swatch_crop) // 2
+    swatch = img_rotated.crop((swatch_left, swatch_top, swatch_left + swatch_crop, swatch_top + swatch_crop))
+    swatch = swatch.resize((400, 400), Image.Resampling.LANCZOS)
     swatch.save(os.path.join(swatch_dir, "test_wood.jpg"), "JPEG", quality=95)
     print("Diffuse and swatch saved.")
     
