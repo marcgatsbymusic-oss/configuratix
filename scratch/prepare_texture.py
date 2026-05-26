@@ -107,7 +107,8 @@ def main():
     top = (h - crop_size) // 2
     img_cropped = img.crop((left, top, left + crop_size, top + crop_size))
     
-    # No rotation applied — the source image is already rotated to the correct orientation
+    # Rotate 90 degrees clockwise
+    img_cropped = img_cropped.rotate(-90, expand=False)
     
     # Scale up to 2048 for maximum quality, then apply seamless blending
     # Use 2048 internally, then save at 1024
