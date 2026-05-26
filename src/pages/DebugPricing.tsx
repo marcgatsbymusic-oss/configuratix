@@ -2660,9 +2660,42 @@ export function DebugPricing() {
 
     let active = true;
 
-    const onReady = async (e: Event) => {
+    const enforceWhiteBg = (ctx: any) => {
+      if (!ctx) return;
+      if (ctx.renderer) {
+        ctx.renderer.setClearColor(0xffffff, 1);
+      }
+      if (ctx.scene) {
+        const whiteColor = new THREE.Color(0xffffff);
+        if (ctx.scene.background !== whiteColor) {
+          try {
+            ctx.scene.background = whiteColor;
+          } catch (e) {
+            ctx.scene.background = whiteColor;
+          }
+        }
+        ctx.scene.traverse((child: any) => {
+          if (child.name && (
+            child.name.toLowerCase().includes('sky') || 
+            child.name.toLowerCase().includes('dome') || 
+            child.name.toLowerCase().includes('skybox') || 
+            child.name.toLowerCase().includes('environment') || 
+            child.name.toLowerCase().includes('backdrop') || 
+            child.name.toLowerCase().includes('background') || 
+            child.name.toLowerCase().includes('scenery') || 
+            child.name.toLowerCase().includes('studio')
+          )) {
+            if (child.visible) {
+              child.visible = false;
+            }
+          }
+        });
+      }
+    };
+
+    const runSetup = async (ctx: any) => {
       try {
-        const { WebXR, Context, WebARSessionRoot } = await import('@needle-tools/engine');
+        const { WebXR, WebARSessionRoot } = await import('@needle-tools/engine');
         if (!active) return;
 
         // Override the WebARSessionRoot prototype to support wall and floor placement
@@ -2706,56 +2739,52 @@ export function DebugPricing() {
           };
         }
 
-        const ctx = (e as CustomEvent).detail?.context ?? (Context as any).Current;
-        if (ctx) {
-          // Set clear color and background color to white
-          if (ctx.renderer) {
-            ctx.renderer.setClearColor(0xffffff, 1);
-          }
-          if (ctx.scene) {
-            const whiteColor = new THREE.Color(0xffffff);
-            try {
-              Object.defineProperty(ctx.scene, 'background', {
-                get: () => whiteColor,
-                set: () => {},
-                configurable: true
-              });
-            } catch (err) {
-              ctx.scene.background = whiteColor;
-            }
-            ctx.scene.traverse((child: any) => {
-              if (child.name && (
-                child.name.toLowerCase().includes('sky') || 
-                child.name.toLowerCase().includes('dome') || 
-                child.name.toLowerCase().includes('skybox') || 
-                child.name.toLowerCase().includes('environment') || 
-                child.name.toLowerCase().includes('backdrop') || 
-                child.name.toLowerCase().includes('background') || 
-                child.name.toLowerCase().includes('scenery') || 
-                child.name.toLowerCase().includes('studio')
-              )) {
-                child.visible = false;
-              }
-            });
-          }
-          const xr = ctx.scene.getComponent(WebXR) || ctx.scene.addComponent(WebXR);
-          if (xr) {
-            xr.createARButton = false;
-            xr.createVRButton = false;
-            console.log('[Needle Inline] WebXR component injected');
-          }
+        enforceWhiteBg(ctx);
+
+        const xr = ctx.scene?.getComponent(WebXR) || ctx.scene?.addComponent(WebXR);
+        if (xr) {
+          xr.createARButton = false;
+          xr.createVRButton = false;
+          console.log('[Needle Inline] WebXR component injected');
         }
       } catch (err) {
         console.warn('[Needle Inline] Could not inject WebXR component:', err);
       }
     };
 
+    // Continuous tick loop
+    const tick = () => {
+      if (!active) return;
+      const ctx = (engine as any).context;
+      if (ctx) {
+        enforceWhiteBg(ctx);
+      }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+
+    // Call setup immediately if context exists
+    const existingCtx = (engine as any).context;
+    if (existingCtx) {
+      runSetup(existingCtx);
+    }
+
+    const onReady = (e: Event) => {
+      const ctx = (e as CustomEvent).detail?.context;
+      if (ctx) {
+        runSetup(ctx);
+      }
+    };
+
     engine.addEventListener('ready', onReady);
+    engine.addEventListener('load', onReady);
+
     return () => {
       active = false;
       engine.removeEventListener('ready', onReady);
+      engine.removeEventListener('load', onReady);
     };
-  }, [displayMode]);
+  }, [displayMode, needleModelUrl]);
 
   const startNeedleAR = async () => {
     try {
@@ -3914,6 +3943,7 @@ export function DebugPricing() {
                        style: { width: '100%', height: '100%', display: 'block', backgroundColor: '#ffffff' },
                        'camera-position': '0 0.9 2.5',
                        'camera-target': '0 0.6 0',
+                       'background-color': '#ffffff'
                      })}
                      <button
                        onClick={startNeedleAR}

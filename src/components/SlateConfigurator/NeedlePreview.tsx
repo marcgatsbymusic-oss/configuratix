@@ -26,112 +26,153 @@ export const NeedlePreview: React.FC<NeedlePreviewProps> = ({ state }) => {
     const engine = engineRef.current;
     if (!engine) return;
 
-    const onReady = (e: Event) => {
-      const ctx = (e as CustomEvent).detail?.context;
-      if (ctx) {
-        // Set WebGLRenderer to support shadows and white background
-        if (ctx.renderer) {
-          ctx.renderer.setClearColor(0xffffff, 1);
-          ctx.renderer.shadowMap.enabled = true;
-          ctx.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-          ctx.renderer.shadowMap.needsUpdate = true;
-        }
+    let active = true;
 
-        if (ctx.scene) {
-          // Force scene background to always be white
-          const whiteColor = new THREE.Color(0xffffff);
+    const enforceWhiteBg = (ctx: any) => {
+      if (!ctx) return;
+      if (ctx.renderer) {
+        ctx.renderer.setClearColor(0xffffff, 1);
+      }
+      if (ctx.scene) {
+        const whiteColor = new THREE.Color(0xffffff);
+        if (ctx.scene.background !== whiteColor) {
           try {
-            Object.defineProperty(ctx.scene, 'background', {
-              get: () => whiteColor,
-              set: () => {},
-              configurable: true
-            });
+            ctx.scene.background = whiteColor;
           } catch (e) {
             ctx.scene.background = whiteColor;
           }
-
-          // Traverse to enable shadows and hide skybox/backdrop meshes
-          let hasDirectionalLight = false;
-          ctx.scene.traverse((child: any) => {
-            if (child.name && (
-              child.name.toLowerCase().includes('sky') || 
-              child.name.toLowerCase().includes('dome') || 
-              child.name.toLowerCase().includes('skybox') || 
-              child.name.toLowerCase().includes('environment') || 
-              child.name.toLowerCase().includes('backdrop') || 
-              child.name.toLowerCase().includes('background') || 
-              child.name.toLowerCase().includes('scenery') || 
-              child.name.toLowerCase().includes('studio')
-            )) {
+        }
+        ctx.scene.traverse((child: any) => {
+          if (child.name && (
+            child.name.toLowerCase().includes('sky') || 
+            child.name.toLowerCase().includes('dome') || 
+            child.name.toLowerCase().includes('skybox') || 
+            child.name.toLowerCase().includes('environment') || 
+            child.name.toLowerCase().includes('backdrop') || 
+            child.name.toLowerCase().includes('background') || 
+            child.name.toLowerCase().includes('scenery') || 
+            child.name.toLowerCase().includes('studio')
+          )) {
+            if (child.visible) {
               child.visible = false;
             }
-            if (child.isMesh) {
-              child.castShadow = true;
-              child.receiveShadow = true;
-            }
-            if (child.isLight) {
-              child.castShadow = true;
-              if (child.shadow) {
-                child.shadow.mapSize.width = 2048;
-                child.shadow.mapSize.height = 2048;
-                child.shadow.bias = -0.0005;
-                child.shadow.camera.near = 0.5;
-                child.shadow.camera.far = 15;
-                if (child.isDirectionalLight) {
-                  hasDirectionalLight = true;
-                  child.shadow.camera.left = -3;
-                  child.shadow.camera.right = 3;
-                  child.shadow.camera.top = 3;
-                  child.shadow.camera.bottom = -3;
-                }
+          }
+        });
+      }
+    };
+
+    const runSetup = (ctx: any) => {
+      if (!ctx) return;
+
+      if (ctx.renderer) {
+        ctx.renderer.setClearColor(0xffffff, 1);
+        ctx.renderer.shadowMap.enabled = true;
+        ctx.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        ctx.renderer.shadowMap.needsUpdate = true;
+      }
+
+      enforceWhiteBg(ctx);
+
+      if (ctx.scene) {
+        // Traverse to enable shadows
+        let hasDirectionalLight = false;
+        ctx.scene.traverse((child: any) => {
+          if (child.isMesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+          }
+          if (child.isLight) {
+            child.castShadow = true;
+            if (child.shadow) {
+              child.shadow.mapSize.width = 2048;
+              child.shadow.mapSize.height = 2048;
+              child.shadow.bias = -0.0005;
+              child.shadow.camera.near = 0.5;
+              child.shadow.camera.far = 15;
+              if (child.isDirectionalLight) {
+                hasDirectionalLight = true;
+                child.shadow.camera.left = -3;
+                child.shadow.camera.right = 3;
+                child.shadow.camera.top = 3;
+                child.shadow.camera.bottom = -3;
               }
             }
-          });
-
-          // Add a default casting light if none present to guarantee shadows
-          if (!hasDirectionalLight) {
-            const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
-            dirLight.position.set(3, 4, 3);
-            dirLight.castShadow = true;
-            dirLight.shadow.mapSize.width = 2048;
-            dirLight.shadow.mapSize.height = 2048;
-            dirLight.shadow.camera.near = 0.5;
-            dirLight.shadow.camera.far = 15;
-            dirLight.shadow.camera.left = -3;
-            dirLight.shadow.camera.right = 3;
-            dirLight.shadow.camera.top = 3;
-            dirLight.shadow.camera.bottom = -3;
-            dirLight.shadow.bias = -0.0005;
-            ctx.scene.add(dirLight);
           }
+        });
 
-          // Check if ground exists, if not add a shadow plane
-          let hasGround = false;
-          ctx.scene.traverse((child: any) => {
-            if (child.isMesh && child.name && (
-              child.name.toLowerCase().includes('ground') || 
-              child.name.toLowerCase().includes('floor') || 
-              child.name.toLowerCase().includes('plane')
-            )) {
-              hasGround = true;
-            }
-          });
+        // Add a default casting light if none present to guarantee shadows
+        if (!hasDirectionalLight) {
+          const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+          dirLight.position.set(3, 4, 3);
+          dirLight.castShadow = true;
+          dirLight.shadow.mapSize.width = 2048;
+          dirLight.shadow.mapSize.height = 2048;
+          dirLight.shadow.camera.near = 0.5;
+          dirLight.shadow.camera.far = 15;
+          dirLight.shadow.camera.left = -3;
+          dirLight.shadow.camera.right = 3;
+          dirLight.shadow.camera.top = 3;
+          dirLight.shadow.camera.bottom = -3;
+          dirLight.shadow.bias = -0.0005;
+          ctx.scene.add(dirLight);
+        }
 
-          if (!hasGround) {
-            const geometry = new THREE.PlaneGeometry(100, 100);
-            const material = new THREE.ShadowMaterial({ opacity: 0.15 });
-            const floor = new THREE.Mesh(geometry, material);
-            floor.rotation.x = -Math.PI / 2;
-            floor.position.y = 0; // bottom of the window
-            floor.receiveShadow = true;
-            ctx.scene.add(floor);
+        // Check if ground exists, if not add a shadow plane
+        let hasGround = false;
+        ctx.scene.traverse((child: any) => {
+          if (child.isMesh && child.name && (
+            child.name.toLowerCase().includes('ground') || 
+            child.name.toLowerCase().includes('floor') || 
+            child.name.toLowerCase().includes('plane')
+          )) {
+            hasGround = true;
           }
+        });
+
+        if (!hasGround) {
+          const geometry = new THREE.PlaneGeometry(100, 100);
+          const material = new THREE.ShadowMaterial({ opacity: 0.15 });
+          const floor = new THREE.Mesh(geometry, material);
+          floor.rotation.x = -Math.PI / 2;
+          floor.position.y = 0; // bottom of the window
+          floor.receiveShadow = true;
+          ctx.scene.add(floor);
         }
       }
     };
 
+    // Continuous tick loop
+    const tick = () => {
+      if (!active) return;
+      const ctx = (engine as any).context;
+      if (ctx) {
+        enforceWhiteBg(ctx);
+      }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+
+    // Call setup immediately if context exists
+    const existingCtx = (engine as any).context;
+    if (existingCtx) {
+      runSetup(existingCtx);
+    }
+
+    const onReady = (e: Event) => {
+      const ctx = (e as CustomEvent).detail?.context;
+      if (ctx) {
+        runSetup(ctx);
+      }
+    };
+
     engine.addEventListener('ready', onReady);
-    return () => engine.removeEventListener('ready', onReady);
+    engine.addEventListener('load', onReady);
+
+    return () => {
+      active = false;
+      engine.removeEventListener('ready', onReady);
+      engine.removeEventListener('load', onReady);
+    };
   }, []);
 
   return (
@@ -143,7 +184,8 @@ export const NeedlePreview: React.FC<NeedlePreviewProps> = ({ state }) => {
       {React.createElement('needle-engine', {
         ref: engineRef,
         src: '/models/window-scene.glb',
-        style: { width: '100%', height: '100%', display: 'block' }
+        style: { width: '100%', height: '100%', display: 'block' },
+        'background-color': '#ffffff'
       })}
     </div>
   );
