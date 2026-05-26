@@ -4025,7 +4025,7 @@ export function DebugPricing() {
 
              {/* 3D ThreeJS Engine (mounted for both 3D and Needle modes) */}
              {(displayMode === '3D' || displayMode === 'Needle') && (
-               <div className={displayMode === '3D' ? "absolute inset-0" : "invisible w-0 h-0 overflow-hidden"}>
+               <div className={displayMode === '3D' ? "absolute inset-0" : "absolute inset-0 -z-50 opacity-0 pointer-events-none"}>
                   <ThreejsWindowEngine 
                     width={width} 
                     height={height} 
