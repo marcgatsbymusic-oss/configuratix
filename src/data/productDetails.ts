@@ -196,6 +196,7 @@ export const IGLO_EDGE_COLORS: SwatchColor[] = [
   { id: 'c226', name: 'Walnut', image: '/assets/windowcolors/textures/orzech-a.jpg', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/nogal.webp', hex: '#404040', group: 'Wood Effect' },
   { id: 'c223', name: 'Winchester', image: '/assets/windowcolors/textures/winchester_kk.jpg', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/winchester.webp', hex: '#404040', group: 'Wood Effect' },
   { id: 'c219', name: 'Golden Oak', image: '/assets/windowcolors/textures/zaoty-dab_kk.jpg', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/roble-dorado.webp', hex: '#404040', group: 'Wood Effect' },
+  { id: 'c999', name: 'Test Wood', image: '/assets/windowcolors/textures/test_wood.jpg', hex: '#966f42', group: 'Wood Effect' },
 ]
 
 
@@ -1974,6 +1975,7 @@ export const SOFTLINE_COLORS: SwatchColor[] = [
   { id: 'c226', name: 'Walnut', image: '/assets/windowcolors/textures/orzech-a.jpg', windowImage: '/assets/softline/window.png', hex: '#3E2A1D', group: 'Wood Effect' },
   { id: 'c223', name: 'Winchester', image: '/assets/windowcolors/textures/winchester_kk.jpg', windowImage: '/assets/softline/window.png', hex: '#825936', group: 'Wood Effect' },
   { id: 'c219', name: 'Golden Oak', image: '/assets/windowcolors/textures/zaoty-dab_kk.jpg', windowImage: '/assets/softline/window.png', hex: '#8E5B23', group: 'Wood Effect' },
+  { id: 'c999', name: 'Test Wood', image: '/assets/windowcolors/textures/test_wood.jpg', windowImage: '/assets/softline/window.png', hex: '#966f42', group: 'Wood Effect' },
 ];
 
 export const SOFTLINE_DETAIL: ProductDetailData = {

@@ -319,7 +319,8 @@
     "c222": "Turner Oak Walnut 470 3004",
     "c226": "Pähkinä",
     "c223": "Winchester",
-    "c219": "Kultainen tammi"
+    "c219": "Kultainen tammi",
+    "c999": "Testipuu"
   },
   "configurator": {
     "title": "Suunnittele mukautettu ikkunajärjestelmäsi.",

@@ -602,7 +602,8 @@
     "basalt-grey-ral-7012": "Gris Basalto RAL 7012",
     "quartz-grey-ral-7039": "Gris Cuarzo RAL 7039",
     "turner-oak": "Roble Turner",
-    "winchester": "Winchester"
+    "winchester": "Winchester",
+    "c999": "Madera de prueba"
   },
   "configurator": {
     "title": "Diseñe su sistema de ventanas personalizado.",

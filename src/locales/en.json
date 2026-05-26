@@ -616,7 +616,8 @@
     "basalt-grey-ral-7012": "Basalt Grey RAL 7012",
     "quartz-grey-ral-7039": "Quartz Grey RAL 7039",
     "turner-oak": "Turner Oak",
-    "winchester": "Winchester"
+    "winchester": "Winchester",
+    "c999": "Test Wood"
   },
   "configurator": {
     "title": "Design your custom window system.",
