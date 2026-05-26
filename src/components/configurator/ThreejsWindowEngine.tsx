@@ -275,16 +275,12 @@ const WindowAssembly = ({
 
   const extMaterial = useMemo(() => {
     if (extMaps.diffuse) {
-      // Proportional UV repeat: the texture physically represents TEX_MM_ALONG_GRAIN mm.
-      // UVs are in meters (U = Z position along extrusion length).
-      // We want the grain to tile seamlessly along the full profile length (= window width for horizontal rails,
-      // window height for vertical stiles). We use width as the dominant axis (widest profile = most visible).
-      // repeatU = window_length_m / (TEX_MM_ALONG_GRAIN / 1000)
-      // This produces N whole-number-ish repeats that fill the frame naturally.
-      const windowLengthM = width / 1000;
-      const repeatU = windowLengthM / (TEX_MM_ALONG_GRAIN / 1000);
-      // repeatV across the ~70mm profile face: show ~1 full tile across the face
-      const repeatV = (70 / TEX_MM_ACROSS_GRAIN);
+      // UV repeat in "tiles per meter" — UVs are in meters in this scene.
+      // repeatU: 1 tile = TEX_MM_ALONG_GRAIN mm along profile length. Scales with window size.
+      const repeatU = (width / 1000) / (TEX_MM_ALONG_GRAIN / 1000); // tiles along profile length
+      // repeatV: 1 tile = TEX_MM_ACROSS_GRAIN mm across profile face.
+      // Profile cross-section UV V spans ~0.1m (70mm diagonal). 16.3 tiles/m → ~1.6 tiles visible.
+      const repeatV = 1000 / TEX_MM_ACROSS_GRAIN; // tiles per meter across face
 
       // Clone textures so repeat is independent per material instance
       const cloneAndRepeat = (tex: THREE.Texture) => {
@@ -319,10 +315,9 @@ const WindowAssembly = ({
   
   const intMaterial = useMemo(() => {
     if (intMaps.diffuse) {
-      // Interior uses height as its dominant extrusion axis (vertical stiles)
-      const windowLengthM = height / 1000;
-      const repeatU = windowLengthM / (TEX_MM_ALONG_GRAIN / 1000);
-      const repeatV = (70 / TEX_MM_ACROSS_GRAIN);
+      // Interior: vertical stiles — dominant axis is height
+      const repeatU = (height / 1000) / (TEX_MM_ALONG_GRAIN / 1000);
+      const repeatV = 1000 / TEX_MM_ACROSS_GRAIN;
 
       const cloneAndRepeat = (tex: THREE.Texture) => {
         const t = tex.clone();
