@@ -713,6 +713,14 @@ const NumericScrollWheel = ({
     setInputValue(value.toString());
   }, [value]);
 
+  const dragValueRef = useRef(value);
+
+  useEffect(() => {
+    if (!isDragging) {
+      dragValueRef.current = value;
+    }
+  }, [value, isDragging]);
+
   const isVert = orientation === 'vertical';
 
   const isEditingRef = useRef(isEditing);
@@ -787,22 +795,26 @@ const NumericScrollWheel = ({
 
   const handleWheel = (e: React.WheelEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     const delta = e.deltaY < 0 ? step : -step;
     updateValue(value + delta);
   };
 
   const handlePointerDown = (e: React.PointerEvent) => {
     if (isEditing) return;
+    e.stopPropagation();
     setIsDragging(true);
     const pos = isVert ? e.clientY : e.clientX;
     dragStartPos.current = pos;
     dragStartValue.current = value;
+    dragValueRef.current = value;
     lastPos.current = pos;
     lastTime.current = Date.now();
     e.currentTarget.setPointerCapture(e.pointerId);
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
+    e.stopPropagation();
     if (!isDragging) return;
     const pos = isVert ? e.clientY : e.clientX;
     const now = Date.now();
@@ -813,14 +825,17 @@ const NumericScrollWheel = ({
     const accelFactor = velocity > 0.2 ? Math.min(10, 1 + (velocity - 0.2) * 4) : 1;
     
     const valueDelta = -dp * (unitsPerTick / tickSpacing) * accelFactor;
-    const nextVal = currentValueRef.current + valueDelta;
-    updateValue(nextVal);
+    dragValueRef.current += valueDelta;
+    
+    const clamped = Math.max(min, Math.min(max, Math.round(dragValueRef.current / step) * step));
+    onChange(clamped);
 
     lastPos.current = pos;
     lastTime.current = now;
   };
 
   const handlePointerUp = (e: React.PointerEvent) => {
+    e.stopPropagation();
     setIsDragging(false);
     e.currentTarget.releasePointerCapture(e.pointerId);
   };
@@ -831,17 +846,20 @@ const NumericScrollWheel = ({
 
     const onTouchStart = (e: TouchEvent) => {
       if (isEditingRef.current) return;
+      e.stopPropagation();
       isTouchDragging.current = true;
       setIsDragging(true);
       const touch = e.touches[0];
       const pos = isVertRef.current ? touch.clientY : touch.clientX;
       dragStartPos.current = pos;
       dragStartValue.current = currentValueRef.current;
+      dragValueRef.current = currentValueRef.current;
       lastPos.current = pos;
       lastTime.current = Date.now();
     };
 
     const onTouchMove = (e: TouchEvent) => {
+      e.stopPropagation();
       if (!isTouchDragging.current) return;
       const touch = e.touches[0];
       const pos = isVertRef.current ? touch.clientY : touch.clientX;
@@ -853,9 +871,9 @@ const NumericScrollWheel = ({
       const accelFactor = velocity > 0.2 ? Math.min(10, 1 + (velocity - 0.2) * 4) : 1;
       const valueDelta = -dp * (unitsPerTick / tickSpacing) * accelFactor;
 
-      const nextVal = currentValueRef.current + valueDelta;
+      dragValueRef.current += valueDelta;
       
-      const clamped = Math.max(minRef.current, Math.min(maxRef.current, Math.round(nextVal / stepRef.current) * stepRef.current));
+      const clamped = Math.max(minRef.current, Math.min(maxRef.current, Math.round(dragValueRef.current / stepRef.current) * stepRef.current));
       onChangeRef.current(clamped);
 
       lastPos.current = pos;
@@ -866,15 +884,16 @@ const NumericScrollWheel = ({
       }
     };
 
-    const onTouchEnd = () => {
+    const onTouchEnd = (e: TouchEvent) => {
+      e.stopPropagation();
       isTouchDragging.current = false;
       setIsDragging(false);
     };
 
-    track.addEventListener('touchstart', onTouchStart, { passive: true });
+    track.addEventListener('touchstart', onTouchStart, { passive: false });
     track.addEventListener('touchmove', onTouchMove, { passive: false });
-    track.addEventListener('touchend', onTouchEnd, { passive: true });
-    track.addEventListener('touchcancel', onTouchEnd, { passive: true });
+    track.addEventListener('touchend', onTouchEnd, { passive: false });
+    track.addEventListener('touchcancel', onTouchEnd, { passive: false });
 
     return () => {
       track.removeEventListener('touchstart', onTouchStart);
@@ -883,8 +902,6 @@ const NumericScrollWheel = ({
       track.removeEventListener('touchcancel', onTouchEnd);
     };
   }, []);
-
-
 
   const size = isVert ? trackHeight : trackWidth;
   const editBg = isLight ? '#ffffff' : 'var(--theme-mammut-darker)';
@@ -985,10 +1002,16 @@ const NumericScrollWheel = ({
         maskImage: 'linear-gradient(to right, transparent, white 15%, white 85%, transparent)',
       };
 
-  const trackSizeClass = isVert ? 'w-5 md:w-[28px] h-full' : 'w-full h-5 md:h-[28px]';
+  const trackSizeClass = isVert ? 'w-10 md:w-12 h-full' : 'w-full h-10 md:h-12';
 
   return (
     <div 
+      ref={trackRef}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerLeave={handlePointerUp}
+      onWheel={handleWheel}
       className={`relative flex select-none touch-none ${
         isVert ? 'flex-col items-center h-full w-full' : 'flex-row items-center w-full'
       }`}
@@ -1015,14 +1038,8 @@ const NumericScrollWheel = ({
       )}
 
       <div
-        ref={trackRef}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerLeave={handlePointerUp}
-        onWheel={handleWheel}
         style={maskStyle}
-        className={`relative overflow-hidden flex-grow flex items-center justify-center select-none touch-none dimension-scroll-wheel ${trackSizeClass}`}
+        className={`relative overflow-hidden flex-grow flex items-center justify-center select-none touch-none pointer-events-none dimension-scroll-wheel ${trackSizeClass}`}
       >
         {bars}
 
@@ -3478,32 +3495,32 @@ export function DebugPricing() {
              )}
 
              {/* Vertical Scroll Wheel (Height) overlay on the left */}
-              <div className="absolute left-3 md:left-4 top-12 md:top-14 bottom-[60px] md:bottom-[80px] w-5 md:w-[28px] z-30 flex items-center justify-center font-mono">
-                 <NumericScrollWheel
-                   label="Height"
-                   value={height}
-                   onChange={setHeight}
-                   min={500}
-                   max={3000}
-                   step={10}
-                   orientation="vertical"
-                   labelPosition="inside"
-                 />
-              </div>
+               <div className="absolute left-3 md:left-4 top-12 md:top-14 bottom-[60px] md:bottom-[80px] w-10 md:w-12 z-30 flex items-center justify-center font-mono">
+                  <NumericScrollWheel
+                    label="Height"
+                    value={height}
+                    onChange={setHeight}
+                    min={500}
+                    max={3000}
+                    step={10}
+                    orientation="vertical"
+                    labelPosition="inside"
+                  />
+               </div>
 
-              {/* Horizontal Scroll Wheel (Width) overlay at the bottom */}
-              <div className="absolute bottom-3 md:bottom-4 left-[60px] md:left-[80px] right-3 md:right-4 h-5 md:h-[28px] z-30 flex items-center justify-center font-mono">
-                 <NumericScrollWheel
-                   label="Width"
-                   value={width}
-                   onChange={setWidth}
-                   min={500}
-                   max={3000}
-                   step={10}
-                   orientation="horizontal"
-                   labelPosition="inside"
-                 />
-              </div>
+               {/* Horizontal Scroll Wheel (Width) overlay at the bottom */}
+               <div className="absolute bottom-3 md:bottom-4 left-[60px] md:left-[80px] right-3 md:right-4 h-10 md:h-12 z-30 flex items-center justify-center font-mono">
+                  <NumericScrollWheel
+                    label="Width"
+                    value={width}
+                    onChange={setWidth}
+                    min={500}
+                    max={3000}
+                    step={10}
+                    orientation="horizontal"
+                    labelPosition="inside"
+                  />
+               </div>
 
              {/* Scenery Selector - always visible in 3D mode */}
              {is3dMode && (
