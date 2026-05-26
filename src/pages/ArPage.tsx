@@ -108,58 +108,82 @@ export function ArPage() {
       }
     };
 
-    const removeInsideOutsideButtons = () => {
-      const isInsideOutside = (el: HTMLElement) => {
+    const cleanNeedleUIAndBackground = () => {
+      // 1. Force attributes on needle-engine DOM nodes (bypasses React attribute-binding issues)
+      const engines = document.querySelectorAll('needle-engine');
+      engines.forEach((eng: any) => {
+        if (eng.getAttribute('background-color') !== '#ffffff') {
+          eng.setAttribute('background-color', '#ffffff');
+        }
+        if (eng.getAttribute('loading-background') !== '#ffffff') {
+          eng.setAttribute('loading-background', '#ffffff');
+        }
+      });
+
+      // 2. Helper to check if text or element matches our targets (inside/outside view, tap hints, etc.)
+      const isTargetElement = (el: HTMLElement) => {
         const text = el.textContent?.trim().toLowerCase() || '';
         if (!text) return false;
         
-        const isMatch = ['inside', 'outside', 'interior', 'exterior', 'innen', 'außen'].includes(text);
-        if (isMatch) return true;
+        // Match exact text for inside/outside buttons
+        const matchesInsideOutside = ['inside', 'outside', 'interior', 'exterior', 'innen', 'außen'].includes(text);
+        if (matchesInsideOutside) return true;
 
-        const isBtn = el.tagName === 'BUTTON' || el.tagName === 'A' || el.getAttribute('role') === 'button' || el.className?.includes('btn');
+        // Match hint text or instructions containing "tap" or "start ar" or "place the window"
+        const matchesHint = text.includes('tap') || text.includes('start ar') || text.includes('place the window') || text.includes('place window');
+        if (matchesHint) return true;
+
+        // Check if button/link contains the words
+        const isBtn = el.tagName === 'BUTTON' || el.tagName === 'A' || el.getAttribute('role') === 'button' || el.className?.includes?.('btn');
         if (isBtn) {
           return ['inside', 'outside', 'interior', 'exterior', 'innen', 'außen'].some(word => 
             text === word || text.includes(' ' + word) || text.includes(word + ' ')
           );
         }
+
         return false;
       };
 
-      document.querySelectorAll('*').forEach((el: any) => {
-        if (isInsideOutside(el)) {
-          el.style.setProperty('display', 'none', 'important');
-        }
-      });
+      // 3. Recursive DOM and Shadow DOM cleaner
+      const recurse = (node: Node) => {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          const el = node as HTMLElement;
 
-      document.querySelectorAll('needle-engine').forEach((eng: any) => {
-        if (eng.shadowRoot) {
-          eng.shadowRoot.querySelectorAll('*').forEach((el: any) => {
-            if (isInsideOutside(el) || 
-                el.getAttribute('id')?.toLowerCase().includes('inside') || 
-                el.getAttribute('id')?.toLowerCase().includes('outside') ||
-                el.className?.toLowerCase?.().includes('inside') ||
-                el.className?.toLowerCase?.().includes('outside')) {
-              el.style.setProperty('display', 'none', 'important');
+          if (isTargetElement(el)) {
+            el.style.setProperty('display', 'none', 'important');
+          }
+
+          // Check ID or class names for inside/outside
+          const id = el.getAttribute('id')?.toLowerCase() || '';
+          const className = typeof el.className === 'string' ? el.className.toLowerCase() : '';
+          if (id.includes('inside') || id.includes('outside') || className.includes('inside') || className.includes('outside')) {
+            el.style.setProperty('display', 'none', 'important');
+          }
+
+          // Recurse into shadow DOM
+          if (el.shadowRoot) {
+            // Inject white styling sheet if not present
+            if (!el.shadowRoot.querySelector('#mammut-needle-styles')) {
+              const style = document.createElement('style');
+              style.id = 'mammut-needle-styles';
+              style.textContent = `
+                :host, .loading, #loading, [part="canvas"], canvas {
+                  background-color: #ffffff !important;
+                  background: #ffffff !important;
+                }
+                div, section, main, article {
+                  background-color: transparent !important;
+                }
+              `;
+              el.shadowRoot.appendChild(style);
             }
-          });
-
-          // Style shadow DOM backgrounds white
-          if (!eng.shadowRoot.querySelector('#mammut-needle-styles')) {
-            const style = document.createElement('style');
-            style.id = 'mammut-needle-styles';
-            style.textContent = `
-              :host, .loading, #loading, [part="canvas"], canvas {
-                background-color: #ffffff !important;
-                background: #ffffff !important;
-              }
-              div, section, main, article {
-                background-color: transparent !important;
-              }
-            `;
-            eng.shadowRoot.appendChild(style);
+            recurse(el.shadowRoot);
           }
         }
-      });
+        node.childNodes.forEach(child => recurse(child));
+      };
+
+      recurse(document.body);
     };
 
     // Continuous tick loop
@@ -169,7 +193,7 @@ export function ArPage() {
       if (ctx) {
         enforceWhiteBg(ctx);
       }
-      removeInsideOutsideButtons();
+      cleanNeedleUIAndBackground();
       requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);

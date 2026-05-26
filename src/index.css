@@ -243,7 +243,7 @@ p {
 }
 
 /* Needle Engine background defaults */
-needle-engine {
+needle-engine, needle-engine::part(canvas), needle-engine canvas {
   background-color: #ffffff !important;
   background: #ffffff !important;
   --background-color: #ffffff !important;
