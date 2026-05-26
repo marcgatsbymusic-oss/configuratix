@@ -348,12 +348,7 @@ const WindowAssembly = ({
     return intMaterial;
   }, [typology, intMaterial]);
 
-  const finalBzdMat = useMemo(() => {
-    if (typology === 'F103') {
-      return new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.6, metalness: 0.1 });
-    }
-    return intMaterial;
-  }, [typology, intMaterial]);
+  const finalBzdMat = intMaterial;
 
   const finalSpacerMat = useMemo(() => {
     if (typology === 'F103') {
