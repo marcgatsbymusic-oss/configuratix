@@ -2568,6 +2568,8 @@ export function DebugPricing() {
     };
   }, []);
 
+
+
   const [sceneGroup, setSceneGroup] = useState<THREE.Group | null>(null);
   const [sceneTrigger, setSceneTrigger] = useState<number>(0);
 
@@ -2619,6 +2621,44 @@ export function DebugPricing() {
 
   const [needleModelUrl, setNeedleModelUrl] = useState<string | null>(null);
   const [needleEngineNode, setNeedleEngineNode] = useState<HTMLElement | null>(null);
+
+  const [debugLogs, setDebugLogs] = useState<string[]>([]);
+  useEffect(() => {
+    const originalLog = console.log;
+    const originalWarn = console.warn;
+    const originalError = console.error;
+
+    console.log = (...args) => {
+      setDebugLogs(prev => [...prev.slice(-19), '[LOG] ' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ')]);
+      originalLog(...args);
+    };
+    console.warn = (...args) => {
+      setDebugLogs(prev => [...prev.slice(-19), '[WARN] ' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ')]);
+      originalWarn(...args);
+    };
+    console.error = (...args) => {
+      setDebugLogs(prev => [...prev.slice(-19), '[ERROR] ' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ')]);
+      originalError(...args);
+    };
+
+    return () => {
+      console.log = originalLog;
+      console.warn = originalWarn;
+      console.error = originalError;
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log('[Needle URL Updated]', needleModelUrl ? needleModelUrl.slice(0, 40) + '...' : 'Null');
+  }, [needleModelUrl]);
+
+  useEffect(() => {
+    console.log('[Scene Group Updated]', sceneGroup ? 'Has Group' : 'Null');
+  }, [sceneGroup]);
+
+  useEffect(() => {
+    console.log('[Needle Engine Node]', needleEngineNode ? 'Has Node' : 'Null');
+  }, [needleEngineNode]);
 
   useEffect(() => {
     if (!sceneGroup) return;
@@ -4058,17 +4098,25 @@ export function DebugPricing() {
                        'loading-background': '#ffffff'
                      })}
                      <button
-                       id="mammut-start-ar"
-                       onClick={startNeedleAR}
-                       className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 px-6 py-2.5 bg-mammut-gold text-black rounded-full font-bold shadow-lg hover:bg-mammut-gold/90 transition-all flex items-center gap-2 text-xs md:text-sm active:scale-95 cursor-pointer uppercase tracking-wider font-sans border-none"
-                     >
-                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-4 h-4">
-                         <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                         <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-                         <line x1="12" y1="22.08" x2="12" y2="12" />
-                       </svg>
-                       Start AR
-                     </button>
+                        id="mammut-start-ar"
+                        onClick={startNeedleAR}
+                        className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 px-6 py-2.5 bg-mammut-gold text-black rounded-full font-bold shadow-lg hover:bg-mammut-gold/90 transition-all flex items-center gap-2 text-xs md:text-sm active:scale-95 cursor-pointer uppercase tracking-wider font-sans border-none"
+                      >
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-4 h-4">
+                          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                          <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                          <line x1="12" y1="22.08" x2="12" y2="12" />
+                        </svg>
+                        Start AR
+                      </button>
+
+                      {/* Visual Debug Console Overlay */}
+                      <div className="absolute top-12 left-2 z-50 bg-black/85 text-green-400 font-mono text-[9px] p-2 rounded max-w-[90%] max-h-[140px] overflow-y-auto pointer-events-none border border-green-500/30 shadow-2xl leading-normal text-left">
+                        <div className="font-bold border-b border-green-500/20 pb-0.5 mb-1 text-[9px] uppercase tracking-wider text-white">Needle Debug Console</div>
+                        {debugLogs.map((log, idx) => (
+                          <div key={idx} className="mb-0.5">{log}</div>
+                        ))}
+                      </div>
                    </>
                  ) : (
                    <div className="text-mammut-gold font-bold p-8 text-center animate-pulse font-sans">
