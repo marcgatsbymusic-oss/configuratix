@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Download, Camera, Trash2, RotateCcw, Share2, ChevronDown } from 'lucide-react';
 import { fetchPrice, type PricingApiResponse } from '../utils/cantorPricing/pricingApi';
 import type { ConfiguratorInput } from '../utils/cantorPricing/input';
@@ -18,6 +18,7 @@ import {
 } from '../components/icons/ProductIcons';
 import { useTranslation } from 'react-i18next';
 import * as THREE from 'three';
+import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
 import { ThemeToggle } from '../components/common/ThemeToggle';
 
 const getPaneImage = (paneCode: string) => {
@@ -2436,7 +2437,8 @@ export function DebugPricing() {
   const [opening] = useState<string>('UR');
   const [profilsatz, setProfilsatz] = useState('1100'); // Maps to IG5
   const [activeCategory, setActiveCategory] = useState<string>('WINDOWS');
-  const [is3dMode, setIs3dMode] = useState(true);
+  const [displayMode, setDisplayMode] = useState<'2D' | '3D' | 'Needle'>('3D');
+  const is3dMode = displayMode === '3D';
   const [arPlacement, setArPlacement] = useState<'wall' | 'floor' | null>(null);
   const [arMenuOpen, setArMenuOpen] = useState(false);
   const arMenuRef = useRef<HTMLDivElement>(null);
@@ -2462,6 +2464,40 @@ export function DebugPricing() {
       document.removeEventListener('touchstart', handleClickOutside);
     };
   }, []);
+
+  const [sceneGroup, setSceneGroup] = useState<THREE.Group | null>(null);
+  const [needleModelUrl, setNeedleModelUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!sceneGroup) return;
+
+    let active = true;
+    const timer = setTimeout(() => {
+      const exporter = new GLTFExporter();
+      exporter.parse(
+        sceneGroup,
+        (gltf: any) => {
+          if (!active) return;
+          const blob = new Blob([gltf as ArrayBuffer], { type: 'model/gltf-binary' });
+          const url = URL.createObjectURL(blob);
+          setNeedleModelUrl(url);
+        },
+        (err: any) => {
+          console.error('[Needle Export] GLTF Export Error:', err);
+        },
+        { binary: true }
+      );
+    }, 300);
+
+    return () => {
+      active = false;
+      clearTimeout(timer);
+      setNeedleModelUrl(prev => {
+        if (prev) URL.revokeObjectURL(prev);
+        return null;
+      });
+    };
+  }, [sceneGroup]);
 
   // 3) Dimensions
   const [width, setWidth] = useState(1000);
@@ -3111,8 +3147,6 @@ export function DebugPricing() {
     );
   };
 
-  const [sceneGroup, setSceneGroup] = useState<THREE.Group | null>(null);
-
   // Summary helpers for accordions
   const getProductSummary = () => {
     const sysName = PRODUCT_CATEGORIES
@@ -3167,8 +3201,9 @@ export function DebugPricing() {
           >
              {/* 3D Toggle */}
              <div className="absolute top-2 left-2 z-30 bg-black/50 p-1 rounded flex items-center gap-2">
-                <button onClick={() => setIs3dMode(false)} className={`px-2 py-1 text-xs font-bold rounded ${!is3dMode ? 'bg-mammut-gold text-black' : (isLight ? 'text-slate-500 hover:text-black' : 'text-gray-400')}`}>2D</button>
-                <button onClick={() => setIs3dMode(true)} className={`px-2 py-1 text-xs font-bold rounded ${is3dMode ? 'bg-mammut-gold text-black' : (isLight ? 'text-slate-500 hover:text-black' : 'text-gray-400')}`}>3D</button>
+                <button onClick={() => setDisplayMode('2D')} className={`px-2 py-1 text-xs font-bold rounded ${displayMode === '2D' ? 'bg-mammut-gold text-black' : (isLight ? 'text-slate-500 hover:text-black' : 'text-gray-400')}`}>2D</button>
+                <button onClick={() => setDisplayMode('3D')} className={`px-2 py-1 text-xs font-bold rounded ${displayMode === '3D' ? 'bg-mammut-gold text-black' : (isLight ? 'text-slate-500 hover:text-black' : 'text-gray-400')}`}>3D</button>
+                <button onClick={() => setDisplayMode('Needle')} className={`px-2 py-1 text-xs font-bold rounded ${displayMode === 'Needle' ? 'bg-mammut-gold text-black' : (isLight ? 'text-slate-500 hover:text-black' : 'text-gray-400')}`}>Needle</button>
                 {is3dMode && (
                   <>
                     <div className="w-[1px] h-4 bg-gray-800 mx-1"></div>
@@ -3589,22 +3624,8 @@ export function DebugPricing() {
                   </div>
              )}
 
-             {is3dMode ? (
-                <ThreejsWindowEngine 
-                  width={width} 
-                  height={height} 
-                  colorExt={extDetails.hex}
-                  colorInt={intDetails.hex}
-                  colorExtTexture={extDetails.textureUrl}
-                  colorIntTexture={intDetails.textureUrl}
-                  spacerColor={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
-                  onSceneReady={setSceneGroup}
-                  typology={typology}
-                  sealColor={sealColor}
-                  scenery={scenery}
-                  customBackground={customBackground || undefined}
-                />
-             ) : (
+             {/* 2D SVG Engine */}
+             {displayMode === '2D' && (
                 <SvgWindowEngine 
                   width={width} 
                   height={height} 
@@ -3617,6 +3638,49 @@ export function DebugPricing() {
                   typology={typology}
                   sealColor={sealColor}
                 />
+             )}
+
+             {/* 3D ThreeJS Engine (mounted for both 3D and Needle modes) */}
+             {(displayMode === '3D' || displayMode === 'Needle') && (
+               <div className={displayMode === '3D' ? "absolute inset-0" : "invisible w-0 h-0 overflow-hidden"}>
+                  <ThreejsWindowEngine 
+                    width={width} 
+                    height={height} 
+                    colorExt={extDetails.hex}
+                    colorInt={intDetails.hex}
+                    colorExtTexture={extDetails.textureUrl}
+                    colorIntTexture={intDetails.textureUrl}
+                    spacerColor={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
+                    onSceneReady={setSceneGroup}
+                    typology={typology}
+                    sealColor={sealColor}
+                    scenery={scenery}
+                    customBackground={customBackground || undefined}
+                  />
+               </div>
+             )}
+
+             {/* Needle Engine */}
+             {displayMode === 'Needle' && (
+               <div className="absolute inset-0 flex items-center justify-center bg-[#0a0a0b]">
+                 {needleModelUrl ? (
+                   <>
+                     {React.createElement('needle-engine', {
+                       src: needleModelUrl,
+                       style: { width: '100%', height: '100%', display: 'block' },
+                       'camera-position': '0 0.9 2.5',
+                       'camera-target': '0 0.6 0',
+                     })}
+                     <div className="absolute bottom-16 left-1/2 -translate-x-1/2 text-gray-400 text-[11px] pointer-events-none select-none bg-black/60 px-3 py-1.5 rounded-full border border-white/10 font-sans backdrop-blur-sm">
+                       Tap "Enter AR" to place the window
+                     </div>
+                   </>
+                 ) : (
+                   <div className="text-mammut-gold font-bold p-8 text-center animate-pulse font-sans">
+                     Generating Needle 3D Model...
+                   </div>
+                 )}
+               </div>
              )}
           </div>
         ) : (
