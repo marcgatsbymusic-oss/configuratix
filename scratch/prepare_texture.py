@@ -1,32 +1,92 @@
 import os
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageFilter
 
-def seamless_blend(img_arr, blend_width=64):
-    h, w, c = img_arr.shape
-    base = img_arr.copy().astype(float)
+def make_seamless_offset_blend(img_arr, blend_width=80):
+    """
+    Uses the 'offset & blend' technique:
+    - Rolls the image 50% in both axes to expose seams at center
+    - Blends seamlessly using a smooth cosine weight in both axes
+    - Blends BACK with the original so the center of the original is preserved
+    - This technique keeps the original pixel detail intact in most of the image
+    """
+    h, w = img_arr.shape[:2]
+    is_rgb = len(img_arr.shape) == 3
     
-    # Roll the image by 50% in both directions to put seams in the center
+    base = img_arr.astype(float)
     rolled = np.roll(np.roll(base, h // 2, axis=0), w // 2, axis=1)
     
-    result = rolled.copy()
+    # Build a 2D blend mask: 1 = use original, 0 = use rolled (at center lines)
+    cx, cy = w // 2, h // 2
     
-    # Blend vertical seam at x = w // 2
-    cx = w // 2
+    # Horizontal weight for the vertical seam
+    weight_x = np.ones(w)
     for x in range(cx - blend_width, cx + blend_width):
-        d = abs(x - cx) / blend_width
-        # Cosine blend factor (1 at center, 0 at boundaries of blend zone)
-        f = 0.5 + 0.5 * np.cos(np.pi * d)
-        result[:, x, :] = base[:, x, :] * f + rolled[:, x, :] * (1 - f)
-        
-    # Blend horizontal seam at y = h // 2
-    cy = h // 2
+        if 0 <= x < w:
+            d = abs(x - cx) / blend_width
+            weight_x[x] = (1.0 + np.cos(np.pi * d)) / 2.0  # 1 at boundary, 0 at center
+    
+    # Vertical weight for the horizontal seam
+    weight_y = np.ones(h)
     for y in range(cy - blend_width, cy + blend_width):
-        d = abs(y - cy) / blend_width
-        f = 0.5 + 0.5 * np.cos(np.pi * d)
-        result[y, :, :] = base[y, :, :] * f + result[y, :, :] * (1 - f)
-        
+        if 0 <= y < h:
+            d = abs(y - cy) / blend_width
+            weight_y[y] = (1.0 + np.cos(np.pi * d)) / 2.0  # 1 at boundary, 0 at center
+    
+    # Combine: weight = min(wx, wy) keeps original when BOTH axes are far from center
+    wx = weight_x[np.newaxis, :] if not is_rgb else weight_x[np.newaxis, :, np.newaxis]
+    wy = weight_y[:, np.newaxis] if not is_rgb else weight_y[:, np.newaxis, np.newaxis]
+    
+    # Where weight = 1 -> keep original, where weight = 0 -> use rolled
+    w_final = np.minimum(wx, wy)  # 0 at center cross, 1 everywhere else
+    
+    result = base * w_final + rolled * (1.0 - w_final)
     return np.clip(result, 0, 255).astype(np.uint8)
+
+
+def compute_normal_map(gray_arr, bump_strength=1.2):
+    """
+    Computes a seamless normal map from a grayscale height map.
+    Uses numpy vectorized Sobel (fast) with wrapped border padding.
+    bump_strength: lower = more subtle bumps (0.5-2.0 range, 1.2 is natural wood).
+    """
+    h, w = gray_arr.shape
+    
+    # Pad with wrap mode for seamless normals at edges
+    pad = 2
+    padded = np.pad(gray_arr.astype(float), pad, mode='wrap')
+    
+    # Vectorized Sobel
+    gx = (
+        -padded[pad-1:h+pad-1, pad-1:w+pad-1]  # top-left
+        + padded[pad-1:h+pad-1, pad+1:w+pad+1]  # top-right
+        - 2 * padded[pad:h+pad, pad-1:w+pad-1]   # mid-left
+        + 2 * padded[pad:h+pad, pad+1:w+pad+1]   # mid-right
+        - padded[pad+1:h+pad+1, pad-1:w+pad-1]  # bot-left
+        + padded[pad+1:h+pad+1, pad+1:w+pad+1]  # bot-right
+    )
+    gy = (
+        -padded[pad-1:h+pad-1, pad-1:w+pad-1]  # top-left
+        - 2 * padded[pad-1:h+pad-1, pad:w+pad]   # top-mid
+        - padded[pad-1:h+pad-1, pad+1:w+pad+1]  # top-right
+        + padded[pad+1:h+pad+1, pad-1:w+pad-1]  # bot-left
+        + 2 * padded[pad+1:h+pad+1, pad:w+pad]   # bot-mid
+        + padded[pad+1:h+pad+1, pad+1:w+pad+1]  # bot-right
+    )
+    
+    dx = -gx * bump_strength / 255.0
+    dy = -gy * bump_strength / 255.0
+    dz = np.ones_like(gray_arr, dtype=float)
+    
+    # Normalize to unit vector
+    norm = np.sqrt(dx**2 + dy**2 + dz**2)
+    nx = (dx / norm * 0.5 + 0.5) * 255
+    ny = (dy / norm * 0.5 + 0.5) * 255
+    nz = (dz / norm * 0.5 + 0.5) * 255
+    
+    result = np.stack([nx, ny, nz], axis=-1)
+    return np.clip(result, 0, 255).astype(np.uint8)
+
 
 def main():
     src_path = r"C:\Users\Shadow\.gemini\antigravity\brain\6174c2d0-d1f4-4f37-baa6-3eb8c8630d08\media__1779802284148.jpg"
@@ -37,100 +97,69 @@ def main():
     os.makedirs(swatch_dir, exist_ok=True)
     
     print(f"Loading image from: {src_path}")
-    img = Image.open(src_path)
+    img = Image.open(src_path).convert('RGB')
     
-    # Crop to square (724x724) centered vertically
+    # Source image is 724x1024 (portrait, vertical grain)
+    # We want 1024x1024 — crop center square
     w, h = img.size
     crop_size = min(w, h)
     left = (w - crop_size) // 2
     top = (h - crop_size) // 2
-    right = left + crop_size
-    bottom = top + crop_size
-    img_cropped = img.crop((left, top, right, bottom))
+    img_cropped = img.crop((left, top, left + crop_size, top + crop_size))
     
-    # Rotate by 0 degrees (keep original vertical grain direction, turned 90 degrees from previous version)
-    img_cropped = img_cropped.rotate(0)
+    # Scale up to 2048 for maximum quality, then apply seamless blending
+    # Use 2048 internally, then save at 1024
+    img_2048 = img_cropped.resize((2048, 2048), Image.Resampling.LANCZOS)
+    arr_2048 = np.array(img_2048)
     
-    # Resize to 1024x1024 for standard texture sizing
-    img_resized = img_cropped.resize((1024, 1024), Image.Resampling.LANCZOS)
-    arr = np.array(img_resized)
-    
-    # 1. Generate Seamless Diffuse (Albedo)
+    # 1. Generate Seamless Diffuse (Albedo) — preserve original quality
     print("Generating seamless diffuse map...")
-    diffuse_arr = seamless_blend(arr, blend_width=64)
-    diffuse_img = Image.fromarray(diffuse_arr)
-    diffuse_img.save(os.path.join(out_dir, "diffuse.jpg"), "JPEG", quality=95)
+    # Use wider blend zone on 2048 for more gradual, invisible transitions
+    diffuse_arr_2048 = make_seamless_offset_blend(arr_2048, blend_width=120)
     
-    # Also save as the swatch image
-    diffuse_img.save(os.path.join(swatch_dir, "test_wood.jpg"), "JPEG", quality=90)
-    print("Diffuse map saved.")
+    # Downscale to 1024 — this further hides any remaining seam artifacts
+    diffuse_img = Image.fromarray(diffuse_arr_2048).resize((1024, 1024), Image.Resampling.LANCZOS)
+    diffuse_arr = np.array(diffuse_img)
     
-    # 2. Generate Seamless Normal Map
-    print("Generating seamless normal map...")
-    # Convert diffuse to grayscale for height map
-    gray = (0.299 * diffuse_arr[:,:,0] + 0.587 * diffuse_arr[:,:,1] + 0.114 * diffuse_arr[:,:,2])
+    # Save at high quality to preserve original color fidelity
+    diffuse_img.save(os.path.join(out_dir, "diffuse.jpg"), "JPEG", quality=97)
     
-    # Pad wrapped borders to ensure normal map is seamless
-    padded = np.pad(gray, 1, mode='wrap')
+    # Swatch: center crop of original, unblended — pure original quality
+    swatch = img_cropped.resize((400, 400), Image.Resampling.LANCZOS)
+    swatch.save(os.path.join(swatch_dir, "test_wood.jpg"), "JPEG", quality=95)
+    print("Diffuse and swatch saved.")
     
-    # Compute Sobel gradients
-    # Gx = [ -1 0 1 ]      Gy = [ -1 -2 -1 ]
-    #      [ -2 0 2 ]           [  0  0  0 ]
-    #      [ -1 0 1 ]           [  1  2  1 ]
-    h_pad, w_pad = padded.shape
-    gx = np.zeros_like(gray)
-    gy = np.zeros_like(gray)
+    # 2. Generate Normal Map from the seamless diffuse
+    print("Generating normal map...")
     
-    for y in range(1, h_pad - 1):
-        for x in range(1, w_pad - 1):
-            gx[y-1, x-1] = (
-                -padded[y-1, x-1] + padded[y-1, x+1]
-                - 2 * padded[y, x-1] + 2 * padded[y, x+1]
-                - padded[y+1, x-1] + padded[y+1, x+1]
-            )
-            gy[y-1, x-1] = (
-                -padded[y-1, x-1] - 2 * padded[y-1, x] - padded[y-1, x+1]
-                + padded[y+1, x-1] + 2 * padded[y+1, x] + padded[y+1, x+1]
-            )
-            
-    # Normalize gradients and generate normal map
-    # Scale bump strength
-    bump_strength = 3.0
-    dx = -gx * bump_strength / 255.0
-    dy = -gy * bump_strength / 255.0 # standard WebGL / ThreeJS Y-up normal mapping
-    dz = np.ones_like(gray)
+    # Convert to grayscale for height map
+    gray = np.array(diffuse_img.convert('L')).astype(float)
     
-    norm = np.sqrt(dx**2 + dy**2 + dz**2)
-    nx = dx / norm
-    ny = dy / norm
-    nz = dz / norm
+    # Slight blur to reduce high-frequency noise before normal computation
+    gray_pil = Image.fromarray(gray.astype(np.uint8))
+    gray_smooth = np.array(gray_pil.filter(ImageFilter.GaussianBlur(radius=1.0))).astype(float)
     
-    # Map from [-1, 1] to [0, 255]
-    normal_arr = np.zeros((1024, 1024, 3), dtype=np.uint8)
-    normal_arr[:,:,0] = ((nx * 0.5 + 0.5) * 255).astype(np.uint8)
-    normal_arr[:,:,1] = ((ny * 0.5 + 0.5) * 255).astype(np.uint8)
-    normal_arr[:,:,2] = ((nz * 0.5 + 0.5) * 255).astype(np.uint8)
-    
+    # Natural wood bump strength (subtle but visible)
+    normal_arr = compute_normal_map(gray_smooth, bump_strength=2.0)
     normal_img = Image.fromarray(normal_arr)
-    normal_img.save(os.path.join(out_dir, "normal.jpg"), "JPEG", quality=95)
+    normal_img.save(os.path.join(out_dir, "normal.jpg"), "JPEG", quality=97)
     print("Normal map saved.")
     
-    # 3. Generate Seamless ORM Map (Occlusion, Roughness, Metallic)
-    print("Generating seamless ORM map...")
+    # 3. Generate Roughness map (single channel, green channel = roughness for Three.js)
+    # Wood has naturally high roughness (lacquered: 0.4-0.5, unfinished: 0.7-0.9)
+    # The wood in the image looks lightly finished — use 0.5-0.65 range
+    # Dark grain lines (pores) = more rough; light wood = slightly smoother
+    print("Generating ORM map...")
+    
+    # Roughness: light areas are slightly smoother, dark grain is rougher
+    # Map luminance 0->255 to roughness 0.65->0.45 (inverted: dark=rough, light=smooth)
+    roughness = 165 - 51 * (gray / 255.0)  # range: 114-165 = 0.45-0.65 roughness
+    
+    # ORM: Red=AO(1.0), Green=Roughness, Blue=Metalness(0)
     orm_arr = np.zeros((1024, 1024, 3), dtype=np.uint8)
-    
-    # Red: Ambient Occlusion
-    # Dark grain gets slightly more occlusion (0.75), flat wood gets 1.0
-    orm_arr[:,:,0] = (192 + 63 * (gray / 255.0)).astype(np.uint8)
-    
-    # Green: Roughness
-    # Polished flat areas should be smoother (roughness ~0.45)
-    # Darker grain lines/pores should be rougher (roughness ~0.7)
-    orm_arr[:,:,1] = (178 - 63 * (gray / 255.0)).astype(np.uint8)
-    
-    # Blue: Metallic
-    # Wood is non-metallic (value = 0)
-    orm_arr[:,:,2] = 0
+    orm_arr[:,:,0] = 255  # AO = fully lit (no pre-baked occlusion)
+    orm_arr[:,:,1] = np.clip(roughness, 0, 255).astype(np.uint8)  # Roughness
+    orm_arr[:,:,2] = 0    # Metalness = 0 (wood is non-metallic)
     
     orm_img = Image.fromarray(orm_arr)
     orm_img.save(os.path.join(out_dir, "orm.png"), "PNG")

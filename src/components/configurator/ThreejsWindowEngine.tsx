@@ -110,10 +110,10 @@ const WindowAssembly = ({
     const configureTexture = (tex: THREE.Texture, colorSpace: THREE.ColorSpace) => {
       tex.wrapS = THREE.RepeatWrapping;
       tex.wrapT = THREE.RepeatWrapping;
-      // Since UVs are in meters, repeat.set(1.5, 1.5) provides a realistic texture scale (repeating every 66cm)
-      tex.repeat.set(1.5, 1.5);
+      // UVs are in meters. repeat.set(1.0, 1.0) = texture repeats every 1 meter (natural for a ~1m wood plank)
+      tex.repeat.set(1.0, 1.0);
       tex.colorSpace = colorSpace;
-      tex.anisotropy = 8;
+      tex.anisotropy = 16;
     };
 
     // Load Diffuse (sRGB)
@@ -264,16 +264,24 @@ const WindowAssembly = ({
 
   const extMaterial = useMemo(() => {
     if (extMaps.diffuse) {
-      return new THREE.MeshStandardMaterial({
+      const mat = new THREE.MeshStandardMaterial({
         color: 0xffffff,
         map: extMaps.diffuse,
         normalMap: extMaps.normal || null,
         aoMap: extMaps.orm || null,
+        // ORM: roughness is in the GREEN channel, metalness in BLUE (=0 for wood)
+        // Three.js multiplies these maps by the base scalars below
         roughnessMap: extMaps.orm || null,
         metalnessMap: extMaps.orm || null,
+        // roughness=1.0 so the ORM green channel drives roughness (0.45-0.65 range)
         roughness: 1.0,
-        metalness: 1.0
+        // metalness=0.0 for wood — ORM blue=0 anyway, but base must be 0
+        metalness: 0.0,
+        aoMapIntensity: 0.8,
       });
+      // Subtle normal map — real wood has fine grain bumps, not deep ridges
+      if (extMaps.normal) mat.normalScale.set(0.6, 0.6);
+      return mat;
     }
     return new THREE.MeshStandardMaterial({
       color: colorExt || '#ffffff',
@@ -284,7 +292,7 @@ const WindowAssembly = ({
   
   const intMaterial = useMemo(() => {
     if (intMaps.diffuse) {
-      return new THREE.MeshStandardMaterial({
+      const mat = new THREE.MeshStandardMaterial({
         color: 0xffffff,
         map: intMaps.diffuse,
         normalMap: intMaps.normal || null,
@@ -292,8 +300,11 @@ const WindowAssembly = ({
         roughnessMap: intMaps.orm || null,
         metalnessMap: intMaps.orm || null,
         roughness: 1.0,
-        metalness: 1.0
+        metalness: 0.0,
+        aoMapIntensity: 0.8,
       });
+      if (intMaps.normal) mat.normalScale.set(0.6, 0.6);
+      return mat;
     }
     return new THREE.MeshStandardMaterial({
       color: colorInt || '#ffffff',
