@@ -7,6 +7,9 @@ import { IGLO_EDGE_COLORS } from '../data/productDetails';
 import { WindowVisualizer } from '../components/SlateConfigurator/WindowVisualizer';
 import { SvgWindowEngine } from '../components/configurator/SvgWindowEngine';
 import { ThreejsWindowEngine } from '../components/configurator/ThreejsWindowEngine';
+import { F100TViewer } from '../components/configurator/F100TViewer';
+import { Child1 } from '../components/configurator/Child1';
+import { PerformanceConsole } from '../components/configurator/PerformanceConsole';
 import { ArViewer } from '../components/configurator/ArViewer';
 import glazingOptions from '../data/cantor_glazing_options.json';
 import shutterLookups from '../data/shutter_lookups.json';
@@ -151,294 +154,96 @@ interface ScrollingDialProps {
 function ScrollingDial({ value, onChange, items, onConfirm, closeOnSelect = true }: ScrollingDialProps) {
   const { theme } = useThemeStore();
   const isLight = theme === 'light' || document.documentElement.getAttribute('data-theme') === 'light';
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [scrollTop, setScrollTop] = useState(0);
-  const [localActiveId, setLocalActiveId] = useState(value);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const isFirstRender = useRef(true);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const itemHeight = 130; // height of each placeholder/step
-  const visibleHeight = 320; // height of the viewport
-  const R = 170; // radius of cylinder
+  // Scroll the active selected item into view when the grid is opened.
+  useEffect(() => {
+    if (containerRef.current) {
+      const activeElement = containerRef.current.querySelector('[data-selected="true"]');
+      if (activeElement) {
+        activeElement.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }
+    }
+  }, [value]);
 
-  // Generate background visual ticks to match the main configurator scroll wheels
-  const tickStepWidth = 26; // perfectly aligned with itemHeight = 130 (130 / 26 = 5) for consistent alignment
-  const tickCenterIdx = Math.round(scrollTop / tickStepWidth);
-  const tickVisibleHalf = Math.ceil((visibleHeight / 2) / tickStepWidth) + 6;
-  const tickStartIdx = tickCenterIdx - tickVisibleHalf;
-  const tickEndIdx = tickCenterIdx + tickVisibleHalf;
-
-  const ticks = [];
-  for (let i = tickStartIdx; i <= tickEndIdx; i++) {
-    const itemOffset = i * tickStepWidth - scrollTop;
-    const angle = itemOffset / R;
-    if (Math.abs(angle) > 1.6) continue;
-
-    const trigVal = R * Math.sin(angle);
-    const cosVal = Math.cos(angle);
-    const scale = 0.5 + 0.5 * cosVal;
-
-    // Horizontal bars for a vertical cylinder matching NumericScrollWheel's aesthetics
-    const rectHeight = 14 * scale; // Matching NumericScrollWheel's bar thickness of 14px!
-    const rectWidth = 240 * scale; // 240px width to extend beautifully behind the thumbnails
-    const opacity = Math.max(0, cosVal * cosVal) * 0.85; // 85% max opacity to look premium and visible
-
-    const absAngle = Math.abs(angle);
-    let rectColor: string;
-    if (isLight) {
-      // Neutral slate ticks for light mode
-      const lightness = Math.round(55 + absAngle * 20);
-      rectColor = `hsl(215, 12%, ${lightness}%)`;
+  const handleSelect = (id: string) => {
+    if (id === value) {
+      if (onConfirm) onConfirm();
     } else {
-      let h = 35;
-      let s = 90;
-      let l = 60;
-      if (absAngle > 0) {
-        const t = Math.min(1, absAngle / 1.57);
-        h = 35 - t * 45;
-        s = 90 - t * 25;
-        l = 60 - t * 30;
+      onChange(id);
+      if (closeOnSelect && onConfirm) {
+        onConfirm();
       }
-      rectColor = `hsl(${h}, ${s}%, ${l}%)`;
-    }
-
-    ticks.push(
-      <div
-        key={`tick-${i}`}
-        className="absolute pointer-events-none rounded-[3px]"
-        style={{
-          left: `calc(50% - ${rectWidth / 2}px)`,
-          top: `calc(50% + ${trigVal}px - ${rectHeight / 2}px)`,
-          width: rectWidth,
-          height: rectHeight,
-          backgroundColor: rectColor,
-          opacity: opacity,
-          zIndex: Math.round(cosVal * 10) - 5
-        }}
-      />
-    );
-  }
-
-  // Synchronize local active item with incoming value
-  useEffect(() => {
-    setLocalActiveId(value);
-    const idx = items.indexOf(value);
-    if (idx !== -1 && scrollContainerRef.current) {
-      const targetScrollTop = idx * itemHeight;
-      if (Math.abs(scrollContainerRef.current.scrollTop - targetScrollTop) > 2) {
-        if (isFirstRender.current) {
-          scrollContainerRef.current.scrollTop = targetScrollTop;
-          setScrollTop(targetScrollTop);
-          isFirstRender.current = false;
-        } else {
-          scrollContainerRef.current.scrollTo({
-            top: targetScrollTop,
-            behavior: 'smooth'
-          });
-        }
-      }
-    }
-  }, [value, items]);
-
-  const handleScroll = () => {
-    if (scrollContainerRef.current) {
-      const sTop = scrollContainerRef.current.scrollTop;
-      setScrollTop(sTop);
-      
-      const activeIndex = Math.round(sTop / itemHeight);
-      if (activeIndex >= 0 && activeIndex < items.length) {
-        const activeId = items[activeIndex];
-        setLocalActiveId(activeId);
-      }
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-    };
-  }, []);
-
-  const scrollByItems = (direction: number) => {
-    if (scrollContainerRef.current) {
-      const currentIdx = items.indexOf(localActiveId);
-      const nextIdx = Math.max(0, Math.min(items.length - 1, currentIdx + direction));
-      scrollContainerRef.current.scrollTo({
-        top: nextIdx * itemHeight,
-        behavior: 'smooth'
-      });
     }
   };
 
   return (
     <div 
-      style={{
-        backgroundColor: isLight ? '#ffffff' : 'var(--theme-mammut-darker)',
-        borderColor: isLight ? '#cbd5e1' : 'var(--theme-mammut-border)'
-      }}
-      className="relative w-full h-[320px] rounded-2xl border overflow-hidden select-none shadow-inner flex flex-col items-center justify-center"
+      ref={containerRef}
+      className="relative w-full h-[320px] overflow-y-auto select-none p-1.5"
     >
-      {/* Up Arrow Button */}
-      <button 
-        type="button"
-        onClick={(e) => { e.stopPropagation(); scrollByItems(-1); }}
-        style={{
-          backgroundColor: isLight ? '#ffffff' : 'var(--theme-mammut-dark)',
-          borderColor: isLight ? '#cbd5e1' : 'var(--theme-mammut-border)',
-          color: isLight ? '#334155' : 'var(--theme-mammut-gold)'
-        }}
-        className="absolute top-2 z-30 w-8 h-8 rounded-full border flex items-center justify-center transition-colors cursor-pointer hover:border-zinc-500 hover:text-black shadow-sm"
-        title="Scroll Up"
-      >
-        ▲
-      </button>
-
-      {/* Down Arrow Button */}
-      <button 
-        type="button"
-        onClick={(e) => { e.stopPropagation(); scrollByItems(1); }}
-        style={{
-          backgroundColor: isLight ? '#ffffff' : 'var(--theme-mammut-dark)',
-          borderColor: isLight ? '#cbd5e1' : 'var(--theme-mammut-border)',
-          color: isLight ? '#334155' : 'var(--theme-mammut-gold)'
-        }}
-        className="absolute bottom-2 z-30 w-8 h-8 rounded-full border flex items-center justify-center transition-colors cursor-pointer hover:border-zinc-500 hover:text-black shadow-sm"
-        title="Scroll Down"
-      >
-        ▼
-      </button>
-
-      {/* Visual Dial Layer */}
-      <div className="absolute inset-0 pointer-events-none flex flex-col justify-center items-center overflow-hidden">
-        {items.map((id, index) => {
-          const itemOffset = index * itemHeight - scrollTop;
-          const angle = itemOffset / R;
-
-          // Clip items beyond front-half of the cylinder
-          if (Math.abs(angle) > 1.6) return null;
-
-          const y = R * Math.sin(angle);
-          const cosVal = Math.cos(angle);
-
-          // Base scale of item container (creates perspective depth)
-          const baseScale = 0.55 + 0.45 * cosVal;
-
-          // Zoom image scale: expand to 300% when exactly in the middle
-          // Goes from 1.0 (far away) up to 3.0 (exact middle)
-          const distanceFactor = Math.max(0, 1 - Math.abs(itemOffset) / (itemHeight * 1.5));
-          const imgScale = 1.0 + 2.0 * distanceFactor;
-
-          const isCenter = Math.abs(itemOffset) < itemHeight / 2;
+      <div className="grid grid-cols-3 gap-2">
+        {items.map((id) => {
+          const isSelected = id === value;
           const wt = WINDOW_TYPES.find(w => w.id === id) || { id, sashes: 1, name: 'Frame' };
-
-          // Dynamic margin/translate shift to clear the scaled image without overlap
-          const textShift = (imgScale - 1.0) * 16; 
-
+          
           return (
-            <div
+            <button
               key={id}
-              className="absolute w-full flex items-center justify-center transition-all duration-75"
-              style={{
-                transform: `translateY(${y}px) scale(${baseScale})`,
-                opacity: Math.max(0.15, cosVal * cosVal),
-                zIndex: isCenter ? 30 : Math.round(cosVal * 10),
-                height: itemHeight,
-                top: `calc(50% - ${itemHeight / 2}px)`
+              type="button"
+              data-selected={isSelected}
+              onClick={() => handleSelect(id)}
+              onDoubleClick={() => {
+                onChange(id);
+                if (onConfirm) onConfirm();
               }}
+              title={`${id} — ${wt.name || 'Window'}`}
+              className={`group relative flex flex-col items-center justify-between p-2.5 rounded-xl border h-[110px] w-full transition-all duration-200 cursor-pointer hover:z-20 ${
+                isSelected
+                  ? isLight
+                    ? 'bg-slate-100 border-black shadow-[0_0_10px_rgba(0,0,0,0.05)]'
+                    : 'bg-mammut-gold/15 border-mammut-gold shadow-[0_0_12px_rgba(234,182,118,0.25)]'
+                  : isLight
+                    ? 'bg-transparent border-zinc-200 hover:bg-slate-100/50 hover:border-zinc-400 hover:scale-[1.03] active:scale-[0.97]'
+                    : 'bg-transparent border-gray-800 hover:bg-gray-850/50 hover:border-gray-700 hover:scale-[1.03] active:scale-[0.97]'
+              }`}
             >
-              <div 
-                className={`flex flex-col items-center justify-center rounded-xl transition-all duration-300 ${
-                  isCenter 
-                    ? (isLight ? 'text-slate-900 font-black' : 'text-mammut-gold font-black')
-                    : (isLight ? 'text-slate-400 opacity-60' : 'text-gray-400 opacity-60')
-                }`}
-              >
-                {/* Image Container with 300% Zoom - Double the base size (48x48) */}
-                <div className="relative flex items-center justify-center" style={{ width: 80, height: 80 }}>
+              {/* Selected Checkmark Badge */}
+              {isSelected && (
+                <div className="absolute top-1 right-1 w-[18px] h-[18px] bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center shadow border border-white dark:border-mammut-darker text-white z-10 animate-scale-in">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-2.5 h-2.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                </div>
+              )}
+
+              {/* Image Container */}
+              <div className="flex-grow flex items-center justify-center w-full min-h-0 py-1">
+                <div className="transition-transform duration-300 group-hover:scale-[2] pointer-events-none">
                   <TypologyThumbnail 
                     id={id}
-                    className={`object-contain transition-all duration-100 p-1 rounded shadow-sm border ${
-                      isLight ? 'bg-transparent border-zinc-200' : 'bg-mammut-darker border-gray-700'
-                    }`}
-                    style={{ 
-                      transform: `scale(${imgScale})`,
-                      width: 48, 
-                      height: 48,
-                      boxShadow: isCenter ? '0 0 15px rgba(234, 182, 118, 0.5)' : 'none'
-                    }}
+                    className="object-contain p-0.5"
+                    style={{ width: 44, height: 44 }}
                   />
-                  {/* Small green ticker (checkmark badge) */}
-                  {id === value && (
-                    <div 
-                      className="absolute w-5 h-5 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center shadow-lg border border-mammut-darker text-white z-35 transition-all duration-300"
-                      style={{
-                        top: `calc(50% - ${24 * imgScale}px - 6px)`,
-                        right: `calc(50% - ${24 * imgScale}px - 6px)`,
-                      }}
-                      title="Selected typology"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-3 h-3">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                      </svg>
-                    </div>
-                  )}
-                </div>
-                
-                {/* Details (Product Number and Description underneath) */}
-                <div 
-                  className="flex flex-col select-none items-center text-center transition-transform duration-100" 
-                  style={{ 
-                    width: 220,
-                    transform: `translateY(${textShift}px)`
-                  }}
-                >
-                  <span className="text-sm font-bold tracking-wide">{id}</span>
-                  <span className="text-[10px] text-gray-500 truncate w-full leading-tight">{wt.name || 'Window'}</span>
                 </div>
               </div>
-            </div>
+
+              {/* Details (Product Number and Description underneath) */}
+              <div className="flex flex-col items-center text-center w-full mt-1.5 min-w-0">
+                <span className={`text-[10.5px] font-black tracking-wide leading-none ${
+                  isSelected
+                    ? isLight ? 'text-black' : 'text-mammut-gold'
+                    : isLight ? 'text-slate-800' : 'text-slate-200'
+                }`}>
+                  {id}
+                </span>
+                <span className="text-[8px] text-zinc-500 dark:text-gray-500 truncate w-full leading-none mt-1">
+                  {wt.name || 'Window'}
+                </span>
+              </div>
+            </button>
           );
         })}
-      </div>
-
-      {/* Invisible Interactive Scroll Layer */}
-      <div 
-        ref={scrollContainerRef}
-        onScroll={handleScroll}
-        className="absolute inset-0 overflow-y-scroll snap-y snap-mandatory z-20 cursor-grab active:cursor-grabbing"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-      >
-        {/* Top Spacer to center the first item */}
-        <div style={{ height: (visibleHeight - itemHeight) / 2 }} className="snap-align-none" />
-        
-        {/* Snapping placeholders */}
-        {items.map((id, idx) => (
-          <div 
-            key={`snap-${id}`} 
-            style={{ height: itemHeight }} 
-            className="snap-center w-full cursor-pointer pointer-events-auto"
-            onClick={(e) => {
-              e.stopPropagation();
-              const targetId = items[idx];
-              if (targetId === value) {
-                if (onConfirm) onConfirm();
-              } else {
-                onChange(targetId);
-                if (closeOnSelect && onConfirm) {
-                  onConfirm();
-                }
-              }
-            }}
-            onDoubleClick={(e) => {
-              e.stopPropagation();
-              onChange(items[idx]);
-              if (onConfirm) onConfirm();
-            }}
-          />
-        ))}
-        
-        {/* Bottom Spacer to center the last item */}
-        <div style={{ height: (visibleHeight - itemHeight) / 2 }} className="snap-align-none" />
       </div>
     </div>
   );
@@ -2502,7 +2307,7 @@ const TYPOLOGY_GROUPS = [
   {
     category: "Windows",
     subgroups: [
-      { name: "TYPE 1 Window", ids: ["F100","F101","F102","F103","F104","F105","F106","F200","F201","F203","F204","F205","F206","F207","F208","F250","F251","F252","F253","F254","F255","F300","F301","F302","F303","F304","F350","F351","F352","F353","F309","F400","F401","F402","F403","F450","F451","F542","F453"] },
+      { name: "TYPE 1 Window", ids: ["F100","F100T","F101","F101B","F102","F103","F104","F105","F106","F200","F201","F203","F204","F205","F206","F207","F208","F250","F251","F252","F253","F254","F255","F300","F301","F302","F303","F304","F350","F351","F352","F353","F309","F400","F401","F402","F403","F450","F451","F542","F453"] },
     ]
   }
 ];
@@ -2614,7 +2419,7 @@ export function DebugPricing() {
 
   // Default gasket color to black ('czarny') for F100 & F104 if not already selected
   useEffect(() => {
-    if ((typology === 'F100' || typology === 'F104') && !sealColor) {
+    if ((typology === 'F100' || typology === 'F100T' || typology === 'F101B' || typology === 'F104') && !sealColor) {
       setSealColor('czarny');
     }
   }, [typology]);
@@ -3614,7 +3419,7 @@ export function DebugPricing() {
   const renderVisualizer = () => {
     return (
       <div className="w-full mt-2">
-        {(['F100', 'F101', 'F102', 'F103', 'F104', 'F105', 'F106'].includes(typology)) ? (
+        {(['F100', 'F100T', 'F101', 'F101B', 'F102', 'F103', 'F104', 'F105', 'F106', 'F200'].includes(typology)) ? (
           <div 
             style={{
               backgroundColor: isLight ? '#ffffff' : 'var(--theme-mammut-dark)',
@@ -3684,6 +3489,37 @@ export function DebugPricing() {
                   </>
                 )}
              </div>
+
+             {/* Share 3D View Button */}
+             {is3dMode && (
+               <div className="absolute top-2 left-2 z-30">
+                 <button
+                   onClick={(e) => {
+                     e.preventDefault();
+                     const url = new URL(window.location.origin + '/viewer');
+                     url.searchParams.set('typology', typology);
+                     url.searchParams.set('w', width.toString());
+                     url.searchParams.set('h', height.toString());
+                     url.searchParams.set('cExt', encodeURIComponent(extDetails.hex));
+                     url.searchParams.set('cInt', encodeURIComponent(intDetails.hex));
+                     if (extDetails.textureUrl) url.searchParams.set('cExtTex', encodeURIComponent(extDetails.textureUrl));
+                     if (intDetails.textureUrl) url.searchParams.set('cIntTex', encodeURIComponent(intDetails.textureUrl));
+                     
+                     const gskHex = sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c';
+                     const spcHex = FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9';
+                     url.searchParams.set('cGsk', encodeURIComponent(gskHex));
+                     url.searchParams.set('cSpc', encodeURIComponent(spcHex));
+                     
+                     navigator.clipboard.writeText(url.toString());
+                     alert('Standalone 3D Viewer link copied to clipboard:\n\n' + url.toString());
+                   }}
+                   className="flex items-center gap-1.5 bg-mammut-gold/90 text-black px-3 py-1.5 rounded text-[10px] font-bold uppercase tracking-widest shadow-lg hover:bg-mammut-gold transition-colors"
+                   title="Copy standalone 3D viewer link"
+                 >
+                   <Share2 size={12} strokeWidth={3} /> Share 3D
+                 </button>
+               </div>
+             )}
 
              {/* Inside/Outside View Side Toggle (Move inside visualizer frame & hide in 3D Mode) */}
              {displayMode === '2D' && (
@@ -4065,22 +3901,45 @@ export function DebugPricing() {
 
              {/* 3D ThreeJS Engine (mounted for both 3D and Needle modes) */}
              {(displayMode === '3D' || displayMode === 'Needle') && (
-               <div className={displayMode === '3D' ? "absolute inset-0" : "absolute inset-0 -z-50 opacity-0 pointer-events-none"}>
-                  <ThreejsWindowEngine 
-                    width={width} 
-                    height={height} 
-                    colorExt={extDetails.hex}
-                    colorInt={intDetails.hex}
-                    colorExtTexture={extDetails.textureUrl}
-                    colorIntTexture={intDetails.textureUrl}
-                    spacerColor={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
-                    onSceneReady={handleSceneReady}
-                    typology={typology}
-                    sealColor={sealColor}
-                    scenery={scenery}
-                    customBackground={customBackground || undefined}
-                  />
-               </div>
+               typology === 'F100T' ? (
+                 <div className="absolute inset-0">
+                   <F100TViewer
+                     width={width}
+                     height={height}
+                     colorExt={extDetails.hex}
+                     colorInt={intDetails.hex}
+                   />
+                 </div>
+               ) : typology === 'F101B' ? (
+                 <Child1 
+                   widthMm={width} 
+                   heightMm={height} 
+                   colorExt={extDetails.hex}
+                   colorInt={intDetails.hex}
+                   colorExtTexture={extDetails.textureUrl}
+                   colorIntTexture={intDetails.textureUrl}
+                   colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
+                   colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
+                 />
+
+               ) : (
+                 <div className={displayMode === '3D' ? "absolute inset-0" : "absolute inset-0 -z-50 opacity-0 pointer-events-none"}>
+                    <ThreejsWindowEngine 
+                      width={width} 
+                      height={height} 
+                      colorExt={extDetails.hex}
+                      colorInt={intDetails.hex}
+                      colorExtTexture={extDetails.textureUrl}
+                      colorIntTexture={intDetails.textureUrl}
+                      spacerColor={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
+                      onSceneReady={handleSceneReady}
+                      typology={typology}
+                      sealColor={sealColor}
+                      scenery={scenery}
+                      customBackground={customBackground || undefined}
+                    />
+                 </div>
+               )
              )}
 
              {/* Needle Engine */}
@@ -4204,7 +4063,7 @@ export function DebugPricing() {
         {/* Pricing Ledger Card */}
         <div 
           style={{ backgroundColor: cardBg }}
-          className={`pricing-ledger-card p-6 rounded-xl font-mono text-xs md:overflow-y-auto flex-1 border shadow-lg text-slate-100 transition-all ${cardBorder}`}
+          className={`pricing-ledger-card p-6 rounded-xl font-mono text-xs border shadow-lg text-slate-100 transition-all w-full h-auto ${cardBorder}`}
         >
           <div 
             style={{ backgroundColor: cardBg }}
@@ -4221,6 +4080,7 @@ export function DebugPricing() {
                   <th className="py-1 pr-2 text-slate-300">#</th>
                   <th className="py-1 pr-2 text-slate-300">Description</th>
                   <th className="py-1 pr-2 text-slate-300">Gruppe</th>
+                  <th className="py-1 pr-2 text-slate-300">Formula</th>
                   <th className="py-1 text-right text-slate-300">Value</th>
                 </tr>
               </thead>
@@ -4230,11 +4090,12 @@ export function DebugPricing() {
                     <td className="py-1 pr-2">{i + 1}</td>
                     <td className="py-1 pr-2">{l.formelText ?? '(no label)'}</td>
                     <td className="py-1 pr-2">{l.preisgruppe ?? '—'}</td>
+                    <td className="py-1 pr-2 break-all max-w-[150px]">{l.formel}</td>
                     <td className="py-1 text-right">{l.value.toFixed(2)}</td>
                   </tr>
                 ))}
                 <tr className="border-t-2 border-zinc-800 font-black text-slate-100">
-                  <td colSpan={3} className="py-2">GRPRS total (EK PLN)</td>
+                  <td colSpan={4} className="py-2">GRPRS total (EK PLN)</td>
                   <td className="py-2 text-right">{result.ek_pln.toFixed(2)}</td>
                 </tr>
               </tbody>
@@ -4242,6 +4103,8 @@ export function DebugPricing() {
           )}
           {!result && !error && !loading && <div className="text-slate-400">Waiting for first response...</div>}
         </div>
+        
+        <PerformanceConsole />
       </>
     );
   };

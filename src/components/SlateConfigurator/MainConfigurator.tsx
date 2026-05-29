@@ -10,6 +10,8 @@ import { ExitIntentModal } from './ExitIntentModal';
 import { MaterialHelp, WindowTypeHelp } from './HelpContents';
 import { BlueprintPreview } from './BlueprintPreview';
 import { NeedlePreview } from './NeedlePreview';
+import { F100TViewer } from '../configurator/F100TViewer';
+
 
 import { useCartStore } from '../../store/useCartStore';
 
@@ -26,6 +28,60 @@ import { AIGuidedAssistant } from './AIGuidedAssistant';
 import { useOrderStore } from '../../store/useOrderStore';
 import fittingVariants from '../../data/fitting_variants.json';
 import { getDefaultSashOpenings } from '../../utils/windowOpenings';
+
+const COLOR_HEX_MAP: Record<string, string> = {
+  'c197': '#ffffff', // White
+  'c214': '#3b3c3f', // Anthracite
+  'c217': '#0a0a0a', // Jet Black
+  'c231': '#3e2b23', // Chocolate Brown
+  'c205': '#878c93', // Grey
+  'c209': '#4f5358', // Basalt Grey
+  'c236': '#163e63', // Brilliant Blue
+  'c234': '#0d2d1e', // Dark Green
+  'c235': '#461515', // Dark Red
+  'c206': '#9e9e9e', // Concrete Grey
+  'c200': '#f5f5dc', // Cream
+  'c233': '#4b5320', // Moss Green
+  'c204': '#d3d3d3', // Light Grey
+  'c211': '#708090', // Slate
+  'c202': '#d2b48c', // Bleached Oak
+  'c227': '#3e2723', // Dark Oak
+  'c225': '#8d6e63', // Douglas Fir
+  'c229': '#5d4037', // Macore
+  'c230': '#4e342e', // Mahogany
+  'c203': '#a1887f', // Natural Oak
+  'c224': '#8d6e63', // Oregon
+  'c220': '#bcaaa4', // Turner Oak
+  'c226': '#3e2723', // Walnut
+  'c223': '#a1887f', // Winchester
+  'c219': '#bcaaa4', // Golden Oak
+  'c199': '#5a5a5a', // Croviu Platynium
+  'c201': '#8c8c8c', // Piryt
+  'c210': '#4f5358', // Basalt Grey Gadki
+  'c207': '#757a7d', // Grey Quartz
+  'c208': '#757a7d', // Grey Quartz Smooth
+  'c237': '#4682b4', // Steel Blue
+  'c216': '#3b3c3f', // Anthracite Ulti Matt
+  'c215': '#3b3c3f', // Anthracite Smooth
+  'c218': '#0a0a0a', // Black Ulti Matt
+  'c212': '#708090', // Slate Smooth
+  'c198': '#f5f5f0', // White Sand Matt
+  'c232': '#554433', // Deep Bronze
+  'c213': '#41424c', // Graphite Sandblasted
+  'c228': '#4a2f26', // Palisander
+  'c221': '#a57850', // Turner Oak Toffee
+  'c222': '#704730', // Turner Oak Walnut
+};
+
+const getHexColor = (colorId: string) => COLOR_HEX_MAP[colorId] || undefined;
+const getTextureUrl = (colorId: string) => {
+  const swatch = COLOR_LOCALE.colors[colorId]?.swatch;
+  if (swatch && swatch.includes("url('")) {
+    return swatch.replace("url('", "").replace("')", "");
+  }
+  return undefined;
+};
+
 
 const FRAME_STYLES_MAP: Record<string, { name: string, hex: string, ext: string }> = {
   'BI': { name: 'Ultimate white (RAL 9016)', hex: '#f4f8f4', ext: 'jpg' },
@@ -414,7 +470,7 @@ export function MainConfigurator() {
   const [activeStep, setActiveStep] = useState<number | null>(hasProduct ? 3 : 0);
   const [show3D, setShow3D] = useState(false);
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-  const [stepOrder, setStepOrder] = useState<number[]>([1,2,3,4,7,5,6,8]);
+  const [stepOrder, setStepOrder] = useState<number[]>([1,2,3,4,7,5,6,8,9]);
   const [completedSteps, setCompletedSteps] = useState<number[]>(hasProduct ? [1, 2] : []);
   const openStep = (step: number) => { setActiveStep(step); setStepOrder(prev => [step, ...prev.filter(s => s !== step)]); };
   const advanceStep = (current: number, next: number) => { setTimeout(() => { setActiveStep(next); setCompletedSteps(prev => Array.from(new Set([...prev, current]))); setStepOrder(prev => { const n = prev.filter(s => s !== current); n.push(current); return n; }); }, 350); };
@@ -546,6 +602,12 @@ export function MainConfigurator() {
     deliveryDate.setDate(deliveryDate.getDate() + deliveryDays);
   }
   const formattedDelivery = deliveryDate.toLocaleDateString(i18n.language, { month: 'short', day: 'numeric', year: 'numeric' });
+
+  const selectedSpacer = activeSpacers?.find((s: any) => s.code === state.glassSpacer);
+  const spacerStyleCode = selectedSpacer?.spacer_style?.replace('_NAR', '') || 'S';
+  const spacerHex = FRAME_STYLES_MAP[spacerStyleCode]?.hex || '#4B4B4D';
+  const gasketHex = state.gasketColor === 'szary' ? '#6b7280' : '#1c1c1c';
+  const showSealsStep = state.windowTypeId?.includes('F100') || state.windowTypeId?.includes('F104');
 
   return (
     <>
@@ -1066,7 +1128,7 @@ export function MainConfigurator() {
                     <div className="flex flex-wrap gap-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar p-2">
                        {Object.keys(COLOR_LOCALE.colors)
                         .filter(colorId => COLOR_LOCALE.colors[colorId].group === COLOR_LOCALE.colorGroups[colorTab === 'interior' ? state.interiorColorGroup : state.exteriorColorGroup])
-                        .filter(colorId => activeColors ? activeColors.includes(colorId) : true)
+                        .filter(colorId => activeColors ? (activeColors as string[]).includes(colorId) : true)
                         .map(colorId => {
                           const colorData = COLOR_LOCALE.colors[colorId];
                           const isActive = colorTab === 'interior' ? state.interiorColor === colorId : state.exteriorColor === colorId;
@@ -1252,10 +1314,10 @@ export function MainConfigurator() {
                   <div className="mt-8 flex justify-between items-center w-full pt-6 border-t border-slate-100">
                     <button onClick={(e) => { e.stopPropagation(); openStep(5); }} className="text-[11px] font-black uppercase tracking-widest text-mammut-gold bg-mammut-gold/10 px-4 py-2 rounded-lg hover:bg-mammut-gold/20 transition-colors flex items-center gap-2"><ChevronLeft size={14} /> {t('configurator.buttons.previous') || "Previous Step"}</button>
                     <button 
-                      onClick={() => advanceStep(6, 8)}
+                      onClick={() => advanceStep(6, showSealsStep ? 8 : 9)}
                       className="px-6 py-3 bg-mammut-gold !text-black hover:bg-[#F3C47F] text-mammut-white font-bold rounded-xl shadow-lg shadow-[#eab676]/20 transition-all active:scale-95 text-sm uppercase tracking-wider"
                     >
-                      {t('configurator.steps.options')}
+                      Confirm & Next Step
                     </button>
                   </div>
                 </div>
@@ -1383,26 +1445,67 @@ export function MainConfigurator() {
               </div>
             </section>
 
-            {/* Step 8: Accessories & Add-ons */}
-            <section className={`bg-mammut-dark p-6 md:p-8 rounded-2xl shadow-sm transition-all duration-500 ${activeStep !== 8 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(8) }}>
+            {/* Step 8: Seals (Gaskets) */}
+            {showSealsStep && (
+            <section className={`border border-slate-200/80 p-6 md:p-8 rounded-2xl shadow-sm transition-all duration-500 ${activeStep !== 8 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(8), backgroundColor: '#ffffff' }}>
               <div 
                 className={`flex items-center justify-between cursor-pointer ${activeStep === 8 ? 'mb-6' : ''}`}
                 onClick={() => openStep(8)}
               >
                 <div className="flex items-center gap-3">
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 8 ? 'bg-mammut-gold/20 text-mammut-gold' : 'bg-mammut-darker text-mammut-white/40'}`}>8</div> 
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 8 ? 'bg-mammut-gold/20 text-mammut-gold' : 'bg-slate-100 text-slate-400'}`}>8</div> 
                   {completedSteps.includes(8) && <Check size={20} className="text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.4)]" strokeWidth={3} />}
-                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 8 ? 'text-mammut-white/90' : 'text-mammut-white/40'}`}>{t('configurator.steps.options')}</h2>
+                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 8 ? 'text-slate-900' : 'text-slate-400'}`}>---Seals---</h2>
                 </div>
-                {activeStep === 8 ? (
+                {activeStep !== 8 && <div className="text-xs font-bold text-mammut-gold bg-mammut-gold/10 px-3 py-1.5 rounded-full uppercase tracking-wider">{state.gasketColor === 'szary' ? 'Grey' : 'Black'}</div>}
+              </div>
+
+              <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${activeStep === 8 ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+                <div className="overflow-hidden">
+                  <div className="pt-2 grid grid-cols-2 gap-4">
+                    <button
+                      onClick={() => { dispatch({ type: 'SET_GASKET_COLOR', payload: 'czarny' }); advanceStep(8, 9); }}
+                      className={`p-4 rounded-xl border-2 flex flex-col items-center justify-center transition-all ${state.gasketColor === 'czarny' || !state.gasketColor ? 'border-mammut-gold ring-4 ring-[#eab676]/10 bg-mammut-gold/5' : 'border-slate-200 hover:border-slate-300'}`}
+                    >
+                      <div className="w-12 h-12 rounded-full mb-3 shadow-inner" style={{ backgroundColor: '#1c1c1c' }} />
+                      <span className="font-bold text-slate-800">Black (czarny)</span>
+                    </button>
+                    <button
+                      onClick={() => { dispatch({ type: 'SET_GASKET_COLOR', payload: 'szary' }); advanceStep(8, 9); }}
+                      className={`p-4 rounded-xl border-2 flex flex-col items-center justify-center transition-all ${state.gasketColor === 'szary' ? 'border-mammut-gold ring-4 ring-[#eab676]/10 bg-mammut-gold/5' : 'border-slate-200 hover:border-slate-300'}`}
+                    >
+                      <div className="w-12 h-12 rounded-full mb-3 shadow-inner" style={{ backgroundColor: '#6b7280' }} />
+                      <span className="font-bold text-slate-800">Grey (szary)</span>
+                    </button>
+                  </div>
+                  <div className="pt-6 mt-6 border-t border-slate-100 flex justify-between">
+                     <button onClick={(e) => { e.stopPropagation(); openStep(6); }} className="text-[11px] font-black uppercase tracking-widest text-mammut-gold bg-mammut-gold/10 px-4 py-2 rounded-lg hover:bg-mammut-gold/20 transition-colors flex items-center gap-2"><ChevronLeft size={14} /> {t('configurator.buttons.previous') || "Previous Step"}</button>
+                  </div>
+                </div>
+              </div>
+            </section>
+            )}
+
+            {/* Step 9: Accessories & Add-ons */}
+            <section className={`bg-mammut-dark p-6 md:p-8 rounded-2xl shadow-sm transition-all duration-500 ${activeStep !== 9 ? "hidden opacity-0 scale-95" : "block opacity-100 scale-100"}`} style={{ order: stepOrder.indexOf(9) }}>
+              <div 
+                className={`flex items-center justify-between cursor-pointer ${activeStep === 9 ? 'mb-6' : ''}`}
+                onClick={() => openStep(9)}
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 9 ? 'bg-mammut-gold/20 text-mammut-gold' : 'bg-mammut-darker text-mammut-white/40'}`}>9</div> 
+                  {completedSteps.includes(9) && <Check size={20} className="text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.4)]" strokeWidth={3} />}
+                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 9 ? 'text-mammut-white/90' : 'text-mammut-white/40'}`}>{t('configurator.steps.options')}</h2>
+                </div>
+                {activeStep === 9 ? (
                   <button 
                     onClick={(e) => { 
                       e.stopPropagation(); 
                       setActiveStep(-1); 
                       // Mark as completed even if no addons selected so it visually resolves
-                      setCompletedSteps(prev => Array.from(new Set([...prev, 8]))); 
+                      setCompletedSteps(prev => Array.from(new Set([...prev, 9]))); 
                       // Bump step order to bottom
-                      setStepOrder(prev => { const n = prev.filter(s => s !== 8); n.push(8); return n; });
+                      setStepOrder(prev => { const n = prev.filter(s => s !== 9); n.push(9); return n; });
                     }}
                     className="p-1.5 rounded-full hover:bg-white/10 text-mammut-white/50 hover:text-mammut-white transition-all transform hover:scale-110 active:scale-95"
                     title="Close"
@@ -1414,7 +1517,7 @@ export function MainConfigurator() {
                 )}
               </div>
 
-              <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${activeStep === 8 ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+              <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${activeStep === 9 ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
                 <div className="overflow-hidden">
                   <div className="pt-2 grid gap-3">
                     {CONFIG_SCHEMA.addons.map(addon => {
@@ -1437,7 +1540,7 @@ export function MainConfigurator() {
                     })}
                   </div>
                   <div className="pt-6 mt-6 border-t border-mammut-border flex justify-start">
-                    <button onClick={(e) => { e.stopPropagation(); openStep(6); }} className="text-[11px] font-black uppercase tracking-widest text-mammut-gold bg-mammut-gold/10 px-4 py-2 rounded-lg hover:bg-mammut-gold/20 transition-colors flex items-center gap-2"><ChevronLeft size={14} /> {t('configurator.buttons.previous') || "Previous Step"}</button>
+                    <button onClick={(e) => { e.stopPropagation(); openStep(showSealsStep ? 8 : 6); }} className="text-[11px] font-black uppercase tracking-widest text-mammut-gold bg-mammut-gold/10 px-4 py-2 rounded-lg hover:bg-mammut-gold/20 transition-colors flex items-center gap-2"><ChevronLeft size={14} /> {t('configurator.buttons.previous') || "Previous Step"}</button>
                   </div>
                 </div>
               </div>
@@ -1518,11 +1621,26 @@ export function MainConfigurator() {
                    )}
                 </div>
                 {show3D ? (
-                  <NeedlePreview state={state} />
+                  state.windowTypeId === 'F100T' ? (
+                    <F100TViewer
+                      width={state.dimensions.width}
+                      height={state.dimensions.height}
+                      colorExt={getHexColor(state.exteriorColor)}
+                      colorInt={getHexColor(state.interiorColor)}
+                      colorExtTexture={getTextureUrl(state.exteriorColor)}
+                      colorIntTexture={getTextureUrl(state.interiorColor)}
+                      colorSpacer={spacerHex}
+                      colorGsk={gasketHex}
+                    />
+                  ) : (
+                    <NeedlePreview state={state} />
+                  )
                 ) : (
                   <BlueprintPreview 
                     state={state} 
                     uploadedImage={uploadedImage}
+                    onDimensionChange={(w, h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h } })}
+                    activeLimits={activeLimits}
                   />
                 )}
               </div>

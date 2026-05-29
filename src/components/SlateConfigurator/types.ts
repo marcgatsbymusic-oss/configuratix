@@ -176,6 +176,7 @@ export interface ConfiguratorState {
   glassMiddle: string;
   glassInside: string;
   glassSpacer: string;
+  gasketColor: string;
   addons: string[];
 }
 
@@ -198,6 +199,7 @@ export type ConfiguratorAction =
   | { type: 'SET_GLASS_MIDDLE'; payload: string }
   | { type: 'SET_GLASS_INSIDE'; payload: string }
   | { type: 'SET_GLASS_SPACER'; payload: string }
+  | { type: 'SET_GASKET_COLOR'; payload: string }
   | { type: 'TOGGLE_ADDON'; payload: string };
 
 export const CONFIG_SCHEMA = {

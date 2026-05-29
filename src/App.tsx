@@ -24,6 +24,7 @@ import { CartDrawer } from './components/Shop/CartDrawer'
 import { MainConfigurator } from './components/SlateConfigurator/MainConfigurator'
 import { ConfiguratorTestPage } from './pages/ConfiguratorTestPage'
 import { ArPage } from './pages/ArPage'
+import { ViewerOnly } from './pages/ViewerOnly'
 import './index.css'
 
 // Error boundary to catch silent crashes in the component tree
@@ -149,6 +150,9 @@ function App() {
             
             {/* AR Preview – full screen, no header/footer */}
             <Route path="/ar-preview" element={<ArPage />} />
+
+            {/* 3D Viewer Only – full screen, no header/footer */}
+            <Route path="/viewer" element={<ViewerOnly />} />
 
             {/* Public Storefront Routes */}
             <Route path="*" element={<StorefrontLayout />} />

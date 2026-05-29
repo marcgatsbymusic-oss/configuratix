@@ -4,21 +4,31 @@ import { COLOR_LOCALE } from './types';
 import { useTranslation } from 'react-i18next';
 import { Rotate3D } from 'lucide-react';
 import { WindowTypeGraphic } from './WindowTypeGraphic';
+import { ScrollWheel } from './ScrollWheel';
 
 interface BlueprintPreviewProps {
   state: ConfiguratorState;
   uploadedImage: string | null;
+  onDimensionChange?: (width: number, height: number) => void;
+  activeLimits?: { minWidth: number; maxWidth: number; minHeight: number; maxHeight: number };
 }
 
-export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state, uploadedImage }) => {
+export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state, uploadedImage, onDimensionChange, activeLimits }) => {
   const { t } = useTranslation();
   const [rotationY, setRotationY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [scaleFactor, setScaleFactor] = useState(1.0);
   const [posX, setPosX] = useState(0);
   const [posY, setPosY] = useState(0);
+  const [widthText, setWidthText] = useState(state.dimensions.width.toString());
+  const [heightText, setHeightText] = useState(state.dimensions.height.toString());
   const dragStartX = useRef(0);
   const currentRotation = useRef(0);
+
+  React.useEffect(() => {
+    setWidthText(state.dimensions.width.toString());
+    setHeightText(state.dimensions.height.toString());
+  }, [state.dimensions.width, state.dimensions.height]);
 
   const handlePointerDown = (e: React.PointerEvent) => {
     setIsDragging(true);
@@ -40,22 +50,12 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state, uploa
     setRotationY(snapped);
   };
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setIsDragging(true);
-    dragStartX.current = e.touches[0].clientX;
-    currentRotation.current = rotationY;
-  };
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging) return;
-    const deltaX = e.touches[0].clientX - dragStartX.current;
-    setRotationY(currentRotation.current + deltaX * 0.8);
-  };
 
-  const handleTouchEnd = () => {
-    setIsDragging(false);
-    const snapped = Math.round(rotationY / 180) * 180;
-    setRotationY(snapped);
+  const handleWheel = (e: React.WheelEvent) => {
+    if (!uploadedImage) return;
+    const delta = e.deltaY < 0 ? 0.05 : -0.05;
+    setScaleFactor((prev) => Math.max(0.2, Math.min(2.0, prev + delta)));
   };
 
   // Dimension layout constants (in SVG user units)
@@ -77,6 +77,11 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state, uploa
 
   const offsetX = DIM_PAD_LEFT + (MAX_W - frameW) / 2;
   const offsetY = DIM_PAD_TOP + (MAX_H - frameH) / 2;
+
+  const minW = activeLimits?.minWidth || 500;
+  const maxW = activeLimits?.maxWidth || 3000;
+  const minH = activeLimits?.minHeight || 500;
+  const maxH = activeLimits?.maxHeight || 2500;
 
   // Convert SVG frame box to % of the container for the overlay
   // The SVG viewBox is SVG_W × SVG_H; the overlay div fills 100%
@@ -148,7 +153,6 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state, uploa
   return (
     <div className="w-full h-full flex flex-col items-center justify-center relative p-8 bg-transparent" style={{ perspective: '1200px' }}>
       
-      {/* Interior / Exterior toggle */}
       <div className="absolute top-4 right-4 flex gap-1 z-20 bg-mammut-dark/80 backdrop-blur rounded-lg p-1 shadow-sm border border-mammut-border">
         <button 
           onClick={() => setRotationY(0)} 
@@ -164,34 +168,152 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state, uploa
         </button>
       </div>
 
-      {/* Drag hint */}
       {!uploadedImage && (
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-mammut-white/50 opacity-60 pointer-events-none">
           <Rotate3D size={14} /> {t('configurator.blueprint.dragToRotate', 'Drag to rotate freely in 3D')}
         </div>
       )}
+      {/* Container that exactly matches the 3D flip container's bounds for accurate overlay positioning */}
+      <div className="w-full h-full flex-1 relative">
+        
+        {/* Static screen-space overlay (Scroll wheels and dimension pills) */}
+        {!uploadedImage && onDimensionChange && (
+          <div className="absolute inset-0 pointer-events-none z-30">
+            {/* Vertical scroll wheel for Height on the left */}
+            <div 
+              className="absolute pointer-events-auto flex items-center justify-center"
+              style={{
+                left: `calc(${overlayLeft} - 26px)`,
+                top: overlayTop,
+                height: overlayHeight,
+                width: '20px'
+              }}
+            >
+              <ScrollWheel
+                value={realH}
+                onChange={(h) => onDimensionChange(realW, h)}
+                min={minH}
+                max={maxH}
+                orientation="vertical"
+                variant="half-stick"
+                className="h-full"
+              />
+            </div>
 
-      {/* 3D flip container */}
-      <div 
-        className="w-full h-full flex-1 relative cursor-grab active:cursor-grabbing hover:scale-105 select-none touch-none"
-        style={{ 
-          transformStyle: 'preserve-3d', 
-          transform: `translate(${posX}px, ${posY}px) scale(${scaleFactor}) rotateY(${rotationY}deg)`,
-          transition: isDragging ? 'none' : 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
-          touchAction: 'none'
-        }}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerLeave={handlePointerUp}
-        onPointerCancel={handlePointerUp}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        onTouchCancel={handleTouchEnd}
-      >
-        {renderFace(false)}
-        {renderFace(true)}
+            {/* Horizontal scroll wheel for Width at the bottom */}
+            <div 
+              className="absolute pointer-events-auto flex items-center justify-center"
+              style={{
+                left: overlayLeft,
+                top: `calc(${overlayTop} + ${overlayHeight} + 6px)`,
+                width: overlayWidth,
+                height: '20px'
+              }}
+            >
+              <ScrollWheel
+                value={realW}
+                onChange={(w) => onDimensionChange(w, realH)}
+                min={minW}
+                max={maxW}
+                orientation="horizontal"
+                variant="half-stick"
+                className="w-full"
+              />
+            </div>
+
+            {/* Width Dimension pill overlay at the bottom center of the frame */}
+            <div 
+              className="absolute flex justify-center pointer-events-auto"
+              style={{
+                left: overlayLeft,
+                top: `calc(${overlayTop} + ${overlayHeight} - 44px)`,
+                width: overlayWidth,
+              }}
+            >
+              <div className="bg-mammut-darker/90 border border-mammut-gold/60 rounded-full shadow-lg backdrop-blur-sm flex items-center px-3 py-0.5">
+                <input
+                  type="number"
+                  value={widthText}
+                  onChange={(e) => {
+                    setWidthText(e.target.value);
+                    const num = Number(e.target.value);
+                    if (!isNaN(num) && num >= minW && num <= maxW) {
+                      onDimensionChange(num, realH);
+                    }
+                  }}
+                  onBlur={(e) => {
+                    let val = Number(e.target.value) || minW;
+                    val = Math.max(minW, Math.min(maxW, val));
+                    onDimensionChange(val, realH);
+                    setWidthText(val.toString());
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.currentTarget.blur();
+                    }
+                  }}
+                  className="w-12 bg-transparent text-mammut-gold text-center text-xs font-black tracking-widest focus:outline-none appearance-none"
+                />
+                <span className="text-mammut-gold text-[10px] font-black ml-1 select-none pointer-events-none">mm</span>
+              </div>
+            </div>
+
+            {/* Height Dimension pill overlay on the left side inside the frame */}
+            <div 
+              className="absolute flex items-center pointer-events-auto"
+              style={{
+                left: `calc(${overlayLeft} + 12px)`,
+                top: overlayTop,
+                height: overlayHeight,
+              }}
+            >
+              <div className="bg-mammut-darker/90 border border-mammut-gold/60 rounded-full shadow-lg backdrop-blur-sm flex items-center px-3 py-0.5">
+                <input
+                  type="number"
+                  value={heightText}
+                  onChange={(e) => {
+                    setHeightText(e.target.value);
+                    const num = Number(e.target.value);
+                    if (!isNaN(num) && num >= minH && num <= maxH) {
+                      onDimensionChange(realW, num);
+                    }
+                  }}
+                  onBlur={(e) => {
+                    let val = Number(e.target.value) || minH;
+                    val = Math.max(minH, Math.min(maxH, val));
+                    onDimensionChange(realW, val);
+                    setHeightText(val.toString());
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.currentTarget.blur();
+                    }
+                  }}
+                  className="w-12 bg-transparent text-mammut-gold text-center text-xs font-black tracking-widest focus:outline-none appearance-none"
+                />
+                <span className="text-mammut-gold text-[10px] font-black ml-1 select-none pointer-events-none">mm</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 3D flip container */}
+        <div 
+          className="w-full h-full absolute inset-0 cursor-grab active:cursor-grabbing hover:scale-105 select-none touch-none"
+          style={{ 
+            transformStyle: 'preserve-3d', 
+            transform: `translate(${posX}px, ${posY}px) scale(${scaleFactor}) rotateY(${rotationY}deg)`,
+            transition: isDragging ? 'none' : 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
+          }}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerLeave={handlePointerUp}
+          onWheel={handleWheel}
+        >
+          {renderFace(false)}
+          {renderFace(true)}
+        </div>
       </div>
 
       {uploadedImage && (

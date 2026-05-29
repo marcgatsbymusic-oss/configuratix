@@ -28,6 +28,7 @@ const initialState: ConfiguratorState = {
   glassMiddle: '',
   glassInside: 'T4',
   glassSpacer: 'S24',
+  gasketColor: 'czarny',
   addons: []
 };
 
@@ -188,6 +189,8 @@ function configuratorReducer(state: ConfiguratorState, action: ConfiguratorActio
       return { ...state, glassInside: action.payload };
     case 'SET_GLASS_SPACER':
       return { ...state, glassSpacer: action.payload };
+    case 'SET_GASKET_COLOR':
+      return { ...state, gasketColor: action.payload };
     case 'TOGGLE_ADDON':
       return {
         ...state,
@@ -328,9 +331,8 @@ export function useConfigurator() {
   }, [state.category, state.profile, cantorSystem]);
 
   const activeColors = useMemo(() => {
-    if (state.profile === 'iglo5') {
-       return iglo5Data.product_systems[0].colors.map(c => c.cantor_code);
-    }
+    // Disable strict cantor-code filtering for iglo5 until we have a proper cXXX -> Cantor mapping.
+    // Otherwise, the color grid becomes completely empty because UI uses cXXX codes while Cantor uses 0001, 0015, etc.
     return null;
   }, [state.profile]);
 

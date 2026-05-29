@@ -7,9 +7,10 @@ import { useThemeStore } from '../../store/useThemeStore';
 
 // We import the specific JSON payloads. 
 // In a dynamic app, this would be fetched via API based on the selected typology.
-import IG5_F104 from '../../data/profiles/IG5_F104.json';
-import IG5_F100 from '../../data/profiles/IG5_F100.json';
-import IG5_F103 from '../../data/profiles/IG5_F103.json';
+import IG5_F104 from "../../data/profiles/IGLO5/IG5_F104.json";
+import IG5_F100 from "../../data/profiles/IGLO5/IG5_F100.json";
+import IG5_F103 from "../../data/profiles/IGLO5/IG5_F103.json";
+import IG5_F200 from '../../data/profiles/IGLO5/IG5_F200.json';
 
 
 interface ThreejsWindowEngineProps {
@@ -33,10 +34,10 @@ const DEFAULT_MAPS = { diffuse: null, normal: null, orm: null };
 // --- Texture Physical Scale ---
 // Source image: 724x1024px, no embedded DPI.
 // Professional wood veneer/foil textures are produced at 300 DPI.
-// Full portrait (724×1024) rotated 90° clockwise → landscape 1024×724:
+// Full portrait (724Ãƒâ€”1024) rotated 90Ã‚Â° clockwise Ã¢â€ â€™ landscape 1024Ãƒâ€”724:
 //   - U axis (along extrusion length) = LONGEST side = 1024px @ 300dpi = 86.7mm
 //   - V axis (across ~70mm profile face) = 724px @ 300dpi = 61.3mm
-// No square crop — the full long dimension is preserved and aligned to the profile length.
+// No square crop Ã¢â‚¬â€ the full long dimension is preserved and aligned to the profile length.
 const TEX_MM_ALONG_GRAIN = 86.7;  // mm per tile along the profile length (U axis = longest side)
 const TEX_MM_ACROSS_GRAIN = 61.3; // mm per tile across the profile face (V axis)
 
@@ -280,11 +281,11 @@ const WindowAssembly = ({
 
   const extMaterial = useMemo(() => {
     if (extMaps.diffuse) {
-      // UV repeat in "tiles per meter" — UVs are in meters in this scene.
+      // UV repeat in "tiles per meter" Ã¢â‚¬â€ UVs are in meters in this scene.
       // repeatU: 1 tile = TEX_MM_ALONG_GRAIN mm along profile length. Scales with window size.
       const repeatU = (width / 1000) / (TEX_MM_ALONG_GRAIN / 1000); // tiles along profile length
       // repeatV: 1 tile = TEX_MM_ACROSS_GRAIN mm across profile face.
-      // Profile cross-section UV V spans ~0.1m (70mm diagonal). 16.3 tiles/m → ~1.6 tiles visible.
+      // Profile cross-section UV V spans ~0.1m (70mm diagonal). 16.3 tiles/m Ã¢â€ â€™ ~1.6 tiles visible.
       const repeatV = 1000 / TEX_MM_ACROSS_GRAIN; // tiles per meter across face
 
       // Clone textures so repeat is independent per material instance
@@ -320,7 +321,7 @@ const WindowAssembly = ({
   
   const intMaterial = useMemo(() => {
     if (intMaps.diffuse) {
-      // Interior: vertical stiles — dominant axis is height
+      // Interior: vertical stiles Ã¢â‚¬â€ dominant axis is height
       const repeatU = (height / 1000) / (TEX_MM_ALONG_GRAIN / 1000);
       const repeatV = 1000 / TEX_MM_ACROSS_GRAIN;
 
@@ -512,6 +513,7 @@ const WindowAssembly = ({
   const profileData = useMemo(() => {
     if (typology === 'F104') return IG5_F104;
     if (typology === 'F103') return IG5_F103;
+    if (typology === 'F200') return IG5_F200;
     return IG5_F100;
   }, [typology]);
 
@@ -523,6 +525,8 @@ const WindowAssembly = ({
   const glsExt = profileData.profiles.GLS_EXT?.vertices || [];
   const glsInt = profileData.profiles.GLS_INT?.vertices || [];
   const spacer1 = (profileData.profiles as any).SPACER1?.vertices || (profileData.profiles as any).SPCR?.vertices || [];
+  const pstExt = (profileData.profiles as any).PST_EXT?.vertices || [];
+  const pstInt = (profileData.profiles as any).PST_INT?.vertices || [];
 
   const gskFrmExt = (profileData.profiles as any).GSK_FRM_EXT?.vertices || [];
   const gskSshBtm = (profileData.profiles as any).GSK_SSH_BTM?.vertices || [];
@@ -546,6 +550,8 @@ const WindowAssembly = ({
   const intBounds = getBounds(glsInt);
 
   // Compute common origin for all parts so they don't lose relative positioning!
+  // NOTE: pstExt/pstInt are intentionally EXCLUDED Ã¢â‚¬â€ the post is centred at y=0 and
+  // including its negative Y values would corrupt the origin for all other profiles.
   const commonOrigin = useMemo(() => {
     let minX = Infinity, minY = Infinity;
     const allVerts = [
@@ -569,6 +575,16 @@ const WindowAssembly = ({
     return { x: minX === Infinity ? 0 : minX, y: minY === Infinity ? 0 : minY };
   }, [frmExt, frmInt, bzd, sshExt, sshInt, glsExt, glsInt, spacer1, gskFrmExt, gskSshBtm, gskBzd, gskSshExt]);
 
+  // The post profile is centred at y=0 (width) and x=0..70 (depth).
+  // We use its own origin so it doesn't interfere with the frame coordinate system.
+  const postOrigin = useMemo(() => {
+    const allPst = [...pstExt, ...pstInt];
+    if (allPst.length === 0) return { x: 0, y: 0 };
+    const minX = Math.min(...allPst.map(v => v.x));
+    const minY = Math.min(...allPst.map(v => v.y));
+    return { x: minX, y: minY };
+  }, [pstExt, pstInt]);
+
   // CAD profiles are often huge (e.g. 1 unit = 1mm). 
   // We must scale down by 0.001 so 1 unit = 1 meter in the final exported GLTF,
   // which is exactly what AR viewers expect for real-world physical sizing.
@@ -578,7 +594,7 @@ const WindowAssembly = ({
   const H = height * scale;
 
   // Pivot strategy:
-  // X: centered horizontally (-W/2 to +W/2 → center at 0)
+  // X: centered horizontally (-W/2 to +W/2 Ã¢â€ â€™ center at 0)
   // Y: bottom edge at 0 (0 to +H). For floor placement, model sits ON the floor.
   //    For wall placement, model-viewer rotates it, so Y=0 becomes the bottom of the wall anchor.
   // Z: back face at 0 (back of frame flush with the anchor plane).
@@ -595,14 +611,19 @@ const WindowAssembly = ({
           <group rotation={[0, Math.PI / 2, 0]}>
             <FrameSegment scaleFactor={scale} length={width} vertices={frmExt} material={finalFrmExtMat} origin={commonOrigin} uSign={1} uOffset={0} />
             <FrameSegment scaleFactor={scale} length={width} vertices={frmInt} material={finalFrmIntMat} origin={commonOrigin} uSign={1} uOffset={0} />
-            {bzd.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={bzd} material={finalBzdMat} origin={commonOrigin} uSign={1} uOffset={0} />}
-            {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshExt} material={finalSshExtMat} origin={commonOrigin} uSign={1} uOffset={0} />}
-            {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshInt} material={finalSshIntMat} origin={commonOrigin} uSign={1} uOffset={0} />}
-            {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={spacer1} material={finalSpacerMat} origin={commonOrigin} uSign={1} uOffset={0} />}
             {gskFrmExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskFrmExt} material={gskFrmExtMaterial} origin={commonOrigin} uSign={1} uOffset={0} />}
-            {gskSshBtm.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskSshBtm} material={gskSshBtmMaterial} origin={commonOrigin} uSign={1} uOffset={0} />}
-            {gskBzd.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskBzd} material={gskBzdMaterial} origin={commonOrigin} uSign={1} uOffset={0} />}
-            {gskSshExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskSshExt} material={gskSshExtMaterial} origin={commonOrigin} uSign={1} uOffset={0} />}
+            
+            {typology !== 'F200' && (
+              <>
+                {bzd.length > 0 && <FrameSegment uvMode='rail' scaleFactor={scale} length={width} vertices={bzd} material={finalBzdMat} origin={commonOrigin} uSign={1} uOffset={0} />}
+                {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshExt} material={finalSshExtMat} origin={commonOrigin} uSign={1} uOffset={0} />}
+                {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshInt} material={finalSshIntMat} origin={commonOrigin} uSign={1} uOffset={0} />}
+                {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={spacer1} material={finalSpacerMat} origin={commonOrigin} uSign={1} uOffset={0} />}
+                {gskSshBtm.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskSshBtm} material={gskSshBtmMaterial} origin={commonOrigin} uSign={1} uOffset={0} />}
+                {gskBzd.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskBzd} material={gskBzdMaterial} origin={commonOrigin} uSign={1} uOffset={0} />}
+                {gskSshExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskSshExt} material={gskSshExtMaterial} origin={commonOrigin} uSign={1} uOffset={0} />}
+              </>
+            )}
           </group>
         </group>
 
@@ -611,14 +632,19 @@ const WindowAssembly = ({
           <group rotation={[0, Math.PI / 2, 0]}>
             <FrameSegment scaleFactor={scale} length={height} vertices={frmExt} material={finalFrmExtMat} origin={commonOrigin} uSign={-1} uOffset={W} />
             <FrameSegment scaleFactor={scale} length={height} vertices={frmInt} material={finalFrmIntMat} origin={commonOrigin} uSign={-1} uOffset={W} />
-            {bzd.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={bzd} material={finalBzdMat} origin={commonOrigin} uSign={-1} uOffset={W} />}
-            {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshExt} material={finalSshExtMat} origin={commonOrigin} uSign={-1} uOffset={W} />}
-            {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshInt} material={finalSshIntMat} origin={commonOrigin} uSign={-1} uOffset={W} />}
-            {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={spacer1} material={finalSpacerMat} origin={commonOrigin} uSign={-1} uOffset={W} />}
             {gskFrmExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskFrmExt} material={gskFrmExtMaterial} origin={commonOrigin} uSign={-1} uOffset={W} />}
-            {gskSshBtm.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskSshBtm} material={gskSshBtmMaterial} origin={commonOrigin} uSign={-1} uOffset={W} />}
-            {gskBzd.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskBzd} material={gskBzdMaterial} origin={commonOrigin} uSign={-1} uOffset={W} />}
-            {gskSshExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskSshExt} material={gskSshExtMaterial} origin={commonOrigin} uSign={-1} uOffset={W} />}
+            
+            {typology !== 'F200' && (
+              <>
+                {bzd.length > 0 && <FrameSegment uvMode='rail' scaleFactor={scale} length={height} vertices={bzd} material={finalBzdMat} origin={commonOrigin} uSign={-1} uOffset={W} />}
+                {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshExt} material={finalSshExtMat} origin={commonOrigin} uSign={-1} uOffset={W} />}
+                {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshInt} material={finalSshIntMat} origin={commonOrigin} uSign={-1} uOffset={W} />}
+                {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={spacer1} material={finalSpacerMat} origin={commonOrigin} uSign={-1} uOffset={W} />}
+                {gskSshBtm.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskSshBtm} material={gskSshBtmMaterial} origin={commonOrigin} uSign={-1} uOffset={W} />}
+                {gskBzd.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskBzd} material={gskBzdMaterial} origin={commonOrigin} uSign={-1} uOffset={W} />}
+                {gskSshExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskSshExt} material={gskSshExtMaterial} origin={commonOrigin} uSign={-1} uOffset={W} />}
+              </>
+            )}
           </group>
         </group>
 
@@ -627,14 +653,19 @@ const WindowAssembly = ({
           <group rotation={[0, Math.PI / 2, 0]}>
             <FrameSegment scaleFactor={scale} length={width} vertices={frmExt} material={finalFrmExtMat} origin={commonOrigin} uSign={1} uOffset={W - H} />
             <FrameSegment scaleFactor={scale} length={width} vertices={frmInt} material={finalFrmIntMat} origin={commonOrigin} uSign={1} uOffset={W - H} />
-            {bzd.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={bzd} material={finalBzdMat} origin={commonOrigin} uSign={1} uOffset={W - H} />}
-            {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshExt} material={finalSshExtMat} origin={commonOrigin} uSign={1} uOffset={W - H} />}
-            {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshInt} material={finalSshIntMat} origin={commonOrigin} uSign={1} uOffset={W - H} />}
-            {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={spacer1} material={finalSpacerMat} origin={commonOrigin} uSign={1} uOffset={W - H} />}
             {gskFrmExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskFrmExt} material={gskFrmExtMaterial} origin={commonOrigin} uSign={1} uOffset={W - H} />}
-            {gskSshBtm.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskSshBtm} material={gskSshBtmMaterial} origin={commonOrigin} uSign={1} uOffset={W - H} />}
-            {gskBzd.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskBzd} material={gskBzdMaterial} origin={commonOrigin} uSign={1} uOffset={W - H} />}
-            {gskSshExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskSshExt} material={gskSshExtMaterial} origin={commonOrigin} uSign={1} uOffset={W - H} />}
+            
+            {typology !== 'F200' && (
+              <>
+                {bzd.length > 0 && <FrameSegment uvMode='rail' scaleFactor={scale} length={width} vertices={bzd} material={finalBzdMat} origin={commonOrigin} uSign={1} uOffset={W - H} />}
+                {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshExt} material={finalSshExtMat} origin={commonOrigin} uSign={1} uOffset={W - H} />}
+                {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshInt} material={finalSshIntMat} origin={commonOrigin} uSign={1} uOffset={W - H} />}
+                {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={spacer1} material={finalSpacerMat} origin={commonOrigin} uSign={1} uOffset={W - H} />}
+                {gskSshBtm.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskSshBtm} material={gskSshBtmMaterial} origin={commonOrigin} uSign={1} uOffset={W - H} />}
+                {gskBzd.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskBzd} material={gskBzdMaterial} origin={commonOrigin} uSign={1} uOffset={W - H} />}
+                {gskSshExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskSshExt} material={gskSshExtMaterial} origin={commonOrigin} uSign={1} uOffset={W - H} />}
+              </>
+            )}
           </group>
         </group>
 
@@ -643,19 +674,128 @@ const WindowAssembly = ({
           <group rotation={[0, Math.PI / 2, 0]}>
             <FrameSegment scaleFactor={scale} length={height} vertices={frmExt} material={finalFrmExtMat} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />
             <FrameSegment scaleFactor={scale} length={height} vertices={frmInt} material={finalFrmIntMat} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />
-            {bzd.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={bzd} material={finalBzdMat} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
-            {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshExt} material={finalSshExtMat} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
-            {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshInt} material={finalSshIntMat} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
-            {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={spacer1} material={finalSpacerMat} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
             {gskFrmExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskFrmExt} material={gskFrmExtMaterial} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
-            {gskSshBtm.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskSshBtm} material={gskSshBtmMaterial} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
-            {gskBzd.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskBzd} material={gskBzdMaterial} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
-            {gskSshExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskSshExt} material={gskSshExtMaterial} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
+            
+            {typology !== 'F200' && (
+              <>
+                {bzd.length > 0 && <FrameSegment uvMode='rail' scaleFactor={scale} length={height} vertices={bzd} material={finalBzdMat} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
+                {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshExt} material={finalSshExtMat} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
+                {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshInt} material={finalSshIntMat} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
+                {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={spacer1} material={finalSpacerMat} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
+                {gskSshBtm.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskSshBtm} material={gskSshBtmMaterial} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
+                {gskBzd.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskBzd} material={gskBzdMaterial} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
+                {gskSshExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskSshExt} material={gskSshExtMaterial} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
+              </>
+            )}
           </group>
         </group>
 
-        {/* Solid Glass Panes */}
-        {extBounds && (
+        {/* F200 Post & Sashes */}
+        {typology === 'F200' && (() => {
+          const SW = width / 2;    // half-width in mm
+          const Ws = SW * scale;   // half-width in metres
+
+          // The SSH stile body starts sshYMin mm away from the stile reference position.
+          // To make the inner stile of each sash reach the window centre (x=Ws), we extend
+          // each sash by sshYMin, so its inner stile's outer edge lands exactly at x=Ws.
+          const sshYMinMm = sshExt.length > 0
+            ? Math.min(...sshExt.map((v: any) => v.y)) - commonOrigin.y
+            : 58.7;
+          const SW_eff = SW + sshYMinMm;      // effective sash width in mm
+          const Ws_eff = SW_eff * scale;      // effective sash width in metres
+          const rightSashX = W - Ws_eff;     // right sash x-offset so its right edge = W
+
+          // Render the profiles for one rail/stile segment.
+          // Main structural profiles get full CSG mitre cuts (needed for visible corners).
+          // Gaskets/spacer skip CSG for performance (their corners are hidden).
+          const sashSeg = (len: number, uSign: number, uOff: number) => (<>
+            {bzd.length > 0 && <FrameSegment uvMode='rail' scaleFactor={scale} length={len} vertices={bzd} material={finalBzdMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} />}
+            {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={len} vertices={sshExt} material={finalSshExtMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} />}
+            {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={len} vertices={sshInt} material={finalSshIntMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} />}
+            {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={len} vertices={spacer1} material={finalSpacerMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} />}
+            {gskSshBtm.length > 0 && <FrameSegment scaleFactor={scale} length={len} vertices={gskSshBtm} material={gskSshBtmMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />}
+            {gskBzd.length > 0 && <FrameSegment scaleFactor={scale} length={len} vertices={gskBzd} material={gskBzdMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />}
+            {gskSshExt.length > 0 && <FrameSegment scaleFactor={scale} length={len} vertices={gskSshExt} material={gskSshExtMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />}
+          </>);
+
+          // Render a complete sash frame (4 sides) at a given x offset.
+          // SW_eff ensures the inner stile body reaches the window centre line.
+          const renderSash = (xOffset: number) => {
+            const Ww = Ws_eff;
+            return (
+              <group key={xOffset} position={[xOffset, 0, 0]}>
+                {/* Bottom rail */}
+                <group rotation={[0, 0, 0]}>
+                  <group rotation={[0, Math.PI / 2, 0]}>
+                    {sashSeg(SW_eff, 1, 0)}
+                  </group>
+                </group>
+                {/* Right stile */}
+                <group position={[Ww, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+                  <group rotation={[0, Math.PI / 2, 0]}>
+                    {sashSeg(height, -1, Ww)}
+                  </group>
+                </group>
+                {/* Top rail */}
+                <group position={[Ww, H, 0]} rotation={[0, 0, Math.PI]}>
+                  <group rotation={[0, Math.PI / 2, 0]}>
+                    {sashSeg(SW_eff, 1, Ww - H)}
+                  </group>
+                </group>
+                {/* Left stile */}
+                <group position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}>
+                  <group rotation={[0, Math.PI / 2, 0]}>
+                    {sashSeg(height, -1, Ww - H)}
+                  </group>
+                </group>
+                {/* Glass panes — centred in the effective sash width */}
+                {extBounds && (
+                  <mesh
+                    position={[Ww / 2, H / 2, -(((extBounds.minX + extBounds.maxX) / 2) - commonOrigin.x) * scale]}
+                    material={finalGlsExtMat}
+                  >
+                    <boxGeometry args={[
+                      (SW_eff - 2 * (extBounds.minY - commonOrigin.y)) * scale,
+                      (height  - 2 * (extBounds.minY - commonOrigin.y)) * scale,
+                      (extBounds.maxX - extBounds.minX) * scale,
+                    ]} />
+                  </mesh>
+                )}
+                {intBounds && (
+                  <mesh
+                    position={[Ww / 2, H / 2, -(((intBounds.minX + intBounds.maxX) / 2) - commonOrigin.x) * scale]}
+                    material={finalGlsIntMat}
+                  >
+                    <boxGeometry args={[
+                      (SW_eff - 2 * (intBounds.minY - commonOrigin.y)) * scale,
+                      (height  - 2 * (intBounds.minY - commonOrigin.y)) * scale,
+                      (intBounds.maxX - intBounds.minX) * scale,
+                    ]} />
+                  </mesh>
+                )}
+              </group>
+            );
+          };
+
+          return (
+            <>
+              {renderSash(0)}
+              {renderSash(rightSashX)}
+
+              {/* Fixed Centre Post — origin.y=0 centres the post body at x=Ws */}
+              {(pstExt.length > 0 || pstInt.length > 0) && (
+                <group position={[Ws, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+                  <group rotation={[0, Math.PI / 2, 0]}>
+                    {pstExt.length > 0 && <FrameSegment skipCuts scaleFactor={scale} length={height} vertices={pstExt} material={finalFrmExtMat} origin={{ x: postOrigin.x, y: 0 }} uSign={-1} uOffset={Ws} />}
+                    {pstInt.length > 0 && <FrameSegment skipCuts scaleFactor={scale} length={height} vertices={pstInt} material={finalFrmIntMat} origin={{ x: postOrigin.x, y: 0 }} uSign={-1} uOffset={Ws} />}
+                  </group>
+                </group>
+              )}
+            </>
+          );
+        })()}
+        {/* Single Glass Panes (for F100, F103, F104) */}
+        {typology !== 'F200' && extBounds && (
           <mesh 
             position={[
               W / 2, 
@@ -672,7 +812,7 @@ const WindowAssembly = ({
           </mesh>
         )}
         
-        {intBounds && (
+        {typology !== 'F200' && intBounds && (
           <mesh 
             position={[
               W / 2, 
