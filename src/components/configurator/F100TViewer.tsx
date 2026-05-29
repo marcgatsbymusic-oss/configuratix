@@ -123,9 +123,30 @@ function WindowAssembly({ widthMm, heightMm, colorExt, colorInt, colorExtTexture
     {gskSshExt.map((c, i) => <FrameSegment key={`gskSE_${i}`} layerName="GSK_SSH_EXT" scaleFactor={scale} length={len} vertices={c} material={gskMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
     {gskSshInt.map((c, i) => <FrameSegment key={`gskSI_${i}`} layerName="GSK_SSH_INT" scaleFactor={scale} length={len} vertices={c} material={gskMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
     {gskBzd.map((c, i) => <FrameSegment key={`gskBzd_${i}`} layerName="GSK_BZD" scaleFactor={scale} length={len} vertices={c} material={gskMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-    {glsExt.map((c, i) => <FrameSegment key={`glsExt_${i}`} layerName="GLS_EXT" scaleFactor={scale} length={len} vertices={c} material={glassMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-    {glsInt.map((c, i) => <FrameSegment key={`glsInt_${i}`} layerName="GLS_INT" scaleFactor={scale} length={len} vertices={c} material={glassMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
   </>);
+
+  const renderGlassPane = (sashWidthMm: number, sashHeightMm: number, glsLayer: Point[][]) => {
+    if (glsLayer.length === 0) return null;
+    const pts = glsLayer[0];
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    for (const p of pts) {
+      if (p.x < minX) minX = p.x;
+      if (p.x > maxX) maxX = p.x;
+      if (p.y < minY) minY = p.y;
+      if (p.y > maxY) maxY = p.y;
+    }
+    const offset = minY - commonOrigin.y;
+    const paneW = sashWidthMm * scale - 2 * offset * scale;
+    const paneH = sashHeightMm * scale - 2 * offset * scale;
+    const thickness = (maxX - minX) * scale;
+    const centerDepth = -(((minX + maxX) / 2) - commonOrigin.x) * scale;
+    
+    return (
+      <mesh position={[sashWidthMm * scale / 2, sashHeightMm * scale / 2, centerDepth]} material={glassMaterial} castShadow receiveShadow>
+        <boxGeometry args={[paneW, paneH, thickness]} />
+      </mesh>
+    );
+  };
 
   const pivotX = W;
   const pivotY = 0;
@@ -172,6 +193,8 @@ function WindowAssembly({ widthMm, heightMm, colorExt, colorInt, colorExtTexture
             <group position={[W, 0, 0]} rotation={[0, 0, Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(heightMm, -1, W)}</group></group>
             <group position={[W, H, 0]} rotation={[0, 0, Math.PI]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(widthMm, 1, W - H)}</group></group>
             <group position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(heightMm, -1, W - H)}</group></group>
+            {renderGlassPane(widthMm, heightMm, glsExt)}
+            {renderGlassPane(widthMm, heightMm, glsInt)}
 
             <Html position={[40 * scale, H / 2, -40 * scale]} center>
               <div

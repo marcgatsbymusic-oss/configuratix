@@ -165,7 +165,6 @@ function WindowAssembly({ widthMm, heightMm, mullionPos, colorExt, colorInt, col
     {mulGskExt.map((c, i) => <FrameSegment key={`mulGskFE_${i}`} layerName="F101C_GSK_EXT" skipCuts scaleFactor={scale} length={len} vertices={c} material={gskMaterial} origin={commonOriginMullion} uSign={uSign} uOffset={uOff} />)}
   </>);
 
-  // Left sash segment (placeholder for one side if needed)
   const renderSashSegment = (len: number, uSign: number, uOff: number) => (<>
     {sshExt.map((c, i) => <FrameSegment key={`sshExt_${i}`} layerName="SSH_EXT" scaleFactor={scale} length={len} vertices={c} material={finalFrmExtMat} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
     {sshInt.map((c, i) => <FrameSegment key={`sshInt_${i}`} layerName="SSH_INT" scaleFactor={scale} length={len} vertices={c} material={finalFrmIntMat} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
@@ -174,9 +173,32 @@ function WindowAssembly({ widthMm, heightMm, mullionPos, colorExt, colorInt, col
     {gskSshExt.map((c, i) => <FrameSegment key={`gskSE_${i}`} layerName="GSK_SSH_EXT" scaleFactor={scale} length={len} vertices={c} material={gskMaterial} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
     {gskSshInt.map((c, i) => <FrameSegment key={`gskSI_${i}`} layerName="GSK_SSH_INT" scaleFactor={scale} length={len} vertices={c} material={gskMaterial} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
     {gskBzd.map((c, i) => <FrameSegment key={`gskBzd_${i}`} layerName="GSK_BZD" scaleFactor={scale} length={len} vertices={c} material={gskMaterial} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
-    {glsExt.map((c, i) => <FrameSegment key={`glsExt_${i}`} layerName="GLS_EXT" scaleFactor={scale} length={len} vertices={c} material={glassMaterial} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
-    {glsInt.map((c, i) => <FrameSegment key={`glsInt_${i}`} layerName="GLS_INT" scaleFactor={scale} length={len} vertices={c} material={glassMaterial} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
   </>);
+
+  const renderGlassPane = (sashWidthMm: number, sashHeightMm: number, glsLayer: Point[][]) => {
+    if (glsLayer.length === 0) return null;
+    const pts = glsLayer[0];
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    for (const p of pts) {
+      if (p.x < minX) minX = p.x;
+      if (p.x > maxX) maxX = p.x;
+      if (p.y < minY) minY = p.y;
+      if (p.y > maxY) maxY = p.y;
+    }
+    const offset = minY - commonOriginOuter.y;
+    const paneW = sashWidthMm * scale - 2 * offset * scale;
+    const paneH = sashHeightMm * scale - 2 * offset * scale;
+    const thickness = (maxX - minX) * scale;
+    const centerDepth = -(((minX + maxX) / 2) - commonOriginOuter.x) * scale;
+    
+    // Add extra thickness to the glass pane slightly to avoid z-fighting with spacer edges
+    // But keep it inside the spacer.
+    return (
+      <mesh position={[sashWidthMm * scale / 2, sashHeightMm * scale / 2, centerDepth]} material={glassMaterial} castShadow receiveShadow>
+        <boxGeometry args={[paneW, paneH, thickness]} />
+      </mesh>
+    );
+  };
 
   const mullionWidth = 66 * scale; // Width is Y in DXF (66mm), Depth is X (70mm)
   const frameThicknessInt = 46 * scale; // Exact IG5_F101B frame profile width (interior)
@@ -246,6 +268,8 @@ function WindowAssembly({ widthMm, heightMm, mullionPos, colorExt, colorInt, col
             <group position={[(mPosMm + sashOverlapMm) * scale, 0, 0]} rotation={[0, 0, Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(heightMm, -1, (mPosMm + sashOverlapMm) * scale)}</group></group>
             <group position={[(mPosMm + sashOverlapMm) * scale, H, 0]} rotation={[0, 0, Math.PI]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(mPosMm + sashOverlapMm, 1, (mPosMm + sashOverlapMm) * scale - heightMm)}</group></group>
             <group position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(heightMm, -1, (mPosMm + sashOverlapMm) * scale - heightMm)}</group></group>
+            {renderGlassPane(mPosMm + sashOverlapMm, heightMm, glsExt)}
+            {renderGlassPane(mPosMm + sashOverlapMm, heightMm, glsInt)}
           </group>
         </group>
       </group>
@@ -258,6 +282,8 @@ function WindowAssembly({ widthMm, heightMm, mullionPos, colorExt, colorInt, col
               <group position={[(widthMm - mPosMm + sashOverlapMm) * scale, 0, 0]} rotation={[0, 0, Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(heightMm, -1, W)}</group></group>
               <group position={[(widthMm - mPosMm + sashOverlapMm) * scale, H, 0]} rotation={[0, 0, Math.PI]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(widthMm - mPosMm + sashOverlapMm, 1, W - H)}</group></group>
               <group position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(heightMm, -1, W - H)}</group></group>
+              {renderGlassPane(widthMm - mPosMm + sashOverlapMm, heightMm, glsExt)}
+              {renderGlassPane(widthMm - mPosMm + sashOverlapMm, heightMm, glsInt)}
             </group>
           </group>
         </group>
