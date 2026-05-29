@@ -182,7 +182,9 @@ function WindowAssembly({ widthMm, heightMm, mullionPos, colorExt, colorInt, col
   const frameThicknessInt = 46 * scale; // Exact IG5_F101B frame profile width (interior)
   
   // Custom mullion position (center by default)
-  const mullionX = (mullionPos ?? (widthMm / 2)) * scale;
+  const mPosMm = mullionPos ?? (widthMm / 2);
+  const mullionX = mPosMm * scale;
+  const sashOverlapMm = 13;
 
   const leftSashSide = useRef(0);
   const rightSashSide = useRef(0);
@@ -240,10 +242,10 @@ function WindowAssembly({ widthMm, heightMm, mullionPos, colorExt, colorInt, col
       <group position={[0, 0, 0]}>
         <group ref={leftSashPivotRef}>
           <group position={[0, 0, 0]}>
-            <group rotation={[0, 0, 0]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(mullionPos ?? (widthMm / 2), 1, 0)}</group></group>
-            <group position={[mullionX, 0, 0]} rotation={[0, 0, Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(heightMm, -1, mullionX)}</group></group>
-            <group position={[mullionX, H, 0]} rotation={[0, 0, Math.PI]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(mullionPos ?? (widthMm / 2), 1, mullionX - heightMm)}</group></group>
-            <group position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(heightMm, -1, mullionX - heightMm)}</group></group>
+            <group rotation={[0, 0, 0]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(mPosMm + sashOverlapMm, 1, 0)}</group></group>
+            <group position={[(mPosMm + sashOverlapMm) * scale, 0, 0]} rotation={[0, 0, Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(heightMm, -1, (mPosMm + sashOverlapMm) * scale)}</group></group>
+            <group position={[(mPosMm + sashOverlapMm) * scale, H, 0]} rotation={[0, 0, Math.PI]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(mPosMm + sashOverlapMm, 1, (mPosMm + sashOverlapMm) * scale - heightMm)}</group></group>
+            <group position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(heightMm, -1, (mPosMm + sashOverlapMm) * scale - heightMm)}</group></group>
           </group>
         </group>
       </group>
@@ -251,10 +253,10 @@ function WindowAssembly({ widthMm, heightMm, mullionPos, colorExt, colorInt, col
       <group position={[W, 0, 0]}>
         <group ref={sashPivotRef}>
           <group position={[-W, 0, 0]}>
-            <group position={[mullionX, 0, 0]}>
-              <group rotation={[0, 0, 0]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(widthMm - (mullionPos ?? (widthMm / 2)), 1, mullionX)}</group></group>
-              <group position={[W - mullionX, 0, 0]} rotation={[0, 0, Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(heightMm, -1, W)}</group></group>
-              <group position={[W - mullionX, H, 0]} rotation={[0, 0, Math.PI]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(widthMm - (mullionPos ?? (widthMm / 2)), 1, W - H)}</group></group>
+            <group position={[(mPosMm - sashOverlapMm) * scale, 0, 0]}>
+              <group rotation={[0, 0, 0]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(widthMm - mPosMm + sashOverlapMm, 1, (mPosMm - sashOverlapMm) * scale)}</group></group>
+              <group position={[(widthMm - mPosMm + sashOverlapMm) * scale, 0, 0]} rotation={[0, 0, Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(heightMm, -1, W)}</group></group>
+              <group position={[(widthMm - mPosMm + sashOverlapMm) * scale, H, 0]} rotation={[0, 0, Math.PI]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(widthMm - mPosMm + sashOverlapMm, 1, W - H)}</group></group>
               <group position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(heightMm, -1, W - H)}</group></group>
             </group>
           </group>
