@@ -21,6 +21,9 @@ export const ViewerOnly: React.FC = () => {
   const colorExtTexture = searchParams.get('cExtTex') ? decodeURIComponent(searchParams.get('cExtTex')!) : undefined;
   const colorIntTexture = searchParams.get('cIntTex') ? decodeURIComponent(searchParams.get('cIntTex')!) : undefined;
 
+  // Sender Name
+  const senderName = searchParams.get('sender_name') ? decodeURIComponent(searchParams.get('sender_name')!) : null;
+
   // Determine profile image
   let profileImg = 'iglo5.png';
   if (typology.toLowerCase().includes('energy')) {
@@ -29,10 +32,15 @@ export const ViewerOnly: React.FC = () => {
 
   return (
     <div 
-      className="w-screen min-h-screen overflow-x-hidden overflow-y-auto relative flex flex-col light"
+      className="w-screen min-h-screen overflow-x-hidden overflow-y-auto relative flex flex-col light pb-24"
       style={{ backgroundColor: '#ffffff', color: '#000000' }}
     >
-      <div className="w-full h-screen relative shrink-0" style={{ backgroundColor: '#ffffff' }}>
+      {senderName && (
+        <div className="w-full bg-indigo-600 text-white text-center py-3 px-4 shadow-md z-50 text-sm font-bold tracking-wide">
+          👋 {senderName} sent you this window they configured!
+        </div>
+      )}
+      <div className="w-full h-[75vh] relative shrink-0 border-b border-gray-200" style={{ backgroundColor: '#ffffff' }}>
         {typology === 'F100T' ? (
           <F100TViewer
             width={width}

@@ -549,9 +549,15 @@ export function MainConfigurator() {
   const androidIntent = `intent://arvr.google.com/scene-viewer/1.1?file=${encodeURIComponent(glbUrl)}&mode=ar_preferred&title=Mammut%20Window&resizable=false#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=${encodedFallback};end;`;
   const arHref = isIOS ? "/models/window-scene.usdz#allowsContentScaling=1" : androidIntent;
 
+  const [senderName, setSenderName] = useState<string | null>(null);
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const shareId = params.get('share_id');
+    const sName = params.get('sender_name');
+    if (sName) {
+      setSenderName(sName);
+    }
     if (shareId) {
       // Use any to bypass schema for beta testing
       (supabase as any).from('saved_configurations').select('config_state').eq('id', shareId).single().then(({ data, error }: { data: any, error: any }) => {
@@ -565,6 +571,8 @@ export function MainConfigurator() {
   }, []);
 
   const handleShareSystem = async () => {
+    const senderName = window.prompt("Enter your name (optional) so the recipient knows who sent this:");
+    
     setIsSharing(true);
     try {
       const { data, error } = await (supabase as any).from('saved_configurations')
@@ -573,8 +581,28 @@ export function MainConfigurator() {
       if (data) {
         const url = new URL(window.location.href);
         url.searchParams.set('share_id', data.id);
-        navigator.clipboard.writeText(url.toString());
-        alert('Configuration link copied to clipboard!');
+        if (senderName) {
+           url.searchParams.set('sender_name', senderName);
+        }
+        
+        const shareUrl = url.toString();
+        
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: '3D Window Configuration',
+              text: senderName ? `${senderName} sent you this window they configured!` : 'Check out this 3D window configuration!',
+              url: shareUrl
+            });
+          } catch (err) {
+            // User cancelled or share failed, fallback to clipboard
+            navigator.clipboard.writeText(shareUrl);
+            alert('Configuration link copied to clipboard!');
+          }
+        } else {
+          navigator.clipboard.writeText(shareUrl);
+          alert('Configuration link copied to clipboard!');
+        }
       } else {
         console.error(error);
         alert('Failed to save configuration');
@@ -612,6 +640,11 @@ export function MainConfigurator() {
 
   return (
     <>
+      {senderName && (
+        <div className="w-full bg-indigo-600 text-white text-center py-3 px-4 shadow-md z-[60] text-sm font-bold tracking-wide sticky top-0 relative">
+          👋 {senderName} sent you this window they configured!
+        </div>
+      )}
       <FloatingHelpMenu />
       
       {showAIAssistant && (

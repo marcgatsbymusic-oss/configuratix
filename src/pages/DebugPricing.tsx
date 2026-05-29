@@ -3497,8 +3497,9 @@ export function DebugPricing() {
              {is3dMode && (
                <div className="absolute top-2 left-2 z-30">
                  <button
-                   onClick={(e) => {
+                   onClick={async (e) => {
                      e.preventDefault();
+                     const senderName = window.prompt("Enter your name (optional) so the recipient knows who sent this:");
                      const url = new URL(window.location.origin + '/viewer');
                      url.searchParams.set('typology', typology);
                      url.searchParams.set('w', width.toString());
@@ -3512,12 +3513,28 @@ export function DebugPricing() {
                      const spcHex = FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9';
                      url.searchParams.set('cGsk', encodeURIComponent(gskHex));
                      url.searchParams.set('cSpc', encodeURIComponent(spcHex));
+                     if (senderName) url.searchParams.set('sender_name', encodeURIComponent(senderName));
                      
-                     navigator.clipboard.writeText(url.toString());
-                     alert('Standalone 3D Viewer link copied to clipboard:\n\n' + url.toString());
+                     const shareUrl = url.toString();
+                     
+                     if (navigator.share) {
+                       try {
+                         await navigator.share({
+                           title: '3D Window Configuration',
+                           text: senderName ? `${senderName} sent you this window they configured!` : 'Check out this 3D window configuration!',
+                           url: shareUrl
+                         });
+                       } catch (err) {
+                         navigator.clipboard.writeText(shareUrl);
+                         alert('Configuration link copied to clipboard!');
+                       }
+                     } else {
+                       navigator.clipboard.writeText(shareUrl);
+                       alert('Standalone 3D Viewer link copied to clipboard:\n\n' + shareUrl);
+                     }
                    }}
                    className="flex items-center gap-1.5 bg-mammut-gold/90 text-black px-3 py-1.5 rounded text-[10px] font-bold uppercase tracking-widest shadow-lg hover:bg-mammut-gold transition-colors"
-                   title="Copy standalone 3D viewer link"
+                   title="Share 3D view"
                  >
                    <Share2 size={12} strokeWidth={3} /> Share 3D
                  </button>
