@@ -3931,29 +3931,32 @@ export function DebugPricing() {
                    />
                  </div>
                ) : typology === 'F101C' ? (
-                 <F101CViewer
-                   width={width}
-                   height={height}
-                   colorExt={extDetails.hex}
-                   colorInt={intDetails.hex}
-                   colorExtTexture={extDetails.textureUrl}
-                   colorIntTexture={intDetails.textureUrl}
-                   colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
-                   colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
-                   mullionPos={mullionPos}
-                 />
+                 <div className="absolute inset-0">
+                   <F101CViewer
+                     width={width}
+                     height={height}
+                     colorExt={extDetails.hex}
+                     colorInt={intDetails.hex}
+                     colorExtTexture={extDetails.textureUrl}
+                     colorIntTexture={intDetails.textureUrl}
+                     colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
+                     colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
+                     mullionPos={mullionPos}
+                   />
+                 </div>
                ) : typology === 'F101B' ? (
-                 <Child1 
-                   widthMm={width} 
-                   heightMm={height} 
-                   colorExt={extDetails.hex}
-                   colorInt={intDetails.hex}
-                   colorExtTexture={extDetails.textureUrl}
-                   colorIntTexture={intDetails.textureUrl}
-                   colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
-                   colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
-                 />
-
+                 <div className="absolute inset-0">
+                   <Child1 
+                     widthMm={width} 
+                     heightMm={height} 
+                     colorExt={extDetails.hex}
+                     colorInt={intDetails.hex}
+                     colorExtTexture={extDetails.textureUrl}
+                     colorIntTexture={intDetails.textureUrl}
+                     colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
+                     colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
+                   />
+                 </div>
                ) : (
                  <div className={displayMode === '3D' ? "absolute inset-0" : "absolute inset-0 -z-50 opacity-0 pointer-events-none"}>
                     <ThreejsWindowEngine 
