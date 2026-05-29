@@ -10,7 +10,8 @@ import { OrbitControls, Environment, ContactShadows, useProgress, Html } from '@
 import { Loader2 } from 'lucide-react';
 import * as THREE from 'three';
 import { FrameSegment } from './FrameSegment';
-import profileDataRaw from '../../data/profiles/f100t_prepared.json';
+import { usePBRMaterial } from '../../hooks/usePBRMaterial';
+import profileDataRaw from '../../data/profiles/IGLO5/IG5_F100T.json';
 
 interface Point { x: number; y: number }
 interface Contour { id: string; points: Point[] }
@@ -18,7 +19,7 @@ interface LayerData { group: string; contours: Contour[] }
 interface ProfileData {
   meta: { bounds: { normalised: { minX: number; maxX: number; minY: number; maxY: number } } };
   layers: Record<string, LayerData>;
-  animation: { phases: Array<{ axis: string; angleDeg: number; durationMs: number }> };
+  animation?: any;
 }
 const pd = profileDataRaw as unknown as ProfileData;
 
@@ -80,22 +81,50 @@ function WindowAssembly({ widthMm, heightMm, colorExt, colorInt, colorExtTexture
     return { x: minX === Infinity ? 0 : minX, y: minY === Infinity ? 0 : minY };
   }, [frmExt, frmInt, sshExt, sshInt, bzd, gskFrmExt, gskSshExt, gskSshInt, gskBzd, glsExt, glsInt, spacer]);
 
+  // -- Use Shared PBR Material Loader Hook --
+  const finalFrmExtMat = usePBRMaterial(colorExtTexture, colorExt, widthMm, heightMm, false, false);
+  const finalFrmIntMat = usePBRMaterial(colorIntTexture, colorInt, widthMm, heightMm, false, false); // false for vertical to match F101C horizontal interior
+  const finalBzdMat = usePBRMaterial(colorIntTexture, colorInt, widthMm, heightMm, false, true);
+
+  const glassMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({ 
+    color: "#ffffff", 
+    roughness: 0.0,
+    metalness: 0.0,
+    transmission: 1.0,
+    ior: 1.5,
+    thickness: 0.01,
+    transparent: true,
+    opacity: 0.6,
+  }), []);
+
+  const spacerMaterial = useMemo(() => new THREE.MeshStandardMaterial({
+    color: colorSpacer || '#4B4B4D',
+    roughness: 0.8,
+    metalness: 0.6
+  }), [colorSpacer]);
+
+  const gskMaterial = useMemo(() => new THREE.MeshStandardMaterial({
+    color: colorGsk || '#1c1c1c',
+    roughness: 0.9,
+    metalness: 0.1
+  }), [colorGsk]);
+
   const renderFrameSegment = (len: number, uSign: number, uOff: number) => (<>
-    {frmExt.map((c, i) => <FrameSegment key={`frmExt_${i}`} scaleFactor={scale} length={len} vertices={c} matType="ext" color={colorExt} textureUrl={colorExtTexture} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-    {frmInt.map((c, i) => <FrameSegment key={`frmInt_${i}`} scaleFactor={scale} length={len} vertices={c} matType="int" color={colorInt} textureUrl={colorIntTexture} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-    {gskFrmExt.map((c, i) => <FrameSegment key={`gskFE_${i}`} scaleFactor={scale} length={len} vertices={c} matType="gsk" color={colorGsk} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {frmExt.map((c, i) => <FrameSegment key={`frmExt_${i}`} layerName="FRM_EXT" scaleFactor={scale} length={len} vertices={c} material={finalFrmExtMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {frmInt.map((c, i) => <FrameSegment key={`frmInt_${i}`} layerName="FRM_INT" scaleFactor={scale} length={len} vertices={c} material={finalFrmIntMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {gskFrmExt.map((c, i) => <FrameSegment key={`gskFE_${i}`} layerName="GSK_FRM_EXT" scaleFactor={scale} length={len} vertices={c} material={gskMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
   </>);
 
   const renderSashSegment = (len: number, uSign: number, uOff: number) => (<>
-    {sshExt.map((c, i) => <FrameSegment key={`sshExt_${i}`} scaleFactor={scale} length={len} vertices={c} matType="ext" color={colorExt} textureUrl={colorExtTexture} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-    {sshInt.map((c, i) => <FrameSegment key={`sshInt_${i}`} scaleFactor={scale} length={len} vertices={c} matType="int" color={colorInt} textureUrl={colorIntTexture} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-    {bzd.map((c, i) => <FrameSegment key={`bzd_${i}`} scaleFactor={scale} length={len} vertices={c} matType="int" color={colorInt} textureUrl={colorIntTexture} origin={commonOrigin} uSign={uSign} uOffset={uOff} uvMode="rail" />)}
-    {spacer.map((c, i) => <FrameSegment key={`spacer_${i}`} scaleFactor={scale} length={len} vertices={c} matType="spacer" color={colorSpacer} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-    {gskSshExt.map((c, i) => <FrameSegment key={`gskSE_${i}`} scaleFactor={scale} length={len} vertices={c} matType="gsk" color={colorGsk} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-    {gskSshInt.map((c, i) => <FrameSegment key={`gskSI_${i}`} scaleFactor={scale} length={len} vertices={c} matType="gsk" color={colorGsk} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-    {gskBzd.map((c, i) => <FrameSegment key={`gskBzd_${i}`} scaleFactor={scale} length={len} vertices={c} matType="gsk" color={colorGsk} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-    {glsExt.map((c, i) => <FrameSegment key={`glsExt_${i}`} scaleFactor={scale} length={len} vertices={c} matType="glass" origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-    {glsInt.map((c, i) => <FrameSegment key={`glsInt_${i}`} scaleFactor={scale} length={len} vertices={c} matType="glass" origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {sshExt.map((c, i) => <FrameSegment key={`sshExt_${i}`} layerName="SSH_EXT" scaleFactor={scale} length={len} vertices={c} material={finalFrmExtMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {sshInt.map((c, i) => <FrameSegment key={`sshInt_${i}`} layerName="SSH_INT" scaleFactor={scale} length={len} vertices={c} material={finalFrmIntMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {bzd.map((c, i) => <FrameSegment key={`bzd_${i}`} layerName="BZD" scaleFactor={scale} length={len} vertices={c} material={finalBzdMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} uvMode="rail" />)}
+    {spacer.map((c, i) => <FrameSegment key={`spacer_${i}`} layerName="SPACER" scaleFactor={scale} length={len} vertices={c} material={spacerMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {gskSshExt.map((c, i) => <FrameSegment key={`gskSE_${i}`} layerName="GSK_SSH_EXT" scaleFactor={scale} length={len} vertices={c} material={gskMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {gskSshInt.map((c, i) => <FrameSegment key={`gskSI_${i}`} layerName="GSK_SSH_INT" scaleFactor={scale} length={len} vertices={c} material={gskMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {gskBzd.map((c, i) => <FrameSegment key={`gskBzd_${i}`} layerName="GSK_BZD" scaleFactor={scale} length={len} vertices={c} material={gskMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {glsExt.map((c, i) => <FrameSegment key={`glsExt_${i}`} layerName="GLS_EXT" scaleFactor={scale} length={len} vertices={c} material={glassMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {glsInt.map((c, i) => <FrameSegment key={`glsInt_${i}`} layerName="GLS_INT" scaleFactor={scale} length={len} vertices={c} material={glassMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
   </>);
 
   const pivotX = W;
@@ -209,6 +238,7 @@ export const F100TViewer: React.FC<F100TViewerProps> = ({
   const [windowState, setWindowState] = useState<WindowState>('closed');
   const isAutoRef = useRef(true);
   const lastActionTime = useRef(Date.now());
+  const controlsRef = useRef<any>(null);
 
   useEffect(() => {
     setMountHeavy(false);
@@ -233,14 +263,12 @@ export const F100TViewer: React.FC<F100TViewerProps> = ({
   const H_M = height * MM;
   const maxDim = Math.max(W_M, H_M);
   
-  // To move the window to the right of the screen, we move the camera target to the left in the scene (+X direction since we look at +Z)
-  const targetX = W_M * 0.7; 
-  const targetY = H_M * 0.45;
+  const targetX = W_M * 0.5; 
+  const targetY = H_M * 0.5;
   const targetZ = 89 * MM / 2;
 
-  // 10 degree Y axis rotation towards the back
-  const angle = -12 * Math.PI / 180; 
-  const radius = maxDim * 2.2;
+  const angle = 0; 
+  const radius = maxDim * 2.0;
   const camPos: [number, number, number] = [
     targetX + radius * Math.sin(angle), 
     targetY, 
@@ -254,7 +282,7 @@ export const F100TViewer: React.FC<F100TViewerProps> = ({
 
   return (
     <div className="absolute inset-0" style={{ background: '#ffffff' }}>
-      <Canvas shadows gl={{ antialias: true, preserveDrawingBuffer: true }} camera={{ position: camPos, fov: 30 }}>
+      <Canvas onDoubleClick={(e) => { e.stopPropagation(); controlsRef.current?.reset(); }} shadows gl={{ antialias: true, preserveDrawingBuffer: true }} camera={{ position: camPos, fov: 30 }}>
         <color attach="background" args={['#ffffff']} />
         <fog attach="fog" args={['#ffffff', maxDim * 10, maxDim * 30]} />
         <ambientLight intensity={0.35} />
@@ -267,7 +295,7 @@ export const F100TViewer: React.FC<F100TViewerProps> = ({
           <WindowAssembly widthMm={width} heightMm={height} colorExt={colorExt} colorInt={colorInt} colorExtTexture={colorExtTexture} colorIntTexture={colorIntTexture} colorGsk={colorGsk} colorSpacer={colorSpacer} windowState={windowState} isAuto={isAutoRef} onUserInteraction={handleUserInteraction} />
         )}
         <ContactShadows position={[W_M / 2, -0.005, 89 * MM / 2]} opacity={0.25} scale={maxDim * 5} blur={2.5} far={maxDim * 2} />
-        <OrbitControls makeDefault enablePan enableZoom target={orbitTarget} minDistance={maxDim * 0.4} maxDistance={maxDim * 6} />
+        <OrbitControls ref={controlsRef} makeDefault enablePan enableZoom target={orbitTarget} minDistance={maxDim * 0.4} maxDistance={maxDim * 6} />
       </Canvas>
 
       <style>{`@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.1)} }`}</style>

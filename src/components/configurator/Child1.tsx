@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import * as THREE from 'three';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, ContactShadows, Environment, Html } from '@react-three/drei';
+import { OrbitControls, ContactShadows, Environment } from '@react-three/drei';
 import { Loader2 } from 'lucide-react';
 import { loadProfileGeometry } from '../../data/profiles';
 import { FrameSegment } from './FrameSegment';
+import { usePBRMaterial } from '../../hooks/usePBRMaterial';
 
 const MM = 0.001;
 
@@ -28,8 +29,7 @@ export const Child1: React.FC<Child1Props> = ({
   colorInt = '#f0ece6',
   colorExtTexture,
   colorIntTexture,
-  colorGsk = '#1c1c1c',
-  colorSpacer = '#4B4B4D'
+  colorGsk = '#1c1c1c'
 }) => {
   const [geometryData, setGeometryData] = useState<any>(null);
 
@@ -73,10 +73,20 @@ export const Child1: React.FC<Child1Props> = ({
   }
   const commonOrigin = { x: minX === Infinity ? 0 : minX, y: minY === Infinity ? 0 : minY };
 
+  // -- Use Shared PBR Material Loader Hook --
+  const finalFrmExtMat = usePBRMaterial(colorExtTexture, colorExt, widthMm, heightMm, false, false);
+  const finalFrmIntMat = usePBRMaterial(colorIntTexture, colorInt, widthMm, heightMm, true, false);
+
+  const gskMaterial = useMemo(() => new THREE.MeshStandardMaterial({
+    color: colorGsk || '#1c1c1c',
+    roughness: 0.9,
+    metalness: 0.1
+  }), [colorGsk]);
+
   const renderFrameSegment = (len: number, uSign: number, uOff: number) => (<>
-    {frmExt.map((c: any, i: number) => <FrameSegment key={`frmExt_${i}`} layerName="FRM_EXT" scaleFactor={scale} length={len} vertices={c} matType="ext" color={colorExt} textureUrl={colorExtTexture} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-    {frmInt.map((c: any, i: number) => <FrameSegment key={`frmInt_${i}`} layerName="FRM_INT" scaleFactor={scale} length={len} vertices={c} matType="int" color={colorInt} textureUrl={colorIntTexture} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-    {gskFrmExt.map((c: any, i: number) => <FrameSegment key={`gskFE_${i}`} layerName="GSK_FRM_EXT" scaleFactor={scale} length={len} vertices={c} matType="gsk" color={colorGsk} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {frmExt.map((c: any, i: number) => <FrameSegment key={`frmExt_${i}`} layerName="FRM_EXT" scaleFactor={scale} length={len} vertices={c} material={finalFrmExtMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {frmInt.map((c: any, i: number) => <FrameSegment key={`frmInt_${i}`} layerName="FRM_INT" scaleFactor={scale} length={len} vertices={c} material={finalFrmIntMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {gskFrmExt.map((c: any, i: number) => <FrameSegment key={`gskFE_${i}`} layerName="GSK_FRM_EXT" scaleFactor={scale} length={len} vertices={c} material={gskMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
   </>);
 
   const maxDim = Math.max(W, H);
@@ -94,10 +104,11 @@ export const Child1: React.FC<Child1Props> = ({
     -radius * Math.cos(angle)
   ];
   const orbitTarget: [number, number, number] = [targetX, targetY, targetZ];
+  const controlsRef = React.useRef<any>(null);
 
   return (
     <div className="absolute inset-0">
-      <Canvas shadows gl={{ antialias: true, preserveDrawingBuffer: true }} camera={{ position: camPos, fov: 40 }}>
+      <Canvas onDoubleClick={(e) => { e.stopPropagation(); controlsRef.current?.reset(); }} shadows gl={{ antialias: true, preserveDrawingBuffer: true }} camera={{ position: camPos, fov: 40 }}>
         <color attach="background" args={['#ffffff']} />
         <ambientLight intensity={0.4} />
         <directionalLight position={[W * 2, H * 2, -H * 2]} intensity={2.5} castShadow />
@@ -135,7 +146,7 @@ export const Child1: React.FC<Child1Props> = ({
         </group>
 
         <ContactShadows position={[W / 2, -0.05, 0]} opacity={0.3} scale={maxDim * 5} blur={2.5} far={maxDim * 2} />
-        <OrbitControls makeDefault enablePan enableZoom target={orbitTarget} minDistance={maxDim * 0.4} maxDistance={maxDim * 4} />
+        <OrbitControls ref={controlsRef} makeDefault enablePan enableZoom target={orbitTarget} minDistance={maxDim * 0.4} maxDistance={maxDim * 4} />
       </Canvas>
 
       <div className="absolute top-3 right-3 z-20 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest pointer-events-none" style={{ background: 'rgba(8,8,22,0.78)', border: '1px solid rgba(234,182,118,0.22)', color: '#eab676', backdropFilter: 'blur(10px)' }}>IGLO 5 {profileId}</div>

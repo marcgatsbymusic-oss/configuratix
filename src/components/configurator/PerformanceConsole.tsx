@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const PerformanceConsole = () => {
   const [logs, setLogs] = useState<any[]>([]);

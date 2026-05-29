@@ -307,7 +307,6 @@ export const FrameSegment: React.FC<FrameSegmentProps> = ({
 
     // ── Fast path: no CSG ──────────────────────────────────────────────────
     if (skipCuts) {
-      baseGeo.computeVertexNormals();
       applyUVs(baseGeo, uSign, uOffset, uvMode);
       baseGeo.clearGroups();
       baseGeo.computeBoundingBox();

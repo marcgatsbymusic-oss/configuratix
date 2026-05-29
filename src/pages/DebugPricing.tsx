@@ -9,6 +9,7 @@ import { SvgWindowEngine } from '../components/configurator/SvgWindowEngine';
 import { ThreejsWindowEngine } from '../components/configurator/ThreejsWindowEngine';
 import { F100TViewer } from '../components/configurator/F100TViewer';
 import { Child1 } from '../components/configurator/Child1';
+import { F101CViewer } from '../components/configurator/F101CViewer';
 import { PerformanceConsole } from '../components/configurator/PerformanceConsole';
 import { ArViewer } from '../components/configurator/ArViewer';
 import glazingOptions from '../data/cantor_glazing_options.json';
@@ -499,6 +500,7 @@ const NumericScrollWheel = ({
   step?: number;
   orientation?: 'horizontal' | 'vertical';
   labelPosition?: 'top' | 'inside';
+  onDoubleClick?: () => void;
 }) => {
   const { theme } = useThemeStore();
   const isLight = theme === 'light' || document.documentElement.getAttribute('data-theme') === 'light';
@@ -2307,7 +2309,7 @@ const TYPOLOGY_GROUPS = [
   {
     category: "Windows",
     subgroups: [
-      { name: "TYPE 1 Window", ids: ["F100","F100T","F101","F101B","F102","F103","F104","F105","F106","F200","F201","F203","F204","F205","F206","F207","F208","F250","F251","F252","F253","F254","F255","F300","F301","F302","F303","F304","F350","F351","F352","F353","F309","F400","F401","F402","F403","F450","F451","F542","F453"] },
+      { name: "TYPE 1 Window", ids: ["F100","F100T","F101","F101B","F101C","F102","F103","F104","F105","F106","F200","F201","F203","F204","F205","F206","F207","F208","F250","F251","F252","F253","F254","F255","F300","F301","F302","F303","F304","F350","F351","F352","F353","F309","F400","F401","F402","F403","F450","F451","F542","F453"] },
     ]
   }
 ];
@@ -2385,6 +2387,7 @@ export function DebugPricing() {
   // 3) Dimensions
   const [width, setWidth] = useState(1000);
   const [height, setHeight] = useState(1000);
+  const [mullionPos, setMullionPos] = useState(500);
 
   // 4) Glazing Options
   const [infills, setInfills] = useState([
@@ -2419,7 +2422,7 @@ export function DebugPricing() {
 
   // Default gasket color to black ('czarny') for F100 & F104 if not already selected
   useEffect(() => {
-    if ((typology === 'F100' || typology === 'F100T' || typology === 'F101B' || typology === 'F104') && !sealColor) {
+    if ((typology === 'F100' || typology === 'F100T' || typology === 'F101B' || typology === 'F101C' || typology === 'F104') && !sealColor) {
       setSealColor('czarny');
     }
   }, [typology]);
@@ -3419,7 +3422,7 @@ export function DebugPricing() {
   const renderVisualizer = () => {
     return (
       <div className="w-full mt-2">
-        {(['F100', 'F100T', 'F101', 'F101B', 'F102', 'F103', 'F104', 'F105', 'F106', 'F200'].includes(typology)) ? (
+        {(['F100', 'F100T', 'F101', 'F101B', 'F101C', 'F102', 'F103', 'F104', 'F105', 'F106', 'F200'].includes(typology)) ? (
           <div 
             style={{
               backgroundColor: isLight ? '#ffffff' : 'var(--theme-mammut-dark)',
@@ -3581,6 +3584,23 @@ export function DebugPricing() {
                     labelPosition="inside"
                   />
                </div>
+
+               {/* Optional Mullion Scroll Wheel */}
+               {typology === 'F101C' && (
+                 <div className="absolute top-2 left-[60px] md:left-[80px] right-3 md:right-4 h-10 md:h-12 z-30 flex items-center justify-center font-mono">
+                   <NumericScrollWheel
+                     label="Mullion"
+                     value={mullionPos}
+                     onChange={setMullionPos}
+                     onDoubleClick={() => setMullionPos(width / 2)}
+                     min={100}
+                     max={width - 100}
+                     step={10}
+                     orientation="horizontal"
+                     labelPosition="inside"
+                   />
+                 </div>
+               )}
 
              {/* Scenery Selector - always visible in 3D mode */}
              {is3dMode && (
@@ -3910,6 +3930,18 @@ export function DebugPricing() {
                      colorInt={intDetails.hex}
                    />
                  </div>
+               ) : typology === 'F101C' ? (
+                 <F101CViewer
+                   width={width}
+                   height={height}
+                   colorExt={extDetails.hex}
+                   colorInt={intDetails.hex}
+                   colorExtTexture={extDetails.textureUrl}
+                   colorIntTexture={intDetails.textureUrl}
+                   colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
+                   colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
+                   mullionPos={mullionPos}
+                 />
                ) : typology === 'F101B' ? (
                  <Child1 
                    widthMm={width} 
@@ -4090,7 +4122,7 @@ export function DebugPricing() {
                     <td className="py-1 pr-2">{i + 1}</td>
                     <td className="py-1 pr-2">{l.formelText ?? '(no label)'}</td>
                     <td className="py-1 pr-2">{l.preisgruppe ?? '—'}</td>
-                    <td className="py-1 pr-2 break-all max-w-[150px]">{l.formel}</td>
+                    <td className="py-1 pr-2 break-all max-w-[150px]">{/* no raw formula */}</td>
                     <td className="py-1 text-right">{l.value.toFixed(2)}</td>
                   </tr>
                 ))}

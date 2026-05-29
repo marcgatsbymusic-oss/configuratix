@@ -27,6 +27,7 @@ interface ThreejsWindowEngineProps {
   sealColor?: string;
   scenery?: string;
   customBackground?: string;
+  mullionPos?: number;
 }
 
 const DEFAULT_MAPS = { diffuse: null, normal: null, orm: null };
@@ -955,10 +956,11 @@ export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) =
   };
 
   const activeScenery = props.scenery || 'studio-grey';
+  const controlsRef = React.useRef<any>(null);
 
   return (
     <div className="absolute inset-0 cursor-move touch-pan-y">
-      <Canvas shadows camera={{ position: cameraPosition, fov: 45 }} gl={{ preserveDrawingBuffer: true }}>
+      <Canvas onDoubleClick={(e) => { e.stopPropagation(); controlsRef.current?.reset(); }} shadows camera={{ position: cameraPosition, fov: 45 }} gl={{ preserveDrawingBuffer: true }}>
         <color attach="background" args={[getBgColor(activeScenery)]} />
         <ambientLight intensity={0.15} />
         <directionalLight 
@@ -976,7 +978,7 @@ export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) =
         
         <WindowAssembly {...props} />
         
-        <OrbitControls makeDefault enablePan={true} enableZoom={true} target={controlsTarget} />
+        <OrbitControls ref={controlsRef} makeDefault enablePan={true} enableZoom={true} target={controlsTarget} />
         <ContactShadows position={[0, -0.001, 0]} opacity={0.4} scale={5} blur={2.0} far={10} />
       </Canvas>
     </div>

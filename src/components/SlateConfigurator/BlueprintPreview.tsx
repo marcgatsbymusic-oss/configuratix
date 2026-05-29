@@ -142,6 +142,7 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ state, uploa
             id={state.windowTypeId}
             sashOpenings={state.sashOpenings}
             className={isExterior ? 'scale-x-[-1]' : ''}
+            frameFill={imgUrl ? `url(#${patternId})` : undefined}
           />
         </div>
       </div>

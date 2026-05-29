@@ -252,6 +252,12 @@
     "image": "/images/typologies/F101.svg"
   },
   {
+    "id": "F101C",
+    "name": "1-chamber window (Fixed Post)",
+    "sashes": 2,
+    "image": "/images/typologies/F101C.svg"
+  },
+  {
     "id": "F102",
     "name": "Okno 1 kwaterowe",
     "sashes": 1,

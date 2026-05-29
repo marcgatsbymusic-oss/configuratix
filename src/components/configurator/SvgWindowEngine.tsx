@@ -12,6 +12,7 @@ interface SvgWindowEngineProps {
   weldType?: 'standard' | 'v-perfect';
   typology?: string;
   sealColor?: string;
+  mullionPos?: number;
 }
 
 /**

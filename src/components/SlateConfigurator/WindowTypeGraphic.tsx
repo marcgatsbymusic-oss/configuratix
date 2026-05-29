@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 // ─── Type Definitions ─────────────────────────────────────────────────────────
 type OpeningId = 'o1' | 'o2' | 'o3' | 'o4' | 'o5' | 'o6' | 'fix';
@@ -8,6 +8,7 @@ interface WindowTypeGraphicProps {
   sashOpenings?: string[];
   className?: string;
   showLabels?: boolean;
+  frameFill?: string;
 }
 
 // ─── Layout Definitions ───────────────────────────────────────────────────────
@@ -253,18 +254,14 @@ function Hinges({ opening, py, ph, gapCenter }: {
 // ─── Main Component ────────────────────────────────────────────────────────────
 import { StaticF100 } from './StaticF100';
 
-export const WindowTypeGraphic: React.FC<WindowTypeGraphicProps> = ({
-  id,
-  sashOpenings = [],
-  className = ''
-}) => {
+export function WindowTypeGraphic({ id, sashOpenings = [], className = '', frameFill }: WindowTypeGraphicProps) {
   if (!id) return null;
 
-  const isF100 = id.toUpperCase().includes('F100');
+  const isF100 = id === 'F100T' || id === 'F100';
 
   // Immediately render the static immaculately traced SVG if this is an F100 window
   if (isF100) {
-    return <StaticF100 className={`w-full h-full ${className}`} />;
+    return <StaticF100 className={`w-full h-full ${className}`} frameFill={frameFill} />;
   }
 
   const layoutKey = resolveLayout(id);
@@ -284,7 +281,7 @@ export const WindowTypeGraphic: React.FC<WindowTypeGraphicProps> = ({
   const IH = VH - (F * 2);
 
   const GLASS_COLOR = '#b8cfe0';
-  const FRAME_COLOR = '#ffffff';
+  const FRAME_COLOR = frameFill || '#ffffff';
   const DARK_BORDER = '#959695';   // For the frame demarcations
   // const BEVEL       = '#dadada';   // Optional subtle 3d hint
 

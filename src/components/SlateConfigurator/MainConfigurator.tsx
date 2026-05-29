@@ -11,6 +11,7 @@ import { MaterialHelp, WindowTypeHelp } from './HelpContents';
 import { BlueprintPreview } from './BlueprintPreview';
 import { NeedlePreview } from './NeedlePreview';
 import { F100TViewer } from '../configurator/F100TViewer';
+import { F101CViewer } from '../configurator/F101CViewer';
 
 
 import { useCartStore } from '../../store/useCartStore';
@@ -1623,6 +1624,17 @@ export function MainConfigurator() {
                 {show3D ? (
                   state.windowTypeId === 'F100T' ? (
                     <F100TViewer
+                      width={state.dimensions.width}
+                      height={state.dimensions.height}
+                      colorExt={getHexColor(state.exteriorColor)}
+                      colorInt={getHexColor(state.interiorColor)}
+                      colorExtTexture={getTextureUrl(state.exteriorColor)}
+                      colorIntTexture={getTextureUrl(state.interiorColor)}
+                      colorSpacer={spacerHex}
+                      colorGsk={gasketHex}
+                    />
+                  ) : state.windowTypeId === 'F101C' ? (
+                    <F101CViewer
                       width={state.dimensions.width}
                       height={state.dimensions.height}
                       colorExt={getHexColor(state.exteriorColor)}

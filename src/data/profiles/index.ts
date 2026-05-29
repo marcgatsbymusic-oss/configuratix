@@ -55,6 +55,14 @@ export const ProfileRegistry: Record<string, ProfileMetadata> = {
     name: 'Iglo 5 - F101B',
     description: 'F101B window profile for Iglo 5 system.',
     fileName: 'IGLO5/IG5_F101B.json'
+  },
+  IG5_F101C: {
+    id: 'IG5_F101C',
+    system: 'IGLO_5',
+    type: 'F101C',
+    name: 'Iglo 5 - F101C',
+    description: 'F101C window profile for Iglo 5 system.',
+    fileName: 'IGLO5/IG5_F101C.json'
   }
 };
 
