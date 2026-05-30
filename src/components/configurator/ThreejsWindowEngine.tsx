@@ -927,7 +927,7 @@ export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) =
 
   const getBgColor = (scenery: string) => {
     if (isLight && (scenery === 'studio-grey' || scenery === 'custom')) {
-      return '#ffffff';
+      return '#f1f5f9';
     }
     switch (scenery) {
       case 'custom':

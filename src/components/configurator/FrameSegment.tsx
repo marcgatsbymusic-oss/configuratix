@@ -248,7 +248,17 @@ function SegmentMaterial({ matType, color, textureUrl }: { matType: MatType; col
 // Format: "layerName_length_invertCuts_skipCuts_scaleFactor_uSign_uOffset_uvMode"
 const geometryCache = new Map<string, THREE.BufferGeometry>();
 
-export const FrameSegment: React.FC<FrameSegmentProps> = ({
+export const FrameSegment = React.memo(FrameSegmentComponent, (prev, next) => {
+  return prev.layerName === next.layerName && 
+         prev.length === next.length && 
+         prev.matType === next.matType &&
+         prev.color === next.color &&
+         prev.textureUrl === next.textureUrl &&
+         prev.uSign === next.uSign &&
+         prev.uOffset === next.uOffset;
+});
+
+function FrameSegmentComponent({
   length,
   vertices,
   matType,
@@ -265,7 +275,7 @@ export const FrameSegment: React.FC<FrameSegmentProps> = ({
   uOffset = 0,
   uvMode  = 'triplanar',
   layerName,
-}) => {
+}) {
   const geometry = useMemo(() => {
     if (!vertices || vertices.length === 0) return new THREE.BufferGeometry();
 

@@ -1,0 +1,1466 @@
+﻿diff --git a/src/pages/DebugPricing.tsx b/src/pages/DebugPricing.tsx
+index e54f821..5ca9ad7 100644
+--- a/src/pages/DebugPricing.tsx
++++ b/src/pages/DebugPricing.tsx
+@@ -99,8 +99,7 @@ interface ScrollingDialProps {
+ }
+ 
+ function ScrollingDial({ value, onChange, items, onConfirm, closeOnSelect = true }: ScrollingDialProps) {
+-  const { theme } = useThemeStore();
+-  const isLight = theme === 'light';
++  const isLight = true;
+   const scrollContainerRef = useRef<HTMLDivElement>(null);
+   const [scrollTop, setScrollTop] = useState(0);
+   const [localActiveId, setLocalActiveId] = useState(value);
+@@ -229,7 +228,7 @@ function ScrollingDial({ value, onChange, items, onConfirm, closeOnSelect = true
+         type="button"
+         onClick={(e) => { e.stopPropagation(); scrollByItems(-1); }}
+         className={`absolute top-2 z-30 w-8 h-8 rounded-full border flex items-center justify-center transition-colors cursor-pointer ${
+-          isLight ? 'bg-white border-slate-300 text-slate-700 hover:border-black hover:text-black shadow-sm' : 'bg-mammut-dark/80 hover:bg-mammut-gold/20 text-mammut-gold border-gray-800'
++          isLight ? 'bg-[#ffffff] border-slate-300 text-slate-700 hover:border-slate-900 hover:text-slate-900 shadow-sm' : 'bg-mammut-dark/80 hover:bg-mammut-gold/20 text-mammut-gold border-gray-800'
+         }`}
+         title="Scroll Up"
+       >
+@@ -241,7 +240,7 @@ function ScrollingDial({ value, onChange, items, onConfirm, closeOnSelect = true
+         type="button"
+         onClick={(e) => { e.stopPropagation(); scrollByItems(1); }}
+         className={`absolute bottom-2 z-30 w-8 h-8 rounded-full border flex items-center justify-center transition-colors cursor-pointer ${
+-          isLight ? 'bg-white border-slate-300 text-slate-700 hover:border-black hover:text-black shadow-sm' : 'bg-mammut-dark/80 hover:bg-mammut-gold/20 text-mammut-gold border-gray-800'
++          isLight ? 'bg-[#ffffff] border-slate-300 text-slate-700 hover:border-slate-900 hover:text-slate-900 shadow-sm' : 'bg-mammut-dark/80 hover:bg-mammut-gold/20 text-mammut-gold border-gray-800'
+         }`}
+         title="Scroll Down"
+       >
+@@ -262,7 +261,7 @@ function ScrollingDial({ value, onChange, items, onConfirm, closeOnSelect = true
+       }`} />
+ 
+       {/* Center Target Indicator Pointer (Yellow/Gold borders) */}
+-      <div className={`absolute inset-x-4 h-[138px] border-y-2 rounded-xl pointer-events-none z-0 top-1/2 -translate-y-1/2 ${
++      <div className={`absolute inset-x-4 h-[138px] border-y-2 rounded-md pointer-events-none z-0 top-1/2 -translate-y-1/2 ${
+         isLight ? 'border-slate-400/50 bg-slate-200/40' : 'border-mammut-gold/40 bg-mammut-gold/5'
+       }`} />
+ 
+@@ -305,7 +304,7 @@ function ScrollingDial({ value, onChange, items, onConfirm, closeOnSelect = true
+               }}
+             >
+               <div 
+-                className={`flex flex-col items-center justify-center rounded-xl transition-all duration-300 ${
++                className={`flex flex-col items-center justify-center rounded-md transition-all duration-300 ${
+                   isCenter 
+                     ? (isLight ? 'text-slate-900 font-black' : 'text-mammut-gold font-black')
+                     : (isLight ? 'text-slate-400 opacity-60' : 'text-gray-400 opacity-60')
+@@ -315,7 +314,7 @@ function ScrollingDial({ value, onChange, items, onConfirm, closeOnSelect = true
+                 <div className="relative flex items-center justify-center" style={{ width: 80, height: 80 }}>
+                   <TypologyThumbnail 
+                     id={id}
+-                    className="object-contain transition-all duration-100 bg-white border border-gray-700 p-1 rounded shadow-sm"
++                    className="object-contain transition-all duration-100 bg-[#ffffff] border border-slate-200 p-1 rounded shadow-sm"
+                     style={{ 
+                       transform: `scale(${imgScale})`,
+                       width: 48, 
+@@ -326,14 +325,14 @@ function ScrollingDial({ value, onChange, items, onConfirm, closeOnSelect = true
+                   {/* Small green ticker (checkmark badge) */}
+                   {id === value && (
+                     <div 
+-                      className="absolute w-5 h-5 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center shadow-lg border border-mammut-darker text-white z-35 transition-all duration-300"
++                      className="absolute w-5 h-5 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center shadow-lg border border-slate-200 text-white z-35 transition-all duration-300"
+                       style={{
+                         top: `calc(50% - ${24 * imgScale}px - 6px)`,
+                         right: `calc(50% - ${24 * imgScale}px - 6px)`,
+                       }}
+                       title="Selected typology"
+                     >
+-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-3 h-3">
++                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-3 h-3 text-[#ffffff]">
+                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                       </svg>
+                     </div>
+@@ -397,10 +396,7 @@ function ScrollingDial({ value, onChange, items, onConfirm, closeOnSelect = true
+         <div style={{ height: (visibleHeight - itemHeight) / 2 }} className="snap-align-none" />
+       </div>
+     </div>
+-  );
+-}
+-
+-// Mobile-friendly custom components
++  );// Mobile-friendly custom components
+ const AccordionSection = ({ 
+   id, 
+   title, 
+@@ -424,73 +420,58 @@ const AccordionSection = ({
+   const numLabel = numMatch ? String(numMatch[1]).padStart(2, '0') : null;
+   const titleText = numMatch ? numMatch[2] : title;
+ 
+-  if (isLight) {
+-    return (
+-      <div id={id} className={`rounded-xl transition-all duration-300 bg-white shadow-sm ${
+-          isOpen ? 'relative z-20 overflow-visible' : 'overflow-hidden'
+-        }`}>
+-          <div
+-            onClick={onToggle}
+-            className={`px-6 py-5 flex items-center justify-between cursor-pointer select-none transition-colors group ${
+-              isOpen ? 'border-l-4 border-black' : 'border-l-4 border-transparent hover:border-gray-300'
+-            }`}
+-          >
+-            <div className="flex flex-col gap-0.5 pr-4 min-w-0">
+-              {numLabel && (
+-                <span className="text-[10px] font-semibold tracking-[0.15em] text-slate-400 uppercase">{numLabel}</span>
+-              )}
+-              <span className={`font-bold text-base tracking-tight text-slate-900 ${
+-                !numLabel ? 'uppercase text-sm tracking-wide' : ''
+-              }`}>{titleText}</span>
+-              {!isOpen && summary && (
+-                <span className="text-xs text-slate-500 truncate mt-0.5">{summary}</span>
+-              )}
+-            </div>
+-            <svg
+-              xmlns="http://www.w3.org/2000/svg"
+-              width="16" height="16" viewBox="0 0 24 24"
+-              fill="none" stroke="currentColor" strokeWidth="2.5"
+-              strokeLinecap="round" strokeLinejoin="round"
+-              className={`shrink-0 transition-transform duration-300 text-slate-400 ${
+-                isOpen ? 'rotate-180 !text-black' : 'group-hover:text-slate-600'
+-              }`}
+-            >
+-              <polyline points="6 9 12 15 18 9" />
+-            </svg>
+-          </div>
+-          {isOpen && (
+-            <div className="px-6 pb-6 pt-1 bg-white space-y-6">
+-              {children}
+-            </div>
+-          )}
+-        </div>
+-    );
+-  }
+-
+   return (
+-    <div id={id} className={`rounded-xl mb-4 transition-all duration-300 bg-mammut-darker/60 backdrop-blur-sm shadow-[0_1px_4px_rgba(0,0,0,0.2)] ${
+-      isOpen ? 'relative z-20 overflow-visible' : 'overflow-hidden'
+-    }`}>
++    <div 
++      id={id} 
++      className={`rounded-xl mb-4 transition-all duration-300 shadow-sm ${
++        isLight ? 'bg-white text-slate-900' : 'bg-mammut-dark/60 backdrop-blur-sm text-mammut-white'
++      } ${
++        isOpen ? 'relative z-20 overflow-visible' : 'overflow-hidden'
++      }`}
++    >
+       <div
+         onClick={onToggle}
+-        className={`p-4 flex items-center justify-between cursor-pointer select-none transition-colors ${
+-          isOpen ? 'bg-mammut-gold/10 text-mammut-gold border-l-4 border-mammut-gold' : 'hover:bg-gray-800/40 text-gray-300 border-l-4 border-transparent'
++        className={`px-6 py-5 flex items-center justify-between cursor-pointer select-none transition-colors group ${
++          isLight 
++            ? (isOpen ? 'border-l-4 border-slate-900 bg-slate-50/50' : 'border-l-4 border-transparent hover:border-slate-300')
++            : (isOpen ? 'border-l-4 border-mammut-gold bg-mammut-gold/10 text-mammut-gold' : 'border-l-4 border-transparent hover:bg-gray-800/40 text-gray-300')
+         }`}
+       >
+-        <div className="flex flex-col gap-1 pr-4 min-w-0">
+-          <span className="font-bold text-sm tracking-wide uppercase">{title}</span>
++        <div className="flex flex-col gap-0.5 pr-4 min-w-0">
++          {numLabel && (
++            <span className={`text-[10px] font-semibold tracking-[0.15em] uppercase ${isLight ? 'text-slate-400' : 'text-gray-500'}`}>{numLabel}</span>
++          )}
++          <span className={`font-bold text-base tracking-tight ${
++            isLight ? 'text-slate-900' : 'text-mammut-white'
++          } ${
++            !numLabel ? 'uppercase text-sm tracking-wide' : ''
++          }`}>{titleText}</span>
+           {!isOpen && summary && (
+-            <span className="text-xs truncate text-gray-500">{summary}</span>
++            <span className="text-xs text-slate-505 truncate mt-0.5">{summary}</span>
+           )}
+         </div>
+-        <span className={`text-xs transition-transform duration-300 ${
+-          isOpen ? 'rotate-180 text-mammut-gold' : 'text-gray-500'
+-        }`}>
+-          Γû╝
+-        </span>
++        {isLight ? (
++          <svg
++            xmlns="http://www.w3.org/2000/svg"
++            width="16" height="16" viewBox="0 0 24 24"
++            fill="none" stroke="currentColor" strokeWidth="2.5"
++            strokeLinecap="round" strokeLinejoin="round"
++            className={`shrink-0 transition-transform duration-300 text-slate-400 ${
++              isOpen ? 'rotate-180 text-slate-900' : 'group-hover:text-slate-600'
++            }`}
++          >
++            <polyline points="6 9 12 15 18 9" />
++          </svg>
++        ) : (
++          <span className={`text-xs transition-transform duration-300 ${
++            isOpen ? 'rotate-180 text-mammut-gold' : 'text-gray-500'
++          }`}>
++            Γû╝
++          </span>
++        )}
+       </div>
+       {isOpen && (
+-        <div className="p-4 sm:p-6 bg-mammut-darker/30 space-y-6">
++        <div className={`px-6 pb-6 pt-1 space-y-6 ${isLight ? 'bg-white' : 'bg-mammut-darker/30'}`}>
+           {children}
+         </div>
+       )}
+@@ -517,8 +498,7 @@ const NumericScrollWheel = ({
+   orientation?: 'horizontal' | 'vertical';
+   labelPosition?: 'top' | 'inside';
+ }) => {
+-  const { theme } = useThemeStore();
+-  const isLight = theme === 'light';
++  const isLight = true;
+ 
+   const trackRef = useRef<HTMLDivElement>(null);
+   const currentValueRef = useRef(value);
+@@ -766,10 +746,10 @@ const NumericScrollWheel = ({
+         onTouchCancel={handleTouchEnd}
+         onWheel={handleWheel}
+         style={maskStyle}
+-        className={`relative overflow-hidden transition-colors duration-200 rounded-lg flex-grow flex items-center justify-center select-none touch-none transition-opacity ${
++        className={`relative overflow-hidden transition-colors duration-200 rounded flex-grow flex items-center justify-center select-none touch-none transition-opacity ${
+           isLight 
+             ? 'bg-zinc-50 border border-zinc-200 opacity-90 hover:bg-zinc-100 hover:border-zinc-300' 
+-            : 'bg-mammut-dark border border-gray-850 hover:border-mammut-gold/40 hover:bg-mammut-darker opacity-[0.4] hover:opacity-100'
++            : 'bg-mammut-dark border border-gray-855 hover:border-mammut-gold/40 hover:bg-mammut-darker opacity-[0.4] hover:opacity-100'
+         } ${trackSizeClass}`}
+       >
+         {bars}
+@@ -779,10 +759,10 @@ const NumericScrollWheel = ({
+           className={`absolute pointer-events-none rounded-full ${
+             isVert 
+               ? `top-1/2 left-0 w-full h-[2px] -translate-y-1/2 z-10 ${
+-                  isLight ? 'bg-black shadow-[0_0_8px_rgba(0,0,0,0.15)]' : 'bg-[#ffc882] shadow-[0_0_8px_rgba(234,182,118,0.4)]'
++                  isLight ? 'bg-slate-800 shadow-[0_0_8px_rgba(0,0,0,0.15)]' : 'bg-[#ffc882] shadow-[0_0_8px_rgba(234,182,118,0.4)]'
+                 }` 
+               : `left-1/2 top-0 w-[2px] h-full -translate-x-1/2 z-10 ${
+-                  isLight ? 'bg-black shadow-[0_0_8px_rgba(0,0,0,0.15)]' : 'bg-[#ffc882] shadow-[0_0_8px_rgba(234,182,118,0.4)]'
++                  isLight ? 'bg-slate-800 shadow-[0_0_8px_rgba(0,0,0,0.15)]' : 'bg-[#ffc882] shadow-[0_0_8px_rgba(234,182,118,0.4)]'
+                 }`
+           }`}
+         />
+@@ -805,8 +785,8 @@ const NumericScrollWheel = ({
+             } ${
+               isEditing 
+                 ? (isLight 
+-                    ? 'bg-white border border-black px-3.5 py-1 md:px-6 md:py-1.5 rounded-xl shadow-lg scale-[1.8] md:scale-[2.0]'
+-                    : 'bg-mammut-black/95 border border-mammut-gold backdrop-blur-md px-3.5 py-1 md:px-6 md:py-1.5 rounded-xl shadow-2xl scale-[1.8] md:scale-[2.0] shadow-[0_0_20px_rgba(217,119,6,0.35)]'
++                    ? 'bg-[#ffffff] border border-slate-300 px-3.5 py-1 md:px-6 md:py-1.5 rounded-md shadow-lg scale-[1.8] md:scale-[2.0] text-slate-900'
++                    : 'bg-mammut-black/95 border border-mammut-gold backdrop-blur-md px-3.5 py-1 md:px-6 md:py-1.5 rounded-md shadow-2xl scale-[1.8] md:scale-[2.0] shadow-[0_0_20px_rgba(217,119,6,0.35)]'
+                   )
+                 : (isBadgeHovered
+                     ? 'bg-transparent border border-transparent backdrop-blur-none px-0 py-0 shadow-none scale-[1.1]'
+@@ -826,16 +806,16 @@ const NumericScrollWheel = ({
+                     if (e.key === 'Enter') handleCommit();
+                     if (e.key === 'Escape') setIsEditing(false);
+                   }}
+-                  className={`w-16 md:w-28 bg-transparent text-center font-black text-sm md:text-xl focus:outline-none ${isLight ? 'text-black' : 'text-mammut-gold'}`}
++                  className={`w-16 md:w-28 bg-transparent text-center font-black text-sm md:text-xl focus:outline-none ${isLight ? 'text-slate-900' : 'text-mammut-gold'}`}
+                   autoFocus
+                   onClick={(e) => e.stopPropagation()}
+                 />
+-                <span className={`text-[9px] md:text-xs font-bold ${isLight ? 'text-zinc-550' : 'text-gray-400'}`}>mm</span>
++                <span className={`text-[9px] md:text-xs font-bold ${isLight ? 'text-slate-500' : 'text-gray-400'}`}>mm</span>
+               </div>
+             ) : (
+-              <span className={`text-sm md:text-xl font-black font-mono tracking-wide flex flex-col items-center leading-tight ${isLight ? 'text-black' : 'text-mammut-gold'}`}>
+-                {effectiveLabelPos === 'inside' && label && <span className={`text-[8px] md:text-[10px] uppercase font-bold tracking-tight pb-0.5 ${isLight ? 'text-zinc-400 font-extrabold' : 'text-gray-500'}`}>{label.replace(/ \(mm\)/i, '')}</span>}
+-                <span>{value} <span className={`text-[9px] md:text-xs font-bold ${isLight ? 'text-zinc-400' : 'text-gray-400'}`}>mm</span></span>
++              <span className={`text-sm md:text-xl font-black font-mono tracking-wide flex flex-col items-center leading-tight ${isLight ? 'text-slate-900' : 'text-mammut-gold'}`}>
++                {effectiveLabelPos === 'inside' && label && <span className={`text-[8px] md:text-[10px] uppercase font-bold tracking-tight pb-0.5 ${isLight ? 'text-slate-400 font-extrabold' : 'text-gray-500'}`}>{label.replace(/ \(mm\)/i, '')}</span>}
++                <span>{value} <span className={`text-[9px] md:text-xs font-bold ${isLight ? 'text-slate-400' : 'text-gray-400'}`}>mm</span></span>
+               </span>
+             )}
+           </div>
+@@ -844,7 +824,7 @@ const NumericScrollWheel = ({
+         {isDragging && (
+           <div 
+             className={`absolute text-[10px] font-black px-2.5 py-1.5 rounded-md shadow-lg pointer-events-none whitespace-nowrap z-30 transition-opacity duration-150 ${
+-              isLight ? 'bg-black text-white' : 'bg-mammut-gold text-black'
++              isLight ? 'bg-slate-900 text-slate-50' : 'bg-mammut-gold text-black'
+             } ${
+               isVert 
+                 ? 'left-full ml-3 top-1/2 -translate-y-1/2' 
+@@ -873,8 +853,6 @@ const ColorScrollWheel = ({
+   showDefault?: boolean;
+ }) => {
+   const { t } = useTranslation();
+-  const { theme } = useThemeStore();
+-  const isLight = theme === 'light';
+ 
+   const containerRef = useRef<HTMLDivElement>(null);
+   const scrollContainerRef = useRef<HTMLDivElement>(null);
+@@ -1072,10 +1050,10 @@ const ColorScrollWheel = ({
+         onClick={() => {
+           onChange(opt.code);
+         }}
+-        className={`absolute cursor-pointer rounded-xl border transition-all duration-300 ease-out flex items-center justify-center ${
++        className={`absolute cursor-pointer rounded-md border transition-all duration-300 ease-out flex items-center justify-center ${
+           isSelected 
+-            ? (isLight ? 'border-black ring-4 ring-black/25 shadow-md bg-white' : 'border-mammut-gold ring-4 ring-mammut-gold/45 shadow-[0_0_20px_rgba(217,119,6,0.6)]') 
+-            : (isLight ? 'border-zinc-200 hover:border-zinc-400 bg-zinc-50' : 'border-gray-800 hover:border-gray-500')
++            ? 'border-slate-900 ring-4 ring-slate-900/25 shadow-md bg-[#ffffff]' 
++            : 'border-slate-200 hover:border-slate-400 bg-slate-50'
+         }`}
+         style={{
+           left: `calc(50% + ${trigVal}px - ${size / 2}px)`,
+@@ -1088,23 +1066,19 @@ const ColorScrollWheel = ({
+           backgroundColor: opt.swatchUrl ? 'transparent' : opt.hex || '#4B4B4D',
+           backgroundSize: 'cover',
+           backgroundPosition: 'center',
+-          boxShadow: isSelected ? 'none' : (isLight ? 'inset 0 2px 4px rgba(0,0,0,0.15)' : 'inset 0 4px 8px rgba(0,0,0,0.6)'),
++          boxShadow: isSelected ? 'none' : 'inset 0 2px 4px rgba(0,0,0,0.15)',
+           transform: `scale(${hoverScale})`
+         }}
+         title={`${opt.code} - ${opt.name}`}
+       >
+         {isDefault && (
+-          <div className={`text-[10px] md:text-xs font-black font-sans px-2 py-1 rounded border text-center select-none pointer-events-none uppercase tracking-wide ${
+-            isLight ? 'text-zinc-650 bg-white/95 border-zinc-250' : 'text-gray-300 bg-mammut-black/70 border-gray-700/50'
+-          }`}>
++          <div className="text-[10px] md:text-xs font-black font-sans px-2 py-1 rounded border text-center select-none pointer-events-none uppercase tracking-wide text-slate-600 bg-[#ffffff]/95 border-slate-200">
+             Default
+           </div>
+         )}
+         {isSelected && !isOverActiveSwatch && !isScrolling && (
+           <div 
+-            className={`absolute bg-gradient-to-br from-emerald-400 to-emerald-600 text-white rounded-full flex items-center justify-center shadow-lg border z-35 animate-scale-in ${
+-              isLight ? 'border-white' : 'border-mammut-darker'
+-            }`}
++            className="absolute bg-gradient-to-br from-emerald-400 to-emerald-600 text-white rounded-full flex items-center justify-center shadow-lg border z-35 animate-scale-in border-[#ffffff]"
+             style={{
+               top: '-3px',
+               right: '-3px',
+@@ -1113,7 +1087,7 @@ const ColorScrollWheel = ({
+             }}
+             title="Selected finish"
+           >
+-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-2.5 h-2.5 md:w-3.5 md:h-3.5 text-white">
++            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-2.5 h-2.5 md:w-3.5 md:h-3.5 text-[#ffffff]">
+               <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+             </svg>
+           </div>
+@@ -1127,9 +1101,7 @@ const ColorScrollWheel = ({
+ 
+   return (
+     <div className="flex flex-col gap-1.5 w-full relative overflow-visible z-20">
+-      <label className={`block text-xs font-bold uppercase tracking-wide mb-10 md:mb-16 ${
+-        isLight ? 'text-zinc-500' : 'text-gray-400'
+-      }`}>{label}</label>
++      <label className="block text-xs font-bold uppercase tracking-wide mb-10 md:mb-16 text-slate-500">{label}</label>
+       <div 
+         ref={containerRef}
+         onWheel={handleWheel}
+@@ -1153,14 +1125,10 @@ const ColorScrollWheel = ({
+         onMouseLeave={() => {
+           setIsOverActiveSwatch(false);
+         }}
+-        className={`relative rounded-xl overflow-visible select-none shadow-inner flex items-center justify-center group w-full h-[140px] md:h-[190px] border ${
+-          isLight ? 'bg-zinc-50 border-zinc-200' : 'bg-mammut-dark border-gray-855'
+-        }`}
++        className="relative rounded-md overflow-visible select-none shadow-inner flex items-center justify-center group w-full h-[140px] md:h-[190px] border bg-slate-50 border-slate-200"
+       >
+         {options.length === 0 ? (
+-          <div className={`absolute inset-0 flex flex-col items-center justify-center font-bold text-sm pointer-events-none px-4 z-35 backdrop-blur-sm rounded-xl ${
+-            isLight ? 'bg-white/80 text-zinc-650' : 'bg-mammut-darker/60 text-gray-400'
+-          }`}>
++          <div className="absolute inset-0 flex flex-col items-center justify-center font-bold text-sm pointer-events-none px-4 z-35 backdrop-blur-sm rounded-md bg-[#ffffff]/80 text-slate-600">
+             <span className="text-center">{t('noColorsFound', 'No matching colors found')}</span>
+             <button
+               type="button"
+@@ -1169,11 +1137,7 @@ const ColorScrollWheel = ({
+                 setSearchQuery('');
+                 setIsEditingSearch(false);
+               }}
+-              className={`mt-3 text-xs pointer-events-auto border px-4 py-1.5 rounded-full cursor-pointer transition-colors ${
+-                isLight 
+-                  ? 'text-black bg-zinc-100 hover:bg-zinc-200 border-zinc-300' 
+-                  : 'text-mammut-gold hover:text-white bg-gray-800 hover:bg-gray-750 border-gray-700'
+-              }`}
++              className="mt-3 text-xs pointer-events-auto border px-4 py-1.5 rounded-full cursor-pointer transition-colors text-slate-900 bg-slate-100 hover:bg-slate-200 border-slate-300"
+             >
+               {t('clearSearch', 'Clear Search')}
+             </button>
+@@ -1185,12 +1149,8 @@ const ColorScrollWheel = ({
+         )}
+ 
+         {/* Gradients */}
+-        <div className={`absolute inset-y-0 left-0 w-20 bg-gradient-to-r to-transparent pointer-events-none z-15 opacity-90 ${
+-          isLight ? 'from-zinc-50' : 'from-mammut-dark'
+-        }`} />
+-        <div className={`absolute inset-y-0 right-0 w-20 bg-gradient-to-l to-transparent pointer-events-none z-15 opacity-90 ${
+-          isLight ? 'from-zinc-50' : 'from-mammut-dark'
+-        }`} />
++        <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r to-transparent pointer-events-none z-15 opacity-90 from-slate-50" />
++        <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l to-transparent pointer-events-none z-15 opacity-90 from-slate-50" />
+ 
+         {/* Scroll Container */}
+         {options.length > 0 && (
+@@ -1221,11 +1181,7 @@ const ColorScrollWheel = ({
+           <button
+             type="button"
+             onClick={(e) => { e.stopPropagation(); adjustIndex('prev'); }}
+-            className={`absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg active:scale-90 transition-all duration-150 cursor-pointer select-none left-2 md:left-3 top-1/2 -translate-y-1/2 border ${
+-              isLight 
+-                ? 'bg-white border-zinc-200 text-zinc-700 hover:text-black hover:border-black shadow-sm' 
+-                : 'bg-mammut-black/85 border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50'
+-            }`}
++            className="absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded active:scale-90 transition-all duration-150 cursor-pointer select-none left-2 md:left-3 top-1/2 -translate-y-1/2 border bg-[#ffffff] border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-900 shadow-sm"
+             title="Previous Color"
+           >
+             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
+@@ -1239,11 +1195,7 @@ const ColorScrollWheel = ({
+           <button
+             type="button"
+             onClick={(e) => { e.stopPropagation(); adjustIndex('next'); }}
+-            className={`absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg active:scale-90 transition-all duration-150 cursor-pointer select-none right-2 md:right-3 top-1/2 -translate-y-1/2 border ${
+-              isLight 
+-                ? 'bg-white border-zinc-200 text-zinc-700 hover:text-black hover:border-black shadow-sm' 
+-                : 'bg-mammut-black/85 border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50'
+-            }`}
++            className="absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded active:scale-90 transition-all duration-150 cursor-pointer select-none right-2 md:right-3 top-1/2 -translate-y-1/2 border bg-[#ffffff] border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-900 shadow-sm"
+             title="Next Color"
+           >
+             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
+@@ -1255,12 +1207,8 @@ const ColorScrollWheel = ({
+ 
+       {/* Description underneath with search/filtering capability */}
+       {isEditingSearch || searchQuery ? (
+-        <div className={`flex items-center rounded-xl mt-10 md:mt-16 px-3 py-1.5 w-full relative shadow-sm border ${
+-          isLight ? 'bg-white border-zinc-300 text-black' : 'bg-mammut-black border-mammut-gold text-mammut-white shadow-md'
+-        }`}>
+-          <span className={`text-[10px] uppercase tracking-widest font-bold absolute -top-2.5 left-3 px-2 border rounded ${
+-            isLight ? 'bg-white text-zinc-500 border-zinc-200' : 'bg-mammut-darker text-mammut-gold border-gray-855'
+-          }`}>
++        <div className="flex items-center rounded-md mt-10 md:mt-16 px-3 py-1.5 w-full relative shadow-sm border bg-[#ffffff] border-slate-300 text-slate-900">
++          <span className="text-[10px] uppercase tracking-widest font-bold absolute -top-2.5 left-3 px-2 border rounded bg-[#ffffff] text-slate-500 border-slate-200">
+             {t('selectedFinish', 'Selected Finish')}
+           </span>
+           <input
+@@ -1268,9 +1216,7 @@ const ColorScrollWheel = ({
+             value={searchQuery}
+             onChange={(e) => setSearchQuery(e.target.value)}
+             placeholder={t('searchColorPlaceholder', 'Search (e.g. wood, metal, blue...)')}
+-            className={`w-full bg-transparent focus:outline-none text-sm md:text-base font-bold font-mono pl-1 pr-8 py-1 ${
+-              isLight ? 'text-black placeholder-zinc-400' : 'text-mammut-white'
+-            }`}
++            className="w-full bg-transparent focus:outline-none text-sm md:text-base font-bold font-mono pl-1 pr-8 py-1 text-slate-900 placeholder-slate-400"
+             autoFocus
+             onBlur={() => {
+               if (!searchQuery) {
+@@ -1291,9 +1237,7 @@ const ColorScrollWheel = ({
+                 setSearchQuery('');
+                 setIsEditingSearch(false);
+               }}
+-              className={`absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center transition-colors cursor-pointer ${
+-                isLight ? 'bg-zinc-100 hover:bg-zinc-200 text-zinc-500 hover:text-black' : 'bg-gray-800 hover:bg-mammut-gold/20 text-gray-400 hover:text-mammut-gold'
+-              }`}
++              className="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center transition-colors cursor-pointer bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-900"
+               title="Clear search"
+             >
+               Γ£ò
+@@ -1303,21 +1247,15 @@ const ColorScrollWheel = ({
+       ) : (
+         <div 
+           onClick={() => setIsEditingSearch(true)}
+-          className={`flex flex-col items-center justify-center py-2 cursor-pointer border rounded-xl mt-10 md:mt-16 px-3 w-full transition-all group/finish ${
+-            isLight ? 'bg-zinc-50 hover:bg-zinc-100 border-zinc-200 hover:border-black' : 'bg-mammut-dark/40 hover:bg-mammut-dark/70 hover:border-mammut-gold/50 border-gray-855/60'
+-          }`}
++          className="flex flex-col items-center justify-center py-2 cursor-pointer border rounded-md mt-10 md:mt-16 px-3 w-full transition-all group/finish bg-slate-50 hover:bg-slate-100 border-slate-200 hover:border-slate-900"
+         >
+-          <span className={`text-[10px] uppercase tracking-widest font-bold transition-colors flex items-center gap-1.5 ${
+-            isLight ? 'text-zinc-500 group-hover/finish:text-black' : 'text-gray-500 group-hover/finish:text-mammut-gold'
+-          }`}>
++          <span className="text-[10px] uppercase tracking-widest font-bold transition-colors flex items-center gap-1.5 text-slate-500 group-hover/finish:text-slate-900">
+             {t('selectedFinish', 'Selected Finish')}
+             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5 opacity-60">
+               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.604 10.604z" />
+             </svg>
+           </span>
+-          <span className={`text-sm md:text-base font-black font-mono tracking-wide text-center mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis max-w-full ${
+-            isLight ? 'text-black' : 'text-mammut-gold'
+-          }`}>
++          <span className="text-sm md:text-base font-black font-mono tracking-wide text-center mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis max-w-full text-slate-900">
+             {activeOpt.code ? `${activeOpt.code} - ${activeOpt.name}` : activeOpt.name}
+           </span>
+         </div>
+@@ -1404,9 +1342,6 @@ const HandleImage = ({
+   onChange: (v: string) => void;
+   options: any[];
+ }) => {
+-  const { theme } = useThemeStore();
+-  const isLight = theme === 'light';
+-
+   const containerRef = useRef<HTMLDivElement>(null);
+   const scrollContainerRef = useRef<HTMLDivElement>(null);
+   const [scrollPos, setScrollPos] = useState(0);
+@@ -1536,10 +1471,10 @@ const HandleImage = ({
+         onClick={(e) => {
+           handleSnapClick(e, opt.code);
+         }}
+-        className={`absolute cursor-pointer rounded-xl border transition-all duration-300 ease-out flex items-center justify-center bg-white ${
++        className={`absolute cursor-pointer rounded-md border transition-all duration-300 ease-out flex items-center justify-center bg-[#ffffff] ${
+           isSelected 
+-            ? (isLight ? 'border-black border-[1px] shadow-sm' : 'border-mammut-gold border-[1px] shadow-[0_0_12px_rgba(217,119,6,0.35)]') 
+-            : (isLight ? 'border-zinc-200 hover:border-zinc-400 bg-zinc-100' : 'border-gray-800 hover:border-gray-600 bg-mammut-black')
++            ? 'border-slate-900 border-[1px] shadow-sm' 
++            : 'border-slate-200 hover:border-slate-400 bg-slate-100'
+         }`}
+         style={{
+           left: `calc(50% + ${trigVal}px - ${size / 2}px)`,
+@@ -1555,20 +1490,18 @@ const HandleImage = ({
+         <img 
+           src={imageUrl} 
+           alt={opt.name} 
+-          className="w-full h-full object-cover rounded-xl"
++          className="w-full h-full object-cover rounded-md"
+           onError={(e) => {
+             e.currentTarget.style.display = 'none';
+           }}
+         />
+         <div 
+-          className="absolute inset-0 z-[-1] rounded-xl" 
++          className="absolute inset-0 z-[-1] rounded-md" 
+           style={{ backgroundColor: opt.hex || '#4B4B4D' }} 
+         />
+         {isSelected && (
+           <div 
+-            className={`absolute -top-1 -right-1 bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-lg border z-50 p-0.5 animate-in fade-in zoom-in duration-200 ${
+-              isLight ? 'border-white' : 'border-mammut-dark'
+-            }`}
++            className="absolute -top-1 -right-1 bg-emerald-500 text-[#ffffff] rounded-full flex items-center justify-center shadow-lg border z-50 p-0.5 animate-in fade-in zoom-in duration-200 border-[#ffffff]"
+             style={{ 
+               width: Math.max(16, size * 0.28), 
+               height: Math.max(16, size * 0.28) 
+@@ -1588,26 +1521,18 @@ const HandleImage = ({
+ 
+   return (
+     <div className="flex flex-col gap-1.5 w-full relative overflow-visible z-20">
+-      <label className={`block text-xs font-bold uppercase tracking-wide mb-1 md:mb-2 ${
+-        isLight ? 'text-zinc-500' : 'text-gray-400'
+-      }`}>{label}</label>
++      <label className="block text-xs font-bold uppercase tracking-wide mb-1 md:mb-2 text-slate-500">{label}</label>
+       <div 
+         ref={containerRef}
+         onWheel={handleWheel}
+-        className={`relative rounded-xl overflow-visible select-none shadow-inner flex items-center justify-center group w-full h-[140px] md:h-[190px] border ${
+-          isLight ? 'bg-zinc-50 border-zinc-200' : 'bg-mammut-dark border-gray-850'
+-        }`}
++        className="relative rounded-md overflow-visible select-none shadow-inner flex items-center justify-center group w-full h-[140px] md:h-[190px] border bg-slate-50 border-slate-200"
+       >
+         <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-visible z-10">
+           {items}
+         </div>
+ 
+-        <div className={`absolute inset-y-0 left-0 w-20 bg-gradient-to-r to-transparent pointer-events-none z-15 opacity-90 ${
+-          isLight ? 'from-zinc-50' : 'from-mammut-dark'
+-        }`} />
+-        <div className={`absolute inset-y-0 right-0 w-20 bg-gradient-to-l to-transparent pointer-events-none z-15 opacity-90 ${
+-          isLight ? 'from-zinc-50' : 'from-mammut-dark'
+-        }`} />
++        <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r to-transparent pointer-events-none z-15 opacity-90 from-slate-50" />
++        <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l to-transparent pointer-events-none z-15 opacity-90 from-slate-50" />
+ 
+         <div 
+           ref={scrollContainerRef}
+@@ -1636,11 +1561,7 @@ const HandleImage = ({
+         <button
+           type="button"
+           onClick={(e) => { e.stopPropagation(); adjustIndex('prev'); }}
+-          className={`absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg active:scale-90 transition-all duration-150 cursor-pointer select-none left-2 md:left-3 top-1/2 -translate-y-1/2 border ${
+-            isLight 
+-              ? 'bg-white border-zinc-200 text-zinc-700 hover:text-black hover:border-black shadow-sm' 
+-              : 'bg-mammut-black/85 border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50'
+-          }`}
++          className="absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded active:scale-90 transition-all duration-150 cursor-pointer select-none left-2 md:left-3 top-1/2 -translate-y-1/2 border bg-[#ffffff] border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-900 shadow-sm"
+           title="Previous"
+         >
+           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
+@@ -1651,11 +1572,7 @@ const HandleImage = ({
+         <button
+           type="button"
+           onClick={(e) => { e.stopPropagation(); adjustIndex('next'); }}
+-          className={`absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg active:scale-90 transition-all duration-150 cursor-pointer select-none right-2 md:right-3 top-1/2 -translate-y-1/2 border ${
+-            isLight 
+-              ? 'bg-white border-zinc-200 text-zinc-700 hover:text-black hover:border-black shadow-sm' 
+-              : 'bg-mammut-black/85 border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50'
+-          }`}
++          className="absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded active:scale-90 transition-all duration-150 cursor-pointer select-none right-2 md:right-3 top-1/2 -translate-y-1/2 border bg-[#ffffff] border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-900 shadow-sm"
+           title="Next"
+         >
+           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
+@@ -1664,15 +1581,9 @@ const HandleImage = ({
+         </button>
+       </div>
+ 
+-      <div className={`flex flex-col items-center justify-center py-2 border rounded-xl mt-1 md:mt-2 px-3 ${
+-        isLight ? 'bg-zinc-50 border-zinc-200' : 'bg-mammut-dark/40 border border-gray-850/60'
+-      }`}>
+-        <span className={`text-[10px] uppercase tracking-widest font-bold ${
+-          isLight ? 'text-zinc-500' : 'text-gray-500'
+-        }`}>Selected Spacer</span>
+-        <span className={`text-sm md:text-base font-black font-mono tracking-wide text-center mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis max-w-full ${
+-          isLight ? 'text-black' : 'text-mammut-gold'
+-        }`}>
++      <div className="flex flex-col items-center justify-center py-2 border rounded-md mt-1 md:mt-2 px-3 bg-slate-50 border-slate-200">
++        <span className="text-[10px] uppercase tracking-widest font-bold text-slate-500">Selected Spacer</span>
++        <span className="text-sm md:text-base font-black font-mono tracking-wide text-center mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis max-w-full text-slate-900">
+           {activeOpt ? `${activeOpt.code} - ${activeOpt.name}` : ''}
+         </span>
+       </div>
+@@ -1680,7 +1591,7 @@ const HandleImage = ({
+   );
+ };
+ 
+- const HandleScrollWheel = ({
++  const HandleScrollWheel = ({
+   label,
+   value,
+   onChange,
+@@ -1693,9 +1604,6 @@ const HandleImage = ({
+   options: any[];
+   handleColor: string;
+ }) => {
+-  const { theme } = useThemeStore();
+-  const isLight = theme === 'light';
+-
+   const containerRef = useRef<HTMLDivElement>(null);
+   const scrollContainerRef = useRef<HTMLDivElement>(null);
+   const [scrollPos, setScrollPos] = useState(0);
+@@ -1811,10 +1719,10 @@ const HandleImage = ({
+         onClick={() => {
+           onChange(opt.code);
+         }}
+-        className={`absolute cursor-pointer rounded-xl border transition-all duration-300 ease-out flex items-center justify-center p-2 overflow-hidden bg-white ${
++        className={`absolute cursor-pointer rounded-md border transition-all duration-300 ease-out flex items-center justify-center p-2 overflow-hidden bg-[#ffffff] ${
+           isSelected 
+-            ? (isLight ? 'border-black ring-4 ring-black/25 shadow-md' : 'border-mammut-gold ring-4 ring-mammut-gold/45 shadow-[0_0_20px_rgba(217,119,6,0.6)]') 
+-            : (isLight ? 'border-zinc-200 hover:border-zinc-400 bg-zinc-50' : 'border-gray-800 hover:border-gray-500')
++            ? 'border-slate-900 ring-4 ring-slate-900/25 shadow-md' 
++            : 'border-slate-200 hover:border-slate-400 bg-slate-50'
+         }`}
+         style={{
+           left: `calc(50% + ${trigVal}px - ${size / 2}px)`,
+@@ -1847,37 +1755,25 @@ const HandleImage = ({
+ 
+   return (
+     <div className="flex flex-col gap-1.5 w-full relative overflow-visible z-20">
+-      <label className={`block text-xs font-bold uppercase tracking-wide mb-1 md:mb-2 ${
+-        isLight ? 'text-zinc-500' : 'text-gray-400'
+-      }`}>{label}</label>
++      <label className="block text-xs font-bold uppercase tracking-wide mb-1 md:mb-2 text-slate-500">{label}</label>
+       <div 
+         ref={containerRef}
+         onWheel={handleWheel}
+         onMouseEnter={() => setIsHovered(true)}
+         onMouseLeave={() => setIsHovered(false)}
+-        className={`relative rounded-xl overflow-visible select-none shadow-inner flex items-center justify-center group w-full h-[140px] md:h-[190px] border ${
+-          isLight ? 'bg-zinc-50 border-zinc-200' : 'bg-mammut-dark border-gray-850'
+-        }`}
++        className="relative rounded-md overflow-visible select-none shadow-inner flex items-center justify-center group w-full h-[140px] md:h-[190px] border bg-slate-50 border-slate-200"
+       >
+         <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden z-10">
+           {items}
+         </div>
+ 
+         <div className="absolute inset-y-1.5 left-1/2 -translate-x-1/2 pointer-events-none z-20 flex justify-between transition-all duration-300" style={{ width: `${indicatorWidth}px` }}>
+-          <div className={`w-3.5 h-full border-l-2 border-t-2 border-b-2 rounded-l-2xl ${
+-            isLight ? 'border-zinc-400 shadow-[inset_1px_0_0_rgba(0,0,0,0.05)]' : 'border-mammut-gold/40 shadow-[inset_1px_0_0_rgba(217,119,6,0.1)]'
+-          }`} />
+-          <div className={`w-3.5 h-full border-r-2 border-t-2 border-b-2 rounded-r-2xl ${
+-            isLight ? 'border-zinc-400 shadow-[inset_-1px_0_0_rgba(0,0,0,0.05)]' : 'border-mammut-gold/40 shadow-[inset_-1px_0_0_rgba(217,119,6,0.1)]'
+-          }`} />
++          <div className="w-3.5 h-full border-l-2 border-t-2 border-b-2 rounded-l-2xl border-slate-400 shadow-[inset_1px_0_0_rgba(0,0,0,0.05)]" />
++          <div className="w-3.5 h-full border-r-2 border-t-2 border-b-2 rounded-r-2xl border-slate-400 shadow-[inset_-1px_0_0_rgba(0,0,0,0.05)]" />
+         </div>
+ 
+-        <div className={`absolute inset-y-0 left-0 w-20 bg-gradient-to-r to-transparent pointer-events-none z-15 opacity-90 ${
+-          isLight ? 'from-zinc-50' : 'from-mammut-dark'
+-        }`} />
+-        <div className={`absolute inset-y-0 right-0 w-20 bg-gradient-to-l to-transparent pointer-events-none z-15 opacity-90 ${
+-          isLight ? 'from-zinc-50' : 'from-mammut-dark'
+-        }`} />
++        <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r to-transparent pointer-events-none z-15 opacity-90 from-slate-50" />
++        <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l to-transparent pointer-events-none z-15 opacity-90 from-slate-50" />
+ 
+         <div 
+           ref={scrollContainerRef}
+@@ -1903,11 +1799,7 @@ const HandleImage = ({
+         <button
+           type="button"
+           onClick={(e) => { e.stopPropagation(); adjustIndex('prev'); }}
+-          className={`absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg active:scale-90 transition-all duration-150 cursor-pointer select-none left-2 md:left-3 top-1/2 -translate-y-1/2 border ${
+-            isLight 
+-              ? 'bg-white border-zinc-200 text-zinc-700 hover:text-black hover:border-black shadow-sm' 
+-              : 'bg-mammut-black/85 border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50'
+-          }`}
++          className="absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded active:scale-90 transition-all duration-150 cursor-pointer select-none left-2 md:left-3 top-1/2 -translate-y-1/2 border bg-[#ffffff] border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-900 shadow-sm"
+           title="Previous"
+         >
+           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
+@@ -1918,11 +1810,7 @@ const HandleImage = ({
+         <button
+           type="button"
+           onClick={(e) => { e.stopPropagation(); adjustIndex('next'); }}
+-          className={`absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg active:scale-90 transition-all duration-150 cursor-pointer select-none right-2 md:right-3 top-1/2 -translate-y-1/2 border ${
+-            isLight 
+-              ? 'bg-white border-zinc-200 text-zinc-700 hover:text-black hover:border-black shadow-sm' 
+-              : 'bg-mammut-black/85 border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50'
+-          }`}
++          className="absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded active:scale-90 transition-all duration-150 cursor-pointer select-none right-2 md:right-3 top-1/2 -translate-y-1/2 border bg-[#ffffff] border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-900 shadow-sm"
+           title="Next"
+         >
+           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
+@@ -1931,15 +1819,9 @@ const HandleImage = ({
+         </button>
+       </div>
+ 
+-      <div className={`flex flex-col items-center justify-center py-2 border rounded-xl mt-1 md:mt-2 px-3 ${
+-        isLight ? 'bg-zinc-50 border-zinc-200' : 'bg-mammut-dark/40 border border-gray-855/60'
+-      }`}>
+-        <span className={`text-[10px] uppercase tracking-widest font-bold ${
+-          isLight ? 'text-zinc-500' : 'text-gray-500'
+-        }`}>Selected Handle</span>
+-        <span className={`text-sm md:text-base font-black font-mono tracking-wide text-center mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis max-w-full ${
+-          isLight ? 'text-black' : 'text-mammut-gold'
+-        }`}>
++      <div className="flex flex-col items-center justify-center py-2 border rounded-md mt-1 md:mt-2 px-3 bg-slate-50 border-slate-200">
++        <span className="text-[10px] uppercase tracking-widest font-bold text-slate-500">Selected Handle</span>
++        <span className="text-sm md:text-base font-black font-mono tracking-wide text-center mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis max-w-full text-slate-900">
+           {activeOpt ? `${activeOpt.code} - ${activeOpt.name}` : ''}
+         </span>
+       </div>
+@@ -1960,15 +1842,10 @@ const SegmentedControl = ({
+   options: { value: string, label: string }[],
+   gridCols?: string
+ }) => {
+-  const { theme } = useThemeStore();
+-  const isLight = theme === 'light';
+-
+   return (
+     <div className="flex flex-col gap-1.5 w-full">
+-      <label className={`block text-xs font-bold uppercase tracking-wide ${isLight ? 'text-zinc-550' : 'text-gray-400'}`}>{label}</label>
+-      <div className={`grid ${gridCols} border rounded-xl p-1 gap-1 ${
+-        isLight ? 'bg-zinc-100 border-zinc-200' : 'bg-mammut-black border-gray-855'
+-      }`}>
++      <label className="block text-xs font-bold uppercase tracking-wide text-slate-500">{label}</label>
++      <div className={`grid ${gridCols} border rounded-md p-1 gap-1 bg-slate-100 border-slate-200`}>
+         {options.map((opt) => {
+           const isActive = value === opt.value;
+           return (
+@@ -1976,10 +1853,10 @@ const SegmentedControl = ({
+               key={opt.value}
+               type="button"
+               onClick={() => onChange(opt.value)}
+-              className={`py-2 px-2 rounded-lg text-xs font-bold uppercase transition-all text-center leading-tight cursor-pointer ${
++              className={`py-2 px-2 rounded text-xs font-bold uppercase transition-all text-center leading-tight cursor-pointer ${
+                 isActive 
+-                  ? (isLight ? 'bg-white text-black shadow-sm' : 'bg-mammut-gold text-black shadow-md') 
+-                  : (isLight ? 'text-zinc-550 hover:text-black hover:bg-white/40' : 'text-gray-400 hover:text-white hover:bg-gray-800/40')
++                  ? 'bg-[#ffffff] text-slate-900 shadow-sm' 
++                  : 'text-slate-500 hover:text-slate-900 hover:bg-[#ffffff]/40'
+               }`}
+             >
+               {opt.label}
+@@ -2011,12 +1888,9 @@ const CarouselSelector = <T extends CarouselOption>({
+   options: T[],
+   getImagePath?: (opt: T) => string
+ }) => {
+-  const { theme } = useThemeStore();
+-  const isLight = theme === 'light';
+-
+   return (
+     <div className="flex flex-col gap-1.5 w-full">
+-      <label className={`block text-xs font-bold uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>{label}</label>
++      <label className="block text-xs font-bold uppercase tracking-wide text-slate-500">{label}</label>
+       <div className="flex gap-3 overflow-x-auto pb-8 pt-8 -my-6 scrollbar-none snap-x snap-mandatory">
+         {options.map((opt) => {
+           const isActive = value === opt.code;
+@@ -2026,24 +1900,22 @@ const CarouselSelector = <T extends CarouselOption>({
+               key={opt.code}
+               type="button"
+               onClick={() => onChange(opt.code)}
+-              className={`flex-none w-28 h-28 border rounded-xl p-2 flex flex-col items-center justify-between transition-all select-none snap-start relative group hover:z-30 cursor-pointer ${
++              className={`flex-none w-28 h-28 border rounded-md p-2 flex flex-col items-center justify-between transition-all select-none snap-start relative group hover:z-30 cursor-pointer ${
+                 isActive 
+-                  ? (isLight ? 'border-black bg-zinc-100/50 shadow-md scale-[1.02]' : 'border-mammut-gold bg-mammut-gold/5 shadow-lg scale-[1.02]') 
+-                  : (isLight ? 'border-zinc-200 bg-zinc-50 hover:border-zinc-400 hover:bg-zinc-100' : 'border-gray-800 bg-gray-900 hover:border-gray-700 hover:bg-gray-800/30')
++                  ? 'border-slate-900 bg-slate-100/50 shadow-md scale-[1.02]' 
++                  : 'border-slate-200 bg-slate-50 hover:border-slate-400 hover:bg-slate-100'
+               }`}
+             >
+               {/* Selection badge */}
+               {isActive && (
+-                <div className={`absolute top-1.5 right-1.5 rounded-full w-4.5 h-4.5 flex items-center justify-center text-[10px] font-black z-10 ${
+-                  isLight ? 'bg-black text-white' : 'bg-mammut-gold text-black'
+-                }`}>
++                <div className="absolute top-1.5 right-1.5 rounded-full w-4.5 h-4.5 flex items-center justify-center text-[10px] font-black z-10 bg-slate-900 text-[#ffffff]">
+                   Γ£ô
+                 </div>
+               )}
+               
+               {/* Visual Image / Hex Swatch */}
+               {imageSrc ? (
+-                <div className="w-16 h-16 rounded-lg bg-white overflow-hidden flex items-center justify-center p-1 group-hover:scale-[1.8] group-hover:z-30 shadow-md transition-transform duration-300 relative">
++                <div className="w-16 h-16 rounded bg-[#ffffff] overflow-hidden flex items-center justify-center p-1 group-hover:scale-[1.8] group-hover:z-30 shadow-md transition-transform duration-300 relative border border-slate-150">
+                   <img 
+                     src={imageSrc} 
+                     alt={opt.name} 
+@@ -2055,22 +1927,22 @@ const CarouselSelector = <T extends CarouselOption>({
+                       if (sibling) sibling.classList.remove('hidden');
+                     }}
+                   />
+-                  <div className={`hidden absolute inset-0 flex items-center justify-center text-[10px] font-bold rounded-lg ${isLight ? 'bg-zinc-100 text-zinc-500' : 'bg-gray-850 text-gray-500'}`}>
++                  <div className="hidden absolute inset-0 flex items-center justify-center text-[10px] font-bold rounded bg-slate-100 text-slate-500">
+                     {opt.code}
+                   </div>
+                 </div>
+               ) : opt.hex ? (
+-                <div className={`w-16 h-16 rounded-lg shadow-inner border transition-transform duration-300 group-hover:scale-[1.8] group-hover:z-30 shadow-md relative ${isLight ? 'border-zinc-200' : 'border-gray-700'}`} style={{ backgroundColor: opt.hex }}></div>
++                <div className="w-16 h-16 rounded shadow-inner border transition-transform duration-300 group-hover:scale-[1.8] group-hover:z-30 shadow-md relative border-slate-200" style={{ backgroundColor: opt.hex }}></div>
+               ) : (
+-                <div className={`w-16 h-16 rounded-lg flex items-center justify-center text-[10px] font-bold transition-transform duration-300 group-hover:scale-[1.8] group-hover:z-30 shadow-md relative ${isLight ? 'bg-zinc-200 text-zinc-500' : 'bg-gray-855 text-gray-500'}`}>
++                <div className="w-16 h-16 rounded flex items-center justify-center text-[10px] font-bold transition-transform duration-300 group-hover:scale-[1.8] group-hover:z-30 shadow-md relative bg-slate-100 text-slate-500">
+                   {opt.code || 'Std'}
+                 </div>
+               )}
+               
+               <span className={`text-[10px] font-bold truncate w-full text-center leading-none ${
+                 isActive 
+-                  ? (isLight ? 'text-black font-extrabold' : 'text-mammut-gold') 
+-                  : (isLight ? 'text-zinc-550 group-hover:text-black' : 'text-gray-400')
++                  ? 'text-slate-900 font-extrabold' 
++                  : 'text-slate-500 group-hover:text-slate-900'
+               }`}>
+                 {opt.name}
+               </span>
+@@ -2749,7 +2621,7 @@ export function DebugPricing() {
+         {isOpen && (
+           <>
+             <div className="fixed inset-0 z-30" onClick={() => setIsOpen(false)}></div>
+-            <div className={`absolute top-full left-0 mt-1 w-full border rounded-lg shadow-2xl z-40 max-h-[300px] overflow-y-auto ${
++            <div className={`absolute top-full left-0 mt-1 w-full border rounded-md shadow-2xl z-40 max-h-[300px] overflow-y-auto ${
+               isLight ? 'bg-white border-zinc-300 text-black shadow-lg' : 'bg-mammut-dark border-gray-700 text-mammut-white shadow-2xl'
+             }`}>
+               <div 
+@@ -3504,20 +3376,18 @@ export function DebugPricing() {
+             isOpen={activeAccordion === 'product'}
+             onToggle={() => setActiveAccordion(activeAccordion === 'product' ? null : 'product')}
+           >
+-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
++            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+               {/* Product opening/type Selector */}
+               <div className="relative">
+-                <label className={`block text-xs font-bold mb-1.5 uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Product Number</label>
++                <label className="block text-xs font-bold mb-1.5 uppercase tracking-wide text-slate-500">Product Number</label>
+                 <div 
+                   onClick={() => setIsTypologyOpen(!isTypologyOpen)}
+-                  className={`w-full rounded-xl p-3 cursor-pointer flex items-center justify-between transition-colors h-[54px] border ${
+-                    isLight ? 'bg-white border-zinc-300 text-black hover:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white hover:border-mammut-gold'
+-                  }`}
++                  className="w-full rounded-md p-3 cursor-pointer flex items-center justify-between transition-colors h-[54px] border bg-[#ffffff] border-slate-200 text-slate-900 hover:border-slate-400"
+                 >
+                   <div className="flex items-center gap-3">
+                      <TypologyThumbnail 
+                        id={typology}
+-                       className="w-8 h-8 object-contain rounded bg-white border border-gray-700 shrink-0 p-0.5"
++                       className="w-8 h-8 object-contain rounded bg-[#ffffff] border border-slate-200 shrink-0 p-0.5"
+                      />
+                      <span className="font-bold text-sm">{typology}</span>
+                   </div>
+@@ -3527,18 +3397,14 @@ export function DebugPricing() {
+                 {isTypologyOpen && (
+                   <>
+                     <div className="fixed inset-0 z-40 bg-black/60 md:bg-transparent" onClick={() => setIsTypologyOpen(false)}></div>
+-                    <div className={`fixed md:absolute top-1/2 md:top-full left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 w-[92vw] md:w-[380px] mt-1 rounded-2xl shadow-2xl p-4 flex flex-col gap-3 border z-50 ${
+-                      isLight ? 'bg-white border-zinc-300 text-black shadow-lg' : 'bg-mammut-dark border-gray-700 text-mammut-white shadow-2xl'
+-                    }`}>
+-                      <div className={`flex justify-between items-center border-b pb-2 mb-1 ${isLight ? 'border-zinc-200' : 'border-gray-850'}`}>
+-                        <span className={`text-[10px] font-bold uppercase tracking-widest ${isLight ? 'text-zinc-550' : 'text-gray-400'}`}>Select Window Type</span>
++                    <div className="fixed inset-x-4 top-[10vh] md:fixed md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-[92vw] md:w-[380px] mt-1 rounded-2xl shadow-2xl p-4 flex flex-col gap-3 border z-50 bg-[#ffffff] border-slate-200 text-slate-900 shadow-lg">
++                      <div className="flex justify-between items-center border-b pb-2 mb-1 border-slate-200">
++                        <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Select Window Type</span>
+                         <button 
+-                          type="button"
+-                          onClick={() => setIsTypologyOpen(false)}
+-                          className={`transition-colors cursor-pointer text-sm font-bold p-1 leading-none select-none ${
+-                            isLight ? 'text-zinc-400 hover:text-black' : 'text-gray-500 hover:text-white'
+-                          }`}
+-                          title="Close"
++                           type="button"
++                           onClick={() => setIsTypologyOpen(false)}
++                           className="transition-colors cursor-pointer text-sm font-bold p-1 leading-none select-none text-slate-400 hover:text-slate-900"
++                           title="Close"
+                         >
+                           Γ£ò
+                         </button>
+@@ -3556,22 +3422,18 @@ export function DebugPricing() {
+                           id="closeOnSelectCheckbox"
+                           checked={closeOnSelect}
+                           onChange={(e) => setCloseOnSelect(e.target.checked)}
+-                          className={`w-4 h-4 rounded cursor-pointer accent-black ${
+-                            isLight ? 'border-zinc-300 bg-white' : 'border-gray-700 bg-mammut-black focus:ring-mammut-gold'
+-                          }`}
++                          className="w-4 h-4 rounded cursor-pointer accent-black border-slate-200 bg-[#ffffff]"
+                         />
+                         <label 
+                           htmlFor="closeOnSelectCheckbox" 
+-                          className={`text-xs font-semibold cursor-pointer select-none ${isLight ? 'text-zinc-700' : 'text-gray-300'}`}
++                          className="text-xs font-semibold cursor-pointer select-none text-slate-700"
+                         >
+                           {t('configurator.state.closeOnSelect')}
+                         </label>
+                       </div>
+                       <button 
+                         onClick={() => setIsTypologyOpen(false)}
+-                        className={`w-full font-black uppercase text-[11px] tracking-wider py-3 rounded-xl transition-all cursor-pointer shadow-md hover:scale-[1.02] active:scale-[0.98] ${
+-                          isLight ? 'bg-black text-white hover:bg-zinc-800' : 'bg-mammut-gold text-mammut-black hover:bg-[#ffc882]'
+-                        }`}
++                        className="w-full font-black uppercase text-[11px] tracking-wider py-3 rounded-md transition-all cursor-pointer shadow-md hover:scale-[1.02] active:scale-[0.98] bg-slate-900 text-[#ffffff] hover:bg-slate-800"
+                       >
+                         Confirm
+                       </button>
+@@ -3582,10 +3444,8 @@ export function DebugPricing() {
+ 
+               {/* Profile System Dropdown */}
+               <div>
+-                <label className={`block text-xs font-bold mb-1.5 uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Profile System</label>
+-                <select className={`w-full rounded-xl p-3 focus:outline-none h-[54px] text-sm border ${
+-                  isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+-                }`}
++                <label className="block text-xs font-bold mb-1.5 uppercase tracking-wide text-slate-500">Profile System</label>
++                <select className="w-full rounded-md p-3 focus:outline-none h-[54px] text-sm border bg-[#ffffff] border-slate-200 text-slate-900 focus:border-slate-400"
+                   value={profilsatz} onChange={e => setProfilsatz(e.target.value)}>
+                   {PRODUCT_CATEGORIES.filter(c => c.group === activeCategory).map((category) => (
+                     category.subgroups.map((subgroup, subgroupIndex) => (
+@@ -3638,18 +3498,12 @@ export function DebugPricing() {
+ 
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                 <div className="flex items-center">
+-                  <label className={`flex items-center gap-3 text-sm cursor-pointer select-none ${
+-                    isLight ? 'text-zinc-800' : 'text-gray-300'
+-                  }`}>
++                  <label className="flex items-center gap-3 text-sm cursor-pointer select-none text-slate-800">
+                     <input 
+                       type="checkbox" 
+                       checked={overwriteCoreColor} 
+                       onChange={e => setOverwriteCoreColor(e.target.checked)} 
+-                      className={`w-4.5 h-4.5 rounded cursor-pointer transition-colors ${
+-                        isLight 
+-                          ? 'border-zinc-300 bg-white text-black accent-black focus:ring-black' 
+-                          : 'border-gray-700 bg-mammut-black text-mammut-gold focus:ring-[#eab676]'
+-                      }`} 
++                      className="w-4.5 h-4.5 rounded cursor-pointer transition-colors border-slate-200 bg-[#ffffff] text-slate-900 accent-slate-900 focus:ring-slate-900" 
+                     />
+                     Overwrite core color
+                   </label>
+@@ -3680,19 +3534,15 @@ export function DebugPricing() {
+               const schemaPkg = CONFIG_SCHEMA.glazing.find(g => g.id === inf.code);
+               const isFixed = !!schemaPkg?.fixedPanes;
+               return (
+-                <div key={infillIdx} className={`border rounded-xl p-4 space-y-4 transition-colors ${
+-                  isLight ? 'border-zinc-200 bg-zinc-50/50' : 'border-gray-800/80 bg-mammut-black/20'
+-                }`}>
+-                  <div className={`font-bold text-xs uppercase tracking-wider ${isLight ? 'text-black' : 'text-mammut-gold'}`}>
++                <div key={infillIdx} className="border rounded-md p-4 space-y-4 transition-colors border-slate-200 bg-slate-50/50">
++                  <div className="font-bold text-xs uppercase tracking-wider text-slate-900">
+                     Infill {typology.match(/^F2[0-5][0-9]$/) ? infillIdx + 1 : ''}
+                   </div>
+ 
+                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                     <div>
+-                      <label className={`block text-xs font-bold mb-1.5 uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Package Code</label>
+-                      <select className={`w-full rounded-xl p-3 text-sm h-[50px] focus:outline-none border transition-colors ${
+-                        isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+-                      }`}
++                      <label className="block text-xs font-bold mb-1.5 uppercase tracking-wide text-slate-500">Package Code</label>
++                      <select className="w-full rounded-md p-3 text-sm h-[50px] focus:outline-none border transition-colors bg-[#ffffff] border-slate-200 text-slate-900 focus:border-slate-400"
+                         value={inf.code} onChange={e => {
+                           const newCode = e.target.value;
+                           const newInf = [...infills];
+@@ -3753,17 +3603,13 @@ export function DebugPricing() {
+                     {typology.match(/^F2[0-5][0-9]$/) && (
+                       <div className="grid grid-cols-2 gap-3">
+                         <div>
+-                          <label className={`block text-xs font-bold mb-1.5 uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Width (mm)</label>
+-                          <input type="number" className={`w-full rounded-xl p-3 text-sm h-[50px] focus:outline-none border transition-colors ${
+-                            isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+-                          }`}
++                          <label className="block text-xs font-bold mb-1.5 uppercase tracking-wide text-slate-500">Width (mm)</label>
++                          <input type="number" className="w-full rounded-md p-3 text-sm h-[50px] focus:outline-none border transition-colors bg-[#ffffff] border-slate-200 text-slate-900 focus:border-slate-400"
+                             value={inf.width} onChange={e => updateInf('width', e.target.value)} placeholder="Auto" />
+                         </div>
+                         <div>
+-                          <label className={`block text-xs font-bold mb-1.5 uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Height (mm)</label>
+-                          <input type="number" className={`w-full rounded-xl p-3 text-sm h-[50px] focus:outline-none border transition-colors ${
+-                            isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+-                          }`}
++                          <label className="block text-xs font-bold mb-1.5 uppercase tracking-wide text-slate-500">Height (mm)</label>
++                          <input type="number" className="w-full rounded-md p-3 text-sm h-[50px] focus:outline-none border transition-colors bg-[#ffffff] border-slate-200 text-slate-900 focus:border-slate-400"
+                             value={inf.height} onChange={e => updateInf('height', e.target.value)} placeholder="Auto" />
+                         </div>
+                       </div>
+@@ -3773,19 +3619,15 @@ export function DebugPricing() {
+                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                     {/* Glass Outside */}
+                     <div className="flex flex-col gap-1.5">
+-                      <label className={`block text-xs font-bold uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Glass Outside</label>
++                      <label className="block text-xs font-bold uppercase tracking-wide text-slate-500">Glass Outside</label>
+                       <div className="flex gap-2">
+-                        <select disabled={isFixed} className={`flex-1 rounded-xl p-2.5 text-sm focus:outline-none disabled:opacity-50 h-[46px] border transition-colors ${
+-                          isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+-                        }`}
++                        <select disabled={isFixed} className="flex-1 rounded-md p-2.5 text-sm focus:outline-none disabled:opacity-50 h-[46px] border transition-colors bg-[#ffffff] border-slate-200 text-slate-900 focus:border-slate-400"
+                           value={inf.pane1} onChange={e => updateInf('pane1', e.target.value)}>
+                           <option value="">-- None --</option>
+                           {glazingOptions.outside.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
+                         </select>
+                         {inf.pane1 && (
+-                          <div className={`w-[46px] h-[46px] bg-white rounded-xl overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-inner border transition-colors ${
+-                            isLight ? 'border-zinc-200' : 'border-gray-800'
+-                          }`}>
++                          <div className="w-[46px] h-[46px] bg-[#ffffff] rounded-md overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-inner border transition-colors border-slate-200">
+                             <img src={`/assets/glass/thumbs/${getPaneImage(inf.pane1)}`} alt={inf.pane1} className="max-h-full max-w-full object-cover mix-blend-multiply" />
+                           </div>
+                         )}
+@@ -3795,19 +3637,15 @@ export function DebugPricing() {
+                     {/* Glass Middle */}
+                     {inf.code.startsWith('3-') && (
+                       <div className="flex flex-col gap-1.5">
+-                        <label className={`block text-xs font-bold uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Glass Middle</label>
++                        <label className="block text-xs font-bold uppercase tracking-wide text-slate-500">Glass Middle</label>
+                         <div className="flex gap-2">
+-                          <select disabled={isFixed} className={`flex-1 rounded-xl p-2.5 text-sm focus:outline-none disabled:opacity-50 h-[46px] border transition-colors ${
+-                            isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+-                          }`}
++                          <select disabled={isFixed} className="flex-1 rounded-md p-2.5 text-sm focus:outline-none disabled:opacity-50 h-[46px] border transition-colors bg-[#ffffff] border-slate-200 text-slate-900 focus:border-slate-400"
+                             value={inf.pane2} onChange={e => updateInf('pane2', e.target.value)}>
+                             <option value="">-- None --</option>
+                             {glazingOptions.middle.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
+                           </select>
+                           {inf.pane2 && (
+-                            <div className={`w-[46px] h-[46px] bg-white rounded-xl overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-inner border transition-colors ${
+-                              isLight ? 'border-zinc-200' : 'border-gray-800'
+-                            }`}>
++                            <div className="w-[46px] h-[46px] bg-[#ffffff] rounded-md overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-inner border transition-colors border-slate-200">
+                               <img src={`/assets/glass/thumbs/${getPaneImage(inf.pane2)}`} alt={inf.pane2} className="max-h-full max-w-full object-cover mix-blend-multiply" />
+                             </div>
+                           )}
+@@ -3817,19 +3655,15 @@ export function DebugPricing() {
+ 
+                     {/* Glass Inside */}
+                     <div className="flex flex-col gap-1.5">
+-                      <label className={`block text-xs font-bold uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Glass Inside</label>
++                      <label className="block text-xs font-bold uppercase tracking-wide text-slate-500">Glass Inside</label>
+                       <div className="flex gap-2">
+-                        <select disabled={isFixed} className={`flex-1 rounded-xl p-2.5 text-sm focus:outline-none disabled:opacity-50 h-[46px] border transition-colors ${
+-                          isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+-                        }`}
++                        <select disabled={isFixed} className="flex-1 rounded-md p-2.5 text-sm focus:outline-none disabled:opacity-50 h-[46px] border transition-colors bg-[#ffffff] border-slate-200 text-slate-900 focus:border-slate-400"
+                           value={inf.pane3} onChange={e => updateInf('pane3', e.target.value)}>
+                           <option value="">-- None --</option>
+                           {glazingOptions.inside.map(p => <option key={p.code} value={p.code}>{p.code} - {p.name}</option>)}
+                         </select>
+                         {inf.pane3 && (
+-                          <div className={`w-[46px] h-[46px] bg-white rounded-xl overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-inner border transition-colors ${
+-                            isLight ? 'border-zinc-200' : 'border-gray-800'
+-                          }`}>
++                          <div className="w-[46px] h-[46px] bg-[#ffffff] rounded-md overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-inner border transition-colors border-slate-200">
+                             <img src={`/assets/glass/thumbs/${getPaneImage(inf.pane3)}`} alt={inf.pane3} className="max-h-full max-w-full object-cover mix-blend-multiply" />
+                           </div>
+                         )}
+@@ -3899,9 +3733,7 @@ export function DebugPricing() {
+                     ]}
+                   />
+                   {weld && (
+-                    <div className={`bg-white rounded-xl overflow-hidden flex items-center justify-center p-1 w-32 h-20 self-start shadow-inner border transition-colors ${
+-                      isLight ? 'border-zinc-200' : 'border-gray-800'
+-                    }`}>
++                    <div className="bg-[#ffffff] rounded-md overflow-hidden flex items-center justify-center p-1 w-32 h-20 self-start shadow-inner border transition-colors border-slate-200">
+                       <img src={`/assets/welds/${weld}_weld.png`} alt={weld} className="max-h-full max-w-full object-contain mix-blend-multiply" />
+                     </div>
+                   )}
+@@ -3918,9 +3750,7 @@ export function DebugPricing() {
+                     ]}
+                   />
+                   {glazingBeadStyle && (
+-                    <div className={`bg-white rounded-xl overflow-hidden flex items-center justify-center p-1 w-32 h-20 self-start shadow-inner border transition-colors ${
+-                      isLight ? 'border-zinc-200' : 'border-gray-800'
+-                    }`}>
++                    <div className="bg-[#ffffff] rounded-md overflow-hidden flex items-center justify-center p-1 w-32 h-20 self-start shadow-inner border transition-colors border-slate-200">
+                       <img src={`/assets/beads/bead_${glazingBeadStyle}.png`} alt={glazingBeadStyle} className="max-h-full max-w-full object-contain mix-blend-multiply" />
+                     </div>
+                   )}
+@@ -3960,27 +3790,21 @@ export function DebugPricing() {
+               </div>
+ 
+               {/* Hardware, Handles details dropdowns */}
+-              <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 border-t pt-4 transition-colors ${
+-                isLight ? 'border-zinc-200' : 'border-gray-800/60'
+-              }`}>
++              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t pt-4 transition-colors border-slate-200">
+                 <GenericSelect label="Hardware System" value={hardwareSystem} onChange={setHardwareSystem} />
+                 
+                 <div className="grid grid-cols-2 gap-3">
+                   <div>
+-                    <label className={`block text-xs font-bold mb-1.5 uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Handle Color</label>
+-                    <select className={`w-full rounded-xl p-3 text-sm h-[50px] focus:outline-none border transition-colors ${
+-                      isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+-                    }`}
++                    <label className="block text-xs font-bold mb-1.5 uppercase tracking-wide text-slate-500">Handle Color</label>
++                    <select className="w-full rounded-md p-3 text-sm h-[50px] focus:outline-none border transition-colors bg-[#ffffff] border-slate-200 text-slate-900 focus:border-slate-400"
+                       value={handleColor} onChange={e => setHandleColor(e.target.value)}>
+                        <option value="">-- Default --</option>
+                        {(HANDLE_COLOR_MAP[handleType] || []).map(c => <option key={c} value={c}>{HANDLE_COLOR_OPTIONS[c] || c}</option>)}
+                     </select>
+                   </div>
+                   <div>
+-                    <label className={`block text-xs font-bold mb-1.5 uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Covers Color</label>
+-                    <select className={`w-full rounded-xl p-3 text-sm h-[50px] focus:outline-none border transition-colors ${
+-                      isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+-                    }`}
++                    <label className="block text-xs font-bold mb-1.5 uppercase tracking-wide text-slate-500">Covers Color</label>
++                    <select className="w-full rounded-md p-3 text-sm h-[50px] focus:outline-none border transition-colors bg-[#ffffff] border-slate-200 text-slate-900 focus:border-slate-400"
+                       value={coverColor} onChange={e => setCoverColor(e.target.value)}>
+                        <option value="">-- Default --</option>
+                        {Object.entries(COVER_COLOR_OPTIONS).map(([code, name]) => <option key={code} value={code}>{name}</option>)}
+@@ -4012,16 +3836,10 @@ export function DebugPricing() {
+             onToggle={() => setActiveAccordion(activeAccordion === 'shutters' ? null : 'shutters')}
+           >
+             <div className="space-y-4">
+-              <label className={`flex items-center gap-3 text-sm cursor-pointer select-none pb-2 border-b transition-colors ${
+-                isLight ? 'text-zinc-800 border-zinc-200' : 'text-gray-300 border-gray-800'
+-              }`}>
++              <label className="flex items-center gap-3 text-sm cursor-pointer select-none pb-2 border-b transition-colors text-slate-800 border-slate-200">
+                 <input 
+                   type="checkbox" 
+-                  className={`w-5 h-5 cursor-pointer transition-colors ${
+-                    isLight 
+-                      ? 'border-zinc-300 bg-white text-black accent-black focus:ring-black' 
+-                      : 'accent-[#eab676]'
+-                  }`} 
++                  className="w-5 h-5 cursor-pointer transition-colors border-slate-200 bg-[#ffffff] text-slate-900 accent-slate-900 focus:ring-slate-900" 
+                   checked={includeShutter} 
+                   onChange={e => setIncludeShutter(e.target.checked)} 
+                 />
+@@ -4036,9 +3854,7 @@ export function DebugPricing() {
+                     <GenericSelect label="Window Screen Location" value={windowScreenLocation} onChange={setWindowScreenLocation} options={shutterLookups.windowScreenLocations} />
+                   )}
+                   
+-                  <div className={`col-span-1 sm:col-span-2 border-t my-2 transition-colors ${
+-                    isLight ? 'border-zinc-200' : 'border-gray-800/60'
+-                  }`}></div>
++                  <div className="col-span-1 sm:col-span-2 border-t my-2 transition-colors border-slate-200"></div>
+                   
+                   <GenericSelect label="Curtain Type" value={curtainType} onChange={setCurtainType} options={shutterLookups.curtainTypes} />
+                   <GenericSelect label="Fins Perforation" value={finsPerforation} onChange={setFinsPerforation} options={shutterLookups.finsPerforations} />
+@@ -4047,25 +3863,17 @@ export function DebugPricing() {
+                   <ColorSelect label="Bottom Slat Color" value={bottomSlatColor} onChange={setBottomSlatColor} groupedOptions={groupedColors} />
+                   <ColorSelect label="Screen Bottom Slat Color" value={windowScreenBottomSlatColor} onChange={setWindowScreenBottomSlatColor} groupedOptions={groupedColors} />
+                   
+-                  <div className={`col-span-1 sm:col-span-2 border-t my-2 transition-colors ${
+-                    isLight ? 'border-zinc-200' : 'border-gray-800/60'
+-                  }`}></div>
++                  <div className="col-span-1 sm:col-span-2 border-t my-2 transition-colors border-slate-200"></div>
+ 
+                   <GenericSelect label="Drive Type" value={driveType} onChange={setDriveType} options={shutterLookups.driveTypes} />
+                   <GenericSelect label="Control Side" value={controlSide} onChange={setControlSide} options={shutterLookups.controlSides} />
+                   <GenericSelect label="Door Checks Type" value={doorChecksTypeI} onChange={setDoorChecksTypeI} options={shutterLookups.doorChecks} />
+                   
+                   <div className="flex items-center">
+-                    <label className={`flex items-center gap-3 text-sm cursor-pointer select-none ${
+-                      isLight ? 'text-zinc-800' : 'text-gray-300'
+-                    }`}>
++                    <label className="flex items-center gap-3 text-sm cursor-pointer select-none text-slate-800">
+                       <input 
+                         type="checkbox" 
+-                        className={`w-4.5 h-4.5 rounded cursor-pointer transition-colors ${
+-                          isLight 
+-                            ? 'border-zinc-300 bg-white text-black accent-black focus:ring-black' 
+-                            : 'accent-[#eab676]'
+-                        }`} 
++                        className="w-4.5 h-4.5 rounded cursor-pointer transition-colors border-slate-200 bg-[#ffffff] text-slate-900 accent-slate-900 focus:ring-slate-900" 
+                         checked={imposeArbour} 
+                         onChange={e => setImposeArbour(e.target.checked)} 
+                       />
+@@ -4073,9 +3881,7 @@ export function DebugPricing() {
+                     </label>
+                   </div>
+ 
+-                  <div className={`col-span-1 sm:col-span-2 border-t my-2 transition-colors ${
+-                    isLight ? 'border-zinc-200' : 'border-gray-800/60'
+-                  }`}></div>
++                  <div className="col-span-1 sm:col-span-2 border-t my-2 transition-colors border-slate-200"></div>
+ 
+                   <GenericSelect label="Box Type" value={boxType} onChange={setBoxType} options={shutterLookups.boxTypes} />
+                   <ColorSelect label="Outer Box Color" value={outerBoxColor} onChange={setOuterBoxColor} groupedOptions={groupedColors} />
+@@ -4083,16 +3889,10 @@ export function DebugPricing() {
+                   <GenericSelect label="Plaster Carrier" value={plasterCarrier} onChange={setPlasterCarrier} options={shutterLookups.plasterCarriers} />
+ 
+                   <div className="flex items-center">
+-                    <label className={`flex items-center gap-3 text-sm cursor-pointer select-none ${
+-                      isLight ? 'text-zinc-800' : 'text-gray-300'
+-                    }`}>
++                    <label className="flex items-center gap-3 text-sm cursor-pointer select-none text-slate-800">
+                       <input 
+                         type="checkbox" 
+-                        className={`w-4.5 h-4.5 rounded cursor-pointer transition-colors ${
+-                          isLight 
+-                            ? 'border-zinc-300 bg-white text-black accent-black focus:ring-black' 
+-                            : 'accent-[#eab676]'
+-                        }`} 
++                        className="w-4.5 h-4.5 rounded cursor-pointer transition-colors border-slate-200 bg-[#ffffff] text-slate-900 accent-slate-900 focus:ring-slate-900" 
+                         checked={flushMountedSlatIn} 
+                         onChange={e => setFlushMountedSlatIn(e.target.checked)} 
+                       />
+@@ -4104,16 +3904,10 @@ export function DebugPricing() {
+                   )}
+ 
+                   <div className="flex items-center">
+-                    <label className={`flex items-center gap-3 text-sm cursor-pointer select-none ${
+-                      isLight ? 'text-zinc-800' : 'text-gray-300'
+-                    }`}>
++                    <label className="flex items-center gap-3 text-sm cursor-pointer select-none text-slate-800">
+                       <input 
+                         type="checkbox" 
+-                        className={`w-4.5 h-4.5 rounded cursor-pointer transition-colors ${
+-                          isLight 
+-                            ? 'border-zinc-300 bg-white text-black accent-black focus:ring-black' 
+-                            : 'accent-[#eab676]'
+-                        }`} 
++                        className="w-4.5 h-4.5 rounded cursor-pointer transition-colors border-slate-200 bg-[#ffffff] text-slate-900 accent-slate-900 focus:ring-slate-900" 
+                         checked={flushMountedSlatOut} 
+                         onChange={e => setFlushMountedSlatOut(e.target.checked)} 
+                       />
+@@ -4127,9 +3921,7 @@ export function DebugPricing() {
+                   <GenericSelect label="Review / Inspection Slat" value={review} onChange={setReview} options={shutterLookups.reviews} />
+                   <ColorSelect label="Side Cover Cap Color" value={sideCoverCapColor} onChange={setSideCoverCapColor} groupedOptions={groupedColors} />
+ 
+-                  <div className={`col-span-1 sm:col-span-2 border-t my-2 transition-colors ${
+-                    isLight ? 'border-zinc-200' : 'border-gray-800/60'
+-                  }`}></div>
++                  <div className="col-span-1 sm:col-span-2 border-t my-2 transition-colors border-slate-200"></div>
+ 
+                   <ColorSelect label="Guide Rails Color" value={guideRailsColor} onChange={setGuideRailsColor} groupedOptions={groupedColors} />
+                   <GenericSelect label="Guide Rails Cutting" value={guideRailsCutting} onChange={setGuideRailsCutting} options={shutterLookups.guideRailsCuttings} />
+@@ -4138,31 +3930,19 @@ export function DebugPricing() {
+                   <GenericSelect label="Guide Rails Type" value={guideRailsTypes} onChange={setGuideRailsTypes} options={shutterLookups.guideRailsTypes} />
+ 
+                   <div className="col-span-1 sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+-                    <label className={`flex items-center gap-3 text-sm cursor-pointer select-none ${
+-                      isLight ? 'text-zinc-800' : 'text-gray-300'
+-                    }`}>
++                    <label className="flex items-center gap-3 text-sm cursor-pointer select-none text-slate-800">
+                       <input 
+                         type="checkbox" 
+-                        className={`w-4.5 h-4.5 rounded cursor-pointer transition-colors ${
+-                          isLight 
+-                            ? 'border-zinc-300 bg-white text-black accent-black focus:ring-black' 
+-                            : 'accent-[#eab676]'
+-                        }`} 
++                        className="w-4.5 h-4.5 rounded cursor-pointer transition-colors border-slate-200 bg-[#ffffff] text-slate-900 accent-slate-900 focus:ring-slate-900" 
+                         checked={guideRailGasketing} 
+                         onChange={e => setGuideRailGasketing(e.target.checked)} 
+                       />
+                       Guide rail gasketing
+                     </label>
+-                    <label className={`flex items-center gap-3 text-sm cursor-pointer select-none ${
+-                      isLight ? 'text-zinc-800' : 'text-gray-300'
+-                    }`}>
++                    <label className="flex items-center gap-3 text-sm cursor-pointer select-none text-slate-800">
+                       <input 
+                         type="checkbox" 
+-                        className={`w-4.5 h-4.5 rounded cursor-pointer transition-colors ${
+-                          isLight 
+-                            ? 'border-zinc-300 bg-white text-black accent-black focus:ring-black' 
+-                            : 'accent-[#eab676]'
+-                        }`} 
++                        className="w-4.5 h-4.5 rounded cursor-pointer transition-colors border-slate-200 bg-[#ffffff] text-slate-900 accent-slate-900 focus:ring-slate-900" 
+                         checked={soundproofMat} 
+                         onChange={e => setSoundproofMat(e.target.checked)} 
+                       />
+@@ -4185,10 +3965,8 @@ export function DebugPricing() {
+             <div className="space-y-4">
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                 <div>
+-                  <label className={`block text-xs font-bold mb-1.5 uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>{t('dowelHoles', 'Dowel Holes')}</label>
+-                  <select className={`w-full rounded-xl p-3 text-sm h-[50px] focus:outline-none border transition-colors ${
+-                    isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+-                  }`}
++                  <label className="block text-xs font-bold mb-1.5 uppercase tracking-wide text-slate-500">{t('dowelHoles', 'Dowel Holes')}</label>
++                  <select className="w-full rounded-md p-3 text-sm h-[50px] focus:outline-none border transition-colors bg-[#ffffff] border-slate-200 text-slate-900 focus:border-slate-400"
+                     value={dowelHoles} onChange={e => setDowelHoles(e.target.value)}>
+                      <option value="">Lack (-)</option>
+                      <option value="O_06">6mm assembly holes (O_06)</option>
+@@ -4200,55 +3978,39 @@ export function DebugPricing() {
+ 
+                 {dowelHoles && (
+                   <div className="flex flex-col gap-1.5 justify-end">
+-                    <label className={`block text-xs font-bold uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Locations</label>
++                    <label className="block text-xs font-bold uppercase tracking-wide text-slate-500">Locations</label>
+                     <div className="grid grid-cols-2 gap-2">
+-                      <label className={`flex items-center gap-2 text-sm cursor-pointer select-none ${
+-                        isLight ? 'text-zinc-800' : 'text-gray-350'
+-                      }`}>
++                      <label className="flex items-center gap-2 text-sm cursor-pointer select-none text-slate-800">
+                         <input 
+                           type="checkbox" 
+-                          className={`w-4 h-4 rounded cursor-pointer transition-colors ${
+-                            isLight ? 'border-zinc-300 bg-white text-black accent-black focus:ring-black' : 'accent-[#eab676]'
+-                          }`} 
++                          className="w-4 h-4 rounded cursor-pointer transition-colors border-slate-200 bg-[#ffffff] text-slate-900 accent-slate-900 focus:ring-slate-900" 
+                           checked={dowelLeft} 
+                           onChange={e => setDowelLeft(e.target.checked)} 
+                         />
+                         Left
+                       </label>
+-                      <label className={`flex items-center gap-2 text-sm cursor-pointer select-none ${
+-                        isLight ? 'text-zinc-800' : 'text-gray-350'
+-                      }`}>
++                      <label className="flex items-center gap-2 text-sm cursor-pointer select-none text-slate-800">
+                         <input 
+                           type="checkbox" 
+-                          className={`w-4 h-4 rounded cursor-pointer transition-colors ${
+-                            isLight ? 'border-zinc-300 bg-white text-black accent-black focus:ring-black' : 'accent-[#eab676]'
+-                          }`} 
++                          className="w-4 h-4 rounded cursor-pointer transition-colors border-slate-200 bg-[#ffffff] text-slate-900 accent-slate-900 focus:ring-slate-900" 
+                           checked={dowelRight} 
+                           onChange={e => setDowelRight(e.target.checked)} 
+                         />
+                         Right
+                       </label>
+-                      <label className={`flex items-center gap-2 text-sm cursor-pointer select-none ${
+-                        isLight ? 'text-zinc-800' : 'text-gray-350'
+-                      }`}>
++                      <label className="flex items-center gap-2 text-sm cursor-pointer select-none text-slate-800">
+                         <input 
+                           type="checkbox" 
+-                          className={`w-4 h-4 rounded cursor-pointer transition-colors ${
+-                            isLight ? 'border-zinc-300 bg-white text-black accent-black focus:ring-black' : 'accent-[#eab676]'
+-                          }`} 
++                          className="w-4 h-4 rounded cursor-pointer transition-colors border-slate-200 bg-[#ffffff] text-slate-900 accent-slate-900 focus:ring-slate-900" 
+                           checked={dowelTop} 
+                           onChange={e => setDowelTop(e.target.checked)} 
+                         />
+                         Top
+                       </label>
+-                      <label className={`flex items-center gap-2 text-sm cursor-pointer select-none ${
+-                        isLight ? 'text-zinc-800' : 'text-gray-355'
+-                      }`}>
++                      <label className="flex items-center gap-2 text-sm cursor-pointer select-none text-slate-800">
+                         <input 
+                           type="checkbox" 
+-                          className={`w-4 h-4 rounded cursor-pointer transition-colors ${
+-                            isLight ? 'border-zinc-300 bg-white text-black accent-black focus:ring-black' : 'accent-[#eab676]'
+-                          }`} 
++                          className="w-4 h-4 rounded cursor-pointer transition-colors border-slate-200 bg-[#ffffff] text-slate-900 accent-slate-900 focus:ring-slate-900" 
+                           checked={dowelBottom} 
+                           onChange={e => setDowelBottom(e.target.checked)} 
+                         />
+@@ -4259,16 +4021,12 @@ export function DebugPricing() {
+                 )}
+               </div>
+ 
+-              <div className={`col-span-1 sm:col-span-2 border-t my-2 transition-colors ${
+-                isLight ? 'border-zinc-200' : 'border-gray-800/60'
+-              }`}></div>
++              <div className="col-span-1 sm:col-span-2 border-t my-2 transition-colors border-slate-200"></div>
+ 
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                 <div>
+-                  <label className={`block text-xs font-bold mb-1.5 uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Grille Type</label>
+-                  <select className={`w-full rounded-xl p-3 text-sm h-[50px] focus:outline-none border transition-colors ${
+-                    isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+-                  }`}
++                  <label className="block text-xs font-bold mb-1.5 uppercase tracking-wide text-slate-500">Grille Type</label>
++                  <select className="w-full rounded-md p-3 text-sm h-[50px] focus:outline-none border transition-colors bg-[#ffffff] border-slate-200 text-slate-900 focus:border-slate-400"
+                     value={grilleType} onChange={e => setGrilleType(e.target.value)}>
+                      <option value="">None</option>
+                      <optgroup label="Internal Grilles (Mi─Ödzyszybowe)">
+@@ -4284,10 +4042,8 @@ export function DebugPricing() {
+                   </select>
+                 </div>
+                 <div>
+-                  <label className={`block text-xs font-bold mb-1.5 uppercase tracking-wide ${isLight ? 'text-zinc-500' : 'text-gray-400'}`}>Number of Fields</label>
+-                  <input type="number" className={`w-full rounded-xl p-3 text-sm h-[50px] focus:outline-none border disabled:opacity-50 transition-colors ${
+-                    isLight ? 'bg-white border-zinc-300 text-black focus:border-black' : 'bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold'
+-                  }`}
++                  <label className="block text-xs font-bold mb-1.5 uppercase tracking-wide text-slate-500">Number of Fields</label>
++                  <input type="number" className="w-full rounded-md p-3 text-sm h-[50px] focus:outline-none border disabled:opacity-50 transition-colors bg-[#ffffff] border-slate-200 text-slate-900 focus:border-slate-400"
+                     value={grilleFields} onChange={e => setGrilleFields(Number(e.target.value))} disabled={!grilleType} min={1} max={30} />
+                 </div>
+               </div>
+@@ -4301,7 +4057,7 @@ export function DebugPricing() {
+ 
+     // Dark mode: original bordered card wrapper
+     return (
+-      <div className="p-4 sm:p-6 rounded-xl shadow-2xl flex flex-col gap-4 sm:gap-6 md:overflow-y-auto md:max-h-[85vh] border bg-mammut-darker border-gray-800">
++      <div className="p-4 sm:p-6 rounded-xl shadow-2xl flex flex-col gap-4 sm:gap-6 md:overflow-y-auto md:max-h-[85vh] bg-mammut-darker">
+         <div className="border-b pb-4 border-gray-800">
+           <h2 className="font-bold text-xl uppercase text-mammut-gold">{t('configurator.options.title', 'Configurator Options')}</h2>
+           <p className="text-xs mt-1 text-gray-500">{sysName} ΓÇö {typology}</p>
+@@ -4326,7 +4082,7 @@ export function DebugPricing() {
+                 <label className="block text-xs font-bold mb-1.5 uppercase tracking-wide text-gray-400">Product Number</label>
+                 <div
+                   onClick={() => setIsTypologyOpen(!isTypologyOpen)}
+-                  className="w-full rounded-xl p-3 cursor-pointer flex items-center justify-between transition-colors h-[54px] border bg-mammut-black border-gray-800 text-mammut-white hover:border-mammut-gold"
++                  className="w-full rounded-md p-3 cursor-pointer flex items-center justify-between transition-colors h-[54px] border bg-mammut-black border-gray-800 text-mammut-white hover:border-mammut-gold"
+                 >
+                   <div className="flex items-center gap-3">
+                     <TypologyThumbnail id={typology} className="w-8 h-8 object-contain rounded bg-white border border-gray-700 shrink-0 p-0.5" />
+@@ -4349,14 +4105,14 @@ export function DebugPricing() {
+                         <input type="checkbox" id="closeOnSelectCheckboxDark" checked={closeOnSelect} onChange={(e) => setCloseOnSelect(e.target.checked)} className="w-4 h-4 rounded cursor-pointer accent-[#eab676] border-gray-700 bg-mammut-black focus:ring-mammut-gold" />
+                         <label htmlFor="closeOnSelectCheckboxDark" className="text-xs font-semibold cursor-pointer select-none text-gray-300">{t('configurator.state.closeOnSelect')}</label>
+                       </div>
+-                      <button onClick={() => setIsTypologyOpen(false)} className="w-full font-black uppercase text-[11px] tracking-wider py-3 rounded-xl transition-all cursor-pointer shadow-md hover:scale-[1.02] active:scale-[0.98] bg-mammut-gold text-mammut-black hover:bg-[#ffc882]">Confirm</button>
++                      <button onClick={() => setIsTypologyOpen(false)} className="w-full font-black uppercase text-[11px] tracking-wider py-3 rounded-md transition-all cursor-pointer shadow-md hover:scale-[1.02] active:scale-[0.98] bg-mammut-gold text-mammut-black hover:bg-[#ffc882]">Confirm</button>
+                     </div>
+                   </>
+                 )}
+               </div>
+               <div>
+                 <label className="block text-xs font-bold mb-1.5 uppercase tracking-wide text-gray-400">Profile System</label>
+-                <select className="w-full rounded-xl p-3 focus:outline-none h-[54px] text-sm border bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold" value={profilsatz} onChange={e => setProfilsatz(e.target.value)}>
++                <select className="w-full rounded-md p-3 focus:outline-none h-[54px] text-sm border bg-mammut-black border-gray-800 text-mammut-white focus:border-mammut-gold" value={profilsatz} onChange={e => setProfilsatz(e.target.value)}>
+                   {PRODUCT_CATEGORIES.filter(c => c.group === activeCategory).map((category) => (
+                     category.subgroups.map((subgroup, subgroupIndex) => (
+                       <optgroup key={`${category.group}-${subgroupIndex}`} label={`${t('header.megaMenu.cats.' + category.group.toLowerCase().split(' ')[0], category.group)} ΓÇö ${subgroup.name}`}>
+@@ -4388,39 +4144,6 @@ export function DebugPricing() {
+   if (isLight) {
+     return (
+       <div className="min-h-screen bg-slate-50 text-slate-900 antialiased relative">
+-        <style dangerouslySetInnerHTML={{__html: `
+-          /* Force the main container to day-mode */
+-          .min-h-screen {
+-            background-color: #f8fafc !important;
+-            color: #0f172a !important;
+-          }
+-
+-          /* Nuke any dark background on accordion wrapper divs */
+-          div[class*="bg-mammut"],
+-          div[class*="bg-black"],
+-          div[class*="bg-neutral"],
+-          div[class*="bg-slate-950"],
+-          .bg-black,
+-          [data-theme="dark"] .bg-black {
+-            background-color: #ffffff !important;
+-            border-color: #e2e8f0 !important;
+-            color: #0f172a !important;
+-          }
+-
+-          /* Force accordion headers, titles, labels legible */
+-          div[class*="text-blue"],
+-          span[class*="text-slate-400"],
+-          h2, h3, label, p, span {
+-            color: #1e293b !important;
+-          }
+-
+-          /* Fix dropdowns and inputs for legibility */
+-          select, input {
+-            background-color: #f1f5f9 !important;
+-            color: #0f172a !important;
+-            border: 1px solid #cbd5e1 !important;
+-          }
+-        `}} />
+         {arPlacement && (
+           <ArViewer sceneGroup={sceneGroup?.group || null} placement={arPlacement} onClose={() => setArPlacement(null)} />
+         )}

@@ -4,7 +4,6 @@ import { OrbitControls, Environment, ContactShadows, useProgress } from '@react-
 import { Loader2 } from 'lucide-react';
 import * as THREE from 'three';
 import { FrameSegment } from './FrameSegment';
-import { usePBRMaterial } from '../../hooks/usePBRMaterial';
 
 // Outer frame profiles
 import pdOuterRaw from '../../data/profiles/IGLO5/IG5_F101B.json';
@@ -110,14 +109,7 @@ function WindowAssembly({ widthMm, heightMm, mullionPos, colorExt, colorInt, col
     return { x: minX === Infinity ? 0 : minX, y: minY === Infinity ? 0 : minY };
   }, [mulExt, mulInt, mulGskExt]);
 
-  // -- Use Shared PBR Material Loader Hook --
-  const finalFrmExtMat = usePBRMaterial(colorExtTexture, colorExt, widthMm, heightMm, false, false); // Horizontal Exterior
-  const finalFrmIntMat = usePBRMaterial(colorIntTexture, colorInt, widthMm, heightMm, false, false); // Horizontal Interior (was using 'true' which actually meant vertical!)
-  
-  const finalMullionExtMat = usePBRMaterial(colorExtTexture, colorExt, widthMm, heightMm, true, false); // Vertical Exterior
-  const finalMullionIntMat = usePBRMaterial(colorIntTexture, colorInt, widthMm, heightMm, true, false); // Vertical Interior
-  
-  const finalBzdMat = usePBRMaterial(colorIntTexture, colorInt, widthMm, heightMm, false, true);
+  // PBR materials are now handled reactively by SegmentMaterial inside FrameSegment.
 
   const glassMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({ 
     color: "#ffffff", 
@@ -143,36 +135,36 @@ function WindowAssembly({ widthMm, heightMm, mullionPos, colorExt, colorInt, col
   }), [colorGsk]);
 
   const renderFrameSegment = (len: number, uSign: number, uOff: number, splitMm?: number) => (<>
-    {frmExt.map((c, i) => <FrameSegment key={`frmExt_${i}`} layerName="FRM_EXT" scaleFactor={scale} length={len} vertices={c} material={finalFrmExtMat} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
-    {frmInt.map((c, i) => <FrameSegment key={`frmInt_${i}`} layerName="FRM_INT" scaleFactor={scale} length={len} vertices={c} material={finalFrmIntMat} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
+    {frmExt.map((c, i) => <FrameSegment key={`frmExt_${i}`} layerName="FRM_EXT" scaleFactor={scale} length={len} vertices={c} matType="ext" color={colorExt} textureUrl={colorExtTexture} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
+    {frmInt.map((c, i) => <FrameSegment key={`frmInt_${i}`} layerName="FRM_INT" scaleFactor={scale} length={len} vertices={c} matType="int" color={colorInt} textureUrl={colorIntTexture} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
     {splitMm ? (
       gskFrmExt.map((c, i) => (
         <React.Fragment key={`gskFE_split_${i}`}>
-          <FrameSegment layerName="GSK_FRM_EXT" scaleFactor={scale} length={splitMm} vertices={c} material={gskMaterial} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />
+          <FrameSegment layerName="GSK_FRM_EXT" scaleFactor={scale} length={splitMm} vertices={c} matType="gsk" color={colorGsk} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />
           <group position={[0, 0, splitMm * scale]}>
-            <FrameSegment layerName="GSK_FRM_EXT" scaleFactor={scale} length={len - splitMm} vertices={c} material={gskMaterial} origin={commonOriginOuter} uSign={uSign} uOffset={uOff + splitMm * scale} />
+            <FrameSegment layerName="GSK_FRM_EXT" scaleFactor={scale} length={len - splitMm} vertices={c} matType="gsk" color={colorGsk} origin={commonOriginOuter} uSign={uSign} uOffset={uOff + splitMm * scale} />
           </group>
         </React.Fragment>
       ))
     ) : (
-      gskFrmExt.map((c, i) => <FrameSegment key={`gskFE_${i}`} layerName="GSK_FRM_EXT" scaleFactor={scale} length={len} vertices={c} material={gskMaterial} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)
+      gskFrmExt.map((c, i) => <FrameSegment key={`gskFE_${i}`} layerName="GSK_FRM_EXT" scaleFactor={scale} length={len} vertices={c} matType="gsk" color={colorGsk} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)
     )}
   </>);
 
   const renderMullionSegment = (len: number, uSign: number, uOff: number) => (<>
-    {mulExt.map((c, i) => <FrameSegment key={`mulExt_${i}`} layerName="F101C_EXT" skipCuts scaleFactor={scale} length={len} vertices={c} material={finalMullionExtMat} origin={commonOriginMullion} uSign={uSign} uOffset={uOff} />)}
-    {mulInt.map((c, i) => <FrameSegment key={`mulInt_${i}`} layerName="F101C_INT" skipCuts scaleFactor={scale} length={len} vertices={c} material={finalMullionIntMat} origin={commonOriginMullion} uSign={uSign} uOffset={uOff} />)}
-    {mulGskExt.map((c, i) => <FrameSegment key={`mulGskFE_${i}`} layerName="F101C_GSK_EXT" skipCuts scaleFactor={scale} length={len} vertices={c} material={gskMaterial} origin={commonOriginMullion} uSign={uSign} uOffset={uOff} />)}
+    {mulExt.map((c, i) => <FrameSegment key={`mulExt_${i}`} layerName="F101C_EXT" skipCuts scaleFactor={scale} length={len} vertices={c} matType="ext" color={colorExt} textureUrl={colorExtTexture} origin={commonOriginMullion} uSign={uSign} uOffset={uOff} />)}
+    {mulInt.map((c, i) => <FrameSegment key={`mulInt_${i}`} layerName="F101C_INT" skipCuts scaleFactor={scale} length={len} vertices={c} matType="int" color={colorInt} textureUrl={colorIntTexture} origin={commonOriginMullion} uSign={uSign} uOffset={uOff} />)}
+    {mulGskExt.map((c, i) => <FrameSegment key={`mulGskFE_${i}`} layerName="F101C_GSK_EXT" skipCuts scaleFactor={scale} length={len} vertices={c} matType="gsk" color={colorGsk} origin={commonOriginMullion} uSign={uSign} uOffset={uOff} />)}
   </>);
 
   const renderSashSegment = (len: number, uSign: number, uOff: number) => (<>
-    {sshExt.map((c, i) => <FrameSegment key={`sshExt_${i}`} layerName="SSH_EXT" scaleFactor={scale} length={len} vertices={c} material={finalFrmExtMat} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
-    {sshInt.map((c, i) => <FrameSegment key={`sshInt_${i}`} layerName="SSH_INT" scaleFactor={scale} length={len} vertices={c} material={finalFrmIntMat} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
-    {bzd.map((c, i) => <FrameSegment key={`bzd_${i}`} layerName="BZD" scaleFactor={scale} length={len} vertices={c} material={finalBzdMat} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} uvMode="rail" />)}
-    {spacer.map((c, i) => <FrameSegment key={`spacer_${i}`} layerName="SPACER" scaleFactor={scale} length={len} vertices={c} material={spacerMaterial} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
-    {gskSshExt.map((c, i) => <FrameSegment key={`gskSE_${i}`} layerName="GSK_SSH_EXT" scaleFactor={scale} length={len} vertices={c} material={gskMaterial} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
-    {gskSshInt.map((c, i) => <FrameSegment key={`gskSI_${i}`} layerName="GSK_SSH_INT" scaleFactor={scale} length={len} vertices={c} material={gskMaterial} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
-    {gskBzd.map((c, i) => <FrameSegment key={`gskBzd_${i}`} layerName="GSK_BZD" scaleFactor={scale} length={len} vertices={c} material={gskMaterial} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
+    {sshExt.map((c, i) => <FrameSegment key={`sshExt_${i}`} layerName="SSH_EXT" scaleFactor={scale} length={len} vertices={c} matType="ext" color={colorExt} textureUrl={colorExtTexture} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
+    {sshInt.map((c, i) => <FrameSegment key={`sshInt_${i}`} layerName="SSH_INT" scaleFactor={scale} length={len} vertices={c} matType="int" color={colorInt} textureUrl={colorIntTexture} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
+    {bzd.map((c, i) => <FrameSegment key={`bzd_${i}`} layerName="BZD" scaleFactor={scale} length={len} vertices={c} matType="int" color={colorInt} textureUrl={colorIntTexture} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} uvMode="rail" />)}
+    {spacer.map((c, i) => <FrameSegment key={`spacer_${i}`} layerName="SPACER" scaleFactor={scale} length={len} vertices={c} matType="spacer" color={colorSpacer} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
+    {gskSshExt.map((c, i) => <FrameSegment key={`gskSE_${i}`} layerName="GSK_SSH_EXT" scaleFactor={scale} length={len} vertices={c} matType="gsk" color={colorGsk} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
+    {gskSshInt.map((c, i) => <FrameSegment key={`gskSI_${i}`} layerName="GSK_SSH_INT" scaleFactor={scale} length={len} vertices={c} matType="gsk" color={colorGsk} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
+    {gskBzd.map((c, i) => <FrameSegment key={`gskBzd_${i}`} layerName="GSK_BZD" scaleFactor={scale} length={len} vertices={c} matType="gsk" color={colorGsk} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
   </>);
 
   const renderGlassPane = (sashWidthMm: number, sashHeightMm: number, glsLayer: Point[][]) => {
@@ -261,9 +253,9 @@ function WindowAssembly({ widthMm, heightMm, mullionPos, colorExt, colorInt, col
         </group>
       </group>
 
-      <group position={[0, 0, 0]}>
+      <group position={[58 * scale, 58 * scale, -89 * scale]}>
         <group ref={leftSashPivotRef}>
-          <group position={[0, 0, 0]}>
+          <group position={[-58 * scale, -58 * scale, 89 * scale]}>
             <group rotation={[0, 0, 0]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(mPosMm + sashOverlapMm, 1, 0)}</group></group>
             <group position={[(mPosMm + sashOverlapMm) * scale, 0, 0]} rotation={[0, 0, Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(heightMm, -1, (mPosMm + sashOverlapMm) * scale)}</group></group>
             <group position={[(mPosMm + sashOverlapMm) * scale, H, 0]} rotation={[0, 0, Math.PI]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(mPosMm + sashOverlapMm, 1, (mPosMm + sashOverlapMm) * scale - heightMm)}</group></group>
@@ -274,9 +266,9 @@ function WindowAssembly({ widthMm, heightMm, mullionPos, colorExt, colorInt, col
         </group>
       </group>
       
-      <group position={[W, 0, 0]}>
+      <group position={[W - 58 * scale, 58 * scale, -89 * scale]}>
         <group ref={sashPivotRef}>
-          <group position={[-W, 0, 0]}>
+          <group position={[-(W - 58 * scale), -58 * scale, 89 * scale]}>
             <group position={[(mPosMm - sashOverlapMm) * scale, 0, 0]}>
               <group rotation={[0, 0, 0]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(widthMm - mPosMm + sashOverlapMm, 1, (mPosMm - sashOverlapMm) * scale)}</group></group>
               <group position={[(widthMm - mPosMm + sashOverlapMm) * scale, 0, 0]} rotation={[0, 0, Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(heightMm, -1, W)}</group></group>
@@ -377,7 +369,7 @@ export const F101CViewer: React.FC<F101CViewerProps> = ({
   return (
     <div className="absolute inset-0" style={{ background: '#ffffff' }}>
       <Canvas onDoubleClick={(e) => { e.stopPropagation(); controlsRef.current?.reset(); }} shadows gl={{ antialias: true, preserveDrawingBuffer: true }} camera={{ position: camPos, fov: 30 }}>
-        <color attach="background" args={['#ffffff']} />
+        <color attach="background" args={['#f1f5f9']} />
         <fog attach="fog" args={['#ffffff', maxDim * 10, maxDim * 30]} />
         <ambientLight intensity={0.35} />
         <directionalLight position={[W_M * 2.5, H_M * 3, -H_M * 2]} intensity={2.8} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} shadow-bias={-0.0004} color="#fff6e8" />
@@ -407,16 +399,29 @@ export const F101CViewer: React.FC<F101CViewerProps> = ({
 
       <style>{`@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.1)} }`}</style>
 
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 pointer-events-auto">
-        <button onClick={trigger} className="flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm tracking-wider"
-          style={{ background: windowState !== 'closed' ? 'rgba(50,190,110,0.18)' : 'rgba(234,182,118,0.14)', border: windowState !== 'closed' ? '1px solid rgba(50,190,110,0.5)' : '1px solid rgba(234,182,118,0.45)', color: windowState !== 'closed' ? '#5af0a0' : '#eab676', backdropFilter: 'blur(12px)', cursor: 'pointer', transition: 'all 0.3s ease' }}>
-          {windowState !== 'closed' ? 'x Close' : '> Open Window'}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 pointer-events-auto flex items-center gap-3 p-1.5 rounded-full"
+           style={{ background: 'rgba(8,8,22,0.65)', border: '1px solid rgba(234,182,118,0.3)', backdropFilter: 'blur(12px)' }}>
+        <button 
+          onClick={() => handleUserInteraction(windowState === 'open_side' ? 'closed' : 'open_side')} 
+          className="flex items-center justify-center w-11 h-11 rounded-full transition-all hover:bg-white/10"
+          style={{ color: windowState === 'open_side' ? '#5af0a0' : '#eab676', background: windowState === 'open_side' ? 'rgba(50,190,110,0.15)' : 'transparent' }}
+          title="Open Side"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+        </button>
+        <div className="w-px h-6 bg-white/20"></div>
+        <button 
+          onClick={() => handleUserInteraction(windowState === 'open_tilt' ? 'closed' : 'open_tilt')} 
+          className="flex items-center justify-center w-11 h-11 rounded-full transition-all hover:bg-white/10"
+          style={{ color: windowState === 'open_tilt' ? '#5af0a0' : '#eab676', background: windowState === 'open_tilt' ? 'rgba(50,190,110,0.15)' : 'transparent' }}
+          title="Tilt Window"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
         </button>
       </div>
 
       <div className="absolute top-3 right-3 z-20 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest pointer-events-none" style={{ background: 'rgba(8,8,22,0.78)', border: '1px solid rgba(234,182,118,0.22)', color: '#eab676', backdropFilter: 'blur(10px)' }}>IGLO 5 F101C</div>
       <div className="absolute bottom-3 left-3 z-20 flex flex-col gap-0.5 px-2.5 py-1.5 rounded-lg pointer-events-none" style={{ background: 'rgba(8,8,22,0.65)', border: '1px solid rgba(255,255,255,0.07)', backdropFilter: 'blur(8px)' }}>
-        <div style={{ fontSize: '9px', fontWeight: 700, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>Dimensions</div>
         <div style={{ fontSize: '11px', fontWeight: 800, color: '#eab676' }}>{width} x {height} mm</div>
       </div>
 

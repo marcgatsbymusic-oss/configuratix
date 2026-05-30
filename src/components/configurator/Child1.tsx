@@ -109,7 +109,7 @@ export const Child1: React.FC<Child1Props> = ({
   return (
     <div className="absolute inset-0">
       <Canvas onDoubleClick={(e) => { e.stopPropagation(); controlsRef.current?.reset(); }} shadows gl={{ antialias: true, preserveDrawingBuffer: true }} camera={{ position: camPos, fov: 40 }}>
-        <color attach="background" args={['#ffffff']} />
+        <color attach="background" args={['#f1f5f9']} />
         <ambientLight intensity={0.4} />
         <directionalLight position={[W * 2, H * 2, -H * 2]} intensity={2.5} castShadow />
         <directionalLight position={[-W, H * 0.5, -H]} intensity={0.8} color="#a8c8ff" />
@@ -151,7 +151,6 @@ export const Child1: React.FC<Child1Props> = ({
 
       <div className="absolute top-3 right-3 z-20 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest pointer-events-none" style={{ background: 'rgba(8,8,22,0.78)', border: '1px solid rgba(234,182,118,0.22)', color: '#eab676', backdropFilter: 'blur(10px)' }}>IGLO 5 {profileId}</div>
       <div className="absolute bottom-3 left-3 z-20 flex flex-col gap-0.5 px-2.5 py-1.5 rounded-lg pointer-events-none" style={{ background: 'rgba(8,8,22,0.65)', border: '1px solid rgba(255,255,255,0.07)', backdropFilter: 'blur(8px)' }}>
-        <div style={{ fontSize: '9px', fontWeight: 700, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>Dimensions</div>
         <div style={{ fontSize: '11px', fontWeight: 800, color: '#eab676' }}>{widthMm} x {heightMm} mm</div>
       </div>
     </div>

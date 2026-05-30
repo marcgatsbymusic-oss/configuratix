@@ -244,7 +244,7 @@ export const NeedlePreview: React.FC<NeedlePreviewProps> = ({ state }) => {
       recurse(document.body);
     };
 
-    // Continuous tick loop
+    // Periodic check instead of every frame
     const tick = () => {
       if (!active) return;
       const ctx = (engine as any).context;
@@ -252,9 +252,8 @@ export const NeedlePreview: React.FC<NeedlePreviewProps> = ({ state }) => {
         enforceWhiteBg(ctx);
       }
       cleanNeedleUIAndBackground();
-      requestAnimationFrame(tick);
     };
-    requestAnimationFrame(tick);
+    const interval = setInterval(tick, 1000);
 
     // Call setup immediately if context exists
     const existingCtx = (engine as any).context;
@@ -274,6 +273,7 @@ export const NeedlePreview: React.FC<NeedlePreviewProps> = ({ state }) => {
 
     return () => {
       active = false;
+      clearInterval(interval);
       engine.removeEventListener('ready', onReady);
       engine.removeEventListener('load', onReady);
     };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { Download, Camera, Trash2, RotateCcw, Share2, ChevronDown } from 'lucide-react';
+import { Download, Camera, Trash2, RotateCcw, Share2, ChevronDown, ShoppingCart } from 'lucide-react';
 import { fetchPrice, type PricingApiResponse } from '../utils/cantorPricing/pricingApi';
 import type { ConfiguratorInput } from '../utils/cantorPricing/input';
 import { CONFIG_SCHEMA, WINDOW_TYPES, PROFILE_GLAZING_LIMITS, getTypologyImagePath } from '../components/SlateConfigurator/types';
@@ -15,6 +15,8 @@ import { ArViewer } from '../components/configurator/ArViewer';
 import glazingOptions from '../data/cantor_glazing_options.json';
 import shutterLookups from '../data/shutter_lookups.json';
 import { useThemeStore } from '../store/useThemeStore';
+import { useCartStore } from '../stores/useCartStore';
+import { supabase } from '../lib/supabase';
 import { 
   IconWindows, IconDoors, IconPatioDoors, IconRollerShutters, 
   IconExteriorBlinds, IconGarageDoors, IconMosquitoNets, 
@@ -2338,6 +2340,17 @@ export function DebugPricing() {
     }
   };
 
+  const cartItems = useCartStore(state => state.items);
+  const addCartItem = useCartStore(state => state.addItem);
+  const removeCartItem = useCartStore(state => state.removeItem);
+  const clearCart = useCartStore(state => state.clearCart);
+  
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [shareSenderName, setShareSenderName] = useState('');
+  const [sharePricing, setSharePricing] = useState(false);
+  const [isSharingBasket, setIsSharingBasket] = useState(false);
+
   const [activeAccordion, setActiveAccordion] = useState<string | null>('product');
 
   // 1) & 2) Profile System & Typology
@@ -3419,6 +3432,40 @@ export function DebugPricing() {
     return `${dowels}, ${grilles}, ${gasket}`;
   };
 
+  const handleAddToBasket = async () => {
+    let snapshotBase64 = '';
+    try {
+      const canvas = document.querySelector('.visualizer-container canvas') as HTMLCanvasElement;
+      if (canvas) {
+        snapshotBase64 = canvas.toDataURL('image/jpeg', 0.5);
+      }
+    } catch (e) {
+      console.warn("Could not capture snapshot for basket", e);
+    }
+    
+    const gskHex = sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c';
+    const spcHex = FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9';
+    
+    addCartItem({
+      config: {
+        typology,
+        width,
+        height,
+        cExt: extDetails.hex,
+        cInt: intDetails.hex,
+        cGsk: gskHex,
+        cSpc: spcHex,
+        cExtTex: extDetails.textureUrl,
+        cIntTex: intDetails.textureUrl
+      },
+      snapshotBase64,
+      price: 0,
+      summary: `${getProductSummary()} | ${getColorsSummary()}`,
+      name: `Configured ${typology}`
+    });
+    alert("Added to basket!");
+  };
+
   const renderVisualizer = () => {
     return (
       <div className="w-full mt-2">
@@ -3438,6 +3485,23 @@ export function DebugPricing() {
                 {is3dMode && (
                   <>
                     <div className="w-[1px] h-4 bg-gray-800 mx-1"></div>
+                    <button 
+                      onClick={handleAddToBasket} 
+                      className="p-1 text-gray-400 hover:text-mammut-gold transition-colors flex items-center justify-center"
+                      title="Add to basket"
+                    >
+                      <ShoppingCart size={14} />
+                    </button>
+                    <button 
+                      onClick={() => setIsCartOpen(true)}
+                      className="p-1 text-gray-400 hover:text-mammut-gold transition-colors flex items-center justify-center relative"
+                      title="View basket"
+                    >
+                      <ShoppingCart size={14} fill={cartItems.length > 0 ? "currentColor" : "none"} />
+                      {cartItems.length > 0 && (
+                        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[8px] font-bold px-1 rounded-full">{cartItems.length}</span>
+                      )}
+                    </button>
                     <button 
                       onClick={handleDownload} 
                       className="p-1 text-gray-400 hover:text-mammut-gold transition-colors flex items-center justify-center"
@@ -3945,6 +4009,8 @@ export function DebugPricing() {
                      height={height}
                      colorExt={extDetails.hex}
                      colorInt={intDetails.hex}
+                     colorExtTexture={extDetails.textureUrl}
+                     colorIntTexture={intDetails.textureUrl}
                    />
                  </div>
                ) : typology === 'F101C' ? (
@@ -5427,6 +5493,173 @@ export function DebugPricing() {
         {renderMiddleColumn()}
         {renderRightColumn()}
       </div>
+
+      {/* Cart Drawer */}
+      {isCartOpen && (
+        <div className="fixed inset-0 z-[60] flex justify-end bg-black/50 backdrop-blur-sm">
+          <div className={`w-[400px] h-full shadow-2xl flex flex-col ${isLight ? 'bg-white text-black' : 'bg-mammut-dark text-white'}`}>
+            <div className="p-4 flex items-center justify-between border-b border-gray-200 dark:border-gray-800">
+              <h2 className="font-bold uppercase tracking-wider text-lg">Shopping Basket ({cartItems.length})</h2>
+              <button onClick={() => setIsCartOpen(false)} className="text-gray-400 hover:text-red-500">
+                ✕
+              </button>
+            </div>
+            
+            <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+              {cartItems.length === 0 ? (
+                <div className="text-center text-gray-500 mt-10">Your basket is empty.</div>
+              ) : (
+                cartItems.map((item) => (
+                  <div key={item.id} className={`flex flex-col gap-2 p-3 rounded-xl border ${isLight ? 'border-zinc-200 bg-zinc-50' : 'border-gray-800 bg-black'}`}>
+                    <div className="flex justify-between items-start">
+                      <div className="font-bold text-sm uppercase">{item.name}</div>
+                      <button onClick={() => removeCartItem(item.id)} className="text-gray-500 hover:text-red-500">
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                    
+                    <div className="flex gap-3 mt-1">
+                      {item.snapshotBase64 && (
+                        <div className="w-20 h-20 rounded bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shrink-0 overflow-hidden">
+                          <img src={item.snapshotBase64} alt={item.name} className="w-full h-full object-cover" />
+                        </div>
+                      )}
+                      <div className="flex flex-col justify-between text-xs text-gray-500 flex-1">
+                        <div>{item.summary}</div>
+                        <div className="font-mono text-mammut-gold font-bold mt-2">
+                          €{item.price.toFixed(2)}
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => {
+                        setTypology(item.config.typology);
+                        setWidth(item.config.width);
+                        setHeight(item.config.height);
+                        // Optional: Load more settings, for now typology & dim are loaded
+                        setIsCartOpen(false);
+                      }}
+                      className={`mt-2 w-full py-1.5 text-[10px] font-bold uppercase tracking-wider rounded border transition-colors ${
+                        isLight ? 'border-zinc-300 hover:border-black' : 'border-gray-700 hover:border-mammut-gold'
+                      }`}
+                    >
+                      Load into Configurator
+                    </button>
+                  </div>
+                ))
+              )}
+            </div>
+
+            {cartItems.length > 0 && (
+              <div className="p-4 border-t border-gray-200 dark:border-gray-800 flex flex-col gap-2">
+                <button 
+                  onClick={() => setIsShareModalOpen(true)}
+                  className="w-full py-3 bg-mammut-gold text-black font-black uppercase tracking-widest rounded hover:bg-yellow-400 transition-colors flex items-center justify-center gap-2"
+                >
+                  <Share2 size={16} /> Share 3D Basket
+                </button>
+                <button 
+                  onClick={clearCart}
+                  className="w-full py-2 text-xs font-bold text-red-500 border border-red-500/30 hover:bg-red-500/10 rounded uppercase tracking-wider transition-colors"
+                >
+                  Clear Basket
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Share Modal */}
+      {isShareModalOpen && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+          <div className={`w-full max-w-sm rounded-xl shadow-2xl p-6 ${isLight ? 'bg-white text-black' : 'bg-mammut-dark text-white border border-gray-700'}`}>
+            <h2 className="text-lg font-bold mb-4">Share Configuration</h2>
+            
+            <label className="block mb-2 text-sm font-semibold text-gray-400">Your Name (Optional)</label>
+            <input 
+              type="text" 
+              placeholder="e.g. John Doe"
+              value={shareSenderName}
+              onChange={e => setShareSenderName(e.target.value)}
+              className="w-full p-2 mb-4 bg-transparent border border-gray-700 rounded text-sm focus:border-mammut-gold focus:outline-none"
+            />
+            
+            <label className="flex items-center gap-2 mb-6 cursor-pointer text-sm">
+              <input 
+                type="checkbox" 
+                checked={sharePricing}
+                onChange={e => setSharePricing(e.target.checked)}
+                className="w-4 h-4 rounded bg-transparent border-gray-700 text-mammut-gold focus:ring-mammut-gold focus:ring-offset-0"
+              />
+              Share pricing information
+            </label>
+            
+            <div className="flex justify-end gap-3">
+              <button 
+                onClick={() => setIsShareModalOpen(false)}
+                className={`px-4 py-2 text-sm font-bold border rounded ${isLight ? 'border-zinc-300 hover:bg-zinc-100' : 'border-gray-700 hover:bg-gray-800'}`}
+              >
+                Cancel
+              </button>
+              <button 
+                disabled={isSharingBasket}
+                onClick={async () => {
+                  setIsSharingBasket(true);
+                  try {
+                    const payload = {
+                      type: 'basket',
+                      senderName: shareSenderName,
+                      showPricing: sharePricing,
+                      items: cartItems.map(i => ({
+                        id: i.id,
+                        config: i.config,
+                        price: i.price,
+                        name: i.name,
+                        summary: i.summary
+                      }))
+                    };
+                    
+                    const { data, error } = await supabase.from('saved_configurations').insert({
+                      config_state: payload as any
+                    }).select('id').single();
+                    
+                    if (error || !data) throw error || new Error("No data returned");
+                    
+                    const shareUrl = `${window.location.origin}/viewer?basket_id=${data.id}`;
+                    
+                    if (navigator.share) {
+                      try {
+                        await navigator.share({
+                          title: 'My Configured Windows',
+                          text: shareSenderName ? `${shareSenderName} shared their window basket with you!` : 'Check out my window configuration basket!',
+                          url: shareUrl
+                        });
+                      } catch (err) {
+                        navigator.clipboard.writeText(shareUrl);
+                        alert('Basket link copied to clipboard!');
+                      }
+                    } else {
+                      navigator.clipboard.writeText(shareUrl);
+                      alert('Basket link copied to clipboard:\\n\\n' + shareUrl);
+                    }
+                    setIsShareModalOpen(false);
+                  } catch (e) {
+                    console.error("Error saving basket", e);
+                    alert("Failed to create share link. Please try again.");
+                  } finally {
+                    setIsSharingBasket(false);
+                  }
+                }}
+                className={`px-4 py-2 text-sm font-bold bg-mammut-gold text-black rounded hover:bg-yellow-400 ${isSharingBasket ? 'opacity-50' : ''}`}
+              >
+                {isSharingBasket ? 'Saving...' : 'Create Link'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

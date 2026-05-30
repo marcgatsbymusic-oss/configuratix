@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 
 const DEFAULT_MAPS = { diffuse: null, normal: null, orm: null };
@@ -74,24 +74,40 @@ export const usePBRMaterial = (
 
   }, [colorTextureUrl]);
 
-  const material = useMemo(() => {
+  // Use a ref to hold the material instance so it is never recreated.
+  // This guarantees reactivity in R3F because we mutate it directly.
+  const materialRef = useRef<THREE.MeshStandardMaterial>(null!);
+  if (!materialRef.current) {
+    materialRef.current = new THREE.MeshStandardMaterial({
+      color: 0xffffff,
+      roughness: 0.6,
+      metalness: 0.1
+    });
+  }
+
+  // Track cloned textures to properly dispose them and prevent memory leaks
+  const clonedMapsRef = useRef<{ diffuse: THREE.Texture | null, normal: THREE.Texture | null, orm: THREE.Texture | null }>({ diffuse: null, normal: null, orm: null });
+
+  useEffect(() => {
+    const mat = materialRef.current;
+    
+    // Dispose previous cloned textures
+    if (clonedMapsRef.current.diffuse) clonedMapsRef.current.diffuse.dispose();
+    if (clonedMapsRef.current.normal) clonedMapsRef.current.normal.dispose();
+    if (clonedMapsRef.current.orm) clonedMapsRef.current.orm.dispose();
+    clonedMapsRef.current = { diffuse: null, normal: null, orm: null };
+
     if (maps.diffuse) {
-      // Calculate repeat UVs based on whether it is an interior/exterior frame or bead
-      // Default (Exterior): Grain runs horizontally
       let repeatU = (widthMm / 1000) / (TEX_MM_ALONG_GRAIN / 1000);
       let repeatV = 1000 / TEX_MM_ACROSS_GRAIN;
-
       if (isInterior) {
-        // Interior (Vertical Stiles): Grain runs vertically
         repeatU = (heightMm / 1000) / (TEX_MM_ALONG_GRAIN / 1000);
-        repeatV = 1000 / TEX_MM_ACROSS_GRAIN;
       }
 
       const cloneTexture = (tex: THREE.Texture, rotate: boolean = false) => {
         const t = tex.clone();
         t.wrapS = THREE.RepeatWrapping;
         t.wrapT = THREE.RepeatWrapping;
-        
         if (rotate) {
           t.center.set(0.5, 0.5);
           t.rotation = Math.PI / 2;
@@ -99,37 +115,49 @@ export const usePBRMaterial = (
         } else {
           t.repeat.set(repeatU, repeatV);
         }
-        
         t.needsUpdate = true;
         return t;
       };
 
-      const mat = new THREE.MeshStandardMaterial({
-        color: 0xffffff,
-        map: cloneTexture(maps.diffuse, isBzd),
-        normalMap: maps.normal ? cloneTexture(maps.normal, isBzd) : null,
-        aoMap: maps.orm ? cloneTexture(maps.orm, isBzd) : null,
-        roughnessMap: maps.orm ? cloneTexture(maps.orm, isBzd) : null,
-        metalnessMap: maps.orm ? cloneTexture(maps.orm, isBzd) : null,
-        roughness: 1.0,
-        metalness: 0.0,
-        aoMapIntensity: 0.8,
-      });
+      const clonedDiffuse = cloneTexture(maps.diffuse, isBzd);
+      const clonedNormal = maps.normal ? cloneTexture(maps.normal, isBzd) : null;
+      const clonedOrm = maps.orm ? cloneTexture(maps.orm, isBzd) : null;
 
-      if (maps.normal) {
-        mat.normalScale.set(0.6, 0.6);
-      }
+      clonedMapsRef.current = { diffuse: clonedDiffuse, normal: clonedNormal, orm: clonedOrm };
 
-      return mat;
+      mat.color.set(0xffffff);
+      mat.map = clonedDiffuse;
+      mat.normalMap = clonedNormal;
+      mat.aoMap = clonedOrm;
+      mat.roughnessMap = clonedOrm;
+      mat.metalnessMap = clonedOrm;
+      mat.roughness = 1.0;
+      mat.metalness = 0.0;
+      mat.aoMapIntensity = 0.8;
+      if (clonedNormal) mat.normalScale.set(0.6, 0.6);
+    } else {
+      mat.color.set(fallbackColor || '#e8e0d4');
+      mat.map = null;
+      mat.normalMap = null;
+      mat.aoMap = null;
+      mat.roughnessMap = null;
+      mat.metalnessMap = null;
+      mat.roughness = 0.6;
+      mat.metalness = 0.1;
     }
     
-    // Fallback to solid color
-    return new THREE.MeshStandardMaterial({
-      color: fallbackColor,
-      roughness: 0.6,
-      metalness: 0.1
-    });
+    mat.needsUpdate = true;
   }, [maps, fallbackColor, widthMm, heightMm, isInterior, isBzd]);
 
-  return material;
+  // Clean up material on unmount
+  useEffect(() => {
+    return () => {
+      if (materialRef.current) materialRef.current.dispose();
+      if (clonedMapsRef.current.diffuse) clonedMapsRef.current.diffuse.dispose();
+      if (clonedMapsRef.current.normal) clonedMapsRef.current.normal.dispose();
+      if (clonedMapsRef.current.orm) clonedMapsRef.current.orm.dispose();
+    };
+  }, []);
+
+  return materialRef.current;
 };

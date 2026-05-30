@@ -6,11 +6,10 @@
 
 import React, { useRef, useState, useMemo, useCallback, Suspense, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, Environment, ContactShadows, useProgress, Html } from '@react-three/drei';
+import { OrbitControls, Environment, ContactShadows, useProgress, Html, useGLTF } from '@react-three/drei';
 import { Loader2 } from 'lucide-react';
 import * as THREE from 'three';
 import { FrameSegment } from './FrameSegment';
-import { usePBRMaterial } from '../../hooks/usePBRMaterial';
 import profileDataRaw from '../../data/profiles/IGLO5/IG5_F100T.json';
 
 interface Point { x: number; y: number }
@@ -43,10 +42,26 @@ interface AssemblyProps {
 
 function WindowAssembly({ widthMm, heightMm, colorExt, colorInt, colorExtTexture, colorIntTexture, colorGsk, colorSpacer, windowState, isAuto, onUserInteraction }: AssemblyProps) {
   const sashPivotRef = useRef<THREE.Group>(null!);
+  const handleGroupRef = useRef<THREE.Group>(null!);
   const { clock } = useThree();
   const scale = MM;
   const W = widthMm * scale;
   const H = heightMm * scale;
+  console.log('F100TViewer rendering with color:', colorExt, colorInt);
+
+  const { scene: handleScene } = useGLTF('/testhandle.glb');
+  const clonedHandle = useMemo(() => {
+    const clone = handleScene.clone(true);
+    clone.traverse((child: any) => {
+      if (child.isMesh && child.material) {
+        child.material = child.material.clone();
+        child.material.color.set(colorIntTexture ? '#f0f0f0' : (colorInt || '#f0ece6'));
+        child.material.roughness = 0.3;
+        child.material.metalness = 0.8;
+      }
+    });
+    return clone;
+  }, [handleScene, colorInt, colorIntTexture]);
 
   const getLayerContours = (layerName: string) => {
     const layer = pd.layers[layerName];
@@ -81,10 +96,7 @@ function WindowAssembly({ widthMm, heightMm, colorExt, colorInt, colorExtTexture
     return { x: minX === Infinity ? 0 : minX, y: minY === Infinity ? 0 : minY };
   }, [frmExt, frmInt, sshExt, sshInt, bzd, gskFrmExt, gskSshExt, gskSshInt, gskBzd, glsExt, glsInt, spacer]);
 
-  // -- Use Shared PBR Material Loader Hook --
-  const finalFrmExtMat = usePBRMaterial(colorExtTexture, colorExt, widthMm, heightMm, false, false);
-  const finalFrmIntMat = usePBRMaterial(colorIntTexture, colorInt, widthMm, heightMm, false, false); // false for vertical to match F101C horizontal interior
-  const finalBzdMat = usePBRMaterial(colorIntTexture, colorInt, widthMm, heightMm, false, true);
+  // PBR materials are now handled reactively by SegmentMaterial inside FrameSegment.
 
   const glassMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({ 
     color: "#ffffff", 
@@ -110,19 +122,19 @@ function WindowAssembly({ widthMm, heightMm, colorExt, colorInt, colorExtTexture
   }), [colorGsk]);
 
   const renderFrameSegment = (len: number, uSign: number, uOff: number) => (<>
-    {frmExt.map((c, i) => <FrameSegment key={`frmExt_${i}`} layerName="FRM_EXT" scaleFactor={scale} length={len} vertices={c} material={finalFrmExtMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-    {frmInt.map((c, i) => <FrameSegment key={`frmInt_${i}`} layerName="FRM_INT" scaleFactor={scale} length={len} vertices={c} material={finalFrmIntMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-    {gskFrmExt.map((c, i) => <FrameSegment key={`gskFE_${i}`} layerName="GSK_FRM_EXT" scaleFactor={scale} length={len} vertices={c} material={gskMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {frmExt.map((c, i) => <FrameSegment key={`frmExt_${i}`} layerName="FRM_EXT" scaleFactor={scale} length={len} vertices={c} matType="ext" color={colorExt} textureUrl={colorExtTexture} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {frmInt.map((c, i) => <FrameSegment key={`frmInt_${i}`} layerName="FRM_INT" scaleFactor={scale} length={len} vertices={c} matType="int" color={colorInt} textureUrl={colorIntTexture} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {gskFrmExt.map((c, i) => <FrameSegment key={`gskFE_${i}`} layerName="GSK_FRM_EXT" scaleFactor={scale} length={len} vertices={c} matType="gsk" color={colorGsk} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
   </>);
 
   const renderSashSegment = (len: number, uSign: number, uOff: number) => (<>
-    {sshExt.map((c, i) => <FrameSegment key={`sshExt_${i}`} layerName="SSH_EXT" scaleFactor={scale} length={len} vertices={c} material={finalFrmExtMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-    {sshInt.map((c, i) => <FrameSegment key={`sshInt_${i}`} layerName="SSH_INT" scaleFactor={scale} length={len} vertices={c} material={finalFrmIntMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-    {bzd.map((c, i) => <FrameSegment key={`bzd_${i}`} layerName="BZD" scaleFactor={scale} length={len} vertices={c} material={finalBzdMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} uvMode="rail" />)}
-    {spacer.map((c, i) => <FrameSegment key={`spacer_${i}`} layerName="SPACER" scaleFactor={scale} length={len} vertices={c} material={spacerMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-    {gskSshExt.map((c, i) => <FrameSegment key={`gskSE_${i}`} layerName="GSK_SSH_EXT" scaleFactor={scale} length={len} vertices={c} material={gskMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-    {gskSshInt.map((c, i) => <FrameSegment key={`gskSI_${i}`} layerName="GSK_SSH_INT" scaleFactor={scale} length={len} vertices={c} material={gskMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-    {gskBzd.map((c, i) => <FrameSegment key={`gskBzd_${i}`} layerName="GSK_BZD" scaleFactor={scale} length={len} vertices={c} material={gskMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {sshExt.map((c, i) => <FrameSegment key={`sshExt_${i}`} layerName="SSH_EXT" scaleFactor={scale} length={len} vertices={c} matType="ext" color={colorExt} textureUrl={colorExtTexture} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {sshInt.map((c, i) => <FrameSegment key={`sshInt_${i}`} layerName="SSH_INT" scaleFactor={scale} length={len} vertices={c} matType="int" color={colorInt} textureUrl={colorIntTexture} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {bzd.map((c, i) => <FrameSegment key={`bzd_${i}`} layerName="BZD" scaleFactor={scale} length={len} vertices={c} matType="int" color={colorInt} textureUrl={colorIntTexture} origin={commonOrigin} uSign={uSign} uOffset={uOff} uvMode="rail" />)}
+    {spacer.map((c, i) => <FrameSegment key={`spacer_${i}`} layerName="SPACER" scaleFactor={scale} length={len} vertices={c} matType="spacer" color={colorSpacer} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {gskSshExt.map((c, i) => <FrameSegment key={`gskSE_${i}`} layerName="GSK_SSH_EXT" scaleFactor={scale} length={len} vertices={c} matType="gsk" color={colorGsk} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {gskSshInt.map((c, i) => <FrameSegment key={`gskSI_${i}`} layerName="GSK_SSH_INT" scaleFactor={scale} length={len} vertices={c} matType="gsk" color={colorGsk} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
+    {gskBzd.map((c, i) => <FrameSegment key={`gskBzd_${i}`} layerName="GSK_BZD" scaleFactor={scale} length={len} vertices={c} matType="gsk" color={colorGsk} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
   </>);
 
   const renderGlassPane = (sashWidthMm: number, sashHeightMm: number, glsLayer: Point[][]) => {
@@ -148,12 +160,14 @@ function WindowAssembly({ widthMm, heightMm, colorExt, colorInt, colorExtTexture
     );
   };
 
-  const pivotX = W;
-  const pivotY = 0;
+  const pivotX = W - 58 * scale;
+  const pivotY = 58 * scale;
+  const pivotZ = -89 * scale;
 
   const currentSide = useRef(0);
   const currentTilt = useRef(0);
-  const animStateRef = useRef({ startSide: 0, targetSide: 0, startTilt: 0, targetTilt: 0, startTime: 0, duration: 1.2 });
+  const currentHandle = useRef(0);
+  const animStateRef = useRef({ startSide: 0, targetSide: 0, startTilt: 0, targetTilt: 0, startHandle: 0, targetHandle: 0, startTime: 0, duration: 1.2 });
 
   useEffect(() => {
     const s = animStateRef.current;
@@ -161,6 +175,8 @@ function WindowAssembly({ widthMm, heightMm, colorExt, colorInt, colorExtTexture
     s.targetSide = windowState === 'open_side' ? -Math.PI / 4 : 0;
     s.startTilt = currentTilt.current;
     s.targetTilt = windowState === 'open_tilt' ? -Math.PI * (15 / 180) : 0;
+    s.startHandle = currentHandle.current;
+    s.targetHandle = windowState === 'open_side' ? -Math.PI / 2 : (windowState === 'open_tilt' ? -Math.PI : 0);
     s.startTime = clock.getElapsedTime();
     s.duration = isAuto.current ? 10.0 : 1.2;
   }, [windowState, clock, isAuto]);
@@ -170,11 +186,51 @@ function WindowAssembly({ widthMm, heightMm, colorExt, colorInt, colorExtTexture
     const s = animStateRef.current;
     const elapsed = state.clock.getElapsedTime() - s.startTime;
     let t = Math.min(elapsed / s.duration, 1.0);
-    t = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-    currentSide.current = s.startSide + (s.targetSide - s.startSide) * t;
-    currentTilt.current = s.startTilt + (s.targetTilt - s.startTilt) * t;
+    
+    const isClosing = s.targetSide === 0 && s.targetTilt === 0;
+    let t_sash = t;
+    let t_handle = t;
+
+    if (!isClosing) {
+      // Opening: Handle first, then Sash
+      t_handle = Math.min(t / 0.3, 1.0);
+      t_sash = Math.max((t - 0.3) / 0.7, 0.0);
+    } else {
+      // Closing: Sash first, then Handle
+      t_sash = Math.min(t / 0.7, 1.0);
+      t_handle = Math.max((t - 0.7) / 0.3, 0.0);
+    }
+
+    const ease = (x: number) => x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
+    t_sash = ease(t_sash);
+    t_handle = ease(t_handle);
+
+    currentSide.current = s.startSide + (s.targetSide - s.startSide) * t_sash;
+    currentTilt.current = s.startTilt + (s.targetTilt - s.startTilt) * t_sash;
+    currentHandle.current = s.startHandle + (s.targetHandle - s.startHandle) * t_handle;
+    
     sashPivotRef.current.rotation.y = currentSide.current;
     sashPivotRef.current.rotation.x = currentTilt.current;
+
+    if (handleGroupRef.current) {
+      let handleObj = handleGroupRef.current.getObjectByName('Handle');
+      if (!handleObj) handleObj = handleGroupRef.current.getObjectByName('handle');
+      if (!handleObj) handleObj = handleGroupRef.current.getObjectByName('Pencere_Kulbu');
+      
+      if (!handleObj) {
+        handleGroupRef.current.traverse((child: any) => {
+          if (!handleObj && child.isMesh && !child.name.toLowerCase().includes('base')) {
+            handleObj = child;
+          }
+        });
+      }
+      
+      if (handleObj) {
+        // The GLTF scene has an X rotation that cancels our group X rotation.
+        // Thus, the handle's local Z axis is the normal to the window.
+        handleObj.rotation.z = currentHandle.current;
+      }
+    }
   });
 
   return (
@@ -186,9 +242,9 @@ function WindowAssembly({ widthMm, heightMm, colorExt, colorInt, colorExtTexture
         <group position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderFrameSegment(heightMm, -1, W - H)}</group></group>
       </group>
 
-      <group position={[pivotX, pivotY, 0]}>
+      <group position={[pivotX, pivotY, pivotZ]}>
         <group ref={sashPivotRef}>
-          <group position={[-pivotX, -pivotY, 0]}>
+          <group position={[-pivotX, -pivotY, -pivotZ]}>
             <group rotation={[0, 0, 0]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(widthMm, 1, 0)}</group></group>
             <group position={[W, 0, 0]} rotation={[0, 0, Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(heightMm, -1, W)}</group></group>
             <group position={[W, H, 0]} rotation={[0, 0, Math.PI]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(widthMm, 1, W - H)}</group></group>
@@ -196,7 +252,7 @@ function WindowAssembly({ widthMm, heightMm, colorExt, colorInt, colorExtTexture
             {renderGlassPane(widthMm, heightMm, glsExt)}
             {renderGlassPane(widthMm, heightMm, glsInt)}
 
-            <Html position={[40 * scale, H / 2, -40 * scale]} center>
+            <Html position={[40 * scale, 300 * scale, -40 * scale]} center>
               <div
                 className={`w-10 h-10 rounded-full border-2 border-white/50 flex items-center justify-center cursor-pointer hover:bg-white/30 transition-colors ${windowState === 'open_side' ? 'bg-amber-500/40' : 'bg-white/10'}`}
                 style={{ animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}
@@ -215,6 +271,16 @@ function WindowAssembly({ widthMm, heightMm, colorExt, colorInt, colorExtTexture
                 <div className="w-3 h-3 bg-white/80 rounded-full" />
               </div>
             </Html>
+
+            {/* Handle Model - Placed just where the open button is */}
+            <group 
+              ref={handleGroupRef} 
+              position={[85 * scale, 300 * scale, -144 * scale]} 
+              rotation={[Math.PI / 2, Math.PI, 0]}
+              scale={[0.025, 0.025, 0.025]}
+            >
+              <primitive object={clonedHandle} />
+            </group>
           </group>
         </group>
       </group>
@@ -258,6 +324,7 @@ export const F100TViewer: React.FC<F100TViewerProps> = ({
   colorSpacer = '#4B4B4D',
 }) => {
   const [mountHeavy, setMountHeavy] = useState(false);
+  console.log('F100TViewer MOUNTED', colorExt, colorExtTexture);
   const [windowState, setWindowState] = useState<WindowState>('closed');
   const isAutoRef = useRef(true);
   const lastActionTime = useRef(Date.now());
@@ -306,7 +373,7 @@ export const F100TViewer: React.FC<F100TViewerProps> = ({
   return (
     <div className="absolute inset-0" style={{ background: '#ffffff' }}>
       <Canvas onDoubleClick={(e) => { e.stopPropagation(); controlsRef.current?.reset(); }} shadows gl={{ antialias: true, preserveDrawingBuffer: true }} camera={{ position: camPos, fov: 30 }}>
-        <color attach="background" args={['#ffffff']} />
+        <color attach="background" args={['#f1f5f9']} />
         <fog attach="fog" args={['#ffffff', maxDim * 10, maxDim * 30]} />
         <ambientLight intensity={0.35} />
         <directionalLight position={[W_M * 2.5, H_M * 3, -H_M * 2]} intensity={2.8} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} shadow-bias={-0.0004} color="#fff6e8" />
@@ -323,16 +390,29 @@ export const F100TViewer: React.FC<F100TViewerProps> = ({
 
       <style>{`@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.1)} }`}</style>
 
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 pointer-events-auto">
-        <button onClick={trigger} className="flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm tracking-wider"
-          style={{ background: windowState !== 'closed' ? 'rgba(50,190,110,0.18)' : 'rgba(234,182,118,0.14)', border: windowState !== 'closed' ? '1px solid rgba(50,190,110,0.5)' : '1px solid rgba(234,182,118,0.45)', color: windowState !== 'closed' ? '#5af0a0' : '#eab676', backdropFilter: 'blur(12px)', cursor: 'pointer', transition: 'all 0.3s ease' }}>
-          {windowState !== 'closed' ? 'x Close' : '> Open Window'}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 pointer-events-auto flex items-center gap-3 p-1.5 rounded-full"
+           style={{ background: 'rgba(8,8,22,0.65)', border: '1px solid rgba(234,182,118,0.3)', backdropFilter: 'blur(12px)' }}>
+        <button 
+          onClick={() => handleUserInteraction(windowState === 'open_side' ? 'closed' : 'open_side')} 
+          className="flex items-center justify-center w-11 h-11 rounded-full transition-all hover:bg-white/10"
+          style={{ color: windowState === 'open_side' ? '#5af0a0' : '#eab676', background: windowState === 'open_side' ? 'rgba(50,190,110,0.15)' : 'transparent' }}
+          title="Open Side"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+        </button>
+        <div className="w-px h-6 bg-white/20"></div>
+        <button 
+          onClick={() => handleUserInteraction(windowState === 'open_tilt' ? 'closed' : 'open_tilt')} 
+          className="flex items-center justify-center w-11 h-11 rounded-full transition-all hover:bg-white/10"
+          style={{ color: windowState === 'open_tilt' ? '#5af0a0' : '#eab676', background: windowState === 'open_tilt' ? 'rgba(50,190,110,0.15)' : 'transparent' }}
+          title="Tilt Window"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
         </button>
       </div>
 
       <div className="absolute top-3 right-3 z-20 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest pointer-events-none" style={{ background: 'rgba(8,8,22,0.78)', border: '1px solid rgba(234,182,118,0.22)', color: '#eab676', backdropFilter: 'blur(10px)' }}>IGLO 5 F100T</div>
       <div className="absolute bottom-3 left-3 z-20 flex flex-col gap-0.5 px-2.5 py-1.5 rounded-lg pointer-events-none" style={{ background: 'rgba(8,8,22,0.65)', border: '1px solid rgba(255,255,255,0.07)', backdropFilter: 'blur(8px)' }}>
-        <div style={{ fontSize: '9px', fontWeight: 700, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>Dimensions</div>
         <div style={{ fontSize: '11px', fontWeight: 800, color: '#eab676' }}>{width} x {height} mm</div>
       </div>
 
@@ -340,3 +420,5 @@ export const F100TViewer: React.FC<F100TViewerProps> = ({
     </div>
   );
 };
+
+useGLTF.preload('/testhandle.glb');

@@ -76,7 +76,8 @@ const COLOR_HEX_MAP: Record<string, string> = {
 
 const getHexColor = (colorId: string) => COLOR_HEX_MAP[colorId] || undefined;
 const getTextureUrl = (colorId: string) => {
-  const swatch = COLOR_LOCALE.colors[colorId]?.swatch;
+  const localeData = (COLOR_LOCALE as any)[i18n.language || 'en'] || (COLOR_LOCALE as any)['en'];
+  const swatch = localeData?.colors?.[colorId]?.swatch;
   if (swatch && swatch.includes("url('")) {
     return swatch.replace("url('", "").replace("')", "");
   }

@@ -105,7 +105,7 @@ function StorefrontLayout() {
       {!isDebugConfigurator && (
         isDebugPricing ? (
           <div className="hidden md:block">
-            <Footer />
+            <Footer minimal />
           </div>
         ) : (
           <Footer />

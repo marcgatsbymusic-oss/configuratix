@@ -54,61 +54,65 @@ const SOCIAL = [
   { icon: Linkedin, href: '#', label: 'LinkedIn' },
 ]
 
-export function Footer() {
+export function Footer({ minimal = false }: { minimal?: boolean }) {
   const { t } = useTranslation()
 
   return (
     <footer className="bg-mammut-darker border-t border-mammut-border">
       {/* Newsletter bar */}
-      <div className="bg-mammut-dark border-b border-mammut-border">
-        <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>
-            <h4 className="text-mammut-white text-lg font-bold mb-6 font-montserrat uppercase tracking-wider">{t('footer.products')}</h4>
-            <ul className="space-y-4">
-              <li><Link to="/products" className="text-gray-400 hover:text-mammut-white transition-colors">{t('footer.categories.windows')}</Link></li>
-              <li><Link to="/products" className="text-gray-400 hover:text-mammut-white transition-colors">{t('footer.categories.doors')}</Link></li>
-              <li><Link to="/products" className="text-gray-400 hover:text-mammut-white transition-colors">{t('footer.categories.facades')}</Link></li>
-              <li><Link to="/shop" className="text-yellow-400 hover:text-yellow-500 transition-colors font-bold tracking-widest uppercase">SHOP NOW</Link></li>
-            </ul>
+      {!minimal && (
+        <div className="bg-mammut-dark border-b border-mammut-border">
+          <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div>
+              <h4 className="text-mammut-white text-lg font-bold mb-6 font-montserrat uppercase tracking-wider">{t('footer.products')}</h4>
+              <ul className="space-y-4">
+                <li><Link to="/products" className="text-gray-400 hover:text-mammut-white transition-colors">{t('footer.categories.windows')}</Link></li>
+                <li><Link to="/products" className="text-gray-400 hover:text-mammut-white transition-colors">{t('footer.categories.doors')}</Link></li>
+                <li><Link to="/products" className="text-gray-400 hover:text-mammut-white transition-colors">{t('footer.categories.facades')}</Link></li>
+                <li><Link to="/shop" className="text-yellow-400 hover:text-yellow-500 transition-colors font-bold tracking-widest uppercase">SHOP NOW</Link></li>
+              </ul>
+            </div>
+            <form className="flex w-full md:w-auto gap-0">
+              <input
+                type="email"
+                placeholder={t('footer.newsletter.placeholder')}
+                className="bg-mammut-black border border-mammut-border text-mammut-white text-sm px-4 py-2.5 w-full md:w-72 focus:outline-none focus:border-mammut-gold transition-colors duration-200 placeholder:text-mammut-white/30"
+              />
+              <button
+                type="submit"
+                className="bg-mammut-gold text-black px-5 py-2.5 hover:bg-[#F3C47F] transition-colors duration-200 flex items-center gap-2 text-sm font-semibold"
+              >
+                {t('footer.newsletter.subscribe')} <ArrowRight size={14} />
+              </button>
+            </form>
           </div>
-          <form className="flex w-full md:w-auto gap-0">
-            <input
-              type="email"
-              placeholder={t('footer.newsletter.placeholder')}
-              className="bg-mammut-black border border-mammut-border text-mammut-white text-sm px-4 py-2.5 w-full md:w-72 focus:outline-none focus:border-mammut-gold transition-colors duration-200 placeholder:text-mammut-white/30"
-            />
-            <button
-              type="submit"
-              className="bg-mammut-gold text-black px-5 py-2.5 hover:bg-[#F3C47F] transition-colors duration-200 flex items-center gap-2 text-sm font-semibold"
-            >
-              {t('footer.newsletter.subscribe')} <ArrowRight size={14} />
-            </button>
-          </form>
         </div>
-      </div>
+      )}
 
       {/* Main footer columns */}
-      <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-2 md:grid-cols-4 gap-10">
-        {FOOTER_COLS.map((col) => (
-          <div key={col.colKey}>
-            <h4 className="text-mammut-gold text-[10px] font-bold uppercase tracking-widest mb-5 pb-2 border-b border-mammut-gold/30">
-              {t(`footer.cols.${col.colKey}.title`)}
-            </h4>
-            <ul className="space-y-3">
-              {col.links.map((link) => (
-                <li key={link.keyKey || link.href}>
-                  <Link
-                    to={link.href}
-                    className={`text-sm transition-colors duration-200 ${link.isDirect ? 'text-yellow-400 font-bold hover:text-mammut-white uppercase drop-shadow-[0_0_8px_rgba(252,211,77,0.3)]' : 'text-mammut-white/50 hover:text-mammut-white'}`}
-                  >
-                    {link.isDirect ? link.label : (link.keyKey ? t(`footer.cols.${col.colKey}.${link.keyKey}`) : '')}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
+      {!minimal && (
+        <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-2 md:grid-cols-4 gap-10">
+          {FOOTER_COLS.map((col) => (
+            <div key={col.colKey}>
+              <h4 className="text-mammut-gold text-[10px] font-bold uppercase tracking-widest mb-5 pb-2 border-b border-mammut-gold/30">
+                {t(`footer.cols.${col.colKey}.title`)}
+              </h4>
+              <ul className="space-y-3">
+                {col.links.map((link) => (
+                  <li key={link.keyKey || link.href}>
+                    <Link
+                      to={link.href}
+                      className={`text-sm transition-colors duration-200 ${link.isDirect ? 'text-yellow-400 font-bold hover:text-mammut-white uppercase drop-shadow-[0_0_8px_rgba(252,211,77,0.3)]' : 'text-mammut-white/50 hover:text-mammut-white'}`}
+                    >
+                      {link.isDirect ? link.label : (link.keyKey ? t(`footer.cols.${col.colKey}.${link.keyKey}`) : '')}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Bottom bar */}
       <div className="border-t border-mammut-border">

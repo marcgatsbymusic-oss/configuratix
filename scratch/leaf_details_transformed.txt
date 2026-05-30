@@ -1,0 +1,292 @@
+Leaf polylines and lines recursively with CORRECT affine transformations:
+Collected 58 leaf polylines/lines.
+
+Item #0: type=POLYLINE, layer="wzmocnienie", colorIndex=1
+  Path: INSERT (złożenie 01) -> INSERT (rama 01) -> INSERT (250023) -> POLYLINE (wzmocnienie)
+  BBox: min=(21.25, 9.50), max=(56.25, 36.50), size=(35.00 x 27.00)
+  Vertices: 20
+
+Item #1: type=LWPOLYLINE, layer="0", colorIndex=6
+  Path: INSERT (złożenie 01) -> INSERT (rama 01) -> INSERT (U-001) -> LWPOLYLINE (0)
+  BBox: min=(11.58, 59.63), max=(14.36, 61.37), size=(2.78 x 1.74)
+  Vertices: 8
+
+Item #2: type=LWPOLYLINE, layer="0", colorIndex=6
+  Path: INSERT (złożenie 01) -> INSERT (rama 01) -> INSERT (U-001) -> LWPOLYLINE (0)
+  BBox: min=(10.87, 56.42), max=(18.96, 66.57), size=(8.09 x 10.16)
+  Vertices: 31
+
+Item #3: type=LWPOLYLINE, layer="0", colorIndex=6
+  Path: INSERT (złożenie 01) -> INSERT (rama 01) -> INSERT (U-001) -> LWPOLYLINE (0)
+  BBox: min=(16.50, 62.25), max=(18.31, 65.69), size=(1.81 x 3.43)
+  Vertices: 10
+
+Item #4: type=LWPOLYLINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (rama 01) -> INSERT (50001 - rama 66mm) -> LWPOLYLINE (0)
+  BBox: min=(0.00, 0.00), max=(70.00, 66.00), size=(70.00 x 66.00)
+  Vertices: 129
+
+Item #5: type=LWPOLYLINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (rama 01) -> INSERT (50001 - rama 66mm) -> LWPOLYLINE (0)
+  BBox: min=(2.80, 24.25), max=(14.58, 41.17), size=(11.78 x 16.91)
+  Vertices: 10
+
+Item #6: type=LWPOLYLINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (rama 01) -> INSERT (50001 - rama 66mm) -> LWPOLYLINE (0)
+  BBox: min=(2.80, 42.17), max=(12.50, 59.57), size=(9.70 x 17.41)
+  Vertices: 14
+
+Item #7: type=LWPOLYLINE, layer="0", colorIndex=6
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (U-001) -> LWPOLYLINE (0)
+  BBox: min=(30.58, 109.63), max=(33.36, 111.37), size=(2.78 x 1.74)
+  Vertices: 8
+
+Item #8: type=LWPOLYLINE, layer="0", colorIndex=6
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (U-001) -> LWPOLYLINE (0)
+  BBox: min=(29.87, 106.42), max=(37.96, 116.57), size=(8.09 x 10.16)
+  Vertices: 31
+
+Item #9: type=LWPOLYLINE, layer="0", colorIndex=6
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (U-001) -> LWPOLYLINE (0)
+  BBox: min=(35.50, 112.25), max=(37.31, 115.69), size=(1.81 x 3.43)
+  Vertices: 10
+
+Item #10: type=POLYLINE, layer="wzmocnienie", colorIndex=1
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (250023) -> POLYLINE (wzmocnienie)
+  BBox: min=(39.76, 61.50), max=(74.76, 88.50), size=(35.00 x 27.00)
+  Vertices: 20
+
+Item #11: type=LWPOLYLINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (50924 - listwa 22mm) -> LWPOLYLINE (0)
+  BBox: min=(65.90, 90.25), max=(88.00, 116.00), size=(22.10 x 25.75)
+  Vertices: 41
+
+Item #12: type=LWPOLYLINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (50924 - listwa 22mm) -> LWPOLYLINE (0)
+  BBox: min=(68.04, 97.97), max=(85.69, 111.69), size=(17.65 x 13.72)
+  Vertices: 18
+
+Item #13: type=LWPOLYLINE, layer="Warstwa6", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (50924 - listwa 22mm) -> INSERT (U- listwy przyszybowej) -> LWPOLYLINE (Warstwa6)
+  BBox: min=(62.00, 106.04), max=(68.90, 120.13), size=(6.90 x 14.09)
+  Vertices: 33
+
+Item #14: type=LINE, layer="0", colorIndex=4
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (szyba 24mm) -> LINE (0)
+  BBox: min=(42.00, 100.00), max=(42.00, 139.00), size=(0.00 x 39.00)
+  Vertices: 2
+
+Item #15: type=LINE, layer="0", colorIndex=4
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (szyba 24mm) -> LINE (0)
+  BBox: min=(58.00, 100.00), max=(58.00, 139.00), size=(0.00 x 39.00)
+  Vertices: 2
+
+Item #16: type=LINE, layer="0", colorIndex=4
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (szyba 24mm) -> LINE (0)
+  BBox: min=(62.00, 100.00), max=(62.00, 139.00), size=(0.00 x 39.00)
+  Vertices: 2
+
+Item #17: type=LWPOLYLINE, layer="0", colorIndex=3
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (szyba 24mm) -> LWPOLYLINE (0)
+  BBox: min=(42.00, 100.00), max=(58.00, 114.00), size=(16.00 x 14.00)
+  Vertices: 4
+
+Item #18: type=LINE, layer="0", colorIndex=4
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (szyba 24mm) -> LINE (0)
+  BBox: min=(38.00, 100.00), max=(62.00, 100.00), size=(24.00 x 0.00)
+  Vertices: 2
+
+Item #19: type=LINE, layer="0", colorIndex=3
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (szyba 24mm) -> LINE (0)
+  BBox: min=(42.00, 100.00), max=(58.00, 114.00), size=(16.00 x 14.00)
+  Vertices: 2
+
+Item #20: type=LINE, layer="0", colorIndex=3
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (szyba 24mm) -> LINE (0)
+  BBox: min=(42.00, 100.00), max=(58.00, 114.00), size=(16.00 x 14.00)
+  Vertices: 2
+
+Item #21: type=LINE, layer="0", colorIndex=4
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (szyba 24mm) -> LINE (0)
+  BBox: min=(38.00, 139.00), max=(62.00, 139.00), size=(24.00 x 0.00)
+  Vertices: 2
+
+Item #22: type=LINE, layer="0", colorIndex=4
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (szyba 24mm) -> LINE (0)
+  BBox: min=(38.00, 100.00), max=(38.00, 139.00), size=(0.00 x 39.00)
+  Vertices: 2
+
+Item #23: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(55.29, 96.00), max=(94.79, 96.00), size=(39.50 x 0.00)
+  Vertices: 2
+
+Item #24: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(55.29, 91.00), max=(57.39, 91.00), size=(2.10 x 0.00)
+  Vertices: 2
+
+Item #25: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(79.49, 91.00), max=(81.59, 91.00), size=(2.10 x 0.00)
+  Vertices: 2
+
+Item #26: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(88.59, 90.31), max=(88.59, 93.80), size=(0.00 x 3.49)
+  Vertices: 2
+
+Item #27: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(94.79, 94.80), max=(97.29, 94.80), size=(2.50 x 0.00)
+  Vertices: 2
+
+Item #28: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(81.59, 93.80), max=(88.59, 93.80), size=(7.00 x 0.00)
+  Vertices: 2
+
+Item #29: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(90.69, 93.80), max=(92.69, 93.80), size=(2.00 x 0.00)
+  Vertices: 2
+
+Item #30: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(90.69, 93.80), max=(90.69, 96.00), size=(0.00 x 2.20)
+  Vertices: 2
+
+Item #31: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(92.69, 93.80), max=(92.69, 96.00), size=(0.00 x 2.20)
+  Vertices: 2
+
+Item #32: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(81.59, 91.00), max=(81.59, 93.80), size=(0.00 x 2.80)
+  Vertices: 2
+
+Item #33: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(68.49, 91.00), max=(70.59, 91.00), size=(2.10 x 0.00)
+  Vertices: 2
+
+Item #34: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(70.59, 93.80), max=(79.49, 93.80), size=(8.90 x 0.00)
+  Vertices: 2
+
+Item #35: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(79.49, 91.00), max=(79.49, 93.80), size=(0.00 x 2.80)
+  Vertices: 2
+
+Item #36: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(70.59, 91.00), max=(70.59, 93.80), size=(0.00 x 2.80)
+  Vertices: 2
+
+Item #37: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(61.49, 93.80), max=(68.49, 93.80), size=(7.00 x 0.00)
+  Vertices: 2
+
+Item #38: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(68.49, 91.00), max=(68.49, 93.80), size=(0.00 x 2.80)
+  Vertices: 2
+
+Item #39: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(61.49, 91.00), max=(61.49, 93.80), size=(0.00 x 2.80)
+  Vertices: 2
+
+Item #40: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(59.39, 91.00), max=(61.49, 91.00), size=(2.10 x 0.00)
+  Vertices: 2
+
+Item #41: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(59.39, 91.00), max=(59.39, 93.80), size=(0.00 x 2.80)
+  Vertices: 2
+
+Item #42: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(59.39, 93.80), max=(59.39, 96.00), size=(0.00 x 2.20)
+  Vertices: 2
+
+Item #43: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(57.39, 93.80), max=(57.39, 96.00), size=(0.00 x 2.20)
+  Vertices: 2
+
+Item #44: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(57.39, 93.80), max=(59.39, 93.80), size=(2.00 x 0.00)
+  Vertices: 2
+
+Item #45: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(57.39, 91.00), max=(57.39, 93.80), size=(0.00 x 2.80)
+  Vertices: 2
+
+Item #46: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(54.04, 94.03), max=(55.29, 95.29), size=(1.25 x 1.26)
+  Vertices: 2
+
+Item #47: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(53.93, 91.00), max=(55.29, 93.09), size=(1.35 x 2.09)
+  Vertices: 2
+
+Item #48: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(55.29, 91.00), max=(55.29, 96.00), size=(0.00 x 5.00)
+  Vertices: 2
+
+Item #49: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(94.79, 89.36), max=(94.79, 96.00), size=(0.00 x 6.64)
+  Vertices: 2
+
+Item #50: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(94.79, 89.36), max=(98.02, 93.11), size=(3.23 x 3.76)
+  Vertices: 2
+
+Item #51: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(90.69, 89.93), max=(90.69, 93.80), size=(0.00 x 3.87)
+  Vertices: 2
+
+Item #52: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(92.69, 89.73), max=(92.69, 93.80), size=(0.00 x 4.07)
+  Vertices: 2
+
+Item #53: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(92.69, 89.36), max=(94.79, 89.73), size=(2.10 x 0.38)
+  Vertices: 2
+
+Item #54: type=LINE, layer="0", colorIndex=undefined
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> INSERT (640301SEITE) -> LINE (0)
+  BBox: min=(88.59, 89.93), max=(90.69, 90.31), size=(2.10 x 0.38)
+  Vertices: 2
+
+Item #55: type=LWPOLYLINE, layer="AM_0", colorIndex=3
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> LWPOLYLINE (AM_0)
+  BBox: min=(35.38, 96.00), max=(65.38, 100.00), size=(30.00 x 4.00)
+  Vertices: 4
+
+Item #56: type=LINE, layer="AM_0", colorIndex=3
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> LINE (AM_0)
+  BBox: min=(35.38, 96.00), max=(65.38, 100.00), size=(30.00 x 4.00)
+  Vertices: 2
+
+Item #57: type=LINE, layer="AM_0", colorIndex=3
+  Path: INSERT (złożenie 01) -> INSERT (skrzydło 01) -> INSERT (mostek podszybowy) -> LINE (AM_0)
+  BBox: min=(35.38, 96.00), max=(65.38, 100.00), size=(30.00 x 4.00)
+  Vertices: 2
