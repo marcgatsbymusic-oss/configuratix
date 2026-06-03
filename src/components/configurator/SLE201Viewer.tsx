@@ -30,14 +30,10 @@ const layerConfigs: {
   { name: 'Profile cover exterior',     matType: 'ext',    colorType: 'ext'    },
   { name: 'BZD',                        matType: 'int',    colorType: 'int',   uvMode: 'rail' },
   { name: 'Aluminium Rail',             matType: 'spacer', colorType: 'rail'   },
-  { name: 'Hidden Piece',               matType: 'spacer', colorType: 'hidden' },
-  { name: 'Profil stal',                matType: 'spacer', colorType: 'steel'  },
   { name: 'Spacer',                     matType: 'spacer', colorType: 'spacer' },
   { name: 'GSK_BZD',                   matType: 'gsk',    colorType: 'gsk'    },
   { name: 'GSK_SEAL_DOOR',             matType: 'gsk',    colorType: 'gsk'    },
   { name: 'GSK_EXT_DOOR_GLS',          matType: 'gsk',    colorType: 'gsk'    },
-  { name: 'GSK_HIDDEN_PIECE_EXT',      matType: 'gsk',    colorType: 'gsk'    },
-  { name: 'GSK_LARGE_UNDERNEATH_DOOR', matType: 'gsk',    colorType: 'gsk'    },
 ];
 
 // Child1 = active sliding sash layers
@@ -198,16 +194,20 @@ function SlidingScene({
   }), []);
 
   // ── Shared FrameSegment builder ───────────────────────────────────────────
-  const makeSegment = (cfg: typeof layerConfigs[0], contour: Contour, i: number, keyPfx: string, extra?: object) => (
-    <FrameSegment
-      key={`${keyPfx}_${cfg.name}_${i}`}
-      layerName={cfg.name}      scaleFactor={scale}
-      length={width}            vertices={contour.points}
-      matType={cfg.matType}     color={getColor(cfg.colorType)}
-      textureUrl={getTex(cfg.colorType)} origin={origin}
-      {...extra}
-    />
-  );
+  const makeSegment = (cfg: typeof layerConfigs[0], contour: Contour, i: number, keyPfx: string, extra?: any) => {
+    const isSkipCutLayer = cfg.matType === 'gsk' || cfg.matType === 'spacer';
+    return (
+      <FrameSegment
+        key={`${keyPfx}_${cfg.name}_${i}`}
+        layerName={cfg.name}      scaleFactor={scale}
+        length={width}            vertices={contour.points}
+        matType={cfg.matType}     color={getColor(cfg.colorType)}
+        textureUrl={getTex(cfg.colorType)} origin={origin}
+        skipCuts={isSkipCutLayer}
+        {...extra}
+      />
+    );
+  };
 
   // ── CHILD2 (fixed outer frame) renderers ──────────────────────────────────
   /** Child2 bottom horizontal rail — fixed */
@@ -236,6 +236,7 @@ function SlidingScene({
     if (!isChild2(cfg.name)) return [];
     const layer = pd.layers[cfg.name]; if (!layer) return [];
     const contours = layer.contours.filter(c => getCentY(c.points) < 150);
+    const isSkipCutLayer = cfg.matType === 'gsk' || cfg.matType === 'spacer';
     return contours.length === 0 ? [] : [(
       <group key={`fv_${cfg.name}`} position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}>
         {contours.map((c, i) => (
@@ -246,6 +247,7 @@ function SlidingScene({
             matType={cfg.matType}  color={getColor(cfg.colorType)}
             textureUrl={getTex(cfg.colorType)} origin={origin}
             rotation={[0, Math.PI / 2, 0]}
+            skipCuts={isSkipCutLayer}
             skipLeftCut={false} skipRightCut={false}
             invertCuts={false}  uSign={-1} uOffset={0}
           />
@@ -281,6 +283,7 @@ function SlidingScene({
     if (!isChild1(cfg.name)) return [];
     const layer = pd.layers[cfg.name]; if (!layer) return [];
     const contours = layer.contours.filter(c => getCentY(c.points) < 150);
+    const isSkipCutLayer = cfg.matType === 'gsk' || cfg.matType === 'spacer';
     return contours.length === 0 ? [] : [(
       <group key={`sv_${cfg.name}`} position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}>
         {contours.map((c, i) => (
@@ -291,6 +294,7 @@ function SlidingScene({
             matType={cfg.matType}  color={getColor(cfg.colorType)}
             textureUrl={getTex(cfg.colorType)} origin={origin}
             rotation={[0, Math.PI / 2, 0]}
+            skipCuts={isSkipCutLayer}
             skipLeftCut={false} skipRightCut={false}
             invertCuts={false}  uSign={-1} uOffset={0}
           />
