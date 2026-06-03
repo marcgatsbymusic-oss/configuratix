@@ -90,6 +90,7 @@ function SlidingScene({
   const SASH_INTERIOR_Z = -180 * scale;  // interior face (facing camera / room)
 
   const [groupObj, setGroupObj] = useState<THREE.Group | null>(null);
+  const reportedKey = useRef<string>('');
 
   useEffect(() => {
     if (groupObj && onSceneReady) {
@@ -126,6 +127,14 @@ function SlidingScene({
   const ease = (x: number) => x < 0.5 ? 2*x*x : 1 - Math.pow(-2*x+2, 2)/2;
 
   useFrame((state) => {
+    if (groupObj && onSceneReady) {
+      const currentKey = `${groupObj.children.length}_${width}_${height}_${colorExt}_${colorInt}_${colorExtTexture}_${colorIntTexture}_${colorGsk}_${colorSpacer}`;
+      if (reportedKey.current !== currentKey) {
+        reportedKey.current = currentKey;
+        onSceneReady(groupObj);
+      }
+    }
+
     const a = anim.current;
     if (a.phase === 0) return;
 
