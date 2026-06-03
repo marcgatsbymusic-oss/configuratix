@@ -57,10 +57,15 @@ export interface SLE201ViewerProps {
   colorIntTexture?: string;
   colorGsk?: string;
   colorSpacer?: string;
+  onSceneReady?: (group: THREE.Group) => void;
 }
 
 // ─── Animation state ──────────────────────────────────────────────────────────
 type SlidingState = 'closed' | 'opening' | 'open' | 'closing';
+
+interface SlidingSceneProps extends Required<Omit<SLE201ViewerProps, 'onSceneReady'>> {
+  onSceneReady?: (group: THREE.Group) => void;
+}
 
 // ─── Inner scene (must live inside <Canvas> for useFrame / useGLTF) ──────────
 function SlidingScene({
@@ -68,7 +73,8 @@ function SlidingScene({
   colorExt, colorInt,
   colorExtTexture, colorIntTexture,
   colorGsk, colorSpacer,
-}: Required<SLE201ViewerProps>) {
+  onSceneReady,
+}: SlidingSceneProps) {
   const scale = MM;
   const W = width  * scale;
   const H = height * scale;
@@ -82,6 +88,14 @@ function SlidingScene({
   //   INTERIOR face (visible from inside room) = MAXIMUM x_prof = 180mm → World_Z = -180mm
   //   EXTERIOR face = minimum x_prof = 98mm → World_Z = -98mm
   const SASH_INTERIOR_Z = -180 * scale;  // interior face (facing camera / room)
+
+  const [groupObj, setGroupObj] = useState<THREE.Group | null>(null);
+
+  useEffect(() => {
+    if (groupObj && onSceneReady) {
+      onSceneReady(groupObj);
+    }
+  }, [groupObj, onSceneReady, width, height, colorExt, colorInt, colorExtTexture, colorIntTexture, colorGsk, colorSpacer]);
 
   // ── Animation state ─────────────────────────────────────────────────────────
   const [slidingState, setSlidingState] = useState<SlidingState>('closed');
@@ -307,7 +321,7 @@ function SlidingScene({
   const hZ = SASH_INTERIOR_Z;
 
   return (
-    <group>
+    <group ref={setGroupObj}>
       {/* ── FIXED outer frame (Child2 only) ─────────────────────────── */}
       <group>
         <group rotation={[0, Math.PI / 2, 0]}>{renderFrameBottom()}</group>
@@ -378,6 +392,7 @@ export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
   colorExt = '#e8e0d4', colorInt = '#f0ece6',
   colorExtTexture, colorIntTexture,
   colorGsk = '#1c1c1c', colorSpacer = '#4B4B4D',
+  onSceneReady,
 }) => {
   const scale = MM;
   const W = width * scale, H = height * scale;
@@ -411,6 +426,7 @@ export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
             colorExt={colorExt}   colorInt={colorInt}
             colorExtTexture={colorExtTexture ?? ''} colorIntTexture={colorIntTexture ?? ''}
             colorGsk={colorGsk}   colorSpacer={colorSpacer}
+            onSceneReady={onSceneReady}
           />
         </React.Suspense>
 

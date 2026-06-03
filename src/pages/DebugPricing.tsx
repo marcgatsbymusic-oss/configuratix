@@ -4101,6 +4101,7 @@ export function DebugPricing() {
                       colorIntTexture={intDetails.textureUrl}
                       colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
                       colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
+                      onSceneReady={handleSceneReady}
                     />
                   </div>
                ) : (
