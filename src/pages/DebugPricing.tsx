@@ -5443,10 +5443,12 @@ export function DebugPricing() {
                     {sysNameForFooter}
                   </h1>
                   <div className="flex flex-row items-center gap-2 mt-1 relative select-none">
-                    <div ref={categoryMenuRef} className="relative z-45">
+                    <div ref={categoryMenuRef} className="relative z-50">
                       {/* Active category pill button with Icon first and Name to the right */}
-                      <div 
+                      <button 
+                        type="button"
                         onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}
+                        style={{ outline: 'none' }}
                         className={`flex items-center gap-2 cursor-pointer px-3 py-1.5 rounded-[4px] border transition-all duration-250 ${
                           isLight 
                             ? 'bg-transparent hover:bg-transparent border-slate-200 hover:border-slate-300 text-slate-800' 
@@ -5463,18 +5465,29 @@ export function DebugPricing() {
                           {DRUTEX_CATEGORIES.find(c => c.id === activeCategory)?.label || activeCategory}
                         </span>
                         <ChevronDown size={14} className={isLight ? 'text-slate-400 shrink-0' : 'text-gray-500 shrink-0'} />
-                      </div>
+                      </button>
 
                       {/* Dropdown menu expanded on click */}
-                      <div className={`absolute left-0 mt-1 w-64 border rounded-xl shadow-2xl transition-all duration-300 z-50 transform ${
-                        isCategoryDropdownOpen
-                          ? 'opacity-100 visible translate-y-0'
-                          : 'opacity-0 invisible translate-y-1'
-                      } ${
-                        isLight 
-                          ? 'bg-white/95 backdrop-blur-md border-slate-200 text-slate-900 shadow-slate-200/50' 
-                          : 'bg-mammut-dark/95 backdrop-blur-md border-gray-800 text-mammut-white shadow-black/80'
-                      }`}>
+                      <div 
+                        style={{
+                          transform: isCategoryDropdownOpen
+                            ? 'translate3d(0, 0px, 20px)'
+                            : 'translate3d(0, 4px, 0px)',
+                          WebkitTransform: isCategoryDropdownOpen
+                            ? 'translate3d(0, 0px, 20px)'
+                            : 'translate3d(0, 4px, 0px)',
+                          zIndex: 99999
+                        }}
+                        className={`absolute left-0 mt-1 w-64 border rounded-xl shadow-2xl transition-all duration-300 transform ${
+                          isCategoryDropdownOpen
+                            ? 'opacity-100 visible'
+                            : 'opacity-0 invisible'
+                        } ${
+                          isLight 
+                            ? 'bg-white/95 backdrop-blur-md border-slate-200 text-slate-900 shadow-slate-200/50' 
+                            : 'bg-mammut-dark/95 backdrop-blur-md border-gray-800 text-mammut-white shadow-black/80'
+                        }`}
+                      >
                         <div className="p-1.5 flex flex-col gap-0.5">
                           {DRUTEX_CATEGORIES.map(cat => {
                             const CatIcon = cat.icon;
