@@ -2377,6 +2377,9 @@ export function DebugPricing() {
   const [arMenuOpen, setArMenuOpen] = useState(false);
   const arMenuRef = useRef<HTMLDivElement>(null);
 
+  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
+  const categoryMenuRef = useRef<HTMLDivElement>(null);
+
   const [scenery, setScenery] = useState('studio-grey');
   const [isSceneryMenuOpen, setIsSceneryMenuOpen] = useState(false);
   const sceneryMenuRef = useRef<HTMLDivElement>(null);
@@ -2389,6 +2392,9 @@ export function DebugPricing() {
       }
       if (sceneryMenuRef.current && !sceneryMenuRef.current.contains(event.target as Node)) {
         setIsSceneryMenuOpen(false);
+      }
+      if (categoryMenuRef.current && !categoryMenuRef.current.contains(event.target as Node)) {
+        setIsCategoryDropdownOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
@@ -5414,7 +5420,7 @@ export function DebugPricing() {
                 backgroundColor: isLight ? '#ffffff' : 'var(--theme-mammut-darker)',
                 borderColor: isLight ? '#e2e8f0' : 'var(--theme-mammut-border)'
               }}
-              className="rounded-2xl border shadow-sm flex-1 flex flex-col overflow-hidden"
+              className="rounded-2xl border shadow-sm flex-1 flex flex-col overflow-visible relative"
             >
               {/* Visualizer header */}
               <div 
@@ -5437,13 +5443,16 @@ export function DebugPricing() {
                     {sysNameForFooter}
                   </h1>
                   <div className="flex flex-row items-center gap-2 mt-1 relative select-none">
-                    <div className="relative group z-40">
+                    <div ref={categoryMenuRef} className="relative z-45">
                       {/* Active category pill button with Icon first and Name to the right */}
-                      <div className={`flex items-center gap-2 cursor-pointer px-3 py-1.5 rounded-[4px] border transition-all duration-250 ${
-                        isLight 
-                          ? 'bg-transparent hover:bg-transparent border-slate-200 hover:border-slate-300 text-slate-800' 
-                          : 'bg-transparent hover:bg-transparent border-gray-800 text-mammut-white'
-                      }`}>
+                      <div 
+                        onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}
+                        className={`flex items-center gap-2 cursor-pointer px-3 py-1.5 rounded-[4px] border transition-all duration-250 ${
+                          isLight 
+                            ? 'bg-transparent hover:bg-transparent border-slate-200 hover:border-slate-300 text-slate-800' 
+                            : 'bg-transparent hover:bg-transparent border-gray-800 text-mammut-white'
+                        }`}
+                      >
                         {(() => {
                           const activeCat = DRUTEX_CATEGORIES.find(c => c.id === activeCategory);
                           if (!activeCat) return null;
@@ -5456,8 +5465,12 @@ export function DebugPricing() {
                         <ChevronDown size={14} className={isLight ? 'text-slate-400 shrink-0' : 'text-gray-500 shrink-0'} />
                       </div>
 
-                      {/* Dropdown menu expanded on HOVER */}
-                      <div className={`absolute left-0 mt-1 w-64 border rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-1 group-hover:translate-y-0 ${
+                      {/* Dropdown menu expanded on click */}
+                      <div className={`absolute left-0 mt-1 w-64 border rounded-xl shadow-2xl transition-all duration-300 z-50 transform ${
+                        isCategoryDropdownOpen
+                          ? 'opacity-100 visible translate-y-0'
+                          : 'opacity-0 invisible translate-y-1'
+                      } ${
                         isLight 
                           ? 'bg-white/95 backdrop-blur-md border-slate-200 text-slate-900 shadow-slate-200/50' 
                           : 'bg-mammut-dark/95 backdrop-blur-md border-gray-800 text-mammut-white shadow-black/80'
@@ -5469,7 +5482,10 @@ export function DebugPricing() {
                             return (
                               <button
                                 key={cat.id}
-                                onClick={() => setActiveCategory(cat.id)}
+                                onClick={() => {
+                                  setActiveCategory(cat.id);
+                                  setIsCategoryDropdownOpen(false);
+                                }}
                                 className={`flex items-center gap-3 w-full px-3 py-2 rounded-lg text-left text-xs font-bold uppercase transition-all duration-150 ${
                                   isCatActive
                                     ? (isLight 
