@@ -122,17 +122,7 @@ function WindowAssembly({ widthMm, heightMm, mullionPos, colorExt, colorInt, col
     opacity: 0.6,
   }), []);
 
-  const spacerMaterial = useMemo(() => new THREE.MeshStandardMaterial({
-    color: colorSpacer || '#4B4B4D',
-    roughness: 0.8,
-    metalness: 0.6
-  }), [colorSpacer]);
 
-  const gskMaterial = useMemo(() => new THREE.MeshStandardMaterial({
-    color: colorGsk || '#1c1c1c',
-    roughness: 0.9,
-    metalness: 0.1
-  }), [colorGsk]);
 
   const renderFrameSegment = (len: number, uSign: number, uOff: number, splitMm?: number) => (<>
     {frmExt.map((c, i) => <FrameSegment key={`frmExt_${i}`} layerName="FRM_EXT" scaleFactor={scale} length={len} vertices={c} matType="ext" color={colorExt} textureUrl={colorExtTexture} origin={commonOriginOuter} uSign={uSign} uOffset={uOff} />)}
@@ -364,7 +354,7 @@ export const F101CViewer: React.FC<F101CViewerProps> = ({
   const orbitTarget: [number, number, number] = [targetX, targetY, targetZ];
 
   const handleUserInteraction = useCallback((state: WindowState) => { isAutoRef.current = false; setWindowState(state); }, []);
-  const trigger = useCallback(() => { handleUserInteraction(windowState === 'closed' ? 'open_side' : 'closed'); }, [windowState, handleUserInteraction]);
+
 
   return (
     <div className="absolute inset-0" style={{ background: '#ffffff' }}>

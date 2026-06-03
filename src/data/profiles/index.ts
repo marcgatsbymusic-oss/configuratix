@@ -63,6 +63,14 @@ export const ProfileRegistry: Record<string, ProfileMetadata> = {
     name: 'Iglo 5 - F101C',
     description: 'F101C window profile for Iglo 5 system.',
     fileName: 'IGLO5/IG5_F101C.json'
+  },
+  SLE201: {
+    id: 'SLE201',
+    system: 'IGLO_EDGE',
+    type: 'SLE201',
+    name: 'Iglo Edge Slide - SLE201',
+    description: 'Sliding door top and bottom movable door profile.',
+    fileName: 'IgloEdge/SLE201.json'
   }
 };
 
@@ -81,7 +89,9 @@ export const loadProfileGeometry = async (profileId: keyof typeof ProfileRegistr
 
   try {
     // Dynamic import to allow bundlers (Vite/Webpack) to code-split these files
-    const module = await import(`./${metadata.fileName}`);
+    // Vite requires the file extension to be explicitly in the string template
+    const filePath = metadata.fileName.replace('.json', '');
+    const module = await import(`./${filePath}.json`);
     return module.default || module;
   } catch (error) {
     console.error(`Failed to load geometry for ${String(profileId)}:`, error);

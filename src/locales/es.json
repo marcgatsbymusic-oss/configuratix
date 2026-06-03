@@ -132,6 +132,8 @@
     "new": "NUEVA"
   },
   "productDetail": {
+    "availableModels": "Modelos disponibles",
+    "chooseModel": "Elija el modelo que cumpla con sus expectativas.",
     "notFound": "Producto no encontrado",
     "return": "Volver a productos",
     "configure": "Configurar {{nombre}}",
@@ -1470,6 +1472,29 @@
         "value_2": "6",
         "label_3": "juntas",
         "value_3": "3"
+      },
+      "standardEquipment": [
+        "acristalamiento de doble cámara Ug = 0,5 W/(m²K)",
+        "intercalario cálido Swisspacer Ultimate",
+        "soldadura V-Perfect",
+        "junta perimetral y de acristalamiento en negro o gris",
+        "junta central en negro",
+        "amplia selección de colores de revestimiento de PVC",
+        "manilla de aluminio en el interior",
+        "tirador de aluminio en el exterior"
+      ],
+      "models": {
+        "sle201": {
+          "subtitle": "Puerta corredera de Esquema A",
+          "dimensions": "Dimensiones máximas (ancho x alto): 3400 x 2600 mm",
+          "features": [
+            "Sistema de terraza elevable y corredera de 2 hojas",
+            "1 hoja corredera activa, 1 hoja de acristalamiento fija",
+            "Excelente parámetro de aislamiento térmico de Uw = 0,65 W/(m²K)",
+            "Funcionamiento de deslizamiento de la hoja fácil, silencioso y fluido",
+            "Diseño elegante, moderno y angular"
+          ]
+        }
       }
     },
     "igloEdge": {

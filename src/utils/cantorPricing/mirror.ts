@@ -220,6 +220,25 @@ export class CantorMirror {
          WHERE p.ARTNR = 'F100' AND p.PROFILSATZNAME = ?
          ORDER BY p.AUFNR DESC, p.POSNR DESC LIMIT 1`,
       ).get(baseSystem) as { AUFNR: number; POSNR: number } | undefined;
+
+      if (!pos) {
+        pos = this.db.prepare(
+          `SELECT p.AUFNR, p.POSNR FROM AUFPOS p
+           INNER JOIN AUFARTIK a ON p.AUFNR = a.AUFNR AND p.POSNR = a.REFPOSNR
+           WHERE p.ARTNR = 'F104' AND p.PROFILSATZNAME = ?
+           ORDER BY p.AUFNR DESC, p.POSNR DESC LIMIT 1`,
+        ).get(baseSystem) as { AUFNR: number; POSNR: number } | undefined;
+      }
+    }
+
+    // Last resort fallback to IG5 + F100 if we still have no POS
+    if (!pos) {
+      pos = this.db.prepare(
+        `SELECT p.AUFNR, p.POSNR FROM AUFPOS p
+         INNER JOIN AUFARTIK a ON p.AUFNR = a.AUFNR AND p.POSNR = a.REFPOSNR
+         WHERE p.ARTNR = 'F100' AND p.PROFILSATZNAME = 'IG5'
+         ORDER BY p.AUFNR DESC, p.POSNR DESC LIMIT 1`,
+      ).get() as { AUFNR: number; POSNR: number } | undefined;
     }
 
     if (!pos) return new Map();

@@ -46,9 +46,24 @@ interface FrameSegmentProps {
   position?: [number, number, number];
   rotation?: [number, number, number];
   invertCuts?: boolean;
+  /** Per-end invert overrides. When set they take priority over invertCuts for that end. */
+  invertLeftCut?: boolean;
+  invertRightCut?: boolean;
+  /** Y-offset applied to the cut brush before rotation, in scene units.
+   *  Use to shift the mitre plane for profiles whose contours are not at y=0.
+   *  e.g. top horizontal uses leftCutYOffset = CAD_HEIGHT * scaleFactor to
+   *  position the cut plane at World_Y = H instead of World_Y = deltaY. */
+  leftCutYOffset?: number;
+  rightCutYOffset?: number;
   /** Skip the expensive CSG mitre-cut operation entirely.
    *  Use this for inner sash / post segments whose corners are hidden. */
   skipCuts?: boolean;
+  skipLeftCut?: boolean;
+  skipRightCut?: boolean;
+  /** Axis around which the CSG mitre-cut box rotates.
+   *  'x' (default): horizontal segments — cut tilts in the YZ plane.
+   *  'y': vertical segments — cut tilts in the XY plane for a plan-view 45° mitre. */
+  cutAxis?: 'x' | 'y';
   origin?: {x: number, y: number} | null;
   scaleFactor?: number;
   uSign?: number;
@@ -255,7 +270,15 @@ export const FrameSegment = React.memo(FrameSegmentComponent, (prev, next) => {
          prev.color === next.color &&
          prev.textureUrl === next.textureUrl &&
          prev.uSign === next.uSign &&
-         prev.uOffset === next.uOffset;
+         prev.uOffset === next.uOffset &&
+         prev.skipLeftCut === next.skipLeftCut &&
+         prev.skipRightCut === next.skipRightCut &&
+         prev.invertCuts === next.invertCuts &&
+         prev.invertLeftCut === next.invertLeftCut &&
+         prev.invertRightCut === next.invertRightCut &&
+         prev.leftCutYOffset === next.leftCutYOffset &&
+         prev.rightCutYOffset === next.rightCutYOffset &&
+         prev.cutAxis === next.cutAxis;
 });
 
 function FrameSegmentComponent({
@@ -268,14 +291,21 @@ function FrameSegmentComponent({
   position = [0, 0, 0],
   rotation = [0, 0, 0],
   invertCuts = false,
+  invertLeftCut,
+  invertRightCut,
+  leftCutYOffset = 0,
+  rightCutYOffset = 0,
   skipCuts   = false,
+  skipLeftCut = false,
+  skipRightCut = false,
+  cutAxis = 'x',
   origin     = null,
   scaleFactor = 1,
   uSign   = 1,
   uOffset = 0,
   uvMode  = 'triplanar',
   layerName,
-}) {
+}: FrameSegmentProps) {
   const geometry = useMemo(() => {
     if (!vertices || vertices.length === 0) return new THREE.BufferGeometry();
 
@@ -290,7 +320,10 @@ function FrameSegmentComponent({
       if (v.y > maxY) maxY = v.y;
     }
 
-    const cacheKey = `${layerName || matType}_${length}_${invertCuts}_${skipCuts}_${scaleFactor}_${uSign}_${uOffset}_${uvMode}_${vertices.length}_${Math.round(minX)}_${Math.round(minY)}`;
+    // Per-end sign: invertLeftCut/invertRightCut override the global invertCuts per end
+    const leftSign  = (invertLeftCut  !== undefined ? invertLeftCut  : invertCuts) ? -1 : 1;
+    const rightSign = (invertRightCut !== undefined ? invertRightCut : invertCuts) ? -1 : 1;
+    const cacheKey = `${layerName || matType}_${length}_${leftSign}_${rightSign}_${cutAxis}_${skipCuts}_${skipLeftCut}_${skipRightCut}_${leftCutYOffset.toFixed(4)}_${rightCutYOffset.toFixed(4)}_${scaleFactor}_${uSign}_${uOffset}_${uvMode}_${vertices.length}_${Math.round(minX)}_${Math.round(minY)}`;
     if (geometryCache.has(cacheKey)) {
       return geometryCache.get(cacheKey)!;
     }
@@ -335,23 +368,36 @@ function FrameSegmentComponent({
 
     const evaluator = new Evaluator();
     const boxGeo    = new THREE.BoxGeometry(boxSize, boxSize, boxSize);
-    const sign      = invertCuts ? -1 : 1;
 
-    // Left cut (z = 0 end)
-    const leftBrush = new Brush(boxGeo);
-    leftBrush.position.set(0, 0, 0);
-    leftBrush.rotation.x = (Math.PI / 4) * sign;
-    leftBrush.translateZ(-boxSize / 2);
-    leftBrush.updateMatrixWorld();
-    let result = evaluator.evaluate(baseBrush, leftBrush, SUBTRACTION);
+    let result = baseBrush;
 
-    // Right cut (z = scaledLength end)
-    const rightBrush = new Brush(boxGeo);
-    rightBrush.position.set(0, 0, scaledLength);
-    rightBrush.rotation.x = (-Math.PI / 4) * sign;
-    rightBrush.translateZ(boxSize / 2);
-    rightBrush.updateMatrixWorld();
-    result = evaluator.evaluate(result, rightBrush, SUBTRACTION);
+    // Left cut (z = 0 end) — uses leftSign and leftCutYOffset
+    if (!skipLeftCut) {
+      const leftBrush = new Brush(boxGeo);
+      leftBrush.position.set(0, leftCutYOffset, 0);
+      if (cutAxis === 'y') {
+        leftBrush.rotation.y = (Math.PI / 4) * leftSign;
+      } else {
+        leftBrush.rotation.x = (Math.PI / 4) * leftSign;
+      }
+      leftBrush.translateZ(-boxSize / 2);
+      leftBrush.updateMatrixWorld();
+      result = evaluator.evaluate(result, leftBrush, SUBTRACTION);
+    }
+
+    // Right cut (z = scaledLength end) — uses rightSign and rightCutYOffset
+    if (!skipRightCut) {
+      const rightBrush = new Brush(boxGeo);
+      rightBrush.position.set(0, rightCutYOffset, scaledLength);
+      if (cutAxis === 'y') {
+        rightBrush.rotation.y = (-Math.PI / 4) * rightSign;
+      } else {
+        rightBrush.rotation.x = (-Math.PI / 4) * rightSign;
+      }
+      rightBrush.translateZ(boxSize / 2);
+      rightBrush.updateMatrixWorld();
+      result = evaluator.evaluate(result, rightBrush, SUBTRACTION);
+    }
 
     const geo = result.geometry;
     applyUVs(geo, uSign, uOffset, uvMode);
@@ -368,7 +414,7 @@ function FrameSegmentComponent({
     
     geometryCache.set(cacheKey, geo);
     return geo;
-  }, [length, vertices, invertCuts, skipCuts, scaleFactor, uSign, uOffset, uvMode, matType, layerName]);
+  }, [length, vertices, invertCuts, invertLeftCut, invertRightCut, leftCutYOffset, rightCutYOffset, cutAxis, skipCuts, skipLeftCut, skipRightCut, scaleFactor, uSign, uOffset, uvMode, matType, layerName]);
 
   // If a legacy THREE.Material object is passed, use the old imperative path.
   if (material && !matType) {

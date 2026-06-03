@@ -98,7 +98,13 @@ function configuratorReducer(state: ConfiguratorState, action: ConfiguratorActio
     }
     case 'SET_PROFILE': {
       let limits = CONFIG_SCHEMA.categories[state.category] as any;
-      if (action.payload === 'iglo5') {
+      if (action.payload === 'igloedgeslide') {
+         limits = {
+           ...limits,
+           minWidth: 1300,
+           minHeight: 1500,
+         };
+      } else if (action.payload === 'iglo5') {
          const limitsOverrides = iglo5Data.product_systems[0].dimensional_constraints;
          limits = {
            ...limits,
@@ -115,7 +121,7 @@ function configuratorReducer(state: ConfiguratorState, action: ConfiguratorActio
       return { 
         ...state, 
         profile: action.payload,
-        dimensions: {
+        dimensions: action.payload === 'igloedgeslide' ? { width: 2000, height: 2100 } : {
           width: Math.min(Math.max(state.dimensions.width, limits.minWidth), limits.maxWidth),
           height: Math.min(Math.max(state.dimensions.height, limits.minHeight), limits.maxHeight),
         },
@@ -305,6 +311,16 @@ export function useConfigurator() {
   }, [state, addonsTotal]);
 
   const activeLimits = useMemo(() => {
+    // If profile is igloedgeslide, enforce minimal dimensions 1300 wide and 1500 height
+    if (state.profile === 'igloedgeslide') {
+        return {
+           minWidth: 1300,
+           maxWidth: 5000,
+           minHeight: 1500,
+           maxHeight: 3000,
+        };
+    }
+
     // If we loaded dimensions actively from Cantor Phase 2 Data, use those strictly!
     if (cantorSystem && cantorSystem.min_width) {
         return {

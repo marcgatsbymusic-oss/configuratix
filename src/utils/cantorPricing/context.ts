@@ -156,6 +156,22 @@ export function buildContext(input: ConfiguratorInput, mirror: CantorMirror): Fo
   }
   for (const [k, v] of articleVars) vars.set(k, v);
 
+  // Dynamic overrides for Iglo Edge Slide (SLE) typologies
+  if (input.article.startsWith('SLE')) {
+    let matrixName = 'F100';
+    if (input.article === 'SLE201' || input.article === 'SLE202') {
+      matrixName = 'SLE201';
+    } else if (input.article === 'SLE303' || input.article === 'SLE304') {
+      matrixName = 'SLE303';
+    } else if (input.article === 'SLE305') {
+      matrixName = 'SLE305';
+    } else if (input.article === 'SLE401' || input.article === 'SLE402') {
+      matrixName = 'SLE401';
+    }
+    vars.set('ART_1805_MatrixName', matrixName);
+    vars.set('ART_1805_ETyp', 'SLE');
+  }
+
   if (input.hardware) {
     // We wipe some ESFELD variables that CantorMirror might mistakenly carry
     // over if it fell back to an unrelated F100 golden order. These correspond

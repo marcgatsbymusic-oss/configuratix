@@ -1,22 +1,30 @@
 import fs from 'fs';
 import DxfParser from 'dxf-parser';
 
-const file = "C:\\Users\\Shadow\\Cloud-Drive\\Web dev Drutex Product Content\\CAD Files Drutex\\DWG to DXF conversion tests\\IGLO 5 Drawing1.dxf";
-const fileText = fs.readFileSync(file, 'utf-8');
-const parser = new DxfParser();
-const dxf = parser.parseSync(fileText);
+const dxfPath = "C:\\Users\\Shadow\\Cloud-Drive\\Web dev Drutex Product Content\\CAD Files Drutex\\DWG to DXF conversion tests\\Iglo Edge Slide\\Profile 1 Edge Slide top and bottom movable door for Three JS.dxf";
+try {
+    const fileText = fs.readFileSync(dxfPath, 'utf-8');
+    const parser = new DxfParser();
+    const dxf = parser.parseSync(fileText);
 
-function printInserts(blockName) {
-  const block = dxf.blocks[blockName];
-  if (!block || !block.entities) return;
-  console.log(`\nInserts in block "${blockName}":`);
-  block.entities.forEach(ent => {
-    if (ent.type === 'INSERT') {
-      console.log(`- INSERT name="${ent.name}", pos=(${ent.position.x}, ${ent.position.y}), scale=(${ent.xScale || 1}, ${ent.yScale || 1}, ${ent.zScale || 1}), rot=${ent.rotation || 0}`);
+    function checkBlock(blockName) {
+        const block = dxf.blocks[blockName];
+        if (!block || !block.entities) return;
+        block.entities.forEach(ent => {
+            if (ent.type === 'INSERT') {
+                console.log(`INSERT: layer=${ent.layer}, block=${ent.name}, pos=(${ent.position?.x}, ${ent.position?.y}), scale=(${ent.scaleFactorX}, ${ent.scaleFactorY}), rot=${ent.rotation}`);
+                checkBlock(ent.name);
+            }
+        });
     }
-  });
-}
 
-printInserts("złożenie 01");
-printInserts("rama 01");
-printInserts("skrzydło 01");
+    console.log("Top-level INSERTs:");
+    dxf.entities.forEach(ent => {
+        if (ent.type === 'INSERT') {
+            console.log(`INSERT: layer=${ent.layer}, block=${ent.name}, pos=(${ent.position?.x}, ${ent.position?.y}), scale=(${ent.scaleFactorX}, ${ent.scaleFactorY}), rot=${ent.rotation}`);
+            checkBlock(ent.name);
+        }
+    });
+} catch (err) {
+    console.error(err);
+}

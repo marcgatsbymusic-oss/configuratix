@@ -10,6 +10,7 @@ import { ThreejsWindowEngine } from '../components/configurator/ThreejsWindowEng
 import { F100TViewer } from '../components/configurator/F100TViewer';
 import { Child1 } from '../components/configurator/Child1';
 import { F101CViewer } from '../components/configurator/F101CViewer';
+import { SLE201Viewer } from '../components/configurator/SLE201Viewer';
 import { PerformanceConsole } from '../components/configurator/PerformanceConsole';
 import { ArViewer } from '../components/configurator/ArViewer';
 import glazingOptions from '../data/cantor_glazing_options.json';
@@ -2309,9 +2310,15 @@ const CarouselSelector = <T extends CarouselOption>({
 
 const TYPOLOGY_GROUPS = [
   {
-    category: "Windows",
+    category: "WINDOWS",
     subgroups: [
       { name: "TYPE 1 Window", ids: ["F100","F100T","F101","F101B","F101C","F102","F103","F104","F105","F106","F200","F201","F203","F204","F205","F206","F207","F208","F250","F251","F252","F253","F254","F255","F300","F301","F302","F303","F304","F350","F351","F352","F353","F309","F400","F401","F402","F403","F450","F451","F542","F453"] },
+    ]
+  },
+  {
+    category: "TERRACE SYSTEMS",
+    subgroups: [
+      { name: "Iglo Edge Slide", ids: ["SLE100","SLE201","SLE202","SLE303","SLE304","SLE305","SLE401","SLE402"] },
     ]
   }
 ];
@@ -2360,6 +2367,10 @@ export function DebugPricing() {
   const [opening] = useState<string>('UR');
   const [profilsatz, setProfilsatz] = useState('1100'); // Maps to IG5
   const [activeCategory, setActiveCategory] = useState<string>('WINDOWS');
+  const dialItems = TYPOLOGY_GROUPS
+    .filter(g => g.category.toUpperCase() === activeCategory.toUpperCase())
+    .flatMap(g => g.subgroups.flatMap(sg => sg.ids));
+  const activeDialItems = dialItems.length > 0 ? dialItems : TYPOLOGY_GROUPS[0].subgroups.flatMap(sg => sg.ids);
   const [displayMode, setDisplayMode] = useState<'2D' | '3D' | 'Needle'>('3D');
   const is3dMode = displayMode === '3D';
   const [arPlacement, setArPlacement] = useState<'wall' | 'floor' | null>(null);
@@ -2924,6 +2935,38 @@ export function DebugPricing() {
     if (scen) setScenery(scen);
   }, []);
 
+  // Synchronize typology and profilsatz options when category or profile system changes
+  useEffect(() => {
+    const terraceOptions = ["1004", "1014", "3804", "3854", "3900", "2104", "2604", "1007", "1005", "3814", "3904", "3909", "2108", "1301", "1311", "1101", "1701", "1711", "1721", "1731", "1751"];
+    const windowOptions = ["1600", "1300", "1310", "1360", "1100", "1110", "1200", "1400", "1500", "1700", "1710", "1720", "1730", "1750", "1756", "3350", "3200", "3150", "3100", "2100", "2200", "2300", "2600", "2700", "2800"];
+    
+    if (activeCategory === 'TERRACE SYSTEMS') {
+      if (!terraceOptions.includes(profilsatz)) {
+        setProfilsatz('1007'); // Default to Iglo Edge Slide
+      }
+      if (profilsatz === '1007') {
+        if (!typology.startsWith('SLE')) {
+          setTypology('SLE201');
+        }
+        // Default display size of 2000x2100, enforce minimums 1300x1500
+        if (width === 1000 && height === 1000) {
+          setWidth(2000);
+          setHeight(2100);
+        } else {
+          if (width < 1300) setWidth(2000);
+          if (height < 1500) setHeight(2100);
+        }
+      }
+    } else if (activeCategory === 'WINDOWS') {
+      if (!windowOptions.includes(profilsatz)) {
+        setProfilsatz('1100'); // Default to Iglo 5
+      }
+      if (typology.startsWith('SLE')) {
+        setTypology('F100');
+      }
+    }
+  }, [activeCategory, profilsatz, typology]);
+
   // Debounce input changes so we don't spam the API on every keypress.
   useEffect(() => {
     const input: ConfiguratorInput = {
@@ -3287,6 +3330,7 @@ export function DebugPricing() {
 
 
   const SYSTEM_CODE_MAP: Record<string, string> = {
+    "1007": "IGEDGE SL",
     "1100": "IG5",
     "1101": "IG5 PP PSK",
     "1103": "IG5",
@@ -3469,7 +3513,7 @@ export function DebugPricing() {
   const renderVisualizer = () => {
     return (
       <div className="w-full mt-2">
-        {(['F100', 'F100T', 'F101', 'F101B', 'F101C', 'F102', 'F103', 'F104', 'F105', 'F106', 'F200'].includes(typology)) ? (
+        {(['F100', 'F100T', 'F101', 'F101B', 'F101C', 'F102', 'F103', 'F104', 'F105', 'F106', 'F200', 'SLE100', 'SLE201', 'SLE202', 'SLE303', 'SLE304', 'SLE305', 'SLE401', 'SLE402'].includes(typology)) ? (
           <div 
             style={{
               backgroundColor: isLight ? '#ffffff' : 'var(--theme-mammut-dark)',
@@ -4040,6 +4084,19 @@ export function DebugPricing() {
                      colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
                    />
                  </div>
+               ) : typology === 'SLE201' ? (
+                  <div className="absolute inset-0">
+                    <SLE201Viewer
+                      width={width}
+                      height={height}
+                      colorExt={extDetails.hex}
+                      colorInt={intDetails.hex}
+                      colorExtTexture={extDetails.textureUrl}
+                      colorIntTexture={intDetails.textureUrl}
+                      colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
+                      colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
+                    />
+                  </div>
                ) : (
                  <div className={displayMode === '3D' ? "absolute inset-0" : "absolute inset-0 -z-50 opacity-0 pointer-events-none"}>
                     <ThreejsWindowEngine 
@@ -4358,7 +4415,7 @@ export function DebugPricing() {
                       <ScrollingDial 
                         value={typology}
                         onChange={(val) => setTypology(val)}
-                        items={TYPOLOGY_GROUPS.flatMap(g => g.subgroups.flatMap(sg => sg.ids))}
+                        items={activeDialItems}
                         onConfirm={() => setIsTypologyOpen(false)}
                         closeOnSelect={closeOnSelect}
                       />
@@ -4413,8 +4470,8 @@ export function DebugPricing() {
 
               {/* Manual Input with Micro-adjustment Arrows for Width and Height */}
               <div className="col-span-1 sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <DimensionAdjuster label="Width (mm)" value={width} onChange={setWidth} min={500} max={3000} isLight={false} />
-                <DimensionAdjuster label="Height (mm)" value={height} onChange={setHeight} min={500} max={3000} isLight={false} />
+                <DimensionAdjuster label="Width (mm)" value={width} onChange={setWidth} min={profilsatz === '1007' ? 1300 : 500} max={3000} isLight={false} />
+                <DimensionAdjuster label="Height (mm)" value={height} onChange={setHeight} min={profilsatz === '1007' ? 1500 : 500} max={3000} isLight={false} />
               </div>
             </div>
           </AccordionSection>
@@ -5196,7 +5253,7 @@ export function DebugPricing() {
                       <ScrollingDial
                         value={typology}
                         onChange={(val) => setTypology(val)}
-                        items={TYPOLOGY_GROUPS.flatMap(g => g.subgroups.flatMap(sg => sg.ids))}
+                        items={activeDialItems}
                         onConfirm={() => setIsTypologyOpen(false)}
                         closeOnSelect={closeOnSelect}
                       />
@@ -5235,8 +5292,8 @@ export function DebugPricing() {
                 </select>
               </div>
               <div className="col-span-1 sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <DimensionAdjuster label="Width (mm)" value={width} onChange={setWidth} min={500} max={3000} isLight={true} />
-                <DimensionAdjuster label="Height (mm)" value={height} onChange={setHeight} min={500} max={3000} isLight={true} />
+                <DimensionAdjuster label="Width (mm)" value={width} onChange={setWidth} min={profilsatz === '1007' ? 1300 : 500} max={3000} isLight={true} />
+                <DimensionAdjuster label="Height (mm)" value={height} onChange={setHeight} min={profilsatz === '1007' ? 1500 : 500} max={3000} isLight={true} />
               </div>
             </div>
           </AccordionSection>
@@ -5621,7 +5678,7 @@ export function DebugPricing() {
                       }))
                     };
                     
-                    const { data, error } = await supabase.from('saved_configurations').insert({
+                    const { data, error } = await (supabase as any).from('saved_configurations').insert({
                       config_state: payload as any
                     }).select('id').single();
                     

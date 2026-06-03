@@ -420,7 +420,23 @@ export const IGLO_EDGE_SLIDE_DETAIL: ProductDetailData = {
   hardware: [],
   accessories: [],
   colors: IGLO_EDGE_SLIDE_COLORS,
-  glassOptions: []
+  glassOptions: [],
+  models: [
+    {
+      name: 'SLE201',
+      isNew: true,
+      subtitle: 'productData.iglo-edge-slide.models.sle201.subtitle',
+      dimensions: 'productData.iglo-edge-slide.models.sle201.dimensions',
+      features: [
+        'productData.iglo-edge-slide.models.sle201.features.0',
+        'productData.iglo-edge-slide.models.sle201.features.1',
+        'productData.iglo-edge-slide.models.sle201.features.2',
+        'productData.iglo-edge-slide.models.sle201.features.3',
+        'productData.iglo-edge-slide.models.sle201.features.4'
+      ],
+      image: '/assets/windowtypes/SLE201.svg'
+    }
+  ]
 };
 
 

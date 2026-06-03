@@ -799,10 +799,18 @@ export function ProductDetailPage() {
           <div className="container mx-auto px-6 max-w-7xl">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-black uppercase mb-4 text-black tracking-widest">
-                Types of Venetian blinds
+                {t(`productData.${detailData.slug}.modelsTitle`, {
+                  defaultValue: detailData.slug === 'external-venetian-blinds'
+                    ? 'Types of Venetian blinds'
+                    : t('productDetail.availableModels', { defaultValue: 'Available Models' })
+                })}
               </h2>
               <p className="text-gray-600 text-sm uppercase tracking-widest">
-                Choose the model that will meet your expectations.
+                {t(`productData.${detailData.slug}.modelsSubtitle`, {
+                  defaultValue: detailData.slug === 'external-venetian-blinds'
+                    ? 'Choose the model that will meet your expectations.'
+                    : t('productDetail.chooseModel', { defaultValue: 'Choose the model that will meet your expectations.' })
+                })}
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -812,10 +820,10 @@ export function ProductDetailPage() {
                     <img src={model.image} alt={model.name} className="w-full h-full object-contain" />
                   </div>
                   <h3 className="text-xl font-black text-black uppercase tracking-widest mb-1 flex items-center gap-2">
-                    {model.name} {model.isNew && <span className="text-[10px] bg-mammut-gold text-black px-2 py-0.5 tracking-wider">NEW</span>}
+                    {t(model.name, { defaultValue: model.name })} {model.isNew && <span className="text-[10px] bg-mammut-gold text-black px-2 py-0.5 tracking-wider">NEW</span>}
                   </h3>
-                  <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-4">{model.subtitle}</p>
-                  <p className="text-gray-600 text-sm mb-6 leading-relaxed">{model.dimensions}</p>
+                  <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-4">{t(model.subtitle, { defaultValue: model.subtitle })}</p>
+                  <p className="text-gray-600 text-sm mb-6 leading-relaxed">{t(model.dimensions, { defaultValue: model.dimensions })}</p>
                   
                   <div className="mt-auto">
                     <h4 className="text-sm font-bold uppercase tracking-widest text-black mb-4 border-b border-gray-200 pb-2">Technical data</h4>
@@ -823,7 +831,7 @@ export function ProductDetailPage() {
                       {model.features.map((feature, fIdx) => (
                         <li key={fIdx} className="flex items-start gap-3">
                           <span className="mt-1.5 w-1.5 h-1.5 bg-mammut-gold flex-shrink-0" />
-                          <span className="text-gray-600 text-sm leading-snug">{feature}</span>
+                          <span className="text-gray-600 text-sm leading-snug">{t(feature, { defaultValue: feature })}</span>
                         </li>
                       ))}
                     </ul>

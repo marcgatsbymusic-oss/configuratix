@@ -132,6 +132,8 @@
     "new": "NEW"
   },
   "productDetail": {
+    "availableModels": "Available Models",
+    "chooseModel": "Choose the model that will meet your expectations.",
     "infillsTitle": "Infill Patterns",
     "infillsSubtitle": "Some patterns are available in their mirror image.",
     "doorStructuresTitle": "Door Structures",
@@ -885,6 +887,34 @@
   "productData": {
     "iglo-edge": {
       "relatedIgloEdge": "SEE IGLO EDGE SLIDE TERRACE SYSTEM"
+    },
+    "iglo-edge-slide": {
+      "name": "IGLO EDGE SLIDE",
+      "tagline": "Technology That Impresses",
+      "description": "Our new, most technologically advanced window is distinguished by an excellent thermal insulation parameter of Uw = 0,65 W/(m2K)* and a modern, angular profile shape.",
+      "standardEquipment": [
+        "double-chamber glazing package Ug = 0,5 W/(m2K)",
+        "Swisspacer Ultimate warm edge",
+        "V-Perfect weld",
+        "perimeter and glazing gasket in black or grey",
+        "central gasket in black",
+        "wide selection of pvc veneer colours",
+        "aluminium handle inside",
+        "aluminium pull handle outside"
+      ],
+      "models": {
+        "sle201": {
+          "subtitle": "Scheme A sliding door",
+          "dimensions": "Maximum dimensions (width x height): 3400 x 2600 mm",
+          "features": [
+            "2-pane lift-and-slide terrace system",
+            "1 active sliding leaf, 1 fixed glazing pane",
+            "Excellent thermal insulation parameter of Uw = 0.65 W/(m²K)",
+            "Easy, quiet, and fluid sash sliding operation",
+            "Elegant, modern and angular design"
+          ]
+        }
+      }
     },
     "external-venetian-blinds": {
       "tagline": "Comfort and joy of use",

@@ -40,3 +40,4 @@ src/data/cantor/_research/
 tmp_*.json
 
 .vercel
+.env*

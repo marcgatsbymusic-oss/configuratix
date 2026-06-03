@@ -80,11 +80,18 @@ export const useConfiguratorStore = create<ConfiguratorStore>((set, get) => ({
     }),
 
   setProfileSystem: (profile) => {
+    const isEdgeSlide = profile?.id === 'iglo-edge-slide' || profile?.slug === 'iglo-edge-slide';
     set({
       profileSystem: profile,
       // Reset downstream selections when profile changes
       windowType: null,
-      dimensionBounds: DEFAULT_BOUNDS,
+      dimensionBounds: isEdgeSlide ? {
+        min_width_mm: 1300,
+        max_width_mm: 5000,
+        min_height_mm: 1500,
+        max_height_mm: 3000,
+      } : DEFAULT_BOUNDS,
+      dimensions: isEdgeSlide ? { width: 2000, height: 2100 } : { width: 1000, height: 1200 },
       options: initialState.options,
       price: null,
       validationErrors: {},
@@ -96,36 +103,53 @@ export const useConfiguratorStore = create<ConfiguratorStore>((set, get) => ({
     // Fetch constraints for this profile × window type pair
     const { profileSystem } = get()
     if (profileSystem && windowType) {
-      supabase
-        .from('constraints')
-        .select('*')
-        .eq('profile_system_id', profileSystem.id)
-        .eq('window_type_id', windowType.id)
-        .single()
-        .then(({ data }) => {
-          if (data) {
-            const row = data as unknown as { min_width_mm: number; max_width_mm: number; min_height_mm: number; max_height_mm: number }
-            set({
-              dimensionBounds: {
-                min_width_mm: row.min_width_mm,
-                max_width_mm: row.max_width_mm,
-                min_height_mm: row.min_height_mm,
-                max_height_mm: row.max_height_mm,
-              },
-              // Clamp current dimensions into new bounds
-              dimensions: {
-                width: Math.min(
-                  Math.max(get().dimensions.width, row.min_width_mm),
-                  row.max_width_mm
-                ),
-                height: Math.min(
-                  Math.max(get().dimensions.height, row.min_height_mm),
-                  row.max_height_mm
-                ),
-              },
-            })
-          }
-        })
+      const isEdgeSlide = profileSystem.id === 'iglo-edge-slide' || profileSystem.slug === 'iglo-edge-slide';
+      if (isEdgeSlide) {
+        const bounds = {
+          min_width_mm: 1300,
+          max_width_mm: 5000,
+          min_height_mm: 1500,
+          max_height_mm: 3000,
+        };
+        set({
+          dimensionBounds: bounds,
+          dimensions: {
+            width: Math.min(Math.max(get().dimensions.width, bounds.min_width_mm), bounds.max_width_mm),
+            height: Math.min(Math.max(get().dimensions.height, bounds.min_height_mm), bounds.max_height_mm),
+          },
+        });
+      } else {
+        supabase
+          .from('constraints')
+          .select('*')
+          .eq('profile_system_id', profileSystem.id)
+          .eq('window_type_id', windowType.id)
+          .single()
+          .then(({ data }) => {
+            if (data) {
+              const row = data as unknown as { min_width_mm: number; max_width_mm: number; min_height_mm: number; max_height_mm: number }
+              set({
+                dimensionBounds: {
+                  min_width_mm: row.min_width_mm,
+                  max_width_mm: row.max_width_mm,
+                  min_height_mm: row.min_height_mm,
+                  max_height_mm: row.max_height_mm,
+                },
+                // Clamp current dimensions into new bounds
+                dimensions: {
+                  width: Math.min(
+                    Math.max(get().dimensions.width, row.min_width_mm),
+                    row.max_width_mm
+                  ),
+                  height: Math.min(
+                    Math.max(get().dimensions.height, row.min_height_mm),
+                    row.max_height_mm
+                  ),
+                },
+              })
+            }
+          })
+      }
     }
     // Trigger pricing after selection settles
     get().recalculatePrice()

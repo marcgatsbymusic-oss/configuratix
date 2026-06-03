@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
 const DEFAULT_MAPS = { diffuse: null, normal: null, orm: null };

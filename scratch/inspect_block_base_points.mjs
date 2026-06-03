@@ -7,11 +7,11 @@ try {
     const parser = new DxfParser();
     const dxf = parser.parseSync(fileText);
 
-    const block = dxf.blocks['40201'];
-    if (block && block.entities) {
-        console.log("LINE sample from block 40201:", JSON.stringify(block.entities.find(e => e.type === 'LINE'), null, 2));
-        console.log("ARC sample from block 40201:", JSON.stringify(block.entities.find(e => e.type === 'ARC'), null, 2));
-    }
+    console.log("Block base points:");
+    Object.keys(dxf.blocks).forEach(name => {
+        const b = dxf.blocks[name];
+        console.log(`- Block: ${name}, BasePoint: (${b.x}, ${b.y}, ${b.z})`);
+    });
 } catch (err) {
     console.error(err);
 }

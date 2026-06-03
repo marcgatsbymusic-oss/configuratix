@@ -14,8 +14,8 @@ try {
     });
 
     function findInserts(ent, path) {
-        if (ent.name === 'ramka 18mm + butyl') {
-            console.log(`Found ramka insert at path ${path}:`, JSON.stringify(ent, null, 2));
+        if (ent.name === 'U000BEC030_B') {
+            console.log(`Found U000BEC030_B insert at path ${path}:`, JSON.stringify(ent, null, 2));
         }
         const block = dxf.blocks[ent.name];
         if (block && block.entities) {

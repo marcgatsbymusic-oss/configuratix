@@ -7,11 +7,14 @@ try {
     const parser = new DxfParser();
     const dxf = parser.parseSync(fileText);
 
-    const block = dxf.blocks['40201'];
-    if (block && block.entities) {
-        console.log("LINE sample from block 40201:", JSON.stringify(block.entities.find(e => e.type === 'LINE'), null, 2));
-        console.log("ARC sample from block 40201:", JSON.stringify(block.entities.find(e => e.type === 'ARC'), null, 2));
-    }
+    const block = dxf.blocks['ramka 18mm + butyl'];
+    console.log("Entities inside block 'ramka 18mm + butyl':");
+    block.entities.forEach((ent, i) => {
+        console.log(`- Entity ${i}: type=${ent.type}, layer=${ent.layer}`);
+        if (ent.vertices) {
+            console.log(`  vertices:`, ent.vertices.map(v => `(${v.x}, ${v.y})`).join(', '));
+        }
+    });
 } catch (err) {
     console.error(err);
 }

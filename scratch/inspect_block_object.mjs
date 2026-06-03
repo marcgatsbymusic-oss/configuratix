@@ -7,11 +7,11 @@ try {
     const parser = new DxfParser();
     const dxf = parser.parseSync(fileText);
 
-    const block = dxf.blocks['40201'];
-    if (block && block.entities) {
-        console.log("LINE sample from block 40201:", JSON.stringify(block.entities.find(e => e.type === 'LINE'), null, 2));
-        console.log("ARC sample from block 40201:", JSON.stringify(block.entities.find(e => e.type === 'ARC'), null, 2));
-    }
+    const block = dxf.blocks['ramka 18mm + butyl'];
+    console.log(JSON.stringify(block, (key, value) => {
+        if (key === 'entities') return `[${value.length} entities]`;
+        return value;
+    }, 2));
 } catch (err) {
     console.error(err);
 }

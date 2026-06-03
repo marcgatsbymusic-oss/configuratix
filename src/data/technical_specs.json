@@ -178,5 +178,17 @@
       "installationDepth": "120 mm",
       "profileClass": "N/A"
     }
+  },
+  "igloedgeslide": {
+    "name": "IGLO EDGE SLIDE",
+    "description": "Our new, most technologically advanced lift-and-slide system, distinguished by an excellent thermal insulation parameter of Uw = 0.65 W/(m²K) and a modern, angular profile design.",
+    "technical": {
+      "soundInsulation": "N/A",
+      "gaskets": "3",
+      "thermalTransmittance": "Uw = 0.65 W/(m²K)",
+      "chambers": "6",
+      "installationDepth": "163 mm",
+      "profileClass": "A class"
+    }
   }
 }

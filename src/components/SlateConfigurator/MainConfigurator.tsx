@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
+import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useConfigurator } from './useConfigurator';
 import { CONFIG_SCHEMA, WINDOW_TYPES, COLOR_LOCALE, GLASS_LOCALE } from './types';
@@ -12,6 +13,7 @@ import { BlueprintPreview } from './BlueprintPreview';
 import { NeedlePreview } from './NeedlePreview';
 import { F100TViewer } from '../configurator/F100TViewer';
 import { F101CViewer } from '../configurator/F101CViewer';
+import { SLE201Viewer } from '../configurator/SLE201Viewer';
 
 
 import { useCartStore } from '../../store/useCartStore';
@@ -1669,6 +1671,17 @@ export function MainConfigurator() {
                     />
                   ) : state.windowTypeId === 'F101C' ? (
                     <F101CViewer
+                      width={state.dimensions.width}
+                      height={state.dimensions.height}
+                      colorExt={getHexColor(state.exteriorColor)}
+                      colorInt={getHexColor(state.interiorColor)}
+                      colorExtTexture={getTextureUrl(state.exteriorColor)}
+                      colorIntTexture={getTextureUrl(state.interiorColor)}
+                      colorSpacer={spacerHex}
+                      colorGsk={gasketHex}
+                    />
+                  ) : state.windowTypeId === 'SLE201' ? (
+                    <SLE201Viewer
                       width={state.dimensions.width}
                       height={state.dimensions.height}
                       colorExt={getHexColor(state.exteriorColor)}

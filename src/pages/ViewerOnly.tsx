@@ -21,7 +21,7 @@ export const ViewerOnly: React.FC = () => {
     if (basketId) {
       const fetchBasket = async () => {
         try {
-          const { data, error } = await supabase
+          const { data, error } = await (supabase as any)
             .from('saved_configurations')
             .select('config_state')
             .eq('id', basketId)
@@ -79,6 +79,22 @@ export const ViewerOnly: React.FC = () => {
   let profileImg = 'iglo5.png';
   if (typology.toLowerCase().includes('energy')) {
     profileImg = 'igloenergy.png';
+  }
+
+  if (isLoading) {
+    return (
+      <div className="w-screen min-h-screen flex items-center justify-center bg-white text-black font-bold">
+        Loading...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-screen min-h-screen flex items-center justify-center bg-white text-red-500 font-bold">
+        {error}
+      </div>
+    );
   }
 
   return (
