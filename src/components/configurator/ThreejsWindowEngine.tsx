@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Canvas, useLoader } from '@react-three/fiber';
+import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
 import { FrameSegment } from './FrameSegment';
@@ -32,20 +32,7 @@ interface ThreejsWindowEngineProps {
 
 const DEFAULT_MAPS = { diffuse: null, normal: null, orm: null };
 
-const MammothLogo = ({ x, y, z }: { x: number; y: number; z: number }) => {
-  const texture = useLoader(THREE.TextureLoader, '/assets/mammut-logo-icon.png');
-  return (
-    <mesh position={[x, y, z]} rotation={[0, Math.PI, 0]}>
-      <planeGeometry args={[0.08, 0.08]} />
-      <meshBasicMaterial
-        map={texture}
-        transparent={true}
-        side={THREE.DoubleSide}
-        depthWrite={false}
-      />
-    </mesh>
-  );
-};
+
 
 // --- Texture Physical Scale ---
 // Source image: 724x1024px, no embedded DPI.
@@ -759,7 +746,7 @@ const WindowAssembly = ({
 
           // Render a complete sash frame (4 sides) at a given x offset.
           // SW_eff ensures the inner stile body reaches the window centre line.
-          const renderSash = (xOffset: number, isRightSash?: boolean) => {
+          const renderSash = (xOffset: number) => {
             const Ww = Ws_eff;
             return (
               <group key={xOffset} position={[xOffset, 0, 0]}>
@@ -812,22 +799,7 @@ const WindowAssembly = ({
                     ]} />
                   </mesh>
                 )}
-                {intBounds && isRightSash && (() => {
-                  const glassW = (SW_eff - 2 * (intBounds.minY - commonOrigin.y)) * scale;
-                  const glassH = (height  - 2 * (intBounds.minY - commonOrigin.y)) * scale;
-                  const thickness = (intBounds.maxX - intBounds.minX) * scale;
-                  const centerX = Ww / 2;
-                  const centerY = H / 2;
-                  const centerZ = -(((intBounds.minX + intBounds.maxX) / 2) - commonOrigin.x) * scale;
-                  const logoX = centerX - glassW / 2 + 0.09;
-                  const logoY = centerY - glassH / 2 + 0.09;
-                  const logoZ = centerZ - thickness / 2 - 0.001;
-                  return (
-                    <React.Suspense fallback={null}>
-                      <MammothLogo x={logoX} y={logoY} z={logoZ} />
-                    </React.Suspense>
-                  );
-                })()}
+
               </group>
             );
           };
@@ -835,7 +807,7 @@ const WindowAssembly = ({
           return (
             <>
               {renderSash(0)}
-              {renderSash(rightSashX, true)}
+              {renderSash(rightSashX)}
 
               {/* Fixed Centre Post — origin.y=0 centres the post body at x=Ws */}
               {(pstExt.length > 0 || pstInt.length > 0) && (
@@ -883,22 +855,7 @@ const WindowAssembly = ({
                 (intBounds.maxX - intBounds.minX) * scale
               ]} />
             </mesh>
-            {(() => {
-              const glassW = (width - 2 * (intBounds.minY - commonOrigin.y)) * scale;
-              const glassH = (height - 2 * (intBounds.minY - commonOrigin.y)) * scale;
-              const thickness = (intBounds.maxX - intBounds.minX) * scale;
-              const centerX = W / 2;
-              const centerY = H / 2;
-              const centerZ = -(((intBounds.minX + intBounds.maxX) / 2) - commonOrigin.x) * scale;
-              const logoX = centerX - glassW / 2 + 0.09;
-              const logoY = centerY - glassH / 2 + 0.09;
-              const logoZ = centerZ - thickness / 2 - 0.001;
-              return (
-                <React.Suspense fallback={null}>
-                  <MammothLogo x={logoX} y={logoY} z={logoZ} />
-                </React.Suspense>
-              );
-            })()}
+
           </>
         )}
 

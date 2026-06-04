@@ -19,6 +19,7 @@ export interface Child1Props {
   colorIntTexture?: string;
   colorGsk?: string;
   colorSpacer?: string;
+  hidePill?: boolean;
 }
 
 export const Child1: React.FC<Child1Props> = ({ 
@@ -29,7 +30,8 @@ export const Child1: React.FC<Child1Props> = ({
   colorInt = '#f0ece6',
   colorExtTexture,
   colorIntTexture,
-  colorGsk = '#1c1c1c'
+  colorGsk = '#1c1c1c',
+  hidePill = false
 }) => {
   const [geometryData, setGeometryData] = useState<any>(null);
 
@@ -150,9 +152,11 @@ export const Child1: React.FC<Child1Props> = ({
       </Canvas>
 
       <div className="absolute top-3 right-3 z-20 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest pointer-events-none" style={{ background: 'rgba(8,8,22,0.78)', border: '1px solid rgba(234,182,118,0.22)', color: '#eab676', backdropFilter: 'blur(10px)' }}>IGLO 5 {profileId}</div>
-      <div className="absolute bottom-3 left-3 z-20 flex flex-col gap-0.5 px-2.5 py-1.5 rounded-lg pointer-events-none" style={{ background: 'rgba(8,8,22,0.65)', border: '1px solid rgba(255,255,255,0.07)', backdropFilter: 'blur(8px)' }}>
-        <div style={{ fontSize: '11px', fontWeight: 800, color: '#eab676' }}>{widthMm} x {heightMm} mm</div>
-      </div>
+      {!hidePill && (
+        <div className="absolute bottom-3 left-3 z-20 flex flex-col gap-0.5 px-2.5 py-1.5 rounded-lg pointer-events-none" style={{ background: 'rgba(8,8,22,0.65)', border: '1px solid rgba(255,255,255,0.07)', backdropFilter: 'blur(8px)' }}>
+          <div style={{ fontSize: '11px', fontWeight: 800, color: '#eab676' }}>{widthMm} x {heightMm} mm</div>
+        </div>
+      )}
     </div>
   );
 };

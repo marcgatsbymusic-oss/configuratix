@@ -56,6 +56,7 @@ export interface SLE201ViewerProps {
   onSceneReady?: (group: THREE.Group) => void;
   onDimensionChange?: (width: number, height: number) => void;
   activeLimits?: { minWidth: number; maxWidth: number; minHeight: number; maxHeight: number };
+  hidePill?: boolean;
 }
 
 // ─── Animation state ──────────────────────────────────────────────────────────
@@ -76,7 +77,7 @@ const MammothLogo = ({ x, y, z }: { x: number; y: number; z: number }) => {
   );
 };
 
-interface SlidingSceneProps extends Required<Omit<SLE201ViewerProps, 'onSceneReady' | 'onDimensionChange' | 'activeLimits'>> {
+interface SlidingSceneProps extends Required<Omit<SLE201ViewerProps, 'onSceneReady' | 'onDimensionChange' | 'activeLimits' | 'hidePill'>> {
   onSceneReady?: (group: THREE.Group) => void;
 }
 
@@ -212,7 +213,7 @@ function SlidingScene({
 
   // ── Shared FrameSegment builder ───────────────────────────────────────────
   const makeSegment = (cfg: typeof layerConfigs[0], contour: Contour, i: number, keyPfx: string, extra?: any) => {
-    const isSkipCutLayer = cfg.matType === 'gsk' || cfg.matType === 'spacer';
+    const isSkipCutLayer = false;
     return (
       <FrameSegment
         key={`${keyPfx}_${cfg.name}_${i}`}
@@ -251,9 +252,10 @@ function SlidingScene({
   /** Child2 right vertical jamb — fixed */
   const renderFrameVertical = () => layerConfigs.flatMap(cfg => {
     if (!isChild2(cfg.name)) return [];
+    if (cfg.name === 'Aluminium Rail') return [];
     const layer = pd.layers[cfg.name]; if (!layer) return [];
     const contours = layer.contours.filter(c => getCentY(c.points) < 150);
-    const isSkipCutLayer = cfg.matType === 'gsk' || cfg.matType === 'spacer';
+    const isSkipCutLayer = false;
     return contours.length === 0 ? [] : [(
       <group key={`fv_${cfg.name}`} position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}>
         {contours.map((c, i) => (
@@ -300,7 +302,7 @@ function SlidingScene({
     if (!isChild1(cfg.name)) return [];
     const layer = pd.layers[cfg.name]; if (!layer) return [];
     const contours = layer.contours.filter(c => getCentY(c.points) < 150);
-    const isSkipCutLayer = cfg.matType === 'gsk' || cfg.matType === 'spacer';
+    const isSkipCutLayer = false;
     return contours.length === 0 ? [] : [(
       <group key={`sv_${cfg.name}`} position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}>
         {contours.map((c, i) => (
@@ -438,6 +440,7 @@ export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
   onSceneReady,
   onDimensionChange,
   activeLimits,
+  hidePill,
 }) => {
   const [widthText, setWidthText] = useState(width.toString());
   const [heightText, setHeightText] = useState(height.toString());
@@ -515,7 +518,7 @@ export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
         style={{ background: 'rgba(8,8,22,.78)', border: '1px solid rgba(234,182,118,.22)', color: '#eab676', backdropFilter: 'blur(10px)' }}>
         IGLO EDGE SLE201
       </div>
-      {onDimensionChange ? (
+      {!hidePill && (onDimensionChange ? (
         <div 
           ref={pillRef}
           className="absolute bottom-3 left-3 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full pointer-events-auto" 
@@ -588,7 +591,7 @@ export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
         <div className="absolute bottom-3 left-3 z-20 flex flex-col gap-0.5 px-2.5 py-1.5 rounded-lg pointer-events-none" style={{ background: 'rgba(8,8,22,0.65)', border: '1px solid rgba(255,255,255,0.07)', backdropFilter: 'blur(8px)' }}>
           <div style={{ fontSize: '11px', fontWeight: 800, color: '#eab676' }}>{width} x {height} mm</div>
         </div>
-      )}
+      ))}
     </div>
   );
 };

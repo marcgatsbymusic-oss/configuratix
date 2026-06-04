@@ -4,6 +4,7 @@ import { Child1 } from '../components/configurator/Child1';
 import { F100TViewer } from '../components/configurator/F100TViewer';
 import { F101CViewer } from '../components/configurator/F101CViewer';
 import { ThreejsWindowEngine } from '../components/configurator/ThreejsWindowEngine';
+import { SLE201Viewer } from '../components/configurator/SLE201Viewer';
 import { supabase } from '../lib/supabase';
 import { ChevronDown, ChevronUp, Package } from 'lucide-react';
 
@@ -135,6 +136,17 @@ export const ViewerOnly: React.FC = () => {
           <Child1
             widthMm={width}
             heightMm={height}
+            colorExt={colorExt}
+            colorInt={colorInt}
+            colorExtTexture={colorExtTexture}
+            colorIntTexture={colorIntTexture}
+            colorGsk={colorGsk}
+            colorSpacer={colorSpacer}
+          />
+        ) : typology === 'SLE201' ? (
+          <SLE201Viewer
+            width={width}
+            height={height}
             colorExt={colorExt}
             colorInt={colorInt}
             colorExtTexture={colorExtTexture}

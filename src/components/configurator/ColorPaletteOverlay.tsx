@@ -11,6 +11,8 @@ interface ColorPaletteOverlayProps {
 }
 
 // ─── Color lookup ────────────────────────────────────────────────────────────
+const MAMMUT_RED = '#e30613';
+
 const isColorMatch = (color: SwatchColor, val: string): boolean => {
   if (!val) return false;
   if (color.id === val) return true;
@@ -35,7 +37,7 @@ const CY      = SVG_H;    // wheel center at bottom edge
 
 // Outer ring (Exterior colors)
 const O_RIN  = 172;   // inner radius of outer ring
-const O_ROUT = 298;   // outer radius of outer ring  → 126 px thick
+const O_ROUT = 247;   // outer radius of outer ring  → 75 px thick (B side as long as A)
 
 // Inner ring (Interior colors)
 const I_RIN  = 85;    // inner radius of inner ring
@@ -144,9 +146,9 @@ export function ColorPaletteOverlay({
     const r = Math.sqrt(px * px + py * py);
     
     let target: 'outer' | 'inner' | null = null;
-    if (r >= 165 && r <= 315) {
+    if (r >= 166 && r <= 265) {
       target = 'outer';
-    } else if (r >= 70 && r < 165) {
+    } else if (r >= 70 && r < 166) {
       target = 'inner';
     }
 
@@ -266,7 +268,7 @@ export function ColorPaletteOverlay({
       
       const theta = normDeg((Math.atan2(py, px) * 180) / Math.PI);
       
-      if (drag.target === 'outer' && r >= 165 && r <= 315) {
+      if (drag.target === 'outer' && r >= 166 && r <= 265) {
         const diffDeg = normDeg(theta - outerAngle.current);
         const idx = Math.round(diffDeg / WEDGE_DEG) % N;
         const color = IGLO_EDGE_COLORS[idx];
@@ -274,7 +276,7 @@ export function ColorPaletteOverlay({
           onChangeExt(color);
           outerPause.current = 1600;
         }
-      } else if (drag.target === 'inner' && r >= 70 && r < 165) {
+      } else if (drag.target === 'inner' && r >= 70 && r < 166) {
         const diffDeg = normDeg(theta - innerAngle.current);
         const idx = Math.round(diffDeg / WEDGE_DEG) % N;
         const color = IGLO_EDGE_COLORS[idx];
@@ -404,30 +406,40 @@ export function ColorPaletteOverlay({
           <path
             d={wedgePath(O_RIN, O_ROUT, oA1, oA2)}
             fill={
-              isSel ? 'rgba(56,189,248,0.22)'
-              : isHov ? 'rgba(255,255,255,0.14)'
+              isHov ? 'rgba(255,255,255,0.14)'
               : 'none'
             }
             stroke={
-              isSel ? '#38bdf8'
-              : isHov ? 'rgba(255,255,255,0.55)'
+              isHov ? 'rgba(255,255,255,0.55)'
               : 'rgba(0,0,0,0.25)'
             }
-            strokeWidth={isSel ? 2.5 : 1}
+            strokeWidth={1}
             pointerEvents="none"
           />
 
           {/* Glow dot at tip of selected wedge */}
           {isSel && (
-            <circle
-              cx={f(CX + (O_ROUT - 10) * Math.cos(oMidRad))}
-              cy={f(CY + (O_ROUT - 10) * Math.sin(oMidRad))}
-              r={5}
-              fill="#38bdf8"
-              stroke="rgba(255,255,255,0.8)"
-              strokeWidth={1.5}
-              pointerEvents="none"
-            />
+            <>
+              {/* Outer glow circle */}
+              <circle
+                cx={f(CX + (O_ROUT - 10) * Math.cos(oMidRad))}
+                cy={f(CY + (O_ROUT - 10) * Math.sin(oMidRad))}
+                r={8}
+                fill={MAMMUT_RED}
+                opacity={0.5}
+                filter="url(#red-glow)"
+                pointerEvents="none"
+              />
+              <circle
+                cx={f(CX + (O_ROUT - 10) * Math.cos(oMidRad))}
+                cy={f(CY + (O_ROUT - 10) * Math.sin(oMidRad))}
+                r={5}
+                fill={MAMMUT_RED}
+                stroke="white"
+                strokeWidth={1.5}
+                pointerEvents="none"
+              />
+            </>
           )}
         </g>
       );
@@ -484,29 +496,39 @@ export function ColorPaletteOverlay({
           <path
             d={wedgePath(I_RIN, I_ROUT, iA1, iA2)}
             fill={
-              isSel ? 'rgba(234,179,8,0.22)'
-              : isHov ? 'rgba(255,255,255,0.14)'
+              isHov ? 'rgba(255,255,255,0.14)'
               : 'none'
             }
             stroke={
-              isSel ? '#eab308'
-              : isHov ? 'rgba(255,255,255,0.55)'
+              isHov ? 'rgba(255,255,255,0.55)'
               : 'rgba(0,0,0,0.25)'
             }
-            strokeWidth={isSel ? 2.5 : 1}
+            strokeWidth={1}
             pointerEvents="none"
           />
 
           {isSel && (
-            <circle
-              cx={f(CX + (I_ROUT - 8) * Math.cos(iMidRad))}
-              cy={f(CY + (I_ROUT - 8) * Math.sin(iMidRad))}
-              r={4}
-              fill="#eab308"
-              stroke="rgba(255,255,255,0.8)"
-              strokeWidth={1.5}
-              pointerEvents="none"
-            />
+            <>
+              {/* Outer glow circle */}
+              <circle
+                cx={f(CX + (I_ROUT - 8) * Math.cos(iMidRad))}
+                cy={f(CY + (I_ROUT - 8) * Math.sin(iMidRad))}
+                r={7}
+                fill={MAMMUT_RED}
+                opacity={0.5}
+                filter="url(#red-glow)"
+                pointerEvents="none"
+              />
+              <circle
+                cx={f(CX + (I_ROUT - 8) * Math.cos(iMidRad))}
+                cy={f(CY + (I_ROUT - 8) * Math.sin(iMidRad))}
+                r={4}
+                fill={MAMMUT_RED}
+                stroke="white"
+                strokeWidth={1.5}
+                pointerEvents="none"
+              />
+            </>
           )}
         </g>
       );
@@ -527,7 +549,11 @@ export function ColorPaletteOverlay({
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
     // Anchor point: bottom-right of the 3D viewport area, just above the trigger btn
-    <div ref={containerRef} className={className || "absolute bottom-3 right-[54px] md:bottom-4 md:right-[68px] z-40"}>
+    <div 
+      ref={containerRef} 
+      className={className || "absolute bottom-3 right-[54px] md:bottom-4 md:right-[68px] z-40"}
+      style={{ zIndex: isOpen ? 99999 : 40 }}
+    >
       <style>{`
         @keyframes qwheel-in {
           from { opacity: 0; transform-origin: bottom right; transform: scale(0.7) rotate(-8deg); }
@@ -604,6 +630,15 @@ export function ColorPaletteOverlay({
             onPointerUp={handlePointerUp}
             onPointerCancel={handlePointerUp}
           >
+            <defs>
+              <filter id="red-glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="2.5" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
             {/* ── Subtle frosted ring-track arcs (quarter-arc strokes) ──── */}
             {/* These sit BEHIND the wedges to give depth context */}
 
@@ -794,18 +829,72 @@ export function ColorPaletteOverlay({
         }`}
         title="Toggle Color Palette Wheel"
       >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-5 h-5">
-          {isOpen ? (
+        {isOpen ? (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-5 h-5">
             <path strokeLinecap="round" d="M18 6L6 18M6 6l12 12" />
-          ) : (
-            <>
-              {/* Quarter-circle fan icon */}
-              <path d="M12 21a9 9 0 0 0 9-9" strokeLinecap="round" />
-              <path d="M12 17a5 5 0 0 0 5-5" strokeLinecap="round" />
-              <circle cx="12" cy="21" r="1.5" fill="currentColor" stroke="none" />
-            </>
-          )}
-        </svg>
+          </svg>
+        ) : (
+          <svg viewBox="0 0 500 500" fill="none" className="w-7 h-7">
+            {/* Blade 7 (Rotation 0 deg - pointing up) */}
+            <g transform="rotate(0, 400, 400)">
+              <path d="M 360,320 L 440,320 L 440,400 A 40,40 0 0,1 360,400 Z" fill="#d4f0a2" />
+              <path d="M 360,260 L 440,260 L 440,320 L 360,320 Z" fill="#c1e38a" />
+              <path d="M 360,200 L 440,200 L 440,260 L 360,260 Z" fill="#9ec06c" />
+              <path d="M 360,140 L 440,140 L 440,200 L 360,200 Z" fill="#789c50" />
+              <path d="M 360,140 L 360,80 A 40,40 0 0,1 440,80 L 440,140 Z" fill="#618a3d" />
+            </g>
+            {/* Blade 6 (Rotation -15 deg) */}
+            <g transform="rotate(-15, 400, 400)">
+              <path d="M 360,320 L 440,320 L 440,400 A 40,40 0 0,1 360,400 Z" fill="#bada55" />
+              <path d="M 360,260 L 440,260 L 440,320 L 360,320 Z" fill="#7fa867" />
+              <path d="M 360,200 L 440,200 L 440,260 L 360,260 Z" fill="#426b31" />
+              <path d="M 360,140 L 440,140 L 440,200 L 360,200 Z" fill="#284d1a" />
+              <path d="M 360,140 L 360,80 A 40,40 0 0,1 440,80 L 440,140 Z" fill="#1a330e" />
+            </g>
+            {/* Blade 5 (Rotation -30 deg) */}
+            <g transform="rotate(-30, 400, 400)">
+              <path d="M 360,320 L 440,320 L 440,400 A 40,40 0 0,1 360,400 Z" fill="#007554" />
+              <path d="M 360,260 L 440,260 L 440,320 L 360,320 Z" fill="#a2d39c" />
+              <path d="M 360,200 L 440,200 L 440,260 L 360,260 Z" fill="#8cc63f" />
+              <path d="M 360,140 L 440,140 L 440,200 L 360,200 Z" fill="#006837" />
+              <path d="M 360,140 L 360,80 A 40,40 0 0,1 440,80 L 440,140 Z" fill="#009245" />
+            </g>
+            {/* Blade 4 (Rotation -45 deg) */}
+            <g transform="rotate(-45, 400, 400)">
+              <path d="M 360,320 L 440,320 L 440,400 A 40,40 0 0,1 360,400 Z" fill="#7accc8" />
+              <path d="M 360,260 L 440,260 L 440,320 L 360,320 Z" fill="#1b1464" />
+              <path d="M 360,200 L 440,200 L 440,260 L 360,260 Z" fill="#2e3192" />
+              <path d="M 360,140 L 440,140 L 440,200 L 360,200 Z" fill="#0071bc" />
+              <path d="M 360,140 L 360,80 A 40,40 0 0,1 440,80 L 440,140 Z" fill="#29abe2" />
+            </g>
+            {/* Blade 3 (Rotation -60 deg) */}
+            <g transform="rotate(-60, 400, 400)">
+              <path d="M 360,320 L 440,320 L 440,400 A 40,40 0 0,1 360,400 Z" fill="#f68b2c" />
+              <path d="M 360,260 L 440,260 L 440,320 L 360,320 Z" fill="#f4987f" />
+              <path d="M 360,200 L 440,200 L 440,260 L 360,260 Z" fill="#fbaf3f" />
+              <path d="M 360,140 L 440,140 L 440,200 L 360,200 Z" fill="#eb1c24" />
+              <path d="M 360,140 L 360,80 A 40,40 0 0,1 440,80 L 440,140 Z" fill="#c92127" />
+            </g>
+            {/* Blade 2 (Rotation -75 deg) */}
+            <g transform="rotate(-75, 400, 400)">
+              <path d="M 360,320 L 440,320 L 440,400 A 40,40 0 0,1 360,400 Z" fill="#f7f4db" />
+              <path d="M 360,260 L 440,260 L 440,320 L 360,320 Z" fill="#ffdd7b" />
+              <path d="M 360,200 L 440,200 L 440,260 L 360,260 Z" fill="#8a7060" />
+              <path d="M 360,140 L 440,140 L 440,200 L 360,200 Z" fill="#fddbd0" />
+              <path d="M 360,140 L 360,80 A 40,40 0 0,1 440,80 L 440,140 Z" fill="#e66d5c" />
+            </g>
+            {/* Blade 1 (Rotation -90 deg - pointing left) */}
+            <g transform="rotate(-90, 400, 400)">
+              <path d="M 360,320 L 440,320 L 440,400 A 40,40 0 0,1 360,400 Z" fill="#eadcd3" />
+              <path d="M 360,260 L 440,260 L 440,320 L 360,320 Z" fill="#eccdbb" />
+              <path d="M 360,200 L 440,200 L 440,260 L 360,260 Z" fill="#d8b19a" />
+              <path d="M 360,140 L 440,140 L 440,200 L 360,200 Z" fill="#bd9581" />
+              <path d="M 360,140 L 360,80 A 40,40 0 0,1 440,80 L 440,140 Z" fill="#a47e6d" />
+            </g>
+            {/* Pivot dot */}
+            <circle cx="400" cy="400" r="22" fill="#0071bc" />
+          </svg>
+        )}
       </button>
     </div>
   );

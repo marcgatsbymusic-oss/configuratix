@@ -327,6 +327,7 @@ export interface F101CViewerProps {
   colorSpacer?: string;
   onDimensionChange?: (width: number, height: number) => void;
   activeLimits?: { minWidth: number; maxWidth: number; minHeight: number; maxHeight: number };
+  hidePill?: boolean;
 }
 
 export const F101CViewer: React.FC<F101CViewerProps> = ({
@@ -341,6 +342,7 @@ export const F101CViewer: React.FC<F101CViewerProps> = ({
   colorSpacer = '#4B4B4D',
   onDimensionChange,
   activeLimits,
+  hidePill,
 }) => {
   const [widthText, setWidthText] = useState(width.toString());
   const [heightText, setHeightText] = useState(height.toString());
@@ -473,7 +475,7 @@ export const F101CViewer: React.FC<F101CViewerProps> = ({
       </div>
 
       <div className="absolute top-3 right-3 z-20 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest pointer-events-none" style={{ background: 'rgba(8,8,22,0.78)', border: '1px solid rgba(234,182,118,0.22)', color: '#eab676', backdropFilter: 'blur(10px)' }}>IGLO 5 F101C</div>
-      {onDimensionChange ? (
+      {!hidePill && (onDimensionChange ? (
         <div 
           ref={pillRef}
           className="absolute bottom-3 left-3 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full pointer-events-auto" 
@@ -546,7 +548,7 @@ export const F101CViewer: React.FC<F101CViewerProps> = ({
         <div className="absolute bottom-3 left-3 z-20 flex flex-col gap-0.5 px-2.5 py-1.5 rounded-lg pointer-events-none" style={{ background: 'rgba(8,8,22,0.65)', border: '1px solid rgba(255,255,255,0.07)', backdropFilter: 'blur(8px)' }}>
           <div style={{ fontSize: '11px', fontWeight: 800, color: '#eab676' }}>{width} x {height} mm</div>
         </div>
-      )}
+      ))}
 
       <DelayedLoader mountHeavy={mountHeavy} />
     </div>

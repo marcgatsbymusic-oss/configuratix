@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { Download, Camera, Trash2, RotateCcw, Share2, ChevronDown, ShoppingCart } from 'lucide-react';
+import { Download, Camera, Trash2, RotateCcw, Share2, ChevronDown, ShoppingCart, ChevronUp, ChevronRight } from 'lucide-react';
 import { fetchPrice, type PricingApiResponse } from '../utils/cantorPricing/pricingApi';
 import type { ConfiguratorInput } from '../utils/cantorPricing/input';
 import { CONFIG_SCHEMA, WINDOW_TYPES, PROFILE_GLAZING_LIMITS, getTypologyImagePath } from '../components/SlateConfigurator/types';
@@ -2585,6 +2585,78 @@ export function DebugPricing() {
   // 3) Dimensions
   const [width, setWidth] = useState(1000);
   const [height, setHeight] = useState(1000);
+
+  const [widthText, setWidthText] = useState(width.toString());
+  const [heightText, setHeightText] = useState(height.toString());
+
+  useEffect(() => {
+    setWidthText(width.toString());
+  }, [width]);
+
+  useEffect(() => {
+    setHeightText(height.toString());
+  }, [height]);
+
+  const [isHeightScrollVisible, setIsHeightScrollVisible] = useState(false);
+  const [isWidthScrollVisible, setIsWidthScrollVisible] = useState(false);
+
+  const startUpPos = useRef<{ x: number, y: number } | null>(null);
+  const startRightPos = useRef<{ x: number, y: number } | null>(null);
+  const inactivityTimerRef = useRef<number | null>(null);
+
+  const resetInactivityTimer = useCallback(() => {
+    if (inactivityTimerRef.current) {
+      window.clearTimeout(inactivityTimerRef.current);
+    }
+    inactivityTimerRef.current = window.setTimeout(() => {
+      setIsHeightScrollVisible(false);
+      setIsWidthScrollVisible(false);
+    }, 3000);
+  }, []);
+
+  const handleUpPointerDown = (e: React.PointerEvent) => {
+    startUpPos.current = { x: e.clientX, y: e.clientY };
+    e.currentTarget.setPointerCapture(e.pointerId);
+    setIsHeightScrollVisible(true);
+    resetInactivityTimer();
+  };
+
+  const handleUpPointerMove = (e: React.PointerEvent) => {
+    if (!startUpPos.current) return;
+    const dy = startUpPos.current.y - e.clientY;
+    if (dy > 15) {
+      setIsHeightScrollVisible(true);
+      resetInactivityTimer();
+      startUpPos.current = null;
+    }
+  };
+
+  const handleUpPointerUp = (e: React.PointerEvent) => {
+    startUpPos.current = null;
+    e.currentTarget.releasePointerCapture(e.pointerId);
+  };
+
+  const handleRightPointerDown = (e: React.PointerEvent) => {
+    startRightPos.current = { x: e.clientX, y: e.clientY };
+    e.currentTarget.setPointerCapture(e.pointerId);
+    setIsWidthScrollVisible(true);
+    resetInactivityTimer();
+  };
+
+  const handleRightPointerMove = (e: React.PointerEvent) => {
+    if (!startRightPos.current) return;
+    const dx = e.clientX - startRightPos.current.x;
+    if (dx > 15) {
+      setIsWidthScrollVisible(true);
+      resetInactivityTimer();
+      startRightPos.current = null;
+    }
+  };
+
+  const handleRightPointerUp = (e: React.PointerEvent) => {
+    startRightPos.current = null;
+    e.currentTarget.releasePointerCapture(e.pointerId);
+  };
   const [mullionPos, setMullionPos] = useState(500);
 
   // 4) Glazing Options
@@ -3875,7 +3947,6 @@ export function DebugPricing() {
                <div className="absolute bottom-14 md:bottom-20 left-1/2 -translate-x-1/2 pointer-events-none z-20 transition-opacity duration-500 opacity-100 group-hover:opacity-0 nav-hint select-none">
                  <div className="bg-black/60 border border-white/10 rounded-full p-2 flex flex-col items-center justify-center shadow-2xl backdrop-blur-sm">
                    <svg viewBox="0 0 100 50" className="w-10 h-5 text-gray-400 animate-pulse opacity-90">
-                     {/* Curved double-ended arrow */}
                      <path d="M 15,35 C 25,47 75,47 85,35" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
                      <path d="M 80,38 L 85,35 L 83,29" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                      <path d="M 20,38 L 15,35 L 17,29" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -3884,53 +3955,182 @@ export function DebugPricing() {
                  </div>
                </div>
              )}
-
-             {/* Vertical Scroll Wheel (Height) overlay on the left */}
-               <div className="absolute left-3 md:left-4 top-12 md:top-14 bottom-[60px] md:bottom-[80px] w-10 md:w-12 z-30 flex items-center justify-center font-mono">
-                  <NumericScrollWheel
-                    label="Height"
-                    value={height}
-                    onChange={setHeight}
-                    min={500}
-                    max={3000}
-                    step={10}
-                    orientation="vertical"
-                    labelPosition="inside"
-                  />
-               </div>
-
-               {/* Horizontal Scroll Wheel (Width) overlay at the bottom */}
-               <div className="absolute bottom-3 md:bottom-4 left-[60px] md:left-[80px] right-3 md:right-4 h-10 md:h-12 z-30 flex items-center justify-center font-mono">
-                  <NumericScrollWheel
-                    label="Width"
-                    value={width}
-                    onChange={setWidth}
-                    min={500}
-                    max={3000}
-                    step={10}
-                    orientation="horizontal"
-                    labelPosition="inside"
-                  />
-               </div>
-
-               {/* Optional Mullion Scroll Wheel */}
-               {typology === 'F101C' && (
-                 <div className="absolute top-2 left-[60px] md:left-[80px] right-3 md:right-4 h-10 md:h-12 z-30 flex items-center justify-center font-mono">
+             
+             {/* Height/Width Scroll Wheels & Controls (visible only in 3D/Needle mode) */}
+             {is3dMode && (
+                <>
+                {/* Vertical Scroll Wheel (Height) overlay on the left */}
+                <div 
+                  className={`absolute left-3 md:left-4 top-12 md:top-14 bottom-[60px] md:bottom-[80px] w-10 md:w-12 z-30 flex items-center justify-center font-mono transition-all duration-300 ${
+                    isHeightScrollVisible ? 'opacity-100 translate-x-0 pointer-events-auto' : 'opacity-0 -translate-x-4 pointer-events-none'
+                  }`}
+                  onPointerMove={resetInactivityTimer}
+                  onPointerDown={resetInactivityTimer}
+                >
                    <NumericScrollWheel
-                     label="Mullion"
-                     value={mullionPos}
-                     onChange={setMullionPos}
-                     onDoubleClick={() => setMullionPos(width / 2)}
-                     min={100}
-                     max={width - 100}
+                     label="Height"
+                     value={height}
+                     onChange={(val) => {
+                       setHeight(val);
+                       resetInactivityTimer();
+                     }}
+                     min={500}
+                     max={3000}
+                     step={10}
+                     orientation="vertical"
+                     labelPosition="inside"
+                   />
+                </div>
+
+                {/* Horizontal Scroll Wheel (Width) overlay at the bottom */}
+                <div 
+                  className={`absolute bottom-3 md:bottom-4 left-[60px] md:left-[80px] right-3 md:right-4 h-10 md:h-12 z-30 flex items-center justify-center font-mono transition-all duration-300 ${
+                    isWidthScrollVisible ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-4 pointer-events-none'
+                  }`}
+                  onPointerMove={resetInactivityTimer}
+                  onPointerDown={resetInactivityTimer}
+                >
+                   <NumericScrollWheel
+                     label="Width"
+                     value={width}
+                     onChange={(val) => {
+                       setWidth(val);
+                       resetInactivityTimer();
+                     }}
+                     min={500}
+                     max={3000}
                      step={10}
                      orientation="horizontal"
                      labelPosition="inside"
                    />
-                 </div>
-               )}
+                </div>
 
-                         {/* Scenery Options Overlay - displayed directly above the AR menu when active */}
+                {/* Optional Mullion Scroll Wheel */}
+                {typology === 'F101C' && (
+                  <div className="absolute top-2 left-[60px] md:left-[80px] right-3 md:right-4 h-10 md:h-12 z-30 flex items-center justify-center font-mono">
+                    <NumericScrollWheel
+                      label="Mullion"
+                      value={mullionPos}
+                      onChange={setMullionPos}
+                      onDoubleClick={() => setMullionPos(width / 2)}
+                      min={100}
+                      max={width - 100}
+                      step={10}
+                      orientation="horizontal"
+                      labelPosition="inside"
+                    />
+                  </div>
+                )}
+
+                {/* Measurement Pill + Arrows Overlay */}
+                <div className="absolute bottom-3 left-3 z-35 flex flex-col items-start pointer-events-none select-none">
+                  {/* UP Arrow */}
+                  <div 
+                    onPointerDown={handleUpPointerDown}
+                    onPointerMove={handleUpPointerMove}
+                    onPointerUp={handleUpPointerUp}
+                    onPointerCancel={handleUpPointerUp}
+                    onMouseEnter={() => { setIsHeightScrollVisible(true); resetInactivityTimer(); }}
+                    className="mb-1 pointer-events-auto flex items-center justify-center cursor-ns-resize text-mammut-gold bg-mammut-black/85 border border-gray-800 rounded-lg w-7 h-7 shadow-lg active:scale-95 transition-all hover:bg-gray-850 hover:border-mammut-gold/60"
+                    title="Click or hover to reveal Height scrollwheel"
+                  >
+                    <ChevronUp size={16} strokeWidth={3} />
+                  </div>
+
+                  <div className="flex items-center gap-1">
+                    {/* Measurement Box */}
+                    <div 
+                      className="flex items-center gap-1.5 px-3 py-1 bg-black/50 rounded pointer-events-auto"
+                      style={{ 
+                        backdropFilter: 'blur(8px)' 
+                      }}
+                    >
+                      <input
+                        type="number"
+                        value={widthText}
+                        onChange={(e) => {
+                          setWidthText(e.target.value);
+                          const num = Number(e.target.value);
+                          if (!isNaN(num) && num >= 500 && num <= 3000) {
+                            setWidth(num);
+                          }
+                          resetInactivityTimer();
+                        }}
+                        onFocus={resetInactivityTimer}
+                        onBlur={(e) => {
+                          let val = Number(e.target.value) || 500;
+                          val = Math.max(500, Math.min(3000, val));
+                          setWidth(val);
+                          setWidthText(val.toString());
+                          resetInactivityTimer();
+                        }}
+                        onKeyDown={(e) => {
+                          resetInactivityTimer();
+                          if (e.key === 'Enter') {
+                            e.currentTarget.blur();
+                          }
+                        }}
+                        className={`w-12 bg-transparent text-center text-xs font-bold focus:outline-none appearance-none ${
+                          isLight ? 'text-slate-700' : 'text-gray-300'
+                        }`}
+                        style={{ border: 'none', padding: 0 }}
+                      />
+                      <span className={`text-xs font-bold select-none pointer-events-none ${
+                        isLight ? 'text-slate-400' : 'text-gray-500'
+                      }`}>x</span>
+                      <input
+                        type="number"
+                        value={heightText}
+                        onChange={(e) => {
+                          setHeightText(e.target.value);
+                          const num = Number(e.target.value);
+                          if (!isNaN(num) && num >= 500 && num <= 3000) {
+                            setHeight(num);
+                          }
+                          resetInactivityTimer();
+                        }}
+                        onFocus={resetInactivityTimer}
+                        onBlur={(e) => {
+                          let val = Number(e.target.value) || 500;
+                          val = Math.max(500, Math.min(3000, val));
+                          setHeight(val);
+                          setHeightText(val.toString());
+                          resetInactivityTimer();
+                        }}
+                        onKeyDown={(e) => {
+                          resetInactivityTimer();
+                          if (e.key === 'Enter') {
+                            e.currentTarget.blur();
+                          }
+                        }}
+                        className={`w-12 bg-transparent text-center text-xs font-bold focus:outline-none appearance-none ${
+                          isLight ? 'text-slate-700' : 'text-gray-300'
+                        }`}
+                        style={{ border: 'none', padding: 0 }}
+                      />
+                      <span className={`text-[10px] font-bold ml-0.5 select-none pointer-events-none ${
+                        isLight ? 'text-slate-400' : 'text-gray-500'
+                      }`}>mm</span>
+                    </div>
+
+                    {/* RIGHT Arrow */}
+                    <div 
+                      onPointerDown={handleRightPointerDown}
+                      onPointerMove={handleRightPointerMove}
+                      onPointerUp={handleRightPointerUp}
+                      onPointerCancel={handleRightPointerUp}
+                      onMouseEnter={() => { setIsWidthScrollVisible(true); resetInactivityTimer(); }}
+                      className="pointer-events-auto flex items-center justify-center cursor-ew-resize text-mammut-gold bg-mammut-black/85 border border-gray-800 rounded-lg w-7 h-7 shadow-lg active:scale-95 transition-all hover:bg-gray-850 hover:border-mammut-gold/60"
+                      title="Click or hover to reveal Width scrollwheel"
+                    >
+                      <ChevronRight size={16} strokeWidth={3} />
+                    </div>
+                  </div>
+                </div>
+                </>
+             )}
+
+             {/* Scenery Options Overlay */}
               {is3dMode && isSceneryMenuOpen && (
                 <div 
                   ref={sceneryMenuRef}
@@ -4131,7 +4331,7 @@ export function DebugPricing() {
              {is3dMode && !isColorWheelOpen && (
                   <div 
                     ref={arMenuRef}
-                    className="absolute bottom-[68px] right-3 md:bottom-[76px] md:right-4 z-35 flex items-center justify-end"
+                    className="absolute bottom-3 right-3 md:bottom-4 md:right-4 z-35 flex items-center justify-end"
                     onMouseEnter={() => setArMenuOpen(true)}
                     onMouseLeave={() => setArMenuOpen(false)}
                   >
@@ -4244,6 +4444,7 @@ export function DebugPricing() {
                      colorInt={intDetails.hex}
                      colorExtTexture={extDetails.textureUrl}
                      colorIntTexture={intDetails.textureUrl}
+                     hidePill={true}
                    />
                  </div>
                ) : typology === 'F101C' ? (
@@ -4258,6 +4459,7 @@ export function DebugPricing() {
                      colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
                      colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
                      mullionPos={mullionPos}
+                     hidePill={true}
                    />
                  </div>
                ) : typology === 'F101B' ? (
@@ -4271,6 +4473,7 @@ export function DebugPricing() {
                      colorIntTexture={intDetails.textureUrl}
                      colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
                      colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
+                     hidePill={true}
                    />
                  </div>
                ) : typology === 'SLE201' ? (
@@ -4285,6 +4488,7 @@ export function DebugPricing() {
                       colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
                       colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
                       onSceneReady={handleSceneReady}
+                      hidePill={true}
                     />
                   </div>
                ) : (
@@ -4349,7 +4553,7 @@ export function DebugPricing() {
                onChangeExt={(color) => setColorCode(color.id.replace('c', '').padStart(4, '0'))}
                onChangeInt={(color) => setInteriorColorCode(color.id.replace('c', '').padStart(4, '0'))}
                onOpenChange={setIsColorWheelOpen}
-               className={`absolute bottom-3 right-3 md:bottom-4 md:right-4 z-40 transition-all duration-300 ${
+               className={`absolute bottom-[68px] right-3 md:bottom-[76px] md:right-4 z-40 transition-all duration-300 ${
                  arMenuOpen ? 'opacity-0 scale-75 pointer-events-none' : 'opacity-100 scale-100'
                }`}
              />

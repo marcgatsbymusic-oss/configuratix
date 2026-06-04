@@ -306,6 +306,7 @@ function FrameSegmentComponent({
   uvMode  = 'triplanar',
   layerName,
 }: FrameSegmentProps) {
+  console.log(`[FrameSegment Debug] layerName=${layerName || matType} skipCuts=${skipCuts} skipLeftCut=${skipLeftCut} skipRightCut=${skipRightCut} length=${length}`);
   const geometry = useMemo(() => {
     if (!vertices || vertices.length === 0) return new THREE.BufferGeometry();
 
@@ -339,13 +340,13 @@ function FrameSegmentComponent({
     shape.lineTo((vertices[0].x - ox) * scaleFactor, (vertices[0].y - oy) * scaleFactor);
 
     const scaledLength = length * scaleFactor;
-    // Extrude extra to ensure CSG cuts cleanly through side-walls. 
-    // Must be scaled by scaleFactor and large enough (200mm) to reach 
-    // the 45-degree cut plane even for deeply inset profiles like sash gaskets.
-    const extra = skipCuts ? 0 : (200 * scaleFactor); 
-    const baseGeo = new THREE.ExtrudeGeometry(shape, { depth: scaledLength + extra * 2, bevelEnabled: false });
-    if (extra > 0) {
-      baseGeo.translate(0, 0, -extra);
+    // Extrude extra only for the ends that are actually being cut, to ensure CSG cuts cleanly through side-walls.
+    // If a cut is skipped on an end, we must not add extra geometry to that end, otherwise it will protrude.
+    const leftExtra = (skipCuts || skipLeftCut) ? 0 : (200 * scaleFactor);
+    const rightExtra = (skipCuts || skipRightCut) ? 0 : (200 * scaleFactor);
+    const baseGeo = new THREE.ExtrudeGeometry(shape, { depth: scaledLength + leftExtra + rightExtra, bevelEnabled: false });
+    if (leftExtra > 0) {
+      baseGeo.translate(0, 0, -leftExtra);
     }
 
     // ── Fast path: no CSG ──────────────────────────────────────────────────
