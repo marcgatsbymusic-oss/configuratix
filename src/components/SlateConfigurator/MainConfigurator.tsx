@@ -14,6 +14,7 @@ import { NeedlePreview } from './NeedlePreview';
 import { F100TViewer } from '../configurator/F100TViewer';
 import { F101CViewer } from '../configurator/F101CViewer';
 import { SLE201Viewer } from '../configurator/SLE201Viewer';
+import { ColorPaletteOverlay } from '../configurator/ColorPaletteOverlay';
 
 
 import { useCartStore } from '../../store/useCartStore';
@@ -1668,6 +1669,8 @@ export function MainConfigurator() {
                       colorIntTexture={getTextureUrl(state.interiorColor)}
                       colorSpacer={spacerHex}
                       colorGsk={gasketHex}
+                      onDimensionChange={(w, h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h } })}
+                      activeLimits={activeLimits}
                     />
                   ) : state.windowTypeId === 'F101C' ? (
                     <F101CViewer
@@ -1679,6 +1682,8 @@ export function MainConfigurator() {
                       colorIntTexture={getTextureUrl(state.interiorColor)}
                       colorSpacer={spacerHex}
                       colorGsk={gasketHex}
+                      onDimensionChange={(w, h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h } })}
+                      activeLimits={activeLimits}
                     />
                   ) : state.windowTypeId === 'SLE201' ? (
                     <SLE201Viewer
@@ -1690,6 +1695,8 @@ export function MainConfigurator() {
                       colorIntTexture={getTextureUrl(state.interiorColor)}
                       colorSpacer={spacerHex}
                       colorGsk={gasketHex}
+                      onDimensionChange={(w, h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h } })}
+                      activeLimits={activeLimits}
                     />
                   ) : (
                     <NeedlePreview state={state} />
@@ -1702,6 +1709,14 @@ export function MainConfigurator() {
                     activeLimits={activeLimits}
                   />
                 )}
+
+                {/* Interactive Color Palette Overlay Widget */}
+                <ColorPaletteOverlay
+                  colorExt={state.exteriorColor}
+                  colorInt={state.interiorColor}
+                  onChangeExt={(color) => dispatch({ type: 'SET_EXTERIOR_COLOR', payload: color.id })}
+                  onChangeInt={(color) => dispatch({ type: 'SET_INTERIOR_COLOR', payload: color.id })}
+                />
               </div>
 
               {/* Data Breakdown */}

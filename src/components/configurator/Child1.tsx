@@ -109,7 +109,7 @@ export const Child1: React.FC<Child1Props> = ({
   return (
     <div className="absolute inset-0">
       <Canvas onDoubleClick={(e) => { e.stopPropagation(); controlsRef.current?.reset(); }} shadows gl={{ antialias: true, preserveDrawingBuffer: true }} camera={{ position: camPos, fov: 40 }}>
-        <color attach="background" args={['#f1f5f9']} />
+        <color attach="background" args={['#e2e8f0']} />
         <ambientLight intensity={0.4} />
         <directionalLight position={[W * 2, H * 2, -H * 2]} intensity={2.5} castShadow />
         <directionalLight position={[-W, H * 0.5, -H]} intensity={0.8} color="#a8c8ff" />

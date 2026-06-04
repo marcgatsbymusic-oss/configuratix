@@ -91,8 +91,20 @@ export const loadProfileGeometry = async (profileId: keyof typeof ProfileRegistr
     // Dynamic import to allow bundlers (Vite/Webpack) to code-split these files
     // Vite requires the file extension to be explicitly in the string template
     const filePath = metadata.fileName.replace('.json', '');
-    const module = await import(`./${filePath}.json`);
-    return module.default || module;
+    const parts = filePath.split('/');
+    if (parts.length === 2) {
+      const [dir, file] = parts;
+      let module;
+      if (dir === 'IGLO5') {
+        module = await import(`./IGLO5/${file}.json`);
+      } else if (dir === 'IgloEdge') {
+        module = await import(`./IgloEdge/${file}.json`);
+      } else {
+        throw new Error(`Unknown profile directory: ${dir}`);
+      }
+      return module.default || module;
+    }
+    throw new Error(`Invalid file path structure: ${metadata.fileName}`);
   } catch (error) {
     console.error(`Failed to load geometry for ${String(profileId)}:`, error);
     throw error;

@@ -1,5 +1,5 @@
 import React, { useRef, useMemo, useState, useEffect } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows, Html, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import { FrameSegment } from './FrameSegment';
@@ -54,12 +54,29 @@ export interface SLE201ViewerProps {
   colorGsk?: string;
   colorSpacer?: string;
   onSceneReady?: (group: THREE.Group) => void;
+  onDimensionChange?: (width: number, height: number) => void;
+  activeLimits?: { minWidth: number; maxWidth: number; minHeight: number; maxHeight: number };
 }
 
 // ─── Animation state ──────────────────────────────────────────────────────────
 type SlidingState = 'closed' | 'opening' | 'open' | 'closing';
 
-interface SlidingSceneProps extends Required<Omit<SLE201ViewerProps, 'onSceneReady'>> {
+const MammothLogo = ({ x, y, z }: { x: number; y: number; z: number }) => {
+  const texture = useLoader(THREE.TextureLoader, '/assets/mammut-logo-icon.png');
+  return (
+    <mesh position={[x, y, z]} rotation={[0, Math.PI, 0]}>
+      <planeGeometry args={[0.08, 0.08]} />
+      <meshBasicMaterial
+        map={texture}
+        transparent={true}
+        side={THREE.DoubleSide}
+        depthWrite={false}
+      />
+    </mesh>
+  );
+};
+
+interface SlidingSceneProps extends Required<Omit<SLE201ViewerProps, 'onSceneReady' | 'onDimensionChange' | 'activeLimits'>> {
   onSceneReady?: (group: THREE.Group) => void;
 }
 
@@ -190,7 +207,7 @@ function SlidingScene({
 
   const glassMat = useMemo(() => new THREE.MeshPhysicalMaterial({
     color: '#e0e8f0', metalness: 0.1, roughness: 0.05,
-    transmission: 0.9, ior: 1.5, thickness: 5*MM, transparent: true, opacity: 0.4,
+    transmission: 0.99, ior: 1.5, thickness: 5*MM, transparent: true, opacity: 0.15,
   }), []);
 
   // ── Shared FrameSegment builder ───────────────────────────────────────────
@@ -316,10 +333,23 @@ function SlidingScene({
       const glassH = H - 2 * pocketOffset * scale;
       const thickness = (maxX - minX) * scale;
       const centerZ   = -((minX + maxX) / 2) * scale;
+      const hasLogo   = false;
       return (
-        <mesh key={ln} position={[W/2, H/2, centerZ]} material={glassMat} castShadow receiveShadow>
-          <boxGeometry args={[glassW, glassH, thickness]} />
-        </mesh>
+        <group key={ln}>
+          <mesh position={[W/2, H/2, centerZ]} material={glassMat} castShadow receiveShadow>
+            <boxGeometry args={[glassW, glassH, thickness]} />
+          </mesh>
+          {hasLogo && (() => {
+            const logoX = W/2 - glassW/2 + 0.09;
+            const logoY = H/2 - glassH/2 + 0.09;
+            const logoZ = centerZ - thickness/2 - 0.001;
+            return (
+              <React.Suspense fallback={null}>
+                <MammothLogo x={logoX} y={logoY} z={logoZ} />
+              </React.Suspense>
+            );
+          })()}
+        </group>
       );
     });
   };
@@ -406,7 +436,40 @@ export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
   colorExtTexture, colorIntTexture,
   colorGsk = '#1c1c1c', colorSpacer = '#4B4B4D',
   onSceneReady,
+  onDimensionChange,
+  activeLimits,
 }) => {
+  const [widthText, setWidthText] = useState(width.toString());
+  const [heightText, setHeightText] = useState(height.toString());
+
+  const pillRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = pillRef.current;
+    if (!el) return;
+    const stopPropagation = (e: Event) => {
+      e.stopPropagation();
+    };
+    const events = ['pointerdown', 'mousedown', 'touchstart', 'click', 'dblclick'];
+    events.forEach(evt => {
+      el.addEventListener(evt, stopPropagation, { capture: true });
+    });
+    return () => {
+      events.forEach(evt => {
+        el.removeEventListener(evt, stopPropagation, { capture: true });
+      });
+    };
+  }, []);
+
+  useEffect(() => {
+    setWidthText(width.toString());
+    setHeightText(height.toString());
+  }, [width, height]);
+
+  const minW = activeLimits?.minWidth || 500;
+  const maxW = activeLimits?.maxWidth || 3000;
+  const minH = activeLimits?.minHeight || 500;
+  const maxH = activeLimits?.maxHeight || 3000;
   const scale = MM;
   const W = width * scale, H = height * scale;
   const controlsRef = useRef<any>(null);
@@ -419,20 +482,20 @@ export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
   const orbitTarget: [number,number,number] = [targetX, targetY, targetZ];
 
   return (
-    <div className="absolute inset-0 bg-[#f1f5f9]">
+    <div className="absolute inset-0 bg-[#e2e8f0]">
       <Canvas
         onDoubleClick={(e) => { e.stopPropagation(); controlsRef.current?.reset(); }}
         shadows gl={{ antialias: true, preserveDrawingBuffer: true }}
         camera={{ position: camPos, fov: 35 }}
       >
-        <color attach="background" args={['#f1f5f9']} />
+        <color attach="background" args={['#e2e8f0']} />
         <ambientLight intensity={0.4} />
         <directionalLight position={[W*2.5, H*3, -H*2]} intensity={2.5} castShadow
           shadow-mapSize-width={2048} shadow-mapSize-height={2048} shadow-bias={-0.0004} />
         <directionalLight position={[-W, H*.5, -H]}   intensity={0.8} color="#a8c8ff" />
         <directionalLight position={[W*.5, -H, -H*.5]} intensity={0.2} color="#ffe0a0" />
 
-        <React.Suspense fallback={null}><Environment preset="studio" /></React.Suspense>
+        <React.Suspense fallback={null}><Environment files="/assets/hdri/monochrome_studio_02_1k.exr" /></React.Suspense>
         <React.Suspense fallback={null}>
           <SlidingScene
             width={width} height={height}
@@ -452,10 +515,80 @@ export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
         style={{ background: 'rgba(8,8,22,.78)', border: '1px solid rgba(234,182,118,.22)', color: '#eab676', backdropFilter: 'blur(10px)' }}>
         IGLO EDGE SLE201
       </div>
-      <div className="absolute bottom-3 left-3 z-20 flex flex-col gap-0.5 px-2.5 py-1.5 rounded-lg pointer-events-none"
-        style={{ background: 'rgba(8,8,22,.65)', border: '1px solid rgba(255,255,255,.07)', backdropFilter: 'blur(8px)' }}>
-        <div style={{ fontSize: '11px', fontWeight: 800, color: '#eab676' }}>{width} x {height} mm</div>
-      </div>
+      {onDimensionChange ? (
+        <div 
+          ref={pillRef}
+          className="absolute bottom-3 left-3 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full pointer-events-auto" 
+          style={{ 
+            background: 'rgba(8,8,22,0.65)', 
+            border: '1px solid rgba(255,255,255,0.07)', 
+            backdropFilter: 'blur(8px)' 
+          }}
+        >
+          <input
+            type="number"
+            value={widthText}
+            onChange={(e) => {
+              setWidthText(e.target.value);
+              const num = Number(e.target.value);
+              if (!isNaN(num) && num >= minW && num <= maxW) {
+                onDimensionChange(num, height);
+              }
+            }}
+            onBlur={(e) => {
+              let val = Number(e.target.value) || minW;
+              val = Math.max(minW, Math.min(maxW, val));
+              onDimensionChange(val, height);
+              setWidthText(val.toString());
+            }}
+            onKeyDown={(e) => {
+              e.stopPropagation();
+              if (e.key === 'Enter') {
+                e.currentTarget.blur();
+              }
+            }}
+            onKeyUp={(e) => {
+              e.stopPropagation();
+            }}
+            className="w-12 bg-transparent text-[#eab676] text-center text-xs font-black tracking-widest focus:outline-none appearance-none"
+            style={{ border: 'none', padding: 0 }}
+          />
+          <span className="text-[#eab676]/60 text-xs font-black select-none pointer-events-none">x</span>
+          <input
+            type="number"
+            value={heightText}
+            onChange={(e) => {
+              setHeightText(e.target.value);
+              const num = Number(e.target.value);
+              if (!isNaN(num) && num >= minH && num <= maxH) {
+                onDimensionChange(width, num);
+              }
+            }}
+            onBlur={(e) => {
+              let val = Number(e.target.value) || minH;
+              val = Math.max(minH, Math.min(maxH, val));
+              onDimensionChange(width, val);
+              setHeightText(val.toString());
+            }}
+            onKeyDown={(e) => {
+              e.stopPropagation();
+              if (e.key === 'Enter') {
+                e.currentTarget.blur();
+              }
+            }}
+            onKeyUp={(e) => {
+              e.stopPropagation();
+            }}
+            className="w-12 bg-transparent text-[#eab676] text-center text-xs font-black tracking-widest focus:outline-none appearance-none"
+            style={{ border: 'none', padding: 0 }}
+          />
+          <span className="text-[#eab676] text-[10px] font-black ml-0.5 select-none pointer-events-none">mm</span>
+        </div>
+      ) : (
+        <div className="absolute bottom-3 left-3 z-20 flex flex-col gap-0.5 px-2.5 py-1.5 rounded-lg pointer-events-none" style={{ background: 'rgba(8,8,22,0.65)', border: '1px solid rgba(255,255,255,0.07)', backdropFilter: 'blur(8px)' }}>
+          <div style={{ fontSize: '11px', fontWeight: 800, color: '#eab676' }}>{width} x {height} mm</div>
+        </div>
+      )}
     </div>
   );
 };

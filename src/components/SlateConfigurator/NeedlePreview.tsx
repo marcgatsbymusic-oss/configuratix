@@ -28,18 +28,18 @@ export const NeedlePreview: React.FC<NeedlePreviewProps> = ({ state }) => {
 
     let active = true;
 
-    const enforceWhiteBg = (ctx: any) => {
+    const enforceGreyBg = (ctx: any) => {
       if (!ctx) return;
       if (ctx.renderer) {
-        ctx.renderer.setClearColor(0xffffff, 1);
+        ctx.renderer.setClearColor(0xe2e8f0, 1);
       }
       if (ctx.scene) {
-        const whiteColor = new THREE.Color(0xffffff);
-        if (ctx.scene.background !== whiteColor) {
+        const greyColor = new THREE.Color(0xe2e8f0);
+        if (ctx.scene.background !== greyColor) {
           try {
-            ctx.scene.background = whiteColor;
+            ctx.scene.background = greyColor;
           } catch (e) {
-            ctx.scene.background = whiteColor;
+            ctx.scene.background = greyColor;
           }
         }
         ctx.scene.traverse((child: any) => {
@@ -65,13 +65,13 @@ export const NeedlePreview: React.FC<NeedlePreviewProps> = ({ state }) => {
       if (!ctx) return;
 
       if (ctx.renderer) {
-        ctx.renderer.setClearColor(0xffffff, 1);
+        ctx.renderer.setClearColor(0xe2e8f0, 1);
         ctx.renderer.shadowMap.enabled = true;
         ctx.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         ctx.renderer.shadowMap.needsUpdate = true;
       }
 
-      enforceWhiteBg(ctx);
+      enforceGreyBg(ctx);
 
       if (ctx.scene) {
         // Traverse to enable shadows
@@ -145,11 +145,11 @@ export const NeedlePreview: React.FC<NeedlePreviewProps> = ({ state }) => {
       // 1. Force attributes on needle-engine DOM nodes (bypasses React attribute-binding issues)
       const engines = document.querySelectorAll('needle-engine');
       engines.forEach((eng: any) => {
-        if (eng.getAttribute('background-color') !== '#ffffff') {
-          eng.setAttribute('background-color', '#ffffff');
+        if (eng.getAttribute('background-color') !== '#e2e8f0') {
+          eng.setAttribute('background-color', '#e2e8f0');
         }
-        if (eng.getAttribute('loading-background') !== '#ffffff') {
-          eng.setAttribute('loading-background', '#ffffff');
+        if (eng.getAttribute('loading-background') !== '#e2e8f0') {
+          eng.setAttribute('loading-background', '#e2e8f0');
         }
       });
 
@@ -226,8 +226,8 @@ export const NeedlePreview: React.FC<NeedlePreviewProps> = ({ state }) => {
               style.id = 'mammut-needle-styles';
               style.textContent = `
                 :host, .loading, #loading, [part="canvas"], canvas {
-                  background-color: #ffffff !important;
-                  background: #ffffff !important;
+                  background-color: #e2e8f0 !important;
+                  background: #e2e8f0 !important;
                 }
                 div, section, main, article {
                   background-color: transparent !important;
@@ -249,7 +249,7 @@ export const NeedlePreview: React.FC<NeedlePreviewProps> = ({ state }) => {
       if (!active) return;
       const ctx = (engine as any).context;
       if (ctx) {
-        enforceWhiteBg(ctx);
+        enforceGreyBg(ctx);
       }
       cleanNeedleUIAndBackground();
     };
@@ -280,7 +280,7 @@ export const NeedlePreview: React.FC<NeedlePreviewProps> = ({ state }) => {
   }, []);
 
   return (
-    <div className="w-full h-full relative bg-white">
+    <div className="w-full h-full relative bg-[#e2e8f0]">
       {/* 
         This is the actual Needle Engine container.
         We point it to the .glb web project that should be generated via Unity/Blender.
@@ -288,9 +288,9 @@ export const NeedlePreview: React.FC<NeedlePreviewProps> = ({ state }) => {
       {React.createElement('needle-engine', {
         ref: engineRef,
         src: '/models/window-scene.glb',
-        style: { width: '100%', height: '100%', display: 'block', backgroundColor: '#ffffff' },
-        'background-color': '#ffffff',
-        'loading-background': '#ffffff'
+        style: { width: '100%', height: '100%', display: 'block', backgroundColor: '#e2e8f0' },
+        'background-color': '#e2e8f0',
+        'loading-background': '#e2e8f0'
       })}
     </div>
   );

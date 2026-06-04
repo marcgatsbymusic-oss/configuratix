@@ -11,6 +11,7 @@ import { F100TViewer } from '../components/configurator/F100TViewer';
 import { Child1 } from '../components/configurator/Child1';
 import { F101CViewer } from '../components/configurator/F101CViewer';
 import { SLE201Viewer } from '../components/configurator/SLE201Viewer';
+import { ColorPaletteOverlay } from '../components/configurator/ColorPaletteOverlay';
 import { PerformanceConsole } from '../components/configurator/PerformanceConsole';
 import { ArViewer } from '../components/configurator/ArViewer';
 import glazingOptions from '../data/cantor_glazing_options.json';
@@ -612,6 +613,10 @@ const NumericScrollWheel = ({
 
   const handlePointerDown = (e: React.PointerEvent) => {
     if (isEditing) return;
+    const target = e.target as HTMLElement;
+    if (target && target.closest('.dimension-badge')) {
+      return;
+    }
     e.stopPropagation();
     setIsDragging(true);
     const pos = isVert ? e.clientY : e.clientX;
@@ -656,6 +661,10 @@ const NumericScrollWheel = ({
 
     const onTouchStart = (e: TouchEvent) => {
       if (isEditingRef.current) return;
+      const target = e.target as HTMLElement;
+      if (target && target.closest('.dimension-badge')) {
+        return;
+      }
       e.stopPropagation();
       isTouchDragging.current = true;
       setIsDragging(true);
@@ -874,9 +883,18 @@ const NumericScrollWheel = ({
             e.stopPropagation();
             setIsEditing(true);
           }}
+          onPointerDown={(e) => {
+            e.stopPropagation();
+          }}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}
+          onTouchStart={(e) => {
+            e.stopPropagation();
+          }}
           onMouseEnter={() => setIsBadgeHovered(true)}
           onMouseLeave={() => setIsBadgeHovered(false)}
-          className={`flex items-center justify-center pointer-events-auto cursor-pointer select-none touch-none transition-all duration-300 transform active:scale-95 ${
+          className={`dimension-badge flex items-center justify-center pointer-events-auto cursor-pointer select-none touch-none transition-all duration-300 transform active:scale-95 ${
             isVert && !isEditing ? 'origin-center' : (isVert ? 'origin-left' : 'origin-center')
           } ${
             isEditing 
@@ -1007,23 +1025,12 @@ const ColorScrollWheel = ({
   const isLight = theme === 'light' || document.documentElement.getAttribute('data-theme') === 'light';
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [scrollPos, setScrollPos] = useState(0);
   const [visibleDim, setVisibleDim] = useState(300);
-  const [isScrolling, setIsScrolling] = useState(false);
-  const [isOverActiveSwatch, setIsOverActiveSwatch] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isEditingSearch, setIsEditingSearch] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (scrollTimeoutRef.current !== null) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-    };
-  }, []);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [hoveredSwatchIdx, setHoveredSwatchIdx] = useState<number | null>(null);
 
   const flatOpts = (Object.values(groupedOptions).flat() as any[]) || [];
   const rawOptions = showDefault 
@@ -1083,39 +1090,6 @@ const ColorScrollWheel = ({
     return true;
   });
 
-  // Responsive sizes based on container width
-  const stepWidth = visibleDim < 640 ? 90 : 130;
-  const baseSize = visibleDim < 640 ? 110 : 160;
-
-  const currentIndex = options.findIndex(o => o.code === value);
-  const activeIdx = currentIndex !== -1 ? currentIndex : 0;
-
-  const lastValueRef = useRef<string | null>(null);
-  const lastProgrammaticScrollRef = useRef<number | null>(null);
-
-  // Synchronize scroll position with active value & handle filtered options changes
-  useEffect(() => {
-    if (options.length === 0) return;
-
-    const idx = options.findIndex(o => o.code === value);
-    if (idx === -1) {
-      // Selected value not found in current options (due to filter), select first match
-      onChange(options[0].code);
-    } else {
-      // Value is in the options list, make sure scroll matches
-      if (scrollContainerRef.current) {
-        const targetScroll = idx * stepWidth;
-        const currentScroll = scrollContainerRef.current.scrollLeft;
-        if (Math.abs(currentScroll - targetScroll) > 1.5) {
-          lastProgrammaticScrollRef.current = targetScroll;
-          scrollContainerRef.current.scrollLeft = targetScroll;
-          setScrollPos(targetScroll);
-        }
-      }
-      lastValueRef.current = value;
-    }
-  }, [value, options, stepWidth, onChange]);
-
   useEffect(() => {
     if (!containerRef.current) return;
     const resizeObserver = new ResizeObserver((entries) => {
@@ -1128,119 +1102,97 @@ const ColorScrollWheel = ({
     return () => resizeObserver.disconnect();
   }, []);
 
-  const handleScroll = () => {
-    if (scrollContainerRef.current) {
-      const sPos = scrollContainerRef.current.scrollLeft;
-      
-      setIsScrolling(true);
-      if (scrollTimeoutRef.current !== null) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-      scrollTimeoutRef.current = setTimeout(() => {
-        setIsScrolling(false);
-      }, 150);
-
-      if (lastProgrammaticScrollRef.current !== null && Math.abs(sPos - lastProgrammaticScrollRef.current) < 1.1) {
-        lastProgrammaticScrollRef.current = null;
-        setScrollPos(sPos);
-        return;
-      }
-
-      setScrollPos(sPos);
-      
-      const idx = Math.round(sPos / stepWidth);
-      if (idx >= 0 && idx < options.length) {
-        const activeOpt = options[idx];
-        if (activeOpt.code !== value) {
-          lastValueRef.current = activeOpt.code;
-          onChange(activeOpt.code);
-        }
-      }
+  // Sync selected value: if it isn't in the filtered list, don't force reset immediately but verify
+  useEffect(() => {
+    if (options.length === 0) return;
+    const idx = options.findIndex(o => o.code === value);
+    if (idx === -1) {
+      onChange(options[0].code);
     }
-  };
+  }, [value, options, onChange]);
 
-  const handleWheel = (e: React.WheelEvent) => {
-    if (scrollContainerRef.current) {
-      e.preventDefault();
-      e.stopPropagation();
-      scrollContainerRef.current.scrollLeft += e.deltaY;
+  // Distribute options to outer and inner arcs
+  const activeIndex = options.findIndex(o => o.code === value);
+  const totalSlots = 13; // 7 outer + 6 inner
+  const hasMore = options.length > totalSlots;
+
+  let displayedOptions = [...options];
+  if (hasMore) {
+    displayedOptions = options.slice(0, totalSlots);
+    // Ensure currently selected option is in the displayed set
+    if (activeIndex >= totalSlots) {
+      displayedOptions[totalSlots - 1] = options[activeIndex];
     }
-  };
+  }
 
-  const adjustIndex = (dir: 'prev' | 'next') => {
-    const nextIdx = dir === 'prev' ? activeIdx - 1 : activeIdx + 1;
-    if (nextIdx >= 0 && nextIdx < options.length) {
-      onChange(options[nextIdx].code);
-    }
-  };
-
-  const centerIdx = Math.round(scrollPos / stepWidth);
-  const visibleHalf = Math.ceil((visibleDim / 2) / stepWidth) + 4;
-  const startIdx = Math.max(0, centerIdx - visibleHalf);
-  const endIdx = Math.min(options.length - 1, centerIdx + visibleHalf);
-
-  const R = Math.max(120, visibleDim / 1.9);
+  // Calculate layout parameters dynamically based on visibleDim
+  const W = Math.min(800, visibleDim);
+  const H = 190; // Fixed container height for the curve
+  const xc = W * 0.92;
+  const yc = H * 1.35;
+  const Rout = Math.min(290, W * 0.58);
+  const Rin = Rout * 0.73;
+  
+  const Sw = Math.max(26, Math.min(36, W * 0.065));
+  const Sh = Sw * 1.5;
 
   const swatches = [];
-  for (let i = startIdx; i <= endIdx; i++) {
-    const itemOffset = i * stepWidth - scrollPos;
-    const angle = itemOffset / R;
-    if (Math.abs(angle) > 1.6) continue;
 
-    const trigVal = R * Math.sin(angle);
-    const cosVal = Math.cos(angle);
-    const scale = Math.pow(cosVal, 1.8);
+  // Outer Arc: 7 items (indices 0 to 6)
+  const outerCount = Math.min(7, displayedOptions.length);
+  const thetaOutStart = 185 * Math.PI / 180;
+  const thetaOutEnd = 250 * Math.PI / 180;
+  const dThetaOut = outerCount > 1 ? (thetaOutEnd - thetaOutStart) / 6 : 0;
 
-    const size = baseSize * scale;
-    const opacity = Math.max(0, cosVal * cosVal);
-
-    const opt = options[i];
+  for (let i = 0; i < outerCount; i++) {
+    const opt = displayedOptions[i];
     const isSelected = opt.code === value;
     const isDefault = opt.code === '';
+    const angle = thetaOutStart + i * dThetaOut;
 
-    // Active color doubles in size on hover, other colors shrink to 0.75x
+    const x = xc + Rout * Math.cos(angle);
+    const y = yc + Rout * Math.sin(angle);
+    const rotation = (angle * 180 / Math.PI) + 90;
+
+    const isHovered = hoveredSwatchIdx === i;
     const hoverScale = isSelected 
-      ? (isOverActiveSwatch ? 2.0 : 1.0) 
-      : (isOverActiveSwatch ? 0.75 : 1.0);
+      ? (isHovered ? 1.4 : 1.1) 
+      : (isHovered ? 1.25 : 1.0);
 
-    const distance = Math.abs(i - centerIdx);
-    const zIndex = isSelected ? 40 : Math.max(10, 30 - distance);
+    const zIndex = isSelected ? 40 : (isHovered ? 35 : 10 + i);
 
     swatches.push(
       <div
-        key={`swatch-${i}-${opt.code}`}
-        onClick={() => {
-          onChange(opt.code);
-        }}
-        className={`absolute cursor-pointer rounded-xl border transition-all duration-300 ease-out flex items-center justify-center ${
+        key={`swatch-out-${i}-${opt.code}`}
+        onClick={() => onChange(opt.code)}
+        onMouseEnter={() => setHoveredSwatchIdx(i)}
+        onMouseLeave={() => setHoveredSwatchIdx(null)}
+        className={`absolute cursor-pointer rounded-lg border transition-all duration-300 ease-out flex items-center justify-center ${
           isSelected 
             ? (isLight ? 'border-black ring-4 ring-black/25 shadow-md bg-white' : 'border-mammut-gold ring-4 ring-mammut-gold/45 shadow-[0_0_20px_rgba(217,119,6,0.6)]') 
             : (isLight ? 'border-zinc-200 hover:border-zinc-400 bg-zinc-50' : 'border-gray-800 hover:border-gray-500')
         }`}
         style={{
-          left: `calc(50% + ${trigVal}px - ${size / 2}px)`,
-          top: `calc(50% - ${size / 2}px)`,
-          width: size,
-          height: size,
-          opacity: opacity,
+          left: `${x - Sw / 2}px`,
+          top: `${y - Sh / 2}px`,
+          width: Sw,
+          height: Sh,
           zIndex: zIndex,
           backgroundImage: opt.swatchUrl ? `url(${opt.swatchUrl})` : 'none',
           backgroundColor: opt.swatchUrl ? 'transparent' : opt.hex || '#4B4B4D',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          boxShadow: isSelected ? 'none' : (isLight ? 'inset 0 2px 4px rgba(0,0,0,0.15)' : 'inset 0 4px 8px rgba(0,0,0,0.6)'),
-          transform: `scale(${hoverScale})`
+          boxShadow: isSelected ? 'none' : (isLight ? 'inset 0 1px 3px rgba(0,0,0,0.15)' : 'inset 0 2px 4px rgba(0,0,0,0.6)'),
+          transform: `rotate(${rotation}deg) scale(${hoverScale})`
         }}
         title={`${opt.code} - ${opt.name}`}
       >
         {isDefault && (
-          <div className={`text-[10px] md:text-xs font-black font-sans px-2 py-1 rounded border text-center select-none pointer-events-none uppercase tracking-wide ${
-            isLight ? 'text-zinc-650 bg-white/95 border-zinc-250' : 'text-gray-300 bg-mammut-black/70 border-gray-700/50'
-          }`}>
-            Default
+          <div className="text-[7px] font-black font-sans leading-none text-center select-none pointer-events-none uppercase tracking-tight text-gray-300 bg-mammut-black/80 px-1 py-0.5 rounded border border-gray-700/50">
+            Def
           </div>
         )}
-        {isSelected && !isOverActiveSwatch && !isScrolling && (
+        {isSelected && !isHovered && (
           <div 
             className={`absolute bg-gradient-to-br from-emerald-400 to-emerald-600 text-white rounded-full flex items-center justify-center shadow-lg border z-35 animate-scale-in ${
               isLight ? 'border-white' : 'border-mammut-darker'
@@ -1248,12 +1200,11 @@ const ColorScrollWheel = ({
             style={{
               top: '-3px',
               right: '-3px',
-              width: visibleDim < 640 ? '16px' : '22px',
-              height: visibleDim < 640 ? '16px' : '22px',
+              width: '14px',
+              height: '14px',
             }}
-            title="Selected finish"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-2.5 h-2.5 md:w-3.5 md:h-3.5 text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4.5} stroke="currentColor" className="w-2 h-2 text-white">
               <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
             </svg>
           </div>
@@ -1262,8 +1213,121 @@ const ColorScrollWheel = ({
     );
   }
 
-  const paddingVal = Math.max(0, visibleDim / 2 - stepWidth / 2);
-  const activeOpt = options[activeIdx] || { code: '', name: t('noColorsFound', 'No matching colors found'), swatchUrl: '', hex: '#4B4B4D' };
+  // Inner Arc: 6 items (indices 7 to 12)
+  const innerCount = Math.max(0, Math.min(6, displayedOptions.length - 7));
+  const thetaInStart = 190 * Math.PI / 180;
+  const thetaInEnd = 242 * Math.PI / 180;
+  const dThetaIn = innerCount > 1 ? (thetaInEnd - thetaInStart) / 5 : 0;
+
+  for (let i = 0; i < innerCount; i++) {
+    const idx = 7 + i;
+    const opt = displayedOptions[idx];
+    const isSelected = opt.code === value;
+    const isDefault = opt.code === '';
+    const angle = thetaInStart + i * dThetaIn;
+
+    const x = xc + Rin * Math.cos(angle);
+    const y = yc + Rin * Math.sin(angle);
+    const rotation = (angle * 180 / Math.PI) + 90;
+
+    const isHovered = hoveredSwatchIdx === idx;
+    const hoverScale = isSelected 
+      ? (isHovered ? 1.4 : 1.1) 
+      : (isHovered ? 1.25 : 1.0);
+
+    const zIndex = isSelected ? 40 : (isHovered ? 35 : 10 + idx);
+
+    swatches.push(
+      <div
+        key={`swatch-in-${i}-${opt.code}`}
+        onClick={() => onChange(opt.code)}
+        onMouseEnter={() => setHoveredSwatchIdx(idx)}
+        onMouseLeave={() => setHoveredSwatchIdx(null)}
+        className={`absolute cursor-pointer rounded-lg border transition-all duration-300 ease-out flex items-center justify-center ${
+          isSelected 
+            ? (isLight ? 'border-black ring-4 ring-black/25 shadow-md bg-white' : 'border-mammut-gold ring-4 ring-mammut-gold/45 shadow-[0_0_20px_rgba(217,119,6,0.6)]') 
+            : (isLight ? 'border-zinc-200 hover:border-zinc-400 bg-zinc-50' : 'border-gray-800 hover:border-gray-500')
+        }`}
+        style={{
+          left: `${x - Sw / 2}px`,
+          top: `${y - Sh / 2}px`,
+          width: Sw,
+          height: Sh,
+          zIndex: zIndex,
+          backgroundImage: opt.swatchUrl ? `url(${opt.swatchUrl})` : 'none',
+          backgroundColor: opt.swatchUrl ? 'transparent' : opt.hex || '#4B4B4D',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          boxShadow: isSelected ? 'none' : (isLight ? 'inset 0 1px 3px rgba(0,0,0,0.15)' : 'inset 0 2px 4px rgba(0,0,0,0.6)'),
+          transform: `rotate(${rotation}deg) scale(${hoverScale})`
+        }}
+        title={`${opt.code} - ${opt.name}`}
+      >
+        {isDefault && (
+          <div className="text-[7px] font-black font-sans leading-none text-center select-none pointer-events-none uppercase tracking-tight text-gray-300 bg-mammut-black/80 px-1 py-0.5 rounded border border-gray-700/50">
+            Def
+          </div>
+        )}
+        {isSelected && !isHovered && (
+          <div 
+            className={`absolute bg-gradient-to-br from-emerald-400 to-emerald-600 text-white rounded-full flex items-center justify-center shadow-lg border z-35 animate-scale-in ${
+              isLight ? 'border-white' : 'border-mammut-darker'
+            }`}
+            style={{
+              top: '-3px',
+              right: '-3px',
+              width: '14px',
+              height: '14px',
+            }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4.5} stroke="currentColor" className="w-2 h-2 text-white">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // "+" (More Colors) Button: placed at theta = 254 deg on the inner radius
+  if (hasMore) {
+    const angle = 254 * Math.PI / 180;
+    const x = xc + Rin * Math.cos(angle);
+    const y = yc + Rin * Math.sin(angle);
+    const rotation = (angle * 180 / Math.PI) + 90;
+    const isHovered = hoveredSwatchIdx === 999;
+    const hoverScale = isHovered ? 1.3 : 1.1;
+
+    swatches.push(
+      <button
+        key="more-colors-btn"
+        type="button"
+        onClick={() => setIsModalOpen(true)}
+        onMouseEnter={() => setHoveredSwatchIdx(999)}
+        onMouseLeave={() => setHoveredSwatchIdx(null)}
+        className={`absolute cursor-pointer rounded-lg border flex flex-col items-center justify-center font-sans transition-all duration-300 ease-out select-none ${
+          isLight
+            ? 'bg-zinc-100 hover:bg-black hover:text-white border-zinc-300 text-zinc-700 shadow-sm'
+            : 'bg-mammut-dark hover:bg-mammut-gold hover:text-black border-gray-800 text-mammut-gold'
+        }`}
+        style={{
+          left: `${x - Sw / 2}px`,
+          top: `${y - Sh / 2}px`,
+          width: Sw,
+          height: Sh,
+          zIndex: 45,
+          transform: `rotate(${rotation}deg) scale(${hoverScale})`,
+          boxShadow: isLight ? '0 1px 3px rgba(0,0,0,0.1)' : '0 2px 8px rgba(0,0,0,0.4)',
+        }}
+        title="Show all colors"
+      >
+        <span className="text-sm font-black leading-none select-none pointer-events-none">+</span>
+        <span className="text-[5px] font-black leading-none uppercase select-none pointer-events-none mt-0.5 tracking-tighter">More</span>
+      </button>
+    );
+  }
+
+  const activeOpt = options[activeIndex !== -1 ? activeIndex : 0] || { code: '', name: t('noColorsFound', 'No matching colors found'), swatchUrl: '', hex: '#4B4B4D' };
 
   return (
     <div className="flex flex-col gap-1.5 w-full relative overflow-visible z-20">
@@ -1327,33 +1391,23 @@ const ColorScrollWheel = ({
           </svg>
         </button>
       </div>
+
       <div 
         ref={containerRef}
-        onWheel={handleWheel}
-        onMouseMove={(e) => {
-          if (!containerRef.current) return;
-          const rect = containerRef.current.getBoundingClientRect();
-          const mouseX = e.clientX - rect.left;
-          const mouseY = e.clientY - rect.top;
-          
-          const centerX = rect.width / 2;
-          const centerY = rect.height / 2;
-          
-          // Check if cursor is within the central swatch circle
-          const radius = baseSize / 2;
-          const distSq = Math.pow(mouseX - centerX, 2) + Math.pow(mouseY - centerY, 2);
-          const isOver = distSq <= radius * radius;
-          if (isOver !== isOverActiveSwatch) {
-            setIsOverActiveSwatch(isOver);
-          }
-        }}
-        onMouseLeave={() => {
-          setIsOverActiveSwatch(false);
-        }}
-        className={`relative rounded-xl overflow-visible select-none shadow-inner flex items-center justify-center group w-full h-[140px] md:h-[190px] border ${
+        className={`relative rounded-xl overflow-hidden select-none shadow-inner flex items-center justify-center group w-full h-[190px] border transition-all duration-300 ${
           isLight ? 'bg-zinc-50 border-zinc-200' : 'bg-mammut-dark border-gray-855'
         }`}
       >
+        <style>{`
+          @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+          }
+          .animate-scale-in {
+            animation: scaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          }
+        `}</style>
+
         {options.length === 0 ? (
           <div className={`absolute inset-0 flex flex-col items-center justify-center font-bold text-sm pointer-events-none px-4 z-35 backdrop-blur-sm rounded-xl ${
             isLight ? 'bg-white/80 text-zinc-650' : 'bg-mammut-darker/60 text-gray-400'
@@ -1376,83 +1430,87 @@ const ColorScrollWheel = ({
             </button>
           </div>
         ) : (
-          <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden z-10">
+          <div className="absolute inset-0 pointer-events-auto">
             {swatches}
           </div>
         )}
 
-        {/* Gradients */}
-        <div className={`absolute inset-y-0 left-0 w-20 bg-gradient-to-r to-transparent pointer-events-none z-15 opacity-90 ${
-          isLight ? 'from-zinc-50' : 'from-mammut-dark'
-        }`} />
-        <div className={`absolute inset-y-0 right-0 w-20 bg-gradient-to-l to-transparent pointer-events-none z-15 opacity-90 ${
-          isLight ? 'from-zinc-50' : 'from-mammut-dark'
-        }`} />
-
-        {/* Scroll Container */}
-        {options.length > 0 && (
+        {/* Dynamic Popover Grid overlay for More Colors */}
+        {isModalOpen && (
           <div 
-            ref={scrollContainerRef}
-            onScroll={handleScroll}
-            onPointerDown={(e) => e.stopPropagation()}
-            onPointerMove={(e) => e.stopPropagation()}
-            onPointerUp={(e) => e.stopPropagation()}
-            onTouchStart={(e) => e.stopPropagation()}
-            onTouchMove={(e) => e.stopPropagation()}
-            onTouchEnd={(e) => e.stopPropagation()}
-            className="absolute inset-0 z-20 cursor-grab active:cursor-grabbing flex overflow-x-scroll snap-x snap-mandatory"
-            style={{ 
-              scrollbarWidth: 'none', 
-              msOverflowStyle: 'none',
-            }}
+            className={`absolute inset-0 z-50 p-3 flex flex-col rounded-xl border backdrop-blur-md shadow-2xl transition-all duration-300 animate-scale-in ${
+              isLight ? 'bg-white/95 border-zinc-200 text-black' : 'bg-zinc-950/95 border-zinc-800 text-slate-100'
+            }`}
           >
-            <div style={{ width: paddingVal, flexShrink: 0 }} />
-            {options.map((opt, i) => (
-              <div 
-                key={`snap-${i}`}
-                className="snap-center shrink-0 pointer-events-auto"
-                style={{ width: stepWidth, height: '100%' }}
-                onClick={() => onChange(opt.code)}
-              />
-            ))}
-            <div style={{ width: paddingVal, flexShrink: 0 }} />
+            {/* Popover header with Search input and Close button */}
+            <div className="flex items-center justify-between gap-2 border-b pb-2 mb-2 border-zinc-850/40">
+              <div className="relative flex-1">
+                <input 
+                  type="text" 
+                  placeholder={t('searchColorPlaceholder', 'Search color...')}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className={`w-full bg-transparent focus:outline-none text-xs font-bold font-mono pl-7 pr-2 py-1 border-b ${
+                    isLight ? 'border-zinc-300 text-black focus:border-black' : 'border-zinc-850 text-slate-100 focus:border-mammut-gold'
+                  }`}
+                  autoFocus
+                />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5 absolute left-1 top-1 text-gray-500">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.604 10.604z" />
+                </svg>
+              </div>
+              <button 
+                type="button"
+                onClick={() => setIsModalOpen(false)}
+                className={`w-6 h-6 flex items-center justify-center rounded-full border text-xs font-bold transition-all hover:scale-105 active:scale-95 cursor-pointer ${
+                  isLight ? 'bg-zinc-150 border-zinc-300 text-zinc-700 hover:text-black' : 'bg-gray-900 border-gray-800 text-gray-400 hover:text-white'
+                }`}
+              >
+                ✕
+              </button>
+            </div>
+            
+            {/* Swatches Grid */}
+            <div className="flex-1 overflow-y-auto grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 gap-1.5 pr-1 scrollbar-thin">
+              {options.map((opt) => {
+                const isSel = opt.code === value;
+                const isDef = opt.code === '';
+                return (
+                  <div 
+                    key={`modal-${opt.code}`}
+                    onClick={() => {
+                      onChange(opt.code);
+                      setIsModalOpen(false);
+                    }}
+                    className={`cursor-pointer rounded-lg border transition-all hover:scale-105 relative flex items-center justify-center aspect-square ${
+                      isSel 
+                        ? (isLight ? 'border-black ring-2 ring-black/25 bg-white' : 'border-mammut-gold ring-2 ring-mammut-gold/45 shadow-[0_0_10px_rgba(217,119,6,0.4)]') 
+                        : (isLight ? 'border-zinc-200 hover:border-zinc-400 bg-zinc-50' : 'border-gray-800 hover:border-gray-700')
+                    }`}
+                    style={{
+                      backgroundImage: opt.swatchUrl ? `url(${opt.swatchUrl})` : 'none',
+                      backgroundColor: opt.swatchUrl ? 'transparent' : opt.hex || '#4B4B4D',
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                    }}
+                    title={`${opt.code} - ${opt.name}`}
+                  >
+                    {isDef && <span className="text-[8px] font-black uppercase tracking-wider text-center text-gray-300 bg-mammut-black/80 px-1 py-0.5 rounded border border-gray-700/50">Def</span>}
+                    {isSel && (
+                      <div className="absolute inset-0 bg-black/30 rounded-lg flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-5 h-5 text-mammut-gold">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+              {options.length === 0 && (
+                <div className="col-span-full text-center text-xs text-gray-500 py-6">No matching colors found</div>
+              )}
+            </div>
           </div>
-        )}
-
-        {/* Arrow Left */}
-        {options.length > 0 && (
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); adjustIndex('prev'); }}
-            className={`absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg active:scale-90 transition-all duration-150 cursor-pointer select-none left-2 md:left-3 top-1/2 -translate-y-1/2 border ${
-              isLight 
-                ? 'bg-white border-zinc-200 text-zinc-700 hover:text-black hover:border-black shadow-sm' 
-                : 'bg-mammut-black/85 border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50'
-            }`}
-            title="Previous Color"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-            </svg>
-          </button>
-        )}
-
-        {/* Arrow Right */}
-        {options.length > 0 && (
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); adjustIndex('next'); }}
-            className={`absolute z-30 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-lg active:scale-90 transition-all duration-150 cursor-pointer select-none right-2 md:right-3 top-1/2 -translate-y-1/2 border ${
-              isLight 
-                ? 'bg-white border-zinc-200 text-zinc-700 hover:text-black hover:border-black shadow-sm' 
-                : 'bg-mammut-black/85 border-gray-800 text-amber-700 hover:text-mammut-gold hover:border-mammut-gold/50'
-            }`}
-            title="Next Color"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3 md:w-4 md:h-4">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-            </svg>
-          </button>
         )}
       </div>
 
@@ -1534,6 +1592,113 @@ const ColorScrollWheel = ({
           </span>
         </div>
       )}
+    </div>
+  );
+};
+
+
+const ColorSwatchSelector = ({
+  label,
+  value,
+  onChange,
+  showDefault = false
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  showDefault?: boolean;
+}) => {
+  const { t } = useTranslation();
+  const { theme } = useThemeStore();
+  const isLight = theme === 'light' || document.documentElement.getAttribute('data-theme') === 'light';
+
+  // Group colors by category (Solid, Wood Effect, Metal Effect)
+  const grouped = IGLO_EDGE_COLORS.reduce((acc: any, val: any) => {
+    const group = val.group || 'Other';
+    if (!acc[group]) acc[group] = [];
+    acc[group].push(val);
+    return acc;
+  }, {});
+
+  return (
+    <div className="flex flex-col gap-1.5 w-full relative overflow-visible z-20">
+      <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${
+        isLight ? 'text-zinc-500' : 'text-gray-400'
+      }`}>{label}</label>
+
+      <div 
+        className={`rounded-xl p-4 select-none shadow-inner w-full border transition-all duration-300 ${
+          isLight ? 'bg-zinc-50 border-zinc-200' : 'bg-mammut-dark border-gray-855'
+        }`}
+      >
+        <div className="flex flex-col gap-4 overflow-y-auto max-h-[280px] pr-1 scrollbar-thin">
+          {showDefault && (
+            <div className="flex flex-col gap-1">
+              <h4 className="text-mammut-gold text-[10px] font-bold uppercase tracking-[0.2em]">
+                {t('defaultOption', 'Default Option')}
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => onChange('')}
+                  className={`relative group w-8 h-8 rounded transition-all duration-200 flex items-center justify-center border text-[9px] font-bold uppercase ${
+                    value === ''
+                      ? 'border-mammut-gold ring-2 ring-mammut-gold/45 bg-mammut-black text-mammut-gold'
+                      : (isLight ? 'border-zinc-300 hover:border-zinc-450 bg-white text-zinc-700' : 'border-gray-800 hover:border-gray-700 bg-mammut-black text-gray-400')
+                  }`}
+                  title="Default (same as Ext)"
+                >
+                  Def
+                </button>
+              </div>
+            </div>
+          )}
+
+          {Object.entries(grouped).map(([groupName, groupColors]: [string, any]) => (
+            <div key={groupName} className="flex flex-col gap-1.5">
+              <h4 className="text-mammut-gold text-[10px] font-bold uppercase tracking-[0.2em] mb-1">
+                {t(`colorGroups.${groupName}`, groupName)}
+              </h4>
+              <div className="flex flex-wrap gap-2.5">
+                {groupColors.map((color: any) => {
+                  const colorCode = color.id.replace('c', '').padStart(4, '0');
+                  const isSelected = colorCode === value;
+                  return (
+                    <button
+                      key={color.id}
+                      type="button"
+                      onClick={() => onChange(colorCode)}
+                      className={`relative group w-8 h-8 rounded transition-all duration-200 border outline outline-offset-1 ${
+                        isSelected 
+                          ? 'outline-[#eab676] border-black/10' 
+                          : 'outline-transparent hover:outline-black/20 border-black/10'
+                      }`}
+                      aria-label={`Select color ${t(`colors.${color.id}`, color.name)}`}
+                      title={`${colorCode} - ${t(`colors.${color.id}`, color.name)}`}
+                    >
+                      {color.image ? (
+                        <div 
+                          className="w-full h-full rounded bg-cover bg-center"
+                          style={{ backgroundImage: `url(${color.image})` }}
+                        />
+                      ) : (
+                        <div
+                          className="w-full h-full rounded"
+                          style={{ backgroundColor: color.hex }}
+                        />
+                      )}
+                      {/* Tooltip on hover */}
+                      <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max px-2 py-1 bg-white border border-gray-200 text-black text-[9px] uppercase font-semibold opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 shadow-lg shadow-black/50">
+                        {colorCode} - {t(`colors.${color.id}`, color.name)}
+                      </span>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
@@ -2384,13 +2549,16 @@ export function DebugPricing() {
   const [isSceneryMenuOpen, setIsSceneryMenuOpen] = useState(false);
   const sceneryMenuRef = useRef<HTMLDivElement>(null);
   const [customBackground, setCustomBackground] = useState<string | null>(null);
+  const [isColorWheelOpen, setIsColorWheelOpen] = useState(false);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent | TouchEvent) {
       if (arMenuRef.current && !arMenuRef.current.contains(event.target as Node)) {
         setArMenuOpen(false);
       }
-      if (sceneryMenuRef.current && !sceneryMenuRef.current.contains(event.target as Node)) {
+      if (sceneryMenuRef.current && 
+          !sceneryMenuRef.current.contains(event.target as Node) &&
+          (!arMenuRef.current || !arMenuRef.current.contains(event.target as Node))) {
         setIsSceneryMenuOpen(false);
       }
       if (categoryMenuRef.current && !categoryMenuRef.current.contains(event.target as Node)) {
@@ -2432,6 +2600,19 @@ export function DebugPricing() {
   const [overwriteCoreColor, setOverwriteCoreColor] = useState(false);
   const [coreColor, setCoreColor] = useState('');
 
+  // Automatically keep colorType in sync with the selected colors
+  useEffect(() => {
+    if (colorCode === '0197' && interiorColorCode === '0197') {
+      setColorType('W-W');
+    } else if (colorCode === '0197') {
+      setColorType('W-DEK');
+    } else if (interiorColorCode === '0197') {
+      setColorType('DEK-W');
+    } else {
+      setColorType('DEK-DEK');
+    }
+  }, [colorCode, interiorColorCode]);
+
   // 6) Window options
   const [windowUnit] = useState('');
   const [safetyClass, setSafetyClass] = useState('');
@@ -2460,43 +2641,9 @@ export function DebugPricing() {
   const [needleModelUrl, setNeedleModelUrl] = useState<string | null>(null);
   const [needleEngineNode, setNeedleEngineNode] = useState<HTMLElement | null>(null);
 
-  const [debugLogs, setDebugLogs] = useState<string[]>([]);
-  useEffect(() => {
-    const originalLog = console.log;
-    const originalWarn = console.warn;
-    const originalError = console.error;
 
-    console.log = (...args) => {
-      setDebugLogs(prev => [...prev.slice(-19), '[LOG] ' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ')]);
-      originalLog(...args);
-    };
-    console.warn = (...args) => {
-      setDebugLogs(prev => [...prev.slice(-19), '[WARN] ' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ')]);
-      originalWarn(...args);
-    };
-    console.error = (...args) => {
-      setDebugLogs(prev => [...prev.slice(-19), '[ERROR] ' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ')]);
-      originalError(...args);
-    };
 
-    return () => {
-      console.log = originalLog;
-      console.warn = originalWarn;
-      console.error = originalError;
-    };
-  }, []);
 
-  useEffect(() => {
-    console.log('[Needle URL Updated]', needleModelUrl ? needleModelUrl.slice(0, 40) + '...' : 'Null');
-  }, [needleModelUrl]);
-
-  useEffect(() => {
-    console.log('[Scene Group Updated]', sceneGroup ? 'Has Group' : 'Null');
-  }, [sceneGroup]);
-
-  useEffect(() => {
-    console.log('[Needle Engine Node]', needleEngineNode ? 'Has Node' : 'Null');
-  }, [needleEngineNode]);
 
   useEffect(() => {
     if (!sceneGroup) return;
@@ -2728,6 +2875,13 @@ export function DebugPricing() {
                 div, section, main, article {
                   background-color: transparent !important;
                 }
+                /* Hide Needle's built-in debug/stats panels */
+                .stats, #stats, [class*="debug"], [id*="debug"],
+                [class*="stats"], [id*="stats"],
+                [class*="needle-debug"], [id*="needle-debug"] {
+                  display: none !important;
+                  visibility: hidden !important;
+                }
               `;
               el.shadowRoot.appendChild(style);
             }
@@ -2740,7 +2894,7 @@ export function DebugPricing() {
       recurse(document.body);
     };
 
-    // Continuous tick loop
+    // Periodic check (1s interval) — avoids hammering the DOM at 60fps
     const tick = () => {
       if (!active) return;
       const ctx = (engine as any).context;
@@ -2748,9 +2902,8 @@ export function DebugPricing() {
         enforceWhiteBg(ctx);
       }
       cleanNeedleUIAndBackground();
-      requestAnimationFrame(tick);
     };
-    requestAnimationFrame(tick);
+    const interval = setInterval(tick, 1000);
 
     // Call setup immediately if context exists
     const existingCtx = (engine as any).context;
@@ -2770,6 +2923,7 @@ export function DebugPricing() {
 
     return () => {
       active = false;
+      clearInterval(interval);
       engine.removeEventListener('ready', onReady);
       engine.removeEventListener('load', onReady);
     };
@@ -3603,57 +3757,51 @@ export function DebugPricing() {
                         <Trash2 size={14} />
                       </button>
                     )}
+                    <button
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        const senderName = window.prompt("Enter your name (optional) so the recipient knows who sent this:");
+                        const url = new URL(window.location.origin + '/viewer');
+                        url.searchParams.set('typology', typology);
+                        url.searchParams.set('w', width.toString());
+                        url.searchParams.set('h', height.toString());
+                        url.searchParams.set('cExt', encodeURIComponent(extDetails.hex));
+                        url.searchParams.set('cInt', encodeURIComponent(intDetails.hex));
+                        if (extDetails.textureUrl) url.searchParams.set('cExtTex', encodeURIComponent(extDetails.textureUrl));
+                        if (intDetails.textureUrl) url.searchParams.set('cIntTex', encodeURIComponent(intDetails.textureUrl));
+                        
+                        const gskHex = sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c';
+                        const spcHex = FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9';
+                        url.searchParams.set('cGsk', encodeURIComponent(gskHex));
+                        url.searchParams.set('cSpc', encodeURIComponent(spcHex));
+                        if (senderName) url.searchParams.set('sender_name', encodeURIComponent(senderName));
+                        
+                        const shareUrl = url.toString();
+                        
+                        if (navigator.share) {
+                          try {
+                            await navigator.share({
+                              title: '3D Window Configuration',
+                              text: senderName ? `${senderName} sent you this window they configured!` : 'Check out this 3D window configuration!',
+                              url: shareUrl
+                            });
+                          } catch (err) {
+                            navigator.clipboard.writeText(shareUrl);
+                            alert('Configuration link copied to clipboard!');
+                          }
+                        } else {
+                          navigator.clipboard.writeText(shareUrl);
+                          alert('Standalone 3D Viewer link copied to clipboard:\n\n' + shareUrl);
+                        }
+                      }}
+                      className="flex items-center gap-1 bg-mammut-gold hover:bg-yellow-400 text-black px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider transition-colors shrink-0 shadow-sm"
+                      title="Share 3D view"
+                    >
+                      <Share2 size={10} strokeWidth={3} /> Share 3D
+                    </button>
                   </>
                 )}
              </div>
-
-             {/* Share 3D View Button */}
-             {is3dMode && (
-               <div className="absolute top-2 left-2 z-30">
-                 <button
-                   onClick={async (e) => {
-                     e.preventDefault();
-                     const senderName = window.prompt("Enter your name (optional) so the recipient knows who sent this:");
-                     const url = new URL(window.location.origin + '/viewer');
-                     url.searchParams.set('typology', typology);
-                     url.searchParams.set('w', width.toString());
-                     url.searchParams.set('h', height.toString());
-                     url.searchParams.set('cExt', encodeURIComponent(extDetails.hex));
-                     url.searchParams.set('cInt', encodeURIComponent(intDetails.hex));
-                     if (extDetails.textureUrl) url.searchParams.set('cExtTex', encodeURIComponent(extDetails.textureUrl));
-                     if (intDetails.textureUrl) url.searchParams.set('cIntTex', encodeURIComponent(intDetails.textureUrl));
-                     
-                     const gskHex = sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c';
-                     const spcHex = FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9';
-                     url.searchParams.set('cGsk', encodeURIComponent(gskHex));
-                     url.searchParams.set('cSpc', encodeURIComponent(spcHex));
-                     if (senderName) url.searchParams.set('sender_name', encodeURIComponent(senderName));
-                     
-                     const shareUrl = url.toString();
-                     
-                     if (navigator.share) {
-                       try {
-                         await navigator.share({
-                           title: '3D Window Configuration',
-                           text: senderName ? `${senderName} sent you this window they configured!` : 'Check out this 3D window configuration!',
-                           url: shareUrl
-                         });
-                       } catch (err) {
-                         navigator.clipboard.writeText(shareUrl);
-                         alert('Configuration link copied to clipboard!');
-                       }
-                     } else {
-                       navigator.clipboard.writeText(shareUrl);
-                       alert('Standalone 3D Viewer link copied to clipboard:\n\n' + shareUrl);
-                     }
-                   }}
-                   className="flex items-center gap-1.5 bg-mammut-gold/90 text-black px-3 py-1.5 rounded text-[10px] font-bold uppercase tracking-widest shadow-lg hover:bg-mammut-gold transition-colors"
-                   title="Share 3D view"
-                 >
-                   <Share2 size={12} strokeWidth={3} /> Share 3D
-                 </button>
-               </div>
-             )}
 
              {/* Inside/Outside View Side Toggle (Move inside visualizer frame & hide in 3D Mode) */}
              {displayMode === '2D' && (
@@ -3733,247 +3881,213 @@ export function DebugPricing() {
                  </div>
                )}
 
-             {/* Scenery Selector - always visible in 3D mode */}
-             {is3dMode && (
-                  <div 
-                    ref={sceneryMenuRef}
-                    className={`absolute bottom-3 md:bottom-4 md:right-18 z-35 flex flex-col gap-2 ${
-                      isSceneryMenuOpen 
-                        ? 'left-3 right-3 items-center' 
-                        : 'right-15 items-end'
-                    } md:left-auto md:right-18 md:items-end`}
-                  >
-                     <div className={`flex items-center bg-mammut-black/90 border border-gray-800 backdrop-blur-md rounded-2xl shadow-lg transition-all duration-300 ${
-                       isSceneryMenuOpen 
-                         ? 'w-full md:w-auto max-w-[700px] p-3 md:p-4 gap-4 justify-between md:justify-start' 
-                         : 'max-w-[44px] max-h-[44px] px-0.5 py-0.5 overflow-hidden'
-                     }`}>
-                      
-                      {/* Expanded Scenery Groups */}
-                      {isSceneryMenuOpen && (
-                        <div className="flex flex-nowrap overflow-x-auto scrollbar-none items-start justify-start gap-4 text-xs select-none w-full py-1">
-                          {/* Studio Category */}
-                          <div className="flex flex-col gap-1 items-center border-r border-gray-800 pr-4 shrink-0">
-                            <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">Studio</span>
-                            <div className="flex gap-2">
-                              <button 
-                                onClick={() => { setScenery('studio-grey'); setIsSceneryMenuOpen(false); }}
-                                className={`w-24 h-24 rounded-xl bg-slate-300 transition-all active:scale-95 cursor-pointer ${
-                                  scenery === 'studio-grey' 
-                                    ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
-                                    : ''
-                                }`}
-                                title="Studio Grey"
-                              />
-                              <button 
-                                onClick={() => { setScenery('studio-dark'); setIsSceneryMenuOpen(false); }}
-                                className={`w-24 h-24 rounded-xl bg-zinc-800 transition-all active:scale-95 cursor-pointer ${
-                                  scenery === 'studio-dark' 
-                                    ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
-                                    : ''
-                                }`}
-                                title="Dark Studio"
-                              />
-                            </div>
-                          </div>
-
-                          {/* Home Category (Wall Cutouts) */}
-                          <div className="flex flex-col gap-1 items-center border-r border-gray-800 pr-4 shrink-0">
-                            <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">Home</span>
-                            <div className="flex gap-2">
-                              <button 
-                                onClick={() => { setScenery('modern-minimalist'); setIsSceneryMenuOpen(false); }}
-                                className={`w-24 h-24 rounded-xl bg-slate-100 transition-all active:scale-95 relative overflow-hidden cursor-pointer ${
-                                  scenery === 'modern-minimalist' 
-                                    ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
-                                    : ''
-                                }`}
-                                title="Modern Plaster Wall"
-                              >
-                                <div className="absolute inset-0 bg-cover" style={{ backgroundImage: "url('/assets/scenery/concrete_wall.png')" }} />
-                              </button>
-                              <button 
-                                onClick={() => { setScenery('warm-nordic'); setIsSceneryMenuOpen(false); }}
-                                className={`w-24 h-24 rounded-xl bg-orange-200 transition-all active:scale-95 relative overflow-hidden cursor-pointer ${
-                                  scenery === 'warm-nordic' 
-                                    ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
-                                    : ''
-                                }`}
-                                title="Nordic Wood Planking"
-                              >
-                                <div className="absolute inset-0 bg-cover" style={{ backgroundImage: "url('/assets/scenery/wood_wall.png')" }} />
-                              </button>
-                              <button 
-                                onClick={() => { setScenery('industrial-loft'); setIsSceneryMenuOpen(false); }}
-                                className={`w-24 h-24 rounded-xl bg-red-800 transition-all active:scale-95 relative overflow-hidden cursor-pointer ${
-                                  scenery === 'industrial-loft' 
-                                    ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
-                                    : ''
-                                }`}
-                                title="Industrial Brick Wall"
-                              >
-                                <div className="absolute inset-0 bg-cover" style={{ backgroundImage: "url('/assets/scenery/brick_wall.png')" }} />
-                              </button>
-                            </div>
-                          </div>
-
-                          {/* Nature Category */}
-                          <div className="flex flex-col gap-1 items-center border-r border-gray-800 pr-4 shrink-0">
-                            <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">Nature</span>
-                            <div className="flex gap-2">
-                              <button 
-                                onClick={() => { setScenery('suburban-garden'); setIsSceneryMenuOpen(false); }}
-                                className={`w-24 h-24 rounded-xl bg-emerald-500 transition-all active:scale-95 relative overflow-hidden cursor-pointer ${
-                                  scenery === 'suburban-garden' 
-                                    ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
-                                    : ''
-                                }`}
-                                title="Suburban Garden"
-                              >
-                                <div className="absolute inset-0 bg-cover" style={{ backgroundImage: "url('/assets/scenery/garden_backdrop.png')" }} />
-                              </button>
-                              <button 
-                                onClick={() => { setScenery('nordic-forest'); setIsSceneryMenuOpen(false); }}
-                                className={`w-24 h-24 rounded-xl bg-teal-800 transition-all active:scale-95 relative overflow-hidden cursor-pointer ${
-                                  scenery === 'nordic-forest' 
-                                    ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
-                                    : ''
-                                }`}
-                                title="Nordic Forest"
-                              >
-                                <div className="absolute inset-0 bg-cover" style={{ backgroundImage: "url('/assets/scenery/forest_backdrop.png')" }} />
-                              </button>
-                            </div>
-                          </div>
-
-                          {/* City Category */}
-                          <div className="flex flex-col gap-1 items-center border-r border-gray-800 pr-4 shrink-0">
-                            <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">City</span>
-                            <div className="flex gap-2">
-                              <button 
-                                onClick={() => { setScenery('urban-skyline'); setIsSceneryMenuOpen(false); }}
-                                className={`w-24 h-24 rounded-xl bg-purple-700 transition-all active:scale-95 relative overflow-hidden cursor-pointer ${
-                                  scenery === 'urban-skyline' 
-                                    ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
-                                    : ''
-                                }`}
-                                title="Urban Skyline"
-                              >
-                                <div className="absolute inset-0 bg-cover" style={{ backgroundImage: "url('/assets/scenery/skyline_backdrop.png')" }} />
-                              </button>
-                              <button 
-                                onClick={() => { setScenery('coastal-mediterranean'); setIsSceneryMenuOpen(false); }}
-                                className={`w-24 h-24 rounded-xl bg-sky-400 transition-all active:scale-95 relative overflow-hidden cursor-pointer ${
-                                  scenery === 'coastal-mediterranean' 
-                                    ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
-                                    : ''
-                                }`}
-                                title="Coastal Sea"
-                              >
-                                <div className="absolute inset-0 bg-cover" style={{ backgroundImage: "url('/assets/scenery/coastal_backdrop.png')" }} />
-                              </button>
-                            </div>
-                          </div>
-
-                          {/* Custom Category */}
-                          <div className="flex flex-col gap-1 items-center shrink-0">
-                            <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">Custom</span>
-                            <div className="flex gap-2">
-                              <label 
-                                className={`w-24 h-24 rounded-xl flex items-center justify-center transition-all active:scale-95 cursor-pointer relative overflow-hidden ${
-                                  scenery === 'custom' 
-                                    ? 'bg-mammut-gold/20 text-mammut-gold scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
-                                    : 'bg-transparent text-gray-400 hover:text-white'
-                                }`}
-                                title="Upload Custom Photo / Use Camera"
-                              >
-                                {customBackground ? (
-                                  <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${customBackground})` }} />
-                                ) : (
-                                  <Camera size={48} strokeWidth={2.5} />
-                                )}
-                                <input
-                                  type="file"
-                                  accept="image/*"
-                                  className="hidden"
-                                  onChange={(e) => {
-                                    const file = e.target.files?.[0];
-                                    if (file) {
-                                      const reader = new FileReader();
-                                      reader.onload = (event) => {
-                                        const dataUrl = event.target?.result as string;
-                                        setCustomBackground(dataUrl);
-                                        setScenery('custom');
-                                        setIsSceneryMenuOpen(false);
-                                      };
-                                      reader.readAsDataURL(file);
-                                    }
-                                  }}
-                                />
-                              </label>
-                              <button
-                                onClick={() => {
-                                  setScenery('studio-grey');
-                                  setCustomBackground(null);
-                                  setIsSceneryMenuOpen(false);
-                                }}
-                                className="w-24 h-24 rounded-xl bg-transparent text-gray-400 hover:text-white flex items-center justify-center transition-all active:scale-95 cursor-pointer"
-                                title="Reset scenery to default"
-                              >
-                                <RotateCcw size={48} strokeWidth={2.5} />
-                              </button>
-                              {customBackground && (
-                                <button
-                                  onClick={() => {
-                                    setCustomBackground(null);
-                                    if (scenery === 'custom') {
-                                      setScenery('studio-grey');
-                                    }
-                                    setIsSceneryMenuOpen(false);
-                                  }}
-                                  className="w-24 h-24 rounded-xl bg-transparent text-red-400 hover:text-red-300 flex items-center justify-center transition-all active:scale-95 cursor-pointer"
-                                  title="Remove custom background"
-                                >
-                                  <Trash2 size={48} strokeWidth={2.5} />
-                                </button>
-                              )}
-                            </div>
-                          </div>
+                         {/* Scenery Options Overlay - displayed directly above the AR menu when active */}
+              {is3dMode && isSceneryMenuOpen && (
+                <div 
+                  ref={sceneryMenuRef}
+                  className="absolute bottom-16 right-3 md:bottom-20 md:right-4 z-40 max-w-[90vw] md:max-w-[700px] flex flex-col gap-2 items-end"
+                >
+                  <div className="flex items-center bg-zinc-950/95 border border-zinc-800/80 backdrop-blur-md rounded-2xl shadow-2xl p-3 md:p-4 w-full overflow-x-auto hide-scroll">
+                    <div className="flex flex-nowrap items-start justify-start gap-4 text-xs select-none w-full py-1">
+                      {/* Studio Category */}
+                      <div className="flex flex-col gap-1 items-center border-r border-zinc-800/60 pr-4 shrink-0">
+                        <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">Studio</span>
+                        <div className="flex gap-2">
+                          <button 
+                            onClick={() => { setScenery('studio-grey'); setIsSceneryMenuOpen(false); }}
+                            className={`w-24 h-24 rounded-xl bg-slate-300 transition-all active:scale-95 cursor-pointer ${
+                              scenery === 'studio-grey' 
+                                ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
+                                : ''
+                            }`}
+                            title="Studio Grey"
+                          />
+                          <button 
+                            onClick={() => { setScenery('studio-dark'); setIsSceneryMenuOpen(false); }}
+                            className={`w-24 h-24 rounded-xl bg-zinc-800 transition-all active:scale-95 cursor-pointer ${
+                              scenery === 'studio-dark' 
+                                ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
+                                : ''
+                            }`}
+                            title="Dark Studio"
+                          />
                         </div>
-                      )}
+                      </div>
 
-                      {/* Main Landscape Trigger button */}
-                      <button 
-                        onClick={() => setIsSceneryMenuOpen(prev => !prev)} 
-                        className={`w-9 h-9 flex items-center justify-center rounded-lg transition-all active:scale-90 cursor-pointer shrink-0 ${
-                          isSceneryMenuOpen 
-                            ? 'bg-white/10 text-white hover:bg-white/20' 
-                            : 'bg-transparent text-gray-400 hover:bg-mammut-gold hover:text-black'
-                        }`}
-                        title="Environment Scenery Options"
-                      >
-                        {/* Landscape Mountains & Sun SVG icon */}
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5">
-                          <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                          <circle cx="8.5" cy="8.5" r="1.5" />
-                          <polyline points="21 15 16 10 5 21" />
-                        </svg>
-                      </button>
-                      
+                      {/* Home Category */}
+                      <div className="flex flex-col gap-1 items-center border-r border-zinc-800/60 pr-4 shrink-0">
+                        <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">Home</span>
+                        <div className="flex gap-2">
+                          <button 
+                            onClick={() => { setScenery('modern-minimalist'); setIsSceneryMenuOpen(false); }}
+                            className={`w-24 h-24 rounded-xl bg-slate-100 transition-all active:scale-95 relative overflow-hidden cursor-pointer ${
+                              scenery === 'modern-minimalist' 
+                                ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
+                                : ''
+                            }`}
+                            title="Modern Plaster Wall"
+                          >
+                            <div className="absolute inset-0 bg-cover" style={{ backgroundImage: "url('/assets/scenery/concrete_wall.png')" }} />
+                          </button>
+                          <button 
+                            onClick={() => { setScenery('warm-nordic'); setIsSceneryMenuOpen(false); }}
+                            className={`w-24 h-24 rounded-xl bg-orange-200 transition-all active:scale-95 relative overflow-hidden cursor-pointer ${
+                              scenery === 'warm-nordic' 
+                                ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
+                                : ''
+                            }`}
+                            title="Nordic Wood Planking"
+                          >
+                            <div className="absolute inset-0 bg-cover" style={{ backgroundImage: "url('/assets/scenery/wood_wall.png')" }} />
+                          </button>
+                          <button 
+                            onClick={() => { setScenery('industrial-loft'); setIsSceneryMenuOpen(false); }}
+                            className={`w-24 h-24 rounded-xl bg-red-800 transition-all active:scale-95 relative overflow-hidden cursor-pointer ${
+                              scenery === 'industrial-loft' 
+                                ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
+                                : ''
+                            }`}
+                            title="Industrial Brick Wall"
+                          >
+                            <div className="absolute inset-0 bg-cover" style={{ backgroundImage: "url('/assets/scenery/brick_wall.png')" }} />
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Nature Category */}
+                      <div className="flex flex-col gap-1 items-center border-r border-zinc-800/60 pr-4 shrink-0">
+                        <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">Nature</span>
+                        <div className="flex gap-2">
+                          <button 
+                            onClick={() => { setScenery('suburban-garden'); setIsSceneryMenuOpen(false); }}
+                            className={`w-24 h-24 rounded-xl bg-emerald-500 transition-all active:scale-95 relative overflow-hidden cursor-pointer ${
+                              scenery === 'suburban-garden' 
+                                ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
+                                : ''
+                            }`}
+                            title="Suburban Garden"
+                          >
+                            <div className="absolute inset-0 bg-cover" style={{ backgroundImage: "url('/assets/scenery/garden_backdrop.png')" }} />
+                          </button>
+                          <button 
+                            onClick={() => { setScenery('nordic-forest'); setIsSceneryMenuOpen(false); }}
+                            className={`w-24 h-24 rounded-xl bg-teal-800 transition-all active:scale-95 relative overflow-hidden cursor-pointer ${
+                              scenery === 'nordic-forest' 
+                                ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
+                                : ''
+                            }`}
+                            title="Nordic Forest"
+                          >
+                            <div className="absolute inset-0 bg-cover" style={{ backgroundImage: "url('/assets/scenery/forest_backdrop.png')" }} />
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* City Category */}
+                      <div className="flex flex-col gap-1 items-center border-r border-zinc-800/60 pr-4 shrink-0">
+                        <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">City</span>
+                        <div className="flex gap-2">
+                          <button 
+                            onClick={() => { setScenery('urban-skyline'); setIsSceneryMenuOpen(false); }}
+                            className={`w-24 h-24 rounded-xl bg-purple-700 transition-all active:scale-95 relative overflow-hidden cursor-pointer ${
+                              scenery === 'urban-skyline' 
+                                ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
+                                : ''
+                            }`}
+                            title="Urban Skyline"
+                          >
+                            <div className="absolute inset-0 bg-cover" style={{ backgroundImage: "url('/assets/scenery/skyline_backdrop.png')" }} />
+                          </button>
+                          <button 
+                            onClick={() => { setScenery('coastal-mediterranean'); setIsSceneryMenuOpen(false); }}
+                            className={`w-24 h-24 rounded-xl bg-sky-400 transition-all active:scale-95 relative overflow-hidden cursor-pointer ${
+                              scenery === 'coastal-mediterranean' 
+                                ? 'scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
+                                : ''
+                            }`}
+                            title="Coastal Sea"
+                          >
+                            <div className="absolute inset-0 bg-cover" style={{ backgroundImage: "url('/assets/scenery/coastal_backdrop.png')" }} />
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Custom Category */}
+                      <div className="flex flex-col gap-1 items-center shrink-0">
+                        <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">Custom</span>
+                        <div className="flex gap-2">
+                          <label 
+                            className={`w-24 h-24 rounded-xl flex items-center justify-center transition-all active:scale-95 cursor-pointer relative overflow-hidden ${
+                              scenery === 'custom' 
+                                ? 'bg-mammut-gold/20 text-mammut-gold scale-110 shadow-lg shadow-mammut-gold/40 z-10' 
+                                : 'bg-transparent text-gray-400 hover:text-white'
+                            }`}
+                            title="Upload Custom Photo / Use Camera"
+                          >
+                            {customBackground ? (
+                              <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${customBackground})` }} />
+                            ) : (
+                              <Camera size={48} strokeWidth={2.5} />
+                            )}
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  const reader = new FileReader();
+                                  reader.onload = (event) => {
+                                    const dataUrl = event.target?.result as string;
+                                    setCustomBackground(dataUrl);
+                                    setScenery('custom');
+                                  };
+                                  reader.readAsDataURL(file);
+                                }
+                              }}
+                            />
+                          </label>
+                          <button
+                            onClick={() => {
+                              setScenery('studio-grey');
+                              setCustomBackground(null);
+                            }}
+                            className="w-24 h-24 rounded-xl bg-transparent text-gray-400 hover:text-white flex items-center justify-center transition-all active:scale-95 cursor-pointer"
+                            title="Reset scenery to default"
+                          >
+                            <RotateCcw size={48} strokeWidth={2.5} />
+                          </button>
+                          {customBackground && (
+                            <button
+                              onClick={() => {
+                                setCustomBackground(null);
+                                if (scenery === 'custom') {
+                                  setScenery('studio-grey');
+                                }
+                              }}
+                              className="w-24 h-24 rounded-xl bg-transparent text-red-400 hover:text-red-300 flex items-center justify-center transition-all active:scale-95 cursor-pointer"
+                              title="Remove custom background"
+                            >
+                              <Trash2 size={48} strokeWidth={2.5} />
+                            </button>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
+                </div>
               )}
 
              {/* AR Buttons - always visible in 3D mode */}
-             {is3dMode && (
+             {is3dMode && !isColorWheelOpen && (
                   <div 
                     ref={arMenuRef}
-                    className="absolute bottom-3 right-3 md:bottom-4 md:right-4 z-35 flex items-center justify-end"
+                    className="absolute bottom-[68px] right-3 md:bottom-[76px] md:right-4 z-35 flex items-center justify-end"
                     onMouseEnter={() => setArMenuOpen(true)}
                     onMouseLeave={() => setArMenuOpen(false)}
                   >
                      <div className={`flex items-center bg-mammut-black/90 border border-gray-800 backdrop-blur-md rounded-xl shadow-lg transition-all duration-300 ${
-                       arMenuOpen ? 'max-w-[320px] px-2 py-1.5 gap-2' : 'max-w-[44px] px-0.5 py-0.5'
+                       arMenuOpen ? 'max-w-[420px] px-2 py-1.5 gap-2' : 'max-w-[44px] px-0.5 py-0.5'
                      } overflow-hidden`}>
                        
                        {/* Expanded options */}
@@ -4010,6 +4124,26 @@ export function DebugPricing() {
                              </svg>
                              Floor
                            </button>
+
+                           {/* Scenery Button (C) inside AR Menu */}
+                           <button 
+                             onClick={() => {
+                               setIsSceneryMenuOpen(prev => !prev);
+                             }} 
+                             className={`h-9 flex items-center gap-1.5 px-3 rounded-lg transition-all active:scale-95 cursor-pointer text-[10px] font-black uppercase tracking-wider ${
+                               isSceneryMenuOpen
+                                 ? 'bg-mammut-gold text-black hover:bg-yellow-400'
+                                 : 'bg-white/5 hover:bg-white hover:text-black text-white'
+                             }`}
+                             title="Scenery backdrop"
+                           >
+                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
+                               <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                               <circle cx="8.5" cy="8.5" r="1.5" />
+                               <polyline points="21 15 16 10 5 21" />
+                             </svg>
+                             Scenery
+                           </button>
                          </div>
                        )}
 
@@ -4032,7 +4166,7 @@ export function DebugPricing() {
                        
                      </div>
                   </div>
-             )}
+              )}
 
              {/* 2D SVG Engine */}
              {displayMode === '2D' && (
@@ -4150,14 +4284,6 @@ export function DebugPricing() {
                         </svg>
                         Start AR
                       </button>
-
-                      {/* Visual Debug Console Overlay */}
-                      <div className="absolute top-12 left-2 z-50 bg-black/85 text-green-400 font-mono text-[9px] p-2 rounded max-w-[90%] max-h-[140px] overflow-y-auto pointer-events-none border border-green-500/30 shadow-2xl leading-normal text-left">
-                        <div className="font-bold border-b border-green-500/20 pb-0.5 mb-1 text-[9px] uppercase tracking-wider text-white">Needle Debug Console</div>
-                        {debugLogs.map((log, idx) => (
-                          <div key={idx} className="mb-0.5">{log}</div>
-                        ))}
-                      </div>
                    </>
                  ) : (
                    <div className="text-mammut-gold font-bold p-8 text-center animate-pulse font-sans">
@@ -4166,6 +4292,18 @@ export function DebugPricing() {
                  )}
                </div>
              )}
+
+             {/* Interactive Color Palette Overlay Widget */}
+             <ColorPaletteOverlay
+               colorExt={colorCode}
+               colorInt={interiorColorCode}
+               onChangeExt={(color) => setColorCode(color.id.replace('c', '').padStart(4, '0'))}
+               onChangeInt={(color) => setInteriorColorCode(color.id.replace('c', '').padStart(4, '0'))}
+               onOpenChange={setIsColorWheelOpen}
+               className={`absolute bottom-3 right-3 md:bottom-4 md:right-4 z-40 transition-all duration-300 ${
+                 arMenuOpen ? 'opacity-0 scale-75 pointer-events-none' : 'opacity-100 scale-100'
+               }`}
+             />
           </div>
         ) : (
           <WindowVisualizer width={width} height={height} typology={typology} infills={infills} />
@@ -4507,8 +4645,17 @@ export function DebugPricing() {
 
               {colorType !== 'W-W' && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-25 overflow-visible">
-                  <ColorScrollWheel label="Exterior Color" value={colorCode} onChange={setColorCode} groupedOptions={groupedColors} showDefault={false} />
-                  <ColorScrollWheel label="Interior Color" value={interiorColorCode} onChange={setInteriorColorCode} groupedOptions={groupedColors} showDefault={true} />
+                  {colorType === 'DEK-DEK' ? (
+                    <>
+                      <ColorSwatchSelector label="Exterior Color" value={colorCode} onChange={setColorCode} showDefault={false} />
+                      <ColorSwatchSelector label="Interior Color" value={interiorColorCode} onChange={setInteriorColorCode} showDefault={true} />
+                    </>
+                  ) : (
+                    <>
+                      <ColorScrollWheel label="Exterior Color" value={colorCode} onChange={setColorCode} groupedOptions={groupedColors} showDefault={false} />
+                      <ColorScrollWheel label="Interior Color" value={interiorColorCode} onChange={setInteriorColorCode} groupedOptions={groupedColors} showDefault={true} />
+                    </>
+                  )}
                 </div>
               )}
 

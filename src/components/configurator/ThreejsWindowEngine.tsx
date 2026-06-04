@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useLoader } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
 import { FrameSegment } from './FrameSegment';
@@ -31,6 +31,21 @@ interface ThreejsWindowEngineProps {
 }
 
 const DEFAULT_MAPS = { diffuse: null, normal: null, orm: null };
+
+const MammothLogo = ({ x, y, z }: { x: number; y: number; z: number }) => {
+  const texture = useLoader(THREE.TextureLoader, '/assets/mammut-logo-icon.png');
+  return (
+    <mesh position={[x, y, z]} rotation={[0, Math.PI, 0]}>
+      <planeGeometry args={[0.08, 0.08]} />
+      <meshBasicMaterial
+        map={texture}
+        transparent={true}
+        side={THREE.DoubleSide}
+        depthWrite={false}
+      />
+    </mesh>
+  );
+};
 
 // --- Texture Physical Scale ---
 // Source image: 724x1024px, no embedded DPI.
@@ -217,6 +232,7 @@ const WindowAssembly = ({
     let backdropUrl = '';
 
     if (scenery === 'custom' && customBackground) {
+      wallUrl = '/assets/scenery/concrete_wall.png';
       backdropUrl = customBackground;
     } else if (scenery === 'modern-minimalist') {
       wallUrl = '/assets/scenery/concrete_wall.png';
@@ -228,40 +244,62 @@ const WindowAssembly = ({
       wallUrl = '/assets/scenery/brick_wall.png';
       backdropUrl = '/assets/scenery/skyline_backdrop.png';
     } else if (scenery === 'suburban-garden') {
+      wallUrl = '/assets/scenery/concrete_wall.png';
       backdropUrl = '/assets/scenery/garden_backdrop.png';
     } else if (scenery === 'nordic-forest') {
+      wallUrl = '/assets/scenery/concrete_wall.png';
       backdropUrl = '/assets/scenery/forest_backdrop.png';
     } else if (scenery === 'urban-skyline') {
+      wallUrl = '/assets/scenery/concrete_wall.png';
       backdropUrl = '/assets/scenery/skyline_backdrop.png';
     } else if (scenery === 'coastal-mediterranean') {
+      wallUrl = '/assets/scenery/concrete_wall.png';
       backdropUrl = '/assets/scenery/coastal_backdrop.png';
     }
 
     const loader = new THREE.TextureLoader();
 
+    console.log("[ThreejsWindowEngine] Scenery change:", scenery, "wallUrl:", wallUrl, "backdropUrl:", backdropUrl);
+
     if (wallUrl) {
-      loader.load(wallUrl, (tex) => {
-        if (!isCurrent) {
-          tex.dispose();
-          return;
+      loader.load(
+        wallUrl, 
+        (tex) => {
+          console.log("[ThreejsWindowEngine] Loaded wall texture successfully:", wallUrl);
+          if (!isCurrent) {
+            tex.dispose();
+            return;
+          }
+          tex.wrapS = THREE.RepeatWrapping;
+          tex.wrapT = THREE.RepeatWrapping;
+          tex.repeat.set(3, 2.5); // Adjust repeat tiling scale for wall texture
+          setWallTexture(tex);
+        },
+        undefined,
+        (err) => {
+          console.error("[ThreejsWindowEngine] Failed to load wall texture:", wallUrl, err);
         }
-        tex.wrapS = THREE.RepeatWrapping;
-        tex.wrapT = THREE.RepeatWrapping;
-        tex.repeat.set(3, 2.5); // Adjust repeat tiling scale for wall texture
-        setWallTexture(tex);
-      });
+      );
     } else {
       setWallTexture(null);
     }
 
     if (backdropUrl) {
-      loader.load(backdropUrl, (tex) => {
-        if (!isCurrent) {
-          tex.dispose();
-          return;
+      loader.load(
+        backdropUrl, 
+        (tex) => {
+          console.log("[ThreejsWindowEngine] Loaded backdrop texture successfully:", backdropUrl);
+          if (!isCurrent) {
+            tex.dispose();
+            return;
+          }
+          setBackdropTexture(tex);
+        },
+        undefined,
+        (err) => {
+          console.error("[ThreejsWindowEngine] Failed to load backdrop texture:", backdropUrl, err);
         }
-        setBackdropTexture(tex);
-      });
+      );
     } else {
       setBackdropTexture(null);
     }
@@ -363,8 +401,8 @@ const WindowAssembly = ({
      transmission: 1.0,
      ior: 1.5,
      thickness: 0.01,
-     transparent: false,
-     opacity: 1.0,
+     transparent: true,
+     opacity: 0.6,
   }), []);
 
   const spacerMaterial = useMemo(() => new THREE.MeshStandardMaterial({
@@ -721,7 +759,7 @@ const WindowAssembly = ({
 
           // Render a complete sash frame (4 sides) at a given x offset.
           // SW_eff ensures the inner stile body reaches the window centre line.
-          const renderSash = (xOffset: number) => {
+          const renderSash = (xOffset: number, isRightSash?: boolean) => {
             const Ww = Ws_eff;
             return (
               <group key={xOffset} position={[xOffset, 0, 0]}>
@@ -774,6 +812,22 @@ const WindowAssembly = ({
                     ]} />
                   </mesh>
                 )}
+                {intBounds && isRightSash && (() => {
+                  const glassW = (SW_eff - 2 * (intBounds.minY - commonOrigin.y)) * scale;
+                  const glassH = (height  - 2 * (intBounds.minY - commonOrigin.y)) * scale;
+                  const thickness = (intBounds.maxX - intBounds.minX) * scale;
+                  const centerX = Ww / 2;
+                  const centerY = H / 2;
+                  const centerZ = -(((intBounds.minX + intBounds.maxX) / 2) - commonOrigin.x) * scale;
+                  const logoX = centerX - glassW / 2 + 0.09;
+                  const logoY = centerY - glassH / 2 + 0.09;
+                  const logoZ = centerZ - thickness / 2 - 0.001;
+                  return (
+                    <React.Suspense fallback={null}>
+                      <MammothLogo x={logoX} y={logoY} z={logoZ} />
+                    </React.Suspense>
+                  );
+                })()}
               </group>
             );
           };
@@ -781,7 +835,7 @@ const WindowAssembly = ({
           return (
             <>
               {renderSash(0)}
-              {renderSash(rightSashX)}
+              {renderSash(rightSashX, true)}
 
               {/* Fixed Centre Post — origin.y=0 centres the post body at x=Ws */}
               {(pstExt.length > 0 || pstInt.length > 0) && (
@@ -814,36 +868,54 @@ const WindowAssembly = ({
         )}
         
         {typology !== 'F200' && intBounds && (
-          <mesh 
-            position={[
-              W / 2, 
-              H / 2, 
-              -(((intBounds.minX + intBounds.maxX) / 2) - commonOrigin.x) * scale
-            ]}
-            material={finalGlsIntMat}
-          >
-            <boxGeometry args={[
-              (width - 2 * (intBounds.minY - commonOrigin.y)) * scale, 
-              (height - 2 * (intBounds.minY - commonOrigin.y)) * scale, 
-              (intBounds.maxX - intBounds.minX) * scale
-            ]} />
-          </mesh>
+          <>
+            <mesh 
+              position={[
+                W / 2, 
+                H / 2, 
+                -(((intBounds.minX + intBounds.maxX) / 2) - commonOrigin.x) * scale
+              ]}
+              material={finalGlsIntMat}
+            >
+              <boxGeometry args={[
+                (width - 2 * (intBounds.minY - commonOrigin.y)) * scale, 
+                (height - 2 * (intBounds.minY - commonOrigin.y)) * scale, 
+                (intBounds.maxX - intBounds.minX) * scale
+              ]} />
+            </mesh>
+            {(() => {
+              const glassW = (width - 2 * (intBounds.minY - commonOrigin.y)) * scale;
+              const glassH = (height - 2 * (intBounds.minY - commonOrigin.y)) * scale;
+              const thickness = (intBounds.maxX - intBounds.minX) * scale;
+              const centerX = W / 2;
+              const centerY = H / 2;
+              const centerZ = -(((intBounds.minX + intBounds.maxX) / 2) - commonOrigin.x) * scale;
+              const logoX = centerX - glassW / 2 + 0.09;
+              const logoY = centerY - glassH / 2 + 0.09;
+              const logoZ = centerZ - thickness / 2 - 0.001;
+              return (
+                <React.Suspense fallback={null}>
+                  <MammothLogo x={logoX} y={logoY} z={logoZ} />
+                </React.Suspense>
+              );
+            })()}
+          </>
         )}
 
         </group>
       </group>
 
-      {/* Landscape Backdrop Plane */}
+      {/* Landscape Backdrop Plane — sits far behind the window frame */}
       {backdropTexture && (
-        <mesh position={[0, H / 2, -3.0]}>
-          <planeGeometry args={[16, 12]} />
-          <meshBasicMaterial map={backdropTexture} toneMapped={false} />
+        <mesh position={[0, H / 2, -1.5]} renderOrder={0}>
+          <planeGeometry args={[20, 16]} />
+          <meshBasicMaterial map={backdropTexture} toneMapped={false} depthWrite={false} />
         </mesh>
       )}
 
-      {/* Wall Fragment (Inside-Looking-Out) */}
+      {/* Wall Fragment (Inside-Looking-Out) — sits just behind the window frame back face at z=0 */}
       {wallTexture && (
-        <mesh position={[0, 0, -0.04]} castShadow receiveShadow>
+        <mesh key={`wall-${W}-${H}`} position={[0, 0, -0.04]} renderOrder={1} castShadow receiveShadow>
           <extrudeGeometry args={[
             // Shape
             (() => {
@@ -892,13 +964,19 @@ export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) =
 
   const targetY = (props.height * 0.001) / 2;
   const maxDim = Math.max(props.width, props.height) * 0.001;
-  // Dynamic camera distance to frame the window perfectly regardless of size
-  const cameraZ = Math.max(1.2, maxDim * 1.35);
+  const activeSceneryForCamera = props.scenery || 'studio-grey';
+  const hasWallScenery = ['modern-minimalist', 'warm-nordic', 'industrial-loft', 'urban-skyline', 'suburban-garden', 'nordic-forest', 'coastal-mediterranean'].includes(activeSceneryForCamera);
+  // Pull camera back further when wall scenery is active so the wall texture frames the window
+  const cameraDistMult = hasWallScenery ? 2.2 : 1.35;
+  const cameraZ = Math.max(1.6, maxDim * cameraDistMult);
 
   const controlsTarget = useMemo(() => [0, targetY, 0] as [number, number, number], [targetY]);
   const cameraPosition = useMemo(() => [0, targetY, cameraZ] as [number, number, number], [targetY, cameraZ]);
 
   const getEnvFiles = (scenery: string) => {
+    if (props.typology === 'F100' || props.typology === 'F100T') {
+      return '/assets/hdri/monochrome_studio_02_1k.exr';
+    }
     switch (scenery) {
       case 'custom':
         return '/assets/hdri/lebombo_1k.hdr';
@@ -927,13 +1005,13 @@ export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) =
 
   const getBgColor = (scenery: string) => {
     if (isLight && (scenery === 'studio-grey' || scenery === 'custom')) {
-      return '#f1f5f9';
+      return '#e2e8f0';
     }
     switch (scenery) {
       case 'custom':
-        return '#f1f5f9';
+        return '#e2e8f0';
       case 'studio-grey':
-        return '#f1f5f9';
+        return '#e2e8f0';
       case 'studio-dark':
         return '#111112';
       case 'modern-minimalist':
@@ -973,7 +1051,10 @@ export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) =
         />
         <Environment 
           files={getEnvFiles(activeScenery)} 
-          background={activeScenery !== 'studio-grey' && activeScenery !== 'studio-dark' && activeScenery !== 'custom'} 
+          background={
+            !(props.typology === 'F100' || props.typology === 'F100T') &&
+            (activeScenery === 'studio-grey' || activeScenery === 'studio-dark')
+          } 
         />
         
         <WindowAssembly {...props} />

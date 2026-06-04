@@ -276,6 +276,16 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
           height={height - 2 * glassOffset} 
           className="gasket"
         />
+
+        {/* Mammoth Logo on the internal glass */}
+        <image
+          href="/assets/mammut-logo-icon.png"
+          x={glassOffset + 50}
+          y={height - glassOffset - 130}
+          width={80}
+          height={80}
+          opacity={0.8}
+        />
       </g>
     </>
   );

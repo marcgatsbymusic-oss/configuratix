@@ -5,7 +5,7 @@
  */
 
 import React, { useRef, useState, useMemo, useCallback, Suspense, useEffect } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Canvas, useFrame, useThree, useLoader } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows, useProgress, Html, useGLTF } from '@react-three/drei';
 import { Loader2 } from 'lucide-react';
 import * as THREE from 'three';
@@ -25,6 +25,21 @@ const pd = profileDataRaw as unknown as ProfileData;
 const MM = 0.001;
 
 export type WindowState = 'closed' | 'open_side' | 'open_tilt';
+
+const MammothLogo = ({ x, y, z }: { x: number; y: number; z: number }) => {
+  const texture = useLoader(THREE.TextureLoader, '/assets/mammut-logo-icon.png');
+  return (
+    <mesh position={[x, y, z]} rotation={[0, Math.PI, 0]}>
+      <planeGeometry args={[0.08, 0.08]} />
+      <meshBasicMaterial
+        map={texture}
+        transparent={true}
+        side={THREE.DoubleSide}
+        depthWrite={false}
+      />
+    </mesh>
+  );
+};
 
 interface AssemblyProps {
   widthMm: number;
@@ -127,7 +142,7 @@ function WindowAssembly({ widthMm, heightMm, colorExt, colorInt, colorExtTexture
     {gskBzd.map((c, i) => <FrameSegment key={`gskBzd_${i}`} layerName="GSK_BZD" scaleFactor={scale} length={len} vertices={c} matType="gsk" color={colorGsk} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
   </>);
 
-  const renderGlassPane = (sashWidthMm: number, sashHeightMm: number, glsLayer: Point[][]) => {
+  const renderGlassPane = (sashWidthMm: number, sashHeightMm: number, glsLayer: Point[][], hasLogo = false) => {
     if (glsLayer.length === 0) return null;
     const pts = glsLayer[0];
     let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
@@ -144,9 +159,21 @@ function WindowAssembly({ widthMm, heightMm, colorExt, colorInt, colorExtTexture
     const centerDepth = -(((minX + maxX) / 2) - commonOrigin.x) * scale;
     
     return (
-      <mesh position={[sashWidthMm * scale / 2, sashHeightMm * scale / 2, centerDepth]} material={glassMaterial} castShadow receiveShadow>
-        <boxGeometry args={[paneW, paneH, thickness]} />
-      </mesh>
+      <group>
+        <mesh position={[sashWidthMm * scale / 2, sashHeightMm * scale / 2, centerDepth]} material={glassMaterial} castShadow receiveShadow>
+          <boxGeometry args={[paneW, paneH, thickness]} />
+        </mesh>
+        {hasLogo && (() => {
+          const logoX = sashWidthMm * scale / 2 - paneW / 2 + 0.09;
+          const logoY = sashHeightMm * scale / 2 - paneH / 2 + 0.09;
+          const logoZ = centerDepth - thickness / 2 - 0.001;
+          return (
+            <Suspense fallback={null}>
+              <MammothLogo x={logoX} y={logoY} z={logoZ} />
+            </Suspense>
+          );
+        })()}
+      </group>
     );
   };
 
@@ -240,7 +267,7 @@ function WindowAssembly({ widthMm, heightMm, colorExt, colorInt, colorExtTexture
             <group position={[W, H, 0]} rotation={[0, 0, Math.PI]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(widthMm, 1, W - H)}</group></group>
             <group position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(heightMm, -1, W - H)}</group></group>
             {renderGlassPane(widthMm, heightMm, glsExt)}
-            {renderGlassPane(widthMm, heightMm, glsInt)}
+            {renderGlassPane(widthMm, heightMm, glsInt, false)}
 
             <Html position={[40 * scale, 300 * scale, -40 * scale]} center>
               <div
@@ -301,6 +328,8 @@ export interface F100TViewerProps {
   colorIntTexture?: string;
   colorGsk?: string;
   colorSpacer?: string;
+  onDimensionChange?: (width: number, height: number) => void;
+  activeLimits?: { minWidth: number; maxWidth: number; minHeight: number; maxHeight: number };
 }
 
 export const F100TViewer: React.FC<F100TViewerProps> = ({
@@ -312,7 +341,40 @@ export const F100TViewer: React.FC<F100TViewerProps> = ({
   colorIntTexture,
   colorGsk = '#1c1c1c',
   colorSpacer = '#4B4B4D',
+  onDimensionChange,
+  activeLimits,
 }) => {
+  const [widthText, setWidthText] = useState(width.toString());
+  const [heightText, setHeightText] = useState(height.toString());
+
+  const pillRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = pillRef.current;
+    if (!el) return;
+    const stopPropagation = (e: Event) => {
+      e.stopPropagation();
+    };
+    const events = ['pointerdown', 'mousedown', 'touchstart', 'click', 'dblclick'];
+    events.forEach(evt => {
+      el.addEventListener(evt, stopPropagation, { capture: true });
+    });
+    return () => {
+      events.forEach(evt => {
+        el.removeEventListener(evt, stopPropagation, { capture: true });
+      });
+    };
+  }, []);
+
+  useEffect(() => {
+    setWidthText(width.toString());
+    setHeightText(height.toString());
+  }, [width, height]);
+
+  const minW = activeLimits?.minWidth || 500;
+  const maxW = activeLimits?.maxWidth || 3000;
+  const minH = activeLimits?.minHeight || 500;
+  const maxH = activeLimits?.maxHeight || 3000;
   const [mountHeavy, setMountHeavy] = useState(false);
   console.log('F100TViewer MOUNTED', colorExt, colorExtTexture);
   const [windowState, setWindowState] = useState<WindowState>('closed');
@@ -361,16 +423,16 @@ export const F100TViewer: React.FC<F100TViewerProps> = ({
 
 
   return (
-    <div className="absolute inset-0" style={{ background: '#ffffff' }}>
+    <div className="absolute inset-0" style={{ background: '#e2e8f0' }}>
       <Canvas onDoubleClick={(e) => { e.stopPropagation(); controlsRef.current?.reset(); }} shadows gl={{ antialias: true, preserveDrawingBuffer: true }} camera={{ position: camPos, fov: 30 }}>
-        <color attach="background" args={['#f1f5f9']} />
+        <color attach="background" args={['#e2e8f0']} />
         <fog attach="fog" args={['#ffffff', maxDim * 10, maxDim * 30]} />
         <ambientLight intensity={0.35} />
         <directionalLight position={[W_M * 2.5, H_M * 3, -H_M * 2]} intensity={2.8} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} shadow-bias={-0.0004} color="#fff6e8" />
         <directionalLight position={[-W_M, H_M * 0.5, -H_M]} intensity={0.8} color="#a8c8ff" />
         <directionalLight position={[W_M * 0.5, -H_M, -H_M * 0.5]} intensity={0.25} color="#ffe0a0" />
         <pointLight position={[W_M * 0.5, H_M * 0.5, -H_M * 1.5]} intensity={0.4} color="#ffffff" />
-        <Suspense fallback={null}><Environment files="/assets/hdri/studio_small_03_1k.hdr" /></Suspense>
+        <Suspense fallback={null}><Environment files="/assets/hdri/monochrome_studio_02_1k.exr" /></Suspense>
         {mountHeavy && (
           <WindowAssembly widthMm={width} heightMm={height} colorExt={colorExt} colorInt={colorInt} colorExtTexture={colorExtTexture} colorIntTexture={colorIntTexture} colorGsk={colorGsk} colorSpacer={colorSpacer} windowState={windowState} isAuto={isAutoRef} onUserInteraction={handleUserInteraction} />
         )}
@@ -402,9 +464,80 @@ export const F100TViewer: React.FC<F100TViewerProps> = ({
       </div>
 
       <div className="absolute top-3 right-3 z-20 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest pointer-events-none" style={{ background: 'rgba(8,8,22,0.78)', border: '1px solid rgba(234,182,118,0.22)', color: '#eab676', backdropFilter: 'blur(10px)' }}>IGLO 5 F100T</div>
-      <div className="absolute bottom-3 left-3 z-20 flex flex-col gap-0.5 px-2.5 py-1.5 rounded-lg pointer-events-none" style={{ background: 'rgba(8,8,22,0.65)', border: '1px solid rgba(255,255,255,0.07)', backdropFilter: 'blur(8px)' }}>
-        <div style={{ fontSize: '11px', fontWeight: 800, color: '#eab676' }}>{width} x {height} mm</div>
-      </div>
+      {onDimensionChange ? (
+        <div 
+          ref={pillRef}
+          className="absolute bottom-3 left-3 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full pointer-events-auto" 
+          style={{ 
+            background: 'rgba(8,8,22,0.65)', 
+            border: '1px solid rgba(255,255,255,0.07)', 
+            backdropFilter: 'blur(8px)' 
+          }}
+        >
+          <input
+            type="number"
+            value={widthText}
+            onChange={(e) => {
+              setWidthText(e.target.value);
+              const num = Number(e.target.value);
+              if (!isNaN(num) && num >= minW && num <= maxW) {
+                onDimensionChange(num, height);
+              }
+            }}
+            onBlur={(e) => {
+              let val = Number(e.target.value) || minW;
+              val = Math.max(minW, Math.min(maxW, val));
+              onDimensionChange(val, height);
+              setWidthText(val.toString());
+            }}
+            onKeyDown={(e) => {
+              e.stopPropagation();
+              if (e.key === 'Enter') {
+                e.currentTarget.blur();
+              }
+            }}
+            onKeyUp={(e) => {
+              e.stopPropagation();
+            }}
+            className="w-12 bg-transparent text-[#eab676] text-center text-xs font-black tracking-widest focus:outline-none appearance-none"
+            style={{ border: 'none', padding: 0 }}
+          />
+          <span className="text-[#eab676]/60 text-xs font-black select-none pointer-events-none">x</span>
+          <input
+            type="number"
+            value={heightText}
+            onChange={(e) => {
+              setHeightText(e.target.value);
+              const num = Number(e.target.value);
+              if (!isNaN(num) && num >= minH && num <= maxH) {
+                onDimensionChange(width, num);
+              }
+            }}
+            onBlur={(e) => {
+              let val = Number(e.target.value) || minH;
+              val = Math.max(minH, Math.min(maxH, val));
+              onDimensionChange(width, val);
+              setHeightText(val.toString());
+            }}
+            onKeyDown={(e) => {
+              e.stopPropagation();
+              if (e.key === 'Enter') {
+                e.currentTarget.blur();
+              }
+            }}
+            onKeyUp={(e) => {
+              e.stopPropagation();
+            }}
+            className="w-12 bg-transparent text-[#eab676] text-center text-xs font-black tracking-widest focus:outline-none appearance-none"
+            style={{ border: 'none', padding: 0 }}
+          />
+          <span className="text-[#eab676] text-[10px] font-black ml-0.5 select-none pointer-events-none">mm</span>
+        </div>
+      ) : (
+        <div className="absolute bottom-3 left-3 z-20 flex flex-col gap-0.5 px-2.5 py-1.5 rounded-lg pointer-events-none" style={{ background: 'rgba(8,8,22,0.65)', border: '1px solid rgba(255,255,255,0.07)', backdropFilter: 'blur(8px)' }}>
+          <div style={{ fontSize: '11px', fontWeight: 800, color: '#eab676' }}>{width} x {height} mm</div>
+        </div>
+      )}
 
       <DelayedLoader mountHeavy={mountHeavy} />
     </div>

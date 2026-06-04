@@ -31,9 +31,48 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
   useEffect(() => {
     if (!sceneGroup || isAndroid) return;
 
+    const exportGroup = sceneGroup.clone(true);
+    exportGroup.traverse((node: any) => {
+      if (node.isMesh && node.material) {
+        const processMaterial = (mat: any) => {
+          const m = mat.clone();
+          
+          // Set color fallback based on texture path before clearing maps
+          if (m.map) {
+            const src = m.map.image?.src || '';
+            const srcLower = src.toLowerCase();
+            if (srcLower.includes('oak') || srcLower.includes('wood')) {
+              m.color.set('#a16207'); // Warm oak brown fallback
+            } else if (srcLower.includes('anthracite') || srcLower.includes('dark')) {
+              m.color.set('#374151'); // Anthracite grey fallback
+            } else if (srcLower.includes('gray') || srcLower.includes('grey')) {
+              m.color.set('#9ca3af'); // Grey fallback
+            } else if (srcLower.includes('white')) {
+              m.color.set('#f9fafb'); // White fallback
+            }
+          }
+
+          // Clear all textures from the material recursively
+          for (const key in m) {
+            if (m[key] && m[key].isTexture) {
+              m[key] = null;
+            }
+          }
+          m.needsUpdate = true;
+          return m;
+        };
+
+        if (Array.isArray(node.material)) {
+          node.material = node.material.map(processMaterial);
+        } else {
+          node.material = processMaterial(node.material);
+        }
+      }
+    });
+
     const exporter = new GLTFExporter();
     exporter.parse(
-      sceneGroup,
+      exportGroup,
       (gltf: any) => {
         const blob = new Blob([gltf as ArrayBuffer], { type: 'model/gltf-binary' });
         setBlobSize(blob.size);
