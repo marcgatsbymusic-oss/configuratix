@@ -3212,6 +3212,59 @@ export function DebugPricing() {
   const extDetails = getColorDetailsFromCode(colorCode);
   const intDetails = interiorColorCode ? getColorDetailsFromCode(interiorColorCode) : extDetails;
 
+  const [isShareMenuOpen, setIsShareMenuOpen] = useState(false);
+  const shareMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
+      if (shareMenuRef.current && !shareMenuRef.current.contains(e.target as Node)) {
+        setIsShareMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener('touchstart', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('touchstart', handleOutsideClick);
+    };
+  }, []);
+
+  const handleShare3DLink = async () => {
+    const senderName = window.prompt("Enter your name (optional) so the recipient knows who sent this:");
+    const url = new URL(window.location.origin + '/viewer');
+    url.searchParams.set('typology', typology);
+    url.searchParams.set('w', width.toString());
+    url.searchParams.set('h', height.toString());
+    url.searchParams.set('cExt', encodeURIComponent(extDetails.hex));
+    url.searchParams.set('cInt', encodeURIComponent(intDetails.hex));
+    if (extDetails.textureUrl) url.searchParams.set('cExtTex', encodeURIComponent(extDetails.textureUrl));
+    if (intDetails.textureUrl) url.searchParams.set('cIntTex', encodeURIComponent(intDetails.textureUrl));
+    
+    const gskHex = sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c';
+    const spcHex = FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9';
+    url.searchParams.set('cGsk', encodeURIComponent(gskHex));
+    url.searchParams.set('cSpc', encodeURIComponent(spcHex));
+    if (senderName) url.searchParams.set('sender_name', encodeURIComponent(senderName));
+    
+    const shareUrl = url.toString();
+    
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: '3D Window Configuration',
+          text: senderName ? `${senderName} sent you this window they configured!` : 'Check out this 3D window configuration!',
+          url: shareUrl
+        });
+      } catch (err) {
+        navigator.clipboard.writeText(shareUrl);
+        alert('Configuration link copied to clipboard!');
+      }
+    } else {
+      navigator.clipboard.writeText(shareUrl);
+      alert('Standalone 3D Viewer link copied to clipboard:\n\n' + shareUrl);
+    }
+  };
+
   const HANDLE_COLOR_OPTIONS: Record<string, string> = {
     'white': 'White',
     'ral9016': 'RAL 9016 (Pure White)',
@@ -3713,13 +3766,50 @@ export function DebugPricing() {
                     >
                       <Download size={14} />
                     </button>
-                    <button 
-                      onClick={handleShare} 
-                      className="p-1 text-gray-400 hover:text-mammut-gold transition-colors flex items-center justify-center"
-                      title="Share configuration"
-                    >
-                      <Share2 size={14} />
-                    </button>
+                    <div className="relative flex items-center justify-center" ref={shareMenuRef}>
+                      <button 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setIsShareMenuOpen(!isShareMenuOpen);
+                        }} 
+                        className={`p-1 transition-colors flex items-center justify-center rounded cursor-pointer ${
+                          isShareMenuOpen 
+                            ? 'text-mammut-gold bg-white/10' 
+                            : 'text-gray-400 hover:text-mammut-gold'
+                        }`}
+                        title="Share Options"
+                      >
+                        <Share2 size={14} />
+                      </button>
+                      
+                      {isShareMenuOpen && (
+                        <div className="absolute top-full right-0 mt-2 bg-zinc-950/95 border border-zinc-800 backdrop-blur-md rounded-xl shadow-2xl p-1.5 z-50 flex flex-col gap-1 min-w-[155px]">
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setIsShareMenuOpen(false);
+                              handleShare3DLink();
+                            }}
+                            className="flex items-center gap-2.5 px-3 py-2 text-[10px] font-black uppercase tracking-wider text-gray-300 hover:text-mammut-gold hover:bg-white/5 rounded-lg transition-colors w-full text-left cursor-pointer"
+                          >
+                            <Share2 size={12} strokeWidth={2.5} />
+                            Share 3D Link
+                          </button>
+                          
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setIsShareMenuOpen(false);
+                              handleShare();
+                            }}
+                            className="flex items-center gap-2.5 px-3 py-2 text-[10px] font-black uppercase tracking-wider text-gray-300 hover:text-mammut-gold hover:bg-white/5 rounded-lg transition-colors w-full text-left cursor-pointer"
+                          >
+                            <Camera size={12} strokeWidth={2.5} />
+                            Share Image
+                          </button>
+                        </div>
+                      )}
+                    </div>
                     <label 
                       className="p-1 !text-gray-400 hover:!text-mammut-gold transition-colors flex items-center justify-center cursor-pointer"
                       title="Upload photo / Use Camera"
@@ -3757,48 +3847,7 @@ export function DebugPricing() {
                         <Trash2 size={14} />
                       </button>
                     )}
-                    <button
-                      onClick={async (e) => {
-                        e.preventDefault();
-                        const senderName = window.prompt("Enter your name (optional) so the recipient knows who sent this:");
-                        const url = new URL(window.location.origin + '/viewer');
-                        url.searchParams.set('typology', typology);
-                        url.searchParams.set('w', width.toString());
-                        url.searchParams.set('h', height.toString());
-                        url.searchParams.set('cExt', encodeURIComponent(extDetails.hex));
-                        url.searchParams.set('cInt', encodeURIComponent(intDetails.hex));
-                        if (extDetails.textureUrl) url.searchParams.set('cExtTex', encodeURIComponent(extDetails.textureUrl));
-                        if (intDetails.textureUrl) url.searchParams.set('cIntTex', encodeURIComponent(intDetails.textureUrl));
-                        
-                        const gskHex = sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c';
-                        const spcHex = FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9';
-                        url.searchParams.set('cGsk', encodeURIComponent(gskHex));
-                        url.searchParams.set('cSpc', encodeURIComponent(spcHex));
-                        if (senderName) url.searchParams.set('sender_name', encodeURIComponent(senderName));
-                        
-                        const shareUrl = url.toString();
-                        
-                        if (navigator.share) {
-                          try {
-                            await navigator.share({
-                              title: '3D Window Configuration',
-                              text: senderName ? `${senderName} sent you this window they configured!` : 'Check out this 3D window configuration!',
-                              url: shareUrl
-                            });
-                          } catch (err) {
-                            navigator.clipboard.writeText(shareUrl);
-                            alert('Configuration link copied to clipboard!');
-                          }
-                        } else {
-                          navigator.clipboard.writeText(shareUrl);
-                          alert('Standalone 3D Viewer link copied to clipboard:\n\n' + shareUrl);
-                        }
-                      }}
-                      className="flex items-center gap-1 bg-mammut-gold hover:bg-yellow-400 text-black px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider transition-colors shrink-0 shadow-sm"
-                      title="Share 3D view"
-                    >
-                      <Share2 size={10} strokeWidth={3} /> Share 3D
-                    </button>
+                    {/* Share 3D Link is now consolidated into the Share icon dropdown to prevent toolbar overlap */}
                   </>
                 )}
              </div>
