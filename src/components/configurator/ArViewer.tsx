@@ -5,6 +5,8 @@ import '@google/model-viewer';
 
 const ModelViewer = 'model-viewer' as any;
 
+import { saveModelToDB, getAnimationClipsForTypology } from '../../utils/arStorage';
+
 const isAndroid = typeof navigator !== 'undefined' && /android/i.test(navigator.userAgent);
 
 // Public rescaled GLB for Android Scene Viewer.
@@ -19,19 +21,44 @@ interface ArViewerProps {
   sceneGroup: THREE.Group | THREE.Scene | null;
   placement: 'wall' | 'floor';
   onClose: () => void;
+  typology?: string;
 }
 
-export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClose }) => {
+function pruneEmptyNodes(node: THREE.Object3D): boolean {
+  let hasVisual = false;
+  node.traverse((child) => {
+    if ((child as any).isMesh || (child as any).isLight || (child as any).isCamera) {
+      hasVisual = true;
+    }
+  });
+
+  if (!hasVisual) {
+    if (node.parent) {
+      node.parent.remove(node);
+    }
+    return false;
+  }
+
+  for (let i = node.children.length - 1; i >= 0; i--) {
+    pruneEmptyNodes(node.children[i]);
+  }
+  return true;
+}
+
+export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClose, typology }) => {
   const [modelUrl, setModelUrl] = useState<string | null>(null);
   const [error, setError]       = useState<string | null>(null);
   const [blobSize, setBlobSize] = useState<number | null>(null);
 
-  // Export Three.js scene → GLB blob. Only needed for iOS quick-look.
-  // Android skips this entirely and uses the public pre-baked GLB via Scene Viewer.
+  // Export Three.js scene → GLB blob.
   useEffect(() => {
-    if (!sceneGroup || isAndroid) return;
+    if (!sceneGroup) return;
 
     const exportGroup = sceneGroup.clone(true);
+    
+    // Prune empty/non-visual nodes (like <Html> components) to prevent GLTFExporter errors
+    pruneEmptyNodes(exportGroup);
+
     exportGroup.traverse((node: any) => {
       if (node.isMesh && node.material) {
         const processMaterial = (mat: any) => {
@@ -70,19 +97,26 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
       }
     });
 
+    const clips = getAnimationClipsForTypology(typology || '');
     const exporter = new GLTFExporter();
     exporter.parse(
       exportGroup,
       (gltf: any) => {
         const blob = new Blob([gltf as ArrayBuffer], { type: 'model/gltf-binary' });
         setBlobSize(blob.size);
-        setModelUrl(URL.createObjectURL(blob));
+        const url = URL.createObjectURL(blob);
+        setModelUrl(url);
+
+        // Save to IndexedDB for the full-screen AR page to consume
+        saveModelToDB(blob).catch(err => {
+          console.error('[ArViewer] Error saving model to IndexedDB:', err);
+        });
       },
       (err: any) => {
         console.error('GLTF Export Error:', err);
         setError('Failed to generate AR model.');
       },
-      { binary: true }
+      { binary: true, animations: clips }
     );
 
     return () => {
@@ -127,12 +161,21 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
           </div>
 
           {/* Primary: Needle Engine AR page */}
-          <a
-            href={needleArUrl}
-            className="w-full max-w-xs bg-mammut-gold text-black font-black uppercase tracking-widest py-5 rounded-2xl text-center shadow-[0_0_30px_rgba(234,182,118,0.4)] text-sm no-underline block"
-          >
-            Launch AR Viewer
-          </a>
+          {modelUrl ? (
+            <a
+              href={needleArUrl}
+              className="w-full max-w-xs bg-mammut-gold text-black font-black uppercase tracking-widest py-5 rounded-2xl text-center shadow-[0_0_30px_rgba(234,182,118,0.4)] text-sm no-underline block animate-in fade-in"
+            >
+              Launch AR Viewer
+            </a>
+          ) : (
+            <button
+              disabled
+              className="w-full max-w-xs bg-gray-800 text-gray-500 font-black uppercase tracking-widest py-5 rounded-2xl text-center text-sm cursor-not-allowed border-none"
+            >
+              Preparing 3D AR Model...
+            </button>
+          )}
 
           {/* Fallback: Google Scene Viewer via intent */}
           <a

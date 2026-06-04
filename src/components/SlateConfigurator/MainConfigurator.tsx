@@ -474,6 +474,7 @@ export function MainConfigurator() {
   const hasProduct = typeof window !== 'undefined' && window.location.search.includes('product=');
   const [activeStep, setActiveStep] = useState<number | null>(hasProduct ? 3 : 0);
   const [show3D, setShow3D] = useState(false);
+  const [isColorWheelOpen, setIsColorWheelOpen] = useState(false);
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [stepOrder, setStepOrder] = useState<number[]>([1,2,3,4,7,5,6,8,9]);
   const [completedSteps, setCompletedSteps] = useState<number[]>(hasProduct ? [1, 2] : []);
@@ -1660,7 +1661,7 @@ export function MainConfigurator() {
                 </div>
                 {show3D ? (
                   state.windowTypeId === 'F100T' ? (
-                    <F100TViewer
+                    <F100TViewer isColorPaletteOpen={isColorWheelOpen}
                       width={state.dimensions.width}
                       height={state.dimensions.height}
                       colorExt={getHexColor(state.exteriorColor)}
@@ -1686,7 +1687,7 @@ export function MainConfigurator() {
                       activeLimits={activeLimits}
                     />
                   ) : state.windowTypeId === 'SLE201' ? (
-                    <SLE201Viewer
+                    <SLE201Viewer isColorPaletteOpen={isColorWheelOpen}
                       width={state.dimensions.width}
                       height={state.dimensions.height}
                       colorExt={getHexColor(state.exteriorColor)}
@@ -1716,6 +1717,7 @@ export function MainConfigurator() {
                   colorInt={state.interiorColor}
                   onChangeExt={(color) => dispatch({ type: 'SET_EXTERIOR_COLOR', payload: color.id })}
                   onChangeInt={(color) => dispatch({ type: 'SET_INTERIOR_COLOR', payload: color.id })}
+                  onOpenChange={setIsColorWheelOpen}
                 />
               </div>
 

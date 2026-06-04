@@ -1017,7 +1017,7 @@ export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) =
         <WindowAssembly {...props} />
         
         <OrbitControls ref={controlsRef} makeDefault enablePan={true} enableZoom={true} target={controlsTarget} />
-        <ContactShadows position={[0, -0.001, 0]} opacity={0.4} scale={5} blur={2.0} far={10} />
+        <ContactShadows position={[0, -0.001, 0]} opacity={0.2} scale={5} blur={2.0} far={10} />
       </Canvas>
     </div>
   );

@@ -119,11 +119,6 @@ export function Footer({ minimal = false }: { minimal?: boolean }) {
         <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
-            <img 
-              src="/assets/mammut-logo-icon.png" 
-              alt="Mammut Icon" 
-              className="w-8 h-8 object-contain opacity-80 hover:opacity-100 transition-opacity"
-            />
             <span className="text-mammut-white/40 font-black text-sm tracking-[0.2em] uppercase">
               MAMMUT ENERGY
             </span>

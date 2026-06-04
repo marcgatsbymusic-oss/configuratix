@@ -447,7 +447,7 @@ export const F101CViewer: React.FC<F101CViewerProps> = ({
             onUserInteraction={handleUserInteraction} 
           />
         )}
-        <ContactShadows position={[W_M / 2, -0.005, 89 * MM / 2]} opacity={0.25} scale={maxDim * 5} blur={2.5} far={maxDim * 2} />
+        <ContactShadows position={[W_M / 2, -0.005, 89 * MM / 2]} opacity={0.125} scale={maxDim * 5} blur={2.5} far={maxDim * 2} />
         <OrbitControls ref={controlsRef} makeDefault enablePan enableZoom target={orbitTarget} minDistance={maxDim * 0.4} maxDistance={maxDim * 6} />
       </Canvas>
 

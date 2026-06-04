@@ -53,15 +53,29 @@ interface AssemblyProps {
   windowState: WindowState;
   isAuto: React.MutableRefObject<boolean>;
   onUserInteraction: (state: WindowState) => void;
+  onSceneReady?: (group: THREE.Group) => void;
+  isColorPaletteOpen?: boolean;
 }
 
-function WindowAssembly({ widthMm, heightMm, colorExt, colorInt, colorExtTexture, colorIntTexture, colorGsk, colorSpacer, windowState, isAuto, onUserInteraction }: AssemblyProps) {
+function WindowAssembly({ 
+  widthMm, heightMm, colorExt, colorInt, colorExtTexture, colorIntTexture, colorGsk, colorSpacer, 
+  windowState, isAuto, onUserInteraction, onSceneReady, isColorPaletteOpen = false 
+}: AssemblyProps) {
   const sashPivotRef = useRef<THREE.Group>(null!);
   const handleGroupRef = useRef<THREE.Group>(null!);
   const { clock } = useThree();
   const scale = MM;
   const W = widthMm * scale;
   const H = heightMm * scale;
+
+  const [groupObj, setGroupObj] = useState<THREE.Group | null>(null);
+  const reportedKey = useRef<string>('');
+
+  useEffect(() => {
+    if (groupObj && onSceneReady) {
+      onSceneReady(groupObj);
+    }
+  }, [groupObj, onSceneReady, widthMm, heightMm, colorExt, colorInt, colorExtTexture, colorIntTexture, colorGsk, colorSpacer]);
   console.log('F100TViewer rendering with color:', colorExt, colorInt);
 
   const { scene: handleScene } = useGLTF('/testhandle.glb');
@@ -199,6 +213,14 @@ function WindowAssembly({ widthMm, heightMm, colorExt, colorInt, colorExtTexture
   }, [windowState, clock, isAuto]);
 
   useFrame((state) => {
+    if (groupObj && onSceneReady) {
+      const currentKey = `${groupObj.children.length}_${widthMm}_${heightMm}_${colorExt}_${colorInt}_${colorExtTexture}_${colorIntTexture}_${colorGsk}_${colorSpacer}`;
+      if (reportedKey.current !== currentKey) {
+        reportedKey.current = currentKey;
+        onSceneReady(groupObj);
+      }
+    }
+
     if (!sashPivotRef.current) return;
     const s = animStateRef.current;
     const elapsed = state.clock.getElapsedTime() - s.startTime;
@@ -251,7 +273,7 @@ function WindowAssembly({ widthMm, heightMm, colorExt, colorInt, colorExtTexture
   });
 
   return (
-    <group>
+    <group ref={setGroupObj}>
       <group>
         <group rotation={[0, 0, 0]}><group rotation={[0, Math.PI / 2, 0]}>{renderFrameSegment(widthMm, 1, 0)}</group></group>
         <group position={[W, 0, 0]} rotation={[0, 0, Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderFrameSegment(heightMm, -1, W)}</group></group>
@@ -259,8 +281,8 @@ function WindowAssembly({ widthMm, heightMm, colorExt, colorInt, colorExtTexture
         <group position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderFrameSegment(heightMm, -1, W - H)}</group></group>
       </group>
 
-      <group position={[pivotX, pivotY, pivotZ]}>
-        <group ref={sashPivotRef}>
+      <group position={[pivotX, pivotY, pivotZ]} name="pivotGroup">
+        <group ref={sashPivotRef} name="sashPivot">
           <group position={[-pivotX, -pivotY, -pivotZ]}>
             <group rotation={[0, 0, 0]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(widthMm, 1, 0)}</group></group>
             <group position={[W, 0, 0]} rotation={[0, 0, Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(heightMm, -1, W)}</group></group>
@@ -269,29 +291,44 @@ function WindowAssembly({ widthMm, heightMm, colorExt, colorInt, colorExtTexture
             {renderGlassPane(widthMm, heightMm, glsExt)}
             {renderGlassPane(widthMm, heightMm, glsInt, false)}
 
-            <Html position={[40 * scale, 300 * scale, -40 * scale]} center>
-              <div
-                className={`w-10 h-10 rounded-full border-2 border-white/50 flex items-center justify-center cursor-pointer hover:bg-white/30 transition-colors ${windowState === 'open_side' ? 'bg-amber-500/40' : 'bg-white/10'}`}
-                style={{ animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}
-                onClick={(e) => { e.stopPropagation(); onUserInteraction(windowState === 'open_side' ? 'closed' : 'open_side'); }}
-              >
-                <div className="w-3 h-3 bg-white/80 rounded-full" />
-              </div>
-            </Html>
+            {!isColorPaletteOpen && (
+              <>
+                <Html position={[85 * scale, 250 * scale, -145 * scale]} center>
+                  <div
+                    className="w-10 h-10 flex items-center justify-center cursor-pointer transition-all hover:scale-110"
+                    style={{ 
+                      animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }}
+                    onClick={(e) => { e.stopPropagation(); onUserInteraction(windowState === 'open_side' ? 'closed' : 'open_side'); }}
+                  >
+                    <div className="relative w-4 h-4 flex items-center justify-center">
+                      <div className="absolute inset-0 rounded-full bg-[#d4d4d8] opacity-40 blur-[2px]" />
+                      <div className="absolute w-2.5 h-2.5 rounded-full bg-[#d4d4d8] border-[1.5px] border-white shadow-sm" />
+                    </div>
+                  </div>
+                </Html>
 
-            <Html position={[40 * scale, H - 40 * scale, -40 * scale]} center>
-              <div
-                className={`w-10 h-10 rounded-full border-2 border-white/50 flex items-center justify-center cursor-pointer hover:bg-white/30 transition-colors ${windowState === 'open_tilt' ? 'bg-blue-500/40' : 'bg-white/10'}`}
-                style={{ animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}
-                onClick={(e) => { e.stopPropagation(); onUserInteraction(windowState === 'open_tilt' ? 'closed' : 'open_tilt'); }}
-              >
-                <div className="w-3 h-3 bg-white/80 rounded-full" />
-              </div>
-            </Html>
+                <Html position={[85 * scale, H - 85 * scale, -145 * scale]} center>
+                  <div
+                    className="w-10 h-10 flex items-center justify-center cursor-pointer transition-all hover:scale-110"
+                    style={{ 
+                      animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }}
+                    onClick={(e) => { e.stopPropagation(); onUserInteraction(windowState === 'open_tilt' ? 'closed' : 'open_tilt'); }}
+                  >
+                    <div className="relative w-4 h-4 flex items-center justify-center">
+                      <div className="absolute inset-0 rounded-full bg-[#d4d4d8] opacity-40 blur-[2px]" />
+                      <div className="absolute w-2.5 h-2.5 rounded-full bg-[#d4d4d8] border-[1.5px] border-white shadow-sm" />
+                    </div>
+                  </div>
+                </Html>
+              </>
+            )}
 
             {/* Handle Model - Placed just where the open button is */}
             <group 
               ref={handleGroupRef} 
+              name="handleGroup"
               position={[85 * scale, 300 * scale, -144 * scale]} 
               rotation={[Math.PI / 2, Math.PI, 0]}
               scale={[0.025, 0.025, 0.025]}
@@ -328,9 +365,11 @@ export interface F100TViewerProps {
   colorIntTexture?: string;
   colorGsk?: string;
   colorSpacer?: string;
+  onSceneReady?: (group: THREE.Group) => void;
   onDimensionChange?: (width: number, height: number) => void;
   activeLimits?: { minWidth: number; maxWidth: number; minHeight: number; maxHeight: number };
   hidePill?: boolean;
+  isColorPaletteOpen?: boolean;
 }
 
 export const F100TViewer: React.FC<F100TViewerProps> = ({
@@ -342,9 +381,11 @@ export const F100TViewer: React.FC<F100TViewerProps> = ({
   colorIntTexture,
   colorGsk = '#1c1c1c',
   colorSpacer = '#4B4B4D',
+  onSceneReady,
   onDimensionChange,
   activeLimits,
   hidePill,
+  isColorPaletteOpen = false,
 }) => {
   const [widthText, setWidthText] = useState(width.toString());
   const [heightText, setHeightText] = useState(height.toString());
@@ -436,34 +477,15 @@ export const F100TViewer: React.FC<F100TViewerProps> = ({
         <pointLight position={[W_M * 0.5, H_M * 0.5, -H_M * 1.5]} intensity={0.4} color="#ffffff" />
         <Suspense fallback={null}><Environment files="/assets/hdri/monochrome_studio_02_1k.exr" /></Suspense>
         {mountHeavy && (
-          <WindowAssembly widthMm={width} heightMm={height} colorExt={colorExt} colorInt={colorInt} colorExtTexture={colorExtTexture} colorIntTexture={colorIntTexture} colorGsk={colorGsk} colorSpacer={colorSpacer} windowState={windowState} isAuto={isAutoRef} onUserInteraction={handleUserInteraction} />
+          <WindowAssembly widthMm={width} heightMm={height} colorExt={colorExt} colorInt={colorInt} colorExtTexture={colorExtTexture} colorIntTexture={colorIntTexture} colorGsk={colorGsk} colorSpacer={colorSpacer} windowState={windowState} isAuto={isAutoRef} onUserInteraction={handleUserInteraction} onSceneReady={onSceneReady} isColorPaletteOpen={isColorPaletteOpen} />
         )}
-        <ContactShadows position={[W_M / 2, -0.005, 89 * MM / 2]} opacity={0.25} scale={maxDim * 5} blur={2.5} far={maxDim * 2} />
+        <ContactShadows position={[W_M / 2, -0.005, 89 * MM / 2]} opacity={0.125} scale={maxDim * 5} blur={2.5} far={maxDim * 2} />
         <OrbitControls ref={controlsRef} makeDefault enablePan enableZoom target={orbitTarget} minDistance={maxDim * 0.4} maxDistance={maxDim * 6} />
       </Canvas>
 
       <style>{`@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.1)} }`}</style>
 
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 pointer-events-auto flex items-center gap-3 p-1.5 rounded-full"
-           style={{ background: 'rgba(8,8,22,0.65)', border: '1px solid rgba(234,182,118,0.3)', backdropFilter: 'blur(12px)' }}>
-        <button 
-          onClick={() => handleUserInteraction(windowState === 'open_side' ? 'closed' : 'open_side')} 
-          className="flex items-center justify-center w-11 h-11 rounded-full transition-all hover:bg-white/10"
-          style={{ color: windowState === 'open_side' ? '#5af0a0' : '#eab676', background: windowState === 'open_side' ? 'rgba(50,190,110,0.15)' : 'transparent' }}
-          title="Open Side"
-        >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
-        </button>
-        <div className="w-px h-6 bg-white/20"></div>
-        <button 
-          onClick={() => handleUserInteraction(windowState === 'open_tilt' ? 'closed' : 'open_tilt')} 
-          className="flex items-center justify-center w-11 h-11 rounded-full transition-all hover:bg-white/10"
-          style={{ color: windowState === 'open_tilt' ? '#5af0a0' : '#eab676', background: windowState === 'open_tilt' ? 'rgba(50,190,110,0.15)' : 'transparent' }}
-          title="Tilt Window"
-        >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
-        </button>
-      </div>
+
 
       <div className="absolute top-3 right-3 z-20 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest pointer-events-none" style={{ background: 'rgba(8,8,22,0.78)', border: '1px solid rgba(234,182,118,0.22)', color: '#eab676', backdropFilter: 'blur(10px)' }}>IGLO 5 F100T</div>
       {!hidePill && (onDimensionChange ? (

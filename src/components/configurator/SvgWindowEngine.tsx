@@ -362,7 +362,7 @@ export const SvgWindowEngine: React.FC<SvgWindowEngineProps> = ({
           style={{ 
             transform: `rotateY(${currentRotation}deg)`, 
             transformStyle: 'preserve-3d',
-            filter: 'drop-shadow(0px 10px 30px rgba(0,0,0,0.2))' 
+            filter: 'drop-shadow(0px 5px 15px rgba(0,0,0,0.1))' 
           }}
           xmlns="http://www.w3.org/2000/svg"
         >

@@ -57,6 +57,7 @@ export interface SLE201ViewerProps {
   onDimensionChange?: (width: number, height: number) => void;
   activeLimits?: { minWidth: number; maxWidth: number; minHeight: number; maxHeight: number };
   hidePill?: boolean;
+  isColorPaletteOpen?: boolean;
 }
 
 // ─── Animation state ──────────────────────────────────────────────────────────
@@ -77,8 +78,9 @@ const MammothLogo = ({ x, y, z }: { x: number; y: number; z: number }) => {
   );
 };
 
-interface SlidingSceneProps extends Required<Omit<SLE201ViewerProps, 'onSceneReady' | 'onDimensionChange' | 'activeLimits' | 'hidePill'>> {
+interface SlidingSceneProps extends Required<Omit<SLE201ViewerProps, 'onSceneReady' | 'onDimensionChange' | 'activeLimits' | 'hidePill' | 'isColorPaletteOpen'>> {
   onSceneReady?: (group: THREE.Group) => void;
+  isColorPaletteOpen?: boolean;
 }
 
 // ─── Inner scene (must live inside <Canvas> for useFrame / useGLTF) ──────────
@@ -88,6 +90,7 @@ function SlidingScene({
   colorExtTexture, colorIntTexture,
   colorGsk, colorSpacer,
   onSceneReady,
+  isColorPaletteOpen = false,
 }: SlidingSceneProps) {
   const scale = MM;
   const W = width  * scale;
@@ -207,8 +210,14 @@ function SlidingScene({
   const getTex = (ct: string) => ct === 'ext' ? colorExtTexture : ct === 'int' ? colorIntTexture : undefined;
 
   const glassMat = useMemo(() => new THREE.MeshPhysicalMaterial({
-    color: '#e0e8f0', metalness: 0.1, roughness: 0.05,
-    transmission: 0.99, ior: 1.5, thickness: 5*MM, transparent: true, opacity: 0.15,
+    color: '#ffffff',
+    metalness: 0.0,
+    roughness: 0.0,
+    transmission: 1.0,
+    ior: 1.5,
+    thickness: 5 * MM,
+    transparent: true,
+    opacity: 0.05,
   }), []);
 
   // ── Shared FrameSegment builder ───────────────────────────────────────────
@@ -403,27 +412,29 @@ function SlidingScene({
         </group>
 
         {/* Hotspot — near handle position */}
-        <Html position={[-20*scale, hY, hZ - 20*scale]} center>
-          <div
-            onClick={onHotspot}
-            title={isOpen ? 'Close sash' : 'Open sash'}
-            style={{
-              width: 40, height: 40, borderRadius: '50%',
-              border: `2px solid ${isOpen ? 'rgba(251,191,36,.7)' : 'rgba(255,255,255,.5)'}`,
-              background: isOpen ? 'rgba(251,191,36,.25)' : 'rgba(255,255,255,.1)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: isMoving ? 'not-allowed' : 'pointer',
-              opacity: isMoving ? 0.5 : 1,
-              animation: isMoving ? 'none' : 'pulse 2.5s cubic-bezier(.4,0,.6,1) infinite',
-              transition: 'background .3s, border-color .3s',
-            }}
-          >
-            <div style={{
-              width: 12, height: 12, borderRadius: '50%',
-              background: isOpen ? 'rgba(251,191,36,.9)' : 'rgba(255,255,255,.85)',
-            }} />
-          </div>
-        </Html>
+        {!isColorPaletteOpen && (
+          <Html position={[-20*scale, hY, hZ - 20*scale]} center>
+            <div
+              onClick={onHotspot}
+              title={isOpen ? 'Close sash' : 'Open sash'}
+              style={{
+                width: 40, height: 40, borderRadius: '50%',
+                border: `2px solid ${isOpen ? 'rgba(251,191,36,.7)' : 'rgba(255,255,255,.5)'}`,
+                background: isOpen ? 'rgba(251,191,36,.25)' : 'rgba(255,255,255,.1)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                cursor: isMoving ? 'not-allowed' : 'pointer',
+                opacity: isMoving ? 0.5 : 1,
+                animation: isMoving ? 'none' : 'pulse 2.5s cubic-bezier(.4,0,.6,1) infinite',
+                transition: 'background .3s, border-color .3s',
+              }}
+            >
+              <div style={{
+                width: 12, height: 12, borderRadius: '50%',
+                background: isOpen ? 'rgba(251,191,36,.9)' : 'rgba(255,255,255,.85)',
+              }} />
+            </div>
+          </Html>
+        )}
       </group>
     </group>
   );
@@ -441,6 +452,7 @@ export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
   onDimensionChange,
   activeLimits,
   hidePill,
+  isColorPaletteOpen = false,
 }) => {
   const [widthText, setWidthText] = useState(width.toString());
   const [heightText, setHeightText] = useState(height.toString());
@@ -506,10 +518,11 @@ export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
             colorExtTexture={colorExtTexture ?? ''} colorIntTexture={colorIntTexture ?? ''}
             colorGsk={colorGsk}   colorSpacer={colorSpacer}
             onSceneReady={onSceneReady}
+            isColorPaletteOpen={isColorPaletteOpen}
           />
         </React.Suspense>
 
-        <ContactShadows position={[W/2, -0.01, targetZ]} opacity={0.25} scale={maxDim*4} blur={2} far={maxDim*1.5} />
+        <ContactShadows position={[W/2, -0.01, targetZ]} opacity={0.125} scale={maxDim*4} blur={2} far={maxDim*1.5} />
         <OrbitControls ref={controlsRef} makeDefault enablePan enableZoom
           target={orbitTarget} minDistance={maxDim*.3} maxDistance={maxDim*5} />
       </Canvas>

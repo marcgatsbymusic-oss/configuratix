@@ -11,7 +11,6 @@ interface ColorPaletteOverlayProps {
 }
 
 // ─── Color lookup ────────────────────────────────────────────────────────────
-const MAMMUT_RED = '#e30613';
 
 const isColorMatch = (color: SwatchColor, val: string): boolean => {
   if (!val) return false;
@@ -46,8 +45,8 @@ const I_ROUT = 160;   // outer radius of inner ring  →  75 px thick
 // Gap between rings: I_ROUT to O_RIN = 12 px (visual breathing room)
 
 // Visible arc window (degrees)
-const WIN_A = 179;   // start (left edge, slight inset so edge swatches aren't clipped hard)
-const WIN_B = 271;   // end   (top edge)
+const WIN_A = 180;   // start (left edge, flush)
+const WIN_B = 270;   // end   (top edge)
 
 // Per-color wedge geometry
 const N          = IGLO_EDGE_COLORS.length;   // 43 colours
@@ -58,8 +57,7 @@ const WEDGE_GAP  = 0.5;                       // small gap between wedges (deg, 
 const OUTER_SPEED =  5;   // clockwise
 const INNER_SPEED = -8;   // counter-clockwise (negative)
 
-// Selector line angle – bisector of the visible arc, pointing from corner
-const SEL_DEG    = 225;   // 45° into the quadrant
+
 
 // ─── SVG wedge path builder ──────────────────────────────────────────────────
 function wedgePath(
@@ -110,6 +108,17 @@ export function ColorPaletteOverlay({
   const [hovInt, setHovInt]       = useState<number | null>(null);
   const [isAutoSpin, setIsAutoSpin] = useState(true);
   const containerRef              = useRef<HTMLDivElement>(null);
+  const inactivityTimerRef        = useRef<NodeJS.Timeout | null>(null);
+
+  const resetInactivityTimer = useCallback(() => {
+    if (inactivityTimerRef.current) {
+      clearTimeout(inactivityTimerRef.current);
+    }
+    setIsAutoSpin(false);
+    inactivityTimerRef.current = setTimeout(() => {
+      setIsAutoSpin(true);
+    }, 6000);
+  }, []);
 
   // Rotation state (mutable refs – no re-render cost per degree)
   const outerAngle = useRef(0);
@@ -170,6 +179,10 @@ export function ColorPaletteOverlay({
     };
 
     setIsAutoSpin(false); // Stop motion when dragging starts
+    if (inactivityTimerRef.current) {
+      clearTimeout(inactivityTimerRef.current);
+      inactivityTimerRef.current = null;
+    }
 
     // ── Start 6-second hold timer to apply to both sides and sync wheels ────
     if (longPressTimer.current) {
@@ -204,6 +217,11 @@ export function ColorPaletteOverlay({
   const handlePointerMove = (e: React.PointerEvent<SVGSVGElement>) => {
     const drag = dragState.current;
     if (!drag.active || !drag.target) return;
+
+    if (inactivityTimerRef.current) {
+      clearTimeout(inactivityTimerRef.current);
+      inactivityTimerRef.current = null;
+    }
 
     const svg = e.currentTarget;
     const rect = svg.getBoundingClientRect();
@@ -287,6 +305,8 @@ export function ColorPaletteOverlay({
       }
     }
     
+    resetInactivityTimer();
+
     setTimeout(() => {
       drag.hasDragged = false;
     }, 50);
@@ -322,10 +342,24 @@ export function ColorPaletteOverlay({
     if (isOpen) {
       lastTs.current = null;
       rafId.current  = requestAnimationFrame(loop);
+      setIsAutoSpin(true); // Counter-animate immediately on open
+      if (inactivityTimerRef.current) {
+        clearTimeout(inactivityTimerRef.current);
+        inactivityTimerRef.current = null;
+      }
     } else {
       if (rafId.current) cancelAnimationFrame(rafId.current);
+      if (inactivityTimerRef.current) {
+        clearTimeout(inactivityTimerRef.current);
+        inactivityTimerRef.current = null;
+      }
     }
-    return () => { if (rafId.current) cancelAnimationFrame(rafId.current); };
+    return () => { 
+      if (rafId.current) cancelAnimationFrame(rafId.current);
+      if (inactivityTimerRef.current) {
+        clearTimeout(inactivityTimerRef.current);
+      }
+    };
   }, [isOpen, loop]);
 
   useEffect(() => {
@@ -349,6 +383,8 @@ export function ColorPaletteOverlay({
   // ── Build wedge elements ───────────────────────────────────────────────────
   const outerWedges: React.ReactNode[] = [];
   const innerWedges: React.ReactNode[] = [];
+  let hoveredOuterWedge: React.ReactNode = null;
+  let hoveredInnerWedge: React.ReactNode = null;
 
   for (let i = 0; i < N; i++) {
     const color = IGLO_EDGE_COLORS[i];
@@ -362,14 +398,21 @@ export function ColorPaletteOverlay({
       const oMidR   = (O_RIN + O_ROUT) / 2;
       const imgCX   = CX + oMidR * Math.cos(oMidRad);
       const imgCY   = CY + oMidR * Math.sin(oMidRad);
-      const imgSize = O_ROUT - O_RIN;   // fill the radial thickness
+      const imgSize = 135;   // Increased to ensure seamless texture filling at any angle
 
       const isSel = i === activeExtIdx;
       const isHov = hovExt === i;
       const cid   = `co${i}`;
 
-      outerWedges.push(
-        <g key={`o-${i}`}>
+      const wedgeEl = (
+        <g 
+          key={`o-${i}`}
+          style={{
+            transform: isHov ? 'scale(1.5)' : 'scale(1)',
+            transformOrigin: `${f(imgCX)}px ${f(imgCY)}px`,
+            transition: 'transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'
+          }}
+        >
           <defs>
             <clipPath id={cid}>
               <path d={wedgePath(O_RIN, O_ROUT, oA1, oA2)} />
@@ -411,7 +454,7 @@ export function ColorPaletteOverlay({
             }
             stroke={
               isHov ? 'rgba(255,255,255,0.55)'
-              : 'rgba(0,0,0,0.25)'
+              : 'none'
             }
             strokeWidth={1}
             pointerEvents="none"
@@ -425,16 +468,16 @@ export function ColorPaletteOverlay({
                 cx={f(CX + (O_ROUT - 10) * Math.cos(oMidRad))}
                 cy={f(CY + (O_ROUT - 10) * Math.sin(oMidRad))}
                 r={8}
-                fill={MAMMUT_RED}
-                opacity={0.5}
-                filter="url(#red-glow)"
+                fill="#d4d4d8"
+                opacity={0.4}
+                filter="url(#grey-glow)"
                 pointerEvents="none"
               />
               <circle
                 cx={f(CX + (O_ROUT - 10) * Math.cos(oMidRad))}
                 cy={f(CY + (O_ROUT - 10) * Math.sin(oMidRad))}
                 r={5}
-                fill={MAMMUT_RED}
+                fill="#d4d4d8"
                 stroke="white"
                 strokeWidth={1.5}
                 pointerEvents="none"
@@ -443,6 +486,12 @@ export function ColorPaletteOverlay({
           )}
         </g>
       );
+
+      if (isHov) {
+        hoveredOuterWedge = wedgeEl;
+      } else {
+        outerWedges.push(wedgeEl);
+      }
     }
 
     // ── Inner ring (interior) ────────────────────────────────────────────────
@@ -454,14 +503,21 @@ export function ColorPaletteOverlay({
       const iMidR   = (I_RIN + I_ROUT) / 2;
       const imgCX   = CX + iMidR * Math.cos(iMidRad);
       const imgCY   = CY + iMidR * Math.sin(iMidRad);
-      const imgSize = I_ROUT - I_RIN;
+      const imgSize = 135;   // Increased to ensure seamless texture filling at any angle
 
       const isSel = i === activeIntIdx;
       const isHov = hovInt === i;
       const cid   = `ci${i}`;
 
-      innerWedges.push(
-        <g key={`i-${i}`}>
+      const wedgeEl = (
+        <g 
+          key={`i-${i}`}
+          style={{
+            transform: isHov ? 'scale(1.5)' : 'scale(1)',
+            transformOrigin: `${f(imgCX)}px ${f(imgCY)}px`,
+            transition: 'transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'
+          }}
+        >
           <defs>
             <clipPath id={cid}>
               <path d={wedgePath(I_RIN, I_ROUT, iA1, iA2)} />
@@ -501,7 +557,7 @@ export function ColorPaletteOverlay({
             }
             stroke={
               isHov ? 'rgba(255,255,255,0.55)'
-              : 'rgba(0,0,0,0.25)'
+              : 'none'
             }
             strokeWidth={1}
             pointerEvents="none"
@@ -514,16 +570,16 @@ export function ColorPaletteOverlay({
                 cx={f(CX + (I_ROUT - 8) * Math.cos(iMidRad))}
                 cy={f(CY + (I_ROUT - 8) * Math.sin(iMidRad))}
                 r={7}
-                fill={MAMMUT_RED}
-                opacity={0.5}
-                filter="url(#red-glow)"
+                fill="#d4d4d8"
+                opacity={0.4}
+                filter="url(#grey-glow)"
                 pointerEvents="none"
               />
               <circle
                 cx={f(CX + (I_ROUT - 8) * Math.cos(iMidRad))}
                 cy={f(CY + (I_ROUT - 8) * Math.sin(iMidRad))}
                 r={4}
-                fill={MAMMUT_RED}
+                fill="#d4d4d8"
                 stroke="white"
                 strokeWidth={1.5}
                 pointerEvents="none"
@@ -532,15 +588,23 @@ export function ColorPaletteOverlay({
           )}
         </g>
       );
+
+      if (isHov) {
+        hoveredInnerWedge = wedgeEl;
+      } else {
+        innerWedges.push(wedgeEl);
+      }
     }
   }
 
-  // ── Selector line geometry (at 225° bisector) ──────────────────────────────
-  const selRad = (SEL_DEG * Math.PI) / 180;
-  const selX1  = CX + (I_RIN - 4)  * Math.cos(selRad);
-  const selY1  = CY + (I_RIN - 4)  * Math.sin(selRad);
-  const selX2  = CX + (O_ROUT + 6) * Math.cos(selRad);
-  const selY2  = CY + (O_ROUT + 6) * Math.sin(selRad);
+  if (hoveredOuterWedge) {
+    outerWedges.push(hoveredOuterWedge);
+  }
+  if (hoveredInnerWedge) {
+    innerWedges.push(hoveredInnerWedge);
+  }
+
+
 
   // ── Active / hovered colour references ────────────────────────────────────
   const extColor = activeExtIdx >= 0 ? IGLO_EDGE_COLORS[activeExtIdx] : null;
@@ -552,7 +616,11 @@ export function ColorPaletteOverlay({
     <div 
       ref={containerRef} 
       className={className || "absolute bottom-3 right-[54px] md:bottom-4 md:right-[68px] z-40"}
-      style={{ zIndex: isOpen ? 99999 : 40 }}
+      style={
+        isOpen 
+          ? { zIndex: 99999, position: 'absolute', bottom: '0px', right: '0px' } 
+          : { zIndex: 40 }
+      }
     >
       <style>{`
         @keyframes qwheel-in {
@@ -607,8 +675,7 @@ export function ColorPaletteOverlay({
         <div
           className="qwheel-open absolute"
           style={{
-            // SVG canvas bottom-right corner = trigger button top-right
-            bottom: '54px',
+            bottom: '0px',
             right:  '0px',
             width:  SVG_W,
             height: SVG_H,
@@ -623,7 +690,8 @@ export function ColorPaletteOverlay({
               display: 'block',
               overflow: 'visible',
               touchAction: 'none',
-              cursor: dragState.current.active ? 'grabbing' : 'grab'
+              cursor: dragState.current.active ? 'grabbing' : 'grab',
+              filter: 'drop-shadow(-4px -4px 6px rgba(0, 0, 0, 0.225))'
             }}
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
@@ -631,8 +699,8 @@ export function ColorPaletteOverlay({
             onPointerCancel={handlePointerUp}
           >
             <defs>
-              <filter id="red-glow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="2.5" result="blur" />
+              <filter id="grey-glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="2" result="blur" />
                 <feMerge>
                   <feMergeNode in="blur" />
                   <feMergeNode in="SourceGraphic" />
@@ -676,67 +744,9 @@ export function ColorPaletteOverlay({
             {innerWedges}
             {outerWedges}
 
-            {/* ── Selector pointer line at 225° ──────────────────────────── */}
-            <line
-              x1={f(selX1)} y1={f(selY1)}
-              x2={f(selX2)} y2={f(selY2)}
-              stroke="rgba(255,255,255,0.45)"
-              strokeWidth={1.5}
-              strokeDasharray="5,4"
-              strokeLinecap="round"
-              pointerEvents="none"
-            />
-            {/* Tiny arrow tip at outer end of selector */}
-            <circle
-              cx={f(selX2)} cy={f(selY2)}
-              r={3}
-              fill="rgba(255,255,255,0.6)"
-              pointerEvents="none"
-            />
 
-            {/* ── Ring-edge arc borders ──────────────────────────────────── */}
-            {/* Outer boundary of outer ring */}
-            <path
-              d={`
-                M${f(CX + O_ROUT * Math.cos(WIN_A * Math.PI / 180))},
-                 ${f(CY + O_ROUT * Math.sin(WIN_A * Math.PI / 180))}
-                A${O_ROUT},${O_ROUT},0,0,1,
-                 ${f(CX + O_ROUT * Math.cos(WIN_B * Math.PI / 180))},
-                 ${f(CY + O_ROUT * Math.sin(WIN_B * Math.PI / 180))}
-              `}
-              fill="none"
-              stroke="rgba(255,255,255,0.1)"
-              strokeWidth={1}
-              pointerEvents="none"
-            />
-            {/* Divider between rings */}
-            <path
-              d={`
-                M${f(CX + I_ROUT * Math.cos(WIN_A * Math.PI / 180))},
-                 ${f(CY + I_ROUT * Math.sin(WIN_A * Math.PI / 180))}
-                A${I_ROUT},${I_ROUT},0,0,1,
-                 ${f(CX + I_ROUT * Math.cos(WIN_B * Math.PI / 180))},
-                 ${f(CY + I_ROUT * Math.sin(WIN_B * Math.PI / 180))}
-              `}
-              fill="none"
-              stroke="rgba(255,255,255,0.08)"
-              strokeWidth={1}
-              pointerEvents="none"
-            />
-            {/* Inner boundary of inner ring */}
-            <path
-              d={`
-                M${f(CX + I_RIN * Math.cos(WIN_A * Math.PI / 180))},
-                 ${f(CY + I_RIN * Math.sin(WIN_A * Math.PI / 180))}
-                A${I_RIN},${I_RIN},0,0,1,
-                 ${f(CX + I_RIN * Math.cos(WIN_B * Math.PI / 180))},
-                 ${f(CY + I_RIN * Math.sin(WIN_B * Math.PI / 180))}
-              `}
-              fill="none"
-              stroke="rgba(255,255,255,0.07)"
-              strokeWidth={1}
-              pointerEvents="none"
-            />
+
+            {/* ── Ring-edge arc borders removed (borderless style with shadows) ── */}
 
             {/* Text descriptions eliminated from color fan overlay */}
 
@@ -746,7 +756,18 @@ export function ColorPaletteOverlay({
           <button
             onClick={(e) => {
               e.stopPropagation();
-              setIsAutoSpin(prev => !prev);
+              const nextAuto = !isAutoSpin;
+              setIsAutoSpin(nextAuto);
+              if (inactivityTimerRef.current) {
+                clearTimeout(inactivityTimerRef.current);
+                inactivityTimerRef.current = null;
+              }
+              if (!nextAuto) {
+                // If paused, resume auto-rotation after 6 seconds of inactivity
+                inactivityTimerRef.current = setTimeout(() => {
+                  setIsAutoSpin(true);
+                }, 6000);
+              }
             }}
             className="absolute w-8 h-8 rounded-full bg-black/80 hover:bg-black border border-white/20 hover:border-mammut-gold/60 text-mammut-gold flex items-center justify-center transition-all shadow-md active:scale-90"
             style={{

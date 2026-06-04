@@ -147,7 +147,7 @@ export const Child1: React.FC<Child1Props> = ({
           </group>
         </group>
 
-        <ContactShadows position={[W / 2, -0.05, 0]} opacity={0.3} scale={maxDim * 5} blur={2.5} far={maxDim * 2} />
+        <ContactShadows position={[W / 2, -0.05, 0]} opacity={0.15} scale={maxDim * 5} blur={2.5} far={maxDim * 2} />
         <OrbitControls ref={controlsRef} makeDefault enablePan enableZoom target={orbitTarget} minDistance={maxDim * 0.4} maxDistance={maxDim * 4} />
       </Canvas>
 

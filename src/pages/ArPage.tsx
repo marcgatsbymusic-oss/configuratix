@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as THREE from 'three';
 import '@needle-tools/engine';
+import { getModelFromDB } from '../utils/arStorage';
 
 /**
  * Full-screen Needle Engine AR page for Android.
@@ -9,6 +10,18 @@ import '@needle-tools/engine';
 export function ArPage() {
   const engineRef = useRef<HTMLElement>(null);
   const navigate = useNavigate();
+  const [modelUrl, setModelUrl] = useState<string>('/models/window-scene.glb');
+
+  useEffect(() => {
+    getModelFromDB().then((blob) => {
+      if (blob) {
+        const url = URL.createObjectURL(blob);
+        setModelUrl(url);
+      }
+    }).catch(err => {
+      console.error("[ArPage] Error loading model from IndexedDB:", err);
+    });
+  }, []);
 
   useEffect(() => {
     const engine = engineRef.current;
@@ -314,7 +327,8 @@ export function ArPage() {
       <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
         {React.createElement('needle-engine', {
           ref: engineRef,
-          src: '/models/window-scene.glb',
+          src: modelUrl,
+          key: modelUrl,
           style: { width: '100%', height: '100%', display: 'block', backgroundColor: '#ffffff' },
           'camera-position': '0 0.9 2.5',
           'camera-target': '0 0.6 0',

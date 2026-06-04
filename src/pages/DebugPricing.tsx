@@ -2586,16 +2586,7 @@ export function DebugPricing() {
   const [width, setWidth] = useState(1000);
   const [height, setHeight] = useState(1000);
 
-  const [widthText, setWidthText] = useState(width.toString());
-  const [heightText, setHeightText] = useState(height.toString());
 
-  useEffect(() => {
-    setWidthText(width.toString());
-  }, [width]);
-
-  useEffect(() => {
-    setHeightText(height.toString());
-  }, [height]);
 
   const [isHeightScrollVisible, setIsHeightScrollVisible] = useState(false);
   const [isWidthScrollVisible, setIsWidthScrollVisible] = useState(false);
@@ -3301,8 +3292,7 @@ export function DebugPricing() {
     };
   }, []);
 
-  const handleShare3DLink = async () => {
-    const senderName = window.prompt("Enter your name (optional) so the recipient knows who sent this:");
+  const get3DShareUrl = (senderName?: string) => {
     const url = new URL(window.location.origin + '/viewer');
     url.searchParams.set('typology', typology);
     url.searchParams.set('w', width.toString());
@@ -3318,7 +3308,22 @@ export function DebugPricing() {
     url.searchParams.set('cSpc', encodeURIComponent(spcHex));
     if (senderName) url.searchParams.set('sender_name', encodeURIComponent(senderName));
     
-    const shareUrl = url.toString();
+    return url.toString();
+  };
+
+  const handleShare3DToWhatsApp = () => {
+    const senderName = window.prompt("Enter your name (optional) so the recipient knows who sent this:");
+    const shareUrl = get3DShareUrl(senderName || undefined);
+    const text = senderName 
+      ? `${senderName} sent you this window they configured!` 
+      : 'Check out this 3D window configuration!';
+    const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text + '\n' + shareUrl)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
+  const handleShare3DLink = async () => {
+    const senderName = window.prompt("Enter your name (optional) so the recipient knows who sent this:");
+    const shareUrl = get3DShareUrl(senderName || undefined);
     
     if (navigator.share) {
       try {
@@ -3335,6 +3340,13 @@ export function DebugPricing() {
       navigator.clipboard.writeText(shareUrl);
       alert('Standalone 3D Viewer link copied to clipboard:\n\n' + shareUrl);
     }
+  };
+
+  const handleCopy3DLink = () => {
+    const senderName = window.prompt("Enter your name (optional) so the recipient knows who sent this:");
+    const shareUrl = get3DShareUrl(senderName || undefined);
+    navigator.clipboard.writeText(shareUrl);
+    alert('Standalone 3D Viewer link copied to clipboard:\n\n' + shareUrl);
   };
 
   const HANDLE_COLOR_OPTIONS: Record<string, string> = {
@@ -3855,7 +3867,21 @@ export function DebugPricing() {
                       </button>
                       
                       {isShareMenuOpen && (
-                        <div className="absolute top-full right-0 mt-2 bg-zinc-950/95 border border-zinc-800 backdrop-blur-md rounded-xl shadow-2xl p-1.5 z-50 flex flex-col gap-1 min-w-[155px]">
+                        <div className="absolute top-full right-0 mt-2 bg-zinc-950/95 border border-zinc-800 backdrop-blur-md rounded-xl shadow-2xl p-1.5 z-50 flex flex-col gap-1 min-w-[170px]">
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setIsShareMenuOpen(false);
+                              handleShare3DToWhatsApp();
+                            }}
+                            className="flex items-center gap-2.5 px-3 py-2 text-[10px] font-black uppercase tracking-wider text-[#25D366] hover:text-[#25D366]/80 hover:bg-white/5 rounded-lg transition-colors w-full text-left cursor-pointer"
+                          >
+                            <svg className="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.73-1.45L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.864-9.858.002-2.634-1.019-5.112-2.877-6.974S14.636 1.83 12.007 1.83c-5.442 0-9.866 4.42-9.87 9.858-.001 1.702.457 3.361 1.328 4.815l-.991 3.616 3.708-.973zm10.102-7.395c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.021-.963-.263-.099-.455-.149-.648.149-.193.297-.748.963-.918 1.16-.17.197-.341.222-.638.074-.297-.149-1.258-.464-2.398-1.481-.888-.793-1.488-1.771-1.662-2.068-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.151-.174.2-.298.3-.496.101-.198.05-.372-.025-.521-.075-.149-.648-1.62-.888-2.198-.232-.56-.47-.482-.648-.491-.166-.008-.356-.01-.545-.01-.189 0-.495.071-.754.347-.258.277-.985.963-.985 2.349 0 1.386 1.009 2.723 1.15 2.905.141.182 1.984 3.03 4.809 4.246.672.29 1.196.463 1.604.593.676.214 1.293.184 1.78.112.544-.08 1.758-.717 2.006-1.411.248-.693.248-1.288.173-1.411z" />
+                            </svg>
+                            Share to WhatsApp
+                          </button>
+
                           <button
                             onClick={(e) => {
                               e.preventDefault();
@@ -3864,8 +3890,22 @@ export function DebugPricing() {
                             }}
                             className="flex items-center gap-2.5 px-3 py-2 text-[10px] font-black uppercase tracking-wider text-gray-300 hover:text-mammut-gold hover:bg-white/5 rounded-lg transition-colors w-full text-left cursor-pointer"
                           >
-                            <Share2 size={12} strokeWidth={2.5} />
-                            Share 3D Link
+                            <Share2 size={12} strokeWidth={2.5} className="shrink-0" />
+                            System Share Link
+                          </button>
+
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setIsShareMenuOpen(false);
+                              handleCopy3DLink();
+                            }}
+                            className="flex items-center gap-2.5 px-3 py-2 text-[10px] font-black uppercase tracking-wider text-gray-300 hover:text-mammut-gold hover:bg-white/5 rounded-lg transition-colors w-full text-left cursor-pointer"
+                          >
+                            <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M15.75 18H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08M15.75 18.75v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5A3.375 3.375 0 006.375 7.5H5.25m11.9-3.664A2.251 2.251 0 0015 2.25h-1.5a2.251 2.251 0 00-2.15 1.586m5.8 0c.065.21.1.433.1.664v.75h-6V4.5c0-.231.035-.454.1-.664M6.75 7.5H4.875c-.621 0-1.125.504-1.125 1.125v12c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V16.5a9 9 0 00-9-9z" />
+                            </svg>
+                            Copy 3D Link
                           </button>
                           
                           <button
@@ -3876,7 +3916,7 @@ export function DebugPricing() {
                             }}
                             className="flex items-center gap-2.5 px-3 py-2 text-[10px] font-black uppercase tracking-wider text-gray-300 hover:text-mammut-gold hover:bg-white/5 rounded-lg transition-colors w-full text-left cursor-pointer"
                           >
-                            <Camera size={12} strokeWidth={2.5} />
+                            <Camera size={12} strokeWidth={2.5} className="shrink-0" />
                             Share Image
                           </button>
                         </div>
@@ -4038,79 +4078,26 @@ export function DebugPricing() {
                   </div>
 
                   <div className="flex items-center gap-1">
-                    {/* Measurement Box */}
+                    {/* Measurement Box replaced by Carpenter's Square Icon */}
                     <div 
-                      className="flex items-center gap-1.5 px-3 py-1 bg-black/50 rounded pointer-events-auto"
+                      className="pointer-events-auto flex items-center justify-center text-mammut-gold bg-mammut-black/85 border border-gray-800 rounded-lg w-7 h-7 shadow-lg transition-all hover:bg-gray-850 hover:border-mammut-gold/60"
                       style={{ 
                         backdropFilter: 'blur(8px)' 
                       }}
+                      title="Measurements"
                     >
-                      <input
-                        type="number"
-                        value={widthText}
-                        onChange={(e) => {
-                          setWidthText(e.target.value);
-                          const num = Number(e.target.value);
-                          if (!isNaN(num) && num >= 500 && num <= 3000) {
-                            setWidth(num);
-                          }
-                          resetInactivityTimer();
-                        }}
-                        onFocus={resetInactivityTimer}
-                        onBlur={(e) => {
-                          let val = Number(e.target.value) || 500;
-                          val = Math.max(500, Math.min(3000, val));
-                          setWidth(val);
-                          setWidthText(val.toString());
-                          resetInactivityTimer();
-                        }}
-                        onKeyDown={(e) => {
-                          resetInactivityTimer();
-                          if (e.key === 'Enter') {
-                            e.currentTarget.blur();
-                          }
-                        }}
-                        className={`w-12 bg-transparent text-center text-xs font-bold focus:outline-none appearance-none ${
-                          isLight ? 'text-slate-700' : 'text-gray-300'
-                        }`}
-                        style={{ border: 'none', padding: 0 }}
-                      />
-                      <span className={`text-xs font-bold select-none pointer-events-none ${
-                        isLight ? 'text-slate-400' : 'text-gray-500'
-                      }`}>x</span>
-                      <input
-                        type="number"
-                        value={heightText}
-                        onChange={(e) => {
-                          setHeightText(e.target.value);
-                          const num = Number(e.target.value);
-                          if (!isNaN(num) && num >= 500 && num <= 3000) {
-                            setHeight(num);
-                          }
-                          resetInactivityTimer();
-                        }}
-                        onFocus={resetInactivityTimer}
-                        onBlur={(e) => {
-                          let val = Number(e.target.value) || 500;
-                          val = Math.max(500, Math.min(3000, val));
-                          setHeight(val);
-                          setHeightText(val.toString());
-                          resetInactivityTimer();
-                        }}
-                        onKeyDown={(e) => {
-                          resetInactivityTimer();
-                          if (e.key === 'Enter') {
-                            e.currentTarget.blur();
-                          }
-                        }}
-                        className={`w-12 bg-transparent text-center text-xs font-bold focus:outline-none appearance-none ${
-                          isLight ? 'text-slate-700' : 'text-gray-300'
-                        }`}
-                        style={{ border: 'none', padding: 0 }}
-                      />
-                      <span className={`text-[10px] font-bold ml-0.5 select-none pointer-events-none ${
-                        isLight ? 'text-slate-400' : 'text-gray-500'
-                      }`}>mm</span>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+                        <path d="M8 2H2V22H22V16H8V2Z" />
+                        <path d="M2 22L8 16" />
+                        <path d="M2 5H5" />
+                        <path d="M2 8H5" />
+                        <path d="M2 11H5" />
+                        <path d="M2 14H5" />
+                        <path d="M11 22V19" />
+                        <path d="M14 22V19" />
+                        <path d="M17 22V19" />
+                        <path d="M20 22V19" />
+                      </svg>
                     </div>
 
                     {/* RIGHT Arrow */}
@@ -4134,7 +4121,7 @@ export function DebugPricing() {
               {is3dMode && isSceneryMenuOpen && (
                 <div 
                   ref={sceneryMenuRef}
-                  className="absolute bottom-16 right-3 md:bottom-20 md:right-4 z-40 max-w-[90vw] md:max-w-[700px] flex flex-col gap-2 items-end"
+                  className="absolute bottom-[120px] right-3 md:bottom-[136px] md:right-4 z-40 max-w-[90vw] md:max-w-[700px] flex flex-col gap-2 items-end"
                 >
                   <div className="flex items-center bg-zinc-950/95 border border-zinc-800/80 backdrop-blur-md rounded-2xl shadow-2xl p-3 md:p-4 w-full overflow-x-auto hide-scroll">
                     <div className="flex flex-nowrap items-start justify-start gap-4 text-xs select-none w-full py-1">
@@ -4331,7 +4318,7 @@ export function DebugPricing() {
              {is3dMode && !isColorWheelOpen && (
                   <div 
                     ref={arMenuRef}
-                    className="absolute bottom-3 right-3 md:bottom-4 md:right-4 z-35 flex items-center justify-end"
+                    className="absolute bottom-[68px] right-3 md:bottom-[76px] md:right-4 z-35 flex items-center justify-end"
                     onMouseEnter={() => setArMenuOpen(true)}
                     onMouseLeave={() => setArMenuOpen(false)}
                   >
@@ -4437,7 +4424,7 @@ export function DebugPricing() {
              {(displayMode === '3D' || displayMode === 'Needle') && (
                typology === 'F100T' ? (
                  <div className="absolute inset-0">
-                   <F100TViewer
+                   <F100TViewer isColorPaletteOpen={isColorWheelOpen}
                      width={width}
                      height={height}
                      colorExt={extDetails.hex}
@@ -4478,7 +4465,7 @@ export function DebugPricing() {
                  </div>
                ) : typology === 'SLE201' ? (
                   <div className="absolute inset-0">
-                    <SLE201Viewer
+                    <SLE201Viewer isColorPaletteOpen={isColorWheelOpen}
                       width={width}
                       height={height}
                       colorExt={extDetails.hex}
@@ -4553,7 +4540,7 @@ export function DebugPricing() {
                onChangeExt={(color) => setColorCode(color.id.replace('c', '').padStart(4, '0'))}
                onChangeInt={(color) => setInteriorColorCode(color.id.replace('c', '').padStart(4, '0'))}
                onOpenChange={setIsColorWheelOpen}
-               className={`absolute bottom-[68px] right-3 md:bottom-[76px] md:right-4 z-40 transition-all duration-300 ${
+               className={`absolute bottom-3 right-3 md:bottom-4 md:right-4 z-40 transition-all duration-300 ${
                  arMenuOpen ? 'opacity-0 scale-75 pointer-events-none' : 'opacity-100 scale-100'
                }`}
              />
