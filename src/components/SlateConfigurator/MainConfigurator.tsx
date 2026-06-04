@@ -616,6 +616,35 @@ export function MainConfigurator() {
     setIsSharing(false);
   };
 
+  const handleShareToWhatsApp = async () => {
+    const senderName = window.prompt("Enter your name (optional) so the recipient knows who sent this:");
+    
+    setIsSharing(true);
+    try {
+      const { data, error } = await (supabase as any).from('saved_configurations')
+        .insert({ config_state: state })
+        .select('id').single();
+      if (data) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('share_id', data.id);
+        if (senderName) {
+           url.searchParams.set('sender_name', senderName);
+        }
+        
+        const shareUrl = url.toString();
+        const text = senderName 
+          ? `${senderName} sent you this window they configured!` 
+          : 'Check out this 3D window configuration!';
+        const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text + '\n' + shareUrl)}`;
+        window.open(whatsappUrl, '_blank');
+      } else {
+        console.error(error);
+        alert('Failed to save configuration');
+      }
+    } catch(e) { console.error(e); }
+    setIsSharing(false);
+  };
+
   const toggleHelp = (step: number) => {
     setExpandedHelpSection(prev => prev === step ? null : step);
   };
@@ -1709,6 +1738,18 @@ export function MainConfigurator() {
                     onDimensionChange={(w, h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h } })}
                     activeLimits={activeLimits}
                   />
+                )}
+
+                {state.windowTypeId === 'SLE201' && (
+                  <button
+                    onClick={handleShareToWhatsApp}
+                    className="absolute bottom-[68px] right-[54px] md:bottom-[80px] md:right-[68px] z-40 w-12 h-12 rounded-full flex items-center justify-center bg-black/85 text-[#25D366] border border-gray-800 hover:border-[#25D366] active:scale-95 shadow-xl cursor-pointer"
+                    title="Share 3D Option on WhatsApp"
+                  >
+                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.73-1.45L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.864-9.858.002-2.634-1.019-5.112-2.877-6.974S14.636 1.83 12.007 1.83c-5.442 0-9.866 4.42-9.87 9.858-.001 1.702.457 3.361 1.328 4.815l-.991 3.616 3.708-.973zm10.102-7.395c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.021-.963-.263-.099-.455-.149-.648.149-.193.297-.748.963-.918 1.16-.17.197-.341.222-.638.074-.297-.149-1.258-.464-2.398-1.481-.888-.793-1.488-1.771-1.662-2.068-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.151-.174.2-.298.3-.496.101-.198.05-.372-.025-.521-.075-.149-.648-1.62-.888-2.198-.232-.56-.47-.482-.648-.491-.166-.008-.356-.01-.545-.01-.189 0-.495.071-.754.347-.258.277-.985.963-.985 2.349 0 1.386 1.009 2.723 1.15 2.905.141.182 1.984 3.03 4.809 4.246.672.29 1.196.463 1.604.593.676.214 1.293.184 1.78.112.544-.08 1.758-.717 2.006-1.411.248-.693.248-1.288.173-1.411z" />
+                    </svg>
+                  </button>
                 )}
 
                 {/* Interactive Color Palette Overlay Widget */}

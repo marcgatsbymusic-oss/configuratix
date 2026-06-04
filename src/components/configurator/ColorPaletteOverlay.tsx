@@ -107,6 +107,7 @@ export function ColorPaletteOverlay({
   const [hovExt, setHovExt]       = useState<number | null>(null);
   const [hovInt, setHovInt]       = useState<number | null>(null);
   const [isAutoSpin, setIsAutoSpin] = useState(true);
+  const [showHintText, setShowHintText] = useState(true);
   const containerRef              = useRef<HTMLDivElement>(null);
   const inactivityTimerRef        = useRef<NodeJS.Timeout | null>(null);
 
@@ -148,6 +149,7 @@ export function ColorPaletteOverlay({
 
   // ── Drag handlers ──────────────────────────────────────────────────────────
   const handlePointerDown = (e: React.PointerEvent<SVGSVGElement>) => {
+    setShowHintText(false);
     const svg = e.currentTarget;
     const rect = svg.getBoundingClientRect();
     const px = e.clientX - rect.left - CX;
@@ -343,6 +345,7 @@ export function ColorPaletteOverlay({
       lastTs.current = null;
       rafId.current  = requestAnimationFrame(loop);
       setIsAutoSpin(true); // Counter-animate immediately on open
+      setShowHintText(true); // Reset hint text to show when wheel opens
       if (inactivityTimerRef.current) {
         clearTimeout(inactivityTimerRef.current);
         inactivityTimerRef.current = null;
@@ -367,16 +370,16 @@ export function ColorPaletteOverlay({
   }, [isOpen, onOpenChange]);
 
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent | TouchEvent) {
+    function handleClickOutside(event: Event) {
       if (isOpen && containerRef.current && !containerRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     }
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('touchstart', handleClickOutside, { passive: true });
+    document.addEventListener('pointerdown', handleClickOutside, { capture: true });
+    document.addEventListener('touchstart', handleClickOutside, { capture: true, passive: true });
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('touchstart', handleClickOutside);
+      document.removeEventListener('pointerdown', handleClickOutside, { capture: true });
+      document.removeEventListener('touchstart', handleClickOutside, { capture: true });
     };
   }, [isOpen]);
 
@@ -655,19 +658,6 @@ export function ColorPaletteOverlay({
           white-space: nowrap;
           animation: qwheel-in 0.15s ease forwards;
         }
-
-        /* Label chips beneath btn */
-        .qwheel-chip {
-          display: flex;
-          align-items: center;
-          gap: 5px;
-          background: rgba(0,0,0,0.65);
-          backdrop-filter: blur(8px);
-          -webkit-backdrop-filter: blur(8px);
-          border-radius: 6px;
-          padding: 3px 7px 3px 4px;
-          pointer-events: none;
-        }
       `}</style>
 
       {/* ── Quarter-wheel SVG ──────────────────────────────────────────────── */}
@@ -744,7 +734,33 @@ export function ColorPaletteOverlay({
             {innerWedges}
             {outerWedges}
 
-
+            {/* ── Wedge text labels rotating with colors (guide hint) ── */}
+            {showHintText && (
+              <>
+                <g transform={`rotate(${outerAngle.current}, ${CX}, ${CY})`} style={{ pointerEvents: 'none' }}>
+                  <path id="outer-text-path" d={`
+                    M ${f(CX + 209.5 * Math.cos(190 * Math.PI / 180))}, ${f(CY + 209.5 * Math.sin(190 * Math.PI / 180))}
+                    A 209.5, 209.5, 0, 0, 1, ${f(CX + 209.5 * Math.cos(260 * Math.PI / 180))}, ${f(CY + 209.5 * Math.sin(260 * Math.PI / 180))}
+                  `} fill="none" stroke="none" />
+                  <text fill="#d1d5db" fontSize="10" fontWeight="600" letterSpacing="0.08em" opacity="0.6" textAnchor="middle">
+                    <textPath href="#outer-text-path" startOffset="50%">
+                      Exterior Color
+                    </textPath>
+                  </text>
+                </g>
+                <g transform={`rotate(${innerAngle.current}, ${CX}, ${CY})`} style={{ pointerEvents: 'none' }}>
+                  <path id="inner-text-path" d={`
+                    M ${f(CX + 122.5 * Math.cos(190 * Math.PI / 180))}, ${f(CY + 122.5 * Math.sin(190 * Math.PI / 180))}
+                    A 122.5, 122.5, 0, 0, 1, ${f(CX + 122.5 * Math.cos(260 * Math.PI / 180))}, ${f(CY + 122.5 * Math.sin(260 * Math.PI / 180))}
+                  `} fill="none" stroke="none" />
+                  <text fill="#d1d5db" fontSize="10" fontWeight="600" letterSpacing="0.08em" opacity="0.6" textAnchor="middle">
+                    <textPath href="#inner-text-path" startOffset="50%">
+                      Interior Color
+                    </textPath>
+                  </text>
+                </g>
+              </>
+            )}
 
             {/* ── Ring-edge arc borders removed (borderless style with shadows) ── */}
 
@@ -756,6 +772,7 @@ export function ColorPaletteOverlay({
           <button
             onClick={(e) => {
               e.stopPropagation();
+              setShowHintText(false);
               const nextAuto = !isAutoSpin;
               setIsAutoSpin(nextAuto);
               if (inactivityTimerRef.current) {
@@ -793,52 +810,6 @@ export function ColorPaletteOverlay({
         </div>
       )}
 
-      {/* ── Active colour chips (shown when wheel is open) ──────────────── */}
-      {isOpen && (extColor || intColor) && (
-        <div
-          className="absolute flex flex-col gap-1"
-          style={{ bottom: '58px', right: '54px', pointerEvents: 'none' }}
-        >
-          {extColor && (
-            <div className="qwheel-chip">
-              <div
-                style={{
-                  width: 14, height: 14, borderRadius: 3, flexShrink: 0,
-                  backgroundImage: extColor.image ? `url(${extColor.image})` : 'none',
-                  backgroundColor: extColor.hex,
-                  backgroundSize: 'cover',
-                  border: '1.5px solid rgba(56,189,248,0.7)',
-                }}
-              />
-              <span style={{ fontSize: 9, fontWeight: 700, color: '#38bdf8', lineHeight: 1 }}>
-                EXT
-              </span>
-              <span style={{ fontSize: 9, fontWeight: 600, color: 'rgba(255,255,255,0.8)', lineHeight: 1, maxWidth: 90, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                {extColor.name}
-              </span>
-            </div>
-          )}
-          {intColor && (
-            <div className="qwheel-chip">
-              <div
-                style={{
-                  width: 14, height: 14, borderRadius: 3, flexShrink: 0,
-                  backgroundImage: intColor.image ? `url(${intColor.image})` : 'none',
-                  backgroundColor: intColor.hex,
-                  backgroundSize: 'cover',
-                  border: '1.5px solid rgba(234,179,8,0.7)',
-                }}
-              />
-              <span style={{ fontSize: 9, fontWeight: 700, color: '#eab308', lineHeight: 1 }}>
-                INT
-              </span>
-              <span style={{ fontSize: 9, fontWeight: 600, color: 'rgba(255,255,255,0.8)', lineHeight: 1, maxWidth: 90, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                {intColor.name}
-              </span>
-            </div>
-          )}
-        </div>
-      )}
 
       {/* ── Trigger button ──────────────────────────────────────────────────── */}
       <button
