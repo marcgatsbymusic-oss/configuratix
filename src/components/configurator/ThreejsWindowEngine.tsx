@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
 import { FrameSegment } from './FrameSegment';
+import { AdaptiveCamera } from './AdaptiveCamera';
 import { useThemeStore } from '../../store/useThemeStore';
 
 // We import the specific JSON payloads. 
@@ -992,10 +993,12 @@ export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) =
 
   const activeScenery = props.scenery || 'studio-grey';
   const controlsRef = React.useRef<any>(null);
+  const [autoRotate, setAutoRotate] = React.useState(true);
 
   return (
     <div className="absolute inset-0 cursor-move touch-pan-y">
       <Canvas onDoubleClick={(e) => { e.stopPropagation(); controlsRef.current?.reset(); }} shadows camera={{ position: cameraPosition, fov: 45 }} gl={{ preserveDrawingBuffer: true }}>
+        <AdaptiveCamera maxDim={maxDim} targetX={0} targetY={targetY} targetZ={0} angle={0} defaultRadiusMult={cameraDistMult} fov={45} zSign={1} minDistance={1.6} controlsRef={controlsRef} />
         <color attach="background" args={[getBgColor(activeScenery)]} />
         <ambientLight intensity={0.15} />
         <directionalLight 
@@ -1016,7 +1019,16 @@ export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) =
         
         <WindowAssembly {...props} />
         
-        <OrbitControls ref={controlsRef} makeDefault enablePan={true} enableZoom={true} target={controlsTarget} />
+        <OrbitControls 
+          ref={controlsRef} 
+          makeDefault 
+          enablePan={true} 
+          enableZoom={true} 
+          target={controlsTarget} 
+          autoRotate={autoRotate}
+          autoRotateSpeed={0.5}
+          onStart={() => setAutoRotate(false)}
+        />
         <ContactShadows position={[0, -0.001, 0]} opacity={0.2} scale={5} blur={2.0} far={10} />
       </Canvas>
     </div>

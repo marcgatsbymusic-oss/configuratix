@@ -10,6 +10,7 @@ import { OrbitControls, Environment, ContactShadows, useProgress, Html, useGLTF 
 import { Loader2 } from 'lucide-react';
 import * as THREE from 'three';
 import { FrameSegment } from './FrameSegment';
+import { AdaptiveCamera } from './AdaptiveCamera';
 import profileDataRaw from '../../data/profiles/IGLO5/IG5_F100T.json';
 
 interface Point { x: number; y: number }
@@ -424,6 +425,7 @@ export const F100TViewer: React.FC<F100TViewerProps> = ({
   const isAutoRef = useRef(true);
   const lastActionTime = useRef(Date.now());
   const controlsRef = useRef<any>(null);
+  const [autoRotate, setAutoRotate] = useState(true);
 
   useEffect(() => {
     setMountHeavy(false);
@@ -461,13 +463,18 @@ export const F100TViewer: React.FC<F100TViewerProps> = ({
   ];
   const orbitTarget: [number, number, number] = [targetX, targetY, targetZ];
 
-  const handleUserInteraction = useCallback((state: WindowState) => { isAutoRef.current = false; setWindowState(state); }, []);
+  const handleUserInteraction = useCallback((state: WindowState) => { 
+    isAutoRef.current = false; 
+    setWindowState(state); 
+    setAutoRotate(false);
+  }, []);
 
 
 
   return (
     <div className="absolute inset-0" style={{ background: '#e2e8f0' }}>
       <Canvas onDoubleClick={(e) => { e.stopPropagation(); controlsRef.current?.reset(); }} shadows gl={{ antialias: true, preserveDrawingBuffer: true }} camera={{ position: camPos, fov: 30 }}>
+        <AdaptiveCamera maxDim={maxDim} targetX={targetX} targetY={targetY} targetZ={targetZ} angle={angle} defaultRadiusMult={2.0} fov={30} zSign={-1} controlsRef={controlsRef} />
         <color attach="background" args={['#e2e8f0']} />
         <fog attach="fog" args={['#ffffff', maxDim * 10, maxDim * 30]} />
         <ambientLight intensity={0.35} />
@@ -480,7 +487,18 @@ export const F100TViewer: React.FC<F100TViewerProps> = ({
           <WindowAssembly widthMm={width} heightMm={height} colorExt={colorExt} colorInt={colorInt} colorExtTexture={colorExtTexture} colorIntTexture={colorIntTexture} colorGsk={colorGsk} colorSpacer={colorSpacer} windowState={windowState} isAuto={isAutoRef} onUserInteraction={handleUserInteraction} onSceneReady={onSceneReady} isColorPaletteOpen={isColorPaletteOpen} />
         )}
         <ContactShadows position={[W_M / 2, -0.005, 89 * MM / 2]} opacity={0.125} scale={maxDim * 5} blur={2.5} far={maxDim * 2} />
-        <OrbitControls ref={controlsRef} makeDefault enablePan enableZoom target={orbitTarget} minDistance={maxDim * 0.4} maxDistance={maxDim * 6} />
+        <OrbitControls 
+          ref={controlsRef} 
+          makeDefault 
+          enablePan 
+          enableZoom 
+          target={orbitTarget} 
+          minDistance={maxDim * 0.4} 
+          maxDistance={maxDim * 6} 
+          autoRotate={autoRotate}
+          autoRotateSpeed={0.5}
+          onStart={() => setAutoRotate(false)}
+        />
       </Canvas>
 
       <style>{`@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.1)} }`}</style>

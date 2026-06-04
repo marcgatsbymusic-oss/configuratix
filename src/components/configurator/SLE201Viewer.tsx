@@ -3,6 +3,7 @@ import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows, Html, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import { FrameSegment } from './FrameSegment';
+import { AdaptiveCamera } from './AdaptiveCamera';
 import profileDataRaw from '../../data/profiles/IgloEdge/SLE201.json';
 
 interface Point { x: number; y: number }
@@ -488,6 +489,7 @@ export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
   const scale = MM;
   const W = width * scale, H = height * scale;
   const controlsRef = useRef<any>(null);
+  const [autoRotate, setAutoRotate] = useState(true);
 
   const maxDim  = Math.max(W, H);
   const targetX = W * 0.5, targetY = H * 0.5, targetZ = -90 * scale;
@@ -497,12 +499,13 @@ export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
   const orbitTarget: [number,number,number] = [targetX, targetY, targetZ];
 
   return (
-    <div className="absolute inset-0 bg-[#e2e8f0]">
+    <div className="absolute inset-0 bg-[#e2e8f0]" onPointerDown={() => setAutoRotate(false)}>
       <Canvas
         onDoubleClick={(e) => { e.stopPropagation(); controlsRef.current?.reset(); }}
         shadows gl={{ antialias: true, preserveDrawingBuffer: true }}
         camera={{ position: camPos, fov: 35 }}
       >
+        <AdaptiveCamera maxDim={maxDim} targetX={targetX} targetY={targetY} targetZ={targetZ} angle={angle} defaultRadiusMult={1.8} fov={35} zSign={-1} controlsRef={controlsRef} />
         <color attach="background" args={['#e2e8f0']} />
         <ambientLight intensity={0.4} />
         <directionalLight position={[W*2.5, H*3, -H*2]} intensity={2.5} castShadow
@@ -524,7 +527,8 @@ export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
 
         <ContactShadows position={[W/2, -0.01, targetZ]} opacity={0.125} scale={maxDim*4} blur={2} far={maxDim*1.5} />
         <OrbitControls ref={controlsRef} makeDefault enablePan enableZoom
-          target={orbitTarget} minDistance={maxDim*.3} maxDistance={maxDim*5} />
+          target={orbitTarget} minDistance={maxDim*.3} maxDistance={maxDim*5}
+          autoRotate={autoRotate} autoRotateSpeed={0.5} onStart={() => setAutoRotate(false)} />
       </Canvas>
 
       <div className="absolute top-3 right-3 z-20 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest pointer-events-none"

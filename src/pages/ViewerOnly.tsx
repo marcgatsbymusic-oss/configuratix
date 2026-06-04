@@ -797,7 +797,7 @@ export const ViewerOnly: React.FC = () => {
         </div>
       )}
       <div 
-        className="visualizer-container w-full h-[75vh] relative shrink-0 border-b border-gray-200 pt-12 pb-[48px] pl-[48px] pr-2 md:pt-14 md:pb-[65px] md:pl-[65px] md:pr-4 overflow-hidden shadow-inner" 
+        className="visualizer-container w-full h-[85vh] relative shrink-0 border-b border-gray-200 pt-12 pb-[48px] pl-[48px] pr-2 md:pt-14 md:pb-[65px] md:pl-[65px] md:pr-4 overflow-hidden shadow-inner" 
         style={{ backgroundColor: '#ffffff' }}
       >
         {typology === 'F100T' ? (

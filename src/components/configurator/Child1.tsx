@@ -6,6 +6,7 @@ import { Loader2 } from 'lucide-react';
 import { loadProfileGeometry } from '../../data/profiles';
 import { FrameSegment } from './FrameSegment';
 import { usePBRMaterial } from '../../hooks/usePBRMaterial';
+import { AdaptiveCamera } from './AdaptiveCamera';
 
 const MM = 0.001;
 
@@ -107,10 +108,12 @@ export const Child1: React.FC<Child1Props> = ({
   ];
   const orbitTarget: [number, number, number] = [targetX, targetY, targetZ];
   const controlsRef = React.useRef<any>(null);
+  const [autoRotate, setAutoRotate] = useState(true);
 
   return (
-    <div className="absolute inset-0">
+    <div className="absolute inset-0" onPointerDown={() => setAutoRotate(false)}>
       <Canvas onDoubleClick={(e) => { e.stopPropagation(); controlsRef.current?.reset(); }} shadows gl={{ antialias: true, preserveDrawingBuffer: true }} camera={{ position: camPos, fov: 40 }}>
+        <AdaptiveCamera maxDim={maxDim} targetX={targetX} targetY={targetY} targetZ={targetZ} angle={angle} defaultRadiusMult={1.5} fov={40} zSign={-1} controlsRef={controlsRef} />
         <color attach="background" args={['#e2e8f0']} />
         <ambientLight intensity={0.4} />
         <directionalLight position={[W * 2, H * 2, -H * 2]} intensity={2.5} castShadow />
@@ -148,7 +151,18 @@ export const Child1: React.FC<Child1Props> = ({
         </group>
 
         <ContactShadows position={[W / 2, -0.05, 0]} opacity={0.15} scale={maxDim * 5} blur={2.5} far={maxDim * 2} />
-        <OrbitControls ref={controlsRef} makeDefault enablePan enableZoom target={orbitTarget} minDistance={maxDim * 0.4} maxDistance={maxDim * 4} />
+        <OrbitControls 
+          ref={controlsRef} 
+          makeDefault 
+          enablePan 
+          enableZoom 
+          target={orbitTarget} 
+          minDistance={maxDim * 0.4} 
+          maxDistance={maxDim * 4} 
+          autoRotate={autoRotate}
+          autoRotateSpeed={0.5}
+          onStart={() => setAutoRotate(false)}
+        />
       </Canvas>
 
       <div className="absolute top-3 right-3 z-20 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest pointer-events-none" style={{ background: 'rgba(8,8,22,0.78)', border: '1px solid rgba(234,182,118,0.22)', color: '#eab676', backdropFilter: 'blur(10px)' }}>IGLO 5 {profileId}</div>
