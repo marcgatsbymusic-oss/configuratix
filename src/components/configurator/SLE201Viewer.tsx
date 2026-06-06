@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { FrameSegment } from './FrameSegment';
 import { AdaptiveCamera } from './AdaptiveCamera';
 import profileDataRaw from '../../data/profiles/IgloEdge/SLE201.json';
+import doorPostDataRaw from '../../data/profiles/IgloEdge/SLE201_DoorPost.json';
 
 interface Point { x: number; y: number }
 interface Contour { id: string; points: Point[] }
@@ -15,6 +16,7 @@ interface ProfileData {
 }
 
 const pd = profileDataRaw as unknown as ProfileData;
+const dpd = doorPostDataRaw as unknown as ProfileData;
 const MM = 0.001;
 
 // ── Layer registry ────────────────────────────────────────────────────────────
@@ -35,6 +37,8 @@ const layerConfigs: {
   { name: 'GSK_BZD',                   matType: 'gsk',    colorType: 'gsk'    },
   { name: 'GSK_SEAL_DOOR',             matType: 'gsk',    colorType: 'gsk'    },
   { name: 'GSK_EXT_DOOR_GLS',          matType: 'gsk',    colorType: 'gsk'    },
+  { name: 'GSK_LARGE_UNDERNEATH_DOOR', matType: 'gsk',    colorType: 'gsk'    },
+  { name: 'GSK_HIDDEN_PIECE_EXT',      matType: 'gsk',    colorType: 'gsk'    },
 ];
 
 // Child1 = active sliding sash layers
@@ -44,6 +48,23 @@ const CHILD1_LAYERS = new Set([
 ]);
 const isChild1 = (name: string) => CHILD1_LAYERS.has(name);
 const isChild2 = (name: string) => !CHILD1_LAYERS.has(name);
+
+const doorPostLayerConfigs: {
+  name: string;
+  matType: 'ext' | 'int' | 'gsk' | 'spacer';
+  colorType: 'ext' | 'int' | 'gsk' | 'spacer' | 'rail' | 'hidden' | 'steel';
+  uvMode?: 'triplanar' | 'rail';
+}[] = [
+  { name: 'DOOR_POST_FRM_EXT',          matType: 'ext',    colorType: 'ext'    },
+  { name: 'PROFILE FOR EXTERNAL GASKET',matType: 'ext',    colorType: 'ext'    },
+  { name: 'DOOR_POST_FRM_INT',          matType: 'int',    colorType: 'int'    },
+  { name: 'Cover_panel_Door_INT',       matType: 'int',    colorType: 'int'    },
+  { name: 'BZD',                        matType: 'int',    colorType: 'int', uvMode: 'rail' },
+  { name: 'GSK_BZD',                    matType: 'gsk',    colorType: 'gsk'    },
+  { name: 'GSK_DOOR_POST_EXT_GLS_EXT',  matType: 'gsk',    colorType: 'gsk'    },
+  { name: 'GSK_DOOR_VERTICAL_EXTERIOR', matType: 'gsk',    colorType: 'gsk'    },
+  { name: 'SPACER',                     matType: 'spacer', colorType: 'spacer' },
+];
 
 export interface SLE201ViewerProps {
   width?: number;
@@ -128,9 +149,15 @@ function SlidingScene({
   const anim = useRef({ dir: 1 as 1 | -1, phase: 0 as 0|1|2|3, t0: 0, dur: 1 });
 
   // ── Handle GLB ──────────────────────────────────────────────────────────────
-  const { scene: handleScene } = useGLTF('/testhandle.glb');
+  const { scene: handleScene } = useGLTF('/sliding_door_handle_IGLS.glb');
   const clonedHandle = useMemo(() => {
     const c = handleScene.clone(true);
+    // Center the handle nodes relative to the baseplate/washer center.
+    // The baseplate/washer center in the GLB is at X ≈ 16.5038, Y ≈ -0.0775, Z ≈ 0.
+    c.children.forEach((node: any) => {
+      node.position.x -= 16.503816604614258;
+      node.position.y -= -0.07755661010742188;
+    });
     c.traverse((o: any) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
     return c;
   }, [handleScene]);
@@ -193,7 +220,7 @@ function SlidingScene({
           if (!lever && c.isMesh && !c.name.toLowerCase().includes('base')) lever = c;
         });
       }
-      if (lever) (lever as any).rotation.z = -handleAngle.current + Math.PI;
+      if (lever) (lever as any).rotation.z = handleAngle.current;
     }
   });
 
@@ -332,6 +359,29 @@ function SlidingScene({
     )];
   });
 
+  const renderSashVerticalRight = () => doorPostLayerConfigs.flatMap(cfg => {
+    const layer = dpd.layers[cfg.name]; if (!layer) return [];
+    const contours = layer.contours;
+    const isSkipCutLayer = false;
+    return contours.length === 0 ? [] : [(
+      <group key={`svr_${cfg.name}`} position={[W, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+        {contours.map((c, i) => (
+          <FrameSegment
+            key={`svr_seg_${cfg.name}_${i}`}
+            layerName={cfg.name}   scaleFactor={scale}
+            length={height}        vertices={c.points}
+            matType={cfg.matType}  color={getColor(cfg.colorType)}
+            textureUrl={getTex(cfg.colorType)} origin={origin}
+            rotation={[0, Math.PI / 2, 0]}
+            skipCuts={isSkipCutLayer}
+            skipLeftCut={false} skipRightCut={false}
+            invertCuts={true}  uSign={-1} uOffset={0}
+          />
+        ))}
+      </group>
+    )];
+  });
+
   /** Triple glazing — rides with sash */
   const renderGlass = () => {
     return ['GLS_EXT', 'GLS_INT', 'GLS_MDL'].map(ln => {
@@ -372,7 +422,7 @@ function SlidingScene({
   const onHotspot = () => { if (!isMoving) setSlidingState(isOpen ? 'closing' : 'opening'); };
 
   // Handle X = 60mm (mid-stile width). Handle Z = interior face (-180mm).
-  const hY = H * 0.50;
+  const hY = 1050 * MM; // Rotation point height: exactly 1050 mm from ground
   const hZ = SASH_INTERIOR_Z;
 
   return (
@@ -396,8 +446,11 @@ function SlidingScene({
           <group rotation={[0, Math.PI / 2, 0]}>{renderSashTop()}</group>
         </group>
 
-        {/* Sash right vertical stile */}
+        {/* Sash left vertical stile */}
         {renderSashVertical()}
+
+        {/* Sash right vertical stile (Doorpost) */}
+        {renderSashVerticalRight()}
 
         {/* Triple glazing */}
         {renderGlass()}
@@ -405,9 +458,9 @@ function SlidingScene({
         {/* Handle on the interior face of the right stile. */}
         <group
           ref={handleRef}
-          position={[75*scale, hY, hZ - 50*scale]}
-          rotation={[-Math.PI / 2, Math.PI, Math.PI]}
-          scale={[0.025, 0.025, 0.025]}
+          position={[75*scale, hY, hZ - 16*scale]}
+          rotation={[0, Math.PI / 2, 0]}
+          scale={[0.001, 0.001, 0.001]}
         >
           <primitive object={clonedHandle} />
         </group>
@@ -441,7 +494,7 @@ function SlidingScene({
   );
 }
 
-useGLTF.preload('/testhandle.glb');
+useGLTF.preload('/sliding_door_handle_IGLS.glb');
 
 // ─── Outer viewer — creates Canvas ────────────────────────────────────────────
 export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
