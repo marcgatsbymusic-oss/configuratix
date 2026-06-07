@@ -1,11 +1,10 @@
-import React, { useRef, useMemo, useState, useEffect } from 'react';
+﻿import React, { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows, Html, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import { FrameSegment } from './FrameSegment';
 import { AdaptiveCamera } from './AdaptiveCamera';
 import profileDataRaw from '../../data/profiles/IgloEdge/SLE201.json';
-import doorPostDataRaw from '../../data/profiles/IgloEdge/SLE201_DoorPost.json';
 
 interface Point { x: number; y: number }
 interface Contour { id: string; points: Point[] }
@@ -16,10 +15,9 @@ interface ProfileData {
 }
 
 const pd = profileDataRaw as unknown as ProfileData;
-const dpd = doorPostDataRaw as unknown as ProfileData;
 const MM = 0.001;
 
-// ── Layer registry ────────────────────────────────────────────────────────────
+// ΓöÇΓöÇ Layer registry ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 const layerConfigs: {
   name: string;
   matType: 'ext' | 'int' | 'gsk' | 'spacer';
@@ -37,8 +35,6 @@ const layerConfigs: {
   { name: 'GSK_BZD',                   matType: 'gsk',    colorType: 'gsk'    },
   { name: 'GSK_SEAL_DOOR',             matType: 'gsk',    colorType: 'gsk'    },
   { name: 'GSK_EXT_DOOR_GLS',          matType: 'gsk',    colorType: 'gsk'    },
-  { name: 'GSK_LARGE_UNDERNEATH_DOOR', matType: 'gsk',    colorType: 'gsk'    },
-  { name: 'GSK_HIDDEN_PIECE_EXT',      matType: 'gsk',    colorType: 'gsk'    },
 ];
 
 // Child1 = active sliding sash layers
@@ -48,23 +44,6 @@ const CHILD1_LAYERS = new Set([
 ]);
 const isChild1 = (name: string) => CHILD1_LAYERS.has(name);
 const isChild2 = (name: string) => !CHILD1_LAYERS.has(name);
-
-const doorPostLayerConfigs: {
-  name: string;
-  matType: 'ext' | 'int' | 'gsk' | 'spacer';
-  colorType: 'ext' | 'int' | 'gsk' | 'spacer' | 'rail' | 'hidden' | 'steel';
-  uvMode?: 'triplanar' | 'rail';
-}[] = [
-  { name: 'DOOR_POST_FRM_EXT',          matType: 'ext',    colorType: 'ext'    },
-  { name: 'PROFILE FOR EXTERNAL GASKET',matType: 'ext',    colorType: 'ext'    },
-  { name: 'DOOR_POST_FRM_INT',          matType: 'int',    colorType: 'int'    },
-  { name: 'Cover_panel_Door_INT',       matType: 'int',    colorType: 'int'    },
-  { name: 'BZD',                        matType: 'int',    colorType: 'int', uvMode: 'rail' },
-  { name: 'GSK_BZD',                    matType: 'gsk',    colorType: 'gsk'    },
-  { name: 'GSK_DOOR_POST_EXT_GLS_EXT',  matType: 'gsk',    colorType: 'gsk'    },
-  { name: 'GSK_DOOR_VERTICAL_EXTERIOR', matType: 'gsk',    colorType: 'gsk'    },
-  { name: 'SPACER',                     matType: 'spacer', colorType: 'spacer' },
-];
 
 export interface SLE201ViewerProps {
   width?: number;
@@ -82,7 +61,7 @@ export interface SLE201ViewerProps {
   isColorPaletteOpen?: boolean;
 }
 
-// ─── Animation state ──────────────────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇ Animation state ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 type SlidingState = 'closed' | 'opening' | 'open' | 'closing';
 
 const MammothLogo = ({ x, y, z }: { x: number; y: number; z: number }) => {
@@ -105,7 +84,7 @@ interface SlidingSceneProps extends Required<Omit<SLE201ViewerProps, 'onSceneRea
   isColorPaletteOpen?: boolean;
 }
 
-// ─── Inner scene (must live inside <Canvas> for useFrame / useGLTF) ──────────
+// ΓöÇΓöÇΓöÇ Inner scene (must live inside <Canvas> for useFrame / useGLTF) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 function SlidingScene({
   width, height,
   colorExt, colorInt,
@@ -122,10 +101,10 @@ function SlidingScene({
   const deltaY     = (height - CAD_HEIGHT) * scale;
   const origin     = { x: 0, y: 0 };
 
-  // Geometry analysis (from profile data — World_Z = -x_prof * MM):
-  //   Child1 x_prof: 98–180 mm. Camera is at Z ≈ -2000mm (negative Z).
-  //   INTERIOR face (visible from inside room) = MAXIMUM x_prof = 180mm → World_Z = -180mm
-  //   EXTERIOR face = minimum x_prof = 98mm → World_Z = -98mm
+  // Geometry analysis (from profile data ΓÇö World_Z = -x_prof * MM):
+  //   Child1 x_prof: 98ΓÇô180 mm. Camera is at Z Γëê -2000mm (negative Z).
+  //   INTERIOR face (visible from inside room) = MAXIMUM x_prof = 180mm ΓåÆ World_Z = -180mm
+  //   EXTERIOR face = minimum x_prof = 98mm ΓåÆ World_Z = -98mm
   const SASH_INTERIOR_Z = -180 * scale;  // interior face (facing camera / room)
 
   const [groupObj, setGroupObj] = useState<THREE.Group | null>(null);
@@ -137,32 +116,26 @@ function SlidingScene({
     }
   }, [groupObj, onSceneReady, width, height, colorExt, colorInt, colorExtTexture, colorIntTexture, colorGsk, colorSpacer]);
 
-  // ── Animation state ─────────────────────────────────────────────────────────
+  // ΓöÇΓöÇ Animation state ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
   const [slidingState, setSlidingState] = useState<SlidingState>('closed');
-  const handleAngle = useRef(0);   // 0 → Math.PI  (lever rotates 180°)
-  const sashFwd     = useRef(0);   // 0 → -10 MM   (toward camera = −Z, camera is at negative Z)
-  const sashLeft    = useRef(0);   // 0 → -1000 MM (slide left = −X)
+  const handleAngle = useRef(0);   // 0 ΓåÆ Math.PI  (lever rotates 180┬░)
+  const sashFwd     = useRef(0);   // 0 ΓåÆ -10 MM   (toward camera = ΓêÆZ, camera is at negative Z)
+  const sashLeft    = useRef(0);   // 0 ΓåÆ -1000 MM (slide left = ΓêÆX)
 
   const sashGroupRef  = useRef<THREE.Group>(null!);
   const handleRef     = useRef<THREE.Group>(null!);
 
   const anim = useRef({ dir: 1 as 1 | -1, phase: 0 as 0|1|2|3, t0: 0, dur: 1 });
 
-  // ── Handle GLB ──────────────────────────────────────────────────────────────
-  const { scene: handleScene } = useGLTF('/sliding_door_handle_IGLS.glb');
+  // ΓöÇΓöÇ Handle GLB ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  const { scene: handleScene } = useGLTF('/testhandle.glb');
   const clonedHandle = useMemo(() => {
     const c = handleScene.clone(true);
-    // Center the handle nodes relative to the baseplate/washer center.
-    // The baseplate/washer center in the GLB is at X ≈ 16.5038, Y ≈ -0.0775, Z ≈ 0.
-    c.children.forEach((node: any) => {
-      node.position.x -= 16.503816604614258;
-      node.position.y -= -0.07755661010742188;
-    });
     c.traverse((o: any) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
     return c;
   }, [handleScene]);
 
-  // ── Kick animation when state changes ───────────────────────────────────────
+  // ΓöÇΓöÇ Kick animation when state changes ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
   useEffect(() => {
     const a = anim.current;
     if (slidingState === 'opening') { a.dir = 1;  a.phase = 1; a.t0 = 0; a.dur = 0.8; }
@@ -193,7 +166,7 @@ function SlidingScene({
     };
 
     if (a.dir === 1) {
-      // OPENING: Phase1=handle CW, Phase2=sash toward camera (−Z), Phase3=slide LEFT (+X, toward X=W)
+      // OPENING: Phase1=handle CW, Phase2=sash toward camera (ΓêÆZ), Phase3=slide LEFT (+X, toward X=W)
       if      (a.phase === 1) { handleAngle.current = Math.PI * t;                                                  if (raw>=1) next(2, 1.2); }
       else if (a.phase === 2) { handleAngle.current = Math.PI; sashFwd.current = -10*MM*t;                     if (raw>=1) next(3, 2.8); }
       else if (a.phase === 3) { handleAngle.current = Math.PI; sashFwd.current = -10*MM; sashLeft.current = +1000*MM*t; if (raw>=1) next(0,0); }
@@ -220,11 +193,11 @@ function SlidingScene({
           if (!lever && c.isMesh && !c.name.toLowerCase().includes('base')) lever = c;
         });
       }
-      if (lever) (lever as any).rotation.z = handleAngle.current;
+      if (lever) (lever as any).rotation.z = -handleAngle.current + Math.PI;
     }
   });
 
-  // ── Color helpers ─────────────────────────────────────────────────────────
+  // ΓöÇΓöÇ Color helpers ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
   const getCentY = (pts: Point[]) => pts.reduce((s, p) => s + p.y, 0) / (pts.length || 1);
 
   const getColor = (ct: string) => {
@@ -248,7 +221,7 @@ function SlidingScene({
     opacity: 0.05,
   }), []);
 
-  // ── Shared FrameSegment builder ───────────────────────────────────────────
+  // ΓöÇΓöÇ Shared FrameSegment builder ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
   const makeSegment = (cfg: typeof layerConfigs[0], contour: Contour, i: number, keyPfx: string, extra?: any) => {
     const isSkipCutLayer = false;
     return (
@@ -264,8 +237,8 @@ function SlidingScene({
     );
   };
 
-  // ── CHILD2 (fixed outer frame) renderers ──────────────────────────────────
-  /** Child2 bottom horizontal rail — fixed */
+  // ΓöÇΓöÇ CHILD2 (fixed outer frame) renderers ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  /** Child2 bottom horizontal rail ΓÇö fixed */
   const renderFrameBottom = () => layerConfigs.flatMap(cfg => {
     if (!isChild2(cfg.name)) return [];
     const layer = pd.layers[cfg.name]; if (!layer) return [];
@@ -274,7 +247,7 @@ function SlidingScene({
       .map((c, i) => makeSegment(cfg, c, i, 'fb', { skipLeftCut: false, skipRightCut: true }));
   });
 
-  /** Child2 top horizontal rail — fixed */
+  /** Child2 top horizontal rail ΓÇö fixed */
   const renderFrameTop = () => layerConfigs.flatMap(cfg => {
     if (!isChild2(cfg.name)) return [];
     const layer = pd.layers[cfg.name]; if (!layer) return [];
@@ -286,7 +259,7 @@ function SlidingScene({
       }));
   });
 
-  /** Child2 right vertical jamb — fixed */
+  /** Child2 right vertical jamb ΓÇö fixed */
   const renderFrameVertical = () => layerConfigs.flatMap(cfg => {
     if (!isChild2(cfg.name)) return [];
     if (cfg.name === 'Aluminium Rail') return [];
@@ -312,8 +285,8 @@ function SlidingScene({
     )];
   });
 
-  // ── CHILD1 (sliding sash) renderers ───────────────────────────────────────
-  /** Child1 bottom rail — rides with sash */
+  // ΓöÇΓöÇ CHILD1 (sliding sash) renderers ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  /** Child1 bottom rail ΓÇö rides with sash */
   const renderSashBottom = () => layerConfigs.flatMap(cfg => {
     if (!isChild1(cfg.name)) return [];
     const layer = pd.layers[cfg.name]; if (!layer) return [];
@@ -322,7 +295,7 @@ function SlidingScene({
       .map((c, i) => makeSegment(cfg, c, i, 'sb', { skipLeftCut: false, skipRightCut: false }));
   });
 
-  /** Child1 top rail — rides with sash */
+  /** Child1 top rail ΓÇö rides with sash */
   const renderSashTop = () => layerConfigs.flatMap(cfg => {
     if (!isChild1(cfg.name)) return [];
     const layer = pd.layers[cfg.name]; if (!layer) return [];
@@ -334,7 +307,7 @@ function SlidingScene({
       }));
   });
 
-  /** Child1 right vertical stile — rides with sash */
+  /** Child1 right vertical stile ΓÇö rides with sash */
   const renderSashVertical = () => layerConfigs.flatMap(cfg => {
     if (!isChild1(cfg.name)) return [];
     const layer = pd.layers[cfg.name]; if (!layer) return [];
@@ -359,63 +332,7 @@ function SlidingScene({
     )];
   });
 
-
-  /** Child1 left vertical stile (Doorpost) — full height with mitre cuts */
-  const renderSashVerticalLeftDoorpost = () => doorPostLayerConfigs.flatMap(cfg => {
-    const layer = dpd.layers[cfg.name]; if (!layer) return [];
-    const contours = layer.contours;
-
-    // Use the same rotation as the working left sash stile:
-    //   rotation={[0, Math.PI/2, 0]} → profile-X maps to world -Z (depth into screen)
-    //                                 → extrusion goes world -Y (downward from H to 0) ✓
-    // zOffset shifts the profile in Z so the doorpost glazing aligns with the sash glazing.
-    // The sash glass sits at approximately -((sashGlassMinX + sashGlassMaxX)/2) * scale.
-    // The doorpost glass position (in profile-X) needs to be shifted to match.
-    // For now, no Z shift — exterior face of doorpost aligns with exterior of sash at Z=0.
-
-    return contours.length === 0 ? [] : [(
-      <group key={`svldp_${cfg.name}`} position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}>
-        {contours.map((c, i) => (
-          <FrameSegment
-            key={`svldp_seg_${cfg.name}_${i}`}
-            layerName={cfg.name}   scaleFactor={scale}
-            length={height}        vertices={c.points}
-            matType={cfg.matType}  color={getColor(cfg.colorType)}
-            textureUrl={getTex(cfg.colorType)} origin={origin}
-            rotation={[0, Math.PI / 2, 0]}
-            skipCuts={false}
-            skipLeftCut={false} skipRightCut={false}
-            invertCuts={true}  uSign={-1} uOffset={0}
-          />
-        ))}
-      </group>
-    )];
-  });
-
-  const renderSashVerticalRight = () => doorPostLayerConfigs.flatMap(cfg => {
-    const layer = dpd.layers[cfg.name]; if (!layer) return [];
-    const contours = layer.contours;
-    const isSkipCutLayer = false;
-    return contours.length === 0 ? [] : [(
-      <group key={`svr_${cfg.name}`} position={[W, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
-        {contours.map((c, i) => (
-          <FrameSegment
-            key={`svr_seg_${cfg.name}_${i}`}
-            layerName={cfg.name}   scaleFactor={scale}
-            length={height}        vertices={c.points}
-            matType={cfg.matType}  color={getColor(cfg.colorType)}
-            textureUrl={getTex(cfg.colorType)} origin={origin}
-            rotation={[0, Math.PI / 2, 0]}
-            skipCuts={isSkipCutLayer}
-            skipLeftCut={false} skipRightCut={false}
-            invertCuts={true}  uSign={-1} uOffset={0}
-          />
-        ))}
-      </group>
-    )];
-  });
-
-  /** Triple glazing — rides with sash */
+  /** Triple glazing ΓÇö rides with sash */
   const renderGlass = () => {
     return ['GLS_EXT', 'GLS_INT', 'GLS_MDL'].map(ln => {
       const layer = pd.layers[ln];
@@ -449,18 +366,18 @@ function SlidingScene({
     });
   };
 
-  // ── Hotspot & animation control ──────────────────────────────────────────
+  // ΓöÇΓöÇ Hotspot & animation control ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
   const isOpen   = slidingState === 'open';
   const isMoving = slidingState === 'opening' || slidingState === 'closing';
   const onHotspot = () => { if (!isMoving) setSlidingState(isOpen ? 'closing' : 'opening'); };
 
   // Handle X = 60mm (mid-stile width). Handle Z = interior face (-180mm).
-  const hY = 1050 * MM; // Rotation point height: exactly 1050 mm from ground
+  const hY = H * 0.50;
   const hZ = SASH_INTERIOR_Z;
 
   return (
     <group ref={setGroupObj}>
-      {/* ── FIXED outer frame (Child2 only) ─────────────────────────── */}
+      {/* ΓöÇΓöÇ FIXED outer frame (Child2 only) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */}
       <group>
         <group rotation={[0, Math.PI / 2, 0]}>{renderFrameBottom()}</group>
       </group>
@@ -469,7 +386,7 @@ function SlidingScene({
       </group>
       {renderFrameVertical()}
 
-      {/* ── SLIDING sash (Child1 only) ───────────────────────────────── */}
+      {/* ΓöÇΓöÇ SLIDING sash (Child1 only) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */}
       <group ref={sashGroupRef}>
         {/* Sash horizontal rails */}
         <group>
@@ -479,12 +396,8 @@ function SlidingScene({
           <group rotation={[0, Math.PI / 2, 0]}>{renderSashTop()}</group>
         </group>
 
-        {/* Sash left vertical stile */}
+        {/* Sash right vertical stile */}
         {renderSashVertical()}
-        {renderSashVerticalLeftDoorpost()}
-
-        {/* Sash right vertical stile (Doorpost) */}
-        {renderSashVerticalRight()}
 
         {/* Triple glazing */}
         {renderGlass()}
@@ -492,14 +405,14 @@ function SlidingScene({
         {/* Handle on the interior face of the right stile. */}
         <group
           ref={handleRef}
-          position={[75*scale, hY, hZ - 16*scale]}
-          rotation={[0, Math.PI / 2, 0]}
-          scale={[0.001, 0.001, 0.001]}
+          position={[75*scale, hY, hZ - 50*scale]}
+          rotation={[-Math.PI / 2, Math.PI, Math.PI]}
+          scale={[0.025, 0.025, 0.025]}
         >
           <primitive object={clonedHandle} />
         </group>
 
-        {/* Hotspot — near handle position */}
+        {/* Hotspot ΓÇö near handle position */}
         {!isColorPaletteOpen && (
           <Html position={[-20*scale, hY, hZ - 20*scale]} center>
             <div
@@ -528,9 +441,9 @@ function SlidingScene({
   );
 }
 
-useGLTF.preload('/sliding_door_handle_IGLS.glb');
+useGLTF.preload('/testhandle.glb');
 
-// ─── Outer viewer — creates Canvas ────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇ Outer viewer ΓÇö creates Canvas ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
   width  = 1100, height = 2100,
   colorExt = '#e8e0d4', colorInt = '#f0ece6',

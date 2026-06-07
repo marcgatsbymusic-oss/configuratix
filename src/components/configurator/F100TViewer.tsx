@@ -208,7 +208,7 @@ function WindowAssembly({
     s.startTilt = currentTilt.current;
     s.targetTilt = windowState === 'open_tilt' ? -Math.PI * (15 / 180) : 0;
     s.startHandle = currentHandle.current;
-    s.targetHandle = windowState === 'open_side' ? -Math.PI / 2 : (windowState === 'open_tilt' ? -Math.PI : 0);
+    s.targetHandle = windowState === 'open_side' ? Math.PI / 2 : (windowState === 'open_tilt' ? Math.PI : 0);
     s.startTime = clock.getElapsedTime();
     s.duration = isAuto.current ? 10.0 : 1.2;
   }, [windowState, clock, isAuto]);
@@ -331,7 +331,7 @@ function WindowAssembly({
               ref={handleGroupRef} 
               name="handleGroup"
               position={[85 * scale, 300 * scale, -144 * scale]} 
-              rotation={[Math.PI / 2, Math.PI, 0]}
+              rotation={[Math.PI / 2, Math.PI + Math.PI / 2, 0]}
               scale={[0.025, 0.025, 0.025]}
             >
               <primitive object={clonedHandle} />

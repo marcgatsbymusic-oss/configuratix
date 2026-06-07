@@ -294,7 +294,7 @@ function SlidingScene({
     const contours = layer.contours.filter(c => getCentY(c.points) < 150);
     const isSkipCutLayer = false;
     return contours.length === 0 ? [] : [(
-      <group key={`fv_${cfg.name}`} position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}>
+      <group key={`fv_${cfg.name}`} position={[W, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
         {contours.map((c, i) => (
           <FrameSegment
             key={`fv_seg_${cfg.name}_${i}`}
@@ -341,7 +341,7 @@ function SlidingScene({
     const contours = layer.contours.filter(c => getCentY(c.points) < 150);
     const isSkipCutLayer = false;
     return contours.length === 0 ? [] : [(
-      <group key={`sv_${cfg.name}`} position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}>
+      <group key={`sv_${cfg.name}`} position={[W, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
         {contours.map((c, i) => (
           <FrameSegment
             key={`sv_seg_${cfg.name}_${i}`}
@@ -353,39 +353,6 @@ function SlidingScene({
             skipCuts={isSkipCutLayer}
             skipLeftCut={false} skipRightCut={false}
             invertCuts={false}  uSign={-1} uOffset={0}
-          />
-        ))}
-      </group>
-    )];
-  });
-
-
-  /** Child1 left vertical stile (Doorpost) — full height with mitre cuts */
-  const renderSashVerticalLeftDoorpost = () => doorPostLayerConfigs.flatMap(cfg => {
-    const layer = dpd.layers[cfg.name]; if (!layer) return [];
-    const contours = layer.contours;
-
-    // Use the same rotation as the working left sash stile:
-    //   rotation={[0, Math.PI/2, 0]} → profile-X maps to world -Z (depth into screen)
-    //                                 → extrusion goes world -Y (downward from H to 0) ✓
-    // zOffset shifts the profile in Z so the doorpost glazing aligns with the sash glazing.
-    // The sash glass sits at approximately -((sashGlassMinX + sashGlassMaxX)/2) * scale.
-    // The doorpost glass position (in profile-X) needs to be shifted to match.
-    // For now, no Z shift — exterior face of doorpost aligns with exterior of sash at Z=0.
-
-    return contours.length === 0 ? [] : [(
-      <group key={`svldp_${cfg.name}`} position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}>
-        {contours.map((c, i) => (
-          <FrameSegment
-            key={`svldp_seg_${cfg.name}_${i}`}
-            layerName={cfg.name}   scaleFactor={scale}
-            length={height}        vertices={c.points}
-            matType={cfg.matType}  color={getColor(cfg.colorType)}
-            textureUrl={getTex(cfg.colorType)} origin={origin}
-            rotation={[0, Math.PI / 2, 0]}
-            skipCuts={false}
-            skipLeftCut={false} skipRightCut={false}
-            invertCuts={true}  uSign={-1} uOffset={0}
           />
         ))}
       </group>
@@ -481,7 +448,6 @@ function SlidingScene({
 
         {/* Sash left vertical stile */}
         {renderSashVertical()}
-        {renderSashVerticalLeftDoorpost()}
 
         {/* Sash right vertical stile (Doorpost) */}
         {renderSashVerticalRight()}

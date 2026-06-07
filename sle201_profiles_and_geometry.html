@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>SLE201 Profiles and Geometry Catalog</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+  
+  body {
+    font-family: 'Outfit', sans-serif;
+    color: #1e293b;
+    background-color: #ffffff;
+    margin: 50px;
+    line-height: 1.6;
+  }
+  
+  .header-card {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: #ffffff;
+    padding: 35px;
+    border-radius: 18px;
+    margin-bottom: 40px;
+  }
+  
+  .header-card h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #f8fafc;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.5px;
+  }
+  
+  .header-card p {
+    color: #94a3b8;
+    margin: 0;
+    font-size: 15px;
+  }
+
+  .meta-tag {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #f59e0b;
+    margin-bottom: 12px;
+  }
+  
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #0f172a;
+    border-left: 4px solid #f59e0b;
+    padding-left: 12px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    font-size: 12.5px;
+  }
+  
+  th {
+    background-color: #f8fafc;
+    color: #475569;
+    font-weight: 600;
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 2px solid #e2e8f0;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #334155;
+    vertical-align: top;
+  }
+  
+  tr:nth-child(even) td {
+    background-color: #fafbfc;
+  }
+  
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 10.5px;
+    font-weight: 600;
+  }
+  
+  .badge-fixed {
+    background-color: #e0f2fe;
+    color: #0369a1;
+  }
+  
+  .badge-sash {
+    background-color: #fef3c7;
+    color: #92400e;
+  }
+  
+  .badge-mat {
+    background-color: #f1f5f9;
+    color: #475569;
+    font-family: monospace;
+  }
+  
+  .coordinate {
+    font-family: monospace;
+    font-size: 11.5px;
+    color: #0f172a;
+    background-color: #f1f5f9;
+    padding: 2px 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  
+  .info-box {
+    background-color: #fafbfb;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #3b82f6;
+    padding: 18px 22px;
+    border-radius: 10px;
+    margin-bottom: 35px;
+  }
+  
+  .info-box h3 {
+    margin-top: 0;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e3a8a;
+  }
+  
+  .info-box p {
+    margin: 0;
+    font-size: 13px;
+    color: #475569;
+  }
+</style>
+</head>
+<body>
+  <div class="header-card">
+    <div class="meta-tag">Configurator Database Catalog</div>
+    <h1>SLE201 Profiles and Geometry Specification</h1>
+    <p>A comprehensive inventory of PVC profiles, track rails, glass, and gaskets used in the Iglo Edge SLE201 3D viewer, extracted from the A+W Cantor CAD database.</p>
+  </div>
+
+  <div class="info-box">
+    <h3>3D Coordinate Mapping Details</h3>
+    <p>
+      Lengths are scaled to meters by multiplying the native CAD millimeter values by <code>0.001</code>. 
+      The sash width is 82 mm, with the interior face sitting at World Z coordinate <code>-180 mm</code> (interior camera view) 
+      and the exterior face at <code>-98 mm</code>.
+    </p>
+  </div>
+
+  <h2>Active Rendered Profiles (Sash & Frame Pieces)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 15%">Layer Name</th>
+        <th style="width: 25%">Description</th>
+        <th style="width: 15%">Render Group</th>
+        <th style="width: 10%">Material</th>
+        <th style="width: 12%">Color Info</th>
+        <th style="width: 11%">X-Bounds (mm)</th>
+        <th style="width: 12%">Y-Bounds (mm)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>BottomTop_EXT</strong></td>
+        <td>Exterior Frame Outer Shell (outer track/bed)</td>
+        <td><span class="badge badge-fixed">Child2 (Fixed)</span></td>
+        <td><span class="badge badge-mat">ext</span></td>
+        <td>ext (Color/Texture)</td>
+        <td><span class="coordinate">[1.88, 123.49]</span></td>
+        <td><span class="coordinate">Bottom: [0.00, 55.87]</span><br><span class="coordinate">Top: [268.89, 324.76]</span></td>
+      </tr>
+      <tr>
+        <td><strong>BottomTop_INT</strong></td>
+        <td>Interior Frame Inner Shell (interior track/bed facing room)</td>
+        <td><span class="badge badge-fixed">Child2 (Fixed)</span></td>
+        <td><span class="badge badge-mat">int</span></td>
+        <td>int (Color/Texture)</td>
+        <td><span class="coordinate">[109.96, 164.92]</span></td>
+        <td><span class="coordinate">Bottom: [0.00, 36.06]</span><br><span class="coordinate">Top: [288.70, 324.76]</span></td>
+      </tr>
+      <tr>
+        <td><strong>DOOR_FRM_EXT</strong></td>
+        <td>Exterior Sash Profile (outer sash shell)</td>
+        <td><span class="badge badge-sash">Child1 (Sash)</span></td>
+        <td><span class="badge badge-mat">ext</span></td>
+        <td>ext (Color/Texture)</td>
+        <td><span class="coordinate">[98.39, 143.06]</span></td>
+        <td><span class="coordinate">Bottom: [42.88, 138.38]</span><br><span class="coordinate">Top: [186.38, 281.88]</span></td>
+      </tr>
+      <tr>
+        <td><strong>DOOR_FRM_INT</strong></td>
+        <td>Interior Sash Profile (interior room-facing sash shell)</td>
+        <td><span class="badge badge-sash">Child1 (Sash)</span></td>
+        <td><span class="badge badge-mat">int</span></td>
+        <td>int (Color/Texture)</td>
+        <td><span class="coordinate">[143.76, 180.39]</span></td>
+        <td><span class="coordinate">Bottom: [29.88, 118.38]</span><br><span class="coordinate">Top: [206.38, 294.88]</span></td>
+      </tr>
+      <tr>
+        <td><strong>Profile cover exterior</strong></td>
+        <td>Frame Exterior Cover/Drip Profile</td>
+        <td><span class="badge badge-fixed">Child2 (Fixed)</span></td>
+        <td><span class="badge badge-mat">ext</span></td>
+        <td>ext (Color/Texture)</td>
+        <td><span class="coordinate">[0.00, 96.69]</span></td>
+        <td><span class="coordinate">Bottom: [42.28, 60.60]</span><br><span class="coordinate">Top: [264.15, 282.48]</span></td>
+      </tr>
+      <tr>
+        <td><strong>BZD</strong></td>
+        <td>Decorative Glazing Bead (holds glass in interior sash)</td>
+        <td><span class="badge badge-sash">Child1 (Sash)</span></td>
+        <td><span class="badge badge-mat">int</span></td>
+        <td>int (Color/Texture) *Rail UVs*</td>
+        <td><span class="coordinate">[167.29, 179.39]</span></td>
+        <td><span class="coordinate">Bottom: [112.63, 138.38]</span><br><span class="coordinate">Top: [186.38, 212.13]</span></td>
+      </tr>
+      <tr>
+        <td><strong>Aluminium Rail</strong></td>
+        <td>Sliding track rail guide (styled as Stainless Steel)</td>
+        <td><span class="badge badge-fixed">Child2 (Fixed)</span></td>
+        <td><span class="badge badge-mat">spacer</span></td>
+        <td>rail (Hex #8a9597 steel)</td>
+        <td><span class="coordinate">[133.91, 164.90]</span></td>
+        <td><span class="coordinate">Bottom: [33.86, 49.88]</span></td>
+      </tr>
+      <tr>
+        <td><strong>Spacer</strong></td>
+        <td>Triple glazing unit spacers (holds glass panes apart)</td>
+        <td><span class="badge badge-sash">Child1 (Sash)</span></td>
+        <td><span class="badge badge-mat">spacer</span></td>
+        <td>spacer (Hex #4B4B4D)</td>
+        <td><span class="coordinate">[118.89, 159.89]</span></td>
+        <td><span class="coordinate">Bottom: [123.38, 134.38]</span><br><span class="coordinate">Top: [190.38, 201.38]</span></td>
+      </tr>
+      <tr>
+        <td><strong>GSK_BZD</strong></td>
+        <td>Glazing bead gasket seal</td>
+        <td><span class="badge badge-sash">Child1 (Sash)</span></td>
+        <td><span class="badge badge-mat">gsk</span></td>
+        <td>gsk (Hex #1c1c1c)</td>
+        <td><span class="coordinate">[163.30, 170.29]</span></td>
+        <td><span class="coordinate">Bottom: [128.41, 142.89]</span><br><span class="coordinate">Top: [181.87, 196.34]</span></td>
+      </tr>
+      <tr>
+        <td><strong>GSK_SEAL_DOOR</strong></td>
+        <td>Compression gaskets (seals sliding sash against frame tracks)</td>
+        <td><span class="badge badge-sash">Child1 (Sash)</span></td>
+        <td><span class="badge badge-mat">gsk</span></td>
+        <td>gsk (Hex #1c1c1c)</td>
+        <td><span class="coordinate">[164.41, 172.89]</span></td>
+        <td><span class="coordinate">Bottom: [30.37, 38.58]</span><br><span class="coordinate">Top: [286.18, 294.38]</span></td>
+      </tr>
+      <tr>
+        <td><strong>GSK_EXT_DOOR_GLS</strong></td>
+        <td>Outer glazing gasket (between glass and sash)</td>
+        <td><span class="badge badge-sash">Child1 (Sash)</span></td>
+        <td><span class="badge badge-mat">gsk</span></td>
+        <td>gsk (Hex #1c1c1c)</td>
+        <td><span class="coordinate">[90.16, 115.39]</span></td>
+        <td><span class="coordinate">Bottom: [128.69, 138.97]</span><br><span class="coordinate">Top: [185.79, 196.07]</span><br><span class="coordinate">Outer: [267.19, 277.47]</span></td>
+      </tr>
+      <tr>
+        <td><strong>GLS_EXT</strong></td>
+        <td>Triple Glazing - Exterior Glass Pane</td>
+        <td><span class="badge badge-sash">Child1 (Sash)</span></td>
+        <td><span class="badge badge-mat">Custom Glass</span></td>
+        <td>Translucent (glassMat)</td>
+        <td><span class="coordinate">[115.39, 119.39]</span></td>
+        <td><span class="coordinate">[123.38, 201.38]</span></td>
+      </tr>
+      <tr>
+        <td><strong>GLS_MDL</strong></td>
+        <td>Triple Glazing - Middle Glass Pane</td>
+        <td><span class="badge badge-sash">Child1 (Sash)</span></td>
+        <td><span class="badge badge-mat">Custom Glass</span></td>
+        <td>Translucent (glassMat)</td>
+        <td><span class="coordinate">[137.39, 141.39]</span></td>
+        <td><span class="coordinate">[123.38, 201.38]</span></td>
+      </tr>
+      <tr>
+        <td><strong>GLS_INT</strong></td>
+        <td>Triple Glazing - Interior Glass Pane</td>
+        <td><span class="badge badge-sash">Child1 (Sash)</span></td>
+        <td><span class="badge badge-mat">Custom Glass</span></td>
+        <td>Translucent (glassMat)</td>
+        <td><span class="coordinate">[159.39, 163.39]</span></td>
+        <td><span class="coordinate">[123.38, 201.38]</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Unrendered Structural & Auxiliary Layers</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 18%">Layer Name</th>
+        <th style="width: 25%">Description</th>
+        <th style="width: 13%">X-Bounds (mm)</th>
+        <th style="width: 16%">Y-Bounds (mm)</th>
+        <th style="width: 28%">Reason Skipped in 3D Rendering</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Hidden Piece</strong></td>
+        <td>Frame pvc connector/bed blocks</td>
+        <td><span class="coordinate">[12.40, 95.89]</span></td>
+        <td><span class="coordinate">Bottom: [28.89, 58.68]</span><br><span class="coordinate">Top: [266.08, 295.87]</span></td>
+        <td style="color: #64748b; font-style: italic;">Internal coupling blocks; invisible once assembled.</td>
+      </tr>
+      <tr>
+        <td><strong>GSK_HIDDEN_PIECE_EXT</strong></td>
+        <td>Seal for hidden coupling pieces</td>
+        <td><span class="coordinate">[90.16, 98.39]</span></td>
+        <td><span class="coordinate">Bottom: [47.29, 57.57]</span></td>
+        <td style="color: #64748b; font-style: italic;">Gasket sealing internal frame cavities.</td>
+      </tr>
+      <tr>
+        <td><strong>GSK_LARGE_UNDERNEATH_DOOR</strong></td>
+        <td>Frame barrier drip gasket</td>
+        <td><span class="coordinate">[111.62, 122.38]</span></td>
+        <td><span class="coordinate">Bottom: [29.10, 48.32]</span><br><span class="coordinate">Top: [276.43, 295.66]</span></td>
+        <td style="color: #64748b; font-style: italic;">Sub-threshold seal blocks.</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

@@ -31,12 +31,14 @@ export const AdaptiveCamera: React.FC<AdaptiveCameraProps> = ({
   useEffect(() => {
     const aspect = size.width / size.height;
     
-    // Calculate adaptive zoom factor.
-    // If aspect < 1 (portrait screens / mobile), we increase the camera distance by 1/aspect
-    // to ensure the entire horizontal width of the window frame fits within the view.
-    const aspectFactor = aspect < 1 ? 1.05 / aspect : 1;
-    const baseRadius = minDistance > 0 ? Math.max(minDistance, maxDim * defaultRadiusMult) : maxDim * defaultRadiusMult;
-    const radius = baseRadius * aspectFactor;
+    const fovRad = (fov * Math.PI) / 180;
+    const vFov = 2 * Math.tan(fovRad / 2);
+    // 1.2 padding factor to give a little breathing room
+    const radiusForHeight = (maxDim / vFov) * 1.15;
+    const radiusForWidth = (maxDim / (vFov * aspect)) * 1.15;
+    
+    let radius = Math.max(radiusForHeight, radiusForWidth);
+    if (minDistance > 0) radius = Math.max(minDistance, radius);
 
     const posX = targetX + radius * Math.sin(angle);
     const posY = targetY;

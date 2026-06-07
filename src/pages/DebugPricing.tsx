@@ -5799,10 +5799,10 @@ export function DebugPricing() {
 
 
         {/* Split-view container — 3 columns on desktop: Visualizer | Config | Pricing */}
-        <div className="max-w-[1700px] mx-auto grid grid-cols-1 lg:grid-cols-[1fr_380px_340px] lg:gap-6 lg:px-6 lg:pt-6 pt-4 px-3">
+        <div className="max-w-none w-full mx-auto grid grid-cols-1 lg:grid-cols-[1fr_320px_300px] lg:gap-4 lg:px-4 lg:pt-4 pt-2 px-2">
 
           {/* LEFT STICKY PILLAR — Visualizer */}
-          <div className="lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] flex flex-col">
+          <div className="lg:sticky lg:top-2 lg:h-[calc(100vh-1rem)] flex flex-col">
             <div 
               style={{
                 backgroundColor: isLight ? '#ffffff' : 'var(--theme-mammut-darker)',
@@ -5923,7 +5923,7 @@ export function DebugPricing() {
           </div>
 
           {/* CENTRE SCROLLABLE PANEL — Config Accordions */}
-          <div className="flex flex-col gap-4 overflow-y-auto lg:max-h-[calc(100vh-3rem)] pb-12 pt-4 lg:pt-0">
+          <div className="flex flex-col gap-4 overflow-y-auto lg:max-h-[calc(100vh-1rem)] pb-12 pt-4 lg:pt-0 scrollbar-thin">
             {/* Category tab strip */}
             {renderLeftColumn()}
 
@@ -5932,8 +5932,10 @@ export function DebugPricing() {
           </div>
 
           {/* RIGHT STICKY PANEL — Cantor Pricing */}
-          <div className="hidden lg:flex flex-col gap-4 lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] overflow-y-auto pb-6">
-            {renderRightColumn()}
+          <div className="col-span-1 lg:col-span-1">
+            <div className="hidden lg:flex flex-col gap-4 lg:sticky lg:top-2 lg:h-[calc(100vh-1rem)] overflow-y-auto pb-6 scrollbar-thin">
+              {renderRightColumn()}
+            </div>
           </div>
 
         </div>

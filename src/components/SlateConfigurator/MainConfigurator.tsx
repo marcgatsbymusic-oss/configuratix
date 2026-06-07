@@ -3,7 +3,7 @@ import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useConfigurator } from './useConfigurator';
 import { CONFIG_SCHEMA, WINDOW_TYPES, COLOR_LOCALE, GLASS_LOCALE } from './types';
-import { Ruler, Layers, Check, ChevronLeft, ChevronRight, ChevronUp, ChevronDown, ShoppingCart, HelpCircle, X, Box, Camera, Trash2 } from 'lucide-react';
+import { Ruler, Layers, Check, ChevronLeft, ChevronRight, ChevronUp, ChevronDown, ShoppingCart, HelpCircle, X, Box, Camera, Trash2, Maximize } from 'lucide-react';
 import { WindowTypeGraphic } from './WindowTypeGraphic';
 import { estimateFramePrice, resolveOpeningClass } from '../../utils/pricingEngine';
 import { FloatingHelpMenu } from './FloatingHelpMenu';
@@ -749,11 +749,170 @@ export function MainConfigurator() {
         />
       )}
       <div className="min-h-screen bg-mammut-darker text-mammut-white pb-20 font-sans overflow-x-hidden max-w-[100vw] w-full">
-      <div className={`max-w-[1600px] mx-auto px-4 sm:px-6 w-full overflow-hidden sm:overflow-visible transition-all duration-700 ${activeStep === 0 ? "pt-24 lg:pt-28" : "pt-32 lg:pt-40"}`}>
-        <div className="grid lg:grid-cols-12 gap-10 items-start">
+        
+        {/* FULL BLEED VIEWER (extracted from right column) */}
+        <div className={`w-[100vw] relative left-1/2 -translate-x-1/2 transition-all duration-700 ${activeStep === 0 ? "hidden" : completedSteps.length === 0 ? "opacity-0 pointer-events-none hidden" : "opacity-100"}`}>
+          <div className="w-full">
+            <div 
+              className="bg-mammut-dark w-full h-[75vh] flex flex-col items-center justify-center relative border-b border-mammut-gold/20 overflow-hidden bg-cover bg-center shadow-2xl"
+              style={uploadedImage ? { backgroundImage: `url(${uploadedImage})` } : {}}
+            >
+              <div className="absolute top-4 left-4 z-30 bg-mammut-darker/80 backdrop-blur-sm p-1 rounded-lg border border-mammut-border flex gap-1 shadow-md pointer-events-auto">
+                 <button 
+                   onClick={() => setShow3D(true)}
+                   className={`px-3 py-1.5 text-[10px] uppercase font-bold tracking-wider rounded-md transition-all ${show3D ? 'bg-indigo-600 !text-mammut-white' : 'text-mammut-white/50 hover:bg-[#2a2a2b]'}`}
+                 >
+                   3D Live
+                 </button>
+                 <button 
+                   onClick={() => setShow3D(false)}
+                   className={`px-3 py-1.5 text-[10px] uppercase font-bold tracking-wider rounded-md transition-all ${!show3D ? 'bg-mammut-gold !text-black' : 'text-mammut-white/50 hover:bg-[#2a2a2b]'}`}
+                 >
+                   2D Draft
+                 </button>
+                 <button
+                   onClick={() => {
+                     const el = document.documentElement;
+                     if (!document.fullscreenElement) {
+                       el.requestFullscreen?.();
+                     } else {
+                       document.exitFullscreen?.();
+                     }
+                   }}
+                   className="px-3 py-1.5 text-[10px] uppercase font-bold tracking-wider rounded-md transition-all text-mammut-white/50 hover:bg-[#2a2a2b] border-l border-mammut-border pl-4 ml-1"
+                   title="Toggle Fullscreen"
+                 >
+                   <Maximize size={12} strokeWidth={2.5} className="inline-block mr-1 -mt-0.5" /> Fullscreen
+                 </button>
+                 {isIOS ? (
+                   <a
+                     href={arHref}
+                     rel="ar"
+                     className="px-3 py-1.5 flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-wider rounded-md transition-all text-emerald-400 hover:bg-emerald-400/10 hover:text-emerald-300 ml-1 border-l border-mammut-border pl-4"
+                     title="View in AR"
+                   >
+                     <Box size={12} strokeWidth={2.5} /> AR
+                   </a>
+                 ) : (
+                   <a
+                     href={arHref}
+                     className="px-3 py-1.5 flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-wider rounded-md transition-all text-emerald-400 hover:bg-emerald-400/10 hover:text-emerald-300 ml-1 border-l border-mammut-border pl-4"
+                     title="View in AR"
+                   >
+                     <Box size={12} strokeWidth={2.5} /> AR
+                   </a>
+                 )}
+                 <label className="px-3 py-1.5 flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-wider rounded-md transition-all text-mammut-gold hover:bg-mammut-gold/10 cursor-pointer border-l border-mammut-border pl-4">
+                   <Camera size={12} strokeWidth={2.5} /> {t('configurator.blueprint.uploadPhoto', 'Photo')}
+                   <input
+                     type="file"
+                     accept="image/*"
+                     capture="environment"
+                     className="hidden"
+                     onChange={(e) => {
+                       const file = e.target.files?.[0];
+                       if (file) {
+                         const reader = new FileReader();
+                         reader.onload = (event) => {
+                           setUploadedImage(event.target?.result as string);
+                           setShow3D(false); // Auto-switch to 2D Draft
+                         };
+                         reader.readAsDataURL(file);
+                       }
+                     }}
+                   />
+                 </label>
+                 {uploadedImage && (
+                   <button
+                     onClick={() => setUploadedImage(null)}
+                     className="px-2 py-1.5 text-red-400 hover:text-red-300 hover:bg-red-400/10 rounded-md transition-all border-l border-mammut-border pl-3 flex items-center justify-center"
+                     title={t('configurator.blueprint.removePhoto', 'Remove Photo')}
+                   >
+                     <Trash2 size={12} strokeWidth={2.5} />
+                   </button>
+                 )}
+              </div>
+              {show3D ? (
+                state.windowTypeId === 'F100T' ? (
+                  <F100TViewer isColorPaletteOpen={isColorWheelOpen}
+                    width={state.dimensions.width}
+                    height={state.dimensions.height}
+                    colorExt={getHexColor(state.exteriorColor)}
+                    colorInt={getHexColor(state.interiorColor)}
+                    colorExtTexture={getTextureUrl(state.exteriorColor)}
+                    colorIntTexture={getTextureUrl(state.interiorColor)}
+                    colorSpacer={spacerHex}
+                    colorGsk={gasketHex}
+                    onDimensionChange={(w, h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h } })}
+                    activeLimits={activeLimits}
+                  />
+                ) : state.windowTypeId === 'F101C' ? (
+                  <F101CViewer
+                    width={state.dimensions.width}
+                    height={state.dimensions.height}
+                    colorExt={getHexColor(state.exteriorColor)}
+                    colorInt={getHexColor(state.interiorColor)}
+                    colorExtTexture={getTextureUrl(state.exteriorColor)}
+                    colorIntTexture={getTextureUrl(state.interiorColor)}
+                    colorSpacer={spacerHex}
+                    colorGsk={gasketHex}
+                    onDimensionChange={(w, h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h } })}
+                    activeLimits={activeLimits}
+                  />
+                ) : state.windowTypeId === 'SLE201' ? (
+                  <SLE201Viewer isColorPaletteOpen={isColorWheelOpen}
+                    width={state.dimensions.width}
+                    height={state.dimensions.height}
+                    colorExt={getHexColor(state.exteriorColor)}
+                    colorInt={getHexColor(state.interiorColor)}
+                    colorExtTexture={getTextureUrl(state.exteriorColor)}
+                    colorIntTexture={getTextureUrl(state.interiorColor)}
+                    colorSpacer={spacerHex}
+                    colorGsk={gasketHex}
+                    onDimensionChange={(w, h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h } })}
+                    activeLimits={activeLimits}
+                  />
+                ) : (
+                  <NeedlePreview state={state} />
+                )
+              ) : (
+                <BlueprintPreview 
+                  state={state} 
+                  uploadedImage={uploadedImage}
+                  onDimensionChange={(w, h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h } })}
+                  activeLimits={activeLimits}
+                />
+              )}
+
+              {state.windowTypeId === 'SLE201' && (
+                <button
+                  onClick={handleShareToWhatsApp}
+                  className="absolute bottom-[68px] right-[54px] md:bottom-[80px] md:right-[68px] z-40 w-12 h-12 rounded-full flex items-center justify-center bg-black/85 text-[#25D366] border border-gray-800 hover:border-[#25D366] active:scale-95 shadow-xl cursor-pointer"
+                  title="Share 3D Option on WhatsApp"
+                >
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.73-1.45L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.864-9.858.002-2.634-1.019-5.112-2.877-6.974S14.636 1.83 12.007 1.83c-5.442 0-9.866 4.42-9.87 9.858-.001 1.702.457 3.361 1.328 4.815l-.991 3.616 3.708-.973zm10.102-7.395c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.021-.963-.263-.099-.455-.149-.648.149-.193.297-.748.963-.918 1.16-.17.197-.341.222-.638.074-.297-.149-1.258-.464-2.398-1.481-.888-.793-1.488-1.771-1.662-2.068-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.151-.174.2-.298.3-.496.101-.198.05-.372-.025-.521-.075-.149-.648-1.62-.888-2.198-.232-.56-.47-.482-.648-.491-.166-.008-.356-.01-.545-.01-.189 0-.495.071-.754.347-.258.277-.985.963-.985 2.349 0 1.386 1.009 2.723 1.15 2.905.141.182 1.984 3.03 4.809 4.246.672.29 1.196.463 1.604.593.676.214 1.293.184 1.78.112.544-.08 1.758-.717 2.006-1.411.248-.693.248-1.288.173-1.411z" />
+                  </svg>
+                </button>
+              )}
+
+              {/* Interactive Color Palette Overlay Widget */}
+              <ColorPaletteOverlay
+                colorExt={state.exteriorColor}
+                colorInt={state.interiorColor}
+                onChangeExt={(color) => dispatch({ type: 'SET_EXTERIOR_COLOR', payload: color.id })}
+                onChangeInt={(color) => dispatch({ type: 'SET_INTERIOR_COLOR', payload: color.id })}
+                onOpenChange={setIsColorWheelOpen}
+              />
+            </div>
+          </div>
+        </div>
+
+      <div className={`max-w-[1600px] mx-auto px-4 sm:px-6 w-full overflow-hidden sm:overflow-visible transition-all duration-700 ${activeStep === 0 ? "pt-24 lg:pt-28" : "pt-12"}`}>
+        <div className="flex flex-col-reverse lg:flex-col gap-10 items-start w-full">
           
           {/* LEFT: Configure Wizard */}
-          <div className={`flex flex-col gap-8 transition-all duration-700 ${activeStep === 0 ? "lg:col-span-12 max-w-4xl mx-auto w-full pt-10" : "lg:col-span-6"}`}>
+          <div className={`flex flex-col gap-8 w-full transition-all duration-700 ${activeStep === 0 ? "max-w-4xl mx-auto pt-10" : ""}`}>
             
             {/* Order Loop Banner */}
             {orderStore.isActive && orderStore.items[orderStore.currentIndex] && activeStep !== null && activeStep > 0 && (
@@ -1616,153 +1775,10 @@ export function MainConfigurator() {
 
           </div>
 
-          {/* RIGHT: Sticky Summary */}
-          <div className={`lg:col-span-6 sticky top-10 transition-all duration-700 ${activeStep === 0 ? "hidden" : completedSteps.length === 0 ? "opacity-0 translate-x-10 pointer-events-none hidden lg:block" : "opacity-100 translate-x-0"}`}>
+          <div className={`w-full transition-all duration-700 ${activeStep === 0 ? "hidden" : completedSteps.length === 0 ? "opacity-0 translate-x-10 pointer-events-none hidden lg:block" : "opacity-100 translate-x-0"}`}>
             
             {/* Glassmorphism Summary Card */}
             <div className="bg-mammut-dark/70 backdrop-blur-xl border border-white/60 shadow-2xl shadow-indigo-900/5 rounded-3xl overflow-hidden">
-              
-              {/* Dynamic SVG Fensternorm-Style Blueprint Area */}
-              <div 
-                className="bg-mammut-dark w-full aspect-square flex flex-col items-center justify-center relative border-b border-mammut-gold/20 overflow-hidden bg-cover bg-center"
-                style={uploadedImage ? { backgroundImage: `url(${uploadedImage})` } : {}}
-              >
-                <div className="absolute top-4 left-4 z-30 bg-mammut-darker/80 backdrop-blur-sm p-1 rounded-lg border border-mammut-border flex gap-1 shadow-md pointer-events-auto">
-                   <button 
-                     onClick={() => setShow3D(true)}
-                     className={`px-3 py-1.5 text-[10px] uppercase font-bold tracking-wider rounded-md transition-all ${show3D ? 'bg-indigo-600 !text-mammut-white' : 'text-mammut-white/50 hover:bg-[#2a2a2b]'}`}
-                   >
-                     3D Live
-                   </button>
-                   <button 
-                     onClick={() => setShow3D(false)}
-                     className={`px-3 py-1.5 text-[10px] uppercase font-bold tracking-wider rounded-md transition-all ${!show3D ? 'bg-mammut-gold !text-black' : 'text-mammut-white/50 hover:bg-[#2a2a2b]'}`}
-                   >
-                     2D Draft
-                   </button>
-                   {isIOS ? (
-                     <a
-                       href={arHref}
-                       rel="ar"
-                       className="px-3 py-1.5 flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-wider rounded-md transition-all text-emerald-400 hover:bg-emerald-400/10 hover:text-emerald-300 ml-1 border-l border-mammut-border pl-4"
-                       title="View in AR"
-                     >
-                       <Box size={12} strokeWidth={2.5} /> AR
-                     </a>
-                   ) : (
-                     <a
-                       href={arHref}
-                       className="px-3 py-1.5 flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-wider rounded-md transition-all text-emerald-400 hover:bg-emerald-400/10 hover:text-emerald-300 ml-1 border-l border-mammut-border pl-4"
-                       title="View in AR"
-                     >
-                       <Box size={12} strokeWidth={2.5} /> AR
-                     </a>
-                   )}
-                   <label className="px-3 py-1.5 flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-wider rounded-md transition-all text-mammut-gold hover:bg-mammut-gold/10 cursor-pointer border-l border-mammut-border pl-4">
-                     <Camera size={12} strokeWidth={2.5} /> {t('configurator.blueprint.uploadPhoto', 'Photo')}
-                     <input
-                       type="file"
-                       accept="image/*"
-                       capture="environment"
-                       className="hidden"
-                       onChange={(e) => {
-                         const file = e.target.files?.[0];
-                         if (file) {
-                           const reader = new FileReader();
-                           reader.onload = (event) => {
-                             setUploadedImage(event.target?.result as string);
-                             setShow3D(false); // Auto-switch to 2D Draft
-                           };
-                           reader.readAsDataURL(file);
-                         }
-                       }}
-                     />
-                   </label>
-                   {uploadedImage && (
-                     <button
-                       onClick={() => setUploadedImage(null)}
-                       className="px-2 py-1.5 text-red-400 hover:text-red-300 hover:bg-red-400/10 rounded-md transition-all border-l border-mammut-border pl-3 flex items-center justify-center"
-                       title={t('configurator.blueprint.removePhoto', 'Remove Photo')}
-                     >
-                       <Trash2 size={12} strokeWidth={2.5} />
-                     </button>
-                   )}
-                </div>
-                {show3D ? (
-                  state.windowTypeId === 'F100T' ? (
-                    <F100TViewer isColorPaletteOpen={isColorWheelOpen}
-                      width={state.dimensions.width}
-                      height={state.dimensions.height}
-                      colorExt={getHexColor(state.exteriorColor)}
-                      colorInt={getHexColor(state.interiorColor)}
-                      colorExtTexture={getTextureUrl(state.exteriorColor)}
-                      colorIntTexture={getTextureUrl(state.interiorColor)}
-                      colorSpacer={spacerHex}
-                      colorGsk={gasketHex}
-                      onDimensionChange={(w, h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h } })}
-                      activeLimits={activeLimits}
-                    />
-                  ) : state.windowTypeId === 'F101C' ? (
-                    <F101CViewer
-                      width={state.dimensions.width}
-                      height={state.dimensions.height}
-                      colorExt={getHexColor(state.exteriorColor)}
-                      colorInt={getHexColor(state.interiorColor)}
-                      colorExtTexture={getTextureUrl(state.exteriorColor)}
-                      colorIntTexture={getTextureUrl(state.interiorColor)}
-                      colorSpacer={spacerHex}
-                      colorGsk={gasketHex}
-                      onDimensionChange={(w, h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h } })}
-                      activeLimits={activeLimits}
-                    />
-                  ) : state.windowTypeId === 'SLE201' ? (
-                    <SLE201Viewer isColorPaletteOpen={isColorWheelOpen}
-                      width={state.dimensions.width}
-                      height={state.dimensions.height}
-                      colorExt={getHexColor(state.exteriorColor)}
-                      colorInt={getHexColor(state.interiorColor)}
-                      colorExtTexture={getTextureUrl(state.exteriorColor)}
-                      colorIntTexture={getTextureUrl(state.interiorColor)}
-                      colorSpacer={spacerHex}
-                      colorGsk={gasketHex}
-                      onDimensionChange={(w, h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h } })}
-                      activeLimits={activeLimits}
-                    />
-                  ) : (
-                    <NeedlePreview state={state} />
-                  )
-                ) : (
-                  <BlueprintPreview 
-                    state={state} 
-                    uploadedImage={uploadedImage}
-                    onDimensionChange={(w, h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h } })}
-                    activeLimits={activeLimits}
-                  />
-                )}
-
-                {state.windowTypeId === 'SLE201' && (
-                  <button
-                    onClick={handleShareToWhatsApp}
-                    className="absolute bottom-[68px] right-[54px] md:bottom-[80px] md:right-[68px] z-40 w-12 h-12 rounded-full flex items-center justify-center bg-black/85 text-[#25D366] border border-gray-800 hover:border-[#25D366] active:scale-95 shadow-xl cursor-pointer"
-                    title="Share 3D Option on WhatsApp"
-                  >
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.73-1.45L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.864-9.858.002-2.634-1.019-5.112-2.877-6.974S14.636 1.83 12.007 1.83c-5.442 0-9.866 4.42-9.87 9.858-.001 1.702.457 3.361 1.328 4.815l-.991 3.616 3.708-.973zm10.102-7.395c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.021-.963-.263-.099-.455-.149-.648.149-.193.297-.748.963-.918 1.16-.17.197-.341.222-.638.074-.297-.149-1.258-.464-2.398-1.481-.888-.793-1.488-1.771-1.662-2.068-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.151-.174.2-.298.3-.496.101-.198.05-.372-.025-.521-.075-.149-.648-1.62-.888-2.198-.232-.56-.47-.482-.648-.491-.166-.008-.356-.01-.545-.01-.189 0-.495.071-.754.347-.258.277-.985.963-.985 2.349 0 1.386 1.009 2.723 1.15 2.905.141.182 1.984 3.03 4.809 4.246.672.29 1.196.463 1.604.593.676.214 1.293.184 1.78.112.544-.08 1.758-.717 2.006-1.411.248-.693.248-1.288.173-1.411z" />
-                    </svg>
-                  </button>
-                )}
-
-                {/* Interactive Color Palette Overlay Widget */}
-                <ColorPaletteOverlay
-                  colorExt={state.exteriorColor}
-                  colorInt={state.interiorColor}
-                  onChangeExt={(color) => dispatch({ type: 'SET_EXTERIOR_COLOR', payload: color.id })}
-                  onChangeInt={(color) => dispatch({ type: 'SET_INTERIOR_COLOR', payload: color.id })}
-                  onOpenChange={setIsColorWheelOpen}
-                />
-              </div>
-
-              {/* Data Breakdown */}
               <div className="p-8 space-y-6">
                 
                 <div>
