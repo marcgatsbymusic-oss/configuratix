@@ -25,6 +25,8 @@ import { MainConfigurator } from './components/SlateConfigurator/MainConfigurato
 import { ConfiguratorTestPage } from './pages/ConfiguratorTestPage'
 import { ArPage } from './pages/ArPage'
 import { ViewerOnly } from './pages/ViewerOnly'
+import { F1XXTPage } from './pages/F1XXTPage'
+import { F1XXXPage } from './pages/F1XXXPage'
 import './index.css'
 
 // Error boundary to catch silent crashes in the component tree
@@ -153,6 +155,12 @@ function App() {
 
             {/* 3D Viewer Only – full screen, no header/footer */}
             <Route path="/viewer" element={<ViewerOnly />} />
+
+            {/* F1XXT Fixed Window Viewer – full screen, no header/footer */}
+            <Route path="/f1xxt" element={<F1XXTPage />} />
+
+            {/* F1XXX Tilt & Turn Window Viewer – full screen, no header/footer */}
+            <Route path="/f1xxx" element={<F1XXXPage />} />
 
             {/* Public Storefront Routes */}
             <Route path="*" element={<StorefrontLayout />} />

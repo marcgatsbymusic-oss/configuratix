@@ -206,7 +206,7 @@ function WindowAssembly({
     s.startSide = currentSide.current;
     s.targetSide = windowState === 'open_side' ? -Math.PI / 4 : 0;
     s.startTilt = currentTilt.current;
-    s.targetTilt = windowState === 'open_tilt' ? -Math.PI * (15 / 180) : 0;
+    s.targetTilt = windowState === 'open_tilt' ? -Math.asin(150 / heightMm) : 0;
     s.startHandle = currentHandle.current;
     s.targetHandle = windowState === 'open_side' ? Math.PI / 2 : (windowState === 'open_tilt' ? Math.PI : 0);
     s.startTime = clock.getElapsedTime();

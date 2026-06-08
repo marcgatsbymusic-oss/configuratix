@@ -228,7 +228,7 @@ function WindowAssembly({ widthMm, heightMm, mullionPos, colorExt, colorInt, col
     s.startSide = rightSashSide.current;
     s.targetSide = windowState === 'open_side' ? -Math.PI / 4 : 0;
     s.startTilt = currentTilt.current;
-    s.targetTilt = windowState === 'open_tilt' ? -Math.PI * (15 / 180) : 0;
+    s.targetTilt = windowState === 'open_tilt' ? -Math.asin(150 / heightMm) : 0;
     s.startTime = clock.getElapsedTime();
     s.duration = isAuto.current ? 10.0 : 1.2;
   }, [windowState, clock, isAuto]);

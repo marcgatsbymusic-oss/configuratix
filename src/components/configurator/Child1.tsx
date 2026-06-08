@@ -40,6 +40,19 @@ export const Child1: React.FC<Child1Props> = ({
     loadProfileGeometry(profileId as any).then(data => setGeometryData(data));
   }, [profileId]);
 
+  // -- Use Shared PBR Material Loader Hook --
+  const finalFrmExtMat = usePBRMaterial(colorExtTexture, colorExt, widthMm, heightMm, false, false);
+  const finalFrmIntMat = usePBRMaterial(colorIntTexture, colorInt, widthMm, heightMm, true, false);
+
+  const gskMaterial = useMemo(() => new THREE.MeshStandardMaterial({
+    color: colorGsk || '#1c1c1c',
+    roughness: 0.9,
+    metalness: 0.1
+  }), [colorGsk]);
+
+  const controlsRef = React.useRef<any>(null);
+  const [autoRotate, setAutoRotate] = useState(true);
+
   if (!geometryData) {
     return (
       <div className="absolute inset-0 flex flex-col items-center justify-center bg-white text-black z-50">
@@ -76,16 +89,6 @@ export const Child1: React.FC<Child1Props> = ({
   }
   const commonOrigin = { x: minX === Infinity ? 0 : minX, y: minY === Infinity ? 0 : minY };
 
-  // -- Use Shared PBR Material Loader Hook --
-  const finalFrmExtMat = usePBRMaterial(colorExtTexture, colorExt, widthMm, heightMm, false, false);
-  const finalFrmIntMat = usePBRMaterial(colorIntTexture, colorInt, widthMm, heightMm, true, false);
-
-  const gskMaterial = useMemo(() => new THREE.MeshStandardMaterial({
-    color: colorGsk || '#1c1c1c',
-    roughness: 0.9,
-    metalness: 0.1
-  }), [colorGsk]);
-
   const renderFrameSegment = (len: number, uSign: number, uOff: number) => (<>
     {frmExt.map((c: any, i: number) => <FrameSegment key={`frmExt_${i}`} layerName="FRM_EXT" scaleFactor={scale} length={len} vertices={c} material={finalFrmExtMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
     {frmInt.map((c: any, i: number) => <FrameSegment key={`frmInt_${i}`} layerName="FRM_INT" scaleFactor={scale} length={len} vertices={c} material={finalFrmIntMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
@@ -107,8 +110,6 @@ export const Child1: React.FC<Child1Props> = ({
     -radius * Math.cos(angle)
   ];
   const orbitTarget: [number, number, number] = [targetX, targetY, targetZ];
-  const controlsRef = React.useRef<any>(null);
-  const [autoRotate, setAutoRotate] = useState(true);
 
   return (
     <div className="absolute inset-0" onPointerDown={() => setAutoRotate(false)}>

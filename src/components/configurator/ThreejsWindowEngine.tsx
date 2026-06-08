@@ -1,10 +1,13 @@
-import React, { useMemo } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Environment, ContactShadows } from '@react-three/drei';
+import React, { useMemo, useState, useRef, useEffect, useCallback } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { OrbitControls, Environment, ContactShadows, useGLTF, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { FrameSegment } from './FrameSegment';
 import { AdaptiveCamera } from './AdaptiveCamera';
 import { useThemeStore } from '../../store/useThemeStore';
+
+export type WindowState = 'closed' | 'open_side' | 'open_tilt';
+
 
 // We import the specific JSON payloads. 
 // In a dynamic app, this would be fetched via API based on the selected typology.
@@ -12,7 +15,23 @@ import IG5_F104 from "../../data/profiles/IGLO5/IG5_F104.json";
 import IG5_F100 from "../../data/profiles/IGLO5/IG5_F100.json";
 import IG5_F103 from "../../data/profiles/IGLO5/IG5_F103.json";
 import IG5_F200 from '../../data/profiles/IGLO5/IG5_F200.json';
+import IG5_F2XX1 from '../../data/profiles/IGLO5/IG5_F2XX1.json';
 
+function getHandleHeightFromBottom(sashHeight: number, windowType?: string, installationHeightFromFloor: number = 0) {
+    const isDoorOrBalcony = windowType && (
+        windowType === 'balcony_door' ||
+        /^(D|DS|FS|FSD|S|W|MO|ND)/i.test(windowType) ||
+        /^(F15|F21|F22|F27|F28|F37|F38)/i.test(windowType)
+    );
+    if (isDoorOrBalcony || sashHeight > 1800) return 1050;
+    if (installationHeightFromFloor > 1200) return 150;
+    if (sashHeight >= 380 && sashHeight <= 550) return 170;
+    if (sashHeight > 550 && sashHeight <= 800) return 260;
+    if (sashHeight > 800 && sashHeight <= 1200) return 410;
+    if (sashHeight > 1200 && sashHeight <= 1600) return 560;
+    if (sashHeight > 1600 && sashHeight <= 2200) return 710;
+    return sashHeight / 2;
+}
 
 interface ThreejsWindowEngineProps {
   width: number;
@@ -60,6 +79,145 @@ const WindowAssembly = ({
   customBackground = '',
 }: ThreejsWindowEngineProps) => {
   const [groupObj, setGroupObj] = React.useState<THREE.Group | null>(null);
+
+  const [leftState, setLeftState] = useState<WindowState>('closed');
+  const [rightState, setRightState] = useState<WindowState>('closed');
+
+  const { scene: handleScene } = useGLTF('/testhandle.glb');
+  const clonedHandleLeft = useMemo(() => {
+    const clone = handleScene.clone(true);
+    clone.traverse((child: any) => {
+      if (child.isMesh && child.material) {
+        child.material = child.material.clone();
+        child.material.color.set(colorIntTexture ? '#f0f0f0' : (colorInt || '#f0ece6'));
+        child.material.roughness = 0.3;
+        child.material.metalness = 0.8;
+      }
+    });
+    return clone;
+  }, [handleScene, colorInt, colorIntTexture]);
+
+  const clonedHandleRight = useMemo(() => {
+    const clone = handleScene.clone(true);
+    clone.traverse((child: any) => {
+      if (child.isMesh && child.material) {
+        child.material = child.material.clone();
+        child.material.color.set(colorIntTexture ? '#f0f0f0' : (colorInt || '#f0ece6'));
+        child.material.roughness = 0.3;
+        child.material.metalness = 0.8;
+      }
+    });
+    return clone;
+  }, [handleScene, colorInt, colorIntTexture]);
+
+  const leftPivotRef = useRef<THREE.Group>(null!);
+  const rightPivotRef = useRef<THREE.Group>(null!);
+  const leftHandleRef = useRef<THREE.Group>(null!);
+  const rightHandleRef = useRef<THREE.Group>(null!);
+
+  const currentLeft = useRef({ side: 0, tilt: 0, handle: 0 });
+  const currentRight = useRef({ side: 0, tilt: 0, handle: 0 });
+
+  const animStateRef = useRef({
+    left: { startSide: 0, targetSide: 0, startTilt: 0, targetTilt: 0, startHandle: 0, targetHandle: 0, startTime: 0, duration: 1.2 },
+    right: { startSide: 0, targetSide: 0, startTilt: 0, targetTilt: 0, startHandle: 0, targetHandle: 0, startTime: 0, duration: 1.2 }
+  });
+
+  const { clock } = useThree();
+
+  useEffect(() => {
+    const s = animStateRef.current.left;
+    s.startSide = currentLeft.current.side;
+    s.targetSide = leftState === 'open_side' ? Math.PI / 2 : 0;
+    s.startTilt = currentLeft.current.tilt;
+    const tiltRadians = Math.asin(Math.min(150 / height, 1.0));
+    s.targetTilt = leftState === 'open_tilt' ? -tiltRadians : 0;
+    s.startHandle = currentLeft.current.handle;
+    s.targetHandle = leftState === 'open_side' ? Math.PI / 2 : (leftState === 'open_tilt' ? Math.PI : 0);
+    s.startTime = clock.getElapsedTime();
+  }, [leftState, clock, height]);
+
+  useEffect(() => {
+    const s = animStateRef.current.right;
+    s.startSide = currentRight.current.side;
+    s.targetSide = rightState === 'open_side' ? -Math.PI / 2 : 0;
+    s.startTilt = currentRight.current.tilt;
+    const tiltRadians = Math.asin(Math.min(150 / height, 1.0));
+    s.targetTilt = rightState === 'open_tilt' ? -tiltRadians : 0;
+    s.startHandle = currentRight.current.handle;
+    s.targetHandle = rightState === 'open_side' ? -Math.PI / 2 : (rightState === 'open_tilt' ? -Math.PI : 0);
+    s.startTime = clock.getElapsedTime();
+  }, [rightState, clock, height]);
+
+  useFrame((state) => {
+    const updateSide = (
+      s: typeof animStateRef.current.left, 
+      curr: typeof currentLeft.current, 
+      pivotRef: React.RefObject<THREE.Group>, 
+      handleRef: React.RefObject<THREE.Group>
+    ) => {
+      if (!pivotRef.current) return;
+      const elapsed = state.clock.getElapsedTime() - s.startTime;
+      const isClosing = s.targetSide === 0 && s.targetTilt === 0;
+      const ease = (x: number) => x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
+
+      let sash_progress = 0;
+      let handle_progress = 0;
+
+      if (Math.abs(s.targetSide) > 1.5) {
+          // 90 degree staged opening
+          handle_progress = ease(Math.min(elapsed / 0.4, 1.0));
+          if (elapsed < 0.4) {
+              sash_progress = 0;
+          } else if (elapsed < 1.6) { // 1.2s to open to 45 deg
+              sash_progress = ease((elapsed - 0.4) / 1.2) * 0.5;
+          } else if (elapsed < 6.6) { // Wait 5 seconds at 45 deg (which is 0.5 of target)
+              sash_progress = 0.5;
+          } else if (elapsed < 9.6) { // 3s to slowly open to 90 deg
+              sash_progress = 0.5 + ease((elapsed - 6.6) / 3.0) * 0.5;
+          } else {
+              sash_progress = 1.0;
+          }
+      } else if (!isClosing) {
+          handle_progress = ease(Math.min(elapsed / 0.4, 1.0));
+          sash_progress = elapsed < 0.4 ? 0 : ease(Math.min((elapsed - 0.4) / 0.8, 1.0));
+      } else {
+          // Closing: Sash first, then Handle
+          sash_progress = ease(Math.min(elapsed / 0.8, 1.0));
+          handle_progress = elapsed < 0.8 ? 0 : ease(Math.min((elapsed - 0.8) / 0.4, 1.0));
+          
+          sash_progress = 1.0 - sash_progress;
+          handle_progress = 1.0 - handle_progress;
+      }
+
+      curr.side = s.startSide + (s.targetSide - s.startSide) * (isClosing ? 1 - sash_progress : sash_progress);
+      curr.tilt = s.startTilt + (s.targetTilt - s.startTilt) * (isClosing ? 1 - sash_progress : sash_progress);
+      curr.handle = s.startHandle + (s.targetHandle - s.startHandle) * (isClosing ? 1 - handle_progress : handle_progress);
+
+      pivotRef.current.rotation.y = curr.side;
+      pivotRef.current.rotation.x = curr.tilt;
+
+      if (handleRef.current) {
+        let handleObj = handleRef.current.getObjectByName('Handle') ||
+                        handleRef.current.getObjectByName('handle') ||
+                        handleRef.current.getObjectByName('Pencere_Kulbu');
+        if (!handleObj) {
+          handleRef.current.traverse((child: any) => {
+            if (!handleObj && child.isMesh && !child.name.toLowerCase().includes('base')) {
+              handleObj = child;
+            }
+          });
+        }
+        if (handleObj) {
+          handleObj.rotation.z = curr.handle;
+        }
+      }
+    };
+
+    updateSide(animStateRef.current.left, currentLeft.current, leftPivotRef, leftHandleRef);
+    updateSide(animStateRef.current.right, currentRight.current, rightPivotRef, rightHandleRef);
+  });
+
 
   // Packed PBR maps (diffuse, normal, ORM) for exterior and interior
   const [extMaps, setExtMaps] = React.useState<{
@@ -541,6 +699,7 @@ const WindowAssembly = ({
     if (typology === 'F104') return IG5_F104;
     if (typology === 'F103') return IG5_F103;
     if (typology === 'F200') return IG5_F200;
+    if (typology === 'F2XX1') return IG5_F2XX1;
     return IG5_F100;
   }, [typology]);
 
@@ -620,12 +779,8 @@ const WindowAssembly = ({
   const W = width * scale;
   const H = height * scale;
 
-  // Pivot strategy:
-  // X: centered horizontally (-W/2 to +W/2 Ã¢â€ â€™ center at 0)
-  // Y: bottom edge at 0 (0 to +H). For floor placement, model sits ON the floor.
-  //    For wall placement, model-viewer rotates it, so Y=0 becomes the bottom of the wall anchor.
-  // Z: back face at 0 (back of frame flush with the anchor plane).
-  //    For wall placement, the model projects outward from Z=0 into the room.
+  const isDoubleSash = typology === 'F200' || typology === 'F2XX1';
+  const isFixedMullion = typology === 'F2XX1';
 
   return (
     <group ref={setGroupObj}>
@@ -636,19 +791,19 @@ const WindowAssembly = ({
         {/* Bottom Segment */}
         <group position={[0, 0, 0]} rotation={[0, 0, 0]}>
           <group rotation={[0, Math.PI / 2, 0]}>
-            <FrameSegment scaleFactor={scale} length={width} vertices={frmExt} material={finalFrmExtMat} origin={commonOrigin} uSign={1} uOffset={0} />
-            <FrameSegment scaleFactor={scale} length={width} vertices={frmInt} material={finalFrmIntMat} origin={commonOrigin} uSign={1} uOffset={0} />
-            {gskFrmExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskFrmExt} material={gskFrmExtMaterial} origin={commonOrigin} uSign={1} uOffset={0} />}
+            <FrameSegment scaleFactor={scale} length={width} vertices={frmExt} material={finalFrmExtMat} origin={commonOrigin} uSign={1} uOffset={0} layerName="FRM_EXT" />
+            <FrameSegment scaleFactor={scale} length={width} vertices={frmInt} material={finalFrmIntMat} origin={commonOrigin} uSign={1} uOffset={0} layerName="FRM_INT" />
+            {gskFrmExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskFrmExt} material={gskFrmExtMaterial} origin={commonOrigin} uSign={1} uOffset={0} layerName="GSK_FRM_EXT" />}
             
-            {typology !== 'F200' && (
+            {!isDoubleSash && (
               <>
-                {bzd.length > 0 && <FrameSegment uvMode='rail' scaleFactor={scale} length={width} vertices={bzd} material={finalBzdMat} origin={commonOrigin} uSign={1} uOffset={0} />}
-                {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshExt} material={finalSshExtMat} origin={commonOrigin} uSign={1} uOffset={0} />}
-                {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshInt} material={finalSshIntMat} origin={commonOrigin} uSign={1} uOffset={0} />}
-                {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={spacer1} material={finalSpacerMat} origin={commonOrigin} uSign={1} uOffset={0} />}
-                {gskSshBtm.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskSshBtm} material={gskSshBtmMaterial} origin={commonOrigin} uSign={1} uOffset={0} />}
-                {gskBzd.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskBzd} material={gskBzdMaterial} origin={commonOrigin} uSign={1} uOffset={0} />}
-                {gskSshExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskSshExt} material={gskSshExtMaterial} origin={commonOrigin} uSign={1} uOffset={0} />}
+                {bzd.length > 0 && <FrameSegment uvMode='rail' scaleFactor={scale} length={width} vertices={bzd} material={finalBzdMat} origin={commonOrigin} uSign={1} uOffset={0} layerName="BZD" />}
+                {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshExt} material={finalSshExtMat} origin={commonOrigin} uSign={1} uOffset={0} layerName="SSH_EXT" />}
+                {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshInt} material={finalSshIntMat} origin={commonOrigin} uSign={1} uOffset={0} layerName="SSH_INT" />}
+                {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={spacer1} material={finalSpacerMat} origin={commonOrigin} uSign={1} uOffset={0} layerName="SPACER1" />}
+                {gskSshBtm.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskSshBtm} material={gskSshBtmMaterial} origin={commonOrigin} uSign={1} uOffset={0} layerName="GSK_SSH_BTM" />}
+                {gskBzd.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskBzd} material={gskBzdMaterial} origin={commonOrigin} uSign={1} uOffset={0} layerName="GSK_BZD" />}
+                {gskSshExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskSshExt} material={gskSshExtMaterial} origin={commonOrigin} uSign={1} uOffset={0} layerName="GSK_SSH_EXT" />}
               </>
             )}
           </group>
@@ -657,19 +812,19 @@ const WindowAssembly = ({
         {/* Right Segment */}
         <group position={[W, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
           <group rotation={[0, Math.PI / 2, 0]}>
-            <FrameSegment scaleFactor={scale} length={height} vertices={frmExt} material={finalFrmExtMat} origin={commonOrigin} uSign={-1} uOffset={W} />
-            <FrameSegment scaleFactor={scale} length={height} vertices={frmInt} material={finalFrmIntMat} origin={commonOrigin} uSign={-1} uOffset={W} />
-            {gskFrmExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskFrmExt} material={gskFrmExtMaterial} origin={commonOrigin} uSign={-1} uOffset={W} />}
+            <FrameSegment scaleFactor={scale} length={height} vertices={frmExt} material={finalFrmExtMat} origin={commonOrigin} uSign={-1} uOffset={W} layerName="FRM_EXT" />
+            <FrameSegment scaleFactor={scale} length={height} vertices={frmInt} material={finalFrmIntMat} origin={commonOrigin} uSign={-1} uOffset={W} layerName="FRM_INT" />
+            {gskFrmExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskFrmExt} material={gskFrmExtMaterial} origin={commonOrigin} uSign={-1} uOffset={W} layerName="GSK_FRM_EXT" />}
             
-            {typology !== 'F200' && (
+            {!isDoubleSash && (
               <>
-                {bzd.length > 0 && <FrameSegment uvMode='rail' scaleFactor={scale} length={height} vertices={bzd} material={finalBzdMat} origin={commonOrigin} uSign={-1} uOffset={W} />}
-                {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshExt} material={finalSshExtMat} origin={commonOrigin} uSign={-1} uOffset={W} />}
-                {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshInt} material={finalSshIntMat} origin={commonOrigin} uSign={-1} uOffset={W} />}
-                {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={spacer1} material={finalSpacerMat} origin={commonOrigin} uSign={-1} uOffset={W} />}
-                {gskSshBtm.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskSshBtm} material={gskSshBtmMaterial} origin={commonOrigin} uSign={-1} uOffset={W} />}
-                {gskBzd.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskBzd} material={gskBzdMaterial} origin={commonOrigin} uSign={-1} uOffset={W} />}
-                {gskSshExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskSshExt} material={gskSshExtMaterial} origin={commonOrigin} uSign={-1} uOffset={W} />}
+                {bzd.length > 0 && <FrameSegment uvMode='rail' scaleFactor={scale} length={height} vertices={bzd} material={finalBzdMat} origin={commonOrigin} uSign={-1} uOffset={W} layerName="BZD" />}
+                {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshExt} material={finalSshExtMat} origin={commonOrigin} uSign={-1} uOffset={W} layerName="SSH_EXT" />}
+                {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshInt} material={finalSshIntMat} origin={commonOrigin} uSign={-1} uOffset={W} layerName="SSH_INT" />}
+                {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={spacer1} material={finalSpacerMat} origin={commonOrigin} uSign={-1} uOffset={W} layerName="SPACER1" />}
+                {gskSshBtm.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskSshBtm} material={gskSshBtmMaterial} origin={commonOrigin} uSign={-1} uOffset={W} layerName="GSK_SSH_BTM" />}
+                {gskBzd.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskBzd} material={gskBzdMaterial} origin={commonOrigin} uSign={-1} uOffset={W} layerName="GSK_BZD" />}
+                {gskSshExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskSshExt} material={gskSshExtMaterial} origin={commonOrigin} uSign={-1} uOffset={W} layerName="GSK_SSH_EXT" />}
               </>
             )}
           </group>
@@ -678,19 +833,19 @@ const WindowAssembly = ({
         {/* Top Segment */}
         <group position={[W, H, 0]} rotation={[0, 0, Math.PI]}>
           <group rotation={[0, Math.PI / 2, 0]}>
-            <FrameSegment scaleFactor={scale} length={width} vertices={frmExt} material={finalFrmExtMat} origin={commonOrigin} uSign={1} uOffset={W - H} />
-            <FrameSegment scaleFactor={scale} length={width} vertices={frmInt} material={finalFrmIntMat} origin={commonOrigin} uSign={1} uOffset={W - H} />
-            {gskFrmExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskFrmExt} material={gskFrmExtMaterial} origin={commonOrigin} uSign={1} uOffset={W - H} />}
+            <FrameSegment scaleFactor={scale} length={width} vertices={frmExt} material={finalFrmExtMat} origin={commonOrigin} uSign={1} uOffset={W - H} layerName="FRM_EXT" />
+            <FrameSegment scaleFactor={scale} length={width} vertices={frmInt} material={finalFrmIntMat} origin={commonOrigin} uSign={1} uOffset={W - H} layerName="FRM_INT" />
+            {gskFrmExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskFrmExt} material={gskFrmExtMaterial} origin={commonOrigin} uSign={1} uOffset={W - H} layerName="GSK_FRM_EXT" />}
             
-            {typology !== 'F200' && (
+            {!isDoubleSash && (
               <>
-                {bzd.length > 0 && <FrameSegment uvMode='rail' scaleFactor={scale} length={width} vertices={bzd} material={finalBzdMat} origin={commonOrigin} uSign={1} uOffset={W - H} />}
-                {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshExt} material={finalSshExtMat} origin={commonOrigin} uSign={1} uOffset={W - H} />}
-                {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshInt} material={finalSshIntMat} origin={commonOrigin} uSign={1} uOffset={W - H} />}
-                {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={spacer1} material={finalSpacerMat} origin={commonOrigin} uSign={1} uOffset={W - H} />}
-                {gskSshBtm.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskSshBtm} material={gskSshBtmMaterial} origin={commonOrigin} uSign={1} uOffset={W - H} />}
-                {gskBzd.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskBzd} material={gskBzdMaterial} origin={commonOrigin} uSign={1} uOffset={W - H} />}
-                {gskSshExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskSshExt} material={gskSshExtMaterial} origin={commonOrigin} uSign={1} uOffset={W - H} />}
+                {bzd.length > 0 && <FrameSegment uvMode='rail' scaleFactor={scale} length={width} vertices={bzd} material={finalBzdMat} origin={commonOrigin} uSign={1} uOffset={W - H} layerName="BZD" />}
+                {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshExt} material={finalSshExtMat} origin={commonOrigin} uSign={1} uOffset={W - H} layerName="SSH_EXT" />}
+                {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={sshInt} material={finalSshIntMat} origin={commonOrigin} uSign={1} uOffset={W - H} layerName="SSH_INT" />}
+                {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={spacer1} material={finalSpacerMat} origin={commonOrigin} uSign={1} uOffset={W - H} layerName="SPACER1" />}
+                {gskSshBtm.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskSshBtm} material={gskSshBtmMaterial} origin={commonOrigin} uSign={1} uOffset={W - H} layerName="GSK_SSH_BTM" />}
+                {gskBzd.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskBzd} material={gskBzdMaterial} origin={commonOrigin} uSign={1} uOffset={W - H} layerName="GSK_BZD" />}
+                {gskSshExt.length > 0 && <FrameSegment scaleFactor={scale} length={width} vertices={gskSshExt} material={gskSshExtMaterial} origin={commonOrigin} uSign={1} uOffset={W - H} layerName="GSK_SSH_EXT" />}
               </>
             )}
           </group>
@@ -699,26 +854,26 @@ const WindowAssembly = ({
         {/* Left Segment */}
         <group position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}>
           <group rotation={[0, Math.PI / 2, 0]}>
-            <FrameSegment scaleFactor={scale} length={height} vertices={frmExt} material={finalFrmExtMat} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />
-            <FrameSegment scaleFactor={scale} length={height} vertices={frmInt} material={finalFrmIntMat} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />
-            {gskFrmExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskFrmExt} material={gskFrmExtMaterial} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
+            <FrameSegment scaleFactor={scale} length={height} vertices={frmExt} material={finalFrmExtMat} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} layerName="FRM_EXT" />
+            <FrameSegment scaleFactor={scale} length={height} vertices={frmInt} material={finalFrmIntMat} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} layerName="FRM_INT" />
+            {gskFrmExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskFrmExt} material={gskFrmExtMaterial} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} layerName="GSK_FRM_EXT" />}
             
-            {typology !== 'F200' && (
+            {!isDoubleSash && (
               <>
-                {bzd.length > 0 && <FrameSegment uvMode='rail' scaleFactor={scale} length={height} vertices={bzd} material={finalBzdMat} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
-                {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshExt} material={finalSshExtMat} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
-                {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshInt} material={finalSshIntMat} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
-                {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={spacer1} material={finalSpacerMat} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
-                {gskSshBtm.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskSshBtm} material={gskSshBtmMaterial} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
-                {gskBzd.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskBzd} material={gskBzdMaterial} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
-                {gskSshExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskSshExt} material={gskSshExtMaterial} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} />}
+                {bzd.length > 0 && <FrameSegment uvMode='rail' scaleFactor={scale} length={height} vertices={bzd} material={finalBzdMat} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} layerName="BZD" />}
+                {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshExt} material={finalSshExtMat} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} layerName="SSH_EXT" />}
+                {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={sshInt} material={finalSshIntMat} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} layerName="SSH_INT" />}
+                {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={spacer1} material={finalSpacerMat} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} layerName="SPACER1" />}
+                {gskSshBtm.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskSshBtm} material={gskSshBtmMaterial} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} layerName="GSK_SSH_BTM" />}
+                {gskBzd.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskBzd} material={gskBzdMaterial} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} layerName="GSK_BZD" />}
+                {gskSshExt.length > 0 && <FrameSegment scaleFactor={scale} length={height} vertices={gskSshExt} material={gskSshExtMaterial} origin={commonOrigin} uSign={-1} uOffset={2 * W - H} layerName="GSK_SSH_EXT" />}
               </>
             )}
           </group>
         </group>
 
-        {/* F200 Post & Sashes */}
-        {typology === 'F200' && (() => {
+        {/* F200/F2XX1 Post & Sashes */}
+        {isDoubleSash && (() => {
           const SW = width / 2;    // half-width in mm
           const Ws = SW * scale;   // half-width in metres
 
@@ -728,7 +883,11 @@ const WindowAssembly = ({
           const sshYMinMm = sshExt.length > 0
             ? Math.min(...sshExt.map((v: any) => v.y)) - commonOrigin.y
             : 58.7;
-          const SW_eff = SW + sshYMinMm;      // effective sash width in mm
+          const sshIntMinMm = sshInt.length > 0
+            ? Math.min(...sshInt.map((v: any) => v.y)) - commonOrigin.y
+            : 38.7;
+
+          const SW_eff = isFixedMullion ? (SW + sshIntMinMm - 14) : (SW + sshYMinMm);
           const Ws_eff = SW_eff * scale;      // effective sash width in metres
           const rightSashX = W - Ws_eff;     // right sash x-offset so its right edge = W
 
@@ -736,71 +895,137 @@ const WindowAssembly = ({
           // Main structural profiles get full CSG mitre cuts (needed for visible corners).
           // Gaskets/spacer skip CSG for performance (their corners are hidden).
           const sashSeg = (len: number, uSign: number, uOff: number) => (<>
-            {bzd.length > 0 && <FrameSegment uvMode='rail' scaleFactor={scale} length={len} vertices={bzd} material={finalBzdMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} />}
-            {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={len} vertices={sshExt} material={finalSshExtMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} />}
-            {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={len} vertices={sshInt} material={finalSshIntMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} />}
-            {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={len} vertices={spacer1} material={finalSpacerMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} />}
-            {gskSshBtm.length > 0 && <FrameSegment scaleFactor={scale} length={len} vertices={gskSshBtm} material={gskSshBtmMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />}
-            {gskBzd.length > 0 && <FrameSegment scaleFactor={scale} length={len} vertices={gskBzd} material={gskBzdMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />}
-            {gskSshExt.length > 0 && <FrameSegment scaleFactor={scale} length={len} vertices={gskSshExt} material={gskSshExtMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />}
+            {bzd.length > 0 && <FrameSegment uvMode='rail' scaleFactor={scale} length={len} vertices={bzd} material={finalBzdMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} layerName="BZD" />}
+            {sshExt.length > 0 && <FrameSegment scaleFactor={scale} length={len} vertices={sshExt} material={finalSshExtMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} layerName="SSH_EXT" />}
+            {sshInt.length > 0 && <FrameSegment scaleFactor={scale} length={len} vertices={sshInt} material={finalSshIntMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} layerName="SSH_INT" />}
+            {spacer1.length > 0 && <FrameSegment scaleFactor={scale} length={len} vertices={spacer1} material={finalSpacerMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} layerName="SPACER1" />}
+            {gskSshBtm.length > 0 && <FrameSegment scaleFactor={scale} length={len} vertices={gskSshBtm} material={gskSshBtmMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} layerName="GSK_SSH_BTM" />}
+            {gskBzd.length > 0 && <FrameSegment scaleFactor={scale} length={len} vertices={gskBzd} material={gskBzdMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} layerName="GSK_BZD" />}
+            {gskSshExt.length > 0 && <FrameSegment scaleFactor={scale} length={len} vertices={gskSshExt} material={gskSshExtMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} layerName="GSK_SSH_EXT" />}
           </>);
+
+          const sashExtMinX = sshExt.length > 0 ? Math.min(...sshExt.map((v: any) => v.x)) : 17.27;
+          const gskFrmExtMinX = gskFrmExt.length > 0 ? Math.min(...gskFrmExt.map((v: any) => v.x)) : 16.3;
+          const sashZOffset = (sashExtMinX - gskFrmExtMinX - 2.0) * scale;
 
           // Render a complete sash frame (4 sides) at a given x offset.
           // SW_eff ensures the inner stile body reaches the window centre line.
           const renderSash = (xOffset: number) => {
             const Ww = Ws_eff;
-            return (
-              <group key={xOffset} position={[xOffset, 0, 0]}>
-                {/* Bottom rail */}
-                <group rotation={[0, 0, 0]}>
-                  <group rotation={[0, Math.PI / 2, 0]}>
-                    {sashSeg(SW_eff, 1, 0)}
-                  </group>
-                </group>
-                {/* Right stile */}
-                <group position={[Ww, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
-                  <group rotation={[0, Math.PI / 2, 0]}>
-                    {sashSeg(height, -1, Ww)}
-                  </group>
-                </group>
-                {/* Top rail */}
-                <group position={[Ww, H, 0]} rotation={[0, 0, Math.PI]}>
-                  <group rotation={[0, Math.PI / 2, 0]}>
-                    {sashSeg(SW_eff, 1, Ww - H)}
-                  </group>
-                </group>
-                {/* Left stile */}
-                <group position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}>
-                  <group rotation={[0, Math.PI / 2, 0]}>
-                    {sashSeg(height, -1, Ww - H)}
-                  </group>
-                </group>
-                {/* Glass panes — centred in the effective sash width */}
-                {extBounds && (
-                  <mesh
-                    position={[Ww / 2, H / 2, -(((extBounds.minX + extBounds.maxX) / 2) - commonOrigin.x) * scale]}
-                    material={finalGlsExtMat}
-                  >
-                    <boxGeometry args={[
-                      (SW_eff - 2 * (extBounds.minY - commonOrigin.y)) * scale,
-                      (height  - 2 * (extBounds.minY - commonOrigin.y)) * scale,
-                      (extBounds.maxX - extBounds.minX) * scale,
-                    ]} />
-                  </mesh>
-                )}
-                {intBounds && (
-                  <mesh
-                    position={[Ww / 2, H / 2, -(((intBounds.minX + intBounds.maxX) / 2) - commonOrigin.x) * scale]}
-                    material={finalGlsIntMat}
-                  >
-                    <boxGeometry args={[
-                      (SW_eff - 2 * (intBounds.minY - commonOrigin.y)) * scale,
-                      (height  - 2 * (intBounds.minY - commonOrigin.y)) * scale,
-                      (intBounds.maxX - intBounds.minX) * scale,
-                    ]} />
-                  </mesh>
-                )}
+            const isRightSash = xOffset > 0;
+            
+            const pivotX = isRightSash ? Ww - 50 * scale : 50 * scale;
+            const pivotY = 50 * scale;
+            const pivotZ = -82.0 * scale; // local to the sash Z plane
 
+            const pivotRef = isRightSash ? rightPivotRef : leftPivotRef;
+            
+            const handleX = isRightSash ? 83 * scale : Ww - 60 * scale;
+            const realSashHeightMm = H / scale;
+            const handleY = getHandleHeightFromBottom(realSashHeightMm, typology, 0) * scale;
+            const sshIntMaxX = sshInt.length > 0 ? Math.max(...sshInt.map((v: any) => v.x)) : 90;
+            const handleZ = - sshIntMaxX * scale - 60 * scale;
+
+            const state = isRightSash ? rightState : leftState;
+            const setState = isRightSash ? setRightState : setLeftState;
+
+            return (
+              <group key={xOffset} position={[xOffset, 0, sashZOffset]}>
+                <group position={[pivotX, pivotY, pivotZ]} name={isRightSash ? "rightPivotGroup" : "leftPivotGroup"}>
+                  <group ref={pivotRef} name={isRightSash ? "rightSashPivot" : "leftSashPivot"}>
+                    <group position={[-pivotX, -pivotY, -pivotZ]}>
+                      {/* Bottom rail */}
+                      <group rotation={[0, 0, 0]}>
+                        <group rotation={[0, Math.PI / 2, 0]}>
+                          {sashSeg(SW_eff, 1, 0)}
+                        </group>
+                      </group>
+                      {/* Right stile */}
+                      <group position={[Ww, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+                        <group rotation={[0, Math.PI / 2, 0]}>
+                          {sashSeg(height, -1, Ww)}
+                        </group>
+                      </group>
+                      {/* Top rail */}
+                      <group position={[Ww, H, 0]} rotation={[0, 0, Math.PI]}>
+                        <group rotation={[0, Math.PI / 2, 0]}>
+                          {sashSeg(SW_eff, 1, Ww - H)}
+                        </group>
+                      </group>
+                      {/* Left stile */}
+                      <group position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}>
+                        <group rotation={[0, Math.PI / 2, 0]}>
+                          {sashSeg(height, -1, Ww - H)}
+                        </group>
+                      </group>
+                      {/* Glass panes — centred in the effective sash width */}
+                      {extBounds && (
+                        <mesh
+                          position={[Ww / 2, H / 2, -(((extBounds.minX + extBounds.maxX) / 2) - commonOrigin.x) * scale]}
+                          material={finalGlsExtMat}
+                        >
+                          <boxGeometry args={[
+                            (SW_eff - 2 * (extBounds.minY - commonOrigin.y)) * scale,
+                            (height  - 2 * (extBounds.minY - commonOrigin.y)) * scale,
+                            (extBounds.maxX - extBounds.minX) * scale,
+                          ]} />
+                        </mesh>
+                      )}
+                      {intBounds && (
+                        <mesh
+                          position={[Ww / 2, H / 2, -(((intBounds.minX + intBounds.maxX) / 2) - commonOrigin.x) * scale]}
+                          material={finalGlsIntMat}
+                        >
+                          <boxGeometry args={[
+                            (SW_eff - 2 * (intBounds.minY - commonOrigin.y)) * scale,
+                            (height  - 2 * (intBounds.minY - commonOrigin.y)) * scale,
+                            (intBounds.maxX - intBounds.minX) * scale,
+                          ]} />
+                        </mesh>
+                      )}
+
+                      {/* Click indicators to trigger state changes */}
+                      <Html position={[isRightSash ? 80 * scale : Ww - 80 * scale, 250 * scale, -89.0 * scale]} center>
+                        <div
+                          className="w-10 h-10 flex items-center justify-center cursor-pointer transition-all hover:scale-110"
+                          style={{ animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}
+                          onClick={(e) => { e.stopPropagation(); setState(state === 'open_side' ? 'closed' : 'open_side'); }}
+                        >
+                          <div className="relative w-4 h-4 flex items-center justify-center">
+                            <div className="absolute inset-0 rounded-full bg-[#d4d4d8] opacity-40 blur-[2px]" />
+                            <div className="absolute w-2.5 h-2.5 rounded-full bg-[#d4d4d8] border-[1.5px] border-white shadow-sm" />
+                          </div>
+                        </div>
+                      </Html>
+
+                      <Html position={[isRightSash ? 80 * scale : Ww - 80 * scale, H - 75 * scale, -89.0 * scale]} center>
+                        <div
+                          className="w-10 h-10 flex items-center justify-center cursor-pointer transition-all hover:scale-110"
+                          style={{ animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}
+                          onClick={(e) => { e.stopPropagation(); setState(state === 'open_tilt' ? 'closed' : 'open_tilt'); }}
+                        >
+                          <div className="relative w-4 h-4 flex items-center justify-center">
+                            <div className="absolute inset-0 rounded-full bg-[#d4d4d8] opacity-40 blur-[2px]" />
+                            <div className="absolute w-2.5 h-2.5 rounded-full bg-[#d4d4d8] border-[1.5px] border-white shadow-sm" />
+                          </div>
+                        </div>
+                      </Html>
+
+                      {/* Handle Model */}
+                      {(isRightSash ? clonedHandleRight : clonedHandleLeft) && (
+                        <group 
+                          ref={isRightSash ? rightHandleRef : leftHandleRef} 
+                          position={[handleX, handleY, handleZ]} 
+                          rotation={[Math.PI / 2, Math.PI, 0]}
+                          scale={[0.025, 0.025, 0.025]}
+                        >
+                          <primitive object={isRightSash ? clonedHandleRight : clonedHandleLeft} />
+                        </group>
+                      )}
+
+                    </group>
+                  </group>
+                </group>
               </group>
             );
           };
@@ -810,20 +1035,49 @@ const WindowAssembly = ({
               {renderSash(0)}
               {renderSash(rightSashX)}
 
-              {/* Fixed Centre Post — origin.y=0 centres the post body at x=Ws */}
-              {(pstExt.length > 0 || pstInt.length > 0) && (
-                <group position={[Ws, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
-                  <group rotation={[0, Math.PI / 2, 0]}>
-                    {pstExt.length > 0 && <FrameSegment skipCuts scaleFactor={scale} length={height} vertices={pstExt} material={finalFrmExtMat} origin={{ x: postOrigin.x, y: 0 }} uSign={-1} uOffset={Ws} />}
-                    {pstInt.length > 0 && <FrameSegment skipCuts scaleFactor={scale} length={height} vertices={pstInt} material={finalFrmIntMat} origin={{ x: postOrigin.x, y: 0 }} uSign={-1} uOffset={Ws} />}
+              {/* Central Post — origin.y=0 centres the post body at x=Ws */}
+              {(pstExt.length > 0 || pstInt.length > 0) && (() => {
+                const postLength = isFixedMullion ? height - 92 : height;
+                const postRotation: [number, number, number] = [0, isFixedMullion ? Math.PI : 0, Math.PI / 2];
+                const postPosition: [number, number, number] = [Ws, isFixedMullion ? 46 * scale : 0, 0];
+                return (
+                  <group position={postPosition} rotation={postRotation}>
+                    <group rotation={[0, Math.PI / 2, 0]}>
+                      {pstExt.length > 0 && (
+                        <FrameSegment 
+                          skipCuts 
+                          scaleFactor={scale} 
+                          length={postLength} 
+                          vertices={pstExt} 
+                          material={finalFrmExtMat} 
+                          origin={{ x: postOrigin.x, y: 0 }} 
+                          uSign={-1} 
+                          uOffset={Ws} 
+                          layerName="PST_EXT"
+                        />
+                      )}
+                      {pstInt.length > 0 && (
+                        <FrameSegment 
+                          skipCuts 
+                          scaleFactor={scale} 
+                          length={postLength} 
+                          vertices={pstInt} 
+                          material={finalFrmIntMat} 
+                          origin={{ x: postOrigin.x, y: 0 }} 
+                          uSign={-1} 
+                          uOffset={Ws} 
+                          layerName="PST_INT"
+                        />
+                      )}
+                    </group>
                   </group>
-                </group>
-              )}
+                );
+              })()}
             </>
           );
         })()}
         {/* Single Glass Panes (for F100, F103, F104) */}
-        {typology !== 'F200' && extBounds && (
+        {!isDoubleSash && extBounds && (
           <mesh 
             position={[
               W / 2, 
@@ -840,24 +1094,21 @@ const WindowAssembly = ({
           </mesh>
         )}
         
-        {typology !== 'F200' && intBounds && (
-          <>
-            <mesh 
-              position={[
-                W / 2, 
-                H / 2, 
-                -(((intBounds.minX + intBounds.maxX) / 2) - commonOrigin.x) * scale
-              ]}
-              material={finalGlsIntMat}
-            >
-              <boxGeometry args={[
-                (width - 2 * (intBounds.minY - commonOrigin.y)) * scale, 
-                (height - 2 * (intBounds.minY - commonOrigin.y)) * scale, 
-                (intBounds.maxX - intBounds.minX) * scale
-              ]} />
-            </mesh>
-
-          </>
+        {!isDoubleSash && intBounds && (
+          <mesh 
+            position={[
+              W / 2, 
+              H / 2, 
+              -(((intBounds.minX + intBounds.maxX) / 2) - commonOrigin.x) * scale
+            ]}
+            material={finalGlsIntMat}
+          >
+            <boxGeometry args={[
+              (width - 2 * (intBounds.minY - commonOrigin.y)) * scale, 
+              (height - 2 * (intBounds.minY - commonOrigin.y)) * scale, 
+              (intBounds.maxX - intBounds.minX) * scale
+            ]} />
+          </mesh>
         )}
 
         </group>
@@ -1034,3 +1285,6 @@ export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) =
     </div>
   );
 };
+
+useGLTF.preload('/testhandle.glb');
+

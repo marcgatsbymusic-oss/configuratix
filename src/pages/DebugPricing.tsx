@@ -2477,7 +2477,7 @@ const TYPOLOGY_GROUPS = [
   {
     category: "WINDOWS",
     subgroups: [
-      { name: "TYPE 1 Window", ids: ["F100","F100T","F101","F101B","F101C","F102","F103","F104","F105","F106","F200","F201","F203","F204","F205","F206","F207","F208","F250","F251","F252","F253","F254","F255","F300","F301","F302","F303","F304","F350","F351","F352","F353","F309","F400","F401","F402","F403","F450","F451","F542","F453"] },
+      { name: "TYPE 1 Window", ids: ["F100","F100T","F101","F101B","F101C","F102","F103","F104","F105","F106","F200","F2XX1","F201","F203","F204","F205","F206","F207","F208","F250","F251","F252","F253","F254","F255","F300","F301","F302","F303","F304","F350","F351","F352","F353","F309","F400","F401","F402","F403","F450","F451","F542","F453"] },
     ]
   },
   {
@@ -3810,7 +3810,7 @@ export function DebugPricing() {
   const renderVisualizer = () => {
     return (
       <div className="w-full mt-2">
-        {(['F100', 'F100T', 'F101', 'F101B', 'F101C', 'F102', 'F103', 'F104', 'F105', 'F106', 'F200', 'SLE100', 'SLE201', 'SLE202', 'SLE303', 'SLE304', 'SLE305', 'SLE401', 'SLE402'].includes(typology)) ? (
+        {(['F100', 'F100T', 'F101', 'F101B', 'F101C', 'F102', 'F103', 'F104', 'F105', 'F106', 'F200', 'F2XX1', 'SLE100', 'SLE201', 'SLE202', 'SLE303', 'SLE304', 'SLE305', 'SLE401', 'SLE402'].includes(typology)) ? (
           <div 
             style={{
               backgroundColor: isLight ? '#ffffff' : 'var(--theme-mammut-dark)',

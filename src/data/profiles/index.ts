@@ -64,6 +64,14 @@ export const ProfileRegistry: Record<string, ProfileMetadata> = {
     description: 'F101C window profile for Iglo 5 system.',
     fileName: 'IGLO5/IG5_F101C.json'
   },
+  IG5_F2XX1: {
+    id: 'IG5_F2XX1',
+    system: 'IGLO_5',
+    type: 'F2XX1',
+    name: 'Iglo 5 - Double Sash Fixed Mullion',
+    description: 'Double sash window with fixed mullion for Iglo 5 system.',
+    fileName: 'IGLO5/IG5_F2XX1.json'
+  },
   SLE201: {
     id: 'SLE201',
     system: 'IGLO_EDGE',
