@@ -93,7 +93,12 @@ function WindowAssembly({ widthMm, heightMm, mullionPos, colorExt, colorInt, col
   };
   const mulExt = useMemo(() => getMullionContours('FRM_EXT'), []);
   const mulInt = useMemo(() => getMullionContours('FRM_INT'), []);
-  const mulGskExt = useMemo(() => getMullionContours('GSK_FRM_EXT'), []);
+  const mulGskExtBase = useMemo(() => getMullionContours('GSK_FRM_EXT'), []);
+  const mulGskExtMirrored = useMemo(() => {
+    return (mulGskExtBase as any[]).map((contour: any) =>
+      contour.map((p: any) => ({ x: p.x, y: 66 - p.y }))
+    );
+  }, [mulGskExtBase]);
 
   // Use common origin for outer frame
   const commonOriginOuter = useMemo(() => {
@@ -113,7 +118,7 @@ function WindowAssembly({ widthMm, heightMm, mullionPos, colorExt, colorInt, col
   // Use common origin for mullion
   const commonOriginMullion = useMemo(() => {
     let minX = Infinity, minY = Infinity;
-    const allLayers = [mulExt, mulInt, mulGskExt];
+    const allLayers = [mulExt, mulInt, mulGskExtBase];
     for (const layer of allLayers) {
       for (const c of layer) {
         for (const v of c) {
@@ -123,7 +128,7 @@ function WindowAssembly({ widthMm, heightMm, mullionPos, colorExt, colorInt, col
       }
     }
     return { x: minX === Infinity ? 0 : minX, y: minY === Infinity ? 0 : minY };
-  }, [mulExt, mulInt, mulGskExt]);
+  }, [mulExt, mulInt, mulGskExtBase]);
 
   // PBR materials are now handled reactively by SegmentMaterial inside FrameSegment.
 
@@ -160,7 +165,37 @@ function WindowAssembly({ widthMm, heightMm, mullionPos, colorExt, colorInt, col
   const renderMullionSegment = (len: number, uSign: number, uOff: number) => (<>
     {mulExt.map((c, i) => <FrameSegment key={`mulExt_${i}`} layerName="F101C_EXT" skipCuts scaleFactor={scale} length={len} vertices={c} matType="ext" color={colorExt} textureUrl={colorExtTexture} origin={commonOriginMullion} uSign={uSign} uOffset={uOff} />)}
     {mulInt.map((c, i) => <FrameSegment key={`mulInt_${i}`} layerName="F101C_INT" skipCuts scaleFactor={scale} length={len} vertices={c} matType="int" color={colorInt} textureUrl={colorIntTexture} origin={commonOriginMullion} uSign={uSign} uOffset={uOff} />)}
-    {mulGskExt.map((c, i) => <FrameSegment key={`mulGskFE_${i}`} layerName="F101C_GSK_EXT" skipCuts scaleFactor={scale} length={len} vertices={c} matType="gsk" color={colorGsk} origin={commonOriginMullion} uSign={uSign} uOffset={uOff} />)}
+    {/* Mullion exterior gaskets with mitre cuts intersecting GSK_FRM */}
+    {mulGskExtBase.map((c, i) => (
+      <FrameSegment 
+        key={`mulGskFE_base_${i}`} 
+        layerName="F101C_GSK_EXT_BASE" 
+        invertCuts={true} 
+        scaleFactor={scale} 
+        length={len} 
+        vertices={c} 
+        matType="gsk" 
+        color={colorGsk} 
+        origin={commonOriginMullion} 
+        uSign={uSign} 
+        uOffset={uOff} 
+      />
+    ))}
+    {mulGskExtMirrored.map((c, i) => (
+      <FrameSegment 
+        key={`mulGskFE_mirrored_${i}`} 
+        layerName="F101C_GSK_EXT_MIRRORED" 
+        invertCuts={false} 
+        scaleFactor={scale} 
+        length={len} 
+        vertices={c} 
+        matType="gsk" 
+        color={colorGsk} 
+        origin={commonOriginMullion} 
+        uSign={uSign} 
+        uOffset={uOff} 
+      />
+    ))}
   </>);
 
   const renderSashSegment = (len: number, uSign: number, uOff: number) => (<>

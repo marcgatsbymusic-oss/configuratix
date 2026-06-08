@@ -3,7 +3,7 @@ import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useConfigurator } from './useConfigurator';
 import { CONFIG_SCHEMA, WINDOW_TYPES, COLOR_LOCALE, GLASS_LOCALE } from './types';
-import { Ruler, Layers, Check, ChevronLeft, ChevronRight, ChevronUp, ChevronDown, ShoppingCart, HelpCircle, X, Box, Camera, Trash2, Maximize } from 'lucide-react';
+import { Ruler, Layers, Check, ChevronLeft, ChevronRight, ChevronUp, ChevronDown, ShoppingCart, HelpCircle, X, Box, Camera, Trash2, Maximize, Link2, ExternalLink } from 'lucide-react';
 import { WindowTypeGraphic } from './WindowTypeGraphic';
 import { estimateFramePrice, resolveOpeningClass } from '../../utils/pricingEngine';
 import { FloatingHelpMenu } from './FloatingHelpMenu';
@@ -672,6 +672,25 @@ export function MainConfigurator() {
   const gasketHex = state.gasketColor === 'szary' ? '#6b7280' : '#1c1c1c';
   const showSealsStep = state.windowTypeId?.includes('F100') || state.windowTypeId?.includes('F104');
 
+  const get3DViewerUrl = () => {
+    const url = new URL(window.location.origin + '/viewer');
+    url.searchParams.set('typology', state.windowTypeId || 'F101B');
+    url.searchParams.set('w', state.dimensions.width.toString());
+    url.searchParams.set('h', state.dimensions.height.toString());
+    url.searchParams.set('cExt', encodeURIComponent(getHexColor(state.exteriorColor) || '#e8e0d4'));
+    url.searchParams.set('cInt', encodeURIComponent(getHexColor(state.interiorColor) || '#f0ece6'));
+    
+    const extTex = getTextureUrl(state.exteriorColor);
+    if (extTex) url.searchParams.set('cExtTex', encodeURIComponent(extTex));
+    
+    const intTex = getTextureUrl(state.interiorColor);
+    if (intTex) url.searchParams.set('cIntTex', encodeURIComponent(intTex));
+    
+    url.searchParams.set('cGsk', encodeURIComponent(gasketHex));
+    url.searchParams.set('cSpc', encodeURIComponent(spacerHex));
+    return url.toString();
+  };
+
   return (
     <>
       {senderName && (
@@ -802,6 +821,15 @@ export function MainConfigurator() {
                      <Box size={12} strokeWidth={2.5} /> AR
                    </a>
                  )}
+                 <a
+                    href={get3DViewerUrl()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1.5 flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-wider rounded-md transition-all text-blue-400 hover:bg-blue-400/10 hover:text-blue-300 ml-1 border-l border-mammut-border pl-4"
+                    title="Open configuration in standalone 3D viewer"
+                  >
+                    <ExternalLink size={12} strokeWidth={2.5} /> 3D Link
+                  </a>
                  <label className="px-3 py-1.5 flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-wider rounded-md transition-all text-mammut-gold hover:bg-mammut-gold/10 cursor-pointer border-l border-mammut-border pl-4">
                    <Camera size={12} strokeWidth={2.5} /> {t('configurator.blueprint.uploadPhoto', 'Photo')}
                    <input
@@ -1961,6 +1989,17 @@ export function MainConfigurator() {
                       title="Share Configuration"
                     >
                       <Share2 size={18} className={isSharing ? "animate-pulse text-mammut-gold" : "text-mammut-white/50 hover:text-mammut-white"} />
+                    </button>
+                    <button
+                      onClick={() => {
+                        const url = get3DViewerUrl();
+                        navigator.clipboard.writeText(url);
+                        alert('Standalone 3D Viewer link copied to clipboard:\n\n' + url);
+                      }}
+                      className="bg-mammut-dark border-2 border-mammut-border w-14 shrink-0 flex items-center justify-center rounded-xl hover:bg-[#2a2a2b] hover:border-mammut-gold transition-all"
+                      title="Copy Standalone 3D Link"
+                    >
+                      <Link2 size={18} className="text-mammut-white/50 hover:text-mammut-white" />
                     </button>
                     {orderStore.isActive && orderStore.currentIndex > 0 && (
                       <button

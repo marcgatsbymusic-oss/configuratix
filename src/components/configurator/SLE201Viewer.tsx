@@ -341,7 +341,7 @@ function SlidingScene({
     const contours = layer.contours.filter(c => getCentY(c.points) < 150);
     const isSkipCutLayer = false;
     return contours.length === 0 ? [] : [(
-      <group key={`sv_${cfg.name}`} position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}>
+      <group key={`sv_${cfg.name}`} position={[0, H, 10 * scale]} rotation={[0, 0, -Math.PI / 2]}>
         {contours.map((c, i) => (
           <FrameSegment
             key={`sv_seg_${cfg.name}_${i}`}
@@ -374,7 +374,7 @@ function SlidingScene({
     // For now, no Z shift — exterior face of doorpost aligns with exterior of sash at Z=0.
 
     return contours.length === 0 ? [] : [(
-      <group key={`svldp_${cfg.name}`} position={[0, H, 0]} rotation={[0, 0, -Math.PI / 2]}>
+      <group key={`svldp_${cfg.name}`} position={[0, H, 10 * scale]} rotation={[0, 0, -Math.PI / 2]}>
         {contours.map((c, i) => (
           <FrameSegment
             key={`svldp_seg_${cfg.name}_${i}`}
@@ -397,7 +397,7 @@ function SlidingScene({
     const contours = layer.contours;
     const isSkipCutLayer = false;
     return contours.length === 0 ? [] : [(
-      <group key={`svr_${cfg.name}`} position={[W, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+      <group key={`svr_${cfg.name}`} position={[W, 0, 10 * scale]} rotation={[0, 0, Math.PI / 2]}>
         {contours.map((c, i) => (
           <FrameSegment
             key={`svr_seg_${cfg.name}_${i}`}

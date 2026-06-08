@@ -269,6 +269,7 @@ export const FrameSegment = React.memo(FrameSegmentComponent, (prev, next) => {
          prev.matType === next.matType &&
          prev.color === next.color &&
          prev.textureUrl === next.textureUrl &&
+         prev.material === next.material &&
          prev.uSign === next.uSign &&
          prev.uOffset === next.uOffset &&
          prev.skipLeftCut === next.skipLeftCut &&

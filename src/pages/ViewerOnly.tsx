@@ -860,6 +860,7 @@ export const ViewerOnly: React.FC = () => {
             colorIntTexture={colorIntTexture}
             spacerColor={colorSpacer}
             typology={typology}
+            sealColor={colorGsk}
           />
         )}
 

@@ -678,10 +678,10 @@ const WindowAssembly = ({
   }), [typology, sealColor]);
 
   const gskSshBtmMaterial = useMemo(() => new THREE.MeshStandardMaterial({
-    color: typology === 'F103' ? '#84cc16' : (sealColor || '#1a1a1a'),
+    color: sealColor || '#808080',
     roughness: 0.9,
     metalness: 0.1
-  }), [typology, sealColor]);
+  }), [sealColor]);
 
   const gskBzdMaterial = useMemo(() => new THREE.MeshStandardMaterial({
     color: typology === 'F103' ? '#7c3aed' : (sealColor || '#1a1a1a'),
@@ -690,10 +690,13 @@ const WindowAssembly = ({
   }), [typology, sealColor]);
 
   const gskSshExtMaterial = useMemo(() => new THREE.MeshStandardMaterial({
-    color: typology === 'F103' ? '#db2777' : (sealColor || '#1a1a1a'),
+    color: sealColor || '#808080',
     roughness: 0.9,
     metalness: 0.1
-  }), [typology, sealColor]);
+  }), [sealColor]);
+
+  const isDoubleSash = typology === 'F200' || typology === 'F2XX1';
+  const isFixedMullion = typology === 'F2XX1';
 
   const profileData = useMemo(() => {
     if (typology === 'F104') return IG5_F104;
@@ -711,13 +714,32 @@ const WindowAssembly = ({
   const glsExt = profileData.profiles.GLS_EXT?.vertices || [];
   const glsInt = profileData.profiles.GLS_INT?.vertices || [];
   const spacer1 = (profileData.profiles as any).SPACER1?.vertices || (profileData.profiles as any).SPCR?.vertices || [];
-  const pstExt = (profileData.profiles as any).PST_EXT?.vertices || [];
-  const pstInt = (profileData.profiles as any).PST_INT?.vertices || [];
+  
+  const pstExtRaw = (profileData.profiles as any).PST_EXT?.vertices || [];
+  const pstIntRaw = (profileData.profiles as any).PST_INT?.vertices || [];
+
+  const pstExt = useMemo(() => {
+    if (!isFixedMullion) return pstExtRaw;
+    return pstExtRaw.map((v: any) => ({ x: v.x, y: -v.y }));
+  }, [pstExtRaw, isFixedMullion]);
+
+  const pstInt = useMemo(() => {
+    if (!isFixedMullion) return pstIntRaw;
+    return pstIntRaw.map((v: any) => ({ x: v.x, y: -v.y }));
+  }, [pstIntRaw, isFixedMullion]);
 
   const gskFrmExt = (profileData.profiles as any).GSK_FRM_EXT?.vertices || [];
-  const gskSshBtm = (profileData.profiles as any).GSK_SSH_BTM?.vertices || [];
+  const gskSshBtmRaw = (profileData.profiles as any).GSK_SSH_BTM?.vertices || [];
   const gskBzd = (profileData.profiles as any).GSK_BZD?.vertices || [];
-  const gskSshExt = (profileData.profiles as any).GSK_SSH_EXT?.vertices || [];
+  const gskSshExtRaw = (profileData.profiles as any).GSK_SSH_EXT?.vertices || [];
+
+  const gskSshBtm = useMemo(() => {
+    return gskSshBtmRaw.map((v: any) => ({ x: v.x + 4, y: v.y }));
+  }, [gskSshBtmRaw]);
+
+  const gskSshExt = useMemo(() => {
+    return gskSshExtRaw.map((v: any) => ({ x: v.x + 4, y: v.y }));
+  }, [gskSshExtRaw]);
 
   // Helper to get bounds of a profile
   const getBounds = (verts: any[]) => {
@@ -779,8 +801,7 @@ const WindowAssembly = ({
   const W = width * scale;
   const H = height * scale;
 
-  const isDoubleSash = typology === 'F200' || typology === 'F2XX1';
-  const isFixedMullion = typology === 'F2XX1';
+
 
   return (
     <group ref={setGroupObj}>
@@ -906,7 +927,7 @@ const WindowAssembly = ({
 
           const sashExtMinX = sshExt.length > 0 ? Math.min(...sshExt.map((v: any) => v.x)) : 17.27;
           const gskFrmExtMinX = gskFrmExt.length > 0 ? Math.min(...gskFrmExt.map((v: any) => v.x)) : 16.3;
-          const sashZOffset = (sashExtMinX - gskFrmExtMinX - 2.0) * scale;
+          const sashZOffset = (sashExtMinX - gskFrmExtMinX - 2.0) * scale + (isFixedMullion ? 10 * scale : 0);
 
           // Render a complete sash frame (4 sides) at a given x offset.
           // SW_eff ensures the inner stile body reaches the window centre line.
@@ -1038,8 +1059,8 @@ const WindowAssembly = ({
               {/* Central Post — origin.y=0 centres the post body at x=Ws */}
               {(pstExt.length > 0 || pstInt.length > 0) && (() => {
                 const postLength = isFixedMullion ? height - 92 : height;
-                const postRotation: [number, number, number] = [0, isFixedMullion ? Math.PI : 0, Math.PI / 2];
-                const postPosition: [number, number, number] = [Ws, isFixedMullion ? 46 * scale : 0, isFixedMullion ? -70 * scale : 0];
+                const postRotation: [number, number, number] = [0, 0, Math.PI / 2];
+                const postPosition: [number, number, number] = [Ws, isFixedMullion ? 46 * scale : 0, 0];
                 return (
                   <group position={postPosition} rotation={postRotation}>
                     <group rotation={[0, Math.PI / 2, 0]}>
