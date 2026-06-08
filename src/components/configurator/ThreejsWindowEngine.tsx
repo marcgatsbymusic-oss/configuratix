@@ -1059,8 +1059,8 @@ const WindowAssembly = ({
               {/* Central Post — origin.y=0 centres the post body at x=Ws */}
               {(pstExt.length > 0 || pstInt.length > 0) && (() => {
                 const postLength = isFixedMullion ? height - 92 : height;
-                const postRotation: [number, number, number] = [0, 0, Math.PI / 2];
-                const postPosition: [number, number, number] = [Ws, isFixedMullion ? 46 * scale : 0, 0];
+                const postRotation: [number, number, number] = [0, isFixedMullion ? Math.PI : 0, Math.PI / 2];
+                const postPosition: [number, number, number] = [Ws, isFixedMullion ? 46 * scale : 0, isFixedMullion ? -70 * scale : 0];
                 return (
                   <group position={postPosition} rotation={postRotation}>
                     <group rotation={[0, Math.PI / 2, 0]}>
@@ -1070,7 +1070,7 @@ const WindowAssembly = ({
                           scaleFactor={scale} 
                           length={postLength} 
                           vertices={pstExt} 
-                          material={finalFrmExtMat} 
+                          material={isFixedMullion ? finalFrmIntMat : finalFrmExtMat} 
                           origin={{ x: postOrigin.x, y: 0 }} 
                           uSign={-1} 
                           uOffset={Ws} 
@@ -1083,7 +1083,7 @@ const WindowAssembly = ({
                           scaleFactor={scale} 
                           length={postLength} 
                           vertices={pstInt} 
-                          material={finalFrmIntMat} 
+                          material={isFixedMullion ? finalFrmExtMat : finalFrmIntMat} 
                           origin={{ x: postOrigin.x, y: 0 }} 
                           uSign={-1} 
                           uOffset={Ws} 
