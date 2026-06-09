@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { SvgWindowEngine } from '../components/configurator/SvgWindowEngine';
 
 export const ConfiguratorTestPage: React.FC = () => {
@@ -20,7 +21,16 @@ export const ConfiguratorTestPage: React.FC = () => {
         
         {/* Controls Sidebar */}
         <div className="w-full md:w-1/3 bg-gray-800 p-6 rounded-2xl shadow-xl flex flex-col gap-6">
-          <h2 className="text-2xl font-bold tracking-tight">IGLO 5 (F104) Configurator</h2>
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight">IGLO 5 (F104) Configurator</h2>
+            <Link 
+              to="/hinge-tester" 
+              className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-yellow-500/20 bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20 transition-all text-xs font-bold uppercase tracking-wider cursor-pointer"
+            >
+              <span>Launch Hinge Tester</span>
+              <span className="text-sm">→</span>
+            </Link>
+          </div>
           
           <div className="flex flex-col gap-2">
             <label className="text-sm font-semibold text-gray-400">Width (mm): {width}</label>

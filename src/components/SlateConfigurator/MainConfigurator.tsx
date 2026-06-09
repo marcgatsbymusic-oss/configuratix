@@ -14,6 +14,7 @@ import { NeedlePreview } from './NeedlePreview';
 import { F100TViewer } from '../configurator/F100TViewer';
 import { F101CViewer } from '../configurator/F101CViewer';
 import { SLE201Viewer } from '../configurator/SLE201Viewer';
+import { F104Viewer } from '../configurator/F104Viewer';
 import { ColorPaletteOverlay } from '../configurator/ColorPaletteOverlay';
 
 
@@ -899,6 +900,21 @@ export function MainConfigurator() {
                     colorGsk={gasketHex}
                     onDimensionChange={(w, h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h } })}
                     activeLimits={activeLimits}
+                    hasRollerShutter={state.addons.includes('roller-shutter')}
+                  />
+                ) : state.windowTypeId === 'F104' ? (
+                  <F104Viewer isColorPaletteOpen={isColorWheelOpen}
+                    width={state.dimensions.width}
+                    height={state.dimensions.height}
+                    colorExt={getHexColor(state.exteriorColor)}
+                    colorInt={getHexColor(state.interiorColor)}
+                    colorExtTexture={getTextureUrl(state.exteriorColor)}
+                    colorIntTexture={getTextureUrl(state.interiorColor)}
+                    colorSpacer={spacerHex}
+                    colorGsk={gasketHex}
+                    onDimensionChange={(w, h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h } })}
+                    activeLimits={activeLimits}
+                    hasRollerShutter={state.addons.includes('roller-shutter')}
                   />
                 ) : (
                   <NeedlePreview state={state} />

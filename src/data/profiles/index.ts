@@ -72,6 +72,14 @@ export const ProfileRegistry: Record<string, ProfileMetadata> = {
     description: 'Double sash window with fixed mullion for Iglo 5 system.',
     fileName: 'IGLO5/IG5_F2XX1.json'
   },
+  IG5_F2MPX: {
+    id: 'IG5_F2MPX',
+    system: 'IGLO_5',
+    type: 'F2MPX',
+    name: 'Iglo 5 - Double Sash Movable Post',
+    description: 'Double sash window with movable post. Left sash opens only; right sash tilts and opens.',
+    fileName: 'IGLO5/IG5_F2MPX.json'
+  },
   SLE201: {
     id: 'SLE201',
     system: 'IGLO_EDGE',
@@ -79,6 +87,14 @@ export const ProfileRegistry: Record<string, ProfileMetadata> = {
     name: 'Iglo Edge Slide - SLE201',
     description: 'Sliding door top and bottom movable door profile.',
     fileName: 'IgloEdge/SLE201.json'
+  },
+  IGE_F104: {
+    id: 'IGE_F104',
+    system: 'IGLO_EDGE',
+    type: 'F104',
+    name: 'Iglo Edge - F104 Frame & Sash',
+    description: 'Standard window profile for Iglo Edge system.',
+    fileName: 'IgloEdge/IGE_F104.json'
   }
 };
 

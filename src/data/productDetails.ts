@@ -383,8 +383,102 @@ export const IGLO_EDGE_DETAIL: ProductDetailData = {
       "Sound insulation": "dB = 36-42"
     }
   }
-}
+};
 
+export const IGLO_EDGE_F104_DETAIL: ProductDetailData = {
+  id: 'p1_f104',
+  slug: 'iglo-edge-f104',
+  name: 'IGLO EDGE F104',
+  tagline: 'Outstanding passive-house performance',
+  description: `An advanced single-sash window typology under the 1600-IGLO EDGE profile system. Boasting exceptional thermal insulation and minimalist aesthetics, it maximizes natural light while offering class-leading energy efficiency.`,
+  heroImage: '/assets/hero.png',
+  windowPhoto: '/assets/iglo-edge-window.png',
+  profileImage: '/assets/iglo-edge-window.png',
+  blueprintImage: '/assets/iglo-edge-technical-drawing.png',
+  videoSrc: '/assets/heroes/iglo-edge-header-cover.mp4',
+  modalVideoSrc: '/assets/products/iglo-edge-en.mp4',
+  inlineVideoSrc: '/assets/products/iglo-edge-okno-window-opening.mp4',
+  relatedProductLink: { text: 'relatedIgloEdge', url: '/products/iglo-edge-slide' },
+  standardEquipment: [
+    'Double-chamber glazing package Ug = 0.5 W/(m²K)',
+    'Swisspacer Ultimate plastic warm frame',
+    'V-perfect weld',
+    '4 anti-theft strikers according to the size of the sash and the hardware system',
+    'Microventilation',
+    'DUBLIN aluminium window handle',
+    'Handle misplacement locking mechanism',
+    'Perimeter, glazing and central gaskets in black or grey',
+    'Filling of the lower hardware groove',
+    'Sill trim',
+    'Wide selection of PVC veneer colours',
+  ],
+  keySpecs: [
+    { label: 'sound', value: '36–47 dB' },
+    { label: 'gaskets', value: '3' },
+    { label: 'thermal', value: 'Uw = 0.66 W/(m²K)*' },
+    { label: 'chambers', value: '7' },
+    { label: 'depth', value: '82 mm' },
+    { label: 'class', value: 'A' },
+  ],
+  colors: IGLO_EDGE_COLORS,
+  glassOptions: [
+    { id: 'g1',  name: '33.1 safety',              image: '/assets/glass/thumbs/segura-331.webp',          largeImage: '/assets/glass/large/segura-331.jpg' },
+    { id: 'g2',  name: '33.2 ("safety") matt film',     image: '/assets/glass/thumbs/segura-332-mat.webp',      largeImage: '/assets/glass/large/segura-332-mat.jpg' },
+    { id: 'g3',  name: '44.4 anti-burglary',            image: '/assets/glass/thumbs/segura-331.webp',          largeImage: '/assets/glass/large/segura-331.jpg' },
+    { id: 'g4',  name: 'Antisol Dark Blue 6',       image: '/assets/glass/thumbs/antisol-blue-6.webp',      largeImage: '/assets/glass/large/antisol-blue-6.jpg' },
+    { id: 'g5',  name: 'Antisol grey 6',            image: '/assets/glass/thumbs/antisol-grey-6.webp',      largeImage: '/assets/glass/large/antisol-grey-6.jpg' },
+    { id: 'g6',  name: 'Antisol brown 4',          image: '/assets/glass/thumbs/antisol-brown-4.webp',     largeImage: '/assets/glass/large/antisol-brown-4.jpg' },
+    { id: 'g7',  name: 'Antisol brown 6',          image: '/assets/glass/thumbs/antisol-brown-6.webp',     largeImage: '/assets/glass/large/antisol-brown-6.jpg' },
+    { id: 'g8',  name: 'Antisol green 4',           image: '/assets/glass/thumbs/antisol-green-4.webp',     largeImage: '/assets/glass/large/antisol-green-4.jpg' },
+    { id: 'g9',  name: 'Antisol green 6',           image: '/assets/glass/thumbs/antisol-green-6.webp',     largeImage: '/assets/glass/large/antisol-green-6.jpg' },
+    { id: 'g10', name: 'Chinchilla white 4',       image: '/assets/glass/thumbs/chinchilla-4.webp',        largeImage: '/assets/glass/large/chinchilla-4.jpg' },
+    { id: 'g11', name: 'Float 4',                   image: '/assets/glass/thumbs/float-4.webp',             largeImage: '/assets/glass/large/float-4.jpg' },
+    { id: 'g12', name: 'Float 6',                   image: '/assets/glass/thumbs/float-6.webp',             largeImage: '/assets/glass/large/float-6.jpg' },
+    { id: 'g13', name: 'Mirastar',                  image: '/assets/glass/thumbs/mirastar.webp',            largeImage: '/assets/glass/large/mirastar.jpg' },
+    { id: 'g14', name: 'Ornament Cathedral',       image: '/assets/glass/thumbs/ornamento-cathedral.webp', largeImage: '/assets/glass/large/ornamento-cathedral.jpg' },
+    { id: 'g15', name: 'Ornament Delta 4',         image: '/assets/glass/thumbs/ornamento-delta.webp',     largeImage: '/assets/glass/large/ornamento-delta.jpg' },
+    { id: 'g16', name: 'Ornament Master Carre',    image: '/assets/glass/thumbs/ornamento-master.webp',    largeImage: '/assets/glass/large/ornamento-master.jpg' },
+    { id: 'g17', name: 'Ornament Silvit 4',        image: '/assets/glass/thumbs/ornamento-silvit.webp',    largeImage: '/assets/glass/large/ornamento-silvit.jpg' },
+    { id: 'g18', name: 'Stopsol blue 6',            image: '/assets/glass/thumbs/stopsol-blue-6.webp',      largeImage: '/assets/glass/large/stopsol-blue-6.jpg' },
+    { id: 'g19', name: 'Stopsol brown 6',          image: '/assets/glass/thumbs/stopsol-brown-6.webp',     largeImage: '/assets/glass/large/stopsol-brown-6.jpg' },
+    { id: 'g20', name: 'Waterfall 105',             image: '/assets/glass/thumbs/waterfall-105.webp',       largeImage: '/assets/glass/large/waterfall-105.jpg' },
+  ],
+  inspirations: [
+    '/assets/inspirations/1-4-iglo-edge.webp',
+    '/assets/inspirations/1-5-iglo-edge.webp',
+    '/assets/inspirations/1-6-iglo-edge.webp'
+  ],
+  benefits: [
+    { label: 'Warranty', text: '10-Year Comprehensive Coverage', icon: 'shield' },
+    { label: 'Energy', text: 'A-Class Energy Efficiency', icon: 'leaf' },
+    { label: 'Production', text: 'Custom Built in 4 Weeks', icon: 'clock' }
+  ],
+  hardware: [],
+  accessories: [],
+  downloads: [
+    {
+      id: 'd1',
+      title: 'PVC-Windows',
+      buttonText: 'Catalogue',
+      fileUrl: '/assets/downloads/catalogue_pvc_windows_en.pdf',
+      iconUrl: '/assets/icons/ico-brochure.svg',
+      buttonIconUrl: '/assets/icons/btn-brochure.svg'
+    }
+  ],
+  comparisonImages: {
+    "IGLO EDGE F104": "https://www.drutex.eu/media/webp/80/L21lZGlhL191cGxvYWQvcHJvZHVrdHkvaWdsby1lZGdlL2lnbG8tZWRnZS1wcm9maWwucG5n.webp"
+  },
+  comparison: {
+    "IGLO EDGE F104": {
+      "Number of chambers": "7",
+      "Installation depth": "82 mm",
+      "Number of gaskets": "3",
+      "Thermal transmittance": "Uw = 0.66 W/(m²K)*",
+      "Glass packages": "48-58 mm",
+      "Sound insulation": "36-47 dB"
+    }
+  }
+};
 
 export const IGLO_EDGE_SLIDE_DETAIL: ProductDetailData = {
   id: 'p1_slide',

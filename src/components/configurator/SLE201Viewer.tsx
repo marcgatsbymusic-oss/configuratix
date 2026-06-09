@@ -2,6 +2,7 @@ import React, { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows, Html, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
+import { useTranslation } from 'react-i18next';
 import { FrameSegment } from './FrameSegment';
 import { AdaptiveCamera } from './AdaptiveCamera';
 import profileDataRaw from '../../data/profiles/IgloEdge/SLE201.json';
@@ -80,6 +81,7 @@ export interface SLE201ViewerProps {
   activeLimits?: { minWidth: number; maxWidth: number; minHeight: number; maxHeight: number };
   hidePill?: boolean;
   isColorPaletteOpen?: boolean;
+  hasRollerShutter?: boolean;
 }
 
 // ─── Animation state ──────────────────────────────────────────────────────────
@@ -100,9 +102,11 @@ const MammothLogo = ({ x, y, z }: { x: number; y: number; z: number }) => {
   );
 };
 
-interface SlidingSceneProps extends Required<Omit<SLE201ViewerProps, 'onSceneReady' | 'onDimensionChange' | 'activeLimits' | 'hidePill' | 'isColorPaletteOpen'>> {
+interface SlidingSceneProps extends Required<Omit<SLE201ViewerProps, 'onSceneReady' | 'onDimensionChange' | 'activeLimits' | 'hidePill' | 'isColorPaletteOpen' | 'hasRollerShutter'>> {
   onSceneReady?: (group: THREE.Group) => void;
   isColorPaletteOpen?: boolean;
+  showBlindBox?: boolean;
+  blindTilt?: number;
 }
 
 // ─── Inner scene (must live inside <Canvas> for useFrame / useGLTF) ──────────
@@ -113,6 +117,8 @@ function SlidingScene({
   colorGsk, colorSpacer,
   onSceneReady,
   isColorPaletteOpen = false,
+  showBlindBox = false,
+  blindTilt = 0.4,
 }: SlidingSceneProps) {
   const scale = MM;
   const W = width  * scale;
@@ -148,6 +154,85 @@ function SlidingScene({
 
   const anim = useRef({ dir: 1 as 1 | -1, phase: 0 as 0|1|2|3, t0: 0, dur: 1 });
 
+  // ── Roller blinds states & refs ─────────────────────────────────────────────
+  const [blindOpen, setBlindOpen] = useState(false);
+  const blindProgress = useRef(0);
+  const slatsGroupRef = useRef<THREE.Group>(null);
+  const cordsGroupRef = useRef<THREE.Group>(null);
+
+  // ── Roller blinds materials ──────────────────────────────────────────────────
+  const boxExtMat = useMemo(() => new THREE.MeshStandardMaterial({
+    color: colorExt || '#e8e0d4',
+    roughness: 0.42,
+    metalness: 0.04,
+  }), [colorExt]);
+
+  const boxIntMat = useMemo(() => new THREE.MeshStandardMaterial({
+    color: colorInt || '#f0ece6',
+    roughness: 0.42,
+    metalness: 0.04,
+  }), [colorInt]);
+
+  const boxSideMat = useMemo(() => new THREE.MeshStandardMaterial({
+    color: colorExt || '#e8e0d4',
+    roughness: 0.42,
+    metalness: 0.04,
+  }), [colorExt]);
+
+  const slatMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: colorExt || '#e8e0d4',
+    metalness: 0.9,
+    roughness: 0.15,
+    clearcoat: 0.1,
+  }), [colorExt]);
+
+  const cordMat = useMemo(() => new THREE.MeshBasicMaterial({
+    color: '#333333',
+  }), []);
+
+  const guideCableMat = useMemo(() => new THREE.MeshStandardMaterial({
+    color: '#888888',
+    metalness: 0.9,
+    roughness: 0.1,
+  }), []);
+
+  const slatGeometry = useMemo(() => {
+    const shape = new THREE.Shape();
+    const segments = 12;
+    const slatWidthVal = 0.08;
+    const slatThickness = 0.0015;
+    const curveDepth = 0.008;
+
+    shape.moveTo(0, 0);
+    for (let i = 1; i <= segments; i++) {
+      const t = i / segments;
+      const x = t * slatWidthVal;
+      const y = Math.sin(t * Math.PI) * curveDepth;
+      shape.lineTo(x, y);
+    }
+    shape.lineTo(slatWidthVal, -slatThickness);
+    for (let i = segments; i >= 0; i--) {
+      const t = i / segments;
+      const x = t * slatWidthVal;
+      const y = Math.sin(t * Math.PI) * curveDepth - slatThickness;
+      shape.lineTo(x, y);
+    }
+    shape.closePath();
+
+    const extrudeSettings = {
+      depth: W - 0.04,
+      bevelEnabled: true,
+      bevelSegments: 2,
+      steps: 1,
+      bevelSize: 0.001,
+      bevelThickness: 0.001
+    };
+
+    const geo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+    geo.center();
+    return geo;
+  }, [W]);
+
   // ── Handle GLB ──────────────────────────────────────────────────────────────
   const { scene: handleScene } = useGLTF('/sliding_door_handle_IGLS.glb');
   const clonedHandle = useMemo(() => {
@@ -177,6 +262,58 @@ function SlidingScene({
       if (reportedKey.current !== currentKey) {
         reportedKey.current = currentKey;
         onSceneReady(groupObj);
+      }
+    }
+
+    // ── Roller Blinds Animation Update ────────────────────────────────────────
+    if (showBlindBox) {
+      const blindTarget = blindOpen ? 1.0 : 0.0;
+      blindProgress.current += (blindTarget - blindProgress.current) * 0.08;
+      if (Math.abs(blindProgress.current - blindTarget) < 0.001) {
+        blindProgress.current = blindTarget;
+      }
+
+      const t = blindProgress.current;
+
+      // Update slats positions and rotations
+      if (slatsGroupRef.current) {
+        const startY = H - 0.04;
+        const slatSpacing = 0.07;
+        const stackSpacing = 0.004;
+        const children = slatsGroupRef.current.children;
+        for (let i = 0; i < children.length; i++) {
+          const child = children[i] as THREE.Group;
+          const y_closed = startY - i * slatSpacing;
+          const y_open = startY - i * stackSpacing;
+          child.position.y = y_closed * (1 - t) + y_open * t;
+
+          const mesh = child.children[0] as THREE.Mesh;
+          if (mesh) {
+            mesh.rotation.z = blindTilt * (1 - t);
+          }
+        }
+      }
+
+      // Update ladder cords length
+      if (cordsGroupRef.current) {
+        const startY = H - 0.04;
+        const slatSpacing = 0.07;
+        const stackSpacing = 0.004;
+        const numSlats = slatsGroupRef.current ? slatsGroupRef.current.children.length : 0;
+        if (numSlats > 0) {
+          const lowestSlatY = startY - (numSlats - 1) * (slatSpacing * (1 - t) + stackSpacing * t);
+          const cordLength = H - lowestSlatY;
+          const cordCenterY = (H + lowestSlatY) / 2;
+
+          const children = cordsGroupRef.current.children;
+          for (let i = 0; i < 6; i++) {
+            const child = children[i] as THREE.Group;
+            if (child) {
+              child.position.y = cordCenterY;
+              child.scale.y = cordLength;
+            }
+          }
+        }
       }
     }
 
@@ -523,6 +660,129 @@ function SlidingScene({
             </div>
           </Html>
         )}
+
+        {/* ── Roller Blind Box and Slats ────────────────────────────────── */}
+        {showBlindBox && (() => {
+          const boxHeight = 0.24;
+          const boxDepth = 0.22;
+          const frameCenterZ = -90 * scale;
+
+          // Realistic C-curve slat count calculation
+          const startY = H - 0.04;
+          const endY = 0.5;
+          const slatSpacing = 0.07;
+          const numSlats = Math.floor((startY - endY) / slatSpacing) + 1;
+          const slatsArray = Array.from({ length: numSlats }, (_, i) => i);
+
+          // Cord X and Z positions
+          const cordXs = [0.15 * W, 0.5 * W, 0.85 * W];
+          const slatZ = -40 * scale;
+          const frontCordZ = slatZ + 38 * scale;
+          const backCordZ = slatZ - 38 * scale;
+
+          return (
+            <group>
+              {/* 1. Blind Box Casing (Bi-Color support) */}
+              <mesh position={[W / 2, H + boxHeight / 2, frameCenterZ + boxDepth / 4]} material={boxExtMat} castShadow receiveShadow>
+                <boxGeometry args={[W, boxHeight, boxDepth / 2]} />
+              </mesh>
+              <mesh position={[W / 2, H + boxHeight / 2, frameCenterZ - boxDepth / 4]} material={boxIntMat} castShadow receiveShadow>
+                <boxGeometry args={[W, boxHeight, boxDepth / 2]} />
+              </mesh>
+              <mesh position={[0.001, H + boxHeight / 2, frameCenterZ]} material={boxSideMat} castShadow receiveShadow>
+                <boxGeometry args={[0.002, boxHeight, boxDepth]} />
+              </mesh>
+              <mesh position={[W - 0.001, H + boxHeight / 2, frameCenterZ]} material={boxSideMat} castShadow receiveShadow>
+                <boxGeometry args={[0.002, boxHeight, boxDepth]} />
+              </mesh>
+
+              {/* 2. Side Guide Cables (Static) */}
+              <mesh position={[0.02 * W, H / 2, slatZ]} material={guideCableMat}>
+                <cylinderGeometry args={[0.0015, 0.0015, H, 8]} />
+              </mesh>
+              <mesh position={[W - 0.02 * W, H / 2, slatZ]} material={guideCableMat}>
+                <cylinderGeometry args={[0.0015, 0.0015, H, 8]} />
+              </mesh>
+
+              {/* 3. Ladder Cords (Stretched dynamically in useFrame) */}
+              <group ref={cordsGroupRef}>
+                {/* Front Cords */}
+                <group position={[cordXs[0], H / 2, frontCordZ]}>
+                  <mesh material={cordMat}>
+                    <cylinderGeometry args={[0.001, 0.001, 1, 8]} />
+                  </mesh>
+                </group>
+                <group position={[cordXs[1], H / 2, frontCordZ]}>
+                  <mesh material={cordMat}>
+                    <cylinderGeometry args={[0.001, 0.001, 1, 8]} />
+                  </mesh>
+                </group>
+                <group position={[cordXs[2], H / 2, frontCordZ]}>
+                  <mesh material={cordMat}>
+                    <cylinderGeometry args={[0.001, 0.001, 1, 8]} />
+                  </mesh>
+                </group>
+                {/* Back Cords */}
+                <group position={[cordXs[0], H / 2, backCordZ]}>
+                  <mesh material={cordMat}>
+                    <cylinderGeometry args={[0.001, 0.001, 1, 8]} />
+                  </mesh>
+                </group>
+                <group position={[cordXs[1], H / 2, backCordZ]}>
+                  <mesh material={cordMat}>
+                    <cylinderGeometry args={[0.001, 0.001, 1, 8]} />
+                  </mesh>
+                </group>
+                <group position={[cordXs[2], H / 2, backCordZ]}>
+                  <mesh material={cordMat}>
+                    <cylinderGeometry args={[0.001, 0.001, 1, 8]} />
+                  </mesh>
+                </group>
+              </group>
+
+              {/* 4. Curved Slats Group (Position and Tilt updated in useFrame) */}
+              <group ref={slatsGroupRef}>
+                {slatsArray.map((idx) => {
+                  const y_closed = startY - idx * slatSpacing;
+                  return (
+                    <group key={idx} position={[W / 2, y_closed, slatZ]} rotation={[0, Math.PI / 2, 0]}>
+                      <mesh geometry={slatGeometry} material={slatMat} castShadow receiveShadow />
+                    </group>
+                  );
+                })}
+              </group>
+
+              {/* 5. Blinds control hotspot */}
+              {!isColorPaletteOpen && (
+                <Html position={[W / 2, H - 0.12, slatZ - 20 * scale]} center>
+                  <div
+                    onClick={() => setBlindOpen(!blindOpen)}
+                    title={blindOpen ? 'Close blinds' : 'Open blinds'}
+                    style={{
+                      width: 36, height: 36, borderRadius: '50%',
+                      border: '2px solid rgba(234,182,118,0.7)',
+                      background: 'rgba(8,8,22,0.85)',
+                      color: '#eab676',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      cursor: 'pointer',
+                      fontSize: '14px',
+                      fontWeight: 'black',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.6)',
+                      transition: 'all 0.3s',
+                      pointerEvents: 'auto',
+                      userSelect: 'none',
+                    }}
+                    onPointerDown={(e) => e.stopPropagation()}
+                  >
+                    <span style={{ fontSize: '12px', transform: `rotate(${blindOpen ? 180 : 0}deg)`, transition: 'transform 0.3s' }}>
+                      ▲
+                    </span>
+                  </div>
+                </Html>
+              )}
+            </group>
+          );
+        })()}
       </group>
     </group>
   );
@@ -541,9 +801,19 @@ export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
   activeLimits,
   hidePill,
   isColorPaletteOpen = false,
+  hasRollerShutter = false,
 }) => {
+  const { t } = useTranslation();
   const [widthText, setWidthText] = useState(width.toString());
   const [heightText, setHeightText] = useState(height.toString());
+  const [showBlindBox, setShowBlindBox] = useState(hasRollerShutter || false);
+  const [blindTilt, setBlindTilt] = useState(0.4);
+
+  useEffect(() => {
+    if (hasRollerShutter) {
+      setShowBlindBox(true);
+    }
+  }, [hasRollerShutter]);
 
   const pillRef = useRef<HTMLDivElement>(null);
 
@@ -609,6 +879,8 @@ export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
             colorGsk={colorGsk}   colorSpacer={colorSpacer}
             onSceneReady={onSceneReady}
             isColorPaletteOpen={isColorPaletteOpen}
+            showBlindBox={showBlindBox}
+            blindTilt={blindTilt}
           />
         </React.Suspense>
 
@@ -622,6 +894,46 @@ export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
         style={{ background: 'rgba(8,8,22,.78)', border: '1px solid rgba(234,182,118,.22)', color: '#eab676', backdropFilter: 'blur(10px)' }}>
         IGLO EDGE SLE201
       </div>
+      <button
+        onClick={() => setShowBlindBox(!showBlindBox)}
+        className="absolute top-12 right-3 z-20 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all cursor-pointer border"
+        style={{
+          background: showBlindBox ? 'rgba(234,182,118,0.2)' : 'rgba(8,8,22,.78)',
+          borderColor: showBlindBox ? '#eab676' : 'rgba(234,182,118,.22)',
+          color: showBlindBox ? '#eab676' : '#fff',
+          backdropFilter: 'blur(10px)',
+          pointerEvents: 'auto',
+          userSelect: 'none',
+        }}
+      >
+        {showBlindBox 
+          ? t('configurator.hideBlindBox', 'Hide Roller Blind') 
+          : t('configurator.showBlindBox', 'Show Roller Blind')}
+      </button>
+
+      {showBlindBox && (
+        <div className="absolute top-[86px] right-3 z-20 flex flex-col gap-1 px-3 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest pointer-events-auto border"
+             style={{
+               background: 'rgba(8,8,22,.78)',
+               borderColor: 'rgba(234,182,118,.22)',
+               color: '#fff',
+               backdropFilter: 'blur(10px)',
+             }}>
+          <div className="flex justify-between mb-1 select-none w-32">
+            <span>{t('configurator.blindTilt', 'Slat Tilt')}</span>
+            <span className="text-[#eab676]">{Math.round((blindTilt / 1.45) * 100)}%</span>
+          </div>
+          <input
+            type="range"
+            min="0"
+            max="1.45"
+            step="0.05"
+            value={blindTilt}
+            onChange={(e) => setBlindTilt(Number(e.target.value))}
+            className="w-32 accent-[#eab676] cursor-pointer"
+          />
+        </div>
+      )}
       {!hidePill && (onDimensionChange ? (
         <div 
           ref={pillRef}

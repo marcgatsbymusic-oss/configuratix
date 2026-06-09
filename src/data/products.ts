@@ -57,6 +57,25 @@ const BASE_PRODUCTS: Product[] = [
     ],
     images: ['/assets/iglo-edge-featured.png'],
   },
+  {
+    id: 'p1_f104',
+    slug: 'iglo-edge-f104',
+    name: 'IGLO EDGE F104',
+    tagline: 'Outstanding passive-house performance',
+    description: 'An advanced single-sash window typology under the 1600-IGLO EDGE profile system. Boasting exceptional thermal insulation and minimalist aesthetics, it maximizes natural light while offering class-leading energy efficiency.',
+    category: CATEGORIES[0],
+    material: 'pvc',
+    type: 'window',
+    isNew: true,
+    isFeatured: true,
+    specs: [
+      { label: 'Thermal Transmittance (Uw)', value: '0.66', unit: 'W/(m²K)' },
+      { label: 'Installation Depth', value: '82', unit: 'mm' },
+      { label: 'Profile Chambers', value: '7' },
+      { label: 'Sound Insulation (Rw)', value: '36–47', unit: 'dB' },
+    ],
+    images: ['/assets/iglo-edge-featured.png'],
+  },
 
   {
     id: 'p1_slide',

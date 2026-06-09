@@ -5,6 +5,7 @@ import { F100TViewer } from '../components/configurator/F100TViewer';
 import { F101CViewer } from '../components/configurator/F101CViewer';
 import { ThreejsWindowEngine } from '../components/configurator/ThreejsWindowEngine';
 import { SLE201Viewer } from '../components/configurator/SLE201Viewer';
+import { F104Viewer } from '../components/configurator/F104Viewer';
 import { ColorPaletteOverlay } from '../components/configurator/ColorPaletteOverlay';
 import { supabase } from '../lib/supabase';
 import { ChevronDown, ChevronUp, ChevronRight, Package, Share2 } from 'lucide-react';
@@ -849,6 +850,21 @@ export const ViewerOnly: React.FC = () => {
             colorSpacer={colorSpacer}
             hidePill={true}
             isColorPaletteOpen={isColorWheelOpen}
+            hasRollerShutter={true}
+          />
+        ) : typology === 'F104' ? (
+          <F104Viewer
+            width={width}
+            height={height}
+            colorExt={colorExt}
+            colorInt={colorInt}
+            colorExtTexture={colorExtTexture}
+            colorIntTexture={colorIntTexture}
+            colorGsk={colorGsk}
+            colorSpacer={colorSpacer}
+            hidePill={true}
+            isColorPaletteOpen={isColorWheelOpen}
+            hasRollerShutter={true}
           />
         ) : (
           <ThreejsWindowEngine

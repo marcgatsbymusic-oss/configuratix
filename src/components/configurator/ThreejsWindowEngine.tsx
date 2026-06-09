@@ -16,6 +16,7 @@ import IG5_F100 from "../../data/profiles/IGLO5/IG5_F100.json";
 import IG5_F103 from "../../data/profiles/IGLO5/IG5_F103.json";
 import IG5_F200 from '../../data/profiles/IGLO5/IG5_F200.json';
 import IG5_F2XX1 from '../../data/profiles/IGLO5/IG5_F2XX1.json';
+import IG5_F2MPX from '../../data/profiles/IGLO5/IG5_F2MPX.json';
 
 function getHandleHeightFromBottom(sashHeight: number, windowType?: string, installationHeightFromFloor: number = 0) {
     const isDoorOrBalcony = windowType && (
@@ -695,14 +696,16 @@ const WindowAssembly = ({
     metalness: 0.1
   }), [sealColor]);
 
-  const isDoubleSash = typology === 'F200' || typology === 'F2XX1';
+  const isDoubleSash = typology === 'F200' || typology === 'F2XX1' || typology === 'F2MPX';
   const isFixedMullion = typology === 'F2XX1';
+  const isMovablePost = typology === 'F2MPX';
 
   const profileData = useMemo(() => {
     if (typology === 'F104') return IG5_F104;
     if (typology === 'F103') return IG5_F103;
     if (typology === 'F200') return IG5_F200;
     if (typology === 'F2XX1') return IG5_F2XX1;
+    if (typology === 'F2MPX') return IG5_F2MPX as any;
     return IG5_F100;
   }, [typology]);
 
@@ -1006,6 +1009,7 @@ const WindowAssembly = ({
                       )}
 
                       {/* Click indicators to trigger state changes */}
+                      {/* Open/Side hotspot — always shown on both sashes */}
                       <Html position={[isRightSash ? 80 * scale : Ww - 80 * scale, 250 * scale, -89.0 * scale]} center>
                         <div
                           className="w-10 h-10 flex items-center justify-center cursor-pointer transition-all hover:scale-110"
@@ -1019,18 +1023,21 @@ const WindowAssembly = ({
                         </div>
                       </Html>
 
-                      <Html position={[isRightSash ? 80 * scale : Ww - 80 * scale, H - 75 * scale, -89.0 * scale]} center>
-                        <div
-                          className="w-10 h-10 flex items-center justify-center cursor-pointer transition-all hover:scale-110"
-                          style={{ animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}
-                          onClick={(e) => { e.stopPropagation(); setState(state === 'open_tilt' ? 'closed' : 'open_tilt'); }}
-                        >
-                          <div className="relative w-4 h-4 flex items-center justify-center">
-                            <div className="absolute inset-0 rounded-full bg-[#d4d4d8] opacity-40 blur-[2px]" />
-                            <div className="absolute w-2.5 h-2.5 rounded-full bg-[#d4d4d8] border-[1.5px] border-white shadow-sm" />
+                      {/* Tilt hotspot — hidden for F2MPX left sash (opens-only) */}
+                      {(!isMovablePost || isRightSash) && (
+                        <Html position={[isRightSash ? 80 * scale : Ww - 80 * scale, H - 75 * scale, -89.0 * scale]} center>
+                          <div
+                            className="w-10 h-10 flex items-center justify-center cursor-pointer transition-all hover:scale-110"
+                            style={{ animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}
+                            onClick={(e) => { e.stopPropagation(); setState(state === 'open_tilt' ? 'closed' : 'open_tilt'); }}
+                          >
+                            <div className="relative w-4 h-4 flex items-center justify-center">
+                              <div className="absolute inset-0 rounded-full bg-[#d4d4d8] opacity-40 blur-[2px]" />
+                              <div className="absolute w-2.5 h-2.5 rounded-full bg-[#d4d4d8] border-[1.5px] border-white shadow-sm" />
+                            </div>
                           </div>
-                        </div>
-                      </Html>
+                        </Html>
+                      )}
 
                       {/* Handle Model */}
                       {(isRightSash ? clonedHandleRight : clonedHandleLeft) && (
@@ -1058,9 +1065,22 @@ const WindowAssembly = ({
 
               {/* Central Post — origin.y=0 centres the post body at x=Ws */}
               {(pstExt.length > 0 || pstInt.length > 0) && (() => {
+                // F2XX1 = fixed mullion: shorter, rotated 180°, offset inward
+                // F2MPX = movable post: full height, no rotation flip, no Z offset
+                // F200  = standard: full height, no flip, no Z offset
                 const postLength = isFixedMullion ? height - 92 : height;
                 const postRotation: [number, number, number] = [0, isFixedMullion ? Math.PI : 0, Math.PI / 2];
-                const postPosition: [number, number, number] = [Ws, isFixedMullion ? 46 * scale : 0, isFixedMullion ? -70 * scale : 0];
+                const postPosition: [number, number, number] = [
+                  Ws,
+                  isFixedMullion ? 46 * scale : 0,
+                  isFixedMullion ? -70 * scale : 0,
+                ];
+                // Material assignment:
+                //   Fixed mullion (F2XX1): ext side uses int material (it faces inward)
+                //   Movable post  (F2MPX): ext side uses ext material (faces the exterior)
+                //   Standard      (F200) : ext side uses ext material
+                const postExtMat = isFixedMullion ? finalFrmIntMat : finalFrmExtMat;
+                const postIntMat = isFixedMullion ? finalFrmExtMat : finalFrmIntMat;
                 return (
                   <group position={postPosition} rotation={postRotation}>
                     <group rotation={[0, Math.PI / 2, 0]}>
@@ -1070,7 +1090,7 @@ const WindowAssembly = ({
                           scaleFactor={scale} 
                           length={postLength} 
                           vertices={pstExt} 
-                          material={isFixedMullion ? finalFrmIntMat : finalFrmExtMat} 
+                          material={postExtMat} 
                           origin={{ x: postOrigin.x, y: 0 }} 
                           uSign={-1} 
                           uOffset={Ws} 
@@ -1083,7 +1103,7 @@ const WindowAssembly = ({
                           scaleFactor={scale} 
                           length={postLength} 
                           vertices={pstInt} 
-                          material={isFixedMullion ? finalFrmExtMat : finalFrmIntMat} 
+                          material={postIntMat} 
                           origin={{ x: postOrigin.x, y: 0 }} 
                           uSign={-1} 
                           uOffset={Ws} 
@@ -1234,6 +1254,8 @@ export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) =
   };
 
   const getBgColor = (scenery: string) => {
+    // F2MPX uses no HDR — always return a solid neutral studio gray
+    if (props.typology === 'F2MPX') return '#b8bcc6';
     if (isLight && (scenery === 'studio-grey' || scenery === 'custom')) {
       return '#e2e8f0';
     }
@@ -1272,22 +1294,30 @@ export const ThreejsWindowEngine: React.FC<ThreejsWindowEngineProps> = (props) =
       <Canvas onDoubleClick={(e) => { e.stopPropagation(); controlsRef.current?.reset(); }} shadows camera={{ position: cameraPosition, fov: 45 }} gl={{ preserveDrawingBuffer: true }}>
         <AdaptiveCamera maxDim={maxDim} targetX={0} targetY={targetY} targetZ={0} angle={0} defaultRadiusMult={cameraDistMult} fov={45} zSign={1} minDistance={1.6} controlsRef={controlsRef} />
         <color attach="background" args={[getBgColor(activeScenery)]} />
-        <ambientLight intensity={0.15} />
+        <ambientLight intensity={props.typology === 'F2MPX' ? 0.9 : 0.15} />
         <directionalLight 
           position={[5, 10, 5]} 
-          intensity={0.4} 
+          intensity={props.typology === 'F2MPX' ? 1.2 : 0.4} 
           castShadow 
           shadow-mapSize-width={2048} 
           shadow-mapSize-height={2048} 
           shadow-bias={-0.0001} 
         />
-        <Environment 
-          files={getEnvFiles(activeScenery)} 
-          background={
-            !(props.typology === 'F100' || props.typology === 'F100T') &&
-            (activeScenery === 'studio-grey' || activeScenery === 'studio-dark')
-          } 
-        />
+        {props.typology === 'F2MPX' ? (
+          /* No HDR for F2MPX — avoids async suspend/disappear. Use static fill lights only. */
+          <>
+            <directionalLight position={[-4, 6, -3]} intensity={0.5} />
+            <directionalLight position={[0, -4, 6]}  intensity={0.25} />
+          </>
+        ) : (
+          <Environment 
+            files={getEnvFiles(activeScenery)} 
+            background={
+              !(props.typology === 'F100' || props.typology === 'F100T' || props.typology === 'F2XX1' || props.typology === 'F2MPX') &&
+              (activeScenery === 'studio-grey' || activeScenery === 'studio-dark')
+            } 
+          />
+        )}
         
         <WindowAssembly {...props} />
         

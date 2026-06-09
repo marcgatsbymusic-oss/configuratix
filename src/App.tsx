@@ -27,6 +27,8 @@ import { ArPage } from './pages/ArPage'
 import { ViewerOnly } from './pages/ViewerOnly'
 import { F1XXTPage } from './pages/F1XXTPage'
 import { F1XXXPage } from './pages/F1XXXPage'
+import { F2MPXPage } from './pages/F2MPXPage'
+import { HingeTesterPage } from './pages/HingeTesterPage'
 import './index.css'
 
 // Error boundary to catch silent crashes in the component tree
@@ -161,6 +163,12 @@ function App() {
 
             {/* F1XXX Tilt & Turn Window Viewer – full screen, no header/footer */}
             <Route path="/f1xxx" element={<F1XXXPage />} />
+
+            {/* F2MPX Movable Post Double Window – full screen, no header/footer */}
+            <Route path="/f2mpx" element={<F2MPXPage />} />
+
+            {/* Hinge Rotation & Rigging Tester */}
+            <Route path="/hinge-tester" element={<HingeTesterPage />} />
 
             {/* Public Storefront Routes */}
             <Route path="*" element={<StorefrontLayout />} />

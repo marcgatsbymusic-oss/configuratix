@@ -396,6 +396,12 @@
     "image": "/images/typologies/F200.svg"
   },
   {
+    "id": "F2MPX",
+    "name": "Okno 2 kw. słupek ruchomy (Movable Post)",
+    "sashes": 2,
+    "image": "/images/typologies/F200.svg"
+  },
+  {
     "id": "F200E",
     "name": "Okno 2 kw. słupek stały",
     "sashes": 2,

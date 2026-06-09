@@ -693,7 +693,10 @@
     "welcome": {
       "title": "Bienvenido a nuestro configurador de Windows con tecnología de IA",
       "description": "Seleccionar ventanas no es una tarea fácil, hay muchas opciones y las necesidades de cada uno son diferentes, por eso nuestro configurador te guiará y ayudará a tomar la mejor elección que se adapte a tus necesidades y presupuesto."
-    }
+    },
+    "showBlindBox": "Mostrar persiana",
+    "hideBlindBox": "Ocultar persiana",
+    "blindTilt": "Inclinación de lamas"
   },
   "help": {
     "materialDesc": "Elija el tipo de material para su ventana. A continuación encontrarás un resumen de las principales características de cada uno.",
@@ -986,6 +989,32 @@
         "description_3": "Sistema de triple sellado en negro o gris."
       },
       "relatedIgloEdge": "VER SISTEMA DE TERRAZA IGLO EDGE SLIDE"
+    },
+    "iglo-edge-f104": {
+      "name": "IGLO EDGE F104",
+      "tagline": "Rendimiento sobresaliente para casas pasivas",
+      "description": "Una tipología avanzada de ventana de hoja única bajo el sistema de perfil de 1600-IGLO EDGE. Con un aislamiento térmico excepcional y una estética minimalista, maximiza la luz natural mientras ofrece una eficiencia energética líder en su clase.",
+      "standardEquipment": [
+        "Paquete de acristalamiento de doble cámara Ug = 0,5 W/(m²K)",
+        "Marco cálido de plástico Swisspacer Ultimate",
+        "Soldadura V-perfect",
+        "4 cerraderos antirrobo según el tamaño de la hoja y el sistema de herrajes",
+        "Microventilación",
+        "Manilla de ventana de aluminio DUBLIN",
+        "Mecanismo de bloqueo de manipulación de la manilla",
+        "Juntas perimetrales, de acristalamiento y centrales en negro o gris",
+        "Relleno de la ranura inferior del herraje",
+        "Embellecedor de alféizar",
+        "Amplia selección de colores de revestimiento de PVC"
+      ],
+      "specs": {
+        "sound": "Aislamiento acústico",
+        "gaskets": "Juntas EPDM",
+        "thermal": "Transmitancia térmica",
+        "chambers": "Cámaras de perfil",
+        "depth": "Profundidad de instalación",
+        "class": "Clase de perfil"
+      }
     },
     "iglo-energy": {
       "name": "IGLO Energy",
