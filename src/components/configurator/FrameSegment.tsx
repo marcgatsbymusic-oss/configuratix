@@ -202,12 +202,12 @@ export function SegmentMaterial({ matType, color, textureUrl }: { matType: MatTy
   if (matType === 'glass') {
     return (
       <meshPhysicalMaterial
-        color="#e0e8f0"
+        color="#d4eaf5"
         metalness={0.1}
         roughness={0.05}
-        transmission={0.9}
-        ior={1.5}
-        thickness={5 * 0.001}
+        transmission={0.92}
+        ior={1.52}
+        thickness={6 * 0.001}
         transparent
         opacity={0.8}
       />
@@ -233,29 +233,31 @@ export function SegmentMaterial({ matType, color, textureUrl }: { matType: MatTy
   }
   if (matType === 'int') {
     return (
-      <meshStandardMaterial
-        color={texture ? '#ffffff' : (color ?? '#f0ece6')}
+      <meshPhysicalMaterial
+        color={texture ? '#ffffff' : (color ?? '#f5f4f0')}
         map={texture || undefined}
         normalMap={maps.normal || undefined}
         aoMap={maps.orm || undefined}
         roughnessMap={maps.orm || undefined}
         metalnessMap={maps.orm || undefined}
-        roughness={texture ? 1 : 0.42}
-        metalness={texture ? 1 : 0.04}
+        roughness={texture ? 1 : 0.3}
+        metalness={texture ? 0.1 : 0.0}
+        envMapIntensity={0.8}
       />
     );
   }
   // default: 'ext'
   return (
-    <meshStandardMaterial
-      color={matColor}
+    <meshPhysicalMaterial
+      color={texture ? '#ffffff' : (color ?? '#f5f4f0')}
       map={texture || undefined}
       normalMap={maps.normal || undefined}
       aoMap={maps.orm || undefined}
       roughnessMap={maps.orm || undefined}
       metalnessMap={maps.orm || undefined}
-      roughness={texture ? 1 : 0.42}
-      metalness={texture ? 1 : 0.04}
+      roughness={texture ? 1 : 0.3}
+      metalness={texture ? 0.1 : 0.0}
+      envMapIntensity={0.8}
     />
   );
 }

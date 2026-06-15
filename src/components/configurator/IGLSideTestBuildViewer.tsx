@@ -732,7 +732,7 @@ function FrameAssembly({
 
     // Apply sash group transform
     if (sashGroupRef.current) {
-      sashGroupRef.current.position.set(sashLeft.current, 0, sashFwd.current);
+      sashGroupRef.current.position.set(sashLeft.current, 0, sashFwd.current + 0.003); // +3mm proud offset to create overlap shadow line
     }
 
     // Apply handle lever rotation
@@ -834,14 +834,14 @@ function FrameAssembly({
   }, [sshExt, sshInt]);
 
   const glassMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({ 
-    color: "#e2effa", 
-    roughness: 0.0,
+    color: "#d4eaf5", 
+    roughness: 0.05,
     metalness: 0.1,
-    transmission: 0.9,
-    ior: 1.5,
-    thickness: 0.005,
+    transmission: 0.92,
+    ior: 1.52,
+    thickness: 0.006,
     transparent: true,
-    opacity: 0.6,
+    opacity: 0.8,
   }), []);
 
   const renderGlassPane = (sashWidthMm: number, sashHeightMm: number, glsLayer: Point[][]) => {
@@ -1646,13 +1646,27 @@ export const IGLSideTestBuildViewer: React.FC<IGLSideTestBuildViewerProps> = ({
         {!isNeedleMode && <color attach="background" args={['#09090f']} />}
         {!isNeedleMode && <fog attach="fog" args={['#09090f', maxDim * 12, maxDim * 35]} />}
         <ambientLight intensity={0.4} />
-        <directionalLight position={[W_M * 3, H_M * 3, -H_M * 3]} intensity={2.5} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} shadow-bias={-0.0003} color="#ffffff" />
+        <directionalLight 
+          position={[W_M * 3, H_M * 3, -H_M * 3]} 
+          intensity={3.0} 
+          castShadow 
+          shadow-mapSize-width={2048} 
+          shadow-mapSize-height={2048} 
+          shadow-bias={-0.0003} 
+          shadow-camera-left={-maxDim * 2}
+          shadow-camera-right={maxDim * 2}
+          shadow-camera-top={maxDim * 2}
+          shadow-camera-bottom={-maxDim * 2}
+          shadow-camera-near={0.1}
+          shadow-camera-far={maxDim * 10}
+          color="#ffffff" 
+        />
         <directionalLight position={[-W_M * 2, H_M * 0.8, -H_M]} intensity={0.6} color="#38bdf8" />
         <directionalLight position={[W_M * 0.5, -H_M, -H_M * 0.5]} intensity={0.2} color="#f59e0b" />
         
         {!isNeedleMode && (
           <Suspense fallback={null}>
-            <Environment files="/assets/hdri/monochrome_studio_02_1k.exr" />
+            <Environment files="/assets/hdri/studio_small_03_1k.hdr" />
           </Suspense>
         )}
 
