@@ -43,6 +43,7 @@ export const IGLSideTestBuildPage: React.FC = () => {
   const [needleModelUrl, setNeedleModelUrl] = useState<string | null>(null);
   const [needleEngineNode, setNeedleEngineNode] = useState<HTMLElement | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [pendingARLaunch, setPendingARLaunch] = useState(false);
 
   useEffect(() => {
     if (!sceneGroup) return;
@@ -84,6 +85,13 @@ export const IGLSideTestBuildPage: React.FC = () => {
     invertSides,
     displayMode
   ]);
+
+  useEffect(() => {
+    if (pendingARLaunch && needleModelUrl) {
+      setPendingARLaunch(false);
+      startNeedleAR();
+    }
+  }, [needleModelUrl, pendingARLaunch]);
 
   useEffect(() => {
     const engine = needleEngineNode;
@@ -141,6 +149,16 @@ export const IGLSideTestBuildPage: React.FC = () => {
     } catch (err) {
       console.error("Failed to start Needle AR:", err);
       alert("AR is not supported on this device/browser.");
+      setPendingARLaunch(false);
+    }
+  };
+
+  const handleStartARClick = () => {
+    if (displayMode === 'Needle') {
+      startNeedleAR();
+    } else {
+      setPendingARLaunch(true);
+      setDisplayMode('Needle');
     }
   };
 
@@ -194,37 +212,33 @@ export const IGLSideTestBuildPage: React.FC = () => {
         )}
       </div>
 
-      {/* Floating Start AR button / Loader Overlay (visible only in Needle mode) */}
-      {displayMode === 'Needle' && (
-        <>
-          {needleModelUrl ? (
-            <button
-              id="mammut-start-ar"
-              onClick={startNeedleAR}
-              onPointerDown={(e) => e.stopPropagation()}
-              onTouchStart={(e) => {
-                e.stopPropagation();
-                startNeedleAR();
-              }}
-              className="absolute bottom-4 left-1/2 -translate-x-1/2 z-40 px-6 py-2.5 bg-[#eab676] text-black rounded-full font-bold shadow-lg hover:bg-[#eab676]/90 transition-all flex items-center gap-2 text-xs md:text-sm active:scale-95 cursor-pointer uppercase tracking-wider font-sans border-none"
-            >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-4 h-4">
-                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-                <line x1="12" y1="22.08" x2="12" y2="12" />
-              </svg>
-              Start AR
-            </button>
-          ) : (
-            <div 
-              className="absolute bottom-4 left-1/2 -translate-x-1/2 z-40 text-[#eab676] font-bold p-3 bg-black/60 backdrop-blur-md rounded-xl border border-white/10 text-center animate-pulse font-sans text-xs md:text-sm whitespace-nowrap"
-              onPointerDown={(e) => e.stopPropagation()}
-              onTouchStart={(e) => e.stopPropagation()}
-            >
-              Generating Needle 3D Model...
-            </div>
-          )}
-        </>
+      {/* Floating Start AR button / Loader Overlay (visible on both tabs) */}
+      {!needleModelUrl ? (
+        <div 
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 z-40 text-[#eab676] font-bold p-3 bg-black/60 backdrop-blur-md rounded-xl border border-white/10 text-center animate-pulse font-sans text-xs md:text-sm whitespace-nowrap"
+          onPointerDown={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
+        >
+          Generating Needle 3D Model...
+        </div>
+      ) : (
+        <button
+          id="mammut-start-ar"
+          onClick={handleStartARClick}
+          onPointerDown={(e) => e.stopPropagation()}
+          onTouchStart={(e) => {
+            e.stopPropagation();
+            handleStartARClick();
+          }}
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 z-40 px-6 py-2.5 bg-[#eab676] text-black rounded-full font-bold shadow-lg hover:bg-[#eab676]/90 transition-all flex items-center gap-2 text-xs md:text-sm active:scale-95 cursor-pointer uppercase tracking-wider font-sans border-none"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-4 h-4">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+            <line x1="12" y1="22.08" x2="12" y2="12" />
+          </svg>
+          Start AR
+        </button>
       )}
 
       {/* Floating Control Menu in Top Right */}
