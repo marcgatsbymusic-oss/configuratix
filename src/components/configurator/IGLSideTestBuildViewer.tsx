@@ -77,7 +77,7 @@ function SingleBlindAssembly({
   heightMm,
   colorExt,
   colorInt,
-  colorBlind = '#8a939e',
+  colorBlind = '#ffffff',
   blindOpen,
   mosquitoOpen = 0.0,
   hasMosquito,
@@ -516,7 +516,7 @@ type SlidingState = 'closed' | 'opening' | 'open' | 'closing';
 
 function FrameAssembly({ 
   widthMm, heightMm, colorExt, colorInt, colorGsk = '#1c1c1c', colorAlum = '#a1a1aa',
-  colorBlind = '#8a939e',
+  colorBlind = '#ffffff',
   invertSides = false,
   onSceneReady,
   blindOpenLeft = 0.0,
@@ -676,7 +676,7 @@ function FrameAssembly({
         onSceneReady(groupObj);
       }
     }
-  }, [groupObj, onSceneReady, widthMm, heightMm, colorExt, colorInt, colorGsk, colorAlum]);
+  }, [groupObj, onSceneReady, widthMm, heightMm, colorExt, colorInt, colorGsk, colorAlum, colorBlind, invertSides]);
 
   const getLayerContours = (layerName: string) => {
     const layer = pd.layers[layerName];
@@ -1367,11 +1367,11 @@ export interface IGLSideTestBuildViewerProps {
 export const IGLSideTestBuildViewer: React.FC<IGLSideTestBuildViewerProps> = ({
   width = 2200,
   height = 2100,
-  colorExt = '#2d2d2d', // Anthracite preset default
-  colorInt = '#f0ece6', // White/Alabaster interior preset default
+  colorExt = '#ffffff', // standard white default
+  colorInt = '#ffffff', // standard white default
   colorGsk = '#1c1c1c',
   colorAlum = '#8a8a93', // Silver/Anodized track look
-  colorBlind = '#8a939e',
+  colorBlind = '#ffffff', // standard white default
   invertSides = false,
   onSceneReady,
   onDimensionChange,

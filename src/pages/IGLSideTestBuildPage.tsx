@@ -119,20 +119,28 @@ export const IGLSideTestBuildPage: React.FC = () => {
 
   const startNeedleAR = async () => {
     try {
-      const { Context, WebXR } = await import('@needle-tools/engine');
+      const { WebXR, Context } = await import('@needle-tools/engine');
       const ctx = (needleEngineNode as any)?.context || Context.Current;
       if (ctx) {
-        const xr = ctx.scene?.getComponentInChildren(WebXR);
+        const xr = ctx.scene?.getComponent(WebXR);
         if (xr) {
-          xr.startAR();
+          await xr.enterAR();
         } else {
-          throw new Error("WebXR component not found");
+          const newXr = ctx.scene?.addComponent(WebXR);
+          if (newXr) {
+            newXr.createARButton = false;
+            newXr.createVRButton = false;
+            await newXr.enterAR();
+          } else {
+            throw new Error("Could not find or add WebXR component");
+          }
         }
       } else {
         throw new Error("Needle Context is not active");
       }
     } catch (err) {
       console.error("Failed to start Needle AR:", err);
+      alert("AR is not supported on this device/browser.");
     }
   };
 
@@ -207,9 +215,18 @@ export const IGLSideTestBuildPage: React.FC = () => {
       </div>
 
       {/* Floating Control Menu in Top Right */}
-      <div className="absolute top-4 right-4 z-40 flex gap-2 bg-black/60 backdrop-blur-md p-1.5 rounded-xl border border-white/10 shadow-lg">
+      <div 
+        className="absolute top-4 right-4 z-40 flex gap-2 bg-black/60 backdrop-blur-md p-1.5 rounded-xl border border-white/10 shadow-lg"
+        onPointerDown={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+      >
         <button
           onClick={() => setDisplayMode('3D')}
+          onPointerDown={(e) => e.stopPropagation()}
+          onTouchStart={(e) => {
+            e.stopPropagation();
+            setDisplayMode('3D');
+          }}
           className={`px-3 py-1.5 text-xs font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer border-none ${
             displayMode === '3D' 
               ? 'bg-[#eab676] text-black shadow' 
@@ -220,6 +237,11 @@ export const IGLSideTestBuildPage: React.FC = () => {
         </button>
         <button
           onClick={() => setDisplayMode('Needle')}
+          onPointerDown={(e) => e.stopPropagation()}
+          onTouchStart={(e) => {
+            e.stopPropagation();
+            setDisplayMode('Needle');
+          }}
           className={`px-3 py-1.5 text-xs font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer border-none ${
             displayMode === 'Needle' 
               ? 'bg-[#eab676] text-black shadow' 
@@ -230,6 +252,11 @@ export const IGLSideTestBuildPage: React.FC = () => {
         </button>
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          onPointerDown={(e) => e.stopPropagation()}
+          onTouchStart={(e) => {
+            e.stopPropagation();
+            setIsSidebarOpen(!isSidebarOpen);
+          }}
           className="px-3 py-1.5 text-xs font-black uppercase tracking-widest rounded-lg bg-black/40 text-[#eab676] border border-[#eab676]/30 hover:bg-[#eab676]/10 transition-all cursor-pointer flex items-center gap-1.5"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-3.5 h-3.5">
@@ -251,6 +278,8 @@ export const IGLSideTestBuildPage: React.FC = () => {
       {/* Control Sidebar overlay */}
       <div
         className="flex flex-col gap-6 p-6 overflow-y-auto h-full shadow-2xl transition-transform duration-300 ease-in-out z-50"
+        onPointerDown={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
         style={{
           position: 'fixed',
           right: 0,
@@ -269,6 +298,11 @@ export const IGLSideTestBuildPage: React.FC = () => {
           </div>
           <button
             onClick={() => setIsSidebarOpen(false)}
+            onPointerDown={(e) => e.stopPropagation()}
+            onTouchStart={(e) => {
+              e.stopPropagation();
+              setIsSidebarOpen(false);
+            }}
             className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/75 hover:text-white transition-colors cursor-pointer border-none flex items-center justify-center"
             title="Close sidebar"
           >
