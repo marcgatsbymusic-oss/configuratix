@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
 import { getAnimationClipsForTypology } from '../utils/arStorage';
 import { ColorPaletteOverlay } from '../components/configurator/ColorPaletteOverlay';
+import { ArViewer } from '../components/configurator/ArViewer';
 
 export const IGLSideTestBuildPage: React.FC = () => {
   const [width, setWidth] = useState(2200);
@@ -45,7 +46,7 @@ export const IGLSideTestBuildPage: React.FC = () => {
   const [needleModelUrl, setNeedleModelUrl] = useState<string | null>(null);
   const [needleEngineNode, setNeedleEngineNode] = useState<HTMLElement | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [pendingARLaunch, setPendingARLaunch] = useState(false);
+  const [showArViewer, setShowArViewer] = useState(false);
 
   useEffect(() => {
     if (!sceneGroup) return;
@@ -90,12 +91,7 @@ export const IGLSideTestBuildPage: React.FC = () => {
     displayMode
   ]);
 
-  useEffect(() => {
-    if (pendingARLaunch && needleModelUrl) {
-      setPendingARLaunch(false);
-      startNeedleAR();
-    }
-  }, [needleModelUrl, pendingARLaunch]);
+  // Removed pendingARLaunch effect in favor of direct ArViewer integration
 
   useEffect(() => {
     const engine = needleEngineNode;
@@ -150,41 +146,8 @@ export const IGLSideTestBuildPage: React.FC = () => {
     };
   }, [needleEngineNode]);
 
-  const startNeedleAR = async () => {
-    try {
-      const { WebXR, Context } = await import('@needle-tools/engine');
-      const ctx = (needleEngineNode as any)?.context || Context.Current;
-      if (ctx) {
-        const xr = ctx.scene?.getComponent(WebXR);
-        if (xr) {
-          await xr.enterAR();
-        } else {
-          const newXr = ctx.scene?.addComponent(WebXR);
-          if (newXr) {
-            newXr.createARButton = false;
-            newXr.createVRButton = false;
-            await newXr.enterAR();
-          } else {
-            throw new Error("Could not find or add WebXR component");
-          }
-        }
-      } else {
-        throw new Error("Needle Context is not active");
-      }
-    } catch (err) {
-      console.error("Failed to start Needle AR:", err);
-      alert("AR is not supported on this device/browser.");
-      setPendingARLaunch(false);
-    }
-  };
-
   const handleStartARClick = () => {
-    if (displayMode === 'Needle') {
-      startNeedleAR();
-    } else {
-      setPendingARLaunch(true);
-      setDisplayMode('Needle');
-    }
+    setShowArViewer(true);
   };
 
   return (
@@ -281,10 +244,11 @@ export const IGLSideTestBuildPage: React.FC = () => {
       <div 
         className="absolute top-4 right-4 z-40 flex gap-2 bg-black/60 backdrop-blur-md p-1.5 rounded-xl border border-white/10 shadow-lg"
         onPointerDown={(e) => e.stopPropagation()}
+        onMouseDown={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
       >
         <button
           onClick={() => setDisplayMode('3D')}
-          onPointerDown={(e) => e.stopPropagation()}
           className={`px-3 py-1.5 text-xs font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer border-none ${
             displayMode === '3D' 
               ? 'bg-[#eab676] text-black shadow' 
@@ -295,7 +259,6 @@ export const IGLSideTestBuildPage: React.FC = () => {
         </button>
         <button
           onClick={() => setDisplayMode('Needle')}
-          onPointerDown={(e) => e.stopPropagation()}
           className={`px-3 py-1.5 text-xs font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer border-none ${
             displayMode === 'Needle' 
               ? 'bg-[#eab676] text-black shadow' 
@@ -306,7 +269,6 @@ export const IGLSideTestBuildPage: React.FC = () => {
         </button>
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          onPointerDown={(e) => e.stopPropagation()}
           className="px-3 py-1.5 text-xs font-black uppercase tracking-widest rounded-lg bg-black/40 text-[#eab676] border border-[#eab676]/30 hover:bg-[#eab676]/10 transition-all cursor-pointer flex items-center gap-1.5"
         >
           {isSidebarOpen ? (
@@ -365,7 +327,6 @@ export const IGLSideTestBuildPage: React.FC = () => {
           </div>
           <button
             onClick={() => setIsSidebarOpen(false)}
-            onPointerDown={(e) => e.stopPropagation()}
             className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/75 hover:text-white transition-colors cursor-pointer border-none flex items-center justify-center"
             title="Close sidebar"
           >
@@ -601,6 +562,14 @@ export const IGLSideTestBuildPage: React.FC = () => {
             IGLS_OPENING_DOOR_SECTION_AND_FRAME.json
           </div>
         </div>
+      {showArViewer && (
+        <ArViewer
+          sceneGroup={sceneGroup}
+          placement="floor"
+          onClose={() => setShowArViewer(false)}
+          typology="IGLSIDE_TEST_BUILD"
+        />
+      )}
       </div>
     </div>
   );
