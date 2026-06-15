@@ -1,30 +1,84 @@
 import fs from 'fs';
+import DxfParser from 'dxf-parser';
 
-const f200Path = 'src/data/profiles/IGLO5/IG5_F200.json';
+const INPUT_FILE = "C:\\Users\\Shadow\\Cloud-Drive\\Web dev Drutex Product Content\\CAD Files Drutex\\DWG_TO_DXF_PIPELINE\\IGLO_EDGE_SLIDE\\IGLS_OPENING_DOOR_SECTION_AND_FRAME.dxf";
+
 try {
-  const f200 = JSON.parse(fs.readFileSync(f200Path, 'utf-8'));
-  const pstExt = f200.profiles.PST_EXT;
-  const pstInt = f200.profiles.PST_INT;
+  const text = fs.readFileSync(INPUT_FILE, 'utf8');
+  const parser = new DxfParser();
+  const dxf = parser.parseSync(text);
 
-  if (pstExt) {
-    const xs = pstExt.vertices.map(v => v.x);
-    const ys = pstExt.vertices.map(v => v.y);
-    console.log(`PST_EXT:`);
-    console.log(`  X: ${Math.min(...xs).toFixed(3)} to ${Math.max(...xs).toFixed(3)}`);
-    console.log(`  Y: ${Math.min(...ys).toFixed(3)} to ${Math.max(...ys).toFixed(3)}`);
-  } else {
-    console.log('No PST_EXT found in IG5_F200.json');
+  function transformPoint(pt, tx) {
+    const localRot = (tx.rotation || 0) * Math.PI / 180;
+    const scaleX = tx.scaleX === undefined ? 1 : tx.scaleX;
+    const scaleY = tx.scaleY === undefined ? 1 : tx.scaleY;
+    
+    let xs = pt.x * scaleX;
+    let ys = pt.y * scaleY;
+    let xr = xs * Math.cos(localRot) - ys * Math.sin(localRot);
+    let yr = xs * Math.sin(localRot) + ys * Math.cos(localRot);
+    return { x: xr + tx.x, y: yr + tx.y };
   }
 
-  if (pstInt) {
-    const xs = pstInt.vertices.map(v => v.x);
-    const ys = pstInt.vertices.map(v => v.y);
-    console.log(`PST_INT:`);
-    console.log(`  X: ${Math.min(...xs).toFixed(3)} to ${Math.max(...xs).toFixed(3)}`);
-    console.log(`  Y: ${Math.min(...ys).toFixed(3)} to ${Math.max(...ys).toFixed(3)}`);
-  } else {
-    console.log('No PST_INT found in IG5_F200.json');
+  function findInserts(entities, tx, targetName) {
+    entities.forEach(ent => {
+      if (ent.type === 'INSERT') {
+        const localRot = ent.rotation || 0;
+        const localScaleX = (ent.xScale === undefined || ent.xScale === 0) ? 1 : ent.xScale;
+        const localScaleY = (ent.yScale === undefined || ent.yScale === 0) ? 1 : ent.yScale;
+        const posT = transformPoint({ x: ent.position.x || 0, y: ent.position.y || 0 }, tx);
+        
+        const nextTx = {
+          x: posT.x,
+          y: posT.y,
+          rotation: tx.rotation + localRot,
+          scaleX: tx.scaleX * localScaleX,
+          scaleY: tx.scaleY * localScaleY
+        };
+
+        if (ent.name === targetName || ent.name.includes(targetName)) {
+          console.log(`Matched Insert: block="${ent.name}" worldPos=(${posT.x.toFixed(2)}, ${posT.y.toFixed(2)}) scale=(${nextTx.scaleX.toFixed(2)}, ${nextTx.scaleY.toFixed(2)})`);
+        }
+
+        const block = dxf.blocks[ent.name];
+        if (block && block.entities) {
+          findInserts(block.entities, nextTx, targetName);
+        }
+      }
+    });
   }
+
+  console.log("=== Finding U000BEC030_B inserts ===");
+  findInserts(dxf.entities, { x: 0, y: 0, scaleX: 1, scaleY: 1, rotation: 0 }, "U000BEC030_B");
+
+  console.log("=== Finding all block inserts in IGLS ===");
+  function findActiveInserts(entities, tx) {
+    entities.forEach(ent => {
+      if (ent.type === 'INSERT') {
+        const localRot = ent.rotation || 0;
+        const localScaleX = (ent.xScale === undefined || ent.xScale === 0) ? 1 : ent.xScale;
+        const localScaleY = (ent.yScale === undefined || ent.yScale === 0) ? 1 : ent.yScale;
+        const posT = transformPoint({ x: ent.position.x || 0, y: ent.position.y || 0 }, tx);
+        
+        const nextTx = {
+          x: posT.x,
+          y: posT.y,
+          rotation: tx.rotation + localRot,
+          scaleX: tx.scaleX * localScaleX,
+          scaleY: tx.scaleY * localScaleY
+        };
+
+        console.log(`Insert: block="${ent.name}" worldPos=(${posT.x.toFixed(2)}, ${posT.y.toFixed(2)})`);
+
+        const block = dxf.blocks[ent.name];
+        if (block && block.entities) {
+          findActiveInserts(block.entities, nextTx);
+        }
+      }
+    });
+  }
+  findActiveInserts(dxf.entities, { x: 0, y: 0, scaleX: 1, scaleY: 1, rotation: 0 });
+
 } catch (err) {
   console.error(err);
 }

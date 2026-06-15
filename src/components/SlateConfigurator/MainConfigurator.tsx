@@ -15,6 +15,7 @@ import { F100TViewer } from '../configurator/F100TViewer';
 import { F101CViewer } from '../configurator/F101CViewer';
 import { SLE201Viewer } from '../configurator/SLE201Viewer';
 import { F104Viewer } from '../configurator/F104Viewer';
+import { ROLLER_BLIND_BOX_225Viewer } from '../configurator/ROLLER_BLIND_BOX_225Viewer';
 import { ColorPaletteOverlay } from '../configurator/ColorPaletteOverlay';
 
 
@@ -649,7 +650,7 @@ export function MainConfigurator() {
   const toggleHelp = (step: number) => {
     setExpandedHelpSection(prev => prev === step ? null : step);
   };
-  const [colorTab, setColorTab] = useState<'interior'|'exterior'>('interior');
+  const [colorTab, setColorTab] = useState<'interior'|'exterior'|'blind'>('interior');
 
   const itemDiscount = orderStore.isActive && orderStore.items.length > 0 ? (orderStore.questionnaireDiscount / orderStore.items.length) : 0;
   const finalPrice = Math.max(0, pricing.total - itemDiscount);
@@ -915,6 +916,19 @@ export function MainConfigurator() {
                     onDimensionChange={(w, h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h } })}
                     activeLimits={activeLimits}
                     hasRollerShutter={state.addons.includes('roller-shutter')}
+                  />
+                ) : state.windowTypeId === 'ROLLER_BLIND_BOX_225' ? (
+                  <ROLLER_BLIND_BOX_225Viewer
+                    width={state.dimensions.width}
+                    height={state.dimensions.height}
+                    colorExt={getHexColor(state.exteriorColor)}
+                    colorInt={getHexColor(state.interiorColor)}
+                    colorBlind={getHexColor(state.blindColor)}
+                    colorExtTexture={getTextureUrl(state.exteriorColor)}
+                    colorIntTexture={getTextureUrl(state.interiorColor)}
+                    onDimensionChange={(w, h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h } })}
+                    activeLimits={activeLimits}
+                    isColorPaletteOpen={isColorWheelOpen}
                   />
                 ) : (
                   <NeedlePreview state={state} />
@@ -1358,7 +1372,7 @@ export function MainConfigurator() {
                 <div className="overflow-hidden">
                   <div className="pt-2">
 
-                    {/* Dual Color Tabs */}
+                    {/* Dual/Triple Color Tabs */}
                     <div className="flex gap-2 w-full mb-6 p-1 bg-slate-100 rounded-xl">
                       <button 
                         onClick={() => setColorTab('interior')} 
@@ -1374,17 +1388,34 @@ export function MainConfigurator() {
                       >
                         Exterior Color
                       </button>
+                      {state.windowTypeId === 'ROLLER_BLIND_BOX_225' && (
+                        <button 
+                          onClick={() => setColorTab('blind')} 
+                          className={`flex-1 py-3 text-sm tracking-widest uppercase font-bold rounded-lg transition-all shadow-sm ${colorTab === 'blind' ? 'text-mammut-gold ring-1 ring-slate-200' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50'}`}
+                          style={{ backgroundColor: colorTab === 'blind' ? '#ffffff' : 'transparent' }}
+                        >
+                          Blind Color
+                        </button>
+                      )}
                     </div>
 
                     {/* Color Group Selector */}
                     <div className="flex flex-wrap gap-2 mb-6 p-1 bg-slate-100 border border-slate-200 rounded-xl inline-flex w-full md:w-auto">
                       {(Object.keys(COLOR_LOCALE.colorGroups) as Array<string>).map(grp => {
-                        const activeGrp = colorTab === 'interior' ? state.interiorColorGroup : state.exteriorColorGroup;
+                        const activeGrp = 
+                          colorTab === 'interior' ? state.interiorColorGroup : 
+                          colorTab === 'exterior' ? state.exteriorColorGroup : 
+                          state.blindColorGroup;
                         return (
                           <button
                             key={grp}
                             onClick={() => {
-                              dispatch({ type: colorTab === 'interior' ? 'SET_INTERIOR_COLOR_GROUP' : 'SET_EXTERIOR_COLOR_GROUP', payload: grp });
+                              dispatch({ 
+                                type: colorTab === 'interior' ? 'SET_INTERIOR_COLOR_GROUP' : 
+                                      colorTab === 'exterior' ? 'SET_EXTERIOR_COLOR_GROUP' : 
+                                      'SET_BLIND_COLOR_GROUP', 
+                                payload: grp 
+                              });
                             }}
                             className={`flex-1 md:flex-none px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${activeGrp === grp ? 'text-mammut-gold shadow shadow-[#eab676]/10' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50'}`}
                             style={{ backgroundColor: activeGrp === grp ? '#ffffff' : 'transparent' }}
@@ -1398,16 +1429,30 @@ export function MainConfigurator() {
                     {/* Color Grid */}
                     <div className="flex flex-wrap gap-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar p-2">
                        {Object.keys(COLOR_LOCALE.colors)
-                        .filter(colorId => COLOR_LOCALE.colors[colorId].group === COLOR_LOCALE.colorGroups[colorTab === 'interior' ? state.interiorColorGroup : state.exteriorColorGroup])
+                        .filter(colorId => {
+                          const activeGrp = 
+                            colorTab === 'interior' ? state.interiorColorGroup : 
+                            colorTab === 'exterior' ? state.exteriorColorGroup : 
+                            state.blindColorGroup;
+                          return COLOR_LOCALE.colors[colorId].group === COLOR_LOCALE.colorGroups[activeGrp];
+                        })
                         .filter(colorId => activeColors ? (activeColors as string[]).includes(colorId) : true)
                         .map(colorId => {
                           const colorData = COLOR_LOCALE.colors[colorId];
-                          const isActive = colorTab === 'interior' ? state.interiorColor === colorId : state.exteriorColor === colorId;
+                          const isActive = 
+                            colorTab === 'interior' ? state.interiorColor === colorId : 
+                            colorTab === 'exterior' ? state.exteriorColor === colorId : 
+                            state.blindColor === colorId;
                           return (
                             <button
                               key={colorId}
                               onClick={() => { 
-                                dispatch({ type: colorTab === 'interior' ? 'SET_INTERIOR_COLOR' : 'SET_EXTERIOR_COLOR', payload: colorId }); 
+                                dispatch({ 
+                                  type: colorTab === 'interior' ? 'SET_INTERIOR_COLOR' : 
+                                        colorTab === 'exterior' ? 'SET_EXTERIOR_COLOR' : 
+                                        'SET_BLIND_COLOR', 
+                                  payload: colorId 
+                                }); 
                               }}
                               className={`relative group w-12 h-12 transition-all duration-200 outline outline-offset-2 ${
                                 isActive ? 'outline-[#eab676] scale-105 z-10' : 'outline-transparent hover:outline-slate-300'
@@ -1438,13 +1483,17 @@ export function MainConfigurator() {
                       onClick={() => {
                         if (colorTab === 'interior') {
                           setColorTab('exterior');
+                        } else if (colorTab === 'exterior' && state.windowTypeId === 'ROLLER_BLIND_BOX_225') {
+                          setColorTab('blind');
                         } else {
                           advanceStep(5, 6);
                         }
                       }}
                       className="text-[11px] font-black uppercase tracking-widest text-[#111112] bg-mammut-gold px-6 py-2.5 rounded-lg hover:bg-[#d9a565] transition-colors flex items-center gap-2"
                     >
-                      {colorTab === 'interior' ? "Next: Exterior Color" : "Confirm & Next Step"} <ChevronRight size={14} />
+                      {colorTab === 'interior' ? "Next: Exterior Color" : 
+                       colorTab === 'exterior' && state.windowTypeId === 'ROLLER_BLIND_BOX_225' ? "Next: Blind Color" : 
+                       "Confirm & Next Step"} <ChevronRight size={14} />
                     </button>
                   </div>
                 </div>
@@ -1726,9 +1775,9 @@ export function MainConfigurator() {
                 <div className="flex items-center gap-3">
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${activeStep === 8 ? 'bg-mammut-gold/20 text-mammut-gold' : 'bg-slate-100 text-slate-400'}`}>8</div> 
                   {completedSteps.includes(8) && <Check size={20} className="text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.4)]" strokeWidth={3} />}
-                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 8 ? 'text-slate-900' : 'text-slate-400'}`}>---Seals---</h2>
+                  <h2 className={`text-xl font-bold transition-colors ${activeStep === 8 ? 'text-slate-900' : 'text-slate-400'}`}>{t('configurator.steps.seals', 'Seals')}</h2>
                 </div>
-                {activeStep !== 8 && <div className="text-xs font-bold text-mammut-gold bg-mammut-gold/10 px-3 py-1.5 rounded-full uppercase tracking-wider">{state.gasketColor === 'szary' ? 'Grey' : 'Black'}</div>}
+                {activeStep !== 8 && <div className="text-xs font-bold text-mammut-gold bg-mammut-gold/10 px-3 py-1.5 rounded-full uppercase tracking-wider">{state.gasketColor === 'szary' ? t('configurator.seals.grey', 'Grey (szary)') : t('configurator.seals.black', 'Black (czarny)')}</div>}
               </div>
 
               <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${activeStep === 8 ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
@@ -1739,14 +1788,14 @@ export function MainConfigurator() {
                       className={`p-4 rounded-xl border-2 flex flex-col items-center justify-center transition-all ${state.gasketColor === 'czarny' || !state.gasketColor ? 'border-mammut-gold ring-4 ring-[#eab676]/10 bg-mammut-gold/5' : 'border-slate-200 hover:border-slate-300'}`}
                     >
                       <div className="w-12 h-12 rounded-full mb-3 shadow-inner" style={{ backgroundColor: '#1c1c1c' }} />
-                      <span className="font-bold text-slate-800">Black (czarny)</span>
+                      <span className="font-bold text-slate-800">{t('configurator.seals.black', 'Black (czarny)')}</span>
                     </button>
                     <button
                       onClick={() => { dispatch({ type: 'SET_GASKET_COLOR', payload: 'szary' }); advanceStep(8, 9); }}
                       className={`p-4 rounded-xl border-2 flex flex-col items-center justify-center transition-all ${state.gasketColor === 'szary' ? 'border-mammut-gold ring-4 ring-[#eab676]/10 bg-mammut-gold/5' : 'border-slate-200 hover:border-slate-300'}`}
                     >
                       <div className="w-12 h-12 rounded-full mb-3 shadow-inner" style={{ backgroundColor: '#6b7280' }} />
-                      <span className="font-bold text-slate-800">Grey (szary)</span>
+                      <span className="font-bold text-slate-800">{t('configurator.seals.grey', 'Grey (szary)')}</span>
                     </button>
                   </div>
                   <div className="pt-6 mt-6 border-t border-slate-100 flex justify-between">
@@ -1926,6 +1975,12 @@ export function MainConfigurator() {
                       <div className="flex items-center gap-2.5"><span className="w-5 h-5 rounded-md inline-flex items-center justify-center bg-[#2a2a2b] border border-white/5 shadow-inner text-[10px] font-black text-mammut-white/50 group-hover:bg-mammut-gold group-hover:text-black group-hover:border-mammut-gold transition-all duration-300 drop-shadow-sm">5</span><span className="text-mammut-white/50 group-hover:text-mammut-gold font-medium text-xs uppercase tracking-wider transition-colors">Exterior Color</span></div> 
                       <span className="font-bold text-mammut-white group-hover:text-mammut-gold transition-colors line-clamp-1">{completedSteps.includes(5) ? (COLOR_LOCALE.colors[state.exteriorColor]?.name || state.exteriorColor) : '---'}</span>
                     </button>
+                    {state.windowTypeId === 'ROLLER_BLIND_BOX_225' && (
+                      <button onClick={() => { openStep(5); setColorTab('blind'); }} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-mammut-darker transition-colors">
+                        <div className="flex items-center gap-2.5"><span className="w-5 h-5 rounded-md inline-flex items-center justify-center bg-[#2a2a2b] border border-white/5 shadow-inner text-[10px] font-black text-mammut-white/50 group-hover:bg-mammut-gold group-hover:text-black group-hover:border-mammut-gold transition-all duration-300 drop-shadow-sm">5</span><span className="text-mammut-white/50 group-hover:text-mammut-gold font-medium text-xs uppercase tracking-wider transition-colors">Blind Color</span></div> 
+                        <span className="font-bold text-mammut-white group-hover:text-mammut-gold transition-colors line-clamp-1">{completedSteps.includes(5) ? (COLOR_LOCALE.colors[state.blindColor]?.name || state.blindColor) : '---'}</span>
+                      </button>
+                    )}
                     <button onClick={() => openStep(7)} className="flex w-full text-left justify-between items-center group py-2 -mx-2 px-2 rounded-lg hover:bg-mammut-darker transition-colors">
                       <div className="flex items-center gap-2.5"><span className="w-5 h-5 rounded-md inline-flex items-center justify-center bg-[#2a2a2b] border border-white/5 shadow-inner text-[10px] font-black text-mammut-white/50 group-hover:bg-mammut-gold group-hover:text-black group-hover:border-mammut-gold transition-all duration-300 drop-shadow-sm">7</span><span className="text-mammut-white/50 group-hover:text-mammut-gold font-medium text-xs uppercase tracking-wider transition-colors">{t('configurator.summary.glazing')}</span></div> 
                       <span className="font-bold text-mammut-gold group-hover:text-mammut-white bg-mammut-gold/10 group-hover:bg-mammut-gold !text-black px-2 py-0.5 rounded transition-colors truncate max-w-[150px] text-right">{GLASS_LOCALE[state.glazingPackage] || state.glazingPackage}</span>

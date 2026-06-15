@@ -566,6 +566,21 @@ const BASE_PRODUCTS: Product[] = [
     images: ['/assets/products/external-venetian-blinds/colors/ral9016.jpg'],
   },
 
+  {
+    id: 's3',
+    slug: 'roller-blind-box-225',
+    name: 'ROLLER BLIND BOX 225',
+    tagline: 'Advanced aluminium roller blinds with side guide rails',
+    description: 'Premium aluminium roller blinds featuring a top-mounted 225mm box casing and side guide rails. Offers exceptional light control, insulation, privacy and safety for your home.',
+    category: CATEGORIES[3],
+    material: 'aluminum',
+    type: 'shutter',
+    specs: [
+      { label: 'Installation Depth', value: '240', unit: 'mm' }
+    ],
+    images: ['/assets/products/aluminium-shutters/colors/anthracite.jpg'],
+  },
+
   // ─── TERRACE ──────────────────────────────────────────────────────────────
 
   {

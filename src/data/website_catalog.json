@@ -1061,9 +1061,24 @@
         "energyGrade": "B",
         "description": "Standard Roller shutters with styrofoam box System."
       }
+    },
+    {
+      "id": "roller-blind-box-225",
+      "name": "ROLLER BLIND BOX 225",
+      "image": "/assets/profiles/rollershutterswithstyrofoambox.png",
+      "tags": [],
+      "cantorSystemMap": null,
+      "technical": {
+        "uwValue": 1.1,
+        "profileDepth": 240,
+        "gaskets": 0,
+        "energyGrade": "A",
+        "description": "Premium Aluminium Roller Blinds with 225mm box casing."
+      }
     }
   ],
   "Exterior Venetian Blinds": [
+
     {
       "id": "exteriorvenetianblinds",
       "name": "Exterior Venetian Blinds",

@@ -126,7 +126,16 @@
     "title": "Premium-systemer",
     "description": "Oppdag vårt omfattende utvalg av vinduer, dører og terrassesystemer. Konstruert for overlegen termisk ytelse, akustisk isolasjon og tidløs design.",
     "allProducts": "Alle produkter",
-    "new": "NY"
+    "new": "NY",
+    "sortBy": "Sorter etter",
+    "sortOptions": {
+      "default": "Standard rekkefølge",
+      "uw": "Varmegjennomgangskoeffisient",
+      "db": "Lydisolering",
+      "chambers": "Kamre",
+      "depth": "Installasjonsdybde",
+      "gaskets": "Pakninger"
+    }
   },
   "productDetail": {
     "notFound": "Produktet ble ikke funnet",
@@ -335,7 +344,8 @@
       "glazing": "Glasspakke",
       "options": "Tilbehør og tillegg",
       "profile": "Profil",
-      "start": "Start"
+      "start": "Start",
+      "seals": "Pakninger"
     },
     "summary": {
       "title": "Oversikt over spesifikasjoner",
@@ -408,6 +418,14 @@
     "welcome": {
       "title": "Velkommen til vår AI-drevne Windows-konfigurator",
       "description": "Å velge vinduer er ikke en lett oppgave, det er mange alternativer og alles behov er forskjellige, det er derfor vår konfigurator vil veilede og hjelpe deg å ta det beste valget som passer dine behov og budsjett."
+    },
+    "seals": {
+      "black": "Svart (czarny)",
+      "grey": "Grå (szary)"
+    },
+    "buttons": {
+      "previous": "Forrige steg",
+      "next": "Neste steg"
     }
   },
   "help": {

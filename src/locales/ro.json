@@ -126,7 +126,16 @@
     "title": "Sisteme premium",
     "description": "Descoperiți gama noastră completă de ferestre, uși și sisteme de terase. Proiectat pentru performanțe termice superioare, izolație acustică și design atemporal.",
     "allProducts": "Toate produsele",
-    "new": "NOU"
+    "new": "NOU",
+    "sortBy": "Sortează după",
+    "sortOptions": {
+      "default": "Ordine implicită",
+      "uw": "Transmitanță termică",
+      "db": "Izolație fonică",
+      "chambers": "Camere",
+      "depth": "Adâncime de instalare",
+      "gaskets": "Garnituri"
+    }
   },
   "productDetail": {
     "notFound": "Produsul nu a fost găsit",
@@ -335,7 +344,8 @@
       "glazing": "Pachet de geamuri",
       "options": "Accesorii și suplimente",
       "profile": "Profil",
-      "start": "Început"
+      "start": "Început",
+      "seals": "Garnituri"
     },
     "summary": {
       "title": "Prezentare generală a specificațiilor",
@@ -408,6 +418,14 @@
     "welcome": {
       "title": "Bine ați venit la configuratorul nostru Windows alimentat cu inteligență artificială",
       "description": "Selectarea ferestrelor nu este o sarcină ușoară, există multe opțiuni și nevoile fiecăruia diferă, de aceea configuratorul nostru vă va ghida și vă va ajuta să faceți cea mai bună alegere care se potrivește nevoilor și bugetului dumneavoastră."
+    },
+    "seals": {
+      "black": "Negru (czarny)",
+      "grey": "Gri (szary)"
+    },
+    "buttons": {
+      "previous": "Pasul anterior",
+      "next": "Pasul următor"
     }
   },
   "help": {

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import * as THREE from 'three';
-import { Evaluator, Brush, SUBTRACTION } from 'three-bvh-csg';
+import { Evaluator, Brush, SUBTRACTION, INTERSECTION } from 'three-bvh-csg';
 
 /**
  * uvMode controls how texture coordinates are computed on extruded profiles.
@@ -72,6 +72,7 @@ interface FrameSegmentProps {
   uvMode?: UVMode;
   /** Name of the DXF layer this segment originated from, used for performance telemetry. */
   layerName?: string;
+  compositeCut?: boolean;
 }
 
 function applyUVs(
@@ -279,7 +280,8 @@ export const FrameSegment = React.memo(FrameSegmentComponent, (prev, next) => {
          prev.invertRightCut === next.invertRightCut &&
          prev.leftCutYOffset === next.leftCutYOffset &&
          prev.rightCutYOffset === next.rightCutYOffset &&
-         prev.cutAxis === next.cutAxis;
+         prev.cutAxis === next.cutAxis &&
+         prev.compositeCut === next.compositeCut;
 });
 
 function FrameSegmentComponent({
@@ -306,6 +308,7 @@ function FrameSegmentComponent({
   uOffset = 0,
   uvMode  = 'triplanar',
   layerName,
+  compositeCut = false,
 }: FrameSegmentProps) {
   console.log(`[FrameSegment Debug] layerName=${layerName || matType} skipCuts=${skipCuts} skipLeftCut=${skipLeftCut} skipRightCut=${skipRightCut} length=${length}`);
   const geometry = useMemo(() => {
@@ -325,7 +328,7 @@ function FrameSegmentComponent({
     // Per-end sign: invertLeftCut/invertRightCut override the global invertCuts per end
     const leftSign  = (invertLeftCut  !== undefined ? invertLeftCut  : invertCuts) ? -1 : 1;
     const rightSign = (invertRightCut !== undefined ? invertRightCut : invertCuts) ? -1 : 1;
-    const cacheKey = `${layerName || matType}_${length}_${leftSign}_${rightSign}_${cutAxis}_${skipCuts}_${skipLeftCut}_${skipRightCut}_${leftCutYOffset.toFixed(4)}_${rightCutYOffset.toFixed(4)}_${scaleFactor}_${uSign}_${uOffset}_${uvMode}_${vertices.length}_${Math.round(minX)}_${Math.round(minY)}`;
+    const cacheKey = `${layerName || matType}_${length}_${leftSign}_${rightSign}_${cutAxis}_${skipCuts}_${skipLeftCut}_${skipRightCut}_${leftCutYOffset.toFixed(4)}_${rightCutYOffset.toFixed(4)}_${scaleFactor}_${uSign}_${uOffset}_${uvMode}_${vertices.length}_${Math.round(minX)}_${Math.round(minY)}_${Math.round(maxX)}_${Math.round(maxY)}_${compositeCut}`;
     if (geometryCache.has(cacheKey)) {
       return geometryCache.get(cacheKey)!;
     }
@@ -384,7 +387,40 @@ function FrameSegmentComponent({
       }
       leftBrush.translateZ(-boxSize / 2);
       leftBrush.updateMatrixWorld();
-      result = evaluator.evaluate(result, leftBrush, SUBTRACTION);
+
+      if (compositeCut && cutAxis === 'x') {
+        // Define standard sash boundary
+        let boundary = 114;
+        if (layerName?.includes('INT')) {
+          boundary = 94;
+        } else if (layerName?.includes('SPACER')) {
+          boundary = 110;
+        }
+        const boundaryUnits = (boundary - oy) * scaleFactor;
+
+        // 1. Intersect standard mitre brush with limit box covering y <= boundaryUnits
+        const limitBrush = new Brush(boxGeo);
+        limitBrush.position.set(0, boundaryUnits - boxSize / 2, 0);
+        limitBrush.updateMatrixWorld();
+
+        const mitreBrush = evaluator.evaluate(leftBrush, limitBrush, INTERSECTION);
+
+        // Subtract standard mitre from result
+        result = evaluator.evaluate(result, mitreBrush, SUBTRACTION);
+
+        // 2. Subtract square box covering y > boundaryUnits and z < 56 * scaleFactor
+        const squareBrush = new Brush(boxGeo);
+        squareBrush.position.set(
+          0,
+          boundaryUnits + boxSize / 2,
+          56 * scaleFactor - boxSize / 2
+        );
+        squareBrush.updateMatrixWorld();
+
+        result = evaluator.evaluate(result, squareBrush, SUBTRACTION);
+      } else {
+        result = evaluator.evaluate(result, leftBrush, SUBTRACTION);
+      }
     }
 
     // Right cut (z = scaledLength end) — uses rightSign and rightCutYOffset
@@ -398,7 +434,40 @@ function FrameSegmentComponent({
       }
       rightBrush.translateZ(boxSize / 2);
       rightBrush.updateMatrixWorld();
-      result = evaluator.evaluate(result, rightBrush, SUBTRACTION);
+
+      if (compositeCut && cutAxis === 'x') {
+        // Define standard sash boundary
+        let boundary = 114;
+        if (layerName?.includes('INT')) {
+          boundary = 94;
+        } else if (layerName?.includes('SPACER')) {
+          boundary = 110;
+        }
+        const boundaryUnits = (boundary - oy) * scaleFactor;
+
+        // 1. Intersect standard mitre brush with limit box covering y <= boundaryUnits
+        const limitBrush = new Brush(boxGeo);
+        limitBrush.position.set(0, boundaryUnits - boxSize / 2, scaledLength);
+        limitBrush.updateMatrixWorld();
+
+        const mitreBrush = evaluator.evaluate(rightBrush, limitBrush, INTERSECTION);
+
+        // Subtract standard mitre from result
+        result = evaluator.evaluate(result, mitreBrush, SUBTRACTION);
+
+        // 2. Subtract square box covering y > boundaryUnits and z > scaledLength - 56 * scaleFactor
+        const squareBrush = new Brush(boxGeo);
+        squareBrush.position.set(
+          0,
+          boundaryUnits + boxSize / 2,
+          scaledLength - 56 * scaleFactor + boxSize / 2
+        );
+        squareBrush.updateMatrixWorld();
+
+        result = evaluator.evaluate(result, squareBrush, SUBTRACTION);
+      } else {
+        result = evaluator.evaluate(result, rightBrush, SUBTRACTION);
+      }
     }
 
     const geo = result.geometry;
@@ -416,7 +485,7 @@ function FrameSegmentComponent({
     
     geometryCache.set(cacheKey, geo);
     return geo;
-  }, [length, vertices, invertCuts, invertLeftCut, invertRightCut, leftCutYOffset, rightCutYOffset, cutAxis, skipCuts, skipLeftCut, skipRightCut, scaleFactor, uSign, uOffset, uvMode, matType, layerName]);
+  }, [length, vertices, invertCuts, invertLeftCut, invertRightCut, leftCutYOffset, rightCutYOffset, cutAxis, skipCuts, skipLeftCut, skipRightCut, scaleFactor, uSign, uOffset, uvMode, matType, layerName, compositeCut]);
 
   // If a legacy THREE.Material object is passed, use the old imperative path.
   if (material && !matType) {

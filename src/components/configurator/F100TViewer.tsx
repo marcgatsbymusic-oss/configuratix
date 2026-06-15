@@ -42,6 +42,16 @@ const MammothLogo = ({ x, y, z }: { x: number; y: number; z: number }) => {
   );
 };
 
+const getHandleHeight = (hMm: number): number => {
+  if (hMm > 1800) return 1050;
+  if (hMm >= 380 && hMm <= 550) return 170;
+  if (hMm > 550 && hMm <= 800) return 260;
+  if (hMm > 800 && hMm <= 1200) return 410;
+  if (hMm > 1200 && hMm <= 1600) return 560;
+  if (hMm > 1600 && hMm <= 1800) return 710;
+  return hMm / 2;
+};
+
 interface AssemblyProps {
   widthMm: number;
   heightMm: number;
@@ -68,6 +78,8 @@ function WindowAssembly({
   const scale = MM;
   const W = widthMm * scale;
   const H = heightMm * scale;
+  const handleHeightMm = getHandleHeight(heightMm);
+  const handleY = handleHeightMm * scale;
 
   const [groupObj, setGroupObj] = useState<THREE.Group | null>(null);
   const reportedKey = useRef<string>('');
@@ -194,7 +206,7 @@ function WindowAssembly({
 
   const pivotX = W - 58 * scale;
   const pivotY = 58 * scale;
-  const pivotZ = -89 * scale;
+  const pivotZ = -82.0 * scale;
 
   const currentSide = useRef(0);
   const currentTilt = useRef(0);
@@ -294,7 +306,7 @@ function WindowAssembly({
 
             {!isColorPaletteOpen && (
               <>
-                <Html position={[85 * scale, 250 * scale, -145 * scale]} center>
+                <Html position={[85 * scale, handleY, -145 * scale]} center>
                   <div
                     className="w-10 h-10 flex items-center justify-center cursor-pointer transition-all hover:scale-110"
                     style={{ 
@@ -330,7 +342,7 @@ function WindowAssembly({
             <group 
               ref={handleGroupRef} 
               name="handleGroup"
-              position={[85 * scale, 300 * scale, -144 * scale]} 
+              position={[85 * scale, handleY, -144 * scale]} 
               rotation={[Math.PI / 2, Math.PI + Math.PI / 2, 0]}
               scale={[0.025, 0.025, 0.025]}
             >
@@ -452,7 +464,7 @@ export const F100TViewer: React.FC<F100TViewerProps> = ({
   
   const targetX = W_M * 0.5; 
   const targetY = H_M * 0.5;
-  const targetZ = 89 * MM / 2;
+  const targetZ = 82.0 * MM / 2;
 
   const angle = 0; 
   const radius = maxDim * 2.0;
@@ -486,7 +498,7 @@ export const F100TViewer: React.FC<F100TViewerProps> = ({
         {mountHeavy && (
           <WindowAssembly widthMm={width} heightMm={height} colorExt={colorExt} colorInt={colorInt} colorExtTexture={colorExtTexture} colorIntTexture={colorIntTexture} colorGsk={colorGsk} colorSpacer={colorSpacer} windowState={windowState} isAuto={isAutoRef} onUserInteraction={handleUserInteraction} onSceneReady={onSceneReady} isColorPaletteOpen={isColorPaletteOpen} />
         )}
-        <ContactShadows position={[W_M / 2, -0.005, 89 * MM / 2]} opacity={0.125} scale={maxDim * 5} blur={2.5} far={maxDim * 2} />
+        <ContactShadows position={[W_M / 2, -0.005, 82.0 * MM / 2]} opacity={0.125} scale={maxDim * 5} blur={2.5} far={maxDim * 2} />
         <OrbitControls 
           ref={controlsRef} 
           makeDefault 

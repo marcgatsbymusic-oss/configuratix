@@ -6,6 +6,9 @@ import { F101CViewer } from '../components/configurator/F101CViewer';
 import { ThreejsWindowEngine } from '../components/configurator/ThreejsWindowEngine';
 import { SLE201Viewer } from '../components/configurator/SLE201Viewer';
 import { F104Viewer } from '../components/configurator/F104Viewer';
+import { F202LViewer } from '../components/configurator/F202LViewer';
+import { F202Lv2Viewer } from '../components/configurator/F202Lv2Viewer';
+import { F202RFixV2Viewer } from '../components/configurator/F202RFixV2Viewer';
 import { ColorPaletteOverlay } from '../components/configurator/ColorPaletteOverlay';
 import { supabase } from '../lib/supabase';
 import { ChevronDown, ChevronUp, ChevronRight, Package, Share2 } from 'lucide-react';
@@ -865,6 +868,45 @@ export const ViewerOnly: React.FC = () => {
             hidePill={true}
             isColorPaletteOpen={isColorWheelOpen}
             hasRollerShutter={true}
+          />
+        ) : typology === 'IGE_F202L' ? (
+          <F202LViewer
+            width={width}
+            height={height}
+            colorExt={colorExt}
+            colorInt={colorInt}
+            colorExtTexture={colorExtTexture}
+            colorIntTexture={colorIntTexture}
+            colorGsk={colorGsk}
+            colorSpacer={colorSpacer}
+            hidePill={true}
+            isColorPaletteOpen={isColorWheelOpen}
+          />
+        ) : typology === 'IGE_F202Lv2' ? (
+          <F202Lv2Viewer
+            width={width}
+            height={height}
+            colorExt={colorExt}
+            colorInt={colorInt}
+            colorExtTexture={colorExtTexture}
+            colorIntTexture={colorIntTexture}
+            colorGsk={colorGsk}
+            colorSpacer={colorSpacer}
+            hidePill={true}
+            isColorPaletteOpen={isColorWheelOpen}
+          />
+        ) : typology === 'IGE_F202_R_FIXV2' ? (
+          <F202RFixV2Viewer
+            width={width}
+            height={height}
+            colorExt={colorExt}
+            colorInt={colorInt}
+            colorExtTexture={colorExtTexture}
+            colorIntTexture={colorIntTexture}
+            colorGsk={colorGsk}
+            colorSpacer={colorSpacer}
+            hidePill={true}
+            isColorPaletteOpen={isColorWheelOpen}
           />
         ) : (
           <ThreejsWindowEngine

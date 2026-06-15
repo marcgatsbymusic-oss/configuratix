@@ -126,7 +126,16 @@
     "title": "Sistemes Premium",
     "description": "Descobriu la nostra àmplia gamma de finestres, portes i sistemes de terrasses. Dissenyat per a un rendiment tèrmic superior, aïllament acústic i disseny atemporal.",
     "allProducts": "Tots els productes",
-    "new": "NOU"
+    "new": "NOU",
+    "sortBy": "Ordena per",
+    "sortOptions": {
+      "default": "Ordre predeterminat",
+      "uw": "Transmitància tèrmica",
+      "db": "Aïllament acústic",
+      "chambers": "Cambres",
+      "depth": "Profunditat d'instal·lació",
+      "gaskets": "Juntes"
+    }
   },
   "productDetail": {
     "notFound": "No s'ha trobat el producte",
@@ -335,7 +344,8 @@
       "glazing": "Paquet de vidre",
       "options": "Accessoris i complements",
       "profile": "Perfil",
-      "start": "Comença"
+      "start": "Comença",
+      "seals": "Juntes"
     },
     "summary": {
       "title": "Visió general de les especificacions",
@@ -408,6 +418,14 @@
     "welcome": {
       "title": "Benvingut al nostre configurador de Windows amb IA",
       "description": "Seleccionar finestres no és una tasca fàcil, hi ha moltes opcions i les necessitats de cadascú són diferents, per això el nostre configurador t'orientarà i t'ajudarà a prendre la millor elecció que s'adapti a les teves necessitats i pressupost."
+    },
+    "seals": {
+      "black": "Negre (czarny)",
+      "grey": "Gris (szary)"
+    },
+    "buttons": {
+      "previous": "Pas anterior",
+      "next": "Pas següent"
     }
   },
   "help": {

@@ -30,7 +30,7 @@ function getHandleHeightFromBottom(sashHeight: number, windowType?: string, inst
     if (sashHeight > 550 && sashHeight <= 800) return 260;
     if (sashHeight > 800 && sashHeight <= 1200) return 410;
     if (sashHeight > 1200 && sashHeight <= 1600) return 560;
-    if (sashHeight > 1600 && sashHeight <= 2200) return 710;
+    if (sashHeight > 1600 && sashHeight <= 1800) return 710;
     return sashHeight / 2;
 }
 
@@ -1010,7 +1010,7 @@ const WindowAssembly = ({
 
                       {/* Click indicators to trigger state changes */}
                       {/* Open/Side hotspot — always shown on both sashes */}
-                      <Html position={[isRightSash ? 80 * scale : Ww - 80 * scale, 250 * scale, -89.0 * scale]} center>
+                      <Html position={[isRightSash ? 80 * scale : Ww - 80 * scale, handleY, -89.0 * scale]} center>
                         <div
                           className="w-10 h-10 flex items-center justify-center cursor-pointer transition-all hover:scale-110"
                           style={{ animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}

@@ -38,7 +38,7 @@ const getHandleHeight = (hMm: number): number => {
   if (hMm > 550 && hMm <= 800) return 260;
   if (hMm > 800 && hMm <= 1200) return 410;
   if (hMm > 1200 && hMm <= 1600) return 560;
-  if (hMm > 1600 && hMm <= 2200) return 710;
+  if (hMm > 1600 && hMm <= 1800) return 710;
   return hMm / 2;
 };
 
@@ -109,21 +109,21 @@ function F104Assembly({
   }), [colorExt]);
 
   const slatMat = useMemo(() => new THREE.MeshPhysicalMaterial({
-    color: colorExt || '#e8e0d4',
+    color: '#7c7d80',
     metalness: 0.9,
     roughness: 0.15,
     clearcoat: 0.1,
-  }), [colorExt]);
+  }), []);
 
   const cordMat = useMemo(() => new THREE.MeshBasicMaterial({
     color: '#333333',
   }), []);
 
   const guideCableMat = useMemo(() => new THREE.MeshStandardMaterial({
-    color: '#888888',
+    color: colorExt || '#e8e0d4',
     metalness: 0.9,
     roughness: 0.1,
-  }), []);
+  }), [colorExt]);
 
   const slatGeometry = useMemo(() => {
     const shape = new THREE.Shape();
@@ -578,10 +578,10 @@ function F104Assembly({
         return (
           <group>
             {/* 1. Blind Box Casing (Bi-Color support) */}
-            <mesh position={[W / 2, H + boxHeight / 2, boxCenterZ + boxDepth / 4]} material={boxExtMat} castShadow receiveShadow>
+            <mesh position={[W / 2, H + boxHeight / 2, boxCenterZ + boxDepth / 4]} material={boxIntMat} castShadow receiveShadow>
               <boxGeometry args={[W, boxHeight, boxDepth / 2]} />
             </mesh>
-            <mesh position={[W / 2, H + boxHeight / 2, boxCenterZ - boxDepth / 4]} material={boxIntMat} castShadow receiveShadow>
+            <mesh position={[W / 2, H + boxHeight / 2, boxCenterZ - boxDepth / 4]} material={boxExtMat} castShadow receiveShadow>
               <boxGeometry args={[W, boxHeight, boxDepth / 2]} />
             </mesh>
             <mesh position={[0.001, H + boxHeight / 2, boxCenterZ]} material={boxSideMat} castShadow receiveShadow>

@@ -126,7 +126,16 @@
     "title": "Systèmes haut de gamme",
     "description": "Découvrez notre gamme complète de systèmes de fenêtres, portes et terrasses. Conçu pour des performances thermiques supérieures, une isolation acoustique et un design intemporel.",
     "allProducts": "Tous les produits",
-    "new": "NOUVELLE"
+    "new": "NOUVELLE",
+    "sortBy": "Trier par",
+    "sortOptions": {
+      "default": "Ordre par défaut",
+      "uw": "Transmission thermique",
+      "db": "Isolation acoustique",
+      "chambers": "Chambres",
+      "depth": "Profondeur d'installation",
+      "gaskets": "Joints"
+    }
   },
   "productDetail": {
     "notFound": "Produit introuvable",
@@ -335,7 +344,8 @@
       "glazing": "Forfait Vitrage",
       "options": "Accessoires et modules complémentaires",
       "profile": "Profil",
-      "start": "Commencer"
+      "start": "Commencer",
+      "seals": "Joints"
     },
     "summary": {
       "title": "Aperçu des spécifications",
@@ -408,6 +418,14 @@
     "welcome": {
       "title": "Bienvenue dans notre configurateur Windows alimenté par l'IA",
       "description": "La sélection des fenêtres n'est pas une tâche facile, les options sont nombreuses et les besoins de chacun diffèrent, c'est pourquoi notre configurateur vous guidera et vous aidera à faire le meilleur choix adapté à vos besoins et à votre budget."
+    },
+    "seals": {
+      "black": "Noir (czarny)",
+      "grey": "Gris (szary)"
+    },
+    "buttons": {
+      "previous": "Étape précédente",
+      "next": "Étape suivante"
     }
   },
   "help": {

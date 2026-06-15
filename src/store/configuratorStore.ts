@@ -55,6 +55,7 @@ const initialState: ConfiguratorStoreState = {
     security: 'standard',
     spacer: 'standard',
     handle: 'standard-silver',
+    gasketColor: 'czarny',
   },
   price: null,
   isPricingLoading: false,
@@ -100,6 +101,17 @@ export const useConfiguratorStore = create<ConfiguratorStore>((set, get) => ({
 
   setWindowType: (windowType) => {
     set({ windowType, price: null, validationErrors: {} })
+    if (windowType) {
+      const isF100OrF104 = windowType.id.toUpperCase().includes('F100') || windowType.id.toUpperCase().includes('F104');
+      if (isF100OrF104) {
+        set((s) => ({
+          options: {
+            ...s.options,
+            gasketColor: 'czarny'
+          }
+        }));
+      }
+    }
     // Fetch constraints for this profile × window type pair
     const { profileSystem } = get()
     if (profileSystem && windowType) {

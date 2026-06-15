@@ -66,34 +66,80 @@ export const Child1: React.FC<Child1Props> = ({
   const W = widthMm * scale;
   const H = heightMm * scale;
 
-  const getLayerContours = (layerName: string) => {
-    const layer = geometryData.layers[layerName];
-    if (!layer || !layer.contours || layer.contours.length === 0) return [];
-    return layer.contours.map((c: any) => c.points);
-  };
+  const glassMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: '#c2f2ff',
+    transparent: true,
+    opacity: 0.3,
+    roughness: 0.1,
+    transmission: 0.9,
+    ior: 1.5
+  }), []);
 
-  const frmExt = getLayerContours('FRM_EXT');
-  const frmInt = getLayerContours('FRM_INT');
-  const gskFrmExt = getLayerContours('GSK_FRM_EXT');
+  const spacerMaterial = useMemo(() => new THREE.MeshStandardMaterial({
+    color: '#555555',
+    roughness: 0.6,
+    metalness: 0.7
+  }), []);
 
-  // Calculate common origin to ensure segments align properly
-  let minX = Infinity, minY = Infinity;
-  const allLayers = [frmExt, frmInt, gskFrmExt];
-  for (const layer of allLayers) {
-    for (const c of layer) {
-      for (const v of c) {
-        if (v.x < minX) minX = v.x;
-        if (v.y < minY) minY = v.y;
+  // Calculate common origin to ensure segments align properly across all layers
+  const allContours = useMemo(() => {
+    if (!geometryData || !geometryData.layers) return [];
+    const contours: any[] = [];
+    Object.values(geometryData.layers).forEach((layerData: any) => {
+      if (layerData.contours) {
+        layerData.contours.forEach((c: any) => {
+          if (c.points) contours.push(c.points);
+        });
       }
+    });
+    return contours;
+  }, [geometryData]);
+
+  let minX = Infinity, minY = Infinity;
+  for (const c of allContours) {
+    for (const v of c) {
+      if (v.x < minX) minX = v.x;
+      if (v.y < minY) minY = v.y;
     }
   }
   const commonOrigin = { x: minX === Infinity ? 0 : minX, y: minY === Infinity ? 0 : minY };
 
-  const renderFrameSegment = (len: number, uSign: number, uOff: number) => (<>
-    {frmExt.map((c: any, i: number) => <FrameSegment key={`frmExt_${i}`} layerName="FRM_EXT" scaleFactor={scale} length={len} vertices={c} material={finalFrmExtMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-    {frmInt.map((c: any, i: number) => <FrameSegment key={`frmInt_${i}`} layerName="FRM_INT" scaleFactor={scale} length={len} vertices={c} material={finalFrmIntMat} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-    {gskFrmExt.map((c: any, i: number) => <FrameSegment key={`gskFE_${i}`} layerName="GSK_FRM_EXT" scaleFactor={scale} length={len} vertices={c} material={gskMaterial} origin={commonOrigin} uSign={uSign} uOffset={uOff} />)}
-  </>);
+  const renderFrameSegment = (len: number, uSign: number, uOff: number) => (
+    <>
+      {Object.entries(geometryData.layers).map(([layerName, layerData]: any) => {
+        if (!layerData.contours) return null;
+        
+        let material = finalFrmIntMat;
+        if (layerName.includes('EXT')) {
+          material = finalFrmExtMat;
+        } else if (layerName.includes('INT')) {
+          material = finalFrmIntMat;
+        } else if (layerName.includes('GSK')) {
+          material = gskMaterial;
+        } else if (layerName.includes('GLS')) {
+          material = glassMaterial;
+        } else if (layerName.includes('SPACER')) {
+          material = spacerMaterial;
+        } else if (layerName === 'BZD') {
+          material = finalFrmIntMat; // Glazing bead faces interior
+        }
+
+        return layerData.contours.map((c: any, i: number) => (
+          <FrameSegment 
+            key={`${layerName}_${i}`} 
+            layerName={layerName} 
+            scaleFactor={scale} 
+            length={len} 
+            vertices={c.points} 
+            material={material} 
+            origin={commonOrigin} 
+            uSign={uSign} 
+            uOffset={uOff} 
+          />
+        ));
+      })}
+    </>
+  );
 
   const maxDim = Math.max(W, H);
   

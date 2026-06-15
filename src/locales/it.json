@@ -126,7 +126,16 @@
     "title": "Sistemi premium",
     "description": "Scopri la nostra gamma completa di finestre, porte e sistemi per terrazze. Progettato per prestazioni termiche superiori, isolamento acustico e design senza tempo.",
     "allProducts": "Tutti i prodotti",
-    "new": "NUOVA"
+    "new": "NUOVA",
+    "sortBy": "Ordina per",
+    "sortOptions": {
+      "default": "Ordine predefinito",
+      "uw": "Trasmittanza termica",
+      "db": "Isolamento acustico",
+      "chambers": "Camere",
+      "depth": "Profondità di installazione",
+      "gaskets": "Guarnizioni"
+    }
   },
   "productDetail": {
     "notFound": "Prodotto non trovato",
@@ -335,7 +344,8 @@
       "glazing": "Pacchetto vetri",
       "options": "Accessori e componenti aggiuntivi",
       "profile": "Profilo",
-      "start": "Inizio"
+      "start": "Inizio",
+      "seals": "Guarnizioni"
     },
     "summary": {
       "title": "Panoramica delle specifiche",
@@ -408,6 +418,14 @@
     "welcome": {
       "title": "Benvenuto nel nostro configuratore di finestre basato sull'intelligenza artificiale",
       "description": "Selezionare le finestre non è un compito facile, ci sono molte opzioni e le esigenze di ognuno sono diverse, ecco perché il nostro configuratore ti guiderà e ti aiuterà a fare la scelta migliore adatta alle tue esigenze e al tuo budget."
+    },
+    "seals": {
+      "black": "Nero (czarny)",
+      "grey": "Grigio (szary)"
+    },
+    "buttons": {
+      "previous": "Passaggio precedente",
+      "next": "Passaggio successivo"
     }
   },
   "help": {

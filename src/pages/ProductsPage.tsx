@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, ChevronDown, List } from 'lucide-react'
+import { ArrowRight, ChevronDown, List, ChevronUp } from 'lucide-react'
 import { CATEGORIES, PRODUCTS } from '../data/products'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
@@ -8,6 +8,7 @@ export function ProductsPage() {
   const { t } = useTranslation()
   const [openSpecId, setOpenSpecId] = useState<string | null>(null)
   const [sortBy, setSortBy] = useState<'default' | 'db' | 'uw' | 'chambers' | 'depth' | 'gaskets'>('default')
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
 
   const sortedProducts = [...PRODUCTS].sort((a, b) => {
     if (sortBy === 'default') return 0;
@@ -17,27 +18,29 @@ export function ProductsPage() {
     if (!aVal) return 1;
     if (!bVal) return -1;
 
+    const dir = sortDirection === 'asc' ? 1 : -1;
+
     switch (sortBy) {
       case 'db':
         const aDb = parseInt(aVal.soundInsulation.replace(/[^\d]/g, '') || '0')
         const bDb = parseInt(bVal.soundInsulation.replace(/[^\d]/g, '') || '0')
-        return bDb - aDb; // Highest db first
+        return (aDb - bDb) * dir;
       case 'uw':
         const aUw = parseFloat(aVal.thermalTransmittance.replace(/[^\d,.]/g, '').replace(',', '.')) || 99
         const bUw = parseFloat(bVal.thermalTransmittance.replace(/[^\d,.]/g, '').replace(',', '.')) || 99
-        return aUw - bUw; // Lowest Uw first
+        return (aUw - bUw) * dir;
       case 'chambers':
         const aC = parseInt(aVal.chambers) || 0;
         const bC = parseInt(bVal.chambers) || 0;
-        return bC - aC; // Highest chambers first
+        return (aC - bC) * dir;
       case 'depth':
         const aD = parseInt(aVal.installationDepth) || 0;
         const bD = parseInt(bVal.installationDepth) || 0;
-        return aD - bD; // Thinnest first
+        return (aD - bD) * dir;
       case 'gaskets':
         const aG = parseInt(aVal.gaskets) || 0;
         const bG = parseInt(bVal.gaskets) || 0;
-        return bG - aG; // Highest gaskets first
+        return (aG - bG) * dir;
       default:
         return 0;
     }
@@ -77,19 +80,30 @@ export function ProductsPage() {
             {t('products.allProducts', 'All Products')}
           </h2>
           <div className="flex items-center gap-3 mt-4 md:mt-0">
-            <span className="text-xs font-bold text-mammut-white/40 uppercase tracking-widest">Sort By:</span>
-            <select 
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as any)}
-              className="bg-mammut-darker text-mammut-white/90 text-sm font-medium border border-mammut-border rounded-lg px-4 py-2 outline-none hover:border-mammut-border focus:border-mammut-gold/50 transition-colors cursor-pointer"
-            >
-              <option value="default">Default Order</option>
-              <option value="uw">Thermal Transmittance (Lowest Uw)</option>
-              <option value="db">Sound Insulation (Highest dB)</option>
-              <option value="chambers">Chambers (Highest to Lowest)</option>
-              <option value="depth">Installation Depth (Thinnest First)</option>
-              <option value="gaskets">Gaskets (Most to Least)</option>
-            </select>
+            <span className="text-xs font-bold text-mammut-white/40 uppercase tracking-widest">{t('products.sortBy', 'Sort By')}:</span>
+            <div className="flex items-center border border-mammut-border rounded-lg overflow-hidden bg-mammut-darker">
+              <select 
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as any)}
+                className="bg-transparent text-mammut-white/90 text-sm font-medium px-4 py-2 outline-none cursor-pointer appearance-none pr-8 relative"
+                style={{ background: 'url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSI4IiB2aWV3Qm94PSIwIDAgMTQgOCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIwLjciIGQ9Ik03IDhMMCAwbDE0IDB6Ii8+PC9zdmc+") right 12px center no-repeat' }}
+              >
+                <option value="default" className="bg-mammut-darker text-mammut-white">{t('products.sortOptions.default', 'Default Order')}</option>
+                <option value="uw" className="bg-mammut-darker text-mammut-white">{t('products.sortOptions.uw', 'Thermal Transmittance')}</option>
+                <option value="db" className="bg-mammut-darker text-mammut-white">{t('products.sortOptions.db', 'Sound Insulation')}</option>
+                <option value="chambers" className="bg-mammut-darker text-mammut-white">{t('products.sortOptions.chambers', 'Chambers')}</option>
+                <option value="depth" className="bg-mammut-darker text-mammut-white">{t('products.sortOptions.depth', 'Installation Depth')}</option>
+                <option value="gaskets" className="bg-mammut-darker text-mammut-white">{t('products.sortOptions.gaskets', 'Gaskets')}</option>
+              </select>
+              <div className="h-6 w-px bg-mammut-border"></div>
+              <button 
+                onClick={() => setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')}
+                className="px-3 py-2 text-mammut-white/60 hover:text-mammut-gold transition-colors flex items-center justify-center"
+                title={`Toggle Direction (Current: ${sortDirection === 'asc' ? 'Ascending' : 'Descending'})`}
+              >
+                {sortDirection === 'asc' ? <ChevronUp size={16} strokeWidth={3} /> : <ChevronDown size={16} strokeWidth={3} />}
+              </button>
+            </div>
           </div>
         </div>
         

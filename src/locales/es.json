@@ -129,7 +129,16 @@
     "title": "Sistemas Premium",
     "description": "Descubra nuestra amplia gama de ventanas, puertas y sistemas de terraza. Diseñado para un rendimiento térmico superior, aislamiento acústico y diseño atemporal.",
     "allProducts": "Todos los productos",
-    "new": "NUEVA"
+    "new": "NUEVA",
+    "sortBy": "Ordenar por",
+    "sortOptions": {
+      "default": "Orden predeterminado",
+      "uw": "Transmitancia térmica",
+      "db": "Aislamiento acústico",
+      "chambers": "Cámaras",
+      "depth": "Profundidad de instalación",
+      "gaskets": "Juntas"
+    }
   },
   "productDetail": {
     "availableModels": "Modelos disponibles",
@@ -620,7 +629,8 @@
       "glazing": "Paquete de acristalamiento",
       "options": "Accesorios y complementos",
       "profile": "Perfil",
-      "start": "Comenzar"
+      "start": "Comenzar",
+      "seals": "Juntas de estanqueidad"
     },
     "summary": {
       "title": "Descripción general de las especificaciones",
@@ -696,7 +706,15 @@
     },
     "showBlindBox": "Mostrar persiana",
     "hideBlindBox": "Ocultar persiana",
-    "blindTilt": "Inclinación de lamas"
+    "blindTilt": "Inclinación de lamas",
+    "seals": {
+      "black": "Negro (czarny)",
+      "grey": "Gris (szary)"
+    },
+    "buttons": {
+      "previous": "Paso anterior",
+      "next": "Siguiente paso"
+    }
   },
   "help": {
     "materialDesc": "Elija el tipo de material para su ventana. A continuación encontrarás un resumen de las principales características de cada uno.",
@@ -928,6 +946,11 @@
       "tagline": "Cuida tu confort y privacidad",
       "description": "Elige soluciones probadas y modernas para reducir las facturas de calefacción y energía, y cuida de tu privacidad y seguridad.\n\nTambién se pueden integrar con sistemas de control de Smart Home.",
       "standardEquipment": []
+    },
+    "roller-blind-box-225": {
+      "name": "ROLLER BLIND BOX 225",
+      "tagline": "Persianas enrollables de aluminio avanzadas con guías laterales",
+      "description": "Persianas enrollables de aluminio premium con un cajón superior de 225mm y guías laterales. Ofrece un control excepcional de la luz, aislamiento, privacidad y seguridad para su hogar."
     },
     "iglo-edge": {
       "name": "IGLO EDGE",

@@ -3941,3 +3941,35 @@ export const EXTERNAL_VENETIAN_BLINDS_DETAIL: ProductDetailData = {
   ]
 };
 
+export const ROLLER_BLIND_BOX_225_DETAIL: ProductDetailData = {
+  id: 'p_roller-blind-box-225',
+  slug: 'roller-blind-box-225',
+  name: 'ROLLER BLIND BOX 225',
+  tagline: 'Advanced aluminium roller blinds with side guide rails',
+  description: 'Premium aluminium roller blinds featuring a top-mounted 225mm box casing and side guide rails. Offers exceptional light control, insulation, privacy and safety for your home.',
+  heroImage: '',
+  windowPhoto: '',
+  profileImage: '',
+  blueprintImage: '',
+  videoSrc: '',
+  modalVideoSrc: '',
+  inlineVideoSrc: '',
+  disableHeroFilter: true,
+  standardEquipment: [
+    'Aluminum box casing and side rails',
+    'Curved 37mm aluminum slats',
+    'Bottom end bar listwa końcowa',
+    'Woven ladder cords and guide mechanism'
+  ],
+  keySpecs: [
+    { label: 'BOX SIZE', value: '240 x 245.5 mm' },
+    { label: 'SLAT THICKNESS', value: '8.38 mm' },
+    { label: 'SLAT HEIGHT', value: '42.24 mm' }
+  ],
+  hardware: [],
+  accessories: [],
+  colors: ALUMINIUM_SHUTTERS_COLORS,
+  glassOptions: [],
+};
+
+

@@ -23,6 +23,8 @@ const initialState: ConfiguratorState = {
   interiorColor: 'c197', // White
   exteriorColorGroup: 'Solid',
   exteriorColor: 'c197', // White
+  blindColorGroup: 'Solid',
+  blindColor: 'c205', // Default gray
   glazingPackage: '2-24', // Default from DB extract 
   glassOutside: 'FL4',
   glassMiddle: '',
@@ -38,11 +40,12 @@ function getInitialState(): ConfiguratorState {
     const product = params.get('product');
     
     if (product) {
-      const slugToProfile: Record<string, { category: CategoryType, profile: string }> = {
+      const slugToProfile: Record<string, { category: CategoryType, profile: string, windowTypeId?: string }> = {
         'iglo-edge': { category: 'Windows', profile: 'igloedge' },
         'iglo-5': { category: 'Windows', profile: 'iglo5' },
         'iglo-light': { category: 'Windows', profile: 'iglolight' },
         'iglo-energy': { category: 'Windows', profile: 'igloenergy' },
+        'roller-blind-box-225': { category: 'Shutters', profile: 'roller-blind-box-225', windowTypeId: 'ROLLER_BLIND_BOX_225' },
       };
       
       if (slugToProfile[product]) {
@@ -121,6 +124,7 @@ function configuratorReducer(state: ConfiguratorState, action: ConfiguratorActio
       return { 
         ...state, 
         profile: action.payload,
+        windowTypeId: action.payload === 'roller-blind-box-225' ? 'ROLLER_BLIND_BOX_225' : state.windowTypeId,
         dimensions: action.payload === 'igloedgeslide' ? { width: 2000, height: 2100 } : {
           width: Math.min(Math.max(state.dimensions.width, limits.minWidth), limits.maxWidth),
           height: Math.min(Math.max(state.dimensions.height, limits.minHeight), limits.maxHeight),
@@ -172,7 +176,16 @@ function configuratorReducer(state: ConfiguratorState, action: ConfiguratorActio
          newFittingVariant = 'FIX';
       }
 
-      return { ...state, windowTypeId: action.payload, sashOpenings: newOpenings, fittingVariant: newFittingVariant };
+      const isF100OrF104 = action.payload.toUpperCase().includes('F100') || action.payload.toUpperCase().includes('F104');
+      const gasketColor = isF100OrF104 ? 'czarny' : state.gasketColor;
+
+      return { 
+        ...state, 
+        windowTypeId: action.payload, 
+        sashOpenings: newOpenings, 
+        fittingVariant: newFittingVariant,
+        gasketColor
+      };
     }
     case 'SET_SASH_OPENING': {
       const updatedOpenings = [...state.sashOpenings];
@@ -185,6 +198,8 @@ function configuratorReducer(state: ConfiguratorState, action: ConfiguratorActio
     case 'SET_INTERIOR_COLOR': return { ...state, interiorColor: action.payload };
     case 'SET_EXTERIOR_COLOR_GROUP': return { ...state, exteriorColorGroup: action.payload };
     case 'SET_EXTERIOR_COLOR': return { ...state, exteriorColor: action.payload };
+    case 'SET_BLIND_COLOR_GROUP': return { ...state, blindColorGroup: action.payload };
+    case 'SET_BLIND_COLOR': return { ...state, blindColor: action.payload };
     case 'SET_GLAZING_PACKAGE':
       return { ...state, glazingPackage: action.payload };
     case 'SET_GLASS_OUTSIDE':

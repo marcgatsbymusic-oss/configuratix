@@ -29,6 +29,14 @@ import { F1XXTPage } from './pages/F1XXTPage'
 import { F1XXXPage } from './pages/F1XXXPage'
 import { F2MPXPage } from './pages/F2MPXPage'
 import { HingeTesterPage } from './pages/HingeTesterPage'
+import { F202LPage } from './pages/F202LPage'
+import { F202Lv2Page } from './pages/F202Lv2Page'
+import { F202RFixV2Page } from './pages/F202RFixV2Page'
+import { F202RV3Page } from './pages/F202RV3Page'
+import { F104ProfileInspectorPage } from './pages/F104ProfileInspectorPage'
+import { RollerBlindTestPage } from './pages/RollerBlindTestPage'
+import { RollerBlindTestMosquitoPage } from './pages/RollerBlindTestMosquitoPage'
+import { IGLSideTestBuildPage } from './pages/IGLSideTestBuildPage'
 import './index.css'
 
 // Error boundary to catch silent crashes in the component tree
@@ -167,8 +175,32 @@ function App() {
             {/* F2MPX Movable Post Double Window – full screen, no header/footer */}
             <Route path="/f2mpx" element={<F2MPXPage />} />
 
+            {/* IGE_F202L Double Window Test Page */}
+            <Route path="/f202l" element={<F202LPage />} />
+
+            {/* IGE_F202Lv2 Double Window (Left Active) Test Page */}
+            <Route path="/f202lv2" element={<F202Lv2Page />} />
+
+            {/* IGE_F202_R_FIXV2 Double Window (Left Active, CW Handle, V8 Post) */}
+            <Route path="/f202rfixv2" element={<F202RFixV2Page />} />
+
+            {/* IGE_DW_PST_LEFT_TT-T Double Window F202RV3 */}
+            <Route path="/f202rv3" element={<F202RV3Page />} />
+
             {/* Hinge Rotation & Rigging Tester */}
             <Route path="/hinge-tester" element={<HingeTesterPage />} />
+
+            {/* F104 Solid Block Profile Inspector */}
+            <Route path="/f104-profile" element={<F104ProfileInspectorPage />} />
+
+            {/* Roller Blind Casing Tester */}
+            <Route path="/roller-blind-test" element={<RollerBlindTestPage />} />
+
+            {/* Roller Blind Casing + Mosquito Net Tester */}
+            <Route path="/roller-blind-test-mosquito" element={<RollerBlindTestMosquitoPage />} />
+
+            {/* IGLSIDE_TEST_BUILD Sliding Door Test Page */}
+            <Route path="/igls-test-build" element={<IGLSideTestBuildPage />} />
 
             {/* Public Storefront Routes */}
             <Route path="*" element={<StorefrontLayout />} />

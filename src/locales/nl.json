@@ -126,7 +126,16 @@
     "title": "Premium-systemen",
     "description": "Ontdek ons ​​uitgebreide assortiment ramen, deuren en terrassystemen. Ontworpen voor superieure thermische prestaties, akoestische isolatie en tijdloos design.",
     "allProducts": "Alle producten",
-    "new": "NIEUW"
+    "new": "NIEUW",
+    "sortBy": "Sorteren op",
+    "sortOptions": {
+      "default": "Standaard volgorde",
+      "uw": "Thermische transmissie",
+      "db": "Geluidsisolatie",
+      "chambers": "Kamers",
+      "depth": "Inbouwdiepte",
+      "gaskets": "Afdichtingen"
+    }
   },
   "productDetail": {
     "notFound": "Product niet gevonden",
@@ -335,7 +344,8 @@
       "glazing": "Beglazingspakket",
       "options": "Accessoires en toevoegingen",
       "profile": "Profiel",
-      "start": "Begin"
+      "start": "Begin",
+      "seals": "Afdichtingen"
     },
     "summary": {
       "title": "Specificatiesoverzicht",
@@ -408,6 +418,14 @@
     "welcome": {
       "title": "Welkom bij onze AI-aangedreven ramenconfigurator",
       "description": "Het selecteren van vensters is geen gemakkelijke taak, er zijn veel opties en ieders behoeften verschillen. Daarom zal onze configurator u begeleiden en helpen bij het maken van de beste keuze die past bij uw behoeften en budget."
+    },
+    "seals": {
+      "black": "Zwart (czarny)",
+      "grey": "Grijs (szary)"
+    },
+    "buttons": {
+      "previous": "Vorige stap",
+      "next": "Volgende stap"
     }
   },
   "help": {

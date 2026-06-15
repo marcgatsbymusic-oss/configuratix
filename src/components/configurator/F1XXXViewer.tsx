@@ -30,6 +30,16 @@ export type WindowState = 'closed' | 'open_side' | 'open_tilt';
 
 // ─── Assembly Component ───────────────────────────────────────────────────────
 
+const getHandleHeight = (hMm: number): number => {
+  if (hMm > 1800) return 1050;
+  if (hMm >= 380 && hMm <= 550) return 170;
+  if (hMm > 550 && hMm <= 800) return 260;
+  if (hMm > 800 && hMm <= 1200) return 410;
+  if (hMm > 1200 && hMm <= 1600) return 560;
+  if (hMm > 1600 && hMm <= 1800) return 710;
+  return hMm / 2;
+};
+
 interface AssemblyProps {
   widthMm: number;
   heightMm: number;
@@ -64,6 +74,8 @@ function F1XXXAssembly({
   const scale = MM;
   const W = widthMm * scale;
   const H = heightMm * scale;
+  const handleHeightMm = getHandleHeight(heightMm);
+  const handleY = handleHeightMm * scale;
 
   const [groupObj, setGroupObj] = useState<THREE.Group | null>(null);
   const reportedKey = useRef<string>('');
@@ -345,7 +357,7 @@ function F1XXXAssembly({
             {/* Click indicators to trigger state changes */}
             {!isColorPaletteOpen && (
               <>
-                <Html position={[80 * scale, 250 * scale, -89.0 * scale]} center>
+                <Html position={[80 * scale, handleY, -89.0 * scale]} center>
                   <div
                     className="w-10 h-10 flex items-center justify-center cursor-pointer transition-all hover:scale-110"
                     style={{ animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}
@@ -377,7 +389,7 @@ function F1XXXAssembly({
             <group 
               ref={handleGroupRef} 
               name="handleGroup"
-              position={[80 * scale, 300 * scale, -89.0 * scale]} 
+              position={[80 * scale, handleY, -89.0 * scale]} 
               rotation={[0, 0, 0]}
               scale={[0.025, 0.025, 0.025]}
             >

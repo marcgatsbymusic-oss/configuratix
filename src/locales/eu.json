@@ -126,7 +126,16 @@
     "title": "Premium Sistemak",
     "description": "Ezagutu gure leiho, ate eta terraza sistema sorta osoa. Errendimendu termiko, isolamendu akustikorako eta betiko diseinurako diseinatua.",
     "allProducts": "Produktu guztiak",
-    "new": "BERRIA"
+    "new": "BERRIA",
+    "sortBy": "Ordenatu honen arabera",
+    "sortOptions": {
+      "default": "Ordena lehenetsia",
+      "uw": "Transmitantzia termikoa",
+      "db": "Isolamendu akustikoa",
+      "chambers": "Kamerak",
+      "depth": "Instalazio-sakonera",
+      "gaskets": "Juntak"
+    }
   },
   "productDetail": {
     "notFound": "Produktua ez da aurkitu",
@@ -335,7 +344,8 @@
       "glazing": "Beirazko paketea",
       "options": "Osagarriak eta gehigarriak",
       "profile": "Profila",
-      "start": "Hasi"
+      "start": "Hasi",
+      "seals": "Juntak"
     },
     "summary": {
       "title": "Zehaztapenen ikuspegi orokorra",
@@ -408,6 +418,14 @@
     "welcome": {
       "title": "Ongi etorri AI bidezko Windows konfiguratzailera",
       "description": "Leihoak hautatzea ez da lan erraza, aukera asko daude eta guztion beharrak desberdinak dira, horregatik gure konfiguratzaileak zure beharretara eta aurrekontura egokitzen den aukerarik onena egiten lagunduko dizu."
+    },
+    "seals": {
+      "black": "Beltza (czarny)",
+      "grey": "Grisa (szary)"
+    },
+    "buttons": {
+      "previous": "Aurreko urratsa",
+      "next": "Hurrengo urratsa"
     }
   },
   "help": {

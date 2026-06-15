@@ -126,7 +126,16 @@
     "title": "Premium-järjestelmät",
     "description": "Tutustu kattavaan ikkunoiden, ovien ja terassijärjestelmien valikoimaamme. Suunniteltu erinomaiseen lämpösuorituskykyyn, äänieristykseen ja ajattomaan muotoiluun.",
     "allProducts": "Kaikki tuotteet",
-    "new": "UUSI"
+    "new": "UUSI",
+    "sortBy": "Järjestä",
+    "sortOptions": {
+      "default": "Oletusjärjestys",
+      "uw": "Lämmönläpäisykerroin",
+      "db": "Äänieristys",
+      "chambers": "Kammiot",
+      "depth": "Asennussyvyys",
+      "gaskets": "Tiivisteet"
+    }
   },
   "productDetail": {
     "notFound": "Tuotetta ei löydy",
@@ -335,7 +344,8 @@
       "glazing": "Lasituspaketti",
       "options": "Lisävarusteet ja lisäosat",
       "profile": "Profiili",
-      "start": "Aloita"
+      "start": "Aloita",
+      "seals": "Tiivisteet"
     },
     "summary": {
       "title": "Teknisten tietojen yleiskatsaus",
@@ -408,6 +418,14 @@
     "welcome": {
       "title": "Tervetuloa tekoälykäyttöiseen Windows-konfiguraattoriimme",
       "description": "Ikkunoiden valitseminen ei ole helppoa, vaihtoehtoja on monia ja jokaisen tarpeet vaihtelevat, siksi konfiguraattorimme opastaa ja auttaa sinua tekemään tarpeisiisi ja budjettiisi parhaiten sopivan valinnan."
+    },
+    "seals": {
+      "black": "Musta (czarny)",
+      "grey": "Harmaa (szary)"
+    },
+    "buttons": {
+      "previous": "Edellinen vaihe",
+      "next": "Seuraava vaihe"
     }
   },
   "help": {

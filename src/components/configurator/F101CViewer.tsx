@@ -306,9 +306,9 @@ function WindowAssembly({ widthMm, heightMm, mullionPos, colorExt, colorInt, col
         </group>
       </group>
 
-      <group position={[58 * scale, 58 * scale, -89 * scale]}>
+      <group position={[58 * scale, 58 * scale, -82.0 * scale]}>
         <group ref={leftSashPivotRef}>
-          <group position={[-58 * scale, -58 * scale, 89 * scale]}>
+          <group position={[-58 * scale, -58 * scale, 82.0 * scale]}>
             <group rotation={[0, 0, 0]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(mPosMm + sashOverlapMm, 1, 0)}</group></group>
             <group position={[(mPosMm + sashOverlapMm) * scale, 0, 0]} rotation={[0, 0, Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(heightMm, -1, (mPosMm + sashOverlapMm) * scale)}</group></group>
             <group position={[(mPosMm + sashOverlapMm) * scale, H, 0]} rotation={[0, 0, Math.PI]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(mPosMm + sashOverlapMm, 1, (mPosMm + sashOverlapMm) * scale - heightMm)}</group></group>
@@ -319,9 +319,9 @@ function WindowAssembly({ widthMm, heightMm, mullionPos, colorExt, colorInt, col
         </group>
       </group>
       
-      <group position={[W - 58 * scale, 58 * scale, -89 * scale]}>
+      <group position={[W - 58 * scale, 58 * scale, -82.0 * scale]}>
         <group ref={sashPivotRef}>
-          <group position={[-(W - 58 * scale), -58 * scale, 89 * scale]}>
+          <group position={[-(W - 58 * scale), -58 * scale, 82.0 * scale]}>
             <group position={[(mPosMm - sashOverlapMm) * scale, 0, 0]}>
               <group rotation={[0, 0, 0]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(widthMm - mPosMm + sashOverlapMm, 1, (mPosMm - sashOverlapMm) * scale)}</group></group>
               <group position={[(widthMm - mPosMm + sashOverlapMm) * scale, 0, 0]} rotation={[0, 0, Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(heightMm, -1, W)}</group></group>
@@ -443,7 +443,7 @@ export const F101CViewer: React.FC<F101CViewerProps> = ({
   
   const targetX = W_M * 0.5; 
   const targetY = H_M * 0.5;
-  const targetZ = 89 * MM / 2;
+  const targetZ = 82.0 * MM / 2;
 
   const angle = 0; 
   const radius = maxDim * 2.0;
@@ -489,7 +489,7 @@ export const F101CViewer: React.FC<F101CViewerProps> = ({
             onUserInteraction={handleUserInteraction} 
           />
         )}
-        <ContactShadows position={[W_M / 2, -0.005, 89 * MM / 2]} opacity={0.125} scale={maxDim * 5} blur={2.5} far={maxDim * 2} />
+        <ContactShadows position={[W_M / 2, -0.005, 82.0 * MM / 2]} opacity={0.125} scale={maxDim * 5} blur={2.5} far={maxDim * 2} />
         <OrbitControls 
           ref={controlsRef} 
           makeDefault 

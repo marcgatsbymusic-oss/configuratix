@@ -126,7 +126,16 @@
     "title": "Systemy premium",
     "description": "Odkryj naszą kompleksową ofertę systemów okien, drzwi i tarasów. Zaprojektowane z myślą o doskonałej wydajności termicznej, izolacji akustycznej i ponadczasowym designie.",
     "allProducts": "Wszystkie produkty",
-    "new": "NOWY"
+    "new": "NOWY",
+    "sortBy": "Sortuj według",
+    "sortOptions": {
+      "default": "Domyślna kolejność",
+      "uw": "Przenikalność termiczna",
+      "db": "Izolacja akustyczna",
+      "chambers": "Komory",
+      "depth": "Głębokość montażu",
+      "gaskets": "Uszczelki"
+    }
   },
   "productDetail": {
     "notFound": "Nie znaleziono produktu",
@@ -335,7 +344,8 @@
       "glazing": "Pakiet przeszkleń",
       "options": "Akcesoria i dodatki",
       "profile": "Profil",
-      "start": "Start"
+      "start": "Start",
+      "seals": "Uszczelki"
     },
     "summary": {
       "title": "Przegląd specyfikacji",
@@ -408,6 +418,14 @@
     "welcome": {
       "title": "Witamy w naszym konfiguratorze systemu Windows zasilanym sztuczną inteligencją",
       "description": "Wybór okien nie jest łatwym zadaniem, możliwości jest wiele, a potrzeby każdego są inne, dlatego nasz konfigurator doradzi i pomoże dokonać najlepszego wyboru, odpowiadającego Twoim potrzebom i budżetowi."
+    },
+    "seals": {
+      "black": "Czarny",
+      "grey": "Szary"
+    },
+    "buttons": {
+      "previous": "Poprzedni krok",
+      "next": "Następny krok"
     }
   },
   "help": {

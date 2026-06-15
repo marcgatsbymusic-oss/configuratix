@@ -129,7 +129,16 @@
     "title": "Premium Systems",
     "description": "Discover our comprehensive range of windows, doors, and terrace systems. Engineered for superior thermal performance, acoustic insulation, and timeless design.",
     "allProducts": "All Products",
-    "new": "NEW"
+    "new": "NEW",
+    "sortBy": "Sort By",
+    "sortOptions": {
+      "default": "Default Order",
+      "uw": "Thermal Transmittance",
+      "db": "Sound Insulation",
+      "chambers": "Chambers",
+      "depth": "Installation Depth",
+      "gaskets": "Gaskets"
+    }
   },
   "productDetail": {
     "availableModels": "Available Models",
@@ -634,7 +643,8 @@
       "glazing": "Glazing Package",
       "options": "Accessories & Add-ons",
       "profile": "Profile",
-      "start": "Start"
+      "start": "Start",
+      "seals": "Seals"
     },
     "summary": {
       "title": "Specs Overview",
@@ -710,7 +720,15 @@
     },
     "showBlindBox": "Show Roller Blind",
     "hideBlindBox": "Hide Roller Blind",
-    "blindTilt": "Slat Tilt"
+    "blindTilt": "Slat Tilt",
+    "seals": {
+      "black": "Black (czarny)",
+      "grey": "Grey (szary)"
+    },
+    "buttons": {
+      "previous": "Previous Step",
+      "next": "Next Step"
+    }
   },
   "help": {
     "materialDesc": "Choose the type of material for your window. Below you will find a summary of the main characteristics of each one.",
@@ -977,6 +995,11 @@
       "tagline": "Take care of your comfort and privacy",
       "description": "Choose proven and modern solutions to reduce heating and energy bills and take care of your privacy and safety.\n\nThey can also be integrated with Smart Home control systems.",
       "standardEquipment": []
+    },
+    "roller-blind-box-225": {
+      "name": "ROLLER BLIND BOX 225",
+      "tagline": "Advanced aluminium roller blinds with side guide rails",
+      "description": "Premium aluminium roller blinds featuring a top-mounted 225mm box casing and side guide rails. Offers exceptional light control, insulation, privacy and safety for your home."
     }
   },
   "accessories": {

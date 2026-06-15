@@ -1,24 +1,63 @@
 import fs from 'fs';
-import path from 'path';
+import DxfParser from 'dxf-parser';
 
-// Copied subset from dxf_prepare_geometry.mjs to test chainer
+const INPUT_FILE = "C:\\Users\\Shadow\\Cloud-Drive\\Web dev Drutex Product Content\\CAD Files Drutex\\DWG_TO_DXF_PIPELINE\\IGLO EDGE SERIES\\IGE_MOVABLEPOST_MAIN_OPENING_LEFT_V8.dxf";
 
-const SNAP_TOLERANCE = 1.5;
+const text = fs.readFileSync(INPUT_FILE, 'utf8');
+const parser = new DxfParser();
+const dxf = parser.parseSync(text);
 
 function dist(a, b) {
   return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2);
 }
 
-function angleBetween(v1, v2) {
-    const dot = v1.x * v2.x + v1.y * v2.y;
-    const mag1 = Math.sqrt(v1.x*v1.x + v1.y*v1.y);
-    const mag2 = Math.sqrt(v2.x*v2.x + v2.y*v2.y);
-    if (mag1 === 0 || mag2 === 0) return 0;
-    const cosTheta = Math.max(-1, Math.min(1, dot / (mag1 * mag2)));
-    return Math.acos(cosTheta);
+function transformPoint(pt, tx) {
+  const localRot = (tx.rotation || 0) * Math.PI / 180;
+  const scaleX = tx.scaleX === undefined ? 1 : tx.scaleX;
+  const scaleY = tx.scaleY === undefined ? 1 : tx.scaleY;
+  return {
+    x: pt.x * scaleX * Math.cos(localRot) - pt.y * scaleY * Math.sin(localRot) + tx.x,
+    y: pt.x * scaleX * Math.sin(localRot) + pt.y * scaleY * Math.cos(localRot) + tx.y
+  };
 }
 
-function chainSegments(segments, tol = SNAP_TOLERANCE) {
+function arcToPolyline(center, r, startAngle, endAngle, tx, segments = 24) {
+  let s = startAngle, e = endAngle;
+  if (e <= s) e += 2 * Math.PI;
+  const pts = [];
+  for (let i = 0; i <= segments; i++) {
+    const a = s + (e - s) * (i / segments);
+    pts.push(transformPoint({ x: center.x + r * Math.cos(a), y: center.y + r * Math.sin(a) }, tx));
+  }
+  return pts;
+}
+
+function bulgeToArcPts(p1, p2, bulge, tx, segments = 24) {
+  const theta = 4 * Math.atan(Math.abs(bulge));
+  const d     = dist(p1, p2) / 2;
+  const r     = d / Math.sin(theta / 2);
+  const mx    = (p1.x + p2.x) / 2, my = (p1.y + p2.y) / 2;
+  const dx    = p2.x - p1.x, dy = p2.y - p1.y;
+  const len   = Math.sqrt(dx * dx + dy * dy);
+  if (len === 0) return [];
+  const px    = -dy / len, py = dx / len;
+  const ss    = Math.sqrt(Math.max(0, r * r - d * d));
+  const sign  = bulge > 0 ? 1 : -1;
+  const cx    = mx + sign * ss * px, cy = my + sign * ss * py;
+  let startA  = Math.atan2(p1.y - cy, p1.x - cx);
+  let endA    = Math.atan2(p2.y - cy, p2.x - cx);
+  if (bulge > 0 && endA < startA) endA += 2 * Math.PI;
+  if (bulge < 0 && endA > startA) startA += 2 * Math.PI;
+  const pts = [];
+  for (let i = 1; i <= segments; i++) {
+    const t = i / segments;
+    const a = startA + (endA - startA) * t;
+    pts.push(transformPoint({ x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) }, tx));
+  }
+  return pts;
+}
+
+function chainSegmentsBidirectional(segments, tol = 0.05) {
   if (segments.length === 0) return [];
   const unused = [...segments];
   const chains = [];
@@ -26,60 +65,49 @@ function chainSegments(segments, tol = SNAP_TOLERANCE) {
   while (unused.length > 0) {
     let seg = unused.splice(0, 1)[0];
     let chain = [...seg.pts];
-    let chainEnd = seg.end;
-    let currentDir = { x: seg.end.x - seg.start.x, y: seg.end.y - seg.start.y };
-
     let changed = true;
+
     while (changed) {
       changed = false;
-      
-      let bestIdx = -1;
-      let bestIsRev = false;
+      let chainStart = chain[0];
+      let chainEnd = chain[chain.length - 1];
+
+      let bestIdx = -1, bestIsRev = false, bestPos = ''; // 'start' or 'end'
       let bestDist = Infinity;
-      let bestAngleDiff = Infinity;
 
       for (let i = 0; i < unused.length; i++) {
         const s = unused[i];
         
-        // Forward check
+        // 1. Try to append to chainEnd
         let d = dist(chainEnd, s.start);
-        if (d <= tol) {
-          let nextDir = { x: s.end.x - s.start.x, y: s.end.y - s.start.y };
-          let aDiff = angleBetween(currentDir, nextDir);
-          
-          if (d < bestDist - 0.001 || (Math.abs(d - bestDist) <= 0.001 && aDiff < bestAngleDiff)) {
-              bestDist = d;
-              bestAngleDiff = aDiff;
-              bestIdx = i;
-              bestIsRev = false;
-          }
+        if (d <= tol && d < bestDist) {
+          bestDist = d; bestIdx = i; bestIsRev = false; bestPos = 'end';
         }
-        
-        // Reverse check
-        const rev = { start: s.end, end: s.start, pts: [...s.pts].reverse() };
-        d = dist(chainEnd, rev.start);
-        if (d <= tol) {
-          let nextDir = { x: rev.end.x - rev.start.x, y: rev.end.y - rev.start.y };
-          let aDiff = angleBetween(currentDir, nextDir);
-          
-          if (d < bestDist - 0.001 || (Math.abs(d - bestDist) <= 0.001 && aDiff < bestAngleDiff)) {
-              bestDist = d;
-              bestAngleDiff = aDiff;
-              bestIdx = i;
-              bestIsRev = true;
-          }
+        d = dist(chainEnd, s.end);
+        if (d <= tol && d < bestDist) {
+          bestDist = d; bestIdx = i; bestIsRev = true; bestPos = 'end';
+        }
+
+        // 2. Try to prepend to chainStart
+        d = dist(chainStart, s.end);
+        if (d <= tol && d < bestDist) {
+          bestDist = d; bestIdx = i; bestIsRev = false; bestPos = 'start';
+        }
+        d = dist(chainStart, s.start);
+        if (d <= tol && d < bestDist) {
+          bestDist = d; bestIdx = i; bestIsRev = true; bestPos = 'start';
         }
       }
 
       if (bestIdx !== -1) {
-          const s = unused.splice(bestIdx, 1)[0];
-          const pts = bestIsRev ? [...s.pts].reverse() : s.pts;
+        const s = unused.splice(bestIdx, 1)[0];
+        const pts = bestIsRev ? [...s.pts].reverse() : s.pts;
+        if (bestPos === 'end') {
           chain.push(...pts.slice(1));
-          chainEnd = pts[pts.length - 1];
-          // Update currentDir based on last segment of the new addition
-          const beforeLast = pts[pts.length - 2];
-          currentDir = { x: chainEnd.x - beforeLast.x, y: chainEnd.y - beforeLast.y };
-          changed = true;
+        } else {
+          chain.unshift(...pts.slice(0, -1));
+        }
+        changed = true;
       }
     }
     chains.push(chain);
@@ -87,99 +115,48 @@ function chainSegments(segments, tol = SNAP_TOLERANCE) {
   return chains;
 }
 
-// Minimal DXF parser just for LINE and ARC
-function arcToPolyline(cx, cy, r, startDeg, endDeg, segments = 24) {
-  let s = (startDeg % 360 + 360) % 360;
-  let e = (endDeg   % 360 + 360) % 360;
-  if (e <= s) e += 360;
-  const pts = [];
-  for (let i = 0; i <= segments; i++) {
-    const a = ((s + (e - s) * (i / segments)) * Math.PI) / 180;
-    pts.push({ x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) });
-  }
-  return pts;
-}
-
-const text = fs.readFileSync('C:/Users/Shadow/Cloud-Drive/Web dev Drutex Product Content/CAD Files Drutex/DWG to DXF conversion tests/testing new layers.dxf', 'utf8');
-const linesText = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
-
-function peek(i) { return (linesText[i] || '').trim(); }
-function seekSection(name, start = 0) {
-  for (let i = start; i < linesText.length - 1; i++) {
-    if (peek(i) === '2' && peek(i + 1) === name) return i + 2;
-  }
-  return -1;
-}
-
-const entities = [];
-const entStart = seekSection('ENTITIES');
-let i = entStart;
-while (i < linesText.length) {
-  if (peek(i) === '0') {
-    const type = peek(i + 1);
-    if (type === 'ENDSEC' || type === 'EOF') break;
-    
-    if (type === 'LINE') {
-        const ent = { type: 'LINE', layer: '', x1: 0, y1: 0, x2: 0, y2: 0 };
-        i += 2;
-        while (i < linesText.length) {
-          const code = peek(i);
-          const val  = peek(i + 1);
-          if (code === '0') break;
-          if (code === '8')  ent.layer = val;
-          if (code === '10') ent.x1 = parseFloat(val);
-          if (code === '20') ent.y1 = parseFloat(val);
-          if (code === '11') ent.x2 = parseFloat(val);
-          if (code === '21') ent.y2 = parseFloat(val);
-          i += 2;
-        }
-        entities.push(ent);
-    } else if (type === 'ARC') {
-        const ent = { type: 'ARC', layer: '', cx: 0, cy: 0, r: 0, startAngle: 0, endAngle: 360 };
-        i += 2;
-        while (i < linesText.length) {
-          const code = peek(i);
-          const val  = peek(i + 1);
-          if (code === '0') break;
-          if (code === '8')  ent.layer      = val;
-          if (code === '10') ent.cx         = parseFloat(val);
-          if (code === '20') ent.cy         = parseFloat(val);
-          if (code === '40') ent.r          = parseFloat(val);
-          if (code === '50') ent.startAngle = parseFloat(val);
-          if (code === '51') ent.endAngle   = parseFloat(val);
-          i += 2;
-        }
-        entities.push(ent);
-    } else {
-        i += 2;
-    }
-  } else {
-    i += 2;
-  }
-}
-
-const frmExt = entities.filter(e => e.layer === 'FRM_EXT');
-const frmInt = entities.filter(e => e.layer === 'FRM_INT');
-
-function testLayer(name, ents) {
-    const segments = [];
-    for (const l of ents) {
-      if (l.type === 'LINE') {
-          const s = { x: l.x1, y: l.y1 };
-          const e = { x: l.x2, y: l.y2 };
-          segments.push({ start: s, end: e, pts: [s, e] });
-      } else if (l.type === 'ARC') {
-          const pts = arcToPolyline(l.cx, l.cy, l.r, l.startAngle, l.endAngle);
-          segments.push({ start: pts[0], end: pts[pts.length - 1], pts });
+const rawGeoms = [];
+function collectEntities(entities, tx) {
+  entities.forEach(ent => {
+    if (ent.type === 'INSERT') {
+      const block = dxf.blocks[ent.name];
+      if (block && block.entities) {
+        const nextTx = { x: ent.position.x + tx.x, y: ent.position.y + tx.y, rotation: tx.rotation + (ent.rotation || 0), scaleX: tx.scaleX * (ent.xScale || 1), scaleY: tx.scaleY * (ent.yScale || 1) };
+        collectEntities(block.entities, nextTx);
       }
+    } else if (ent.layer === 'IGE_GSK_EXT') {
+      rawGeoms.push({ entity: ent, tx });
     }
-    const chains = chainSegments(segments);
-    console.log(`${name}: ${chains.length} chains formed.`);
-    chains.forEach((c, idx) => {
-        const gap = dist(c[0], c[c.length-1]);
-        console.log(`  Chain ${idx}: ${c.length} pts, gap = ${gap.toFixed(3)}mm`);
-    });
+  });
 }
+collectEntities(dxf.entities, { x: 0, y: 0, rotation: 0, scaleX: 1, scaleY: 1 });
 
-testLayer('FRM_EXT', frmExt);
-testLayer('FRM_INT', frmInt);
+const segments = [];
+rawGeoms.forEach(({ entity, tx }) => {
+  if (entity.type === 'LINE') {
+    const s = transformPoint(entity.vertices[0], tx), e = transformPoint(entity.vertices[1], tx);
+    segments.push({ start: s, end: e, pts: [s, e] });
+  } else if (entity.type === 'ARC') {
+    const pts = arcToPolyline(entity.center, entity.radius, entity.startAngle, entity.endAngle, tx);
+    segments.push({ start: pts[0], end: pts[pts.length-1], pts });
+  } else if (entity.type === 'LWPOLYLINE' || entity.type === 'POLYLINE') {
+    const verts = entity.vertices;
+    for (let i = 0; i < verts.length - 1; i++) {
+      const p1 = transformPoint(verts[i], tx), p2 = transformPoint(verts[i+1], tx);
+      let pts = [p1];
+      if (verts[i].bulge) pts.push(...bulgeToArcPts(verts[i], verts[i+1], verts[i].bulge, tx));
+      else pts.push(p2);
+      segments.push({ start: p1, end: p2, pts });
+    }
+  }
+});
+
+const gsk3segs = segments.filter(seg => Math.min(seg.start.x, seg.end.x) >= 200.0);
+console.log(`Gasket 3 segments: ${gsk3segs.length}`);
+
+const tols = [0.05, 0.1, 0.2, 0.5, 1.0, 1.5];
+tols.forEach(tol => {
+  const chains = chainSegmentsBidirectional(gsk3segs, tol);
+  const closed = chains.filter(c => dist(c[0], c[c.length-1]) <= tol);
+  console.log(`Bidirectional Tol ${tol}mm: totalChains=${chains.length}, closedChains=${closed.length}`);
+});

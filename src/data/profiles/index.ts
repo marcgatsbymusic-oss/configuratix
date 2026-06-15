@@ -95,7 +95,24 @@ export const ProfileRegistry: Record<string, ProfileMetadata> = {
     name: 'Iglo Edge - F104 Frame & Sash',
     description: 'Standard window profile for Iglo Edge system.',
     fileName: 'IgloEdge/IGE_F104.json'
+  },
+  IGE_MOVABLE_POST_LEFT_OPENING: {
+    id: 'IGE_MOVABLE_POST_LEFT_OPENING',
+    system: 'IGLO_EDGE',
+    type: 'IGE_MOVABLE_POST_LEFT_OPENING',
+    name: 'Iglo Edge - Movable Post Left Opening V8',
+    description: 'Movable post left opening window profile for Iglo Edge system (V8).',
+    fileName: 'IgloEdge/IGE_MOVABLE_POST_LEFT_OPENING.json'
+  },
+  IGE_F202_R_FIXV2: {
+    id: 'IGE_F202_R_FIXV2',
+    system: 'IGLO_EDGE',
+    type: 'IGE_F202_R_FIXV2',
+    name: 'Iglo Edge F202 R Fix V2 — Double Sash Movable Post (Active Left)',
+    description: 'Double sash window with V8 movable post. Left sash opens & tilts (clockwise handle). Right sash turn only. Sequence locked: right opens after left.',
+    fileName: 'IgloEdge/IGE_MOVABLE_POST_LEFT_OPENING.json'
   }
+
 };
 
 /**

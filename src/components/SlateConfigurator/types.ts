@@ -171,6 +171,8 @@ export interface ConfiguratorState {
   interiorColor: string;
   exteriorColorGroup: string;
   exteriorColor: string;
+  blindColorGroup: string;
+  blindColor: string;
   glazingPackage: string;
   glassOutside: string;
   glassMiddle: string;
@@ -194,6 +196,8 @@ export type ConfiguratorAction =
   | { type: 'SET_INTERIOR_COLOR'; payload: string }
   | { type: 'SET_EXTERIOR_COLOR_GROUP'; payload: string }
   | { type: 'SET_EXTERIOR_COLOR'; payload: string }
+  | { type: 'SET_BLIND_COLOR_GROUP'; payload: string }
+  | { type: 'SET_BLIND_COLOR'; payload: string }
   | { type: 'SET_GLAZING_PACKAGE'; payload: string }
   | { type: 'SET_GLASS_OUTSIDE'; payload: string }
   | { type: 'SET_GLASS_MIDDLE'; payload: string }

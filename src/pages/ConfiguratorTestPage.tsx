@@ -23,13 +23,36 @@ export const ConfiguratorTestPage: React.FC = () => {
         <div className="w-full md:w-1/3 bg-gray-800 p-6 rounded-2xl shadow-xl flex flex-col gap-6">
           <div>
             <h2 className="text-2xl font-bold tracking-tight">IGLO 5 (F104) Configurator</h2>
-            <Link 
-              to="/hinge-tester" 
-              className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-yellow-500/20 bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20 transition-all text-xs font-bold uppercase tracking-wider cursor-pointer"
-            >
-              <span>Launch Hinge Tester</span>
-              <span className="text-sm">→</span>
-            </Link>
+            <div className="flex flex-col gap-2 mt-3">
+              <Link 
+                to="/hinge-tester" 
+                className="inline-flex items-center justify-between px-3 py-1.5 rounded-lg border border-yellow-500/20 bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20 transition-all text-xs font-bold uppercase tracking-wider cursor-pointer"
+              >
+                <span>Launch Hinge Tester</span>
+                <span className="text-sm">→</span>
+              </Link>
+              <Link 
+                to="/f104-profile" 
+                className="inline-flex items-center justify-between px-3 py-1.5 rounded-lg border border-blue-500/20 bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 transition-all text-xs font-bold uppercase tracking-wider cursor-pointer"
+              >
+                <span>Profile Inspector (Solid Blocks)</span>
+                <span className="text-sm">→</span>
+              </Link>
+              <Link 
+                to="/roller-blind-test" 
+                className="inline-flex items-center justify-between px-3 py-1.5 rounded-lg border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 transition-all text-xs font-bold uppercase tracking-wider cursor-pointer"
+              >
+                <span>Roller Blind Tester (Box 225)</span>
+                <span className="text-sm">→</span>
+              </Link>
+              <Link 
+                to="/roller-blind-test-mosquito" 
+                className="inline-flex items-center justify-between px-3 py-1.5 rounded-lg border border-purple-500/20 bg-purple-500/10 text-purple-400 hover:bg-purple-500/20 transition-all text-xs font-bold uppercase tracking-wider cursor-pointer"
+              >
+                <span>Roller Blind + Mosquito Net</span>
+                <span className="text-sm">→</span>
+              </Link>
+            </div>
           </div>
           
           <div className="flex flex-col gap-2">

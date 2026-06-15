@@ -126,7 +126,16 @@
     "title": "Premium system",
     "description": "Upptäck vårt omfattande utbud av fönster, dörrar och terrasssystem. Konstruerad för överlägsen termisk prestanda, akustisk isolering och tidlös design.",
     "allProducts": "Alla produkter",
-    "new": "NY"
+    "new": "NY",
+    "sortBy": "Sortera efter",
+    "sortOptions": {
+      "default": "Standardordning",
+      "uw": "U-värde",
+      "db": "Ljudisolering",
+      "chambers": "Kamrar",
+      "depth": "Karmdjup",
+      "gaskets": "Tätningar"
+    }
   },
   "productDetail": {
     "notFound": "Produkten hittades inte",
@@ -335,7 +344,8 @@
       "glazing": "Glaspaket",
       "options": "Tillbehör och tillägg",
       "profile": "Profil",
-      "start": "Start"
+      "start": "Start",
+      "seals": "Tätningar"
     },
     "summary": {
       "title": "Specifikationer Översikt",
@@ -408,6 +418,14 @@
     "welcome": {
       "title": "Välkommen till vår AI-drivna Windows-konfigurator",
       "description": "Att välja fönster är inte en lätt uppgift, det finns många alternativ och allas behov skiljer sig, det är därför vår konfigurator guidar och hjälper dig att göra det bästa valet som passar dina behov och budget."
+    },
+    "seals": {
+      "black": "Svart (czarny)",
+      "grey": "Grå (szary)"
+    },
+    "buttons": {
+      "previous": "Föregående steg",
+      "next": "Nästa steg"
     }
   },
   "help": {

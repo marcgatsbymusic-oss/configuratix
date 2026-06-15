@@ -126,7 +126,16 @@
     "title": "Premium-Systeme",
     "description": "Entdecken Sie unser umfassendes Sortiment an Fenstern, Türen und Terrassensystemen. Entwickelt für hervorragende Wärmeleistung, Schalldämmung und zeitloses Design.",
     "allProducts": "Alle Produkte",
-    "new": "NEU"
+    "new": "NEU",
+    "sortBy": "Sortieren nach",
+    "sortOptions": {
+      "default": "Standardreihenfolge",
+      "uw": "Wärmedurchgangskoeffizient",
+      "db": "Schalldämmung",
+      "chambers": "Kammern",
+      "depth": "Bautiefe",
+      "gaskets": "Dichtungen"
+    }
   },
   "productDetail": {
     "notFound": "Produkt nicht gefunden",
@@ -335,7 +344,8 @@
       "glazing": "Verglasungspaket",
       "options": "Zubehör und Add-ons",
       "profile": "Profil",
-      "start": "Start"
+      "start": "Start",
+      "seals": "Dichtungen"
     },
     "summary": {
       "title": "Technische Datenübersicht",
@@ -408,6 +418,14 @@
     "welcome": {
       "title": "Willkommen bei unserem KI-gestützten Windows-Konfigurator",
       "description": "Die Auswahl von Fenstern ist keine leichte Aufgabe, es gibt viele Optionen und die Bedürfnisse jedes Einzelnen sind unterschiedlich. Deshalb hilft Ihnen unser Konfigurator dabei, die beste Wahl zu treffen, die Ihren Bedürfnissen und Ihrem Budget entspricht."
+    },
+    "seals": {
+      "black": "Schwarz (czarny)",
+      "grey": "Grau (szary)"
+    },
+    "buttons": {
+      "previous": "Vorheriger Schritt",
+      "next": "Nächster Schritt"
     }
   },
   "help": {

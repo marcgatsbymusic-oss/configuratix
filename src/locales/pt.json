@@ -126,7 +126,16 @@
     "title": "Sistemas Premium",
     "description": "Descubra a nossa vasta gama de sistemas de janelas, portas e terraços. Projetado para desempenho térmico superior, isolamento acústico e design atemporal.",
     "allProducts": "Todos os produtos",
-    "new": "NOVA"
+    "new": "NOVA",
+    "sortBy": "Ordenar por",
+    "sortOptions": {
+      "default": "Ordem padrão",
+      "uw": "Transmitância térmica",
+      "db": "Isolamento acústico",
+      "chambers": "Câmaras",
+      "depth": "Profundidade de instalação",
+      "gaskets": "Juntas"
+    }
   },
   "productDetail": {
     "notFound": "Produto não encontrado",
@@ -335,7 +344,8 @@
       "glazing": "Pacote de vidros",
       "options": "Acessórios e complementos",
       "profile": "Perfil",
-      "start": "Começar"
+      "start": "Começar",
+      "seals": "Juntas"
     },
     "summary": {
       "title": "Visão geral das especificações",
@@ -408,6 +418,14 @@
     "welcome": {
       "title": "Bem-vindo ao nosso configurador de janelas com tecnologia de IA",
       "description": "Selecionar janelas não é uma tarefa fácil, as opções são muitas e as necessidades de cada pessoa são diferentes, por isso o nosso configurador irá orientá-lo e ajudá-lo a fazer a escolha mais adequada às suas necessidades e orçamento."
+    },
+    "seals": {
+      "black": "Preto (czarny)",
+      "grey": "Cinza (szary)"
+    },
+    "buttons": {
+      "previous": "Passo anterior",
+      "next": "Próximo passo"
     }
   },
   "help": {
