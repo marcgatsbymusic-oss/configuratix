@@ -365,7 +365,7 @@ function SingleBlindAssembly({
       {/* 3D Blinds control hotspot */}
       {onBlindOpenChange && (
         <Html 
-          position={[W / 2 - (hasMosquito ? 0.025 : 0), -0.12, slotZ - 20 * scale]} 
+          position={[W / 2 - (hasMosquito ? 0.15 : 0), -0.12, slotZ - 20 * scale]} 
           center
         >
           <div
@@ -397,7 +397,7 @@ function SingleBlindAssembly({
       {/* 3D Mosquito net control hotspot */}
       {hasMosquito && onMosquitoOpenChange && (
         <Html 
-          position={[W / 2 + 0.025, -0.12, mosquitoZ - 20 * scale]} 
+          position={[W / 2 + 0.15, -0.12, mosquitoZ - 20 * scale]} 
           center
         >
           <div
@@ -496,6 +496,8 @@ interface AssemblyProps {
   heightMm: number;
   colorExt: string;
   colorInt: string;
+  colorExtTexture?: string;
+  colorIntTexture?: string;
   colorGsk?: string;
   colorAlum?: string;
   colorBlind?: string;
@@ -515,7 +517,7 @@ interface AssemblyProps {
 type SlidingState = 'closed' | 'opening' | 'open' | 'closing';
 
 function FrameAssembly({ 
-  widthMm, heightMm, colorExt, colorInt, colorGsk = '#1c1c1c', colorAlum = '#a1a1aa',
+  widthMm, heightMm, colorExt, colorInt, colorExtTexture, colorIntTexture, colorGsk = '#1c1c1c', colorAlum = '#a1a1aa',
   colorBlind = '#ffffff',
   invertSides = false,
   onSceneReady,
@@ -676,7 +678,7 @@ function FrameAssembly({
         onSceneReady(groupObj);
       }
     }
-  }, [groupObj, onSceneReady, widthMm, heightMm, colorExt, colorInt, colorGsk, colorAlum, colorBlind, invertSides]);
+  }, [groupObj, onSceneReady, widthMm, heightMm, colorExt, colorInt, colorExtTexture, colorIntTexture, colorGsk, colorAlum, colorBlind, invertSides]);
 
   const getLayerContours = (layerName: string) => {
     const layer = pd.layers[layerName];
@@ -784,9 +786,6 @@ function FrameAssembly({
     );
   };
 
-  const activeColorExt = isInterior ? colorInt : colorExt;
-  const activeColorInt = isInterior ? colorInt : colorExt;
-
   // Standard 4-sided PVC frame segment renderer
   const renderFrameSegment = (len: number, uSign: number, uOff: number) => (
     <>
@@ -798,7 +797,8 @@ function FrameAssembly({
           length={len} 
           vertices={c} 
           matType="ext" 
-          color={activeColorExt}
+          color={colorExt}
+          textureUrl={colorExtTexture}
           origin={commonOrigin} 
           uSign={uSign} 
           uOffset={uOff} 
@@ -812,7 +812,8 @@ function FrameAssembly({
           length={len} 
           vertices={c} 
           matType="int" 
-          color={activeColorInt}
+          color={colorInt}
+          textureUrl={colorIntTexture}
           origin={commonOrigin} 
           uSign={uSign} 
           uOffset={uOff} 
@@ -852,7 +853,8 @@ function FrameAssembly({
           length={len} 
           vertices={c} 
           matType="ext" 
-          color={activeColorExt} 
+          color={colorExt} 
+          textureUrl={colorExtTexture}
           origin={commonOrigin} 
           uSign={uSign} 
           uOffset={uOff} 
@@ -874,7 +876,8 @@ function FrameAssembly({
           length={len} 
           vertices={c} 
           matType="ext" 
-          color={activeColorExt} 
+          color={colorExt} 
+          textureUrl={colorExtTexture}
           origin={commonOrigin} 
           uSign={uSign} 
           uOffset={uOff} 
@@ -888,7 +891,8 @@ function FrameAssembly({
           length={len} 
           vertices={c} 
           matType="int" 
-          color={activeColorInt} 
+          color={colorInt} 
+          textureUrl={colorIntTexture}
           origin={commonOrigin} 
           uSign={uSign} 
           uOffset={uOff} 
@@ -902,7 +906,8 @@ function FrameAssembly({
           length={len} 
           vertices={c} 
           matType="int" 
-          color={activeColorInt} 
+          color={colorInt} 
+          textureUrl={colorIntTexture}
           origin={commonOrigin} 
           uSign={uSign} 
           uOffset={uOff} 
@@ -1013,7 +1018,8 @@ function FrameAssembly({
           length={len}
           vertices={c}
           matType="int"
-          color={activeColorInt}
+          color={colorInt}
+          textureUrl={colorIntTexture}
           origin={commonOrigin}
           uSign={uSign}
           uOffset={uOff}
@@ -1347,6 +1353,8 @@ export interface IGLSideTestBuildViewerProps {
   height?: number;
   colorExt?: string;
   colorInt?: string;
+  colorExtTexture?: string;
+  colorIntTexture?: string;
   colorGsk?: string;
   colorAlum?: string;
   colorBlind?: string;
@@ -1369,6 +1377,8 @@ export const IGLSideTestBuildViewer: React.FC<IGLSideTestBuildViewerProps> = ({
   height = 2100,
   colorExt = '#ffffff', // standard white default
   colorInt = '#ffffff', // standard white default
+  colorExtTexture,
+  colorIntTexture,
   colorGsk = '#1c1c1c',
   colorAlum = '#8a8a93', // Silver/Anodized track look
   colorBlind = '#ffffff', // standard white default
@@ -1389,6 +1399,7 @@ export const IGLSideTestBuildViewer: React.FC<IGLSideTestBuildViewerProps> = ({
   const [heightText, setHeightText] = useState(height.toString());
   const controlsRef = useRef<any>(null);
   const [mountHeavy, setMountHeavy] = useState(false);
+  const [autoRotate, setAutoRotate] = useState(true);
 
   const { scene: handleScene } = useGLTF('/sliding_door_handle_IGLS.glb');
   const clonedHandle = useMemo(() => {
@@ -1461,7 +1472,7 @@ export const IGLSideTestBuildViewer: React.FC<IGLSideTestBuildViewerProps> = ({
           camera={{ position: camPos, fov: 32 }}
           style={{ background: 'transparent' }}
         >
-        <AdaptiveCamera maxDim={maxDim} targetX={targetX} targetY={targetY} targetZ={targetZ} angle={0} defaultRadiusMult={1.8} fov={32} zSign={-1} controlsRef={controlsRef} />
+        <AdaptiveCamera maxDim={maxDim} targetX={targetX} targetY={targetY} targetZ={targetZ} angle={0} defaultRadiusMult={1.8} fov={32} zSign={1} controlsRef={controlsRef} />
         {/* Only attach an opaque background colour when NOT in Needle mode */}
         {!isNeedleMode && <color attach="background" args={['#09090f']} />}
         {!isNeedleMode && <fog attach="fog" args={['#09090f', maxDim * 12, maxDim * 35]} />}
@@ -1482,6 +1493,8 @@ export const IGLSideTestBuildViewer: React.FC<IGLSideTestBuildViewerProps> = ({
             heightMm={height} 
             colorExt={colorExt} 
             colorInt={colorInt} 
+            colorExtTexture={colorExtTexture}
+            colorIntTexture={colorIntTexture}
             colorGsk={colorGsk} 
             colorAlum={colorAlum}
             colorBlind={colorBlind}
@@ -1508,6 +1521,9 @@ export const IGLSideTestBuildViewer: React.FC<IGLSideTestBuildViewerProps> = ({
           target={orbitTarget} 
           minDistance={maxDim * 0.5} 
           maxDistance={maxDim * 5} 
+          autoRotate={autoRotate}
+          autoRotateSpeed={0.5}
+          onStart={() => setAutoRotate(false)}
         />
       </Canvas>
     </div>
