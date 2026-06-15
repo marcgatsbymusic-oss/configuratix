@@ -4425,108 +4425,110 @@ export function DebugPricing() {
 
              {/* 3D ThreeJS Engine (mounted for both 3D and Needle modes) */}
              {(displayMode === '3D' || displayMode === 'Needle') && (
-                typology === 'F100T' ? (
-                  <div className="absolute inset-0">
-                    <F100TViewer isColorPaletteOpen={isColorWheelOpen}
-                      width={width}
-                      height={height}
-                      colorExt={extDetails.hex}
-                      colorInt={intDetails.hex}
-                      colorExtTexture={extDetails.textureUrl}
-                      colorIntTexture={intDetails.textureUrl}
-                      hidePill={true}
-                      isNeedleMode={displayMode === 'Needle'}
-                      needleEngineNode={needleEngineNode}
-                    />
-                  </div>
-                ) : typology === 'F101C' ? (
-                  <div className="absolute inset-0">
-                    <F101CViewer
-                      width={width}
-                      height={height}
-                      colorExt={extDetails.hex}
-                      colorInt={intDetails.hex}
-                      colorExtTexture={extDetails.textureUrl}
-                      colorIntTexture={intDetails.textureUrl}
-                      colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
-                      colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
-                      mullionPos={mullionPos}
-                      hidePill={true}
-                      isNeedleMode={displayMode === 'Needle'}
-                      needleEngineNode={needleEngineNode}
-                    />
-                  </div>
-                ) : typology === 'F101B' ? (
-                  <div className="absolute inset-0">
-                    <Child1 
-                      widthMm={width} 
-                      heightMm={height} 
-                      colorExt={extDetails.hex}
-                      colorInt={intDetails.hex}
-                      colorExtTexture={extDetails.textureUrl}
-                      colorIntTexture={intDetails.textureUrl}
-                      colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
-                      colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
-                      hidePill={true}
-                    />
-                  </div>
-                ) : typology === 'SLE201' ? (
-                   <div className="absolute inset-0">
-                     <SLE201Viewer isColorPaletteOpen={isColorWheelOpen}
-                       width={width}
-                       height={height}
-                       colorExt={extDetails.hex}
-                       colorInt={intDetails.hex}
-                       colorExtTexture={extDetails.textureUrl}
-                       colorIntTexture={intDetails.textureUrl}
-                       colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
-                       colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
-                       onSceneReady={handleSceneReady}
-                       hidePill={true}
-                       isNeedleMode={displayMode === 'Needle'}
-                       needleEngineNode={needleEngineNode}
-                     />
+                <div className={`absolute inset-0 ${displayMode === 'Needle' ? 'pointer-events-none z-10' : ''}`}>
+                  {typology === 'F100T' ? (
+                    <div className="absolute inset-0">
+                      <F100TViewer isColorPaletteOpen={isColorWheelOpen}
+                        width={width}
+                        height={height}
+                        colorExt={extDetails.hex}
+                        colorInt={intDetails.hex}
+                        colorExtTexture={extDetails.textureUrl}
+                        colorIntTexture={intDetails.textureUrl}
+                        hidePill={true}
+                        isNeedleMode={displayMode === 'Needle'}
+                        needleEngineNode={needleEngineNode}
+                      />
+                    </div>
+                  ) : typology === 'F101C' ? (
+                    <div className="absolute inset-0">
+                      <F101CViewer
+                        width={width}
+                        height={height}
+                        colorExt={extDetails.hex}
+                        colorInt={intDetails.hex}
+                        colorExtTexture={extDetails.textureUrl}
+                        colorIntTexture={intDetails.textureUrl}
+                        colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
+                        colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
+                        mullionPos={mullionPos}
+                        hidePill={true}
+                        isNeedleMode={displayMode === 'Needle'}
+                        needleEngineNode={needleEngineNode}
+                      />
+                    </div>
+                  ) : typology === 'F101B' ? (
+                    <div className="absolute inset-0">
+                      <Child1 
+                        widthMm={width} 
+                        heightMm={height} 
+                        colorExt={extDetails.hex}
+                        colorInt={intDetails.hex}
+                        colorExtTexture={extDetails.textureUrl}
+                        colorIntTexture={intDetails.textureUrl}
+                        colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
+                        colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
+                        hidePill={true}
+                      />
+                    </div>
+                  ) : typology === 'SLE201' ? (
+                     <div className="absolute inset-0">
+                       <SLE201Viewer isColorPaletteOpen={isColorWheelOpen}
+                         width={width}
+                         height={height}
+                         colorExt={extDetails.hex}
+                         colorInt={intDetails.hex}
+                         colorExtTexture={extDetails.textureUrl}
+                         colorIntTexture={intDetails.textureUrl}
+                         colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
+                         colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
+                         onSceneReady={handleSceneReady}
+                         hidePill={true}
+                         isNeedleMode={displayMode === 'Needle'}
+                         needleEngineNode={needleEngineNode}
+                       />
+                     </div>
+                  ) : typology === 'F104' ? (
+                     <div className="absolute inset-0">
+                       <F104Viewer isColorPaletteOpen={isColorWheelOpen}
+                         width={width}
+                         height={height}
+                         colorExt={extDetails.hex}
+                         colorInt={intDetails.hex}
+                         colorExtTexture={extDetails.textureUrl}
+                         colorIntTexture={intDetails.textureUrl}
+                         colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
+                         colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
+                         onSceneReady={handleSceneReady}
+                         hidePill={true}
+                         isNeedleMode={displayMode === 'Needle'}
+                         needleEngineNode={needleEngineNode}
+                       />
+                     </div>
+                 ) : (
+                   <div className={displayMode === '3D' ? "absolute inset-0" : "absolute inset-0 -z-50 opacity-0 pointer-events-none"}>
+                      <ThreejsWindowEngine 
+                        width={width} 
+                        height={height} 
+                        colorExt={extDetails.hex}
+                        colorInt={intDetails.hex}
+                        colorExtTexture={extDetails.textureUrl}
+                        colorIntTexture={intDetails.textureUrl}
+                        spacerColor={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
+                        onSceneReady={handleSceneReady}
+                        typology={typology}
+                        sealColor={sealColor}
+                        scenery={scenery}
+                        customBackground={customBackground || undefined}
+                      />
                    </div>
-                ) : typology === 'F104' ? (
-                   <div className="absolute inset-0">
-                     <F104Viewer isColorPaletteOpen={isColorWheelOpen}
-                       width={width}
-                       height={height}
-                       colorExt={extDetails.hex}
-                       colorInt={intDetails.hex}
-                       colorExtTexture={extDetails.textureUrl}
-                       colorIntTexture={intDetails.textureUrl}
-                       colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
-                       colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
-                       onSceneReady={handleSceneReady}
-                       hidePill={true}
-                       isNeedleMode={displayMode === 'Needle'}
-                       needleEngineNode={needleEngineNode}
-                     />
-                   </div>
-               ) : (
-                 <div className={displayMode === '3D' ? "absolute inset-0" : "absolute inset-0 -z-50 opacity-0 pointer-events-none"}>
-                    <ThreejsWindowEngine 
-                      width={width} 
-                      height={height} 
-                      colorExt={extDetails.hex}
-                      colorInt={intDetails.hex}
-                      colorExtTexture={extDetails.textureUrl}
-                      colorIntTexture={intDetails.textureUrl}
-                      spacerColor={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
-                      onSceneReady={handleSceneReady}
-                      typology={typology}
-                      sealColor={sealColor}
-                      scenery={scenery}
-                      customBackground={customBackground || undefined}
-                    />
-                 </div>
-               )
-             )}
+                 )}
+                </div>
+              )}
 
              {/* Needle Engine */}
              {displayMode === 'Needle' && (
-               <div className="absolute inset-0 flex items-center justify-center bg-[#ffffff]">
+               <div className="absolute inset-0 flex items-center justify-center bg-[#ffffff] z-0">
                  {needleModelUrl ? (
                    <>
                      {React.createElement('needle-engine', {

@@ -324,6 +324,7 @@ function WindowAssembly({
                     className="w-10 h-10 flex items-center justify-center cursor-pointer transition-all hover:scale-110"
                     style={{ 
                       animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                      pointerEvents: 'auto',
                     }}
                     onClick={(e) => { e.stopPropagation(); onUserInteraction(windowState === 'open_side' ? 'closed' : 'open_side'); }}
                   >
@@ -339,6 +340,7 @@ function WindowAssembly({
                     className="w-10 h-10 flex items-center justify-center cursor-pointer transition-all hover:scale-110"
                     style={{ 
                       animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                      pointerEvents: 'auto',
                     }}
                     onClick={(e) => { e.stopPropagation(); onUserInteraction(windowState === 'open_tilt' ? 'closed' : 'open_tilt'); }}
                   >
@@ -571,7 +573,7 @@ export const F100TViewer: React.FC<F100TViewerProps> = ({
   }, [windowState, isNeedleMode, needleEngineNode]);
 
   return (
-    <div className={`absolute inset-0 ${isNeedleMode ? 'needle-active' : ''}`} style={{ background: '#e2e8f0' }}>
+    <div className={`absolute inset-0 ${isNeedleMode ? 'needle-active z-10 pointer-events-none' : ''}`} style={{ background: isNeedleMode ? 'transparent' : '#e2e8f0' }}>
       <div className="absolute inset-0">
         <Canvas onDoubleClick={(e) => { e.stopPropagation(); controlsRef.current?.reset(); }} shadows gl={{ antialias: true, preserveDrawingBuffer: true }} camera={{ position: camPos, fov: 30 }}>
         <AdaptiveCamera maxDim={maxDim} targetX={targetX} targetY={targetY} targetZ={targetZ} angle={angle} defaultRadiusMult={2.0} fov={30} zSign={-1} controlsRef={controlsRef} />

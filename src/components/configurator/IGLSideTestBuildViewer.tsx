@@ -636,14 +636,14 @@ function FrameAssembly({
     };
 
     if (a.dir === 1) { 
-      // OPENING: Phase1=handle CW, Phase2=sash toward camera (Z decreases), Phase3=slide LEFT (−X)
+      // OPENING: Phase1=handle CW, Phase2=sash away from camera (Z increases), Phase3=slide LEFT (−X)
       if      (a.phase === 1) { handleAngle.current = Math.PI * t;                                                            if (raw>=1) next(2, 1.2); }
-      else if (a.phase === 2) { handleAngle.current = Math.PI; sashFwd.current = -15.55*scale*t;                               if (raw>=1) next(3, 2.8); }
-      else if (a.phase === 3) { handleAngle.current = Math.PI; sashFwd.current = -15.55*scale; sashLeft.current = -(W/2 - 80*scale)*t;  if (raw>=1) next(0,0); }
+      else if (a.phase === 2) { handleAngle.current = Math.PI; sashFwd.current = 15.55*scale*t;                               if (raw>=1) next(3, 2.8); }
+      else if (a.phase === 3) { handleAngle.current = Math.PI; sashFwd.current = 15.55*scale; sashLeft.current = -(W/2 - 80*scale)*t;  if (raw>=1) next(0,0); }
     } else {
-      // CLOSING: Phase3=slide back to X=0, Phase2=retract from camera (Z increases), Phase1=handle back
-      if      (a.phase === 3) { sashLeft.current = -(W/2 - 80*scale)*(1-t); sashFwd.current = -15.55*scale;                     if (raw>=1) next(2, 1.2); }
-      else if (a.phase === 2) { sashLeft.current = 0; sashFwd.current = -15.55*scale*(1-t);                                    if (raw>=1) next(1, 0.8); }
+      // CLOSING: Phase3=slide back to X=0, Phase2=pull toward camera (Z decreases), Phase1=handle back
+      if      (a.phase === 3) { sashLeft.current = -(W/2 - 80*scale)*(1-t); sashFwd.current = 15.55*scale;                     if (raw>=1) next(2, 1.2); }
+      else if (a.phase === 2) { sashLeft.current = 0; sashFwd.current = 15.55*scale*(1-t);                                    if (raw>=1) next(1, 0.8); }
       else if (a.phase === 1) { sashLeft.current = 0; sashFwd.current = 0; handleAngle.current = Math.PI*(1-t);                if (raw>=1) { handleAngle.current=0; next(0,0); } }
     }
 
@@ -1220,7 +1220,7 @@ function FrameAssembly({
       </group>
  
       {/* 4. Opening Door Panel (Sash + Glass) */}
-      <group ref={sashGroupRef} name="sashGroup" position={[0, 0, 31.1 * scale]}>
+      <group ref={sashGroupRef} name="sashGroup" position={[0, 0, 0]}>
         {/* Handle on the interior face of the right stile */}
         {clonedHandle && (
           <group
@@ -1247,6 +1247,7 @@ function FrameAssembly({
               opacity: isMoving ? 0.5 : 1,
               animation: isMoving ? 'none' : 'pulse 2.5s cubic-bezier(.4,0,.6,1) infinite',
               transition: 'background .3s, border-color .3s',
+              pointerEvents: 'auto',
             }}
           >
             <div style={{
@@ -1397,6 +1398,7 @@ export const IGLSideTestBuildViewer: React.FC<IGLSideTestBuildViewerProps> = ({
       node.position.y -= -0.07755661010742188;
     });
     let lever: THREE.Object3D | undefined =
+      c.getObjectByName('Sliding_door_handle') ??
       c.getObjectByName('Handle') ??
       c.getObjectByName('handle') ??
       c.getObjectByName('Pencere_Kulbu');
@@ -1443,20 +1445,36 @@ export const IGLSideTestBuildViewer: React.FC<IGLSideTestBuildViewerProps> = ({
   const orbitTarget: [number, number, number] = [targetX, targetY, targetZ];
 
   return (
-    <div className={`absolute inset-0 ${isNeedleMode ? 'needle-active' : ''}`} style={{ background: '#09090f' }}>
+    <div
+      className="absolute inset-0"
+      style={{
+        background: isNeedleMode ? 'transparent' : '#09090f',
+        zIndex: isNeedleMode ? 10 : 'auto',
+      }}
+    >
       <div className="absolute inset-0">
-        <Canvas shadows gl={{ antialias: true }} camera={{ position: camPos, fov: 32 }}>
+        {/* In Needle mode: alpha canvas sits transparently on top of needle-engine.
+            pointer-events stay enabled so OrbitControls + Html hotspots work. */}
+        <Canvas
+          shadows
+          gl={{ antialias: true, alpha: isNeedleMode, premultipliedAlpha: false }}
+          camera={{ position: camPos, fov: 32 }}
+          style={{ background: 'transparent' }}
+        >
         <AdaptiveCamera maxDim={maxDim} targetX={targetX} targetY={targetY} targetZ={targetZ} angle={0} defaultRadiusMult={1.8} fov={32} zSign={-1} controlsRef={controlsRef} />
-        <color attach="background" args={['#09090f']} />
-        <fog attach="fog" args={['#09090f', maxDim * 12, maxDim * 35]} />
+        {/* Only attach an opaque background colour when NOT in Needle mode */}
+        {!isNeedleMode && <color attach="background" args={['#09090f']} />}
+        {!isNeedleMode && <fog attach="fog" args={['#09090f', maxDim * 12, maxDim * 35]} />}
         <ambientLight intensity={0.4} />
         <directionalLight position={[W_M * 3, H_M * 3, -H_M * 3]} intensity={2.5} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} shadow-bias={-0.0003} color="#ffffff" />
         <directionalLight position={[-W_M * 2, H_M * 0.8, -H_M]} intensity={0.6} color="#38bdf8" />
         <directionalLight position={[W_M * 0.5, -H_M, -H_M * 0.5]} intensity={0.2} color="#f59e0b" />
         
-        <Suspense fallback={null}>
-          <Environment files="/assets/hdri/monochrome_studio_02_1k.exr" />
-        </Suspense>
+        {!isNeedleMode && (
+          <Suspense fallback={null}>
+            <Environment files="/assets/hdri/monochrome_studio_02_1k.exr" />
+          </Suspense>
+        )}
 
         {mountHeavy && (
           <FrameAssembly 
@@ -1481,7 +1499,7 @@ export const IGLSideTestBuildViewer: React.FC<IGLSideTestBuildViewerProps> = ({
           />
         )}
 
-        <ContactShadows position={[W_M / 2, -0.005, 0]} opacity={0.3} scale={maxDim * 4} blur={2.0} far={maxDim * 1.5} />
+        {!isNeedleMode && <ContactShadows position={[W_M / 2, -0.005, 0]} opacity={0.3} scale={maxDim * 4} blur={2.0} far={maxDim * 1.5} />}
         <OrbitControls 
           ref={controlsRef} 
           makeDefault 

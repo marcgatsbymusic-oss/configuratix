@@ -737,6 +737,7 @@ function SlidingScene({
                 opacity: isMoving ? 0.5 : 1,
                 animation: isMoving ? 'none' : 'pulse 2.5s cubic-bezier(.4,0,.6,1) infinite',
                 transition: 'background .3s, border-color .3s',
+                pointerEvents: 'auto',
               }}
             >
               <div style={{
@@ -949,7 +950,7 @@ export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
   const orbitTarget: [number,number,number] = [targetX, targetY, targetZ];
 
   return (
-    <div className={`absolute inset-0 bg-[#e2e8f0] ${isNeedleMode ? 'needle-active' : ''}`} onPointerDown={() => setAutoRotate(false)}>
+    <div className={`absolute inset-0 ${isNeedleMode ? 'bg-transparent needle-active z-10 pointer-events-none' : 'bg-[#e2e8f0]'}`} onPointerDown={() => setAutoRotate(false)}>
       <div className="absolute inset-0">
         <Canvas
           onDoubleClick={(e) => { e.stopPropagation(); controlsRef.current?.reset(); }}

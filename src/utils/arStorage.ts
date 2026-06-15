@@ -52,7 +52,7 @@ export function getAnimationClipsForTypology(typology: string): THREE.AnimationC
   if (typology === 'SLE201' || typology === 'IGLSIDE_TEST_BUILD') {
     // SLE201 / IGLSIDE_TEST_BUILD open animation
     const isTestBuild = typology === 'IGLSIDE_TEST_BUILD';
-    const startZ = isTestBuild ? 0.0311 : 0;
+    const startZ = isTestBuild ? 0 : 0;
     const midZ = isTestBuild ? 0.01555 : -0.01;
     const slideX = isTestBuild ? -1.0 : 1.0;
 

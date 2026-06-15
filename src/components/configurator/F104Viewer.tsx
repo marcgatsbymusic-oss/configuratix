@@ -530,7 +530,7 @@ function F104Assembly({
                 <Html position={[handleX, handleY, handleZ]} center>
                   <div
                     className="w-10 h-10 flex items-center justify-center cursor-pointer transition-all hover:scale-110"
-                    style={{ animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}
+                    style={{ animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite', pointerEvents: 'auto' }}
                     onClick={(e) => { e.stopPropagation(); onUserInteraction(windowState === 'open_side' ? 'closed' : 'open_side'); }}
                   >
                     <div className="relative w-4 h-4 flex items-center justify-center">
@@ -543,7 +543,7 @@ function F104Assembly({
                 <Html position={[handleX, H - 75 * scale, handleZ]} center>
                   <div
                     className="w-10 h-10 flex items-center justify-center cursor-pointer transition-all hover:scale-110"
-                    style={{ animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}
+                    style={{ animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite', pointerEvents: 'auto' }}
                     onClick={(e) => { e.stopPropagation(); onUserInteraction(windowState === 'open_tilt' ? 'closed' : 'open_tilt'); }}
                   >
                     <div className="relative w-4 h-4 flex items-center justify-center">
@@ -921,7 +921,7 @@ export const F104Viewer: React.FC<F104ViewerProps> = ({
   }, [windowState, isNeedleMode, needleEngineNode]);
 
   return (
-    <div className={`absolute inset-0 ${isNeedleMode ? 'needle-active' : ''}`} style={{ background: '#dde4ed' }}>
+    <div className={`absolute inset-0 ${isNeedleMode ? 'needle-active z-10 pointer-events-none' : ''}`} style={{ background: isNeedleMode ? 'transparent' : '#dde4ed' }}>
       <div className="absolute inset-0">
         <Canvas
           onDoubleClick={e => { e.stopPropagation(); controlsRef.current?.reset(); }}
