@@ -75,7 +75,7 @@ interface FrameSegmentProps {
   compositeCut?: boolean;
 }
 
-function applyUVs(
+export function applyUVs(
   geometry: THREE.BufferGeometry,
   uSign: number = 1,
   uOffset: number = 0,
@@ -131,7 +131,7 @@ function applyUVs(
 
 // ─── Inline reactive material ─────────────────────────────────────────────────
 // Rendered as JSX children so R3F's reconciler handles color prop changes natively.
-function SegmentMaterial({ matType, color, textureUrl }: { matType: MatType; color?: string; textureUrl?: string }) {
+export function SegmentMaterial({ matType, color, textureUrl }: { matType: MatType; color?: string; textureUrl?: string }) {
   const [maps, setMaps] = React.useState<{ diffuse: THREE.Texture | null; normal: THREE.Texture | null; orm: THREE.Texture | null }>({ diffuse: null, normal: null, orm: null });
 
   React.useEffect(() => {

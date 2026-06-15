@@ -3,7 +3,7 @@ import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows, useProgress, useGLTF, Html } from '@react-three/drei';
 import { Loader2 } from 'lucide-react';
 import * as THREE from 'three';
-import { FrameSegment } from './FrameSegment';
+import { FrameSegment, SegmentMaterial, applyUVs } from './FrameSegment';
 import { AdaptiveCamera } from './AdaptiveCamera';
 import profileDataRaw from '../../data/profiles/IgloEdge/IGLS_OPENING_DOOR_SECTION_AND_FRAME.json';
 import fixedGlazingDataRaw from '../../data/profiles/IgloEdge/Fixed_Glazing.json';
@@ -55,11 +55,91 @@ function createThreeShape(commands: Command[]) {
   return shape;
 }
 
+function splitGeometryByNormal(geometry: THREE.BufferGeometry, rotationMatrix: THREE.Matrix4) {
+  const nonIndexed = geometry.toNonIndexed();
+  const posAttr = nonIndexed.attributes.position;
+  const normAttr = nonIndexed.attributes.normal;
+  const uvAttr = nonIndexed.attributes.uv;
+
+  if (!posAttr || !normAttr) return { ext: geometry, int: geometry };
+
+  const extPositions: number[] = [];
+  const extNormals: number[] = [];
+  const extUvs: number[] = [];
+
+  const intPositions: number[] = [];
+  const intNormals: number[] = [];
+  const intUvs: number[] = [];
+
+  const tempNormal = new THREE.Vector3();
+
+  for (let i = 0; i < posAttr.count; i += 3) {
+    let nx = 0, ny = 0, nz = 0;
+    for (let j = 0; j < 3; j++) {
+      nx += normAttr.getX(i + j);
+      ny += normAttr.getY(i + j);
+      nz += normAttr.getZ(i + j);
+    }
+    tempNormal.set(nx / 3, ny / 3, nz / 3).normalize();
+    tempNormal.applyMatrix4(rotationMatrix);
+
+    const isExt = tempNormal.z > 0.001;
+
+    for (let j = 0; j < 3; j++) {
+      const px = posAttr.getX(i + j);
+      const py = posAttr.getY(i + j);
+      const pz = posAttr.getZ(i + j);
+
+      const nX = normAttr.getX(i + j);
+      const nY = normAttr.getY(i + j);
+      const nZ = normAttr.getZ(i + j);
+
+      if (isExt) {
+        extPositions.push(px, py, pz);
+        extNormals.push(nX, nY, nZ);
+        if (uvAttr) {
+          extUvs.push(uvAttr.getX(i + j), uvAttr.getY(i + j));
+        }
+      } else {
+        intPositions.push(px, py, pz);
+        intNormals.push(nX, nY, nZ);
+        if (uvAttr) {
+          intUvs.push(uvAttr.getX(i + j), uvAttr.getY(i + j));
+        }
+      }
+    }
+  }
+
+  const extGeo = new THREE.BufferGeometry();
+  extGeo.setAttribute('position', new THREE.Float32BufferAttribute(extPositions, 3));
+  extGeo.setAttribute('normal', new THREE.Float32BufferAttribute(extNormals, 3));
+  if (uvAttr && extUvs.length > 0) {
+    extGeo.setAttribute('uv', new THREE.Float32BufferAttribute(extUvs, 2));
+    extGeo.setAttribute('uv2', new THREE.Float32BufferAttribute(extUvs, 2));
+  }
+  extGeo.computeBoundingBox();
+  extGeo.computeBoundingSphere();
+
+  const intGeo = new THREE.BufferGeometry();
+  intGeo.setAttribute('position', new THREE.Float32BufferAttribute(intPositions, 3));
+  intGeo.setAttribute('normal', new THREE.Float32BufferAttribute(intNormals, 3));
+  if (uvAttr && intUvs.length > 0) {
+    intGeo.setAttribute('uv', new THREE.Float32BufferAttribute(intUvs, 2));
+    intGeo.setAttribute('uv2', new THREE.Float32BufferAttribute(intUvs, 2));
+  }
+  intGeo.computeBoundingBox();
+  intGeo.computeBoundingSphere();
+
+  return { ext: extGeo, int: intGeo };
+}
+
 interface SingleBlindAssemblyProps {
   widthMm: number;
   heightMm: number;
   colorExt: string;
   colorInt: string;
+  colorExtTexture?: string;
+  colorIntTexture?: string;
   colorBlind?: string;
   blindOpen: number;
   mosquitoOpen?: number;
@@ -77,6 +157,8 @@ function SingleBlindAssembly({
   heightMm,
   colorExt,
   colorInt,
+  colorExtTexture,
+  colorIntTexture,
   colorBlind = '#ffffff',
   blindOpen,
   mosquitoOpen = 0.0,
@@ -92,41 +174,19 @@ function SingleBlindAssembly({
   const W = widthMm * scale;
   const H = heightMm * scale;
 
-  const uniformsRef = useRef({
-    uColorExt: { value: new THREE.Color() },
-    uColorInt: { value: new THREE.Color() }
-  });
-
-  uniformsRef.current.uColorExt.value.set(colorExt || '#383e42');
-  uniformsRef.current.uColorInt.value.set(colorInt || colorExt || '#f3f4f6');
-
-  const mainMaterial = useMemo(() => {
-    const mat = new THREE.MeshStandardMaterial({
-      roughness: 0.4,
-      metalness: 0.8,
-    });
-
-    mat.onBeforeCompile = (shader) => {
-      shader.uniforms.uColorExt = uniformsRef.current.uColorExt;
-      shader.uniforms.uColorInt = uniformsRef.current.uColorInt;
-
-      shader.fragmentShader = `
-        uniform vec3 uColorExt;
-        uniform vec3 uColorInt;
-      ` + shader.fragmentShader;
-
-      shader.fragmentShader = shader.fragmentShader.replace(
-        'vec4 diffuseColor = vec4( diffuse, opacity );',
-        `
-        vec3 worldNormal = inverseTransformDirection( vNormal, viewMatrix );
-        vec3 col = (worldNormal.z > 0.0) ? uColorExt : uColorInt;
-        vec4 diffuseColor = vec4( col, opacity );
-        `
-      );
-    };
-
-    return mat;
+  const parentMatrix = useMemo(() => {
+    return new THREE.Matrix4().makeRotationFromEuler(new THREE.Euler(0, Math.PI, 0));
   }, []);
+
+  const boxMatrix = useMemo(() => {
+    const mat = new THREE.Matrix4().makeRotationFromEuler(new THREE.Euler(0, Math.PI / 2, 0));
+    return parentMatrix.clone().multiply(mat);
+  }, [parentMatrix]);
+
+  const railMatrix = useMemo(() => {
+    const mat = new THREE.Matrix4().makeRotationFromEuler(new THREE.Euler(-Math.PI / 2, 0, 0));
+    return parentMatrix.clone().multiply(mat);
+  }, [parentMatrix]);
 
   const slatMaterial = useMemo(() => {
     return new THREE.MeshStandardMaterial({
@@ -135,23 +195,7 @@ function SingleBlindAssembly({
     });
   }, []);
 
-  const endCapMaterial = useMemo(() => {
-    return new THREE.MeshStandardMaterial({
-      roughness: 0.4,
-      metalness: 0.8,
-    });
-  }, []);
-
-  const railMaterial = useMemo(() => {
-    return new THREE.MeshStandardMaterial({
-      roughness: 0.45,
-      metalness: 0.75,
-    });
-  }, []);
-
-  railMaterial.color.set(colorExt || '#383e42');
   slatMaterial.color.set(colorBlind || colorExt || '#383e42');
-  endCapMaterial.color.set(colorInt || colorExt || '#f3f4f6');
 
   const boxExtrudeSettings = useMemo(() => ({
     depth: W,
@@ -183,6 +227,16 @@ function SingleBlindAssembly({
     });
     return list;
   }, [boxExtrudeSettings, scale]);
+
+  const splitBoxGeometries = useMemo(() => {
+    const list: { ext: THREE.BufferGeometry; int: THREE.BufferGeometry }[] = [];
+    boxGeometries.forEach(geo => {
+      applyUVs(geo, 1, 0, 'triplanar');
+      const split = splitGeometryByNormal(geo, boxMatrix);
+      list.push(split);
+    });
+    return list;
+  }, [boxGeometries, boxMatrix]);
 
   const slatGeometry = useMemo(() => {
     if (!bpd.slatProfile || bpd.slatProfile.length === 0) return null;
@@ -222,6 +276,11 @@ function SingleBlindAssembly({
 
     return new THREE.ExtrudeGeometry(scaledShape, railExtrudeSettings);
   }, [railExtrudeSettings, scale]);
+
+  const splitRailGeometry = useMemo(() => {
+    applyUVs(railGeometry, 1, 0, 'rail');
+    return splitGeometryByNormal(railGeometry, railMatrix);
+  }, [railGeometry, railMatrix]);
 
   const mosquitoTexture = useMemo(() => {
     if (!hasMosquito) return null;
@@ -425,23 +484,44 @@ function SingleBlindAssembly({
       )}
       {/* 1. Box casing profiles */}
       <group position={[0, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
-        {boxGeometries.map((geo, idx) => (
-          <mesh key={idx} geometry={geo} material={mainMaterial} castShadow receiveShadow />
+        {splitBoxGeometries.map((split, idx) => (
+          <group key={idx}>
+            <mesh geometry={split.ext} castShadow receiveShadow>
+              <SegmentMaterial matType="ext" color={colorExt} textureUrl={colorExtTexture} />
+            </mesh>
+            <mesh geometry={split.int} castShadow receiveShadow>
+              <SegmentMaterial matType="int" color={colorInt} textureUrl={colorIntTexture} />
+            </mesh>
+          </group>
         ))}
         {!skipLeftCap && (
-          <mesh geometry={capGeometry} material={endCapMaterial} position={[0, 0, -0.0021]} castShadow receiveShadow />
+          <mesh geometry={capGeometry} position={[0, 0, -0.0021]} castShadow receiveShadow>
+            <SegmentMaterial matType="int" color={colorInt} textureUrl={colorIntTexture} />
+          </mesh>
         )}
         {!skipRightCap && (
-          <mesh geometry={capGeometry} material={endCapMaterial} position={[0, 0, W + 0.0001]} castShadow receiveShadow />
+          <mesh geometry={capGeometry} position={[0, 0, W + 0.0001]} castShadow receiveShadow>
+            <SegmentMaterial matType="int" color={colorInt} textureUrl={colorIntTexture} />
+          </mesh>
         )}
       </group>
 
       {/* 2. Side Guide Rails */}
       <group position={[0, -H, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <mesh geometry={railGeometry} material={railMaterial} castShadow receiveShadow />
+        <mesh geometry={splitRailGeometry.ext} castShadow receiveShadow>
+          <SegmentMaterial matType="ext" color={colorExt} textureUrl={colorExtTexture} />
+        </mesh>
+        <mesh geometry={splitRailGeometry.int} castShadow receiveShadow>
+          <SegmentMaterial matType="int" color={colorInt} textureUrl={colorIntTexture} />
+        </mesh>
       </group>
       <group position={[W, -H, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={[-1, 1, 1]}>
-        <mesh geometry={railGeometry} material={railMaterial} castShadow receiveShadow />
+        <mesh geometry={splitRailGeometry.ext} castShadow receiveShadow>
+          <SegmentMaterial matType="ext" color={colorExt} textureUrl={colorExtTexture} />
+        </mesh>
+        <mesh geometry={splitRailGeometry.int} castShadow receiveShadow>
+          <SegmentMaterial matType="int" color={colorInt} textureUrl={colorIntTexture} />
+        </mesh>
       </group>
 
       {/* 3. Slats stack & bottom bar */}
@@ -1304,6 +1384,8 @@ function FrameAssembly({
           heightMm={heightMm}
           colorExt={colorExt}
           colorInt={colorInt}
+          colorExtTexture={colorExtTexture}
+          colorIntTexture={colorIntTexture}
           colorBlind={colorBlind}
           blindOpen={blindOpenLeft}
           hasMosquito={false}
@@ -1318,6 +1400,8 @@ function FrameAssembly({
           heightMm={heightMm}
           colorExt={colorExt}
           colorInt={colorInt}
+          colorExtTexture={colorExtTexture}
+          colorIntTexture={colorIntTexture}
           colorBlind={colorBlind}
           blindOpen={blindOpenRight}
           mosquitoOpen={mosquitoOpenRight}
