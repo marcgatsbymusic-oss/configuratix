@@ -8,6 +8,7 @@ import { AdaptiveCamera } from './AdaptiveCamera';
 import profileDataRaw from '../../data/profiles/IgloEdge/IGLS_OPENING_DOOR_SECTION_AND_FRAME.json';
 import fixedGlazingDataRaw from '../../data/profiles/IgloEdge/Fixed_Glazing.json';
 import blindProfileDataRaw from '../../data/profiles/ROLLER_BLIND_BOX_225.json';
+import { IGLO_EDGE_COLORS } from '../../data/productDetails';
 
 
 interface Point { x: number; y: number }
@@ -1432,6 +1433,48 @@ function DelayedLoader({ mountHeavy }: { mountHeavy: boolean }) {
   );
 }
 
+function getHandleColor(colorInt: string, colorIntTexture?: string): 'white' | 'brown' | 'stainless steel' | 'black' | 'grey' | 'anthracite' {
+  const matched = IGLO_EDGE_COLORS.find(c => {
+    if (colorIntTexture && c.image && (colorIntTexture.includes(c.image) || c.image.includes(colorIntTexture))) return true;
+    return c.hex.toLowerCase() === colorInt.toLowerCase();
+  });
+
+  const name = (matched?.name || '').toLowerCase();
+  const hex = colorInt.toLowerCase();
+
+  if (name.includes('black') || name.includes('czarny') || hex === '#000000' || hex === '#111111' || hex === '#1a1a1a') {
+    return 'black';
+  }
+  if (name.includes('white') || name.includes('bialy') || name.includes('cream') || name.includes('kremowy') || hex === '#ffffff' || hex === '#f3f4f6') {
+    return 'white';
+  }
+  if (name.includes('anthracite') || name.includes('antracyt')) {
+    return 'anthracite';
+  }
+  if (
+    name.includes('oak') || name.includes('dab') || 
+    name.includes('walnut') || name.includes('orzech') || 
+    name.includes('mahogany') || name.includes('macore') || 
+    name.includes('winchester') || name.includes('toffee') ||
+    name.includes('brown') || name.includes('braz') ||
+    name.includes('palisander') || name.includes('oregon') ||
+    name.includes('douglas') || name.includes('fir')
+  ) {
+    return 'brown';
+  }
+  if (
+    name.includes('grey') || name.includes('szary') || 
+    name.includes('basalt') || name.includes('quartz') || 
+    name.includes('concrete') || name.includes('slate') || name.includes('lupkowy')
+  ) {
+    return 'grey';
+  }
+  if (hex === '#ffffff' || hex === '#f3f4f6' || hex === '#cccccc') {
+    return 'white';
+  }
+  return 'stainless steel';
+}
+
 export interface IGLSideTestBuildViewerProps {
   width?: number;
   height?: number;
@@ -1507,9 +1550,51 @@ export const IGLSideTestBuildViewer: React.FC<IGLSideTestBuildViewerProps> = ({
     if (lever) {
       lever.name = 'handleLever';
     }
-    c.traverse((o: any) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
+
+    const choice = getHandleColor(colorInt, colorIntTexture);
+    let targetColor = '#b5b8b9';
+    let targetRoughness = 0.25;
+    let targetMetalness = 0.9;
+
+    if (choice === 'white') {
+      targetColor = '#ffffff';
+      targetRoughness = 0.15;
+      targetMetalness = 0.15;
+    } else if (choice === 'brown') {
+      targetColor = '#5c4033';
+      targetRoughness = 0.35;
+      targetMetalness = 0.2;
+    } else if (choice === 'black') {
+      targetColor = '#151515';
+      targetRoughness = 0.3;
+      targetMetalness = 0.15;
+    } else if (choice === 'grey') {
+      targetColor = '#808080';
+      targetRoughness = 0.25;
+      targetMetalness = 0.25;
+    } else if (choice === 'anthracite') {
+      targetColor = '#3b3f46';
+      targetRoughness = 0.3;
+      targetMetalness = 0.2;
+    } else if (choice === 'stainless steel') {
+      targetColor = '#c0c0c0';
+      targetRoughness = 0.2;
+      targetMetalness = 0.95;
+    }
+
+    c.traverse((o: any) => {
+      if (o.isMesh) {
+        o.castShadow = true;
+        o.receiveShadow = true;
+        o.material = new THREE.MeshStandardMaterial({
+          color: new THREE.Color(targetColor),
+          roughness: targetRoughness,
+          metalness: targetMetalness,
+        });
+      }
+    });
     return c;
-  }, [handleScene]);
+  }, [handleScene, colorInt, colorIntTexture]);
 
   useEffect(() => {
     setWidthText(width.toString());
