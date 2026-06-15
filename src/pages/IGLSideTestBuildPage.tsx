@@ -3,6 +3,7 @@ import { IGLSideTestBuildViewer } from '../components/configurator/IGLSideTestBu
 import * as THREE from 'three';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
 import { getAnimationClipsForTypology } from '../utils/arStorage';
+import { ColorPaletteOverlay } from '../components/configurator/ColorPaletteOverlay';
 
 export const IGLSideTestBuildPage: React.FC = () => {
   const [width, setWidth] = useState(2200);
@@ -10,25 +11,26 @@ export const IGLSideTestBuildPage: React.FC = () => {
 
   // Quick testing colors
   const colors = [
+    { label: 'White / White', ext: '#ffffff', int: '#ffffff' },
+    { label: 'White (Catalog) / White (Catalog)', ext: '#f0ece6', int: '#f0ece6' },
     { label: 'Anthracite / White', ext: '#2d2d2d', int: '#f0ece6' },
-    { label: 'White / White', ext: '#f0ece6', int: '#f0ece6' },
     { label: 'Golden Oak', ext: '#8B5E2E', int: '#c4955a' },
     { label: 'Black / Black', ext: '#151515', int: '#151515' },
   ];
   
-  const [colorIdx, setColorIdx] = useState(0);
-  const activeColor = colors[colorIdx];
+  const [colorExt, setColorExt] = useState('#ffffff');
+  const [colorInt, setColorInt] = useState('#ffffff');
 
   // Roller blind colors
   const blindColors = [
+    { label: 'White', hex: '#ffffff' },
     { label: 'Anthracite', hex: '#383e42' },
-    { label: 'White', hex: '#f3f4f6' },
     { label: 'Gray', hex: '#8a939e' },
     { label: 'Golden Oak', hex: '#a67c45' },
     { label: 'Dark Oak', hex: '#5c4021' },
     { label: 'Deep Black', hex: '#111111' },
   ];
-  const [blindColorIdx, setBlindColorIdx] = useState(2); // default Gray
+  const [blindColorIdx, setBlindColorIdx] = useState(0); // default White
   const activeBlindColor = blindColors[blindColorIdx];
 
   const [blindOpenLeft, setBlindOpenLeft] = useState(0.0);
@@ -40,6 +42,7 @@ export const IGLSideTestBuildPage: React.FC = () => {
   const [sceneGroup, setSceneGroup] = useState<THREE.Group | null>(null);
   const [needleModelUrl, setNeedleModelUrl] = useState<string | null>(null);
   const [needleEngineNode, setNeedleEngineNode] = useState<HTMLElement | null>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (!sceneGroup) return;
@@ -75,7 +78,8 @@ export const IGLSideTestBuildPage: React.FC = () => {
     sceneGroup,
     width,
     height,
-    colorIdx,
+    colorExt,
+    colorInt,
     blindColorIdx,
     invertSides,
     displayMode
@@ -133,37 +137,14 @@ export const IGLSideTestBuildPage: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 flex bg-[#09090f] overflow-hidden font-sans">
-      {/* 3D Viewport */}
-      <div className="relative flex-1">
-        <div className="absolute top-4 right-4 z-30 flex gap-2 bg-black/60 backdrop-blur-md p-1 rounded-xl border border-white/10">
-          <button
-            onClick={() => setDisplayMode('3D')}
-            className={`px-3 py-1.5 text-xs font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer ${
-              displayMode === '3D' 
-                ? 'bg-[#eab676] text-black' 
-                : 'text-white/60 hover:text-white'
-            }`}
-          >
-            3D Canvas
-          </button>
-          <button
-            onClick={() => setDisplayMode('Needle')}
-            className={`px-3 py-1.5 text-xs font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer ${
-              displayMode === 'Needle' 
-                ? 'bg-[#eab676] text-black' 
-                : 'text-white/60 hover:text-white'
-            }`}
-          >
-            Needle Engine
-          </button>
-        </div>
-
+    <div className="fixed inset-0 bg-[#09090f] overflow-hidden font-sans">
+      {/* 3D Viewport - fills the complete screen */}
+      <div className="absolute inset-0 w-full h-full z-0">
         <IGLSideTestBuildViewer
           width={width}
           height={height}
-          colorExt={activeColor.ext}
-          colorInt={activeColor.int}
+          colorExt={colorExt}
+          colorInt={colorInt}
           colorBlind={activeBlindColor.hex}
           invertSides={invertSides}
           onDimensionChange={(w, h) => { setWidth(w); setHeight(h); }}
@@ -225,22 +206,76 @@ export const IGLSideTestBuildPage: React.FC = () => {
         )}
       </div>
 
-      {/* Control Sidebar */}
+      {/* Floating Control Menu in Top Right */}
+      <div className="absolute top-4 right-4 z-40 flex gap-2 bg-black/60 backdrop-blur-md p-1.5 rounded-xl border border-white/10 shadow-lg">
+        <button
+          onClick={() => setDisplayMode('3D')}
+          className={`px-3 py-1.5 text-xs font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer border-none ${
+            displayMode === '3D' 
+              ? 'bg-[#eab676] text-black shadow' 
+              : 'text-white/60 hover:text-white bg-transparent'
+          }`}
+        >
+          3D Canvas
+        </button>
+        <button
+          onClick={() => setDisplayMode('Needle')}
+          className={`px-3 py-1.5 text-xs font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer border-none ${
+            displayMode === 'Needle' 
+              ? 'bg-[#eab676] text-black shadow' 
+              : 'text-white/60 hover:text-white bg-transparent'
+          }`}
+        >
+          Needle Engine
+        </button>
+        <button
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className="px-3 py-1.5 text-xs font-black uppercase tracking-widest rounded-lg bg-black/40 text-[#eab676] border border-[#eab676]/30 hover:bg-[#eab676]/10 transition-all cursor-pointer flex items-center gap-1.5"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-3.5 h-3.5">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 12h9.75M10.5 18h9.75M3.75 6h.008v.008H3.75V6zm0 6h.008v.008H3.75V12zm0 6h.008v.008H3.75V18z" />
+          </svg>
+          Configure
+        </button>
+      </div>
+
+      {/* Floating Color Palette Overlay widget in the bottom right corner */}
+      <ColorPaletteOverlay
+        colorExt={colorExt}
+        colorInt={colorInt}
+        onChangeExt={(col) => setColorExt(col.hex)}
+        onChangeInt={(col) => setColorInt(col.hex)}
+        className="absolute bottom-4 right-4 z-40"
+      />
+
+      {/* Control Sidebar overlay */}
       <div
-        className="flex flex-col gap-6 p-6 shrink-0 z-10 overflow-y-auto h-full"
+        className="flex flex-col gap-6 p-6 overflow-y-auto h-full shadow-2xl transition-transform duration-300 ease-in-out z-50"
         style={{
-          width: 250,
-          background: 'rgba(8, 8, 15, 0.95)',
-          borderLeft: '1px solid rgba(255, 255, 255, 0.08)',
+          position: 'fixed',
+          right: 0,
+          top: 0,
+          width: 290,
+          background: 'rgba(8, 8, 15, 0.96)',
+          borderLeft: '1px solid rgba(255, 255, 255, 0.1)',
           backdropFilter: 'blur(20px)',
+          transform: isSidebarOpen ? 'translateX(0)' : 'translateX(100%)',
         }}
       >
-        <div>
-          <div className="text-[10px] font-black uppercase tracking-widest text-[#eab676] mb-1">Sliding System</div>
-          <div className="text-lg font-bold text-white tracking-tight">IGLSIDE_TEST_BUILD</div>
-          <div className="text-xs text-white/40 mt-1 leading-relaxed">
-            Scalable 3D Frame &amp; Track Assembly preview.
+        <div className="flex justify-between items-center">
+          <div>
+            <div className="text-[10px] font-black uppercase tracking-widest text-[#eab676] mb-1">Sliding System</div>
+            <div className="text-lg font-bold text-white tracking-tight">IGLSIDE_TEST_BUILD</div>
           </div>
+          <button
+            onClick={() => setIsSidebarOpen(false)}
+            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/75 hover:text-white transition-colors cursor-pointer border-none flex items-center justify-center"
+            title="Close sidebar"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-4 h-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
 
         <div className="w-full h-px bg-white/5" />
@@ -278,29 +313,35 @@ export const IGLSideTestBuildPage: React.FC = () => {
         <div>
           <div className="text-[10px] font-black uppercase tracking-widest text-[#eab676] mb-3">Color Scheme</div>
           <div className="flex flex-col gap-2">
-            {colors.map((col, i) => (
-              <button
-                key={col.label}
-                onClick={() => setColorIdx(i)}
-                className="flex items-center gap-3 px-3 py-2 rounded-xl text-left transition-all cursor-pointer hover:bg-white/5"
-                style={{
-                  background: colorIdx === i ? 'rgba(234, 182, 118, 0.12)' : 'transparent',
-                  border: `1px solid ${colorIdx === i ? 'rgba(234, 182, 118, 0.35)' : 'rgba(255, 255, 255, 0.05)'}`,
-                }}
-              >
-                <div className="flex gap-0.5 shrink-0">
-                  <div
-                    className="w-3.5 h-3.5 rounded-full border border-white/20"
-                    style={{ background: col.ext }}
-                  />
-                  <div
-                    className="w-3.5 h-3.5 rounded-full border border-white/20 -ml-1"
-                    style={{ background: col.int }}
-                  />
-                </div>
-                <span className="text-xs font-semibold text-white/70">{col.label}</span>
-              </button>
-            ))}
+            {colors.map((col, i) => {
+              const isSelected = colorExt === col.ext && colorInt === col.int;
+              return (
+                <button
+                  key={col.label}
+                  onClick={() => {
+                    setColorExt(col.ext);
+                    setColorInt(col.int);
+                  }}
+                  className="flex items-center gap-3 px-3 py-2 rounded-xl text-left transition-all cursor-pointer hover:bg-white/5 w-full border-none"
+                  style={{
+                    background: isSelected ? 'rgba(234, 182, 118, 0.12)' : 'transparent',
+                    border: `1px solid ${isSelected ? 'rgba(234, 182, 118, 0.35)' : 'rgba(255, 255, 255, 0.05)'}`,
+                  }}
+                >
+                  <div className="flex gap-0.5 shrink-0">
+                    <div
+                      className="w-3.5 h-3.5 rounded-full border border-white/20"
+                      style={{ background: col.ext }}
+                    />
+                    <div
+                      className="w-3.5 h-3.5 rounded-full border border-white/20 -ml-1"
+                      style={{ background: col.int }}
+                    />
+                  </div>
+                  <span className="text-xs font-semibold text-white/70">{col.label}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -311,7 +352,7 @@ export const IGLSideTestBuildPage: React.FC = () => {
           <div className="text-[10px] font-black uppercase tracking-widest text-[#eab676] mb-3">Door Position</div>
           <button
             onClick={() => setInvertSides(!invertSides)}
-            className="flex items-center justify-between px-3 py-2 rounded-xl text-left transition-all cursor-pointer hover:bg-white/5 w-full"
+            className="flex items-center justify-between px-3 py-2 rounded-xl text-left transition-all cursor-pointer hover:bg-white/5 w-full border-none"
             style={{
               background: invertSides ? 'rgba(234, 182, 118, 0.12)' : 'transparent',
               border: `1px solid ${invertSides ? 'rgba(234, 182, 118, 0.35)' : 'rgba(255, 255, 255, 0.05)'}`,
@@ -344,7 +385,7 @@ export const IGLSideTestBuildPage: React.FC = () => {
               <button
                 key={col.label}
                 onClick={() => setBlindColorIdx(i)}
-                className="flex items-center gap-3 px-3 py-2 rounded-xl text-left transition-all cursor-pointer hover:bg-white/5 w-full"
+                className="flex items-center gap-3 px-3 py-2 rounded-xl text-left transition-all cursor-pointer hover:bg-white/5 w-full border-none"
                 style={{
                   background: blindColorIdx === i ? 'rgba(234, 182, 118, 0.12)' : 'transparent',
                   border: `1px solid ${blindColorIdx === i ? 'rgba(234, 182, 118, 0.35)' : 'rgba(255, 255, 255, 0.05)'}`,
@@ -373,7 +414,7 @@ export const IGLSideTestBuildPage: React.FC = () => {
                 setBlindOpenLeft(1.0);
                 setBlindOpenRight(1.0);
               }}
-              className="flex-1 text-center py-1.5 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-[10px] font-bold text-white transition-all cursor-pointer"
+              className="flex-1 text-center py-1.5 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-[10px] font-bold text-white transition-all cursor-pointer border-none"
             >
               OPEN BLINDS
             </button>
@@ -382,7 +423,7 @@ export const IGLSideTestBuildPage: React.FC = () => {
                 setBlindOpenLeft(0.0);
                 setBlindOpenRight(0.0);
               }}
-              className="flex-1 text-center py-1.5 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-[10px] font-bold text-white transition-all cursor-pointer"
+              className="flex-1 text-center py-1.5 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-[10px] font-bold text-white transition-all cursor-pointer border-none"
             >
               CLOSE BLINDS
             </button>
