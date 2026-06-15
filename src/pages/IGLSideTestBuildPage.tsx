@@ -173,46 +173,59 @@ export const IGLSideTestBuildPage: React.FC = () => {
              Pointer events are disabled so the R3F canvas (z-10) on top
              receives all orbit-control and hotspot interactions. */
           <div className="absolute inset-0 flex items-center justify-center bg-[#09090f] z-0 pointer-events-none">
-            {needleModelUrl ? (
-              <>
-                {React.createElement('needle-engine', {
-                  ref: setNeedleEngineNode,
-                  src: needleModelUrl,
-                  style: {
-                    width: '100%',
-                    height: '100%',
-                    display: 'block',
-                    backgroundColor: '#09090f',
-                    pointerEvents: 'none', // never steal events from R3F layer
-                  },
-                  'camera-position': '0 0.9 2.5',
-                  'camera-target': '0 0.6 0',
-                  'background-color': '#09090f',
-                  'loading-background': '#09090f'
-                })}
-                {/* AR button sits ABOVE needle, so pointer-events must be re-enabled */}
-                <button
-                  id="mammut-start-ar"
-                  onClick={startNeedleAR}
-                  className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 px-6 py-2.5 bg-[#eab676] text-black rounded-full font-bold shadow-lg hover:bg-[#eab676]/90 transition-all flex items-center gap-2 text-xs md:text-sm active:scale-95 cursor-pointer uppercase tracking-wider font-sans border-none"
-                  style={{ pointerEvents: 'auto' }}
-                >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-4 h-4">
-                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                    <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-                    <line x1="12" y1="22.08" x2="12" y2="12" />
-                  </svg>
-                  Start AR
-                </button>
-              </>
-            ) : (
-              <div className="text-[#eab676] font-bold p-8 text-center animate-pulse font-sans" style={{ pointerEvents: 'auto' }}>
-                Generating Needle 3D Model...
-              </div>
-            )}
+            {needleModelUrl &&
+              React.createElement('needle-engine', {
+                ref: setNeedleEngineNode,
+                src: needleModelUrl,
+                style: {
+                  width: '100%',
+                  height: '100%',
+                  display: 'block',
+                  backgroundColor: '#09090f',
+                  pointerEvents: 'none', // never steal events from R3F layer
+                },
+                'camera-position': '0 0.9 2.5',
+                'camera-target': '0 0.6 0',
+                'background-color': '#09090f',
+                'loading-background': '#09090f'
+              })
+            }
           </div>
         )}
       </div>
+
+      {/* Floating Start AR button / Loader Overlay (visible only in Needle mode) */}
+      {displayMode === 'Needle' && (
+        <>
+          {needleModelUrl ? (
+            <button
+              id="mammut-start-ar"
+              onClick={startNeedleAR}
+              onPointerDown={(e) => e.stopPropagation()}
+              onTouchStart={(e) => {
+                e.stopPropagation();
+                startNeedleAR();
+              }}
+              className="absolute bottom-4 left-1/2 -translate-x-1/2 z-40 px-6 py-2.5 bg-[#eab676] text-black rounded-full font-bold shadow-lg hover:bg-[#eab676]/90 transition-all flex items-center gap-2 text-xs md:text-sm active:scale-95 cursor-pointer uppercase tracking-wider font-sans border-none"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-4 h-4">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                <line x1="12" y1="22.08" x2="12" y2="12" />
+              </svg>
+              Start AR
+            </button>
+          ) : (
+            <div 
+              className="absolute bottom-4 left-1/2 -translate-x-1/2 z-40 text-[#eab676] font-bold p-3 bg-black/60 backdrop-blur-md rounded-xl border border-white/10 text-center animate-pulse font-sans text-xs md:text-sm whitespace-nowrap"
+              onPointerDown={(e) => e.stopPropagation()}
+              onTouchStart={(e) => e.stopPropagation()}
+            >
+              Generating Needle 3D Model...
+            </div>
+          )}
+        </>
+      )}
 
       {/* Floating Control Menu in Top Right */}
       <div 
