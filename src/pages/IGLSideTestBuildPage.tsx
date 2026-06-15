@@ -1,11 +1,8 @@
-/**
- * IGLSideTestBuildPage.tsx
- * Standalone page for previewing and testing the IGLSIDE_TEST_BUILD sliding door frame assembly rules.
- * Route: /igls-test-build
- */
-
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { IGLSideTestBuildViewer } from '../components/configurator/IGLSideTestBuildViewer';
+import * as THREE from 'three';
+import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
+import { getAnimationClipsForTypology } from '../utils/arStorage';
 
 export const IGLSideTestBuildPage: React.FC = () => {
   const [width, setWidth] = useState(2200);
@@ -22,23 +19,204 @@ export const IGLSideTestBuildPage: React.FC = () => {
   const [colorIdx, setColorIdx] = useState(0);
   const activeColor = colors[colorIdx];
 
+  // Roller blind colors
+  const blindColors = [
+    { label: 'Anthracite', hex: '#383e42' },
+    { label: 'White', hex: '#f3f4f6' },
+    { label: 'Gray', hex: '#8a939e' },
+    { label: 'Golden Oak', hex: '#a67c45' },
+    { label: 'Dark Oak', hex: '#5c4021' },
+    { label: 'Deep Black', hex: '#111111' },
+  ];
+  const [blindColorIdx, setBlindColorIdx] = useState(2); // default Gray
+  const activeBlindColor = blindColors[blindColorIdx];
+
+  const [blindOpenLeft, setBlindOpenLeft] = useState(0.0);
+  const [blindOpenRight, setBlindOpenRight] = useState(0.0);
+  const [mosquitoOpenRight, setMosquitoOpenRight] = useState(0.0);
+  const [invertSides, setInvertSides] = useState(false);
+
+  const [displayMode, setDisplayMode] = useState<'3D' | 'Needle'>('3D');
+  const [sceneGroup, setSceneGroup] = useState<THREE.Group | null>(null);
+  const [needleModelUrl, setNeedleModelUrl] = useState<string | null>(null);
+  const [needleEngineNode, setNeedleEngineNode] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (!sceneGroup) return;
+
+    let active = true;
+    const timer = setTimeout(() => {
+      const clips = getAnimationClipsForTypology('IGLSIDE_TEST_BUILD');
+      const exporter = new GLTFExporter();
+      exporter.parse(
+        sceneGroup,
+        (gltf: any) => {
+          if (!active) return;
+          const blob = new Blob([gltf as ArrayBuffer], { type: 'model/gltf-binary' });
+          const url = URL.createObjectURL(blob);
+          setNeedleModelUrl(url);
+        },
+        (err: any) => {
+          console.error('[Needle Export] GLTF Export Error:', err);
+        },
+        { binary: true, animations: clips }
+      );
+    }, 300);
+
+    return () => {
+      active = false;
+      clearTimeout(timer);
+      setNeedleModelUrl(prev => {
+        if (prev) URL.revokeObjectURL(prev);
+        return null;
+      });
+    };
+  }, [
+    sceneGroup,
+    width,
+    height,
+    colorIdx,
+    blindColorIdx,
+    invertSides,
+    displayMode
+  ]);
+
+  useEffect(() => {
+    const engine = needleEngineNode;
+    if (!engine) return;
+
+    let active = true;
+
+    const enforceDarkBg = (ctx: any) => {
+      if (!ctx) return;
+      ctx.renderer.setClearColor(new THREE.Color('#09090f'), 1);
+    };
+
+    const run = async () => {
+      try {
+        const { Context } = await import('@needle-tools/engine');
+        const ctx = (engine as any).context || Context.Current;
+        if (ctx) {
+          enforceDarkBg(ctx);
+          ctx.addEventListener('context-loaded', () => {
+            if (active) enforceDarkBg(ctx);
+          });
+        }
+      } catch (err) {
+        console.warn('[Needle Inline] Could not configure background:', err);
+      }
+    };
+    run();
+
+    return () => {
+      active = false;
+    };
+  }, [needleEngineNode]);
+
+  const startNeedleAR = async () => {
+    try {
+      const { Context, WebXR } = await import('@needle-tools/engine');
+      const ctx = (needleEngineNode as any)?.context || Context.Current;
+      if (ctx) {
+        const xr = ctx.scene?.getComponentInChildren(WebXR);
+        if (xr) {
+          xr.startAR();
+        } else {
+          throw new Error("WebXR component not found");
+        }
+      } else {
+        throw new Error("Needle Context is not active");
+      }
+    } catch (err) {
+      console.error("Failed to start Needle AR:", err);
+    }
+  };
+
   return (
     <div className="fixed inset-0 flex bg-[#09090f] overflow-hidden font-sans">
       {/* 3D Viewport */}
       <div className="relative flex-1">
+        <div className="absolute top-4 right-4 z-30 flex gap-2 bg-black/60 backdrop-blur-md p-1 rounded-xl border border-white/10">
+          <button
+            onClick={() => setDisplayMode('3D')}
+            className={`px-3 py-1.5 text-xs font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer ${
+              displayMode === '3D' 
+                ? 'bg-[#eab676] text-black' 
+                : 'text-white/60 hover:text-white'
+            }`}
+          >
+            3D Canvas
+          </button>
+          <button
+            onClick={() => setDisplayMode('Needle')}
+            className={`px-3 py-1.5 text-xs font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer ${
+              displayMode === 'Needle' 
+                ? 'bg-[#eab676] text-black' 
+                : 'text-white/60 hover:text-white'
+            }`}
+          >
+            Needle Engine
+          </button>
+        </div>
+
         <IGLSideTestBuildViewer
           width={width}
           height={height}
           colorExt={activeColor.ext}
           colorInt={activeColor.int}
+          colorBlind={activeBlindColor.hex}
+          invertSides={invertSides}
           onDimensionChange={(w, h) => { setWidth(w); setHeight(h); }}
           activeLimits={{ minWidth: 1000, maxWidth: 3000, minHeight: 1000, maxHeight: 3000 }}
+          blindOpenLeft={blindOpenLeft}
+          blindOpenRight={blindOpenRight}
+          mosquitoOpenRight={mosquitoOpenRight}
+          onBlindOpenLeftChange={setBlindOpenLeft}
+          onBlindOpenRightChange={setBlindOpenRight}
+          onMosquitoOpenRightChange={setMosquitoOpenRight}
+          isNeedleMode={displayMode === 'Needle'}
+          needleEngineNode={needleEngineNode}
+          onSceneReady={setSceneGroup}
         />
+
+        {displayMode === 'Needle' && (
+          <div className="absolute inset-0 flex items-center justify-center bg-[#09090f] z-20">
+            {needleModelUrl ? (
+              <>
+                {React.createElement('needle-engine', {
+                  ref: setNeedleEngineNode,
+                  src: needleModelUrl,
+                  style: { width: '100%', height: '100%', display: 'block', backgroundColor: '#09090f' },
+                  'camera-position': '0 0.9 2.5',
+                  'camera-target': '0 0.6 0',
+                  'background-color': '#09090f',
+                  'loading-background': '#09090f'
+                })}
+                <button
+                  id="mammut-start-ar"
+                  onClick={startNeedleAR}
+                  className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 px-6 py-2.5 bg-[#eab676] text-black rounded-full font-bold shadow-lg hover:bg-[#eab676]/90 transition-all flex items-center gap-2 text-xs md:text-sm active:scale-95 cursor-pointer uppercase tracking-wider font-sans border-none"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-4 h-4">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                    <line x1="12" y1="22.08" x2="12" y2="12" />
+                  </svg>
+                  Start AR
+                </button>
+              </>
+            ) : (
+              <div className="text-[#eab676] font-bold p-8 text-center animate-pulse font-sans">
+                Generating Needle 3D Model...
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Control Sidebar */}
       <div
-        className="flex flex-col gap-6 p-6 shrink-0 z-10"
+        className="flex flex-col gap-6 p-6 shrink-0 z-10 overflow-y-auto h-full"
         style={{
           width: 250,
           background: 'rgba(8, 8, 15, 0.95)',
@@ -112,6 +290,144 @@ export const IGLSideTestBuildPage: React.FC = () => {
                 <span className="text-xs font-semibold text-white/70">{col.label}</span>
               </button>
             ))}
+          </div>
+        </div>
+
+        <div className="w-full h-px bg-white/5" />
+
+        {/* Door Position / Invert Sides */}
+        <div>
+          <div className="text-[10px] font-black uppercase tracking-widest text-[#eab676] mb-3">Door Position</div>
+          <button
+            onClick={() => setInvertSides(!invertSides)}
+            className="flex items-center justify-between px-3 py-2 rounded-xl text-left transition-all cursor-pointer hover:bg-white/5 w-full"
+            style={{
+              background: invertSides ? 'rgba(234, 182, 118, 0.12)' : 'transparent',
+              border: `1px solid ${invertSides ? 'rgba(234, 182, 118, 0.35)' : 'rgba(255, 255, 255, 0.05)'}`,
+            }}
+          >
+            <span className="text-xs font-semibold text-white/70">Invert Sides</span>
+            <div 
+              className="w-8 h-4 rounded-full p-0.5 transition-all duration-300"
+              style={{
+                background: invertSides ? '#eab676' : 'rgba(255,255,255,0.15)',
+              }}
+            >
+              <div 
+                className="w-3 h-3 rounded-full bg-[#09090f] transition-all duration-300"
+                style={{
+                  transform: invertSides ? 'translateX(16px)' : 'none',
+                }}
+              />
+            </div>
+          </button>
+        </div>
+
+        <div className="w-full h-px bg-white/5" />
+
+        {/* Blind Color Presets */}
+        <div>
+          <div className="text-[10px] font-black uppercase tracking-widest text-[#eab676] mb-3">Blind Color</div>
+          <div className="flex flex-col gap-2 max-h-[140px] overflow-y-auto pr-1">
+            {blindColors.map((col, i) => (
+              <button
+                key={col.label}
+                onClick={() => setBlindColorIdx(i)}
+                className="flex items-center gap-3 px-3 py-2 rounded-xl text-left transition-all cursor-pointer hover:bg-white/5 w-full"
+                style={{
+                  background: blindColorIdx === i ? 'rgba(234, 182, 118, 0.12)' : 'transparent',
+                  border: `1px solid ${blindColorIdx === i ? 'rgba(234, 182, 118, 0.35)' : 'rgba(255, 255, 255, 0.05)'}`,
+                }}
+              >
+                <div
+                  className="w-3.5 h-3.5 rounded-full border border-white/20"
+                  style={{ background: col.hex }}
+                />
+                <span className="text-xs font-semibold text-white/70">{col.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="w-full h-px bg-white/5" />
+
+        {/* Blinds & Mosquito Controls */}
+        <div>
+          <div className="text-[10px] font-black uppercase tracking-widest text-[#eab676] mb-3">Blinds & Mosquito</div>
+          
+          {/* Quick presets */}
+          <div className="flex gap-2 mb-4">
+            <button
+              onClick={() => {
+                setBlindOpenLeft(1.0);
+                setBlindOpenRight(1.0);
+              }}
+              className="flex-1 text-center py-1.5 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-[10px] font-bold text-white transition-all cursor-pointer"
+            >
+              OPEN BLINDS
+            </button>
+            <button
+              onClick={() => {
+                setBlindOpenLeft(0.0);
+                setBlindOpenRight(0.0);
+              }}
+              className="flex-1 text-center py-1.5 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-[10px] font-bold text-white transition-all cursor-pointer"
+            >
+              CLOSE BLINDS
+            </button>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            {/* Left Blind Slider */}
+            <div className="flex flex-col gap-1.5">
+              <div className="flex justify-between text-[11px] text-white/50">
+                <span>Left Blind (Fixed)</span>
+                <span className="text-[#eab676] font-bold">{Math.round(blindOpenLeft * 100)}%</span>
+              </div>
+              <input
+                type="range"
+                min={0}
+                max={1}
+                step={0.01}
+                value={blindOpenLeft}
+                onChange={(e) => setBlindOpenLeft(parseFloat(e.target.value))}
+                className="w-full accent-[#eab676] cursor-pointer"
+              />
+            </div>
+
+            {/* Right Blind Slider */}
+            <div className="flex flex-col gap-1.5">
+              <div className="flex justify-between text-[11px] text-white/50">
+                <span>Right Blind (Sliding)</span>
+                <span className="text-[#eab676] font-bold">{Math.round(blindOpenRight * 100)}%</span>
+              </div>
+              <input
+                type="range"
+                min={0}
+                max={1}
+                step={0.01}
+                value={blindOpenRight}
+                onChange={(e) => setBlindOpenRight(parseFloat(e.target.value))}
+                className="w-full accent-[#eab676] cursor-pointer"
+              />
+            </div>
+
+            {/* Right Mosquito Net Slider */}
+            <div className="flex flex-col gap-1.5">
+              <div className="flex justify-between text-[11px] text-white/50">
+                <span>Right Mosquito Net</span>
+                <span className="text-[#eab676] font-bold">{Math.round(mosquitoOpenRight * 100)}%</span>
+              </div>
+              <input
+                type="range"
+                min={0}
+                max={1}
+                step={0.01}
+                value={mosquitoOpenRight}
+                onChange={(e) => setMosquitoOpenRight(parseFloat(e.target.value))}
+                className="w-full accent-[#eab676] cursor-pointer"
+              />
+            </div>
           </div>
         </div>
 

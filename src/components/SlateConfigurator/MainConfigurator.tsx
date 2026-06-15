@@ -902,6 +902,8 @@ export function MainConfigurator() {
                     onDimensionChange={(w, h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h } })}
                     activeLimits={activeLimits}
                     hasRollerShutter={state.addons.includes('roller-shutter')}
+                    invertSides={state.invertSides}
+                    onInvertSidesChange={(val) => dispatch({ type: 'SET_INVERT_SIDES', payload: val })}
                   />
                 ) : state.windowTypeId === 'F104' ? (
                   <F104Viewer isColorPaletteOpen={isColorWheelOpen}
@@ -1255,7 +1257,8 @@ export function MainConfigurator() {
                       { title: "2-Sash Windows", prefix: 'F2' },
                       { title: "3-Sash Windows", prefix: 'F3' },
                       { title: "4-Sash Windows", prefix: 'F4' },
-                      { title: "Doors", prefix: 'D' }
+                      { title: "Doors", prefix: 'D' },
+                      { title: "Sliding Systems", prefix: 'SL' }
                     ].map(group => {
                       const items = WINDOW_TYPES.filter(w => w.id.startsWith(group.prefix));
                       if (items.length === 0) return null;
@@ -1320,31 +1323,81 @@ export function MainConfigurator() {
                   <h2 className={`text-xl font-bold transition-colors ${activeStep === 4 ? 'text-slate-900' : 'text-slate-400'}`}>Unit Options</h2>
                   <button onClick={(e) => { e.stopPropagation(); toggleHelp(4); }} className="text-slate-455 hover:text-mammut-gold transition-colors ml-1" title="Toggle Help"><HelpCircle size={18} /></button>
                 </div>
-                {activeStep !== 4 && <div className="text-xs font-bold text-mammut-gold bg-mammut-gold/10 px-3 py-1.5 rounded-full uppercase tracking-wider">{state.fittingVariant}</div>}
+                 {activeStep !== 4 && (
+                  <div className="text-xs font-bold text-mammut-gold bg-mammut-gold/10 px-3 py-1.5 rounded-full uppercase tracking-wider font-sans">
+                    {state.windowTypeId === 'SLE201' 
+                      ? (state.invertSides ? t('configurator.inverted', 'Inverted') : t('configurator.standard', 'Standard'))
+                      : state.fittingVariant}
+                  </div>
+                )}
               </div>
               
               <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${activeStep === 4 ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
                 <div className="overflow-hidden">
                   <div className="pt-2">
-                    <div className="mb-6">
-                      <label className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4 block">Fitting variant 1</label>
-                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {fittingVariants.map((fv) => (
+                    {state.windowTypeId === 'SLE201' ? (
+                      <div className="mb-6 font-sans">
+                        <label className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4 block">
+                          {t('configurator.state.openingDirection', 'Opening Direction')}
+                        </label>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
                           <button
-                            key={fv.id}
-                            onClick={() => { dispatch({ type: 'SET_FITTING_VARIANT', payload: fv.id }); advanceStep(4, 5); }}
-                            className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center justify-between gap-3 h-[180px] ${state.fittingVariant === fv.id ? 'border-mammut-gold bg-mammut-gold/10 text-mammut-gold shadow-md ring-4 ring-[#eab676]/10' : 'border-slate-200 hover:border-slate-300 shadow-sm hover:shadow-md group'}`}
-                            style={{ backgroundColor: state.fittingVariant === fv.id ? undefined : '#ffffff' }}
+                            onClick={() => { dispatch({ type: 'SET_INVERT_SIDES', payload: false }); advanceStep(4, 5); }}
+                            className={`p-5 rounded-2xl border-2 transition-all flex items-center gap-4 text-left ${!state.invertSides ? 'border-mammut-gold bg-mammut-gold/5 text-slate-900 shadow-md ring-4 ring-[#eab676]/10' : 'border-slate-200 hover:border-slate-350 shadow-sm bg-white'}`}
                           >
-                            <div className="flex-1 w-full flex items-center justify-center p-2 rounded-lg bg-slate-50">
-                              {fv.image ? <img src={fv.image} alt={fv.name} className={`h-full object-contain max-h-[80px] transition-opacity ${state.fittingVariant === fv.id ? 'opacity-100' : 'opacity-40 grayscale group-hover:opacity-75 group-hover:grayscale-0'}`} /> : <div className="w-10 h-10 border border-dashed rounded opacity-30"/>}
+                            <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${!state.invertSides ? 'bg-mammut-gold text-black' : 'bg-slate-100 text-slate-400'}`}>
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-5 h-5">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                              </svg>
                             </div>
-                            <div className="font-bold text-[10px] text-center leading-tight whitespace-pre-wrap text-slate-700">{fv.name}<br/><span className="text-slate-500 truncate mt-1 block">[{fv.id}]</span></div>
+                            <div>
+                              <div className="font-bold text-sm text-slate-800">
+                                {t('configurator.standard', 'Standard')}
+                              </div>
+                              <div className="text-[10px] text-slate-500 mt-0.5">Sash on the right opens horizontally to the left.</div>
+                            </div>
                           </button>
-                        ))}
+
+                          <button
+                            onClick={() => { dispatch({ type: 'SET_INVERT_SIDES', payload: true }); advanceStep(4, 5); }}
+                            className={`p-5 rounded-2xl border-2 transition-all flex items-center gap-4 text-left ${state.invertSides ? 'border-mammut-gold bg-mammut-gold/5 text-slate-900 shadow-md ring-4 ring-[#eab676]/10' : 'border-slate-200 hover:border-slate-350 shadow-sm bg-white'}`}
+                          >
+                            <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${state.invertSides ? 'bg-mammut-gold text-black' : 'bg-slate-100 text-slate-400'}`}>
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-5 h-5">
+                                <path d="M19 12H5M12 5l-7 7-7 7" />
+                              </svg>
+                            </div>
+                            <div>
+                              <div className="font-bold text-sm text-slate-800">
+                                {t('configurator.inverted', 'Inverted')}
+                              </div>
+                              <div className="text-[10px] text-slate-500 mt-0.5">Sash on the left opens horizontally to the right.</div>
+                            </div>
+                          </button>
+                        </div>
+                        <p className="text-[10px] text-slate-500 italic mt-4">Determines the sliding direction and hand side of the sliding door sash.</p>
                       </div>
-                      <p className="text-[10px] text-slate-500 italic mt-4">Determines the opening mechanism of the first sash.</p>
-                    </div>
+                    ) : (
+                      <div className="mb-6">
+                        <label className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4 block">Fitting variant 1</label>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                          {fittingVariants.map((fv) => (
+                            <button
+                              key={fv.id}
+                              onClick={() => { dispatch({ type: 'SET_FITTING_VARIANT', payload: fv.id }); advanceStep(4, 5); }}
+                              className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center justify-between gap-3 h-[180px] ${state.fittingVariant === fv.id ? 'border-mammut-gold bg-mammut-gold/10 text-mammut-gold shadow-md ring-4 ring-[#eab676]/10' : 'border-slate-200 hover:border-slate-300 shadow-sm hover:shadow-md group'}`}
+                              style={{ backgroundColor: state.fittingVariant === fv.id ? undefined : '#ffffff' }}
+                            >
+                              <div className="flex-1 w-full flex items-center justify-center p-2 rounded-lg bg-slate-50">
+                                {fv.image ? <img src={fv.image} alt={fv.name} className={`h-full object-contain max-h-[80px] transition-opacity ${state.fittingVariant === fv.id ? 'opacity-100' : 'opacity-40 grayscale group-hover:opacity-75 group-hover:grayscale-0'}`} /> : <div className="w-10 h-10 border border-dashed rounded opacity-30"/>}
+                              </div>
+                              <div className="font-bold text-[10px] text-center leading-tight whitespace-pre-wrap text-slate-700">{fv.name}<br/><span className="text-slate-500 truncate mt-1 block">[{fv.id}]</span></div>
+                            </button>
+                          ))}
+                        </div>
+                        <p className="text-[10px] text-slate-500 italic mt-4">Determines the opening mechanism of the first sash.</p>
+                      </div>
+                    )}
                   </div>
                   <div className="pt-6 mt-6 border-t border-slate-100 flex justify-start">
                     <button onClick={(e) => { e.stopPropagation(); openStep(3); }} className="text-[11px] font-black uppercase tracking-widest text-mammut-gold bg-mammut-gold/10 px-4 py-2 rounded-lg hover:bg-mammut-gold/20 transition-colors flex items-center gap-2"><ChevronLeft size={14} /> {t('configurator.buttons.previous') || "Previous Step"}</button>

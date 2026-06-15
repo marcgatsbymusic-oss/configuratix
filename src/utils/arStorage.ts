@@ -49,16 +49,21 @@ export function getModelFromDB(): Promise<Blob | null> {
 export function getAnimationClipsForTypology(typology: string): THREE.AnimationClip[] {
   const clips: THREE.AnimationClip[] = [];
 
-  if (typology === 'SLE201') {
-    // SLE201 open animation
+  if (typology === 'SLE201' || typology === 'IGLSIDE_TEST_BUILD') {
+    // SLE201 / IGLSIDE_TEST_BUILD open animation
+    const isTestBuild = typology === 'IGLSIDE_TEST_BUILD';
+    const startZ = isTestBuild ? 0.0311 : 0;
+    const midZ = isTestBuild ? 0.01555 : -0.01;
+    const slideX = isTestBuild ? -1.0 : 1.0;
+
     const positionTrack = new THREE.VectorKeyframeTrack(
       'sashGroup.position',
       [0, 0.8, 2.0, 4.8],
       [
-        0, 0, 0,
-        0, 0, 0,
-        0, 0, -0.01,
-        1.0, 0, -0.01
+        0, 0, startZ,
+        0, 0, startZ,
+        0, 0, midZ,
+        slideX, 0, midZ
       ]
     );
 
@@ -75,8 +80,8 @@ export function getAnimationClipsForTypology(typology: string): THREE.AnimationC
     );
 
     clips.push(new THREE.AnimationClip('OpenSash', 4.8, [positionTrack, handleTrack]));
-  } else if (typology === 'F100T') {
-    // F100T Open Side (Turn) Clip
+  } else if (typology === 'F100T' || typology === 'F104' || typology === 'F1XXX' || typology.startsWith('F100') || typology.startsWith('F104')) {
+    // F100T / F104 / F1XXX Open Side (Turn) Clip
     const qClosedHandle = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), 0);
     const qTurnHandle = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), -Math.PI / 2);
     const qTiltHandle = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), -Math.PI);
@@ -106,7 +111,7 @@ export function getAnimationClipsForTypology(typology: string): THREE.AnimationC
 
     clips.push(new THREE.AnimationClip('OpenSide', 1.0, [handleTurnTrack, sashTurnTrack]));
 
-    // F100T Open Tilt Clip
+    // F100T / F104 / F1XXX Open Tilt Clip
     const handleTiltTrack = new THREE.QuaternionKeyframeTrack(
       'handleLever.quaternion',
       [0, 0.3, 1.0],
@@ -129,6 +134,57 @@ export function getAnimationClipsForTypology(typology: string): THREE.AnimationC
     );
 
     clips.push(new THREE.AnimationClip('OpenTilt', 1.0, [handleTiltTrack, sashTiltTrack]));
+  } else if (typology === 'F101C' || typology.startsWith('F101')) {
+    // F101C Double Sash Turn and Tilt Clips
+    const qClosedSash = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), 0);
+    const qTurnSashRight = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), -Math.PI / 4);
+    const qTurnSashLeft = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI / 4);
+
+    const sashTurnTrackRight = new THREE.QuaternionKeyframeTrack(
+      'sashPivot.quaternion',
+      [0, 0.3, 1.0],
+      [
+        qClosedSash.x, qClosedSash.y, qClosedSash.z, qClosedSash.w,
+        qClosedSash.x, qClosedSash.y, qClosedSash.z, qClosedSash.w,
+        qTurnSashRight.x, qTurnSashRight.y, qTurnSashRight.z, qTurnSashRight.w
+      ]
+    );
+
+    const sashTurnTrackLeft = new THREE.QuaternionKeyframeTrack(
+      'leftSashPivot.quaternion',
+      [0, 0.3, 1.0],
+      [
+        qClosedSash.x, qClosedSash.y, qClosedSash.z, qClosedSash.w,
+        qClosedSash.x, qClosedSash.y, qClosedSash.z, qClosedSash.w,
+        qTurnSashLeft.x, qTurnSashLeft.y, qTurnSashLeft.z, qTurnSashLeft.w
+      ]
+    );
+
+    clips.push(new THREE.AnimationClip('OpenSide', 1.0, [sashTurnTrackRight, sashTurnTrackLeft]));
+
+    const qTiltSash = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), -Math.PI * (15 / 180));
+    
+    const sashTiltTrackRight = new THREE.QuaternionKeyframeTrack(
+      'sashPivot.quaternion',
+      [0, 0.3, 1.0],
+      [
+        qClosedSash.x, qClosedSash.y, qClosedSash.z, qClosedSash.w,
+        qClosedSash.x, qClosedSash.y, qClosedSash.z, qClosedSash.w,
+        qTiltSash.x, qTiltSash.y, qTiltSash.z, qTiltSash.w
+      ]
+    );
+
+    const sashTiltTrackLeft = new THREE.QuaternionKeyframeTrack(
+      'leftSashPivot.quaternion',
+      [0, 0.3, 1.0],
+      [
+        qClosedSash.x, qClosedSash.y, qClosedSash.z, qClosedSash.w,
+        qClosedSash.x, qClosedSash.y, qClosedSash.z, qClosedSash.w,
+        qTiltSash.x, qTiltSash.y, qTiltSash.z, qTiltSash.w
+      ]
+    );
+
+    clips.push(new THREE.AnimationClip('OpenTilt', 1.0, [sashTiltTrackRight, sashTiltTrackLeft]));
   }
 
   return clips;

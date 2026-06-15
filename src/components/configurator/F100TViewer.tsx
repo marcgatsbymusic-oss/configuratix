@@ -94,6 +94,18 @@ function WindowAssembly({
   const { scene: handleScene } = useGLTF('/testhandle.glb');
   const clonedHandle = useMemo(() => {
     const clone = handleScene.clone(true);
+    let lever: THREE.Object3D | undefined =
+      clone.getObjectByName('Handle') ??
+      clone.getObjectByName('handle') ??
+      clone.getObjectByName('Pencere_Kulbu');
+    if (!lever) {
+      clone.traverse((child: any) => {
+        if (!lever && child.isMesh && !child.name.toLowerCase().includes('base')) lever = child;
+      });
+    }
+    if (lever) {
+      lever.name = 'handleLever';
+    }
     clone.traverse((child: any) => {
       if (child.isMesh && child.material) {
         child.material = child.material.clone();
@@ -265,9 +277,10 @@ function WindowAssembly({
     sashPivotRef.current.rotation.x = currentTilt.current;
 
     if (handleGroupRef.current) {
-      let handleObj = handleGroupRef.current.getObjectByName('Handle');
-      if (!handleObj) handleObj = handleGroupRef.current.getObjectByName('handle');
-      if (!handleObj) handleObj = handleGroupRef.current.getObjectByName('Pencere_Kulbu');
+      let handleObj = handleGroupRef.current.getObjectByName('handleLever') ??
+        handleGroupRef.current.getObjectByName('Handle') ??
+        handleGroupRef.current.getObjectByName('handle') ??
+        handleGroupRef.current.getObjectByName('Pencere_Kulbu');
       
       if (!handleObj) {
         handleGroupRef.current.traverse((child: any) => {
@@ -383,6 +396,8 @@ export interface F100TViewerProps {
   activeLimits?: { minWidth: number; maxWidth: number; minHeight: number; maxHeight: number };
   hidePill?: boolean;
   isColorPaletteOpen?: boolean;
+  isNeedleMode?: boolean;
+  needleEngineNode?: HTMLElement | null;
 }
 
 export const F100TViewer: React.FC<F100TViewerProps> = ({
@@ -399,6 +414,8 @@ export const F100TViewer: React.FC<F100TViewerProps> = ({
   activeLimits,
   hidePill,
   isColorPaletteOpen = false,
+  isNeedleMode = false,
+  needleEngineNode = null,
 }) => {
   const [widthText, setWidthText] = useState(width.toString());
   const [heightText, setHeightText] = useState(height.toString());
@@ -483,9 +500,80 @@ export const F100TViewer: React.FC<F100TViewerProps> = ({
 
 
 
+  const prevWindowState = useRef<WindowState>('closed');
+
+  useEffect(() => {
+    if (!isNeedleMode || !needleEngineNode) return;
+    const runAnimation = async () => {
+      try {
+        const { Context } = await import('@needle-tools/engine');
+        const ctx = (needleEngineNode as any).context || Context.Current;
+        if (!ctx) return;
+        const { Animation } = await import('@needle-tools/engine');
+
+        // Retry helper to wait for the model to load
+        const getAnimationComponent = async (): Promise<any> => {
+          for (let i = 0; i < 50; i++) {
+            const anim = ctx.scene?.getComponentInChildren(Animation);
+            if (anim) return anim;
+            await new Promise(resolve => setTimeout(resolve, 100));
+          }
+          return null;
+        };
+
+        const anim = await getAnimationComponent();
+        if (!anim) {
+          console.warn('[Needle Animation] Animation component not found after timeout');
+          return;
+        }
+
+        const playClip = (clipName: string, forward: boolean) => {
+          const action = anim.getAction(clipName);
+          if (!action) {
+            console.warn(`[Needle Animation] Clip ${clipName} not found. Available:`, anim.animations?.map((c: any) => c.name));
+            return;
+          }
+          action.reset();
+          action.loop = THREE.LoopOnce;
+          action.clampWhenFinished = true;
+          if (forward) {
+            action.timeScale = 1;
+          } else {
+            action.timeScale = -1;
+            action.time = action.getClip().duration;
+          }
+          action.play();
+        };
+
+        const prev = prevWindowState.current;
+        prevWindowState.current = windowState;
+
+        if (windowState === 'open_side') {
+          const tiltAction = anim.getAction('OpenTilt');
+          if (tiltAction) tiltAction.stop();
+          playClip('OpenSide', true);
+        } else if (windowState === 'open_tilt') {
+          const sideAction = anim.getAction('OpenSide');
+          if (sideAction) sideAction.stop();
+          playClip('OpenTilt', true);
+        } else if (windowState === 'closed') {
+          if (prev === 'open_side') {
+            playClip('OpenSide', false);
+          } else if (prev === 'open_tilt') {
+            playClip('OpenTilt', false);
+          }
+        }
+      } catch (err) {
+        console.error('[Needle Animation] Error controlling animation:', err);
+      }
+    };
+    runAnimation();
+  }, [windowState, isNeedleMode, needleEngineNode]);
+
   return (
-    <div className="absolute inset-0" style={{ background: '#e2e8f0' }}>
-      <Canvas onDoubleClick={(e) => { e.stopPropagation(); controlsRef.current?.reset(); }} shadows gl={{ antialias: true, preserveDrawingBuffer: true }} camera={{ position: camPos, fov: 30 }}>
+    <div className={`absolute inset-0 ${isNeedleMode ? 'needle-active' : ''}`} style={{ background: '#e2e8f0' }}>
+      <div className="absolute inset-0">
+        <Canvas onDoubleClick={(e) => { e.stopPropagation(); controlsRef.current?.reset(); }} shadows gl={{ antialias: true, preserveDrawingBuffer: true }} camera={{ position: camPos, fov: 30 }}>
         <AdaptiveCamera maxDim={maxDim} targetX={targetX} targetY={targetY} targetZ={targetZ} angle={angle} defaultRadiusMult={2.0} fov={30} zSign={-1} controlsRef={controlsRef} />
         <color attach="background" args={['#e2e8f0']} />
         <fog attach="fog" args={['#ffffff', maxDim * 10, maxDim * 30]} />
@@ -512,6 +600,7 @@ export const F100TViewer: React.FC<F100TViewerProps> = ({
           onStart={() => setAutoRotate(false)}
         />
       </Canvas>
+      </div>
 
       <style>{`@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.1)} }`}</style>
 

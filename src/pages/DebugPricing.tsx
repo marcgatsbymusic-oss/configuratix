@@ -29,6 +29,7 @@ import { useTranslation } from 'react-i18next';
 import * as THREE from 'three';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
 import { ThemeToggle } from '../components/common/ThemeToggle';
+import { getAnimationClipsForTypology } from '../utils/arStorage';
 
 const getPaneImage = (paneCode: string) => {
   if (!paneCode) return null;
@@ -2714,6 +2715,7 @@ export function DebugPricing() {
 
     let active = true;
     const timer = setTimeout(() => {
+      const clips = getAnimationClipsForTypology(typology);
       const exporter = new GLTFExporter();
       exporter.parse(
         sceneGroup,
@@ -2726,7 +2728,7 @@ export function DebugPricing() {
         (err: any) => {
           console.error('[Needle Export] GLTF Export Error:', err);
         },
-        { binary: true }
+        { binary: true, animations: clips }
       );
     }, 300);
 
@@ -4423,50 +4425,23 @@ export function DebugPricing() {
 
              {/* 3D ThreeJS Engine (mounted for both 3D and Needle modes) */}
              {(displayMode === '3D' || displayMode === 'Needle') && (
-               typology === 'F100T' ? (
-                 <div className="absolute inset-0">
-                   <F100TViewer isColorPaletteOpen={isColorWheelOpen}
-                     width={width}
-                     height={height}
-                     colorExt={extDetails.hex}
-                     colorInt={intDetails.hex}
-                     colorExtTexture={extDetails.textureUrl}
-                     colorIntTexture={intDetails.textureUrl}
-                     hidePill={true}
-                   />
-                 </div>
-               ) : typology === 'F101C' ? (
-                 <div className="absolute inset-0">
-                   <F101CViewer
-                     width={width}
-                     height={height}
-                     colorExt={extDetails.hex}
-                     colorInt={intDetails.hex}
-                     colorExtTexture={extDetails.textureUrl}
-                     colorIntTexture={intDetails.textureUrl}
-                     colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
-                     colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
-                     mullionPos={mullionPos}
-                     hidePill={true}
-                   />
-                 </div>
-               ) : typology === 'F101B' ? (
-                 <div className="absolute inset-0">
-                   <Child1 
-                     widthMm={width} 
-                     heightMm={height} 
-                     colorExt={extDetails.hex}
-                     colorInt={intDetails.hex}
-                     colorExtTexture={extDetails.textureUrl}
-                     colorIntTexture={intDetails.textureUrl}
-                     colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
-                     colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
-                     hidePill={true}
-                   />
-                 </div>
-               ) : typology === 'SLE201' ? (
+                typology === 'F100T' ? (
                   <div className="absolute inset-0">
-                    <SLE201Viewer isColorPaletteOpen={isColorWheelOpen}
+                    <F100TViewer isColorPaletteOpen={isColorWheelOpen}
+                      width={width}
+                      height={height}
+                      colorExt={extDetails.hex}
+                      colorInt={intDetails.hex}
+                      colorExtTexture={extDetails.textureUrl}
+                      colorIntTexture={intDetails.textureUrl}
+                      hidePill={true}
+                      isNeedleMode={displayMode === 'Needle'}
+                      needleEngineNode={needleEngineNode}
+                    />
+                  </div>
+                ) : typology === 'F101C' ? (
+                  <div className="absolute inset-0">
+                    <F101CViewer
                       width={width}
                       height={height}
                       colorExt={extDetails.hex}
@@ -4475,25 +4450,60 @@ export function DebugPricing() {
                       colorIntTexture={intDetails.textureUrl}
                       colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
                       colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
-                      onSceneReady={handleSceneReady}
+                      mullionPos={mullionPos}
                       hidePill={true}
+                      isNeedleMode={displayMode === 'Needle'}
+                      needleEngineNode={needleEngineNode}
                     />
                   </div>
-               ) : typology === 'F104' ? (
+                ) : typology === 'F101B' ? (
                   <div className="absolute inset-0">
-                    <F104Viewer isColorPaletteOpen={isColorWheelOpen}
-                      width={width}
-                      height={height}
+                    <Child1 
+                      widthMm={width} 
+                      heightMm={height} 
                       colorExt={extDetails.hex}
                       colorInt={intDetails.hex}
                       colorExtTexture={extDetails.textureUrl}
                       colorIntTexture={intDetails.textureUrl}
                       colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
                       colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
-                      onSceneReady={handleSceneReady}
                       hidePill={true}
                     />
                   </div>
+                ) : typology === 'SLE201' ? (
+                   <div className="absolute inset-0">
+                     <SLE201Viewer isColorPaletteOpen={isColorWheelOpen}
+                       width={width}
+                       height={height}
+                       colorExt={extDetails.hex}
+                       colorInt={intDetails.hex}
+                       colorExtTexture={extDetails.textureUrl}
+                       colorIntTexture={intDetails.textureUrl}
+                       colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
+                       colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
+                       onSceneReady={handleSceneReady}
+                       hidePill={true}
+                       isNeedleMode={displayMode === 'Needle'}
+                       needleEngineNode={needleEngineNode}
+                     />
+                   </div>
+                ) : typology === 'F104' ? (
+                   <div className="absolute inset-0">
+                     <F104Viewer isColorPaletteOpen={isColorWheelOpen}
+                       width={width}
+                       height={height}
+                       colorExt={extDetails.hex}
+                       colorInt={intDetails.hex}
+                       colorExtTexture={extDetails.textureUrl}
+                       colorIntTexture={intDetails.textureUrl}
+                       colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
+                       colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
+                       onSceneReady={handleSceneReady}
+                       hidePill={true}
+                       isNeedleMode={displayMode === 'Needle'}
+                       needleEngineNode={needleEngineNode}
+                     />
+                   </div>
                ) : (
                  <div className={displayMode === '3D' ? "absolute inset-0" : "absolute inset-0 -z-50 opacity-0 pointer-events-none"}>
                     <ThreejsWindowEngine 
@@ -5807,7 +5817,7 @@ export function DebugPricing() {
           }
         `}} />
         {arPlacement && (
-          <ArViewer sceneGroup={sceneGroup} placement={arPlacement} onClose={() => setArPlacement(null)} />
+          <ArViewer sceneGroup={sceneGroup} placement={arPlacement} onClose={() => setArPlacement(null)} typology={typology} />
         )}
         <div className="absolute top-6 right-6 z-40">
           <ThemeToggle />
@@ -5974,7 +5984,7 @@ export function DebugPricing() {
         }
       `}} />
       {arPlacement && (
-        <ArViewer sceneGroup={sceneGroup} placement={arPlacement} onClose={() => setArPlacement(null)} />
+        <ArViewer sceneGroup={sceneGroup} placement={arPlacement} onClose={() => setArPlacement(null)} typology={typology} />
       )}
       <div className="absolute top-6 right-6 z-40">
         <ThemeToggle />

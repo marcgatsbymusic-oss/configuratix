@@ -82,6 +82,10 @@ export interface SLE201ViewerProps {
   hidePill?: boolean;
   isColorPaletteOpen?: boolean;
   hasRollerShutter?: boolean;
+  isNeedleMode?: boolean;
+  needleEngineNode?: HTMLElement | null;
+  invertSides?: boolean;
+  onInvertSidesChange?: (val: boolean) => void;
 }
 
 // ─── Animation state ──────────────────────────────────────────────────────────
@@ -102,11 +106,14 @@ const MammothLogo = ({ x, y, z }: { x: number; y: number; z: number }) => {
   );
 };
 
-interface SlidingSceneProps extends Required<Omit<SLE201ViewerProps, 'onSceneReady' | 'onDimensionChange' | 'activeLimits' | 'hidePill' | 'isColorPaletteOpen' | 'hasRollerShutter'>> {
+interface SlidingSceneProps extends Required<Omit<SLE201ViewerProps, 'onSceneReady' | 'onDimensionChange' | 'activeLimits' | 'hidePill' | 'isColorPaletteOpen' | 'hasRollerShutter' | 'isNeedleMode' | 'needleEngineNode' | 'invertSides' | 'onInvertSidesChange'>> {
   onSceneReady?: (group: THREE.Group) => void;
   isColorPaletteOpen?: boolean;
   showBlindBox?: boolean;
   blindTilt?: number;
+  isNeedleMode?: boolean;
+  needleEngineNode?: HTMLElement | null;
+  invertSides?: boolean;
 }
 
 // ─── Inner scene (must live inside <Canvas> for useFrame / useGLTF) ──────────
@@ -119,6 +126,9 @@ function SlidingScene({
   isColorPaletteOpen = false,
   showBlindBox = false,
   blindTilt = 0.4,
+  isNeedleMode = false,
+  needleEngineNode = null,
+  invertSides = false,
 }: SlidingSceneProps) {
   const scale = MM;
   const W = width  * scale;
@@ -146,7 +156,7 @@ function SlidingScene({
   // ── Animation state ─────────────────────────────────────────────────────────
   const [slidingState, setSlidingState] = useState<SlidingState>('closed');
   const handleAngle = useRef(0);   // 0 → Math.PI  (lever rotates 180°)
-  const sashFwd     = useRef(0);   // 0 → -10 MM   (toward camera = −Z, camera is at negative Z)
+  const sashFwd     = useRef(0);   // 0 when closed (flush on internal frame), moves to -15.55*scale when open
   const sashLeft    = useRef(0);   // 0 → -1000 MM (slide left = −X)
 
   const sashGroupRef  = useRef<THREE.Group>(null!);
@@ -243,6 +253,20 @@ function SlidingScene({
       node.position.x -= 16.503816604614258;
       node.position.y -= -0.07755661010742188;
     });
+    let lever: THREE.Object3D | undefined =
+      c.getObjectByName('Handle') ??
+      c.getObjectByName('handle') ??
+      c.getObjectByName('Pencere_Kulbu');
+    if (!lever) {
+      c.traverse((o: any) => {
+        if (!lever && o.isMesh && !o.name.toLowerCase().includes('base')) {
+          lever = o;
+        }
+      });
+    }
+    if (lever) {
+      lever.name = 'handleLever';
+    }
     c.traverse((o: any) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
     return c;
   }, [handleScene]);
@@ -253,6 +277,66 @@ function SlidingScene({
     if (slidingState === 'opening') { a.dir = 1;  a.phase = 1; a.t0 = 0; a.dur = 0.8; }
     if (slidingState === 'closing') { a.dir = -1; a.phase = 3; a.t0 = 0; a.dur = 1.8; }
   }, [slidingState]);
+
+  const prevSlidingState = useRef<SlidingState>('closed');
+
+  useEffect(() => {
+    if (!isNeedleMode || !needleEngineNode) return;
+    const runAnimation = async () => {
+      try {
+        const { Context } = await import('@needle-tools/engine');
+        const ctx = (needleEngineNode as any).context || Context.Current;
+        if (!ctx) return;
+        const { Animation } = await import('@needle-tools/engine');
+
+        // Retry helper to wait for the model to load
+        const getAnimationComponent = async (): Promise<any> => {
+          for (let i = 0; i < 50; i++) {
+            const anim = ctx.scene?.getComponentInChildren(Animation);
+            if (anim) return anim;
+            await new Promise(resolve => setTimeout(resolve, 100));
+          }
+          return null;
+        };
+
+        const anim = await getAnimationComponent();
+        if (!anim) {
+          console.warn('[Needle Animation] Animation component not found after timeout');
+          return;
+        }
+
+        const playClip = (clipName: string, forward: boolean) => {
+          const action = anim.getAction(clipName);
+          if (!action) {
+            console.warn(`[Needle Animation] Clip ${clipName} not found. Available:`, anim.animations?.map((c: any) => c.name));
+            return;
+          }
+          action.reset();
+          action.loop = THREE.LoopOnce;
+          action.clampWhenFinished = true;
+          if (forward) {
+            action.timeScale = 1;
+          } else {
+            action.timeScale = -1;
+            action.time = action.getClip().duration;
+          }
+          action.play();
+        };
+
+        const prev = prevSlidingState.current;
+        prevSlidingState.current = slidingState;
+
+        if (slidingState === 'opening') {
+          playClip('OpenSash', true);
+        } else if (slidingState === 'closing') {
+          playClip('OpenSash', false);
+        }
+      } catch (err) {
+        console.error('[Needle Animation] Error controlling animation:', err);
+      }
+    };
+    runAnimation();
+  }, [slidingState, isNeedleMode, needleEngineNode]);
 
   const ease = (x: number) => x < 0.5 ? 2*x*x : 1 - Math.pow(-2*x+2, 2)/2;
 
@@ -330,14 +414,14 @@ function SlidingScene({
     };
 
     if (a.dir === 1) {
-      // OPENING: Phase1=handle CW, Phase2=sash toward camera (−Z), Phase3=slide LEFT (+X, toward X=W)
+      // OPENING: Phase1=handle CW, Phase2=sash away from camera (+Z), Phase3=slide LEFT (+X, toward X=W)
       if      (a.phase === 1) { handleAngle.current = Math.PI * t;                                                  if (raw>=1) next(2, 1.2); }
-      else if (a.phase === 2) { handleAngle.current = Math.PI; sashFwd.current = -10*MM*t;                     if (raw>=1) next(3, 2.8); }
-      else if (a.phase === 3) { handleAngle.current = Math.PI; sashFwd.current = -10*MM; sashLeft.current = +1000*MM*t; if (raw>=1) next(0,0); }
+      else if (a.phase === 2) { handleAngle.current = Math.PI; sashFwd.current = -15.55*scale*t;                            if (raw>=1) next(3, 2.8); }
+      else if (a.phase === 3) { handleAngle.current = Math.PI; sashFwd.current = -15.55*scale; sashLeft.current = +1000*MM*t; if (raw>=1) next(0,0); }
     } else {
-      // CLOSING: Phase3=slide back to X=0, Phase2=retract from camera, Phase1=handle back
-      if      (a.phase === 3) { sashLeft.current = +1000*MM*(1-t); sashFwd.current = -10*MM;                   if (raw>=1) next(2, 1.2); }
-      else if (a.phase === 2) { sashLeft.current = 0; sashFwd.current = -10*MM*(1-t);                          if (raw>=1) next(1, 0.8); }
+      // CLOSING: Phase3=slide back to X=0, Phase2=move away from camera (+Z) to seal flush, Phase1=handle back
+      if      (a.phase === 3) { sashLeft.current = +1000*MM*(1-t); sashFwd.current = -15.55*scale;                  if (raw>=1) next(2, 1.2); }
+      else if (a.phase === 2) { sashLeft.current = 0; sashFwd.current = -15.55*scale*(1-t);                         if (raw>=1) next(1, 0.8); }
       else if (a.phase === 1) { sashLeft.current = 0; sashFwd.current = 0; handleAngle.current = Math.PI*(1-t); if (raw>=1) { handleAngle.current=0; next(0,0); } }
     }
 
@@ -349,6 +433,7 @@ function SlidingScene({
     // Apply handle lever rotation
     if (handleRef.current) {
       let lever: THREE.Object3D | undefined =
+        handleRef.current.getObjectByName('handleLever') ??
         handleRef.current.getObjectByName('Handle') ??
         handleRef.current.getObjectByName('handle') ??
         handleRef.current.getObjectByName('Pencere_Kulbu');
@@ -597,17 +682,18 @@ function SlidingScene({
 
   return (
     <group ref={setGroupObj}>
-      {/* ── FIXED outer frame (Child2 only) ─────────────────────────── */}
-      <group>
-        <group rotation={[0, Math.PI / 2, 0]}>{renderFrameBottom()}</group>
-      </group>
+      <group scale={[invertSides ? -1 : 1, 1, 1]} position={[invertSides ? W : 0, 0, 0]}>
+        {/* ── FIXED outer frame (Child2 only) ─────────────────────────── */}
+        <group>
+          <group rotation={[0, Math.PI / 2, 0]}>{renderFrameBottom()}</group>
+        </group>
       <group position={[0, deltaY, 0]}>
         <group rotation={[0, Math.PI / 2, 0]}>{renderFrameTop()}</group>
       </group>
       {renderFrameVertical()}
 
       {/* ── SLIDING sash (Child1 only) ───────────────────────────────── */}
-      <group ref={sashGroupRef}>
+      <group ref={sashGroupRef} name="sashGroup">
         {/* Sash horizontal rails */}
         <group>
           <group rotation={[0, Math.PI / 2, 0]}>{renderSashBottom()}</group>
@@ -784,6 +870,7 @@ function SlidingScene({
           );
         })()}
       </group>
+      </group>
     </group>
   );
 }
@@ -802,12 +889,18 @@ export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
   hidePill,
   isColorPaletteOpen = false,
   hasRollerShutter = false,
+  isNeedleMode = false,
+  needleEngineNode = null,
+  invertSides: propInvertSides,
+  onInvertSidesChange,
 }) => {
   const { t } = useTranslation();
   const [widthText, setWidthText] = useState(width.toString());
   const [heightText, setHeightText] = useState(height.toString());
   const [showBlindBox, setShowBlindBox] = useState(hasRollerShutter || false);
   const [blindTilt, setBlindTilt] = useState(0.4);
+  const [localInvertSides, setLocalInvertSides] = useState(false);
+  const activeInvertSides = propInvertSides !== undefined ? propInvertSides : localInvertSides;
 
   useEffect(() => {
     if (hasRollerShutter) {
@@ -856,12 +949,13 @@ export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
   const orbitTarget: [number,number,number] = [targetX, targetY, targetZ];
 
   return (
-    <div className="absolute inset-0 bg-[#e2e8f0]" onPointerDown={() => setAutoRotate(false)}>
-      <Canvas
-        onDoubleClick={(e) => { e.stopPropagation(); controlsRef.current?.reset(); }}
-        shadows gl={{ antialias: true, preserveDrawingBuffer: true }}
-        camera={{ position: camPos, fov: 35 }}
-      >
+    <div className={`absolute inset-0 bg-[#e2e8f0] ${isNeedleMode ? 'needle-active' : ''}`} onPointerDown={() => setAutoRotate(false)}>
+      <div className="absolute inset-0">
+        <Canvas
+          onDoubleClick={(e) => { e.stopPropagation(); controlsRef.current?.reset(); }}
+          shadows gl={{ antialias: true, preserveDrawingBuffer: true }}
+          camera={{ position: camPos, fov: 35 }}
+        >
         <AdaptiveCamera maxDim={maxDim} targetX={targetX} targetY={targetY} targetZ={targetZ} angle={angle} defaultRadiusMult={1.8} fov={35} zSign={-1} controlsRef={controlsRef} />
         <color attach="background" args={['#e2e8f0']} />
         <ambientLight intensity={0.4} />
@@ -881,6 +975,9 @@ export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
             isColorPaletteOpen={isColorPaletteOpen}
             showBlindBox={showBlindBox}
             blindTilt={blindTilt}
+            isNeedleMode={isNeedleMode}
+            needleEngineNode={needleEngineNode}
+            invertSides={activeInvertSides}
           />
         </React.Suspense>
 
@@ -889,6 +986,7 @@ export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
           target={orbitTarget} minDistance={maxDim*.3} maxDistance={maxDim*5}
           autoRotate={autoRotate} autoRotateSpeed={0.5} onStart={() => setAutoRotate(false)} />
       </Canvas>
+    </div>
 
       <div className="absolute top-3 right-3 z-20 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest pointer-events-none"
         style={{ background: 'rgba(8,8,22,.78)', border: '1px solid rgba(234,182,118,.22)', color: '#eab676', backdropFilter: 'blur(10px)' }}>
@@ -934,6 +1032,27 @@ export const SLE201Viewer: React.FC<SLE201ViewerProps> = ({
           />
         </div>
       )}
+
+      <button
+        onClick={() => {
+          const newVal = !activeInvertSides;
+          setLocalInvertSides(newVal);
+          if (onInvertSidesChange) onInvertSidesChange(newVal);
+        }}
+        className="absolute z-20 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all cursor-pointer border"
+        style={{
+          top: showBlindBox ? 152 : 86,
+          right: '12px',
+          background: activeInvertSides ? 'rgba(234, 182, 118, 0.2)' : 'rgba(8,8,22,.78)',
+          borderColor: activeInvertSides ? '#eab676' : 'rgba(234,182,118,.22)',
+          color: activeInvertSides ? '#eab676' : '#fff',
+          backdropFilter: 'blur(10px)',
+          pointerEvents: 'auto',
+          userSelect: 'none',
+        }}
+      >
+        {activeInvertSides ? t('configurator.normalSides', 'Normal Sides') : t('configurator.invertSides', 'Invert Sides')}
+      </button>
       {!hidePill && (onDimensionChange ? (
         <div 
           ref={pillRef}

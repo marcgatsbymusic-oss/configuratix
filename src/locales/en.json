@@ -721,6 +721,8 @@
     "showBlindBox": "Show Roller Blind",
     "hideBlindBox": "Hide Roller Blind",
     "blindTilt": "Slat Tilt",
+    "invertSides": "Invert Sides",
+    "normalSides": "Normal Sides",
     "seals": {
       "black": "Black (czarny)",
       "grey": "Grey (szary)"

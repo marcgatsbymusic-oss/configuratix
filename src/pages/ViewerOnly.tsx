@@ -594,6 +594,7 @@ export const ViewerOnly: React.FC = () => {
   const [colorIntTexture, setColorIntTexture] = useState<string | undefined>(undefined);
   const [isColorWheelOpen, setIsColorWheelOpen] = useState(false);
   const [mullionPos, setMullionPos] = useState(500);
+  const [invertSides, setInvertSides] = useState(false);
 
   // Sync width/height/colors when basketData, activeItem, or URL parameters change
   useEffect(() => {
@@ -604,6 +605,8 @@ export const ViewerOnly: React.FC = () => {
     let cETex = undefined;
     let cITex = undefined;
 
+    let inv = false;
+
     if (activeItem) {
       w = activeItem.config?.width || 1000;
       h = activeItem.config?.height || 1000;
@@ -611,6 +614,7 @@ export const ViewerOnly: React.FC = () => {
       cI = activeItem.config?.cInt || '#f0ece6';
       cETex = activeItem.config?.cExtTex;
       cITex = activeItem.config?.cIntTex;
+      inv = !!activeItem.config?.invertSides;
     } else {
       w = parseInt(searchParams.get('w') || '1000', 10);
       h = parseInt(searchParams.get('h') || '1000', 10);
@@ -618,6 +622,7 @@ export const ViewerOnly: React.FC = () => {
       cI = searchParams.get('cInt') ? decodeURIComponent(searchParams.get('cInt')!) : '#f0ece6';
       cETex = searchParams.get('cExtTex') ? decodeURIComponent(searchParams.get('cExtTex')!) : undefined;
       cITex = searchParams.get('cIntTex') ? decodeURIComponent(searchParams.get('cIntTex')!) : undefined;
+      inv = searchParams.get('invertSides') === 'true';
     }
 
     setWidth(w);
@@ -627,6 +632,7 @@ export const ViewerOnly: React.FC = () => {
     setColorInt(cI);
     setColorExtTexture(cETex);
     setColorIntTexture(cITex);
+    setInvertSides(inv);
   }, [basketData, selectedBasketItemIdx, searchParams, activeItem]);
 
   // Dimension scrollwheels visibility states
@@ -719,6 +725,7 @@ export const ViewerOnly: React.FC = () => {
     if (colorIntTexture) url.searchParams.set('cIntTex', encodeURIComponent(colorIntTexture));
     url.searchParams.set('cGsk', encodeURIComponent(colorGsk));
     url.searchParams.set('cSpc', encodeURIComponent(colorSpacer));
+    if (invertSides) url.searchParams.set('invertSides', 'true');
     if (senderName) url.searchParams.set('sender_name', encodeURIComponent(senderName));
     return url.toString();
   };
@@ -854,6 +861,8 @@ export const ViewerOnly: React.FC = () => {
             hidePill={true}
             isColorPaletteOpen={isColorWheelOpen}
             hasRollerShutter={true}
+            invertSides={invertSides}
+            onInvertSidesChange={setInvertSides}
           />
         ) : typology === 'F104' ? (
           <F104Viewer

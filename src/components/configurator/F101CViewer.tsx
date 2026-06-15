@@ -307,7 +307,7 @@ function WindowAssembly({ widthMm, heightMm, mullionPos, colorExt, colorInt, col
       </group>
 
       <group position={[58 * scale, 58 * scale, -82.0 * scale]}>
-        <group ref={leftSashPivotRef}>
+        <group ref={leftSashPivotRef} name="leftSashPivot">
           <group position={[-58 * scale, -58 * scale, 82.0 * scale]}>
             <group rotation={[0, 0, 0]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(mPosMm + sashOverlapMm, 1, 0)}</group></group>
             <group position={[(mPosMm + sashOverlapMm) * scale, 0, 0]} rotation={[0, 0, Math.PI / 2]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(heightMm, -1, (mPosMm + sashOverlapMm) * scale)}</group></group>
@@ -320,7 +320,7 @@ function WindowAssembly({ widthMm, heightMm, mullionPos, colorExt, colorInt, col
       </group>
       
       <group position={[W - 58 * scale, 58 * scale, -82.0 * scale]}>
-        <group ref={sashPivotRef}>
+        <group ref={sashPivotRef} name="sashPivot">
           <group position={[-(W - 58 * scale), -58 * scale, 82.0 * scale]}>
             <group position={[(mPosMm - sashOverlapMm) * scale, 0, 0]}>
               <group rotation={[0, 0, 0]}><group rotation={[0, Math.PI / 2, 0]}>{renderSashSegment(widthMm - mPosMm + sashOverlapMm, 1, (mPosMm - sashOverlapMm) * scale)}</group></group>
@@ -364,6 +364,8 @@ export interface F101CViewerProps {
   onDimensionChange?: (width: number, height: number) => void;
   activeLimits?: { minWidth: number; maxWidth: number; minHeight: number; maxHeight: number };
   hidePill?: boolean;
+  isNeedleMode?: boolean;
+  needleEngineNode?: HTMLElement | null;
 }
 
 export const F101CViewer: React.FC<F101CViewerProps> = ({
@@ -379,6 +381,8 @@ export const F101CViewer: React.FC<F101CViewerProps> = ({
   onDimensionChange,
   activeLimits,
   hidePill,
+  isNeedleMode = false,
+  needleEngineNode = null,
 }) => {
   const [widthText, setWidthText] = useState(width.toString());
   const [heightText, setHeightText] = useState(height.toString());
@@ -461,9 +465,80 @@ export const F101CViewer: React.FC<F101CViewerProps> = ({
   }, []);
 
 
+  const prevWindowState = useRef<WindowState>('closed');
+
+  useEffect(() => {
+    if (!isNeedleMode || !needleEngineNode) return;
+    const runAnimation = async () => {
+      try {
+        const { Context } = await import('@needle-tools/engine');
+        const ctx = (needleEngineNode as any).context || Context.Current;
+        if (!ctx) return;
+        const { Animation } = await import('@needle-tools/engine');
+
+        // Retry helper to wait for the model to load
+        const getAnimationComponent = async (): Promise<any> => {
+          for (let i = 0; i < 50; i++) {
+            const anim = ctx.scene?.getComponentInChildren(Animation);
+            if (anim) return anim;
+            await new Promise(resolve => setTimeout(resolve, 100));
+          }
+          return null;
+        };
+
+        const anim = await getAnimationComponent();
+        if (!anim) {
+          console.warn('[Needle Animation] Animation component not found after timeout');
+          return;
+        }
+
+        const playClip = (clipName: string, forward: boolean) => {
+          const action = anim.getAction(clipName);
+          if (!action) {
+            console.warn(`[Needle Animation] Clip ${clipName} not found. Available:`, anim.animations?.map((c: any) => c.name));
+            return;
+          }
+          action.reset();
+          action.loop = THREE.LoopOnce;
+          action.clampWhenFinished = true;
+          if (forward) {
+            action.timeScale = 1;
+          } else {
+            action.timeScale = -1;
+            action.time = action.getClip().duration;
+          }
+          action.play();
+        };
+
+        const prev = prevWindowState.current;
+        prevWindowState.current = windowState;
+
+        if (windowState === 'open_side') {
+          const tiltAction = anim.getAction('OpenTilt');
+          if (tiltAction) tiltAction.stop();
+          playClip('OpenSide', true);
+        } else if (windowState === 'open_tilt') {
+          const sideAction = anim.getAction('OpenSide');
+          if (sideAction) sideAction.stop();
+          playClip('OpenTilt', true);
+        } else if (windowState === 'closed') {
+          if (prev === 'open_side') {
+            playClip('OpenSide', false);
+          } else if (prev === 'open_tilt') {
+            playClip('OpenTilt', false);
+          }
+        }
+      } catch (err) {
+        console.error('[Needle Animation] Error controlling F101C animation:', err);
+      }
+    };
+    runAnimation();
+  }, [windowState, isNeedleMode, needleEngineNode]);
+
   return (
-    <div className="absolute inset-0" style={{ background: '#e2e8f0' }}>
-      <Canvas onDoubleClick={(e) => { e.stopPropagation(); controlsRef.current?.reset(); }} shadows gl={{ antialias: true, preserveDrawingBuffer: true }} camera={{ position: camPos, fov: 30 }}>
+    <div className={`absolute inset-0 ${isNeedleMode ? 'needle-active' : ''}`} style={{ background: '#e2e8f0' }}>
+      <div className="absolute inset-0">
+        <Canvas onDoubleClick={(e) => { e.stopPropagation(); controlsRef.current?.reset(); }} shadows gl={{ antialias: true, preserveDrawingBuffer: true }} camera={{ position: camPos, fov: 30 }}>
         <AdaptiveCamera maxDim={maxDim} targetX={targetX} targetY={targetY} targetZ={targetZ} angle={angle} defaultRadiusMult={2.0} fov={30} zSign={-1} controlsRef={controlsRef} />
         <color attach="background" args={['#e2e8f0']} />
         <fog attach="fog" args={['#ffffff', maxDim * 10, maxDim * 30]} />
@@ -503,6 +578,7 @@ export const F101CViewer: React.FC<F101CViewerProps> = ({
           onStart={() => setAutoRotate(false)}
         />
       </Canvas>
+      </div>
 
       <style>{`@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.1)} }`}</style>
 

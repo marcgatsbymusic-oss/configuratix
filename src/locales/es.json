@@ -707,6 +707,8 @@
     "showBlindBox": "Mostrar persiana",
     "hideBlindBox": "Ocultar persiana",
     "blindTilt": "Inclinación de lamas",
+    "invertSides": "Invertir lados",
+    "normalSides": "Lados normales",
     "seals": {
       "black": "Negro (czarny)",
       "grey": "Gris (szary)"

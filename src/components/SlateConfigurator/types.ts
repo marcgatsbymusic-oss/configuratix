@@ -180,6 +180,7 @@ export interface ConfiguratorState {
   glassSpacer: string;
   gasketColor: string;
   addons: string[];
+  invertSides?: boolean;
 }
 
 export type ConfiguratorAction =
@@ -204,7 +205,8 @@ export type ConfiguratorAction =
   | { type: 'SET_GLASS_INSIDE'; payload: string }
   | { type: 'SET_GLASS_SPACER'; payload: string }
   | { type: 'SET_GASKET_COLOR'; payload: string }
-  | { type: 'TOGGLE_ADDON'; payload: string };
+  | { type: 'TOGGLE_ADDON'; payload: string }
+  | { type: 'SET_INVERT_SIDES'; payload: boolean };
 
 export const CONFIG_SCHEMA = {
   categories: {

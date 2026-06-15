@@ -249,3 +249,9 @@ needle-engine, needle-engine::part(canvas), needle-engine canvas {
   --background-color: #ffffff !important;
   --loading-background: #ffffff !important;
 }
+
+/* Hide R3F Canvas when Needle Engine is active to allow Drei HTML overlays to remain interactive */
+.needle-active canvas {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}

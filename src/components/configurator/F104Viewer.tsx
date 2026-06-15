@@ -175,6 +175,18 @@ function F104Assembly({
   const { scene: handleScene } = useGLTF('/testhandle.glb');
   const clonedHandle = useMemo(() => {
     const clone = handleScene.clone(true);
+    let lever: THREE.Object3D | undefined =
+      clone.getObjectByName('Handle') ??
+      clone.getObjectByName('handle') ??
+      clone.getObjectByName('Pencere_Kulbu');
+    if (!lever) {
+      clone.traverse((child: any) => {
+        if (!lever && child.isMesh && !child.name.toLowerCase().includes('base')) lever = child;
+      });
+    }
+    if (lever) {
+      lever.name = 'handleLever';
+    }
     clone.traverse((child: any) => {
       if (child.isMesh && child.material) {
         child.material = child.material.clone();
@@ -471,7 +483,8 @@ function F104Assembly({
     sashPivotRef.current.rotation.x = currentTilt.current;
 
     if (handleGroupRef.current) {
-      let handleObj = handleGroupRef.current.getObjectByName('Handle') || 
+      let handleObj = handleGroupRef.current.getObjectByName('handleLever') || 
+                      handleGroupRef.current.getObjectByName('Handle') || 
                       handleGroupRef.current.getObjectByName('handle') || 
                       handleGroupRef.current.getObjectByName('Pencere_Kulbu');
       
@@ -720,6 +733,8 @@ export interface F104ViewerProps {
   hidePill?: boolean;
   isColorPaletteOpen?: boolean;
   hasRollerShutter?: boolean;
+  isNeedleMode?: boolean;
+  needleEngineNode?: HTMLElement | null;
 }
 
 // ─── Main Exported Component ──────────────────────────────────────────────────
@@ -739,6 +754,8 @@ export const F104Viewer: React.FC<F104ViewerProps> = ({
   hidePill = false,
   isColorPaletteOpen = false,
   hasRollerShutter = false,
+  isNeedleMode = false,
+  needleEngineNode = null,
 }) => {
   const { t } = useTranslation();
   const [widthText,  setWidthText]  = useState(width.toString());
@@ -833,10 +850,81 @@ export const F104Viewer: React.FC<F104ViewerProps> = ({
     setAutoRotate(false);
   }, []);
 
+  const prevWindowState = useRef<WindowState>('closed');
+
+  useEffect(() => {
+    if (!isNeedleMode || !needleEngineNode) return;
+    const runAnimation = async () => {
+      try {
+        const { Context } = await import('@needle-tools/engine');
+        const ctx = (needleEngineNode as any).context || Context.Current;
+        if (!ctx) return;
+        const { Animation } = await import('@needle-tools/engine');
+
+        // Retry helper to wait for the model to load
+        const getAnimationComponent = async (): Promise<any> => {
+          for (let i = 0; i < 50; i++) {
+            const anim = ctx.scene?.getComponentInChildren(Animation);
+            if (anim) return anim;
+            await new Promise(resolve => setTimeout(resolve, 100));
+          }
+          return null;
+        };
+
+        const anim = await getAnimationComponent();
+        if (!anim) {
+          console.warn('[Needle Animation] Animation component not found after timeout');
+          return;
+        }
+
+        const playClip = (clipName: string, forward: boolean) => {
+          const action = anim.getAction(clipName);
+          if (!action) {
+            console.warn(`[Needle Animation] Clip ${clipName} not found. Available:`, anim.animations?.map((c: any) => c.name));
+            return;
+          }
+          action.reset();
+          action.loop = THREE.LoopOnce;
+          action.clampWhenFinished = true;
+          if (forward) {
+            action.timeScale = 1;
+          } else {
+            action.timeScale = -1;
+            action.time = action.getClip().duration;
+          }
+          action.play();
+        };
+
+        const prev = prevWindowState.current;
+        prevWindowState.current = windowState;
+
+        if (windowState === 'open_side') {
+          const tiltAction = anim.getAction('OpenTilt');
+          if (tiltAction) tiltAction.stop();
+          playClip('OpenSide', true);
+        } else if (windowState === 'open_tilt') {
+          const sideAction = anim.getAction('OpenSide');
+          if (sideAction) sideAction.stop();
+          playClip('OpenTilt', true);
+        } else if (windowState === 'closed') {
+          if (prev === 'open_side') {
+            playClip('OpenSide', false);
+          } else if (prev === 'open_tilt') {
+            playClip('OpenTilt', false);
+          }
+        }
+      } catch (err) {
+        console.error('[Needle Animation] Error controlling F104 animation:', err);
+      }
+    };
+    runAnimation();
+  }, [windowState, isNeedleMode, needleEngineNode]);
+
   return (
-    <div className="absolute inset-0" style={{ background: '#dde4ed' }}>
-      <Canvas
-        onDoubleClick={e => { e.stopPropagation(); controlsRef.current?.reset(); }}
+    <div className={`absolute inset-0 ${isNeedleMode ? 'needle-active' : ''}`} style={{ background: '#dde4ed' }}>
+      <div className="absolute inset-0">
+        <Canvas
+          onDoubleClick={e => { e.stopPropagation(); controlsRef.current?.reset(); }}
         shadows
         gl={{ antialias: true, preserveDrawingBuffer: true }}
         camera={{ position: camPos, fov: 30 }}
@@ -918,6 +1006,7 @@ export const F104Viewer: React.FC<F104ViewerProps> = ({
           onStart={() => setAutoRotate(false)}
         />
       </Canvas>
+      </div>
 
       <style>{`@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.1)} }`}</style>
 

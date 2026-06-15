@@ -31,7 +31,8 @@ const initialState: ConfiguratorState = {
   glassInside: 'T4',
   glassSpacer: 'S24',
   gasketColor: 'czarny',
-  addons: []
+  addons: [],
+  invertSides: false
 };
 
 function getInitialState(): ConfiguratorState {
@@ -45,6 +46,7 @@ function getInitialState(): ConfiguratorState {
         'iglo-5': { category: 'Windows', profile: 'iglo5' },
         'iglo-light': { category: 'Windows', profile: 'iglolight' },
         'iglo-energy': { category: 'Windows', profile: 'igloenergy' },
+        'iglo-edge-slide': { category: 'Terrace Systems', profile: 'igloedgeslide', windowTypeId: 'SLE201' },
         'roller-blind-box-225': { category: 'Shutters', profile: 'roller-blind-box-225', windowTypeId: 'ROLLER_BLIND_BOX_225' },
       };
       
@@ -124,7 +126,7 @@ function configuratorReducer(state: ConfiguratorState, action: ConfiguratorActio
       return { 
         ...state, 
         profile: action.payload,
-        windowTypeId: action.payload === 'roller-blind-box-225' ? 'ROLLER_BLIND_BOX_225' : state.windowTypeId,
+        windowTypeId: action.payload === 'igloedgeslide' ? 'SLE201' : (action.payload === 'roller-blind-box-225' ? 'ROLLER_BLIND_BOX_225' : state.windowTypeId),
         dimensions: action.payload === 'igloedgeslide' ? { width: 2000, height: 2100 } : {
           width: Math.min(Math.max(state.dimensions.width, limits.minWidth), limits.maxWidth),
           height: Math.min(Math.max(state.dimensions.height, limits.minHeight), limits.maxHeight),
@@ -219,6 +221,8 @@ function configuratorReducer(state: ConfiguratorState, action: ConfiguratorActio
           ? state.addons.filter(id => id !== action.payload)
           : [...state.addons, action.payload]
       };
+    case 'SET_INVERT_SIDES':
+      return { ...state, invertSides: action.payload };
     default:
       return state;
   }
