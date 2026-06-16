@@ -33,6 +33,7 @@ import { F202LPage } from './pages/F202LPage'
 import { F202Lv2Page } from './pages/F202Lv2Page'
 import { F202RFixV2Page } from './pages/F202RFixV2Page'
 import { F202RV3Page } from './pages/F202RV3Page'
+import { F202RPage } from './pages/F202RPage'
 import { F104ProfileInspectorPage } from './pages/F104ProfileInspectorPage'
 import { RollerBlindTestPage } from './pages/RollerBlindTestPage'
 import { RollerBlindTestMosquitoPage } from './pages/RollerBlindTestMosquitoPage'
@@ -186,6 +187,9 @@ function App() {
 
             {/* IGE_DW_PST_LEFT_TT-T Double Window F202RV3 */}
             <Route path="/f202rv3" element={<F202RV3Page />} />
+
+            {/* IGE Double Window Active Right F202R */}
+            <Route path="/f202r" element={<F202RPage />} />
 
             {/* Hinge Rotation & Rigging Tester */}
             <Route path="/hinge-tester" element={<HingeTesterPage />} />

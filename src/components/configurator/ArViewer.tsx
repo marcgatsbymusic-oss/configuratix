@@ -111,7 +111,7 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
       (gltf: any) => {
         const blob = new Blob([gltf as ArrayBuffer], { type: 'model/gltf-binary' });
         setBlobSize(blob.size);
-        const url = URL.createObjectURL(blob);
+        const url = URL.createObjectURL(blob) + '#window-scene.glb';
         
         // Save to IndexedDB for the full-screen AR page to consume
         saveModelToDB(blob).catch(err => {
@@ -124,7 +124,8 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
         // Upload to tmpfiles.org
         uploadToTmpFiles(blob).then((pUrl) => {
           setPublicUrl(pUrl);
-          setModelUrl(pUrl);
+          // DO NOT override modelUrl with the public URL to avoid CORS/network failures in the browser!
+          // We keep using the local blob URL for model-viewer / in-browser preview.
           savePublicUrlToDB(pUrl).catch(err => {
             console.error('[ArViewer] Error saving public URL to IndexedDB:', err);
           });
@@ -140,7 +141,13 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
     );
 
     return () => {
-      setModelUrl(prev => { if (prev && prev.startsWith('blob:')) URL.revokeObjectURL(prev); return null; });
+      setModelUrl(prev => {
+        if (prev && prev.startsWith('blob:')) {
+          const cleanUrl = prev.split('#')[0];
+          URL.revokeObjectURL(cleanUrl);
+        }
+        return null;
+      });
       setPublicUrl(null);
     };
   }, [sceneGroup]);

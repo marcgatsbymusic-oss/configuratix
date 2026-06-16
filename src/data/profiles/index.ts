@@ -111,8 +111,15 @@ export const ProfileRegistry: Record<string, ProfileMetadata> = {
     name: 'Iglo Edge F202 R Fix V2 — Double Sash Movable Post (Active Left)',
     description: 'Double sash window with V8 movable post. Left sash opens & tilts (clockwise handle). Right sash turn only. Sequence locked: right opens after left.',
     fileName: 'IgloEdge/IGE_MOVABLE_POST_LEFT_OPENING.json'
+  },
+  IGE_WINDOW_MOVABLE_POST: {
+    id: 'IGE_WINDOW_MOVABLE_POST',
+    system: 'IGLO_EDGE',
+    type: 'IGE_WINDOW_MOVABLE_POST',
+    name: 'Iglo Edge - Window Movable Post',
+    description: 'Double sash window profile with movable post for Iglo Edge.',
+    fileName: 'IgloEdge/IGE_WINDOW_MOVABLE_POST.json'
   }
-
 };
 
 /**
