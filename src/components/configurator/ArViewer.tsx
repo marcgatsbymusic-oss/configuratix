@@ -5,15 +5,23 @@ import '@google/model-viewer';
 
 const ModelViewer = 'model-viewer' as any;
 
-import { saveModelToDB, getAnimationClipsForTypology } from '../../utils/arStorage';
+import { saveModelToDB, savePublicUrlToDB, getAnimationClipsForTypology } from '../../utils/arStorage';
 
 const isAndroid = typeof navigator !== 'undefined' && /android/i.test(navigator.userAgent);
 
-// Public rescaled GLB for Android Scene Viewer.
-// blob: URLs are private to the browser process — the native Scene Viewer app cannot fetch them.
-// WebXR on Android causes jitter but no model (Chromium 147+ XRProjectionLayer regression).
-// Solution: skip WebXR entirely on Android and go straight to Scene Viewer intent URL.
-
+// Helper to upload GLB to tmpfiles.org for public AR sharing
+async function uploadToTmpFiles(blob: Blob): Promise<string> {
+  const formData = new FormData();
+  formData.append('file', blob, 'window-scene.glb');
+  const res = await fetch('https://tmpfiles.org/api/v1/upload', {
+    method: 'POST',
+    body: formData
+  });
+  if (!res.ok) throw new Error(`Upload failed: ${res.statusText}`);
+  const json = await res.json();
+  if (json.status !== 'success') throw new Error(json.message || 'Upload failed');
+  return json.data.url.replace('https://tmpfiles.org/', 'https://tmpfiles.org/dl/');
+}
 
 interface ArViewerProps {
   sceneGroup: THREE.Group | THREE.Scene | null;
@@ -47,6 +55,7 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
   const [modelUrl, setModelUrl] = useState<string | null>(null);
   const [error, setError]       = useState<string | null>(null);
   const [blobSize, setBlobSize] = useState<number | null>(null);
+  const [publicUrl, setPublicUrl] = useState<string | null>(null);
 
   // Export Three.js scene → GLB blob.
   useEffect(() => {
@@ -103,11 +112,24 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
         const blob = new Blob([gltf as ArrayBuffer], { type: 'model/gltf-binary' });
         setBlobSize(blob.size);
         const url = URL.createObjectURL(blob);
-        setModelUrl(url);
-
+        
         // Save to IndexedDB for the full-screen AR page to consume
         saveModelToDB(blob).catch(err => {
           console.error('[ArViewer] Error saving model to IndexedDB:', err);
+        });
+
+        // Set local fallback first
+        setModelUrl(url);
+
+        // Upload to tmpfiles.org
+        uploadToTmpFiles(blob).then((pUrl) => {
+          setPublicUrl(pUrl);
+          setModelUrl(pUrl);
+          savePublicUrlToDB(pUrl).catch(err => {
+            console.error('[ArViewer] Error saving public URL to IndexedDB:', err);
+          });
+        }).catch(err => {
+          console.error('[ArViewer] Upload to tmpfiles.org failed, using local URL:', err);
         });
       },
       (err: any) => {
@@ -118,7 +140,8 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
     );
 
     return () => {
-      setModelUrl(prev => { if (prev) URL.revokeObjectURL(prev); return null; });
+      setModelUrl(prev => { if (prev && prev.startsWith('blob:')) URL.revokeObjectURL(prev); return null; });
+      setPublicUrl(null);
     };
   }, [sceneGroup]);
 
@@ -129,8 +152,9 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
       ? window.location.host
       : 'configuratix-kohl.vercel.app';
     const publicGlb = `https://${host}/models/window-scene.glb`;
+    const finalGlbUrl = publicUrl || publicGlb;
     const encodedFallback = encodeURIComponent('https://developers.google.com/ar');
-    const sceneViewerFallback = `intent://arvr.google.com/scene-viewer/1.1?file=${encodeURIComponent(publicGlb)}&mode=ar_preferred&title=Mammut%20Window&resizable=false#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=${encodedFallback};end;`;
+    const sceneViewerFallback = `intent://arvr.google.com/scene-viewer/1.1?file=${encodeURIComponent(finalGlbUrl)}&mode=ar_preferred&title=Mammut%20Window&resizable=false#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=${encodedFallback};end;`;
 
     return (
       <div className="fixed inset-0 z-50 bg-[#0a0a0b] flex flex-col">

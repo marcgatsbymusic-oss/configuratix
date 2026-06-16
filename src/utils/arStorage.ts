@@ -46,6 +46,51 @@ export function getModelFromDB(): Promise<Blob | null> {
   });
 }
 
+const PUBLIC_URL_KEY = 'current_window_public_url';
+
+export function savePublicUrlToDB(url: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, 1);
+    request.onupgradeneeded = () => {
+      const db = request.result;
+      if (!db.objectStoreNames.contains(STORE_NAME)) {
+        db.createObjectStore(STORE_NAME);
+      }
+    };
+    request.onsuccess = () => {
+      const db = request.result;
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      const store = tx.objectStore(STORE_NAME);
+      const putReq = store.put(url, PUBLIC_URL_KEY);
+      putReq.onsuccess = () => resolve();
+      putReq.onerror = () => reject(putReq.error);
+    };
+    request.onerror = () => reject(request.error);
+  });
+}
+
+export function getPublicUrlFromDB(): Promise<string | null> {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, 1);
+    request.onupgradeneeded = () => {
+      const db = request.result;
+      if (!db.objectStoreNames.contains(STORE_NAME)) {
+        db.createObjectStore(STORE_NAME);
+      }
+    };
+    request.onsuccess = () => {
+      const db = request.result;
+      const tx = db.transaction(STORE_NAME, 'readonly');
+      const store = tx.objectStore(STORE_NAME);
+      const getReq = store.get(PUBLIC_URL_KEY);
+      getReq.onsuccess = () => resolve(getReq.result || null);
+      getReq.onerror = () => reject(getReq.error);
+    };
+    request.onerror = () => reject(request.error);
+  });
+}
+
+
 export function getAnimationClipsForTypology(typology: string): THREE.AnimationClip[] {
   const clips: THREE.AnimationClip[] = [];
 

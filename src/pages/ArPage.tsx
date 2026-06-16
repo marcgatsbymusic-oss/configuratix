@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as THREE from 'three';
 import '@needle-tools/engine';
-import { getModelFromDB } from '../utils/arStorage';
+import { getModelFromDB, getPublicUrlFromDB } from '../utils/arStorage';
 
 /**
  * Full-screen Needle Engine AR page for Android.
@@ -13,13 +13,26 @@ export function ArPage() {
   const [modelUrl, setModelUrl] = useState<string>('/models/window-scene.glb');
 
   useEffect(() => {
-    getModelFromDB().then((blob) => {
-      if (blob) {
-        const url = URL.createObjectURL(blob);
-        setModelUrl(url);
+    getPublicUrlFromDB().then((pUrl) => {
+      if (pUrl) {
+        setModelUrl(pUrl);
+      } else {
+        // Fallback to local blob
+        getModelFromDB().then((blob) => {
+          if (blob) {
+            const url = URL.createObjectURL(blob);
+            setModelUrl(url);
+          }
+        });
       }
     }).catch(err => {
-      console.error("[ArPage] Error loading model from IndexedDB:", err);
+      console.error("[ArPage] Error loading public url, falling back:", err);
+      getModelFromDB().then((blob) => {
+        if (blob) {
+          const url = URL.createObjectURL(blob);
+          setModelUrl(url);
+        }
+      });
     });
   }, []);
 
