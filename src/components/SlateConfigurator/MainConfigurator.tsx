@@ -547,8 +547,10 @@ export function MainConfigurator() {
   const isAndroid = typeof window !== 'undefined' && /android/i.test(navigator.userAgent);
   const isMobile = isIOS || isAndroid;
 
-  const appDomain = "fantastic-octo-giggle-five.vercel.app";
-  const glbUrl = `https://${appDomain}/models/window-scene.glb`;
+  const host = typeof window !== 'undefined' && window.location.host && !window.location.host.includes('localhost') && !window.location.host.includes('127.0.0.1')
+    ? window.location.host
+    : 'configuratix-kohl.vercel.app';
+  const glbUrl = `https://${host}/models/window-scene.glb`;
   // IMPORTANT: The `link` and `S.browser_fallback_url` values must be percent-encoded.
   // Chrome's intent URL parser splits on `://` so any unencoded https:// inside a parameter
   // value silently truncates the intent, causing Scene Viewer to fail with no error shown.

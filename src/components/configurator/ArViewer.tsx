@@ -13,9 +13,7 @@ const isAndroid = typeof navigator !== 'undefined' && /android/i.test(navigator.
 // blob: URLs are private to the browser process — the native Scene Viewer app cannot fetch them.
 // WebXR on Android causes jitter but no model (Chromium 147+ XRProjectionLayer regression).
 // Solution: skip WebXR entirely on Android and go straight to Scene Viewer intent URL.
-const PUBLIC_GLB = 'https://fantastic-octo-giggle-five.vercel.app/models/window-scene.glb';
-const encodedFallback = encodeURIComponent('https://developers.google.com/ar');
-const ANDROID_SCENE_VIEWER_INTENT = `intent://arvr.google.com/scene-viewer/1.1?file=${encodeURIComponent(PUBLIC_GLB)}&mode=ar_preferred&title=Mammut%20Window&resizable=false#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=${encodedFallback};end;`;
+
 
 interface ArViewerProps {
   sceneGroup: THREE.Group | THREE.Scene | null;
@@ -127,7 +125,12 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
   // ─── ANDROID: Needle Engine AR page (bypasses WebXR/blob issues) ─────────
   if (isAndroid) {
     const needleArUrl = '/ar-preview';
-    const sceneViewerFallback = ANDROID_SCENE_VIEWER_INTENT;
+    const host = typeof window !== 'undefined' && window.location.host && !window.location.host.includes('localhost') && !window.location.host.includes('127.0.0.1')
+      ? window.location.host
+      : 'configuratix-kohl.vercel.app';
+    const publicGlb = `https://${host}/models/window-scene.glb`;
+    const encodedFallback = encodeURIComponent('https://developers.google.com/ar');
+    const sceneViewerFallback = `intent://arvr.google.com/scene-viewer/1.1?file=${encodeURIComponent(publicGlb)}&mode=ar_preferred&title=Mammut%20Window&resizable=false#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=${encodedFallback};end;`;
 
     return (
       <div className="fixed inset-0 z-50 bg-[#0a0a0b] flex flex-col">

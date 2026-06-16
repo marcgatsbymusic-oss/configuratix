@@ -19,8 +19,10 @@ export function ARPreviewButton() {
   }, []);
 
   // Direct Vercel URL to avoid Intent relative-path resolving errors in Android Scene Viewer
-  const appDomain = "fantastic-octo-giggle-five.vercel.app";
-  const glbUrl = `https://${appDomain}/models/window-scene.glb`; // use the rescaled GLB
+  const host = typeof window !== 'undefined' && window.location.host && !window.location.host.includes('localhost') && !window.location.host.includes('127.0.0.1')
+    ? window.location.host
+    : 'configuratix-kohl.vercel.app';
+  const glbUrl = `https://${host}/models/window-scene.glb`; // use the rescaled GLB
   const encodedFallback = encodeURIComponent('https://developers.google.com/ar');
   const androidIntent = `intent://arvr.google.com/scene-viewer/1.1?file=${encodeURIComponent(glbUrl)}&mode=ar_preferred&title=Mammut%20Window&resizable=false#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=${encodedFallback};end;`;
 
