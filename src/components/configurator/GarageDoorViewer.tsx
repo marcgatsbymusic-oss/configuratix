@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { useTranslation } from 'react-i18next';
-import { ArrowUp, ArrowDown, Pause } from 'lucide-react';
+import { ArrowUp, ArrowDown, Pause, ChevronDown } from 'lucide-react';
 import { useGarageDoorStore } from '../../store/useGarageDoorStore';
 import { AdaptiveCamera } from './AdaptiveCamera';
 
@@ -454,6 +454,41 @@ export function GarageDoorCanvas() {
   const maxDim = Math.max(width, height) * MM;
   const targetY = (height * MM) / 2;
 
+  const [showControls, setShowControls] = useState(false);
+  const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const resetHideTimer = () => {
+    if (hideTimerRef.current) {
+      clearTimeout(hideTimerRef.current);
+    }
+    hideTimerRef.current = setTimeout(() => {
+      setShowControls(false);
+    }, 3500);
+  };
+
+  const clearHideTimer = () => {
+    if (hideTimerRef.current) {
+      clearTimeout(hideTimerRef.current);
+      hideTimerRef.current = null;
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (hideTimerRef.current) {
+        clearTimeout(hideTimerRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (showControls) {
+      resetHideTimer();
+    } else {
+      clearHideTimer();
+    }
+  }, [showControls]);
+
   // We write an internal component to wrap Canvas-bound hooks
   const FrameLoop = () => {
     useFrame((_, delta) => {
@@ -502,60 +537,81 @@ export function GarageDoorCanvas() {
           <Environment files="/assets/hdri/suburban_garden_2k.exr" environmentIntensity={0.6} />
         </React.Suspense>
 
-        <Html position={[W / 2 - 0.25, targetY - 0.45, 0.18]} center>
-          <div 
-            className="pointer-events-auto flex flex-col gap-2 p-2 bg-black/75 backdrop-blur-md border border-white/10 rounded-full shadow-2xl items-center"
+        <Html position={[W / 2 - 0.25, height * MM - 0.15, 0.18]} center>
+          <button
+            onClick={() => setShowControls(prev => !prev)}
+            className="pointer-events-auto w-8 h-8 flex items-center justify-center rounded-full bg-black/75 backdrop-blur-md border border-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110 shadow-lg transition-all duration-300 cursor-pointer"
             onPointerDown={(e) => e.stopPropagation()}
             onTouchStart={(e) => e.stopPropagation()}
+            title={showControls ? "Hide Controls" : "Show Controls"}
           >
-            <button
-              onClick={() => {
-                setAnimationDirection('up');
-                setIsAnimating(true);
-              }}
-              disabled={animationProgress === 1 && !isAnimating}
-              className={`w-9.5 h-9.5 flex items-center justify-center rounded-full transition-all duration-300 ${
-                isAnimating && animationDirection === 'up'
-                  ? 'bg-mammut-gold text-mammut-black animate-pulse shadow-[0_0_12px_rgba(234,182,118,0.5)]'
-                  : animationProgress === 1
-                  ? 'bg-white/5 text-white/20 cursor-not-allowed'
-                  : 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110 shadow-lg'
-              }`}
-              title="Open Door"
-            >
-              <ArrowUp className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => setIsAnimating(false)}
-              disabled={!isAnimating}
-              className={`w-9.5 h-9.5 flex items-center justify-center rounded-full transition-all duration-300 ${
-                isAnimating
-                  ? 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110 shadow-lg'
-                  : 'bg-white/5 text-white/20 cursor-not-allowed'
-              }`}
-              title="Pause Animation"
-            >
-              <Pause className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => {
-                setAnimationDirection('down');
-                setIsAnimating(true);
-              }}
-              disabled={animationProgress === 0 && !isAnimating}
-              className={`w-9.5 h-9.5 flex items-center justify-center rounded-full transition-all duration-300 ${
-                isAnimating && animationDirection === 'down'
-                  ? 'bg-mammut-gold text-mammut-black animate-pulse shadow-[0_0_12px_rgba(234,182,118,0.5)]'
-                  : animationProgress === 0
-                  ? 'bg-white/5 text-white/20 cursor-not-allowed'
-                  : 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110 shadow-lg'
-              }`}
-              title="Close Door"
-            >
-              <ArrowDown className="w-4 h-4" />
-            </button>
-          </div>
+            <ChevronDown className={`w-4.5 h-4.5 transition-transform duration-300 ${showControls ? 'rotate-180 text-mammut-gold' : 'text-white'}`} />
+          </button>
         </Html>
+
+        {showControls && (
+          <Html position={[W / 2 - 0.25, height * MM - 0.48, 0.18]} center>
+            <div 
+              className="pointer-events-auto flex flex-col gap-2 p-2 bg-black/75 backdrop-blur-md border border-white/10 rounded-full shadow-2xl items-center"
+              onPointerDown={(e) => e.stopPropagation()}
+              onTouchStart={(e) => e.stopPropagation()}
+              onMouseEnter={clearHideTimer}
+              onMouseLeave={resetHideTimer}
+            >
+              <button
+                onClick={() => {
+                  setAnimationDirection('up');
+                  setIsAnimating(true);
+                  resetHideTimer();
+                }}
+                disabled={animationProgress === 1 && !isAnimating}
+                className={`w-9.5 h-9.5 flex items-center justify-center rounded-full transition-all duration-300 ${
+                  isAnimating && animationDirection === 'up'
+                    ? 'bg-mammut-gold text-mammut-black animate-pulse shadow-[0_0_12px_rgba(234,182,118,0.5)]'
+                    : animationProgress === 1
+                    ? 'bg-white/5 text-white/20 cursor-not-allowed'
+                    : 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110 shadow-lg'
+                }`}
+                title="Open Door"
+              >
+                <ArrowUp className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => {
+                  setIsAnimating(false);
+                  resetHideTimer();
+                }}
+                disabled={!isAnimating}
+                className={`w-9.5 h-9.5 flex items-center justify-center rounded-full transition-all duration-300 ${
+                  isAnimating
+                    ? 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110 shadow-lg'
+                    : 'bg-white/5 text-white/20 cursor-not-allowed'
+                }`}
+                title="Pause Animation"
+              >
+                <Pause className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => {
+                  setAnimationDirection('down');
+                  setIsAnimating(true);
+                  resetHideTimer();
+                }}
+                disabled={animationProgress === 0 && !isAnimating}
+                className={`w-9.5 h-9.5 flex items-center justify-center rounded-full transition-all duration-300 ${
+                  isAnimating && animationDirection === 'down'
+                    ? 'bg-mammut-gold text-mammut-black animate-pulse shadow-[0_0_12px_rgba(234,182,118,0.5)]'
+                    : animationProgress === 0
+                    ? 'bg-white/5 text-white/20 cursor-not-allowed'
+                    : 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110 shadow-lg'
+                }`}
+                title="Close Door"
+              >
+                <ArrowDown className="w-4 h-4" />
+              </button>
+            </div>
+          </Html>
+        )}
 
         <OrbitControls
           enablePan={true}
