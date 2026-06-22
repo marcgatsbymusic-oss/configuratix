@@ -534,7 +534,7 @@ export function GarageDoorCanvas() {
         <React.Suspense fallback={null}>
           <GarageDoorAssembly />
           <FrameLoop />
-          <Environment files="/assets/hdri/suburban_garden_2k.exr" environmentIntensity={0.6} />
+          <Environment files="/assets/hdri/suburban_garden_2k.exr" environmentIntensity={0.8} background />
         </React.Suspense>
 
         <Html position={[W / 2 - 0.25, height * MM - 0.15, 0.18]} center>
