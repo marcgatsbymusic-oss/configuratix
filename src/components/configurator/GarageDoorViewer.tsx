@@ -450,6 +450,7 @@ export function GarageDoorCanvas() {
   const width = useGarageDoorStore((s) => s.width);
   const height = useGarageDoorStore((s) => s.height);
 
+  const W = width * MM;
   const maxDim = Math.max(width, height) * MM;
   const targetY = (height * MM) / 2;
 
@@ -501,7 +502,7 @@ export function GarageDoorCanvas() {
           <Environment files="/assets/hdri/suburban_garden_2k.exr" environmentIntensity={0.6} />
         </React.Suspense>
 
-        <Html position={[0, targetY - 0.45, 0.18]} center>
+        <Html position={[W / 2 - 0.25, targetY - 0.45, 0.18]} center>
           <div 
             className="pointer-events-auto flex flex-col gap-2 p-2 bg-black/75 backdrop-blur-md border border-white/10 rounded-full shadow-2xl items-center"
             onPointerDown={(e) => e.stopPropagation()}
