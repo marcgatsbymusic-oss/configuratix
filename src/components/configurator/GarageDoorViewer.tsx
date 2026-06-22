@@ -130,6 +130,7 @@ function GarageDoorAssembly() {
     tex.wrapS = THREE.RepeatWrapping;
     tex.wrapT = THREE.RepeatWrapping;
     tex.repeat.set(2, 0.5);
+    tex.colorSpace = THREE.SRGBColorSpace;
     return tex;
   }, [extTexture, textureLoader]);
 
@@ -161,6 +162,7 @@ function GarageDoorAssembly() {
       normalScale: extNormalTex ? new THREE.Vector2(0.55, 0.55) : undefined,
       roughness: embossing === 'smooth' ? 0.22 : 0.45,
       metalness: 0.28, // slight metallic sheen of coated steel sheets
+      envMapIntensity: 0.65,
     });
   }, [extColor, extTex, extNormalTex, embossing]);
 
@@ -518,7 +520,17 @@ export function GarageDoorCanvas() {
 
   return (
     <div className="w-full h-full relative bg-[#f3f4f6] rounded-2xl overflow-hidden border border-black/5 shadow-2xl select-none touch-none">
-      <Canvas shadows camera={{ position: [0, 1.5, 4], fov: 50 }} gl={{ antialias: true, preserveDrawingBuffer: true }}>
+      <Canvas 
+        shadows 
+        camera={{ position: [0, 1.5, 4], fov: 50 }} 
+        gl={{ 
+          antialias: true, 
+          preserveDrawingBuffer: true,
+          outputColorSpace: THREE.SRGBColorSpace,
+          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 1.0
+        }}
+      >
         <ambientLight intensity={0.22} />
         <directionalLight
           castShadow
