@@ -426,7 +426,7 @@ function PrefilteredEnvironment() {
     const prevEnvIntensity = scene.environmentIntensity;
 
     // eslint-disable-next-line react-hooks/immutability
-    scene.background = envMap;
+    scene.background = null;
     scene.environment = envMap;
     scene.environmentIntensity = 0.8;
 
@@ -568,6 +568,7 @@ export function GarageDoorCanvas() {
         camera={{ position: [0, 1.5, 4], fov: 50 }} 
         gl={{ 
           antialias: true, 
+          alpha: true,
           preserveDrawingBuffer: true,
           outputColorSpace: THREE.SRGBColorSpace,
           toneMapping: THREE.ACESFilmicToneMapping,
