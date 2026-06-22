@@ -5,7 +5,7 @@
  */
 
 import React, { useState } from 'react';
-import { ThreejsWindowEngine } from '../components/configurator/ThreejsWindowEngine';
+import { F2MPXViewer } from '../components/configurator/F2MPXViewer';
 
 const COLORS = [
   { label: 'White',      ext: '#f0ece6', int: '#f0ece6' },
@@ -33,8 +33,8 @@ const SEAL_COLORS = [
 ];
 
 export const F2MPXPage: React.FC = () => {
-  const [width,    setWidth]    = useState(1400);
-  const [height,   setHeight]   = useState(1100);
+  const [width,    setWidth]    = useState(1200);
+  const [height,   setHeight]   = useState(2000);
   const [colorIdx, setColorIdx] = useState(0);
   const [biColor,  setBiColor]  = useState(false);
   const [scenery,  setScenery]  = useState('studio-dark');
@@ -58,14 +58,12 @@ export const F2MPXPage: React.FC = () => {
       {/* ── 3D Viewport ── */}
       <div className="relative flex-1">
         <React.Suspense fallback={null}>
-          <ThreejsWindowEngine
+          <F2MPXViewer
             width={width}
             height={height}
             colorExt={extColor}
             colorInt={intColor}
             sealColor={SEAL_COLORS[sealIdx].value}
-            typology="F2MPX"
-            scenery={scenery}
           />
         </React.Suspense>
 
@@ -80,7 +78,7 @@ export const F2MPXPage: React.FC = () => {
           }}
         >
           <div className="w-1.5 h-1.5 rounded-full bg-[#eab676] animate-pulse" />
-          F2MPX — Movable Post Test
+          F2MPX — Movable Post Test (Step 1)
         </div>
 
         {/* Sash legend */}
@@ -95,13 +93,8 @@ export const F2MPXPage: React.FC = () => {
         >
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-[#d4d4d8]" />
-            <span>Left sash — open only</span>
+            <span>Step 1: Frame &amp; Gaskets</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-[#d4d4d8]" />
-            <span>Right sash — tilt &amp; open</span>
-          </div>
-          <div className="mt-0.5 text-white/25">Click dots on glass to animate</div>
         </div>
       </div>
 
@@ -118,7 +111,7 @@ export const F2MPXPage: React.FC = () => {
         {/* Header */}
         <div>
           <div className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#eab676' }}>Profile</div>
-          <div className="text-sm font-bold text-white mt-0.5">IGLO 5</div>
+          <div className="text-sm font-bold text-white mt-0.5">IGLO EDGE</div>
           <div className="text-[11px] mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>
             F2MPX — Movable Post
           </div>
@@ -224,32 +217,11 @@ export const F2MPXPage: React.FC = () => {
 
         {divider}
 
-        {/* Scenery */}
-        <div>
-          {label('Scenery')}
-          <div className="flex flex-col gap-1.5">
-            {SCENERIES.map(s => (
-              <button
-                key={s.value}
-                onClick={() => setScenery(s.value)}
-                className="px-3 py-1.5 rounded-lg text-left text-xs transition-all"
-                style={{
-                  background: scenery === s.value ? 'rgba(234,182,118,0.12)' : 'transparent',
-                  border: `1px solid ${scenery === s.value ? 'rgba(234,182,118,0.4)' : 'rgba(255,255,255,0.06)'}`,
-                  color: scenery === s.value ? '#eab676' : 'rgba(255,255,255,0.55)',
-                }}
-              >
-                {s.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
         {/* Footer note */}
         <div style={{ marginTop: 'auto', paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
           <div className="text-[9px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.2)' }}>
             Post geometry from<br />
-            IGL5_Movablepost_Fusion_processed.dxf
+            IGE_F104.json
           </div>
         </div>
       </div>

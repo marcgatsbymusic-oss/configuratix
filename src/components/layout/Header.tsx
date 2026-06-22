@@ -176,7 +176,7 @@ const MEGA_MENU_CATEGORIES = [
     ] 
   },
   { id: 'mosquito', href: '/products/mosquito', columns: [] },
-  { id: 'garage', href: '/products/garage', columns: [] },
+  { id: 'garage', href: '/products/garage-doors', columns: [] },
   { id: 'conservatories', href: '/products/conservatories', columns: [] },
   { id: 'pergola', href: '/products/pergola', columns: [] },
   { id: 'smart', href: '/products/smart-home', columns: [] },

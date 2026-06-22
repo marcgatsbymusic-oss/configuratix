@@ -1,6 +1,6 @@
 /**
  * F202RPage.tsx
- * Full-screen standalone test page for the double window with movable post (active right sash).
+ * Full-screen standalone page for the frame-only viewer.
  * Route: /f202r
  */
 
@@ -26,14 +26,9 @@ const SEAL_COLORS = [
 export const F202RPage: React.FC = () => {
   const [width,      setWidth]      = useState(1200);
   const [height,     setHeight]     = useState(2000);
-  const [splitRatio, setSplitRatio] = useState(0.5);
   const [colorIdx,   setColorIdx]   = useState(0);
   const [biColor,    setBiColor]    = useState(false);
   const [sealIdx,    setSealIdx]    = useState(0);
-
-  // Roller Blind states
-  const [showBlindBox, setShowBlindBox] = useState(true);
-  const [blindOpen, setBlindOpen]       = useState(0.0);
 
   const c        = COLORS[colorIdx];
   const extColor = c.ext;
@@ -56,13 +51,9 @@ export const F202RPage: React.FC = () => {
           <F202RViewer
             width={width}
             height={height}
-            splitRatio={splitRatio}
             colorExt={extColor}
             colorInt={intColor}
             colorGsk={SEAL_COLORS[sealIdx].value}
-            showBlindBox={showBlindBox}
-            blindOpen={blindOpen}
-            onBlindOpenChange={setBlindOpen}
           />
         </React.Suspense>
 
@@ -77,33 +68,7 @@ export const F202RPage: React.FC = () => {
           }}
         >
           <div className="w-1.5 h-1.5 rounded-full bg-[#eab676] animate-pulse" />
-          F202R — Parametric Double Window (Active Right, Passive Left)
-        </div>
-
-        {/* Sash legend */}
-        <div
-          className="absolute bottom-4 left-4 flex flex-col gap-1.5 px-3 py-2 rounded-xl text-[10px]"
-          style={{
-            background: 'rgba(8,8,20,0.75)',
-            border: '1px solid rgba(255,255,255,0.07)',
-            backdropFilter: 'blur(16px)',
-            color: 'rgba(255,255,255,0.4)',
-          }}
-        >
-          <div className="flex items-center gap-2 text-white/80 font-bold uppercase tracking-wider mb-0.5">
-            Legend &amp; Controls
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-zinc-500" />
-            <span>Left sash — turn only (no handle)</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-[#eab676]" />
-            <span>Movable Post — swings with left sash</span>
-          </div>
-          <div className="mt-1 text-white/40 border-t border-white/5 pt-1">
-            Click hotspot to toggle right sash (active) or left sash open/close
-          </div>
+          F202R — Outer Frame &amp; Gaskets
         </div>
       </div>
 
@@ -122,10 +87,10 @@ export const F202RPage: React.FC = () => {
           <div className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#eab676' }}>Profile</div>
           <div className="text-sm font-bold text-white mt-0.5">1600-IGLO EDGE</div>
           <div className="text-[11px] mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>
-            F202R Double Window
+            Outer Frame &amp; Gaskets
           </div>
           <div className="text-[11px] mt-0.5" style={{ color: 'rgba(255,255,255,0.25)' }}>
-            {width} × {height} mm (r: {splitRatio.toFixed(2)})
+            {width} × {height} mm
           </div>
         </div>
 
@@ -136,13 +101,12 @@ export const F202RPage: React.FC = () => {
           {label('Dimensions')}
           {[
             { lbl: 'Width',  val: width,  min: 600, max: 3000, step: 10, set: setWidth  },
-            { lbl: 'Height', val: height, min: 400, max: 2400, step: 10, set: setHeight },
-            { lbl: 'Split Ratio', val: splitRatio, min: 0.2, max: 0.8, step: 0.05, set: setSplitRatio }
+            { lbl: 'Height', val: height, min: 400, max: 2400, step: 10, set: setHeight }
           ].map(({ lbl, val, min, max, step, set }) => (
             <div key={lbl} className="mb-3">
               <div className="flex justify-between text-[10px] mb-1" style={{ color: 'rgba(255,255,255,0.45)' }}>
                 <span>{lbl}</span>
-                <span style={{ color: '#eab676', fontWeight: 700 }}>{lbl === 'Split Ratio' ? val.toFixed(2) : `${val} mm`}</span>
+                <span style={{ color: '#eab676', fontWeight: 700 }}>{val} mm</span>
               </div>
               <input
                 type="range" min={min} max={max} step={step} value={val}
@@ -152,71 +116,6 @@ export const F202RPage: React.FC = () => {
               />
             </div>
           ))}
-        </div>
-
-        {divider}
-
-        {/* Roller Blind Controls */}
-        <div>
-          {label('Roller Blind')}
-          
-          {/* Toggle blind box casing */}
-          <button
-            onClick={() => setShowBlindBox(v => !v)}
-            className="w-full flex items-center justify-between px-3 py-2 rounded-lg transition-all mb-3"
-            style={{
-              background: showBlindBox ? 'rgba(234,182,118,0.12)' : 'rgba(255,255,255,0.03)',
-              border: `1px solid ${showBlindBox ? 'rgba(234,182,118,0.4)' : 'rgba(255,255,255,0.07)'}`,
-            }}
-          >
-            <span className="text-[11px]" style={{ color: 'rgba(255,255,255,0.6)' }}>Blind Box Box</span>
-            <div
-              className="w-8 h-4 rounded-full relative transition-all"
-              style={{ background: showBlindBox ? '#eab676' : 'rgba(255,255,255,0.15)' }}
-            >
-              <div
-                className="absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all"
-                style={{ left: showBlindBox ? '18px' : '2px' }}
-              />
-            </div>
-          </button>
-
-          {showBlindBox && (
-            <div className="flex flex-col gap-3 p-2.5 rounded-xl bg-white/5 border border-white/5">
-              {/* Raise/Lower blind */}
-              <button
-                onClick={() => setBlindOpen(v => v > 0.5 ? 0.0 : 1.0)}
-                className="w-full text-center py-1.5 rounded-lg text-xs font-bold transition-all"
-                style={{
-                  background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  color: '#fff'
-                }}
-              >
-                {blindOpen > 0.5 ? '▼ Lower Blind' : '▲ Raise Blind'}
-              </button>
-
-              {/* Blind Opening slider */}
-              <div>
-                <div className="flex justify-between text-[10px] mb-1" style={{ color: 'rgba(255,255,255,0.45)' }}>
-                  <span>Blind Opening</span>
-                  <span style={{ color: '#eab676', fontWeight: 700 }}>
-                    {Math.round(blindOpen * 100)}%
-                  </span>
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.01"
-                  value={blindOpen}
-                  onChange={(e) => setBlindOpen(parseFloat(e.target.value))}
-                  className="w-full"
-                  style={{ accentColor: '#eab676' }}
-                />
-              </div>
-            </div>
-          )}
         </div>
 
         {divider}
@@ -295,9 +194,8 @@ export const F202RPage: React.FC = () => {
         {/* Footer note */}
         <div style={{ marginTop: 'auto', paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
           <div className="text-[9px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.2)' }}>
-            Right Active Sash (T&amp;T) · Left Inactive Sash (Turn)<br />
-            Post Shortening: ext −75mm, int −48mm<br />
-            Using IGE_WINDOW_MOVABLE_POST.json
+            Outer Frame &amp; Gaskets (IGLO EDGE F104)<br />
+            No internal sashes or roller blinds.
           </div>
         </div>
       </div>

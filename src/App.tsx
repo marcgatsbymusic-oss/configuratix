@@ -28,6 +28,7 @@ import { ViewerOnly } from './pages/ViewerOnly'
 import { F1XXTPage } from './pages/F1XXTPage'
 import { F1XXXPage } from './pages/F1XXXPage'
 import { F2MPXPage } from './pages/F2MPXPage'
+import { FrameOnlyTesterPage } from './pages/FrameOnlyTesterPage'
 import { HingeTesterPage } from './pages/HingeTesterPage'
 import { F202LPage } from './pages/F202LPage'
 import { F202Lv2Page } from './pages/F202Lv2Page'
@@ -38,6 +39,7 @@ import { F104ProfileInspectorPage } from './pages/F104ProfileInspectorPage'
 import { RollerBlindTestPage } from './pages/RollerBlindTestPage'
 import { RollerBlindTestMosquitoPage } from './pages/RollerBlindTestMosquitoPage'
 import { IGLSideTestBuildPage } from './pages/IGLSideTestBuildPage'
+import { GarageDoorSimPage } from './pages/GarageDoorSimPage'
 import './index.css'
 
 // Error boundary to catch silent crashes in the component tree
@@ -107,6 +109,8 @@ function StorefrontLayout() {
           <Route path="/where-to-buy" element={<WhereToBuyPage />} />
           <Route path="/debug-pricing" element={<DebugPricing />} />
           <Route path="/doorsim" element={<DoorSimPage />} />
+          <Route path="/products/garage-doors" element={<GarageDoorSimPage />} />
+          <Route path="/garage-door-sim" element={<GarageDoorSimPage />} />
           <Route path="/products/addons/type/:id" element={<AddonsPage />} />
           <Route path="/inteligentny-dom" element={<IntelligentHome />} />
           <Route path="/inspiration" element={<InspirationsPage />} />
@@ -175,6 +179,9 @@ function App() {
 
             {/* F2MPX Movable Post Double Window – full screen, no header/footer */}
             <Route path="/f2mpx" element={<F2MPXPage />} />
+
+            {/* Standalone test viewer for outer IGE frame build */}
+            <Route path="/frame-only-tester" element={<FrameOnlyTesterPage />} />
 
             {/* IGE_F202L Double Window Test Page */}
             <Route path="/f202l" element={<F202LPage />} />

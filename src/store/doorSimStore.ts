@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { FULL_RAL_COLORS } from '../data/productDetails';
 
 export interface DoorState {
   system: 'alu' | 'pvc' | 'wood';
@@ -72,6 +73,12 @@ export const generateAssetURLs = (state: DoorState) => {
     'c235': '#461515'
   };
 
+  const getHexColor = (colorId: string) => {
+    if (colorHexMap[colorId]) return colorHexMap[colorId];
+    const found = FULL_RAL_COLORS.find(c => c.id === colorId);
+    return found ? found.hex : '#ffffff';
+  };
+
   const glassMap: Record<string, string> = {
     'antisol_szary': '/glass/szyba_antisol_szary.webp',
     'antisol_brazowy': '/glass/szyba_antisol_brazowy.webp',
@@ -95,8 +102,8 @@ export const generateAssetURLs = (state: DoorState) => {
   };
 
   return {
-    frameColorHex: colorHexMap[state.frameColor],
-    leafColorHex: colorHexMap[state.leafColor],
+    frameColorHex: getHexColor(state.frameColor),
+    leafColorHex: getHexColor(state.leafColor),
     frameMask: `${baseUrl}/system/MB86N/Drzwi-MB86N-wz-oscieznica.svg`,
     leafMask: `${baseUrl}/system/MB86N/Drzwi-MB86N-wz-rama-skrzydla.svg`,
     glassUrl: state.glassType ? `${baseUrl}${glassMap[state.glassType]}` : null,

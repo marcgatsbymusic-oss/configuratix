@@ -1,17 +1,11 @@
 import { useDoorConfigurator } from '../store/doorSimStore';
 import { DoorCanvasEngine } from '../components/doorsim/DoorCanvasEngine';
+import { useTranslation } from 'react-i18next';
+import { ColorSwatch } from '../components/products/ColorSwatch';
+import { FULL_RAL_COLORS } from '../data/productDetails';
+import { Search } from 'lucide-react';
 
-const DOOR_COLORS = [
-  { id: 'c197', name: 'White', hex: '#ffffff' },
-  { id: 'c214', name: 'Anthracite', hex: '#3b3c3f' },
-  { id: 'c217', name: 'Jet Black', hex: '#0a0a0a' },
-  { id: 'c231', name: 'Chocolate Brown', hex: '#3e2b23' },
-  { id: 'c205', name: 'Grey', hex: '#878c93' },
-  { id: 'c209', name: 'Basalt Grey', hex: '#4f5358' },
-  { id: 'c236', name: 'Brilliant Blue', hex: '#163e63' },
-  { id: 'c234', name: 'Dark Green', hex: '#0d2d1e' },
-  { id: 'c235', name: 'Dark Red', hex: '#461515' }
-];
+
 
 const GLASS_OPTIONS = [
   { id: 'antisol_szary', name: 'Antisol Grey' },
@@ -36,6 +30,7 @@ const PATTERN_OPTIONS = [
 ];
 
 export function DoorSimPage() {
+  const { t } = useTranslation();
   const { 
     system, modelId, frameColor, leafColor, handleId, glassType, patternMaskId,
     setSystem, setColor, setHandle, setGlass, setPatternMask
@@ -43,9 +38,9 @@ export function DoorSimPage() {
 
   return (
     <main className="min-h-screen bg-mammut-darker pt-24 pb-12 text-mammut-white flex flex-col lg:flex-row">
-      <div className="flex-1 p-6 flex flex-col items-center border-r border-mammut-border">
+      <div className="flex-1 p-6 flex flex-col items-center justify-center border-r border-mammut-border">
          <h1 className="text-3xl font-black uppercase tracking-widest text-mammut-gold mb-8">Door Visualizer</h1>
-         <div className="w-full max-w-lg aspect-[5/8] shadow-2xl relative">
+         <div className="w-full max-w-md lg:max-w-2xl xl:max-w-3xl aspect-[5/8] shadow-2xl relative">
             <DoorCanvasEngine />
             <div className="absolute top-4 left-4 right-4 bg-mammut-black/80 backdrop-blur text-xs p-3 border border-white/10 uppercase tracking-widest flex justify-between">
                <span>System: {modelId}</span>
@@ -76,35 +71,97 @@ export function DoorSimPage() {
         </div>
 
         {/* Frame Color */}
-        <div className="mb-8">
-           <h3 className="text-sm font-semibold uppercase text-mammut-white/70 mb-3 tracking-widest">Frame Color</h3>
-           <div className="grid grid-cols-6 gap-2">
-              {DOOR_COLORS.map(color => (
-                 <button 
-                   key={color.id} 
-                   onClick={() => setColor('frame', color.id)}
-                   className={`w-10 h-10 rounded-sm border-2 ${frameColor === color.id ? 'border-mammut-gold' : 'border-transparent'} hover:scale-110 transition-transform`}
-                   style={{ backgroundColor: color.hex }}
-                   title={color.name}
-                 />
-              ))}
+        <div className="mb-8 space-y-4">
+           <div className="flex justify-between items-center">
+              <h3 className="text-sm font-semibold uppercase text-mammut-white/70 tracking-widest">Frame Color (RAL)</h3>
+              {/* Search Box */}
+              <div className="relative w-full max-w-[180px]">
+                <input 
+                  type="text" 
+                  placeholder="Search RAL..." 
+                  className="w-full bg-white/10 border border-white/10 text-white placeholder-white/40 px-3 py-1.5 pr-8 rounded-md text-xs focus:outline-none focus:ring-1 focus:ring-mammut-gold transition-all"
+                  onChange={(e) => {
+                    const term = e.target.value.toLowerCase().trim();
+                    if (term.length >= 3) {
+                      const matchedColor = FULL_RAL_COLORS.find(c => {
+                        const translatedName = t(`colors.${c.id}`).toLowerCase();
+                        return translatedName.includes(term) || c.id.toLowerCase().includes(term.replace(/\s+/g, '-'));
+                      });
+                      if (matchedColor) {
+                        setColor('frame', matchedColor.id);
+                      }
+                    }
+                  }}
+                />
+                <Search className="absolute right-2.5 top-2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
+              </div>
            </div>
+
+           {/* Selected Color Info */}
+           {(() => {
+             const matched = FULL_RAL_COLORS.find(c => c.id === frameColor);
+             return (
+               <div className="text-xs bg-white/5 border border-white/5 px-4 py-2.5 rounded-lg flex justify-between items-center">
+                 <span className="text-gray-400 font-medium">Selected:</span>
+                 <span className="text-mammut-gold font-bold uppercase tracking-wider">
+                   {matched ? t(`colors.${matched.id}`) : t(`colors.${frameColor}`, frameColor)}
+                 </span>
+               </div>
+             );
+           })()}
+
+           <ColorSwatch 
+             colors={FULL_RAL_COLORS}
+             selectedColorId={frameColor}
+             onColorSelect={(color) => setColor('frame', color.id)}
+           />
         </div>
 
         {/* Leaf Color */}
-        <div className="mb-8">
-           <h3 className="text-sm font-semibold uppercase text-mammut-white/70 mb-3 tracking-widest">Leaf Color</h3>
-           <div className="grid grid-cols-6 gap-2">
-              {DOOR_COLORS.map(color => (
-                 <button 
-                   key={color.id} 
-                   onClick={() => setColor('leaf', color.id)}
-                   className={`w-10 h-10 rounded-sm border-2 ${leafColor === color.id ? 'border-mammut-gold' : 'border-transparent'} hover:scale-110 transition-transform`}
-                   style={{ backgroundColor: color.hex }}
-                   title={color.name}
-                 />
-              ))}
+        <div className="mb-8 space-y-4">
+           <div className="flex justify-between items-center">
+              <h3 className="text-sm font-semibold uppercase text-mammut-white/70 tracking-widest">Leaf Color (RAL)</h3>
+              {/* Search Box */}
+              <div className="relative w-full max-w-[180px]">
+                <input 
+                  type="text" 
+                  placeholder="Search RAL..." 
+                  className="w-full bg-white/10 border border-white/10 text-white placeholder-white/40 px-3 py-1.5 pr-8 rounded-md text-xs focus:outline-none focus:ring-1 focus:ring-mammut-gold transition-all"
+                  onChange={(e) => {
+                    const term = e.target.value.toLowerCase().trim();
+                    if (term.length >= 3) {
+                      const matchedColor = FULL_RAL_COLORS.find(c => {
+                        const translatedName = t(`colors.${c.id}`).toLowerCase();
+                        return translatedName.includes(term) || c.id.toLowerCase().includes(term.replace(/\s+/g, '-'));
+                      });
+                      if (matchedColor) {
+                        setColor('leaf', matchedColor.id);
+                      }
+                    }
+                  }}
+                />
+                <Search className="absolute right-2.5 top-2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
+              </div>
            </div>
+
+           {/* Selected Color Info */}
+           {(() => {
+             const matched = FULL_RAL_COLORS.find(c => c.id === leafColor);
+             return (
+               <div className="text-xs bg-white/5 border border-white/5 px-4 py-2.5 rounded-lg flex justify-between items-center">
+                 <span className="text-gray-400 font-medium">Selected:</span>
+                 <span className="text-mammut-gold font-bold uppercase tracking-wider">
+                   {matched ? t(`colors.${matched.id}`) : t(`colors.${leafColor}`, leafColor)}
+                 </span>
+               </div>
+             );
+           })()}
+
+           <ColorSwatch 
+             colors={FULL_RAL_COLORS}
+             selectedColorId={leafColor}
+             onColorSelect={(color) => setColor('leaf', color.id)}
+           />
         </div>
 
         {/* Door Pattern Mask */}
