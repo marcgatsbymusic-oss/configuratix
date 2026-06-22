@@ -1,7 +1,9 @@
 import React, { useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Environment, ContactShadows } from '@react-three/drei';
+import { OrbitControls, Environment, ContactShadows, Html } from '@react-three/drei';
 import * as THREE from 'three';
+import { useTranslation } from 'react-i18next';
+import { ArrowUp, ArrowDown } from 'lucide-react';
 import { useGarageDoorStore } from '../../store/useGarageDoorStore';
 import { AdaptiveCamera } from './AdaptiveCamera';
 
@@ -156,9 +158,9 @@ function GarageDoorAssembly() {
       color: extColor,
       map: extTex,
       normalMap: extNormalTex || undefined,
-      normalScale: extNormalTex ? new THREE.Vector2(0.4, 0.4) : undefined,
-      roughness: embossing === 'smooth' ? 0.3 : 0.6,
-      metalness: 0.1,
+      normalScale: extNormalTex ? new THREE.Vector2(0.55, 0.55) : undefined,
+      roughness: embossing === 'smooth' ? 0.22 : 0.45,
+      metalness: 0.28, // slight metallic sheen of coated steel sheets
     });
   }, [extColor, extTex, extNormalTex, embossing]);
 
@@ -407,6 +409,7 @@ function GarageDoorAssembly() {
 export function GarageDoorViewer() {
   const isAnimating = useGarageDoorStore((s) => s.isAnimating);
   const animationProgress = useGarageDoorStore((s) => s.animationProgress);
+  const animationDirection = useGarageDoorStore((s) => s.animationDirection);
   const setAnimationProgress = useGarageDoorStore((s) => s.setAnimationProgress);
   const setIsAnimating = useGarageDoorStore((s) => s.setIsAnimating);
 
@@ -415,13 +418,21 @@ export function GarageDoorViewer() {
     if (isAnimating) {
       // Speed of animation: complete in 4 seconds
       const speed = 0.25;
-      let nextProgress = animationProgress + speed * delta;
-      
-      if (nextProgress >= 1) {
-        nextProgress = 1;
-        setIsAnimating(false);
+      if (animationDirection === 'up') {
+        let nextProgress = animationProgress + speed * delta;
+        if (nextProgress >= 1) {
+          nextProgress = 1;
+          setIsAnimating(false);
+        }
+        setAnimationProgress(nextProgress);
+      } else {
+        let nextProgress = animationProgress - speed * delta;
+        if (nextProgress <= 0) {
+          nextProgress = 0;
+          setIsAnimating(false);
+        }
+        setAnimationProgress(nextProgress);
       }
-      setAnimationProgress(nextProgress);
     }
   });
 
@@ -429,10 +440,13 @@ export function GarageDoorViewer() {
 }
 
 export function GarageDoorCanvas() {
+  const { t } = useTranslation();
   const isAnimating = useGarageDoorStore((s) => s.isAnimating);
   const animationProgress = useGarageDoorStore((s) => s.animationProgress);
+  const animationDirection = useGarageDoorStore((s) => s.animationDirection);
   const setAnimationProgress = useGarageDoorStore((s) => s.setAnimationProgress);
   const setIsAnimating = useGarageDoorStore((s) => s.setIsAnimating);
+  const setAnimationDirection = useGarageDoorStore((s) => s.setAnimationDirection);
   const width = useGarageDoorStore((s) => s.width);
   const height = useGarageDoorStore((s) => s.height);
 
@@ -444,12 +458,22 @@ export function GarageDoorCanvas() {
     useFrame((_, delta) => {
       if (isAnimating) {
         const speed = 0.25; // 4s cycle
-        const nextProgress = animationProgress + speed * delta;
-        if (nextProgress >= 1) {
-          setAnimationProgress(1);
-          setIsAnimating(false);
+        if (animationDirection === 'up') {
+          const nextProgress = animationProgress + speed * delta;
+          if (nextProgress >= 1) {
+            setAnimationProgress(1);
+            setIsAnimating(false);
+          } else {
+            setAnimationProgress(nextProgress);
+          }
         } else {
-          setAnimationProgress(nextProgress);
+          const nextProgress = animationProgress - speed * delta;
+          if (nextProgress <= 0) {
+            setAnimationProgress(0);
+            setIsAnimating(false);
+          } else {
+            setAnimationProgress(nextProgress);
+          }
         }
       }
     });
@@ -457,43 +481,88 @@ export function GarageDoorCanvas() {
   };
 
   return (
-    <div className="w-full h-full relative bg-[#f3f4f6] rounded-2xl overflow-hidden border border-black/5 shadow-2xl">
-      <Canvas shadows camera={{ position: [0, 1.5, 4], fov: 50 }}>
-        <ambientLight intensity={0.6} />
+    <div className="w-full h-full relative bg-[#f3f4f6] rounded-2xl overflow-hidden border border-black/5 shadow-2xl select-none touch-none">
+      <Canvas shadows camera={{ position: [0, 1.5, 4], fov: 50 }} gl={{ antialias: true, preserveDrawingBuffer: true }}>
+        <ambientLight intensity={0.22} />
         <directionalLight
           castShadow
-          position={[5, 8, 5]}
-          intensity={1.5}
-          shadow-mapSize-width={1024}
-          shadow-mapSize-height={1024}
-          shadow-bias={-0.0001}
+          position={[6, 11, 6]}
+          intensity={1.8}
+          shadow-mapSize-width={2048}
+          shadow-mapSize-height={2048}
+          shadow-bias={-0.00015}
         />
-        <directionalLight position={[-5, 5, -5]} intensity={0.4} />
+        <directionalLight position={[-6, 6, -4]} intensity={0.45} />
+        <directionalLight position={[0, 8, -8]} intensity={0.65} color="#eaf2ff" />
         
         <React.Suspense fallback={null}>
           <GarageDoorAssembly />
           <FrameLoop />
+          <Environment files="/assets/hdri/suburban_garden_2k.exr" environmentIntensity={0.6} />
         </React.Suspense>
+
+        <Html position={[0, targetY, 0.18]} center>
+          <div 
+            className="pointer-events-auto flex flex-col gap-3 p-2.5 bg-black/75 backdrop-blur-md border border-white/10 rounded-full shadow-2xl items-center"
+            onPointerDown={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => {
+                setAnimationDirection('up');
+                setIsAnimating(true);
+              }}
+              disabled={animationProgress === 1 && !isAnimating}
+              className={`w-12 h-12 flex items-center justify-center rounded-full transition-all duration-300 ${
+                isAnimating && animationDirection === 'up'
+                  ? 'bg-mammut-gold text-mammut-black animate-pulse shadow-[0_0_15px_rgba(234,182,118,0.5)]'
+                  : animationProgress === 1
+                  ? 'bg-white/5 text-white/20 cursor-not-allowed'
+                  : 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110 shadow-lg'
+              }`}
+              title="Open Door"
+            >
+              <ArrowUp className="w-5.5 h-5.5" />
+            </button>
+            <button
+              onClick={() => {
+                setAnimationDirection('down');
+                setIsAnimating(true);
+              }}
+              disabled={animationProgress === 0 && !isAnimating}
+              className={`w-12 h-12 flex items-center justify-center rounded-full transition-all duration-300 ${
+                isAnimating && animationDirection === 'down'
+                  ? 'bg-mammut-gold text-mammut-black animate-pulse shadow-[0_0_15px_rgba(234,182,118,0.5)]'
+                  : animationProgress === 0
+                  ? 'bg-white/5 text-white/20 cursor-not-allowed'
+                  : 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110 shadow-lg'
+              }`}
+              title="Close Door"
+            >
+              <ArrowDown className="w-5.5 h-5.5" />
+            </button>
+          </div>
+        </Html>
 
         <OrbitControls
           enablePan={true}
           enableZoom={true}
-          minDistance={1.5}
-          maxDistance={8}
+          minDistance={0.5}
+          maxDistance={25.0}
           maxPolarAngle={Math.PI / 2 - 0.05}
           target={[0, targetY, 0]}
         />
         
-        <Environment preset="studio" />
-        <ContactShadows position={[0, -0.01, 0]} opacity={0.6} scale={10} blur={2.4} far={4} />
+        <ContactShadows position={[0, -0.01, 0]} opacity={0.78} scale={14} blur={1.6} far={4} />
         <AdaptiveCamera maxDim={maxDim} targetX={0} targetY={targetY} targetZ={0} fov={50} zSign={1} />
       </Canvas>
 
       {/* Interactive HUD overlaid on 3D view */}
       <div className="absolute top-4 left-4 right-4 flex justify-between items-center pointer-events-none">
-        <div className="bg-black/60 backdrop-blur px-4 py-2 border border-white/10 rounded-lg text-xs uppercase tracking-widest text-mammut-white flex flex-col gap-0.5">
-          <span className="font-black text-mammut-gold">Brama Segmentowa</span>
-          <span className="text-[10px] text-gray-400">Drutex Sectional Simulator</span>
+        <div className="bg-black/60 backdrop-blur px-4 py-2 border border-white/10 rounded-lg text-xs uppercase tracking-widest text-mammut-white flex flex-col justify-center min-h-[40px]">
+          <span className="font-black text-mammut-gold">
+            {t('garageDoorSim.title', 'Garage Door Simulator')}
+          </span>
         </div>
         <div className="bg-black/60 backdrop-blur px-3 py-1.5 border border-white/10 rounded-lg text-[10px] tracking-wider text-mammut-gold pointer-events-auto cursor-help">
           3D INTERACTIVE

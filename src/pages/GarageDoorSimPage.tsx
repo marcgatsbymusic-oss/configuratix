@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useGarageDoorStore } from '../store/useGarageDoorStore';
 import type { EmbossingType, DriveType, SpringType } from '../store/useGarageDoorStore';
 import { GarageDoorCanvas } from '../components/configurator/GarageDoorViewer';
 import { 
-  Play, Pause, RotateCcw, Info, Shield, Search 
+  RotateCcw, Info, Shield, Search, Share2 
 } from 'lucide-react';
 import { ColorSwatch } from '../components/products/ColorSwatch';
 import { FULL_RAL_COLORS } from '../data/productDetails';
@@ -25,26 +25,77 @@ export function GarageDoorSimPage() {
   const {
     width, height, lintelHeight, revealLeft, revealRight, installationDepth,
     extColor, extTexture, embossing, driveType, springType,
-    animationProgress, isAnimating, casingColor,
+    casingColor,
     setWidth, setHeight, setExtColor, setExtTexture, setEmbossing,
-    setDriveType, setSpringType, setAnimationProgress, setIsAnimating, resetToPdfSpecs, setCasingColor
+    setDriveType, setSpringType, resetToPdfSpecs, setCasingColor
   } = useGarageDoorStore();
 
   const [activeTab, setActiveTab] = useState<'dimensions' | 'design' | 'hardware'>('dimensions');
+  const [copySuccess, setCopySuccess] = useState(false);
 
-  // Animation Toggle
-  const handlePlayToggle = () => {
-    if (animationProgress === 1) {
-      setAnimationProgress(0); // reset if at the end
+  // Parse URL search parameters on mount to preload configuration
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    
+    // Parse extColor
+    const extColorParam = params.get('extColor');
+    if (extColorParam) {
+      setExtColor(extColorParam);
+      setExtTexture(undefined);
     }
-    setIsAnimating(!isAnimating);
+    
+    // Parse casingColor
+    const casingColorParam = params.get('casingColor');
+    if (casingColorParam) {
+      setCasingColor(casingColorParam);
+    }
+    
+    // Parse embossing
+    const embossingParam = params.get('embossing');
+    if (embossingParam && ['smooth', 'grooves', 'woodgrain'].includes(embossingParam)) {
+      setEmbossing(embossingParam as EmbossingType);
+    }
+    
+    // Parse foil texture
+    const foilParam = params.get('foil');
+    if (foilParam) {
+      const matchedFoil = WOOD_FOILS.find(f => f.name.toLowerCase() === foilParam.toLowerCase());
+      if (matchedFoil) {
+        setExtTexture(matchedFoil.texture);
+        setExtColor('#ffffff');
+      }
+    }
+  }, [setExtColor, setExtTexture, setCasingColor, setEmbossing]);
+
+  const handleShareLink = () => {
+    let foilName = '';
+    if (extTexture) {
+      const activeFoil = WOOD_FOILS.find(f => f.texture === extTexture);
+      if (activeFoil) foilName = activeFoil.name;
+    }
+    
+    const params = new URLSearchParams();
+    if (extTexture && foilName) {
+      params.set('foil', foilName);
+    } else {
+      params.set('extColor', extColor);
+    }
+    params.set('casingColor', casingColor);
+    params.set('embossing', embossing);
+    
+    const shareUrl = `${window.location.origin}${window.location.pathname}?${params.toString()}`;
+    
+    navigator.clipboard.writeText(shareUrl)
+      .then(() => {
+        setCopySuccess(true);
+        setTimeout(() => setCopySuccess(false), 2000);
+      })
+      .catch((err) => {
+        console.error('Failed to copy link: ', err);
+      });
   };
 
-  // Automatically pause if user drags slider manually
-  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsAnimating(false);
-    setAnimationProgress(parseFloat(e.target.value));
-  };
+
 
   return (
     <main className="min-h-screen bg-mammut-darker pt-24 pb-12 text-mammut-white flex flex-col xl:flex-row">
@@ -52,47 +103,6 @@ export function GarageDoorSimPage() {
       <div className="flex-1 p-6 flex flex-col items-center justify-center border-r border-white/5 min-h-[500px] xl:h-[calc(100vh-8rem)]">
         <div className="w-full h-[650px] xl:h-full rounded-2xl overflow-hidden shadow-2xl relative">
           <GarageDoorCanvas />
-          
-          {/* Visualizer Floating Quick Controls */}
-          <div className="absolute bottom-6 left-6 right-6 bg-mammut-black/85 backdrop-blur-md px-6 py-4 rounded-xl border border-white/5 flex flex-wrap gap-4 items-center justify-between pointer-events-auto">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={handlePlayToggle}
-                className="bg-mammut-gold hover:bg-mammut-gold/90 text-mammut-black p-3 rounded-lg font-bold transition-all hover:scale-105 flex items-center gap-2"
-              >
-                {isAnimating ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                <span className="text-xs uppercase tracking-widest hidden sm:inline">
-                  {animationProgress === 1 ? t('garageDoorSim.rewind', 'Close Door') : isAnimating ? t('garageDoorSim.pause', 'Pause') : t('garageDoorSim.open', 'Open Door')}
-                </span>
-              </button>
-              
-              <button
-                onClick={resetToPdfSpecs}
-                className="bg-white/10 hover:bg-white/20 text-white p-3 rounded-lg transition-colors flex items-center gap-1.5"
-                title="Reset to PDF Order Specs"
-              >
-                <RotateCcw className="w-4 h-4" />
-                <span className="text-xs uppercase tracking-widest hidden sm:inline">Valdemorillo Specs</span>
-              </button>
-            </div>
-
-            <div className="flex-1 max-w-md flex items-center gap-3">
-              <span className="text-[10px] text-gray-400 uppercase tracking-widest">Closed</span>
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.005"
-                value={animationProgress}
-                onChange={handleSliderChange}
-                className="flex-1 accent-mammut-gold cursor-pointer"
-              />
-              <span className="text-[10px] text-gray-400 uppercase tracking-widest">Open</span>
-              <span className="text-xs font-mono text-mammut-gold min-w-[36px] text-right">
-                {Math.round(animationProgress * 100)}%
-              </span>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -490,15 +500,40 @@ export function GarageDoorSimPage() {
         )}
 
         {/* Footer actions */}
-        <div className="mt-12 pt-6 border-t border-white/5 flex gap-4">
+        <div className="mt-12 pt-6 border-t border-white/5 space-y-4">
           <button
-            onClick={() => alert(`Saved configuration: Sectional Garage Door ${width}x${height} mm`)}
-            className="flex-1 bg-mammut-gold hover:bg-mammut-gold/90 text-mammut-black py-4 rounded-xl font-bold uppercase tracking-widest text-xs transition-transform hover:scale-[1.02]"
+            onClick={resetToPdfSpecs}
+            className="w-full bg-white/5 hover:bg-white/10 text-white/80 py-3.5 rounded-xl font-bold uppercase tracking-widest text-xs transition-colors flex items-center justify-center gap-2 border border-white/5"
           >
-            Save Configuration
+            <RotateCcw className="w-4 h-4 text-mammut-gold" />
+            <span>Reset to Valdemorillo Specs</span>
           </button>
+          
+          <div className="flex gap-4">
+            <button
+              onClick={() => alert(`Saved configuration: Sectional Garage Door ${width}x${height} mm`)}
+              className="flex-1 bg-white/10 hover:bg-white/20 text-white py-4 rounded-xl font-bold uppercase tracking-widest text-xs transition-colors"
+            >
+              Save Configuration
+            </button>
+            <button
+              onClick={handleShareLink}
+              className="flex-1 bg-mammut-gold hover:bg-mammut-gold/90 text-mammut-black py-4 rounded-xl font-bold uppercase tracking-widest text-xs transition-transform hover:scale-[1.02] flex items-center justify-center gap-2"
+            >
+              <Share2 className="w-4.5 h-4.5" />
+              <span>Send Link / Share</span>
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* Toast Notification */}
+      {copySuccess && (
+        <div className="fixed bottom-6 right-6 z-[100] bg-mammut-gold text-mammut-black px-6 py-4 rounded-xl font-bold text-xs shadow-2xl flex items-center gap-2 animate-bounce border border-mammut-black/10 uppercase tracking-widest">
+          <Share2 className="w-4 h-4" />
+          <span>Link copied to clipboard!</span>
+        </div>
+      )}
     </main>
   );
 }

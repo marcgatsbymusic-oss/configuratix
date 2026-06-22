@@ -24,6 +24,7 @@ export interface GarageDoorState {
   // Animation state
   animationProgress: number; // 0 (closed) to 1 (open)
   isAnimating: boolean;
+  animationDirection: 'up' | 'down';
   
   // Actions
   setWidth: (width: number) => void;
@@ -39,6 +40,7 @@ export interface GarageDoorState {
   setSpringType: (spring: SpringType) => void;
   setAnimationProgress: (prog: number) => void;
   setIsAnimating: (anim: boolean) => void;
+  setAnimationDirection: (direction: 'up' | 'down') => void;
   resetToPdfSpecs: () => void;
 }
 
@@ -60,6 +62,7 @@ export const useGarageDoorStore = create<GarageDoorState>((set) => ({
   springType: 'extension',
   animationProgress: 0,
   isAnimating: false,
+  animationDirection: 'up',
 
   setWidth: (width) => set({ width }),
   setHeight: (height) => set({ height }),
@@ -74,6 +77,7 @@ export const useGarageDoorStore = create<GarageDoorState>((set) => ({
   setSpringType: (springType) => set({ springType }),
   setAnimationProgress: (animationProgress) => set({ animationProgress }),
   setIsAnimating: (isAnimating) => set({ isAnimating }),
+  setAnimationDirection: (animationDirection) => set({ animationDirection }),
   
   resetToPdfSpecs: () => set({
     width: 3985,
@@ -93,5 +97,6 @@ export const useGarageDoorStore = create<GarageDoorState>((set) => ({
     springType: 'extension',
     animationProgress: 0,
     isAnimating: false,
+    animationDirection: 'up',
   }),
 }));
