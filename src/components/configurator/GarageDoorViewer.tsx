@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, Environment, ContactShadows, Html } from '@react-three/drei';
+import { Canvas, useFrame, useThree, useLoader } from '@react-three/fiber';
+import { OrbitControls, ContactShadows, Html } from '@react-three/drei';
+import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader.js';
 import * as THREE from 'three';
 import { useTranslation } from 'react-i18next';
 import { ArrowUp, ArrowDown, Pause, ChevronDown } from 'lucide-react';
@@ -407,6 +408,43 @@ function GarageDoorAssembly() {
   );
 }
 
+// Custom environment component that prefilters raw equirectangular HDR/EXR using PMREMGenerator
+function PrefilteredEnvironment() {
+  const { gl, scene } = useThree();
+  const hdrTexture = useLoader(EXRLoader, '/assets/hdri/suburban_garden_2k.exr');
+
+  useEffect(() => {
+    if (!hdrTexture) return;
+
+    const pmremGenerator = new THREE.PMREMGenerator(gl);
+    pmremGenerator.compileEquirectangularShader();
+
+    const envMap = pmremGenerator.fromEquirectangular(hdrTexture).texture;
+
+    const prevBackground = scene.background;
+    const prevEnvironment = scene.environment;
+    const prevEnvIntensity = scene.environmentIntensity;
+
+    // eslint-disable-next-line react-hooks/immutability
+    scene.background = envMap;
+    scene.environment = envMap;
+    scene.environmentIntensity = 0.8;
+
+    // Dispose source texture and generator to free GPU memory
+    hdrTexture.dispose();
+    pmremGenerator.dispose();
+
+    return () => {
+      scene.background = prevBackground;
+      scene.environment = prevEnvironment;
+      scene.environmentIntensity = prevEnvIntensity;
+      envMap.dispose();
+    };
+  }, [gl, scene, hdrTexture]);
+
+  return null;
+}
+
 // Main 3D Canvas wrapper component exported to the page
 export function GarageDoorViewer() {
   const isAnimating = useGarageDoorStore((s) => s.isAnimating);
@@ -551,7 +589,7 @@ export function GarageDoorCanvas() {
         <React.Suspense fallback={null}>
           <GarageDoorAssembly />
           <FrameLoop />
-          <Environment files="/assets/hdri/suburban_garden_2k.exr" environmentIntensity={0.8} background />
+          <PrefilteredEnvironment />
         </React.Suspense>
 
         <Html position={[W / 2 - 0.25, height * MM - 0.15, 0.18]} center>
