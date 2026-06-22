@@ -384,7 +384,7 @@ function GarageDoorAssembly() {
             )}
 
             {/* Dynamic hinges linking sashes at the edges */}
-            {[-W / 2 + 0.05, 0, W / 2 - 0.05].map((hx, hIdx) => (
+            {[-W / 2 + 0.05, W / 2 - 0.05].map((hx, hIdx) => (
               <group key={hIdx} position={[hx, panelHeight / 2, -PT / 2]}>
                 <mesh rotation={[Math.PI / 2, 0, 0]} material={steelMat}>
                   <cylinderGeometry args={[0.006, 0.006, 0.04, 12]} />
