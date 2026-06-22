@@ -575,17 +575,17 @@ export function GarageDoorCanvas() {
           toneMappingExposure: 1.0
         }}
       >
-        <ambientLight intensity={0.22} />
+        <ambientLight intensity={0.35} />
         <directionalLight
           castShadow
-          position={[6, 11, 6]}
-          intensity={1.2}
+          position={[5, 5, 8]}
+          intensity={1.4}
           shadow-mapSize-width={2048}
           shadow-mapSize-height={2048}
           shadow-bias={-0.00015}
         />
-        <directionalLight position={[-6, 6, -4]} intensity={0.25} />
-        <directionalLight position={[0, 8, -8]} intensity={0.35} color="#eaf2ff" />
+        <directionalLight position={[-5, 4, 8]} intensity={0.7} />
+        <directionalLight position={[0, 6, -6]} intensity={0.3} color="#eaf2ff" />
         
         <React.Suspense fallback={null}>
           <GarageDoorAssembly />
