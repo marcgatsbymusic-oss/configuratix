@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { useTranslation } from 'react-i18next';
@@ -493,6 +493,11 @@ export function GarageDoorCanvas() {
 
   // We write an internal component to wrap Canvas-bound hooks
   const FrameLoop = () => {
+    const { scene } = useThree();
+    useEffect(() => {
+      scene.backgroundIntensity = 0.45;
+    }, [scene]);
+
     useFrame((_, delta) => {
       if (isAnimating) {
         const speed = 0.125; // 8s cycle
@@ -535,13 +540,13 @@ export function GarageDoorCanvas() {
         <directionalLight
           castShadow
           position={[6, 11, 6]}
-          intensity={1.8}
+          intensity={1.2}
           shadow-mapSize-width={2048}
           shadow-mapSize-height={2048}
           shadow-bias={-0.00015}
         />
-        <directionalLight position={[-6, 6, -4]} intensity={0.45} />
-        <directionalLight position={[0, 8, -8]} intensity={0.65} color="#eaf2ff" />
+        <directionalLight position={[-6, 6, -4]} intensity={0.25} />
+        <directionalLight position={[0, 8, -8]} intensity={0.35} color="#eaf2ff" />
         
         <React.Suspense fallback={null}>
           <GarageDoorAssembly />
