@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { Canvas, useFrame, useThree, useLoader } from '@react-three/fiber';
-import { OrbitControls, ContactShadows, Html } from '@react-three/drei';
+import { OrbitControls, ContactShadows, Html, useGLTF } from '@react-three/drei';
 import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader.js';
 import * as THREE from 'three';
 import { useTranslation } from 'react-i18next';
@@ -62,6 +62,133 @@ function findNextTrackDistance(
     d -= error;
   }
   return d;
+}
+
+// 3D Moto Guzzi v-twin Component
+function MotoGuzziModel() {
+  const { scene } = useGLTF('/models/moto_guzzi_v-twin.glb');
+  const clonedScene = useMemo(() => scene.clone(), [scene]);
+
+  useEffect(() => {
+    clonedScene.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+  }, [clonedScene]);
+
+  // Position it inside the garage: x = 0.8, y = -0.038 (floor), z = -1.8 (behind the closed door)
+  // Rotate it 45 degrees to look nice and dynamic
+  return (
+    <primitive
+      object={clonedScene}
+      position={[0.8, -0.038, -1.8]}
+      rotation={[0, -Math.PI / 4, 0]}
+    />
+  );
+}
+
+// 3D Workbench Component
+function WorkbenchModel() {
+  const { scene } = useGLTF('/models/workbench.glb');
+  const clonedScene = useMemo(() => scene.clone(), [scene]);
+
+  useEffect(() => {
+    clonedScene.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+  }, [clonedScene]);
+
+  // Position it at the back of the garage: x = 0, y = -0.038 (floor), z = -4.8 (back wall)
+  // Parallel to door opening (facing forward, rotation = [0, 0, 0])
+  // Scale it by 0.7 to fit standard garage scale (table depth ~0.65m, width ~1.5m)
+  return (
+    <primitive
+      object={clonedScene}
+      position={[0, -0.038, -4.8]}
+      scale={0.7}
+      rotation={[0, 0, 0]}
+    />
+  );
+}
+
+// 3D Tool Cart Component
+function ToolCartModel() {
+  const { scene } = useGLTF('/models/tool_cart.glb');
+  const clonedScene = useMemo(() => scene.clone(), [scene]);
+
+  useEffect(() => {
+    clonedScene.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+  }, [clonedScene]);
+
+  // Place next to the motorcycle (motorcycle is at x = 0.8, z = -1.8), spaced 1.0m away at x = -0.2
+  // Scale by 0.0254 (convert from inches to meters)
+  return (
+    <primitive
+      object={clonedScene}
+      position={[-0.2, -0.038, -1.8]}
+      scale={0.0254}
+      rotation={[0, Math.PI / 6, 0]}
+    />
+  );
+}
+
+// 3D Citroen 2CV Car Component
+function CarModel() {
+  const { scene } = useGLTF('/models/free_2cv_charleston_1986.glb');
+
+  useEffect(() => {
+    scene.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh) {
+        const mesh = child as THREE.Mesh;
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+
+        if (mesh.material) {
+          const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+          materials.forEach((mat) => {
+            // Force double-sided rendering so thin metal/interior sheets are visible
+            mat.side = THREE.DoubleSide;
+
+            // Fix transparent sorting and transmission issues
+            if (mat.name !== 'glass' && mat.name !== 'Windshield') {
+              mat.transparent = false;
+              mat.opacity = 1.0;
+              mat.depthWrite = true;
+              if ('transmission' in mat) mat.transmission = 0;
+              if ('alphaMode' in mat) mat.alphaMode = 'OPAQUE';
+            } else {
+              mat.transparent = true;
+              mat.depthWrite = false;
+              mat.opacity = 0.2; // ensure glass has standard low opacity
+            }
+          });
+        }
+      }
+    });
+  }, [scene]);
+
+  // Position it in front of the garage door: 1.7m away (z = 1.7)
+  // Offset in x to be slightly off-center (x = -1.2), turned at an angle as if driving in (rotation Y = Math.PI / 6)
+  // Scale is adjusted non-uniformly: width = 1.48m (scaleX = 0.00855), height = 1.60m (scaleY = 0.00971)
+  // Y offset aligns wheels to floor level (y = 0.355)
+  return (
+    <primitive
+      object={scene}
+      position={[-1.2, 0.355, 1.7]}
+      scale={[0.00855, 0.00971, 0.00855]}
+      rotation={[0, Math.PI / 6, 0]}
+    />
+  );
 }
 
 // 3D Garage Door Assembly Component (to be rendered inside Canvas)
@@ -404,6 +531,18 @@ function GarageDoorAssembly() {
           </group>
         );
       })}
+
+      {/* Moto Guzzi Motorcycle */}
+      <MotoGuzziModel />
+
+      {/* Workbench at the back */}
+      <WorkbenchModel />
+
+      {/* Tool Cart next to motorcycle */}
+      <ToolCartModel />
+
+      {/* Car in front of the garage door */}
+      <CarModel />
     </group>
   );
 }
@@ -696,3 +835,8 @@ export function GarageDoorCanvas() {
     </div>
   );
 }
+
+useGLTF.preload('/models/moto_guzzi_v-twin.glb');
+useGLTF.preload('/models/workbench.glb');
+useGLTF.preload('/models/tool_cart.glb');
+useGLTF.preload('/models/free_2cv_charleston_1986.glb');

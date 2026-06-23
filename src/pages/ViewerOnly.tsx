@@ -6,6 +6,7 @@ import { F101CViewer } from '../components/configurator/F101CViewer';
 import { ThreejsWindowEngine } from '../components/configurator/ThreejsWindowEngine';
 import { SLE201Viewer } from '../components/configurator/SLE201Viewer';
 import { F104Viewer } from '../components/configurator/F104Viewer';
+import { F104_FIX_BOTViewer } from '../components/configurator/F104_FIX_BOTViewer';
 import { F202LViewer } from '../components/configurator/F202LViewer';
 import { F202Lv2Viewer } from '../components/configurator/F202Lv2Viewer';
 import { F202RFixV2Viewer } from '../components/configurator/F202RFixV2Viewer';
@@ -866,6 +867,20 @@ export const ViewerOnly: React.FC = () => {
           />
         ) : typology === 'F104' ? (
           <F104Viewer
+            width={width}
+            height={height}
+            colorExt={colorExt}
+            colorInt={colorInt}
+            colorExtTexture={colorExtTexture}
+            colorIntTexture={colorIntTexture}
+            colorGsk={colorGsk}
+            colorSpacer={colorSpacer}
+            hidePill={true}
+            isColorPaletteOpen={isColorWheelOpen}
+            hasRollerShutter={true}
+          />
+        ) : typology === 'F104_FIX_BOT' ? (
+          <F104_FIX_BOTViewer
             width={width}
             height={height}
             colorExt={colorExt}

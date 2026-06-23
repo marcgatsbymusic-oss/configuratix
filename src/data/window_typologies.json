@@ -312,6 +312,12 @@
     "image": "/images/typologies/F104.svg"
   },
   {
+    "id": "F104_FIX_BOT",
+    "name": "Okno z naświetlem dolnym",
+    "sashes": 1,
+    "image": "/images/typologies/F104_FIX_BOT.svg"
+  },
+  {
     "id": "F105",
     "name": "Okno 1 kwaterowe",
     "sashes": 1,

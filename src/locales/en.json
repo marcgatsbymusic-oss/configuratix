@@ -937,6 +937,32 @@
         "class": "Profile Class"
       }
     },
+    "iglo-edge-f104-fix-bot": {
+      "name": "IGLO EDGE F104 with Bottom Fixed",
+      "tagline": "Sleek aesthetics with safety bottom fixed glazing",
+      "description": "An advanced window system featuring a top-opening Tilt & Turn sash and a safety bottom fixed glazing field, separated by a horizontal stable post.",
+      "standardEquipment": [
+        "Double-chamber glazing package Ug = 0.5 W/(m²K)",
+        "Swisspacer Ultimate plastic warm frame",
+        "V-perfect weld",
+        "4 anti-theft strikers according to the size of the sash and the hardware system",
+        "Microventilation",
+        "DUBLIN aluminium window handle",
+        "Handle misplacement locking mechanism",
+        "Perimeter, glazing and central gaskets in black or grey",
+        "Filling of the lower hardware groove",
+        "Sill trim",
+        "Wide selection of PVC veneer colours"
+      ],
+      "specs": {
+        "sound": "Sound Insulation",
+        "gaskets": "EPDM Gaskets",
+        "thermal": "Thermal Transmittance",
+        "chambers": "Number of Chambers",
+        "depth": "Installation Depth",
+        "class": "Profile Class"
+      }
+    },
     "iglo-edge-slide": {
       "name": "IGLO EDGE SLIDE",
       "tagline": "Technology That Impresses",
@@ -1039,6 +1065,7 @@
     "rewind": "Close Door",
     "pause": "Pause",
     "open": "Open Door",
-    "outerFrameCasing": "Outer Frame / Casing"
+    "outerFrameCasing": "Outer Frame / Casing",
+    "title": "Garage Door Simulator"
   }
 }

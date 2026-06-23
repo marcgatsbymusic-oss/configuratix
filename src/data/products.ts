@@ -76,6 +76,25 @@ const BASE_PRODUCTS: Product[] = [
     ],
     images: ['/assets/iglo-edge-featured.png'],
   },
+  {
+    id: 'p1_f104_fix_bot',
+    slug: 'iglo-edge-f104-fix-bot',
+    name: 'IGLO EDGE F104 with Bottom Fixed',
+    tagline: 'Sleek aesthetics with safety bottom fixed glazing',
+    description: 'An advanced window system featuring a top-opening Tilt & Turn sash and a safety bottom fixed glazing field, separated by a horizontal stable post.',
+    category: CATEGORIES[0],
+    material: 'pvc',
+    type: 'window',
+    isNew: true,
+    isFeatured: true,
+    specs: [
+      { label: 'Thermal Transmittance (Uw)', value: '0.99', unit: 'W/(m²K)' },
+      { label: 'Installation Depth', value: '82', unit: 'mm' },
+      { label: 'Profile Chambers', value: '7' },
+      { label: 'Sound Insulation (Rw)', value: '36', unit: 'dB' },
+    ],
+    images: ['/assets/iglo-edge-featured.png'],
+  },
 
   {
     id: 'p1_slide',

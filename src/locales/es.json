@@ -1041,6 +1041,32 @@
         "class": "Clase de perfil"
       }
     },
+    "iglo-edge-f104-fix-bot": {
+      "name": "IGLO EDGE F104 con Fijo Inferior",
+      "tagline": "Estética elegante con acristalamiento fijo inferior de seguridad",
+      "description": "Un sistema de ventana avanzado que cuenta con una hoja superior oscilobatiente y un campo de acristalamiento fijo inferior de seguridad, separados por un travesaño horizontal.",
+      "standardEquipment": [
+        "Paquete de acristalamiento de doble cámara Ug = 0,5 W/(m²K)",
+        "Marco cálido de plástico Swisspacer Ultimate",
+        "Soldadura V-perfect",
+        "4 cerraderos antirrobo según el tamaño de la hoja y el sistema de herrajes",
+        "Microventilación",
+        "Manilla de ventana de aluminio DUBLIN",
+        "Mecanismo de bloqueo de manipulación de la manilla",
+        "Juntas perimetrales, de acristalamiento y centrales en negro o gris",
+        "Relleno de la ranura inferior del herraje",
+        "Embellecedor de alféizar",
+        "Amplia selección de colores de revestimiento de PVC"
+      ],
+      "specs": {
+        "sound": "Aislamiento acústico",
+        "gaskets": "Juntas EPDM",
+        "thermal": "Transmitancia térmica",
+        "chambers": "Cámaras de perfil",
+        "depth": "Profundidad de instalación",
+        "class": "Clase de perfil"
+      }
+    },
     "iglo-energy": {
       "name": "IGLO Energy",
       "tagline": "Un perfil innovador y original de clase A de 7 cámaras",
@@ -1608,6 +1634,7 @@
     "rewind": "Cerrar puerta",
     "pause": "Pausar",
     "open": "Abrir puerta",
-    "outerFrameCasing": "Marco Exterior / Recubrimiento"
+    "outerFrameCasing": "Marco Exterior / Recubrimiento",
+    "title": "Simulador de Puerta de Garaje"
   }
 }

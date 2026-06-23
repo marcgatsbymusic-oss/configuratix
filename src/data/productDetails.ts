@@ -480,6 +480,63 @@ export const IGLO_EDGE_F104_DETAIL: ProductDetailData = {
   }
 };
 
+export const IGLO_EDGE_F104_FIX_BOT_DETAIL: ProductDetailData = {
+  id: 'p1_f104_fix_bot',
+  slug: 'iglo-edge-f104-fix-bot',
+  name: 'IGLO EDGE F104 with Bottom Fixed',
+  tagline: 'Sleek aesthetics with safety bottom fixed glazing',
+  description: `An advanced window system featuring a top-opening Tilt & Turn sash and a safety bottom fixed glazing field, separated by a horizontal stable post.`,
+  heroImage: '/assets/hero.png',
+  windowPhoto: '/assets/iglo-edge-window.png',
+  profileImage: '/assets/iglo-edge-window.png',
+  blueprintImage: '/assets/iglo-edge-technical-drawing.png',
+  videoSrc: '/assets/heroes/iglo-edge-header-cover.mp4',
+  modalVideoSrc: '/assets/products/iglo-edge-en.mp4',
+  inlineVideoSrc: '/assets/products/iglo-edge-okno-window-opening.mp4',
+  relatedProductLink: { text: 'relatedIgloEdge', url: '/products/iglo-edge-slide' },
+  standardEquipment: [
+    'Double-chamber glazing package Ug = 0.5 W/(m²K)',
+    'Swisspacer Ultimate plastic warm frame',
+    'V-perfect weld',
+    '4 anti-theft strikers according to the size of the sash and the hardware system',
+    'Microventilation',
+    'DUBLIN aluminium window handle',
+    'Handle misplacement locking mechanism',
+    'Perimeter, glazing and central gaskets in black or grey',
+    'Filling of the lower hardware groove',
+    'Sill trim',
+    'Wide selection of PVC veneer colours',
+  ],
+  keySpecs: [
+    { label: 'sound', value: '36 dB' },
+    { label: 'gaskets', value: '3' },
+    { label: 'thermal', value: 'Uw = 0.99 W/(m²K)*' },
+    { label: 'chambers', value: '7' },
+    { label: 'depth', value: '82 mm' },
+    { label: 'class', value: 'A' },
+  ],
+  colors: IGLO_EDGE_COLORS,
+  glassOptions: IGLO_EDGE_F104_DETAIL.glassOptions,
+  inspirations: IGLO_EDGE_F104_DETAIL.inspirations,
+  benefits: IGLO_EDGE_F104_DETAIL.benefits,
+  hardware: [],
+  accessories: [],
+  downloads: IGLO_EDGE_F104_DETAIL.downloads,
+  comparisonImages: {
+    "IGLO EDGE F104 with Bottom Fixed": "https://www.drutex.eu/media/webp/80/L21lZGlhL191cGxvYWQvcHJvZHVrdHkvaWdsby1lZGdlL2lnbG8tZWRnZS1wcm9maWwucG5n.webp"
+  },
+  comparison: {
+    "IGLO EDGE F104 with Bottom Fixed": {
+      "Number of chambers": "7",
+      "Installation depth": "82 mm",
+      "Number of gaskets": "3",
+      "Thermal transmittance": "Uw = 0.99 W/(m²K)*",
+      "Glass packages": "48-58 mm",
+      "Sound insulation": "36 dB"
+    }
+  }
+};
+
 export const IGLO_EDGE_SLIDE_DETAIL: ProductDetailData = {
   id: 'p1_slide',
   slug: 'iglo-edge-slide',
