@@ -1,0 +1,38 @@
+{
+  "$comment": "Per-FAMILY semantics that block/recipe data cannot convey. One file per profile family (PVC IGLO5, a wood system, an alu system). The agent fills datums/anchors; the engine reads them. This is the ONLY hand-authored file per family — everything else is extracted.",
+
+  "family": "IGLO 5",
+  "material": "pvc",
+  "systemDepth": 70,
+  "glazingRange": [20, 48],
+
+  "elevation": {
+    "$comment": "Visible face widths used to lay out the front elevation (mm). Measure once per family.",
+    "frameFace": 34,
+    "sashFace": 24,
+    "mullionFace": 60
+  },
+
+  "datums": {
+    "$comment": "Co-registration fix. Each atomic profile has its own local origin; this [dx,dy] (mm) is ADDED after the recipe offset so profiles seat correctly in composed sections. Set [0,0] then nudge until the rebate closes. This is what makes the left panel of engine/_proof.png seat cleanly.",
+    "50003 - rama 75mm": [0, 0],
+    "50005 - rama 124mm": [0, 0],
+    "50034 - skrzydło 120mm N_Z": [0, 0],
+    "50031 - skrzydło 105mm D_W": [0, 0],
+    "50029 - słupek ruchomy": [0, 0],
+    "50022 - słupek 70mm": [0, 0],
+    "50924 - listwa 22mm": [0, 0],
+    "szyba 24mm": [0, 0]
+  },
+
+  "anchors": {
+    "$comment": "Semantic reference points/lines per profile, local coords (mm). Only what auto-detection can't infer. Optional.",
+    "50003 - rama 75mm": { "rebateLine": null, "weatherLine": null },
+    "50034 - skrzydło 120mm N_Z": { "glazingPocket": null, "rebateLine": null }
+  },
+
+  "recipeOverrides": {
+    "$comment": "Add junctions the catalog lacks. Your DXF has mullion_fixed+sash but no mullion_movable+sash; define it here once and the engine resolves movable-mullion windows.",
+    "mullion_movable+sash": { "basedOn": "mullion_fixed+sash", "swap": { "mullion_fixed": "50029 - słupek ruchomy" } }
+  }
+}

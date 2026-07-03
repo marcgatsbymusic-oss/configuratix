@@ -246,13 +246,13 @@ function F100_FIX_BOTAssembly({
     ))}
   </>);
 
-  const renderSplitFrameGaskets = (len: number, uSign: number, uOff: number) => {
+  const renderSplitFrameGaskets = () => {
     // The vertical side gaskets are split by the transom to avoid intersecting it.
     // Transom is at transomCenterY. Transom height is 84mm (42mm each side of center).
     // So the gap is from Y = (transomCenterY/scale) - 42 to Y = (transomCenterY/scale) + 42.
     const transomBotY = (transomCenterY / scale) - 42;
     const transomTopY = (transomCenterY / scale) + 42;
-    const topLen = len - transomTopY;
+    const topLen = (heightMm * scale) - transomTopY;
     const botLen = transomBotY;
 
     return (<>

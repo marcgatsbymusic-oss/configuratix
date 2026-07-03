@@ -1,0 +1,337 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IGLO 5 - F202 - Okno 2 kw. slupek ruchomy - 3D Viewer</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#0d0f14;--surface:#151820;--panel:#1c2030;--border:#2a2f40;
+      --accent:#4f8aff;--accent2:#7c5dfa;--text:#e2e6f0;--muted:#6b7280;
+    }
+    html,body{width:100%;height:100%;background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);overflow:hidden;}
+    #app{display:grid;grid-template-rows:56px 1fr;grid-template-columns:1fr 300px;height:100vh;}
+    header{grid-column:1/-1;display:flex;align-items:center;gap:16px;padding:0 24px;
+      background:var(--surface);border-bottom:1px solid var(--border);}
+    .logo{display:flex;align-items:center;gap:10px;}
+    .logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--accent),var(--accent2));
+      border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+    h1{font-size:15px;font-weight:600;letter-spacing:-0.01em;}
+    .badge{padding:3px 10px;background:rgba(79,138,255,0.15);border:1px solid rgba(79,138,255,0.3);
+      border-radius:20px;font-size:11px;font-weight:500;color:var(--accent);}
+    .spacer{flex:1;}
+    .code-badge{font-family:'Consolas',monospace;font-size:13px;font-weight:600;color:#f0c060;
+      background:rgba(240,192,96,0.12);border:1px solid rgba(240,192,96,0.25);padding:4px 12px;border-radius:6px;}
+    #viewport{position:relative;background:radial-gradient(ellipse at 40% 50%,#1a2040 0%,#0d0f14 70%);}
+    canvas{display:block;width:100%!important;height:100%!important;}
+    .controls-overlay{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:8px;}
+    .ctrl-btn{padding:8px 16px;background:rgba(255,255,255,0.07);backdrop-filter:blur(8px);
+      border:1px solid rgba(255,255,255,0.12);border-radius:8px;font-size:12px;font-weight:500;
+      color:var(--text);cursor:pointer;transition:all 0.2s;}
+    .ctrl-btn:hover{background:rgba(79,138,255,0.18);border-color:rgba(79,138,255,0.4);color:#fff;}
+    .ctrl-btn.active{background:rgba(79,138,255,0.25);border-color:var(--accent);color:#fff;}
+    .hint{position:absolute;bottom:68px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--muted);
+      background:rgba(0,0,0,0.5);padding:4px 12px;border-radius:20px;pointer-events:none;}
+    #panel{background:var(--panel);border-left:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column;}
+    .section{padding:16px 20px;border-bottom:1px solid var(--border);}
+    .section-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;
+      color:var(--muted);margin-bottom:12px;}
+    .spec-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;}
+    .spec-label{font-size:12px;color:var(--muted);}
+    .spec-value{font-size:12px;font-weight:600;color:var(--text);}
+    .dim-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px;}
+    .dim-input label{display:block;font-size:10px;color:var(--muted);margin-bottom:4px;}
+    .dim-input input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;
+      color:var(--text);font-size:13px;font-weight:500;padding:7px 10px;outline:none;transition:border-color 0.2s;}
+    .dim-input input:focus{border-color:var(--accent);}
+    .apply-btn{width:100%;margin-top:10px;padding:10px;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      border:none;border-radius:8px;font-size:13px;font-weight:600;color:#fff;cursor:pointer;transition:opacity 0.2s;}
+    .apply-btn:hover{opacity:0.9;}
+    .color-option{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:8px;
+      cursor:pointer;transition:background 0.15s;margin-bottom:3px;}
+    .color-option:hover{background:rgba(255,255,255,0.05);}
+    .color-option.active{background:rgba(79,138,255,0.12);}
+    .swatch{width:22px;height:22px;border-radius:5px;border:2px solid rgba(255,255,255,0.15);flex-shrink:0;}
+    .color-label{font-size:12px;}
+    .color-check{margin-left:auto;color:var(--accent);font-size:13px;}
+    .member-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+    .member-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+    .member-name{font-size:12px;color:var(--text);}
+    .member-dims{font-size:11px;color:var(--muted);margin-left:auto;}
+    #loading{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+      background:var(--bg);z-index:10;gap:16px;transition:opacity 0.5s;}
+    .spinner{width:40px;height:40px;border:3px solid rgba(79,138,255,0.2);border-top-color:var(--accent);
+      border-radius:50%;animation:spin 0.8s linear infinite;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+    .load-text{font-size:13px;color:var(--muted);}
+  </style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="logo">
+      <div class="logo-icon">🪟</div>
+      <h1>IGLO 5 Profile System</h1>
+    </div>
+    <span class="badge">PVC · 70mm depth</span>
+    <div class="spacer"></div>
+    <span class="code-badge">F202</span>
+  </header>
+  <div id="viewport">
+    <div id="loading">
+      <div class="spinner"></div>
+      <div class="load-text">Building window geometry...</div>
+    </div>
+    <div class="hint">Drag to orbit · Scroll to zoom · Right-drag to pan</div>
+    <div class="controls-overlay">
+      <button class="ctrl-btn active" id="btn-3d" onclick="setView('3d')">3D View</button>
+      <button class="ctrl-btn" id="btn-front" onclick="setView('front')">Front</button>
+      <button class="ctrl-btn" id="btn-cross" onclick="setView('cross')">Cross-Section</button>
+      <button class="ctrl-btn" id="btn-explode" onclick="toggleExplode()">Explode</button>
+    </div>
+  </div>
+  <div id="panel">
+    <div class="section">
+      <div class="section-title">Window Type</div>
+      <div class="spec-row"><span class="spec-label">Code</span><span class="spec-value">F202</span></div>
+      <div class="spec-row"><span class="spec-label">Name (PL)</span><span class="spec-value" style="font-size:11px">Okno 2 kw. slupek ruchomy</span></div>
+      <div class="spec-row"><span class="spec-label">Type</span><span class="spec-value">Double - Movable Mullion</span></div>
+      <div class="spec-row"><span class="spec-label">Opening</span><span class="spec-value">L-Turn / R-TiltTurn</span></div>
+      <div class="spec-row"><span class="spec-label">Profile depth</span><span class="spec-value">70 mm</span></div>
+    </div>
+    <div class="section">
+      <div class="section-title">Dimensions</div>
+      <div class="dim-grid">
+        <div class="dim-input"><label>Width (mm)</label><input type="number" id="inp-w" value="1500" min="600" max="2400" step="10"/></div>
+        <div class="dim-input"><label>Height (mm)</label><input type="number" id="inp-h" value="1200" min="400" max="2200" step="10"/></div>
+      </div>
+      <button class="apply-btn" onclick="applyDimensions()">Apply Dimensions</button>
+    </div>
+    <div class="section">
+      <div class="section-title">Exterior Color</div>
+      <div id="ext-colors"></div>
+    </div>
+    <div class="section">
+      <div class="section-title">Interior Color</div>
+      <div id="int-colors"></div>
+    </div>
+    <div class="section">
+      <div class="section-title">Members</div>
+      <div id="members-list"></div>
+    </div>
+    <div class="section">
+      <div class="section-title">Profile Components</div>
+      <div class="spec-row"><span class="spec-label">Frame</span><span class="spec-value" style="font-size:11px">50003 - Rama 75mm</span></div>
+      <div class="spec-row"><span class="spec-label">Sash (left)</span><span class="spec-value" style="font-size:11px">50034 - 120mm N_Z</span></div>
+      <div class="spec-row"><span class="spec-label">Sash (right)</span><span class="spec-value" style="font-size:11px">50031 - 105mm D_W</span></div>
+      <div class="spec-row"><span class="spec-label">Mullion</span><span class="spec-value" style="font-size:11px">50029 - Slupek ruchomy</span></div>
+    </div>
+  </div>
+</div>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.167.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// ── Pure geometry helpers (from seed/engine/three_build.js) ──
+function signedArea(pts){let s=0;for(let i=0;i<pts.length;i++){const[x1,y1]=pts[i],[x2,y2]=pts[(i+1)%pts.length];s+=x1*y2-x2*y1;}return s/2;}
+function centroid(pts){let x=0,y=0;for(const[px,py]of pts){x+=px;y+=py;}return[x/pts.length,y/pts.length];}
+function pointInPolygon([px,py],pts){let inside=false;for(let i=0,j=pts.length-1;i<pts.length;j=i++){const[xi,yi]=pts[i],[xj,yj]=pts[j];if(((yi>py)!==(yj>py))&&(px<((xj-xi)*(py-yi))/(yj-yi)+xi))inside=!inside;}return inside;}
+function classifyLoops(loops){const closed=loops.map((L,i)=>({i,pts:L.pts})).filter((_,idx)=>loops[idx].closed&&loops[idx].pts.length>=3);if(!closed.length)return{outer:-1,holes:[]};let outer=closed[0],best=Math.abs(signedArea(outer.pts));for(const c of closed){const a=Math.abs(signedArea(c.pts));if(a>best){best=a;outer=c;}}const holes=closed.filter(c=>c.i!==outer.i&&pointInPolygon(centroid(c.pts),outer.pts)).map(c=>c.i);return{outer:outer.i,holes};}
+function orient(pts,wantCCW){const ccw=signedArea(pts)>0;return ccw===wantCCW?pts.slice():pts.slice().reverse();}
+function clipHalf(pts,seamY,keepBelow){const inside=p=>keepBelow?p[1]<=seamY:p[1]>=seamY;const isect=(a,b)=>{const t=(seamY-a[1])/(b[1]-a[1]);return[a[0]+t*(b[0]-a[0]),seamY];};const out=[];for(let i=0;i<pts.length;i++){const cur=pts[i],prev=pts[(i+pts.length-1)%pts.length],ci=inside(cur),pi=inside(prev);if(ci){if(!pi)out.push(isect(prev,cur));out.push(cur);}else if(pi)out.push(isect(prev,cur));}return out;}
+function outerSilhouette(loops){const{outer}=classifyLoops(loops);return outer<0?null:orient(loops[outer].pts,true);}
+
+// ── Materials ──
+const COLORS={
+  ext:[{name:'White RAL 9016',hex:'#f2f0ec',id:'white'},{name:'Anthracite RAL 7016',hex:'#383e42',id:'anthracite'},{name:'Grey RAL 7040',hex:'#9ba0a6',id:'grey'},{name:'Dark Green RAL 6009',hex:'#2c4a34',id:'dkgreen'},{name:'Dark Brown RAL 8017',hex:'#4a2c1a',id:'brown'},{name:'Black RAL 9005',hex:'#1a1a1a',id:'black'},{name:'Cream RAL 9001',hex:'#f4f0e4',id:'cream'},{name:'Dune RAL 1019',hex:'#c4a882',id:'dune'}],
+  int:[{name:'White RAL 9016',hex:'#f2f0ec',id:'white'},{name:'Anthracite RAL 7016',hex:'#383e42',id:'anthracite'},{name:'Oak Decor',hex:'#c8924c',id:'oak'},{name:'Walnut Decor',hex:'#7a4c28',id:'walnut'},{name:'Mahogany',hex:'#6e2a18',id:'mahog'},{name:'Black RAL 9005',hex:'#1a1a1a',id:'black'},{name:'Grey RAL 7040',hex:'#9ba0a6',id:'grey'},{name:'Cream RAL 9001',hex:'#f4f0e4',id:'cream'}]
+};
+let currentExt='white',currentInt='white';
+const makePvc=(hex,r=0.3)=>new THREE.MeshPhysicalMaterial({color:new THREE.Color(hex),roughness:r,metalness:0,clearcoat:0.4,clearcoatRoughness:0.35,side:THREE.DoubleSide});
+const MAT={
+  ext:makePvc('#f2f0ec'),int:makePvc('#f2f0ec'),
+  glass:new THREE.MeshPhysicalMaterial({color:0xa8d0e8,transparent:true,opacity:0.35,roughness:0,metalness:0,transmission:0.8,ior:1.52,side:THREE.DoubleSide}),
+  mullion:makePvc('#c87820',0.5),
+  handle:new THREE.MeshStandardMaterial({color:0xc8a040,roughness:0.2,metalness:0.8}),
+  hinge:new THREE.MeshStandardMaterial({color:0x888888,roughness:0.3,metalness:0.9}),
+};
+function updateExtColor(id){currentExt=id;const c=COLORS.ext.find(x=>x.id===id);if(c){MAT.ext.color.set(c.hex);}document.querySelectorAll('#ext-colors .color-option').forEach(el=>{el.classList.toggle('active',el.dataset.id===id);el.querySelector('.color-check').textContent=el.dataset.id===id?'checkmark':'';}); rebuildWindow();}
+function updateIntColor(id){currentInt=id;const c=COLORS.int.find(x=>x.id===id);if(c){MAT.int.color.set(c.hex);}document.querySelectorAll('#int-colors .color-option').forEach(el=>{el.classList.toggle('active',el.dataset.id===id);el.querySelector('.color-check').textContent=el.dataset.id===id?'checkmark':'';}); rebuildWindow();}
+window.updateExtColor=updateExtColor;window.updateIntColor=updateIntColor;
+
+// ── Scene ──
+const container=document.getElementById('viewport');
+const renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.2;
+renderer.localClippingEnabled=true;
+container.appendChild(renderer.domElement);
+const scene=new THREE.Scene();scene.background=new THREE.Color('#0d0f14');scene.fog=new THREE.Fog('#0d0f14',8000,16000);
+const camera=new THREE.PerspectiveCamera(38,1,1,30000);camera.position.set(800,400,4500);
+const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=0.06;controls.minDistance=200;controls.maxDistance=12000;
+scene.add(new THREE.AmbientLight(0xffffff,0.55));
+const sun=new THREE.DirectionalLight(0xffeedd,2.2);sun.position.set(2000,3000,4000);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-3000;sun.shadow.camera.right=3000;sun.shadow.camera.top=3000;sun.shadow.camera.bottom=-3000;sun.shadow.camera.far=15000;scene.add(sun);
+const fill=new THREE.DirectionalLight(0xd0e8ff,0.8);fill.position.set(-2000,1000,-1000);scene.add(fill);
+scene.add(new THREE.PointLight(0x3060a0,1.5,8000));
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(20000,20000),new THREE.MeshStandardMaterial({color:0x111318,roughness:1}));floor.rotation.x=-Math.PI/2;floor.position.y=-1000;floor.receiveShadow=true;scene.add(floor);
+const grid=new THREE.GridHelper(10000,50,0x1e2230,0x1e2230);grid.position.y=-1000;scene.add(grid);
+
+// ── Plan computation (F202 algorithm from engine/build_from_code.js) ──
+let windowGroup=null,currentW=1500,currentH=1200,explodeMode=false,memberMeta=[];
+function computePlan(W,H){
+  const FRAME=70,MUL=80,SASH=70;
+  const inner={x:FRAME,y:FRAME,w:W-2*FRAME,h:H-2*FRAME};
+  const cx=inner.x+inner.w*0.5,mx=cx-MUL/2;
+  const left={x:inner.x,y:inner.y,w:mx-inner.x,h:inner.h};
+  const right={x:cx+MUL/2,y:inner.y,w:inner.x+inner.w-(cx+MUL/2),h:inner.h};
+  return{code:'F202',name:'Okno 2 kw. slupek ruchomy',W,H,
+    members:[
+      {role:'frame',rect:{x:0,y:0,w:W,h:H}},
+      {role:'sash',rect:left,hand:'L',open:'turn'},
+      {role:'sash',rect:right,hand:'R',open:'tiltturn'},
+      {role:'mullion_movable',rect:{x:mx,y:inner.y,w:MUL,h:inner.h}},
+      {role:'glass',rect:{x:left.x+SASH,y:left.y+SASH,w:left.w-2*SASH,h:left.h-2*SASH}},
+      {role:'glass',rect:{x:right.x+SASH,y:right.y+SASH,w:right.w-2*SASH,h:right.h-2*SASH}},
+    ],
+    hardware:[
+      {type:'handle',pos:[left.x+left.w-35,left.y+left.h*0.5,93]},
+      {type:'handle',pos:[right.x+35,right.y+right.h*0.5,93]},
+      {type:'hinge',pos:[left.x+35,left.y+150,55]},
+      {type:'hinge',pos:[left.x+35,left.y+left.h-150,55]},
+      {type:'hinge',pos:[right.x+right.w-35,right.y+150,55]},
+      {type:'hinge',pos:[right.x+right.w-35,right.y+right.h-150,55]},
+    ]
+  };
+}
+// ── Member builders ──
+function bicolorBox(w,h,d,px,py,pz,matA,matB){
+  const g=new THREE.Group();const sz=d*0.55;
+  const a=new THREE.Mesh(new THREE.BoxGeometry(w,h,sz),matA);a.position.set(px+w/2,py+h/2,pz+sz/2);a.castShadow=true;a.receiveShadow=true;
+  const b=new THREE.Mesh(new THREE.BoxGeometry(w,h,d-sz),matB);b.position.set(px+w/2,py+h/2,pz+sz+(d-sz)/2);b.castShadow=true;b.receiveShadow=true;
+  g.add(a,b);return g;
+}
+function buildFrame(r){
+  const g=new THREE.Group(),{x,y,w,h}=r,F=70,D=75;
+  g.add(bicolorBox(w,F,D,x,y,0,MAT.ext,MAT.int));         // bottom
+  g.add(bicolorBox(w,F,D,x,y+h-F,0,MAT.ext,MAT.int));     // top
+  g.add(bicolorBox(F,h-2*F,D,x,y+F,0,MAT.ext,MAT.int));   // left
+  g.add(bicolorBox(F,h-2*F,D,x+w-F,y+F,0,MAT.ext,MAT.int)); // right
+  return g;
+}
+function buildSash(r){
+  const g=new THREE.Group(),{x,y,w,h}=r,F=70,D=100,Z=8;
+  g.add(bicolorBox(w,F,D,x,y,Z,MAT.ext,MAT.int));
+  g.add(bicolorBox(w,F,D,x,y+h-F,Z,MAT.ext,MAT.int));
+  g.add(bicolorBox(F,h-2*F,D,x,y+F,Z,MAT.ext,MAT.int));
+  g.add(bicolorBox(F,h-2*F,D,x+w-F,y+F,Z,MAT.ext,MAT.int));
+  return g;
+}
+function buildMullion(r){
+  const g=new THREE.Group(),{x,y,w,h}=r,D=85,sz=D*0.5;
+  const a=new THREE.Mesh(new THREE.BoxGeometry(w,h,sz),MAT.ext);a.position.set(x+w/2,y+h/2,sz/2);a.castShadow=true;
+  const b=new THREE.Mesh(new THREE.BoxGeometry(w,h,D-sz),MAT.mullion);b.position.set(x+w/2,y+h/2,sz+(D-sz)/2);b.castShadow=true;
+  g.add(a,b);return g;
+}
+function buildGlass(r){
+  const{x,y,w,h}=r;
+  const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,26),MAT.glass);m.position.set(x+w/2,y+h/2,54);return m;
+}
+function buildHandle(pos){
+  const g=new THREE.Group();
+  const base=new THREE.Mesh(new THREE.BoxGeometry(18,32,10),MAT.handle);base.castShadow=true;
+  const lever=new THREE.Mesh(new THREE.CylinderGeometry(6,5,120,12),MAT.handle);lever.rotation.z=Math.PI/2;lever.position.set(62,0,6);lever.castShadow=true;
+  const knob=new THREE.Mesh(new THREE.SphereGeometry(9,16,16),MAT.handle);knob.position.set(120,0,6);knob.castShadow=true;
+  g.add(base,lever,knob);g.position.set(...pos);return g;
+}
+function buildHinge(pos){
+  const g=new THREE.Group();
+  const m=new THREE.Mesh(new THREE.BoxGeometry(16,48,8),MAT.hinge);m.castShadow=true;g.add(m);g.position.set(...pos);return g;
+}
+function buildWindow(W,H){
+  const plan=computePlan(W,H);const wg=new THREE.Group();memberMeta=[];
+  const ROLE_COLOR={frame:'#4f8aff',sash:'#22c55e',mullion_movable:'#f97316',glass:'#7dd3fc'};
+  for(const m of plan.members){
+    let mesh;
+    if(m.role==='frame'){mesh=buildFrame(m.rect);memberMeta.push({role:'Frame',color:'#4f8aff',rect:m.rect});}
+    else if(m.role==='sash'){mesh=buildSash(m.rect);memberMeta.push({role:'Sash '+(m.hand==='L'?'Left':'Right'),color:'#22c55e',rect:m.rect});}
+    else if(m.role==='mullion_movable'){mesh=buildMullion(m.rect);memberMeta.push({role:'Movable Mullion',color:'#f97316',rect:m.rect});}
+    else if(m.role==='glass'){mesh=buildGlass(m.rect);memberMeta.push({role:'Glazing',color:'#7dd3fc',rect:m.rect});}
+    if(mesh)wg.add(mesh);
+  }
+  for(const hw of plan.hardware){
+    if(hw.type==='handle')wg.add(buildHandle(hw.pos));
+    if(hw.type==='hinge')wg.add(buildHinge(hw.pos));
+  }
+  wg.position.set(-W/2,-H/2,0);
+  return{group:wg,plan};
+}
+function updateMembersList(){
+  const list=document.getElementById('members-list');list.innerHTML='';
+  for(const m of memberMeta){
+    const div=document.createElement('div');div.className='member-row';const r=m.rect;
+    div.innerHTML='<div class="member-dot" style="background:'+m.color+'"></div><span class="member-name">'+m.role+'</span><span class="member-dims">'+Math.round(r.w)+'x'+Math.round(r.h)+'</span>';
+    list.appendChild(div);
+  }
+}
+function rebuildWindow(){
+  if(windowGroup){scene.remove(windowGroup);windowGroup=null;}
+  const{group}=buildWindow(currentW,currentH);windowGroup=group;scene.add(windowGroup);updateMembersList();
+}
+
+// ── Color pickers ──
+function buildColorPicker(id,colors,activeId,onSel){
+  const container=document.getElementById(id);
+  for(const c of colors){
+    const div=document.createElement('div');div.className='color-option'+(c.id===activeId?' active':'');div.dataset.id=c.id;
+    div.innerHTML='<div class="swatch" style="background:'+c.hex+'"></div><span class="color-label">'+c.name+'</span><span class="color-check">'+(c.id===activeId?'v':'')+'</span>';
+    div.onclick=()=>onSel(c.id);container.appendChild(div);
+  }
+}
+buildColorPicker('ext-colors',COLORS.ext,currentExt,updateExtColor);
+buildColorPicker('int-colors',COLORS.int,currentInt,updateIntColor);
+
+// ── View controls ──
+window.setView=function(v){
+  document.querySelectorAll('.ctrl-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('btn-'+v)?.classList.add('active');
+  renderer.clippingPlanes=[];
+  if(v==='3d'){camera.position.set(800,400,4500);controls.target.set(0,0,150);}
+  else if(v==='front'){camera.position.set(0,0,5000);controls.target.set(0,0,0);}
+  else if(v==='cross'){
+    const plane=new THREE.Plane(new THREE.Vector3(0,0,-1),40);renderer.clippingPlanes=[plane];
+    camera.position.set(0,0,5000);controls.target.set(0,0,0);
+  }
+  controls.update();
+};
+window.toggleExplode=function(){
+  explodeMode=!explodeMode;
+  document.getElementById('btn-explode').classList.toggle('active',explodeMode);
+  if(!windowGroup)return;
+  const d=explodeMode?1:-1;
+  windowGroup.children.forEach((c,i)=>{
+    if(i===1)c.position.x-=d*100;   // left sash
+    if(i===2)c.position.x+=d*100;   // right sash
+    if(i===3)c.position.z+=d*80;    // mullion
+    if(i===4)c.position.x-=d*100;   // left glass
+    if(i===5)c.position.x+=d*100;   // right glass
+  });
+};
+window.applyDimensions=function(){
+  const w=parseInt(document.getElementById('inp-w').value),h=parseInt(document.getElementById('inp-h').value);
+  if(w>=600&&w<=2400&&h>=400&&h<=2200){currentW=w;currentH=h;rebuildWindow();camera.position.set(0,0,Math.max(w,h)*3);controls.update();}
+};
+
+// ── Resize + animate ──
+function resize(){const w=container.clientWidth,h=container.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+function animate(){requestAnimationFrame(animate);controls.update();renderer.render(scene,camera);}
+window.addEventListener('resize',resize);resize();
+rebuildWindow();setView('3d');
+setTimeout(()=>{const l=document.getElementById('loading');if(l){l.style.opacity='0';setTimeout(()=>l.remove(),500);}animate();},600);
+</script>
+</body>
+</html>

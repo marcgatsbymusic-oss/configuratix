@@ -1,0 +1,89 @@
+import fs from 'fs';
+import DxfParser from 'dxf-parser';
+
+const dxfPath = "C:\\Users\\Shadow\\Cloud-Drive\\Web dev Drutex Product Content\\CAD Files Drutex\\DWG_TO_DXF_PIPELINE\\IGLO EDGE SERIES\\IGE_Movable_post_section_cleaned.dxf";
+
+function dist(a, b) {
+  return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2);
+}
+
+function transformPoint(pt, tx) {
+  const localRot = (tx.rotation || 0) * Math.PI / 180;
+  const scaleX = tx.scaleX === undefined ? 1 : tx.scaleX;
+  const scaleY = tx.scaleY === undefined ? 1 : tx.scaleY;
+  
+  let xs = pt.x * scaleX;
+  let ys = pt.y * scaleY;
+  let xr = xs * Math.cos(localRot) - ys * Math.sin(localRot);
+  let yr = xs * Math.sin(localRot) + ys * Math.cos(localRot);
+  return { x: xr + tx.x, y: yr + tx.y };
+}
+
+function main() {
+  const text = fs.readFileSync(dxfPath, 'utf8');
+  const parser = new DxfParser();
+  const dxf = parser.parseSync(text);
+
+  const rawGeoms = {};
+
+  function collectEntities(entities, tx) {
+    entities.forEach(ent => {
+      if (ent.type === 'INSERT') {
+        const block = dxf.blocks[ent.name];
+        if (block && block.entities) {
+          const localRot = ent.rotation || 0;
+          const localScaleX = (ent.xScale === undefined || ent.xScale === 0) ? 1 : ent.xScale;
+          const localScaleY = (ent.yScale === undefined || ent.yScale === 0) ? 1 : ent.yScale;
+          const posT = transformPoint({ x: ent.position.x || 0, y: ent.position.y || 0 }, tx);
+          
+          const nextTx = {
+            x: posT.x,
+            y: posT.y,
+            rotation: tx.rotation + localRot,
+            scaleX: tx.scaleX * localScaleX,
+            scaleY: tx.scaleY * localScaleY
+          };
+          collectEntities(block.entities, nextTx);
+        }
+      } else {
+        const layer = ent.layer || 'unknown';
+        if (!rawGeoms[layer]) {
+          rawGeoms[layer] = [];
+        }
+        rawGeoms[layer].push({ entity: ent, tx });
+      }
+    });
+  }
+
+  collectEntities(dxf.entities, { x: 0, y: 0, rotation: 0, scaleX: 1, scaleY: 1 });
+
+  for (const [layerName, items] of Object.entries(rawGeoms)) {
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    let entCount = 0;
+
+    items.forEach(({ entity, tx }) => {
+      entCount++;
+      const pts = [];
+      if (entity.type === 'LINE') {
+        pts.push(transformPoint(entity.vertices[0], tx));
+        pts.push(transformPoint(entity.vertices[1], tx));
+      } else if (entity.type === 'ARC' || entity.type === 'CIRCLE') {
+        const cx = entity.center?.x ?? 0;
+        const cy = entity.center?.y ?? 0;
+        const r = entity.radius ?? 0;
+        pts.push(transformPoint({ x: cx - r, y: cy - r }, tx));
+        pts.push(transformPoint({ x: cx + r, y: cy + r }, tx));
+      } else if (entity.type === 'LWPOLYLINE' || entity.type === 'POLYLINE') {
+        entity.vertices.forEach(v => pts.push(transformPoint(v, tx)));
+      }
+      pts.forEach(p => {
+        if (p.x < minX) minX = p.x; if (p.x > maxX) maxX = p.x;
+        if (p.y < minY) minY = p.y; if (p.y > maxY) maxY = p.y;
+      });
+    });
+
+    console.log(`Layer ${layerName.padEnd(25)}: ents=${entCount.toString().padEnd(4)} bounds: X=[${minX.toFixed(2)}, ${maxX.toFixed(2)}] Y=[${minY.toFixed(2)}, ${maxY.toFixed(2)}]`);
+  }
+}
+
+main();

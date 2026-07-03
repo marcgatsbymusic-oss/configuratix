@@ -40,6 +40,13 @@ import { RollerBlindTestPage } from './pages/RollerBlindTestPage'
 import { RollerBlindTestMosquitoPage } from './pages/RollerBlindTestMosquitoPage'
 import { IGLSideTestBuildPage } from './pages/IGLSideTestBuildPage'
 import { GarageDoorSimPage } from './pages/GarageDoorSimPage'
+import { MovableMullionTestPage } from './pages/MovableMullionTestPage'
+import { Iglo5F202Page } from './pages/Iglo5F202Page'
+import { Iglo5FixedPage } from './pages/Iglo5FixedPage'
+import { F202Page } from './pages/F202Page'
+import { Zlozenie07Page } from './pages/Zlozenie07Page'
+import { SingleFixedBottomPage } from './pages/SingleFixedBottomPage'
+import { F252proofconceptPage } from './pages/F252proofconceptPage'
 import './index.css'
 
 // Error boundary to catch silent crashes in the component tree
@@ -212,6 +219,27 @@ function App() {
 
             {/* IGLSIDE_TEST_BUILD Sliding Door Test Page */}
             <Route path="/igls-test-build" element={<IGLSideTestBuildPage />} />
+
+            {/* Movable Mullion Test Page */}
+            <Route path="/movable-mullion-test" element={<MovableMullionTestPage />} />
+
+            {/* IGLO 5 · F202 — Okno 2 kw. słupek ruchomy */}
+            <Route path="/iglo5-f202" element={<Iglo5F202Page />} />
+
+            {/* IGLO 5 · F202 — seed v2 (saturday_27_14_37, new canonical profiles.json) */}
+            <Route path="/f202" element={<F202Page />} />
+
+            {/* IGLO 5 · F1T0 — Okno stałe (fixed frame) */}
+            <Route path="/iglo5-fixed" element={<Iglo5FixedPage />} />
+
+            {/* Złożenie 07 Preview */}
+            <Route path="/preview/zlozenie-07-final" element={<Zlozenie07Page />} />
+
+            {/* Single Fixed Bottom Preview */}
+            <Route path="/preview/single-fixed-bottom" element={<SingleFixedBottomPage />} />
+
+            {/* F252 Proof of Concept Preview */}
+            <Route path="/f252proofconcept" element={<F252proofconceptPage />} />
 
             {/* Public Storefront Routes */}
             <Route path="*" element={<StorefrontLayout />} />

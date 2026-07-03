@@ -180,13 +180,15 @@ function configuratorReducer(state: ConfiguratorState, action: ConfiguratorActio
 
       const isF100OrF104 = action.payload.toUpperCase().includes('F100') || action.payload.toUpperCase().includes('F104');
       const gasketColor = isF100OrF104 ? 'czarny' : state.gasketColor;
+      const dimensions = action.payload === 'F100_FIX_BOT' ? { width: 720, height: 1450 } : state.dimensions;
 
       return { 
         ...state, 
         windowTypeId: action.payload, 
         sashOpenings: newOpenings, 
         fittingVariant: newFittingVariant,
-        gasketColor
+        gasketColor,
+        dimensions
       };
     }
     case 'SET_SASH_OPENING': {

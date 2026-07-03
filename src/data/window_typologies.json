@@ -246,6 +246,12 @@
     "image": "/images/typologies/F100.svg"
   },
   {
+    "id": "F100_FIX_BOT",
+    "name": "Iglo 5 - Bottom Fixed",
+    "sashes": 1,
+    "image": "/images/typologies/F104_FIX_BOT.svg"
+  },
+  {
     "id": "F101",
     "name": "1-chamber window (Handle Right)",
     "sashes": 1,

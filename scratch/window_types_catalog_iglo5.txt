@@ -1,0 +1,2065 @@
+Code: B100
+Name: Profil Pośredni
+Fields: 1 | IsDoor: J | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: PP-R-P
+
+----------------------------------------
+
+Code: B200
+Name: Profil Pośredni 2-skrz. ze słupkiem ruchomym
+Fields: 2 | IsDoor: J | IsStulp: J
+Post Type: Vertical Mullion + Movable Post (Stulp)
+Openings: F1: PP-R-SBP-L | F2: PP-R-SC-P
+
+----------------------------------------
+
+Code: B201
+Name: Profil Pośredni 1-skrz. ze stałym naświetlem górnym
+Fields: 2 | IsDoor: J | IsStulp: N
+Post Type: Transom
+Openings: F1: PP-FIX | F2: PP-R-P
+
+----------------------------------------
+
+Code: B300
+Name: Profil Pośredni 2-skrz. ze stałym naświetlem górnym
+Fields: 3 | IsDoor: J | IsStulp: N
+Post Type: Transom + Vertical Mullion
+Openings: F1: PP-FIX | F2: PP-R-SBP-L | F3: PP-R-SC-P
+
+----------------------------------------
+
+Code: D100
+Name: Drzwi 1-skrzydłowe
+Fields: 1 | IsDoor: J | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: DW-P
+
+----------------------------------------
+
+Code: D101
+Name: Naświetle boczne
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: FIX
+
+----------------------------------------
+
+Code: D102
+Name: Fest w skrzydle drzwiowym
+Fields: 1 | IsDoor: J | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: DW-FF
+
+----------------------------------------
+
+Code: D105
+Name: Naświetle górne
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: FIX
+
+----------------------------------------
+
+Code: D200
+Name: Drzwi 2-skrzydłowe
+Fields: 2 | IsDoor: J | IsStulp: J
+Post Type: Vertical Mullion + Movable Post (Stulp)
+Openings: F1: DW-SB-L | F2: DW-SC-P
+
+----------------------------------------
+
+Code: D201
+Name: Drzwi z naświetlem górnym
+Fields: 2 | IsDoor: J | IsStulp: N
+Post Type: Transom
+Openings: F1: FIX | F2: DW-P
+
+----------------------------------------
+
+Code: D201P
+Name: Drzwi jednoskrzydłowe z naświetlem górnym
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Transom
+Openings: None
+
+----------------------------------------
+
+Code: D211
+Name: Drzwi z naświetlem bocznym lewym
+Fields: 2 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: DW-FIX | F2: DW-P
+
+----------------------------------------
+
+Code: D212
+Name: Drzwi z naświetlem bocznym prawym
+Fields: 2 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: DW-L | F2: DW-FIX
+
+----------------------------------------
+
+Code: D300
+Name: Drzwi 2-skrzydłowe z naświetlem górnym
+Fields: 3 | IsDoor: J | IsStulp: J
+Post Type: Transom + Vertical Mullion + Movable Post (Stulp)
+Openings: F1: FIX | F2: DW-SB-L | F3: DW-SC-P
+
+----------------------------------------
+
+Code: D303
+Name: Drzwi 1-skrzydłowe z naświetlem górnym i bocznym
+Fields: 3 | IsDoor: J | IsStulp: J
+Post Type: Vertical Mullion + Transom + Movable Post (Stulp)
+Openings: F1: DW-FIX | F2: FIX | F3: DW-P
+
+----------------------------------------
+
+Code: D304
+Name: Drzwi 1-skrzydłowe z naświetlem górnym i bocznym
+Fields: 3 | IsDoor: J | IsStulp: J
+Post Type: Vertical Mullion + Transom + Movable Post (Stulp)
+Openings: F1: FIX | F2: DW-FIX | F3: DW-L
+
+----------------------------------------
+
+Code: D305
+Name: Drzwi 1-skrzydłowe z naświetlem górnym i bocznym
+Fields: 4 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion + Transom + Transom
+Openings: F1: FIX | F2: FIX | F3: DW-P | F4: DW-FIX
+
+----------------------------------------
+
+Code: D306
+Name: Drzwi 1-skrzydłowe z naświetlem górnym i bocznym
+Fields: 4 | IsDoor: J | IsStulp: J
+Post Type: Vertical Mullion + Transom + Transom + Movable Post (Stulp)
+Openings: F1: FIX | F2: FIX | F3: DW-L | F4: DW-FIX
+
+----------------------------------------
+
+Code: D310
+Name: Drzwi z naświetlem bocznym lewym i prawym
+Fields: 3 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: DW-FIX | F2: DW-P | F3: DW-FIX
+
+----------------------------------------
+
+Code: D400
+Name: Drzwi z naświetlem lewym, prawym, górnym
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion + Transom + Transom + Transom
+Openings: F1: FIX | F2: FIX | F3: FIX | F4: DW-P | F5: DW-FIX | F6: DW-FIX
+
+----------------------------------------
+
+Code: D401
+Name: Drzwi z naświetlem lewym, prawym, górnym
+Fields: 4 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion + Transom
+Openings: F1: DW-FIX | F2: FIX | F3: DW-FIX | F4: DW-P
+
+----------------------------------------
+
+Code: D412
+Name: Drzwi 2-skrzydłowe z naświetlem górnym i bocznym
+Fields: 4 | IsDoor: J | IsStulp: J
+Post Type: Vertical Mullion + Transom + Vertical Mullion + Movable Post (Stulp)
+Openings: F1: DW-FIX | F2: FIX | F3: DW-SB-L | F4: DW-SC-P
+
+----------------------------------------
+
+Code: D413
+Name: Drzwi 2-skrzydłowe z naświetlem górnym i bocznym
+Fields: 4 | IsDoor: J | IsStulp: J
+Post Type: Vertical Mullion + Transom + Vertical Mullion + Movable Post (Stulp)
+Openings: F1: FIX | F2: DW-FIX | F3: DW-SB-L | F4: DW-SC-P
+
+----------------------------------------
+
+Code: D414
+Name: Drzwi 2-skrzydłowe z naświetlem górnym i bocznym
+Fields: 99 | IsDoor: J | IsStulp: J
+Post Type: Vertical Mullion + Transom + Transom + Vertical Mullion + Movable Post (Stulp)
+Openings: F1: FIX | F2: FIX | F3: DW-SB-L | F4: DW-SC-P | F5: DW-FIX
+
+----------------------------------------
+
+Code: D415
+Name: Drzwi 2-skrzydłowe z naświetlem górnym i bocznym
+Fields: 99 | IsDoor: J | IsStulp: J
+Post Type: Vertical Mullion + Transom + Transom + Vertical Mullion + Movable Post (Stulp)
+Openings: F1: FIX | F2: FIX | F3: DW-SB-L | F4: DW-SC-P | F5: DW-FIX
+
+----------------------------------------
+
+Code: D416
+Name: Drzwi 2-skrzydłowe z naświetlem bocznym
+Fields: 4 | IsDoor: J | IsStulp: J
+Post Type: Vertical Mullion + Movable Post (Stulp)
+Openings: F1: DW-FIX | F2: DW-SB-L | F3: DW-SC-P | F4: DW-FIX
+
+----------------------------------------
+
+Code: D418
+Name: Drzwi 2-skrzydłowe z naświetlem górnym i bocznym
+Fields: 99 | IsDoor: J | IsStulp: J
+Post Type: Vertical Mullion + Transom + Vertical Mullion + Movable Post (Stulp)
+Openings: F1: DW-FIX | F2: FIX | F3: DW-FIX | F4: DW-SB-L | F5: DW-SC-P
+
+----------------------------------------
+
+Code: D419
+Name: Drzwi 2-skrzydłowe z naświetlem górnym i bocznym
+Fields: 99 | IsDoor: J | IsStulp: J
+Post Type: Vertical Mullion + Transom + Transom + Transom + Vertical Mullion + Movable Post (Stulp)
+Openings: F1: FIX | F2: FIX | F3: FIX | F4: DW-SB-L | F5: DW-SC-P | F6: DW-FIX | F7: DW-FIX
+
+----------------------------------------
+
+Code: D511
+Name: Drzwi 2-skrzydłowe z naświetlem bocznym lewym
+Fields: 3 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: DW-FIX | F2: DW-SC-L | F3: DW-SB-P
+
+----------------------------------------
+
+Code: D512
+Name: Drzwi  2-skrzydłowe z naświetlem bocznym prawym
+Fields: 3 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: DW-SB-L | F2: DW-SC-P | F3: DW-FIX
+
+----------------------------------------
+
+Code: DS100
+Name: Drzwi serwisowe 1-skrzydłowe
+Fields: 1 | IsDoor: J | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: DW-P
+
+----------------------------------------
+
+Code: DS200
+Name: Drzwi serwisowe 2-skrzydłowe
+Fields: 2 | IsDoor: J | IsStulp: J
+Post Type: Vertical Mullion + Movable Post (Stulp)
+Openings: F1: DW-SB-L | F2: DW-SC-P
+
+----------------------------------------
+
+Code: F100
+Name: Okno 1 kwaterowe
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: UR-P
+
+----------------------------------------
+
+Code: F101
+Name: Okno 1 kwaterowe
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: UR-L
+
+----------------------------------------
+
+Code: F102
+Name: Okno 1 kwaterowe
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: R-P
+
+----------------------------------------
+
+Code: F102E
+Name: Okno 1 kwaterowe
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: R-Pz
+
+----------------------------------------
+
+Code: F102P
+Name: Okno 1 kwaterowe
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: PR-R-Pz
+
+----------------------------------------
+
+Code: F102Z
+Name: Okno 1 kwaterowe
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: R-Pz
+
+----------------------------------------
+
+Code: F103
+Name: Okno 1 kwaterowe
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: R-L
+
+----------------------------------------
+
+Code: F103E
+Name: Okno 1 kwaterowe
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: R-Lz
+
+----------------------------------------
+
+Code: F103P
+Name: Okno 1 kwaterowe
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: PR-R-Lz
+
+----------------------------------------
+
+Code: F103Z
+Name: Okno 1 kwaterowe
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: R-Lz
+
+----------------------------------------
+
+Code: F104
+Name: Okno 1 kwaterowe
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: FIX
+
+----------------------------------------
+
+Code: F105
+Name: Okno 1 kwaterowe
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: FIX-S
+
+----------------------------------------
+
+Code: F105E
+Name: Okno 1 kwaterowe
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: FIX-Sz
+
+----------------------------------------
+
+Code: F105P
+Name: Okno 1 kwaterowe
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: PR-FIX-Sz
+
+----------------------------------------
+
+Code: F106
+Name: Okno 1 kwaterowe
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: U
+
+----------------------------------------
+
+Code: F106P
+Name: Okno 1 kwaterowe
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: PR-Wz
+
+----------------------------------------
+
+Code: F106Z
+Name: Okno 1 kwaterowe
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: PR-Wz
+
+----------------------------------------
+
+Code: F150
+Name: Balkon 1 kwaterowy
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: UR-P
+
+----------------------------------------
+
+Code: F151
+Name: Balkon 1 kwaterowy
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: UR-L
+
+----------------------------------------
+
+Code: F152
+Name: Balkon 1 kwaterowy
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: R-P
+
+----------------------------------------
+
+Code: F152E
+Name: Balkon 1 kwaterowy
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: R-Pz
+
+----------------------------------------
+
+Code: F153
+Name: Balkon 1 kwaterowy
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: R-L
+
+----------------------------------------
+
+Code: F153E
+Name: Balkon 1 kwaterowy
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: R-Lz
+
+----------------------------------------
+
+Code: F200
+Name: Okno 2 kw. słupek stały
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: R-L | F2: UR-P
+
+----------------------------------------
+
+Code: F200E
+Name: Okno 2 kw. słupek stały
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: R-Pz | F2: R-Lz
+
+----------------------------------------
+
+Code: F201
+Name: Okno 2 kw. słupek stały
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: UR-L | F2: R-P
+
+----------------------------------------
+
+Code: F202
+Name: Okno 2 kw. słupek ruchomy
+Fields: 2 | IsDoor: N | IsStulp: J
+Post Type: Vertical Mullion + Movable Post (Stulp)
+Openings: F1: R-SBP-L | F2: UR-SC-P
+
+----------------------------------------
+
+Code: F202E
+Name: Okno 2 kw. słupek ruchomy
+Fields: 2 | IsDoor: N | IsStulp: J
+Post Type: Vertical Mullion + Movable Post (Stulp)
+Openings: F1: R-SBP-Pz | F2: R-SC-Lz
+
+----------------------------------------
+
+Code: F203
+Name: Okno 2 kw. słupek ruchomy
+Fields: 2 | IsDoor: N | IsStulp: J
+Post Type: Vertical Mullion + Movable Post (Stulp)
+Openings: F1: UR-SC-L | F2: R-SBP-P
+
+----------------------------------------
+
+Code: F203E
+Name: Okno 2 kw. słupek ruchomy
+Fields: 2 | IsDoor: N | IsStulp: J
+Post Type: Vertical Mullion + Movable Post (Stulp)
+Openings: F1: R-SC-Pz | F2: R-SBP-Lz
+
+----------------------------------------
+
+Code: F204
+Name: Okno 2 kw. słupek stały
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FIX | F2: UR-P
+
+----------------------------------------
+
+Code: F204E
+Name: Okno 2 kw. słupek stały
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FIX-Sz | F2: R-Lz
+
+----------------------------------------
+
+Code: F205
+Name: Okno 2 kw. słupek stały
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: UR-L | F2: FIX
+
+----------------------------------------
+
+Code: F205E
+Name: Okno 2 kw. słupek stały
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: R-Pz | F2: FIX-Sz
+
+----------------------------------------
+
+Code: F206
+Name: Okno 2 kw. słupek stały
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: UR-L | F2: UR-P
+
+----------------------------------------
+
+Code: F206P
+Name: Okno 2 kwaterowe
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: PR-R-Pz | F2: PR-R-Lz
+
+----------------------------------------
+
+Code: F207
+Name: Okno 2 kw. słupek stały
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FIX | F2: FIX
+
+----------------------------------------
+
+Code: F207P
+Name: Okno 2 kwaterowe
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: PR-Wz | F2: PR-Wz
+
+----------------------------------------
+
+Code: F208
+Name: Okno 2 kw. słupek stały
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Transom
+Openings: F1: FIX | F2: FIX
+
+----------------------------------------
+
+Code: F208P
+Name: Okno 2 kwaterowe
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: PR-R-Pz | F2: PR-Wz
+
+----------------------------------------
+
+Code: F209P
+Name: Okno 2 kwaterowe
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: PR-Wz | F2: PR-R-Lz
+
+----------------------------------------
+
+Code: F210
+Name: Balkon 2 kwaterowy
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Transom
+Openings: F1: FIX | F2: UR-P
+
+----------------------------------------
+
+Code: F220E
+Name: Balkon 2 kwaterowy
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Transom
+Openings: F1: FIX-Sz | F2: R-Pz
+
+----------------------------------------
+
+Code: F221E
+Name: Balkon 2 kwaterowy
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Transom
+Openings: F1: FIX-Sz | F2: R-Lz
+
+----------------------------------------
+
+Code: F250
+Name: Okno 2 kwaterowe
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Transom
+Openings: F1: FIX | F2: UR-P
+
+----------------------------------------
+
+Code: F251
+Name: Okno 2 kwaterowe
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Transom
+Openings: F1: FIX | F2: UR-L
+
+----------------------------------------
+
+Code: F252
+Name: Okno 2 kwaterowe
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Transom
+Openings: F1: UR-P | F2: FIX
+
+----------------------------------------
+
+Code: F253
+Name: Okno 2 kwaterowe
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Transom
+Openings: F1: UR-L | F2: FIX
+
+----------------------------------------
+
+Code: F254
+Name: Okno 2 kwaterowe
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Transom
+Openings: F1: UR-P | F2: UR-P
+
+----------------------------------------
+
+Code: F254E
+Name: Okno 2 kwaterowe
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Transom
+Openings: F1: R-Pz | F2: R-Pz
+
+----------------------------------------
+
+Code: F254P
+Name: Okno 2 kwaterowe
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Transom
+Openings: F1: PR-Wz | F2: PR-R-Pz
+
+----------------------------------------
+
+Code: F255
+Name: Okno 2 kwaterowe
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Transom
+Openings: F1: UR-L | F2: UR-L
+
+----------------------------------------
+
+Code: F255E
+Name: Okno 2 kwaterowe
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Transom
+Openings: F1: R-Lz | F2: R-Lz
+
+----------------------------------------
+
+Code: F255P
+Name: Okno 2 kwaterowe
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Transom
+Openings: F1: PR-Wz | F2: PR-R-Lz
+
+----------------------------------------
+
+Code: F256P
+Name: Okno 2 kwaterowe
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Transom
+Openings: F1: PR-Wz | F2: PR-FIX-Sz
+
+----------------------------------------
+
+Code: F264P
+Name: Okno 2 kwaterowe
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Transom
+Openings: F1: PR-FIX-Sz | F2: PR-R-Pz
+
+----------------------------------------
+
+Code: F265P
+Name: Okno 2 kwaterowe
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Transom
+Openings: F1: PR-FIX-Sz | F2: PR-R-Lz
+
+----------------------------------------
+
+Code: F266P
+Name: Okno 2 kwaterowe
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Transom
+Openings: F1: PR-FIX-Sz | F2: PR-Wz
+
+----------------------------------------
+
+Code: F270
+Name: Balkon 2 kw. słupek ruchomy
+Fields: 2 | IsDoor: N | IsStulp: J
+Post Type: Vertical Mullion + Movable Post (Stulp)
+Openings: F1: R-SBP-L | F2: UR-SC-P
+
+----------------------------------------
+
+Code: F270E
+Name: Balkon 2 kw. słupek ruchomy
+Fields: 2 | IsDoor: N | IsStulp: J
+Post Type: Vertical Mullion + Movable Post (Stulp)
+Openings: F1: R-SBP-Pz | F2: R-SC-Lz
+
+----------------------------------------
+
+Code: F271
+Name: Balkon 2 kw. słupek ruchomy
+Fields: 2 | IsDoor: N | IsStulp: J
+Post Type: Vertical Mullion + Movable Post (Stulp)
+Openings: F1: UR-SC-L | F2: R-SBP-P
+
+----------------------------------------
+
+Code: F271E
+Name: Balkon 2 kw. słupek ruchomy
+Fields: 2 | IsDoor: N | IsStulp: J
+Post Type: Vertical Mullion + Movable Post (Stulp)
+Openings: F1: R-SC-Pz | F2: R-SBP-Lz
+
+----------------------------------------
+
+Code: F272
+Name: Balkon 2 kw. słupek stały
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: R-L | F2: UR-P
+
+----------------------------------------
+
+Code: F273
+Name: Balkon 2 kw. słupek stały
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: UR-L | F2: R-P
+
+----------------------------------------
+
+Code: F274
+Name: Balkon 2 kw. słupek stały
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: UR-L | F2: UR-P
+
+----------------------------------------
+
+Code: F280
+Name: Balkon 2 kw. słupek stały naświetle boczne
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: UR-L | F2: FIX
+
+----------------------------------------
+
+Code: F281
+Name: Balkon 2 kw. słupek stały naświetle boczne
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FIX | F2: UR-P
+
+----------------------------------------
+
+Code: F282
+Name: Balkon 2 kw. słupek stały naświetle boczne
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: R-L | F2: FIX
+
+----------------------------------------
+
+Code: F282E
+Name: Balkon 2 kw. słupek stały
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: R-Pz | F2: FIX-Sz
+
+----------------------------------------
+
+Code: F283
+Name: Balkon 2 kw. słupek stały naświetle boczne
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FIX | F2: R-P
+
+----------------------------------------
+
+Code: F283E
+Name: Balkon 2 kw. słupek stały
+Fields: 2 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FIX-Sz | F2: R-Lz
+
+----------------------------------------
+
+Code: F284
+Name: Balkon 3 kw. słupek stały naświetle boczne
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion + Transom
+Openings: F1: FIX | F2: UR-P | F3: FIX
+
+----------------------------------------
+
+Code: F285
+Name: Balkon 3 kw. słupek stały naświetle boczne
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion + Transom
+Openings: F1: UR-L | F2: FIX | F3: FIX
+
+----------------------------------------
+
+Code: F300
+Name: Okno 3 kw. słupek stały
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: UR-L | F2: R-P | F3: UR-P
+
+----------------------------------------
+
+Code: F300E
+Name: Okno 3 kw. słupek stały
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: R-Pz | F2: R-Lz | F3: R-Lz
+
+----------------------------------------
+
+Code: F300P
+Name: Okno 3 kwaterowe
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: PR-R-Pz | F2: PR-R-Lz | F3: PR-R-Lz
+
+----------------------------------------
+
+Code: F301
+Name: Okno 3 kw. słupek stały
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: UR-L | F2: R-L | F3: UR-P
+
+----------------------------------------
+
+Code: F301E
+Name: Okno 3 kw. słupek stały
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: R-Pz | F2: R-Pz | F3: R-Lz
+
+----------------------------------------
+
+Code: F301P
+Name: Okno 3 kwaterowe
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: PR-R-Pz | F2: PR-R-Pz | F3: PR-R-Lz
+
+----------------------------------------
+
+Code: F302
+Name: Okno 3 kw. słupek ruchomy
+Fields: 3 | IsDoor: N | IsStulp: J
+Post Type: Vertical Mullion + Movable Post (Stulp)
+Openings: F1: UR-SC-L | F2: R-SBP-P | F3: UR-P
+
+----------------------------------------
+
+Code: F302E
+Name: Okno 3 kw. słupek ruchomy
+Fields: 3 | IsDoor: N | IsStulp: J
+Post Type: Vertical Mullion + Movable Post (Stulp)
+Openings: F1: R-SC-Pz | F2: R-SBP-Lz | F3: R-Lz
+
+----------------------------------------
+
+Code: F302P
+Name: Okno 3 kwaterowe
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: PR-R-Pz | F2: PR-FIX-Sz | F3: PR-R-Lz
+
+----------------------------------------
+
+Code: F303
+Name: Okno 3 kw. słupek ruchomy
+Fields: 3 | IsDoor: N | IsStulp: J
+Post Type: Vertical Mullion + Movable Post (Stulp)
+Openings: F1: UR-L | F2: R-SBP-L | F3: UR-SC-P
+
+----------------------------------------
+
+Code: F303E
+Name: Okno 3 kw. słupek ruchomy
+Fields: 3 | IsDoor: N | IsStulp: J
+Post Type: Vertical Mullion + Movable Post (Stulp)
+Openings: F1: R-Pz | F2: R-SBP-Pz | F3: R-SC-Lz
+
+----------------------------------------
+
+Code: F304
+Name: Okno 3 kw. słupek stały
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: UR-L | F2: FIX | F3: UR-P
+
+----------------------------------------
+
+Code: F304E
+Name: Okno 3 kw. słupek stały
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: R-Pz | F2: FIX-Sz | F3: R-Lz
+
+----------------------------------------
+
+Code: F307
+Name: Okno 3 kw. słupek stały
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FIX | F2: FIX | F3: FIX
+
+----------------------------------------
+
+Code: F309
+Name: Okno 3 kw. w pionie
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Transom
+Openings: F1: FIX | F2: UR-P | F3: FIX
+
+----------------------------------------
+
+Code: F309EI
+Name: Okno 3 kw.
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Transom
+Openings: F1: FIX | F2: FIX | F3: FIX
+
+----------------------------------------
+
+Code: F350
+Name: Okno 3 kw. słupek stały
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Transom + Vertical Mullion
+Openings: F1: UR-L | F2: UR-P | F3: FIX
+
+----------------------------------------
+
+Code: F351
+Name: Okno 3 kw. słupek ruchomy
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Transom + Vertical Mullion
+Openings: F1: R-SBP-L | F2: UR-SC-P | F3: FIX
+
+----------------------------------------
+
+Code: F352
+Name: Okno 3 kw. słupek stały
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Transom + Vertical Mullion
+Openings: F1: FIX | F2: UR-L | F3: UR-P
+
+----------------------------------------
+
+Code: F353
+Name: Okno 3 kw. słupek ruchomy
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Transom + Vertical Mullion
+Openings: F1: FIX | F2: R-SBP-L | F3: UR-SC-P
+
+----------------------------------------
+
+Code: F354
+Name: Okno 3 kw.
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion + Transom
+Openings: F1: FIX | F2: UR-L | F3: FIX
+
+----------------------------------------
+
+Code: F355
+Name: Okno 3 kw.
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion + Transom
+Openings: F1: FIX | F2: FIX | F3: UR-P
+
+----------------------------------------
+
+Code: F357
+Name: Okno 3 kw. słupek stały
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Transom + Vertical Mullion
+Openings: F1: FIX | F2: FIX | F3: FIX
+
+----------------------------------------
+
+Code: F358
+Name: Okno 3 kw. słupek stały
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Transom + Vertical Mullion
+Openings: F1: FIX | F2: FIX | F3: FIX
+
+----------------------------------------
+
+Code: F370
+Name: Balkon 3 kw. słupek stały
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: UR-L | F2: R-P | F3: UR-P
+
+----------------------------------------
+
+Code: F370EI
+Name: Okno 3 kw.
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FIX | F2: FIX | F3: FIX
+
+----------------------------------------
+
+Code: F371
+Name: Balkon 3 kw. słupek stały
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: UR-L | F2: R-L | F3: UR-P
+
+----------------------------------------
+
+Code: F372
+Name: Balkon 3 kw. słupek ruchomy
+Fields: 3 | IsDoor: N | IsStulp: J
+Post Type: Vertical Mullion + Movable Post (Stulp)
+Openings: F1: UR-SC-L | F2: R-SBP-P | F3: UR-P
+
+----------------------------------------
+
+Code: F373
+Name: Balkon 3 kw. słupek ruchomy
+Fields: 3 | IsDoor: N | IsStulp: J
+Post Type: Vertical Mullion + Movable Post (Stulp)
+Openings: F1: UR-L | F2: R-SBP-L | F3: UR-SC-P
+
+----------------------------------------
+
+Code: F380
+Name: Balkon 3 kw. słupek ruchomy
+Fields: 3 | IsDoor: N | IsStulp: J
+Post Type: Transom + Vertical Mullion + Movable Post (Stulp)
+Openings: F1: FIX | F2: R-SBP-L | F3: UR-SC-P
+
+----------------------------------------
+
+Code: F380E
+Name: Balkon 3 kw. słupek ruchomy
+Fields: 3 | IsDoor: N | IsStulp: J
+Post Type: Transom + Vertical Mullion + Movable Post (Stulp)
+Openings: F1: FIX-Sz | F2: R-SBP-Pz | F3: R-SC-Lz
+
+----------------------------------------
+
+Code: F381E
+Name: Balkon 3 kw. słupek ruchomy
+Fields: 3 | IsDoor: N | IsStulp: J
+Post Type: Transom + Vertical Mullion + Movable Post (Stulp)
+Openings: F1: FIX-Sz | F2: R-SC-Pz | F3: R-SBP-Lz
+
+----------------------------------------
+
+Code: F384
+Name: Balkon 3 kw. słupek stały
+Fields: 3 | IsDoor: N | IsStulp: N
+Post Type: Transom + Vertical Mullion
+Openings: F1: FIX | F2: UR-L | F3: UR-P
+
+----------------------------------------
+
+Code: F400
+Name: Okno 4 kw. słupek stały
+Fields: 4 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: UR-L | F2: R-L | F3: R-P | F4: UR-P
+
+----------------------------------------
+
+Code: F401
+Name: Okno 4 kw. słupek ruchomy na środku
+Fields: 4 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: UR-L | F2: R-SBP-L | F3: UR-SC-P | F4: UR-P
+
+----------------------------------------
+
+Code: F402
+Name: Okno 4 kw. słupek ruchomy z lewej
+Fields: 4 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: UR-SC-L | F2: R-SBP-P | F3: UR-P | F4: UR-P
+
+----------------------------------------
+
+Code: F403
+Name: Okno 4 kw. słupek ruchomy z prawej
+Fields: 4 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: UR-L | F2: UR-L | F3: R-SBP-L | F4: UR-SC-P
+
+----------------------------------------
+
+Code: F450
+Name: Okno 4 kw.
+Fields: 4 | IsDoor: N | IsStulp: N
+Post Type: Transom + Vertical Mullion + Vertical Mullion
+Openings: F1: UR-L | F2: UR-P | F3: FIX | F4: FIX
+
+----------------------------------------
+
+Code: F450EI
+Name: Okno 4 kw.
+Fields: 4 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion + Transom + Transom
+Openings: F1: FIX | F2: FIX | F3: FIX | F4: FIX
+
+----------------------------------------
+
+Code: F451
+Name: Okno 4 kw.
+Fields: 4 | IsDoor: N | IsStulp: J
+Post Type: Transom + Vertical Mullion + Vertical Mullion + Movable Post (Stulp)
+Openings: F1: R-SBP-L | F2: UR-SC-P | F3: FIX | F4: FIX
+
+----------------------------------------
+
+Code: F452
+Name: Okno 4 kw.
+Fields: 4 | IsDoor: N | IsStulp: N
+Post Type: Transom + Vertical Mullion + Vertical Mullion
+Openings: F1: R-L | F2: UR-P | F3: R-L | F4: UR-P
+
+----------------------------------------
+
+Code: F453
+Name: Okno 4 kw.
+Fields: 4 | IsDoor: N | IsStulp: N
+Post Type: Transom + Vertical Mullion + Vertical Mullion
+Openings: F1: R-SBP-L | F2: UR-SC-P | F3: R-SBP-L | F4: UR-SC-P
+
+----------------------------------------
+
+Code: F457
+Name: Okno 4 kw. słupek stały
+Fields: 4 | IsDoor: N | IsStulp: N
+Post Type: Vertical Mullion + Transom + Transom
+Openings: F1: FIX | F2: FIX | F3: FIX | F4: FIX
+
+----------------------------------------
+
+Code: FS202
+Name: Drzwi harmonijkowe 2 kw. otw. na prawo
+Fields: 2 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-PWS | F2: FS-PW
+
+----------------------------------------
+
+Code: FS202Z
+Name: Drzwi harmonijkowe 2 kw. otw. na prawo
+Fields: 2 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-PZS | F2: FS-PZ
+
+----------------------------------------
+
+Code: FS220
+Name: Drzwi harmonijkowe 2 kw. otw. na lewo
+Fields: 2 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS
+
+----------------------------------------
+
+Code: FS220Z
+Name: Drzwi harmonijkowe 2 kw. otw. na lewo
+Fields: 2 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS
+
+----------------------------------------
+
+Code: FS303
+Name: Drzwi harmonijkowe 3 kw. otw. na prawo
+Fields: 3 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-PW | F2: FS-PWS | F3: FS-PW
+
+----------------------------------------
+
+Code: FS303Z
+Name: Drzwi harmonijkowe 3 kw. otw. na prawo
+Fields: 3 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-PZ | F2: FS-PZS | F3: FS-PZ
+
+----------------------------------------
+
+Code: FS312
+Name: Drzwi harmonijkowe 3 kw. (1 kw. rozw + 2 kw. otw. na prawo)
+Fields: 3 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-R-LW | F2: FS-PWS | F3: FS-PW
+
+----------------------------------------
+
+Code: FS312Z
+Name: Drzwi harmonijkowe 3 kw. (1 kw. rozw + 2 kw. otw. na prawo)
+Fields: 3 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-R-LZ | F2: FS-PZS | F3: FS-PZ
+
+----------------------------------------
+
+Code: FS321
+Name: Drzwi harmonijkowe 3 kw. (2 kw. otw. na lewo + 1 kw. rozw.)
+Fields: 3 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-R-PW
+
+----------------------------------------
+
+Code: FS321Z
+Name: Drzwi harmonijkowe 3 kw. (2 kw. otw. na lewo + 1 kw. rozw.)
+Fields: 3 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-R-PZ
+
+----------------------------------------
+
+Code: FS330
+Name: Drzwi harmonijkowe 3 kw. otw. na lewo
+Fields: 3 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-LW
+
+----------------------------------------
+
+Code: FS330Z
+Name: Drzwi harmonijkowe 3 kw. otw. na lewo
+Fields: 3 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-LZ
+
+----------------------------------------
+
+Code: FS404
+Name: Drzwi harmonijkowe 4 kw. otw. na prawo
+Fields: 4 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-PWS | F2: FS-PW | F3: FS-PWS2 | F4: FS-PW
+
+----------------------------------------
+
+Code: FS404Z
+Name: Drzwi harmonijkowe 4 kw. otw. na prawo
+Fields: 4 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-PZS | F2: FS-PZ | F3: FS-PZS2 | F4: FS-PZ
+
+----------------------------------------
+
+Code: FS413
+Name: Drzwi harmonijkowe 4 kw. (1 kw. rozw + 3 kw. otw. na prawo)
+Fields: 4 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-R-LW | F2: FS-PWS | F3: FS-PWS | F4: FS-PW
+
+----------------------------------------
+
+Code: FS413Z
+Name: Drzwi harmonijkowe 4 kw. (1 kw. rozw + 3 kw. otw. na prawo)
+Fields: 4 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-R-LZ | F2: FS-PZS | F3: FS-PZS | F4: FS-PZ
+
+----------------------------------------
+
+Code: FS422
+Name: Drzwi harmonijkowe 4 kw. (2 kw. na lewo + 2 kw. na prawo)
+Fields: 4 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-PWS | F4: FS-PW
+
+----------------------------------------
+
+Code: FS422Z
+Name: Drzwi harmonijkowe 4 kw. (2 kw. na lewo + 2 kw. na prawo)
+Fields: 4 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-PZS | F4: FS-PZ
+
+----------------------------------------
+
+Code: FS431
+Name: Drzwi harmonijkowe 4 kw. (3 kw. otw. na lewo + 1 kw. rozw.)
+Fields: 4 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-LWS | F4: FS-R-PW
+
+----------------------------------------
+
+Code: FS431Z
+Name: Drzwi harmonijkowe 4 kw. (3 kw. otw. na lewo + 1 kw. rozw.)
+Fields: 4 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-LZS | F4: FS-R-PZ
+
+----------------------------------------
+
+Code: FS440
+Name: Drzwi harmonijkowe 4 kw. otw. na lewo
+Fields: 4 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS2 | F3: FS-LW | F4: FS-LWS
+
+----------------------------------------
+
+Code: FS440Z
+Name: Drzwi harmonijkowe 4 kw. otw. na lewo
+Fields: 4 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS2 | F3: FS-LZ | F4: FS-LZS
+
+----------------------------------------
+
+Code: FS505
+Name: Drzwi harmonijkowe 5 kw. otw. na prawo
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-PW | F2: FS-PWS | F3: FS-PW | F4: FS-PWS2 | F5: FS-PW
+
+----------------------------------------
+
+Code: FS505Z
+Name: Drzwi harmonijkowe 5 kw. otw. na prawo
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-PZ | F2: FS-PZS | F3: FS-PZ | F4: FS-PZS2 | F5: FS-PZ
+
+----------------------------------------
+
+Code: FS514
+Name: Drzwi harmonijkowe 5 kw. (1 kw. rozw + 4 kw. otw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-R-LW | F2: FS-PWS | F3: FS-PW | F4: FS-PWS2 | F5: FS-PW
+
+----------------------------------------
+
+Code: FS514Z
+Name: Drzwi harmonijkowe 5 kw. (1 kw. rozw + 4 kw. otw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-R-LZ | F2: FS-PZS | F3: FS-PZ | F4: FS-PZS2 | F5: FS-PZ
+
+----------------------------------------
+
+Code: FS523
+Name: Drzwi harmonijkowe 5 kw. (2 kw. na lewo + 3 kw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-PW | F4: FS-PWS | F5: FS-PW
+
+----------------------------------------
+
+Code: FS523Z
+Name: Drzwi harmonijkowe 5 kw. (2 kw. na lewo + 3 kw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-PZ | F4: FS-PZS | F5: FS-PZ
+
+----------------------------------------
+
+Code: FS532
+Name: Drzwi harmonijkowe 5 kw. (3 kw. na lewo + 2 kw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-PWS | F5: FS-PW
+
+----------------------------------------
+
+Code: FS532Z
+Name: Drzwi harmonijkowe 5 kw. (3 kw. na lewo + 2 kw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-PZS | F5: FS-PZ
+
+----------------------------------------
+
+Code: FS541
+Name: Drzwi harmonijkowe 5 kw. (4 kw. otw. na lewo + 1 kw. rozw.)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS2 | F3: FS-LW | F4: FS-LWS | F5: FS-R-PW
+
+----------------------------------------
+
+Code: FS541Z
+Name: Drzwi harmonijkowe 5 kw. (4 kw. otw. na lewo + 1 kw. rozw.)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS2 | F3: FS-LZ | F4: FS-LZS | F5: FS-R-PZ
+
+----------------------------------------
+
+Code: FS550
+Name: Drzwi harmonijkowe 5 kw. otw. na lewo
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS2 | F3: FS-LW | F4: FS-LWS | F5: FS-LW
+
+----------------------------------------
+
+Code: FS550Z
+Name: Drzwi harmonijkowe 5 kw. otw. na lewo
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS2 | F3: FS-LZ | F4: FS-LZS | F5: FS-LZ
+
+----------------------------------------
+
+Code: FS606
+Name: Drzwi harmonijkowe 6 kw. otw. na prawo
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-PWS3 | F2: FS-PW | F3: FS-PWS2 | F4: FS-PW | F5: FS-PWS | F6: FS-PW
+
+----------------------------------------
+
+Code: FS606Z
+Name: Drzwi harmonijkowe 6 kw. otw. na prawo
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-PZS3 | F2: FS-PZ | F3: FS-PZS2 | F4: FS-PZ | F5: FS-PZS | F6: FS-PZ
+
+----------------------------------------
+
+Code: FS615
+Name: Drzwi harmonijkowe 6 kw. (1 kw. rozw + 5 kw. otw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-R-LW | F2: FS-PWS | F3: FS-PWS2 | F4: FS-PW | F5: FS-PWS | F6: FS-PW
+
+----------------------------------------
+
+Code: FS615Z
+Name: Drzwi harmonijkowe 6 kw. (1 kw. rozw + 5 kw. otw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-R-LZ | F2: FS-PZS | F3: FS-PZS2 | F4: FS-PZ | F5: FS-PZS | F6: FS-PZ
+
+----------------------------------------
+
+Code: FS624
+Name: Drzwi harmonijkowe 6 kw. (2 kw. na lewo + 4 kw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-PWS2 | F4: FS-PW | F5: FS-PWS | F6: FS-PW
+
+----------------------------------------
+
+Code: FS624Z
+Name: Drzwi harmonijkowe 6 kw. (2 kw. na lewo + 4 kw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-PZS2 | F4: FS-PZ | F5: FS-PZS | F6: FS-PZ
+
+----------------------------------------
+
+Code: FS633L
+Name: Drzwi harmonijkowe 6 kw. (3 kw. na lewo + 3 kw. na prawo)
+Name2: Lewe wiodące
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-PWS | F5: FS-PWS | F6: FS-PW
+
+----------------------------------------
+
+Code: FS633LZ
+Name: Drzwi harmonijkowe 6 kw. (3 kw. na lewo + 3 kw. na prawo)
+Name2: Lewe wiodące
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-PZS | F5: FS-PZS | F6: FS-PZ
+
+----------------------------------------
+
+Code: FS633P
+Name: Drzwi harmonijkowe 6 kw. (3 kw. na lewo + 3 kw. na prawo)
+Name2: Prawe wiodące
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-LWS | F4: FS-PW | F5: FS-PWS | F6: FS-PW
+
+----------------------------------------
+
+Code: FS633PZ
+Name: Drzwi harmonijkowe 6 kw. (3 kw. na lewo + 3 kw. na prawo)
+Name2: Prawe wiodące
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-LZS | F4: FS-PZ | F5: FS-PZS | F6: FS-PZ
+
+----------------------------------------
+
+Code: FS642
+Name: Drzwi harmonijkowe 6 kw. (4 kw. na lewo + 2 kw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-LWS2 | F5: FS-PWS | F6: FS-PW
+
+----------------------------------------
+
+Code: FS642Z
+Name: Drzwi harmonijkowe 6 kw. (4 kw. na lewo + 2 kw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-LZS2 | F5: FS-PZS | F6: FS-PZ
+
+----------------------------------------
+
+Code: FS651
+Name: Drzwi harmonijkowe 6 kw. (5 kw. otw. na lewo + 1 kw. rozw.)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-LWS2 | F5: FS-LWS | F6: FS-R-PW
+
+----------------------------------------
+
+Code: FS651Z
+Name: Drzwi harmonijkowe 6 kw. (5 kw. otw. na lewo + 1 kw. rozw.)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-LZS2 | F5: FS-LZS | F6: FS-R-PZ
+
+----------------------------------------
+
+Code: FS660
+Name: Drzwi harmonijkowe 6 kw. otw. na lewo
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-LWS2 | F5: FS-LW | F6: FS-LWS3
+
+----------------------------------------
+
+Code: FS660Z
+Name: Drzwi harmonijkowe 6 kw. otw. na lewo
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-LZS2 | F5: FS-LZ | F6: FS-LZS3
+
+----------------------------------------
+
+Code: FS707
+Name: Drzwi harmonijkowe 7 kw. otw. na prawo
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-PW | F2: FS-PWS3 | F3: FS-PW | F4: FS-PWS2 | F5: FS-PW | F6: FS-PWS | F7: FS-PW
+
+----------------------------------------
+
+Code: FS707Z
+Name: Drzwi harmonijkowe 7 kw. otw. na prawo
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-PZ | F2: FS-PZS3 | F3: FS-PZ | F4: FS-PZS2 | F5: FS-PZ | F6: FS-PZS | F7: FS-PZ
+
+----------------------------------------
+
+Code: FS716
+Name: Drzwi harmonijkowe 7 kw. (1 kw. rozw + 6 kw. otw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-R-LW | F2: FS-PWS3 | F3: FS-PW | F4: FS-PWS2 | F5: FS-PW | F6: FS-PWS | F7: FS-PW
+
+----------------------------------------
+
+Code: FS716Z
+Name: Drzwi harmonijkowe 7 kw. (1 kw. rozw + 6 kw. otw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-R-LZ | F2: FS-PZS3 | F3: FS-PZ | F4: FS-PZS2 | F5: FS-PZ | F6: FS-PZS | F7: FS-PZ
+
+----------------------------------------
+
+Code: FS725
+Name: Drzwi harmonijkowe 7 kw. (2 kw. na lewo + 5 kw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-PW | F4: FS-PWS2 | F5: FS-PW | F6: FS-PWS | F7: FS-PW
+
+----------------------------------------
+
+Code: FS725Z
+Name: Drzwi harmonijkowe 7 kw. (2 kw. na lewo + 5 kw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-PZ | F4: FS-PZS2 | F5: FS-PZ | F6: FS-PZS | F7: FS-PZ
+
+----------------------------------------
+
+Code: FS752
+Name: Drzwi harmonijkowe 7 kw. (5 kw. na lewo + 2 kw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-LWS2 | F5: FS-LW | F6: FS-PWS | F7: FS-PW
+
+----------------------------------------
+
+Code: FS752Z
+Name: Drzwi harmonijkowe 7 kw. (5 kw. na lewo + 2 kw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-LZS2 | F5: FS-LZ | F6: FS-PZS | F7: FS-PZ
+
+----------------------------------------
+
+Code: FS761
+Name: Drzwi harmonijkowe 7 kw. (6 kw. na lewo + 1 kw. rozw.)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-LWS2 | F5: FS-LW | F6: FS-LWS3 | F7: FS-R-PW
+
+----------------------------------------
+
+Code: FS761Z
+Name: Drzwi harmonijkowe 7 kw. (6 kw. na lewo + 1 kw. rozw.)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-LZS2 | F5: FS-LZ | F6: FS-LZS3 | F7: FS-R-PZ
+
+----------------------------------------
+
+Code: FS770
+Name: Drzwi harmonijkowe 7 kw. otw. na lewo
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-LWS2 | F5: FS-LW | F6: FS-LWS3 | F7: FS-LW
+
+----------------------------------------
+
+Code: FS770Z
+Name: Drzwi harmonijkowe 7 kw. otw. na lewo
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-LZS2 | F5: FS-LZ | F6: FS-LZS3 | F7: FS-LZ
+
+----------------------------------------
+
+Code: FS808
+Name: Drzwi harmonijkowe 8 kw. otw. na prawo
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-PWS4 | F2: FS-PW | F3: FS-PWS3 | F4: FS-PW | F5: FS-PWS2 | F6: FS-PW | F7: FS-PWS | F8: FS-PW
+
+----------------------------------------
+
+Code: FS808Z
+Name: Drzwi harmonijkowe 8 kw. otw. na prawo
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-PZS4 | F2: FS-PZ | F3: FS-PZS3 | F4: FS-PZ | F5: FS-PZS2 | F6: FS-PZ | F7: FS-PZS | F8: FS-PZ
+
+----------------------------------------
+
+Code: FS817
+Name: Drzwi harmonijkowe 8 kw. (1 kw. rozw + 7 kw. otw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-R-LW | F2: FS-PWS | F3: FS-PWS3 | F4: FS-PW | F5: FS-PWS2 | F6: FS-PW | F7: FS-PWS | F8: FS-PW
+
+----------------------------------------
+
+Code: FS817Z
+Name: Drzwi harmonijkowe 8 kw. (1 kw. rozw + 7 kw. otw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-R-LZ | F2: FS-PZS | F3: FS-PZS3 | F4: FS-PZ | F5: FS-PZS2 | F6: FS-PZ | F7: FS-PZS | F8: FS-PZ
+
+----------------------------------------
+
+Code: FS826
+Name: Drzwi harmonijkowe 8 kw. (2 kw. na lewo + 6 kw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-PWS3 | F4: FS-PW | F5: FS-PWS2 | F6: FS-PW | F7: FS-PWS | F8: FS-PW
+
+----------------------------------------
+
+Code: FS826Z
+Name: Drzwi harmonijkowe 8 kw. (2 kw. na lewo + 6 kw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-PZS3 | F4: FS-PZ | F5: FS-PZS2 | F6: FS-PZ | F7: FS-PZS | F8: FS-PZ
+
+----------------------------------------
+
+Code: FS835
+Name: Drzwi harmonijkowe 8 kw. (3 kw. na lewo + 5 kw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-LWS | F4: FS-PW | F5: FS-PWS2 | F6: FS-PW | F7: FS-PWS | F8: FS-PW
+
+----------------------------------------
+
+Code: FS835Z
+Name: Drzwi harmonijkowe 8 kw. (3 kw. na lewo + 5 kw. na prawo)
+Name2: Prawe wiodące
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-LZS | F4: FS-PZ | F5: FS-PZS2 | F6: FS-PZ | F7: FS-PZS | F8: FS-PZ
+
+----------------------------------------
+
+Code: FS844
+Name: Drzwi harmonijkowe 8 kw. (4 kw. na lewo + 4 kw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-LWS2 | F5: FS-PWS2 | F6: FS-PW | F7: FS-PWS | F8: FS-PW
+
+----------------------------------------
+
+Code: FS844Z
+Name: Drzwi harmonijkowe 8 kw. (4 kw. na lewo + 4 kw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-LZS2 | F5: FS-PZS2 | F6: FS-PZ | F7: FS-PZS | F8: FS-PZ
+
+----------------------------------------
+
+Code: FS853
+Name: Drzwi harmonijkowe 8 kw. (5 kw. na lewo + 3 kw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-LWS2 | F5: FS-LW | F6: FS-PWS | F7: FS-PWS | F8: FS-PW
+
+----------------------------------------
+
+Code: FS853Z
+Name: Drzwi harmonijkowe 8 kw. (5 kw. na lewo + 3 kw. na prawo)
+Name2: Lewe wiodące
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-LZS2 | F5: FS-LZ | F6: FS-PZS | F7: FS-PZS | F8: FS-PZ
+
+----------------------------------------
+
+Code: FS862
+Name: Drzwi harmonijkowe 8 kw. (6 kw. na lewo + 2 kw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-LWS2 | F5: FS-LW | F6: FS-LWS3 | F7: FS-PWS | F8: FS-PW
+
+----------------------------------------
+
+Code: FS862Z
+Name: Drzwi harmonijkowe 8 kw. (6 kw. na lewo + 2 kw. na prawo)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-LZS2 | F5: FS-LZ | F6: FS-LZS3 | F7: FS-PZS | F8: FS-PZ
+
+----------------------------------------
+
+Code: FS871
+Name: Drzwi harmonijkowe 8 kw. (7 kw. na lewo + 1 kw. rozw.)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-LWS2 | F5: FS-LW | F6: FS-LWS3 | F7: FS-LWS | F8: FS-R-PW
+
+----------------------------------------
+
+Code: FS871Z
+Name: Drzwi harmonijkowe 8 kw. (7 kw. otw. na lewo + 1 kw. rozw.)
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-LZS2 | F5: FS-LZ | F6: FS-LZS3 | F7: FS-LZS | F8: FS-R-PZ
+
+----------------------------------------
+
+Code: FS880
+Name: Drzwi harmonijkowe 8 kw. otw. na lewo
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-LWS2 | F5: FS-LW | F6: FS-LWS3 | F7: FS-LW | F8: FS-LWS4
+
+----------------------------------------
+
+Code: FS880Z
+Name: Drzwi harmonijkowe 8 kw. otw. na lewo
+Fields: 99 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-LZS2 | F5: FS-LZ | F6: FS-LZS3 | F7: FS-LZ | F8: FS-LZS4
+
+----------------------------------------
+
+Code: FSD303
+Name: Drzwi harmonijkowe 3 kw. otw. na prawo
+Fields: 3 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-PW | F2: FS-PWS | F3: FS-PW
+
+----------------------------------------
+
+Code: FSD312
+Name: Drzwi harmonijkowe 3 kw. (1 kw. rozw + 2 kw. otw. na prawo)
+Fields: 3 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-R-LW | F2: FS-PWS | F3: FS-PW
+
+----------------------------------------
+
+Code: FSD321
+Name: Drzwi harmonijkowe 3 kw. (2 kw. otw. na lewo + 1 kw. rozw.)
+Fields: 3 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-R-PW
+
+----------------------------------------
+
+Code: FSD330
+Name: Drzwi harmonijkowe 3 kw. otw. na lewo
+Fields: 3 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-LW
+
+----------------------------------------
+
+Code: FSD413
+Name: Drzwi harmonijkowe 4 kw. (1 kw. rozw + 3 kw. otw. na prawo)
+Fields: 4 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-R-LW | F2: FS-PWSL | F3: FS-PWS | F4: FS-PW
+
+----------------------------------------
+
+Code: FSD431
+Name: Drzwi harmonijkowe 4 kw. (3 kw. otw. na lewo + 1 kw. rozw.)
+Fields: 4 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: FS-LW | F2: FS-LWS | F3: FS-LWSP | F4: FS-R-PW
+
+----------------------------------------
+
+Code: P100
+Name: Stałe szklenie PSK
+Fields: 1 | IsDoor: J | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: PSK-FIX
+
+----------------------------------------
+
+Code: P101
+Name: PSK  otw. na prawo
+Name2: montaż prowadnic na sąsiadującej jednostce
+Fields: 1 | IsDoor: J | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: PSK-P
+
+----------------------------------------
+
+Code: P102
+Name: PSK  otw. na lewo
+Name2: montaż prowadnic na sąsiadującej jednostce
+Fields: 1 | IsDoor: J | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: PSK-L
+
+----------------------------------------
+
+Code: P103
+Name: Stałe szklenie w skrzydle PSK
+Fields: 1 | IsDoor: J | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: PSK-FIX-S
+
+----------------------------------------
+
+Code: P201
+Name: PSK  otw. na prawo
+Fields: 2 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: PSK-P | F2: PSK-FIX
+
+----------------------------------------
+
+Code: P202
+Name: PSK  otw. na lewo
+Fields: 2 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: PSK-FIX | F2: PSK-L
+
+----------------------------------------
+
+Code: P203
+Name: PSK  otw. na prawo UP + FF
+Fields: 2 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: PSK-P | F2: PSK-FIX-S
+
+----------------------------------------
+
+Code: P204
+Name: PSK  otw. na lewo  FF + UP
+Fields: 2 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: PSK-FIX-S | F2: PSK-L
+
+----------------------------------------
+
+Code: P205
+Name: PSK 2 skrz. ze sł. ruch., prawe skrzydło czynne
+Fields: 2 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: PSK-Pc | F2: PSK-Lb
+
+----------------------------------------
+
+Code: P206
+Name: PSK 2 skrz. ze sł. ruch., lewe skrzydło czynne
+Fields: 2 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: PSK-Lc | F2: PSK-Pb
+
+----------------------------------------
+
+Code: P401
+Name: Okno PSK 4 skrz. ze sł. ruch., prawe skrzydło czynne
+Fields: 4 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: PSK-FIX | F2: PSK-Lb | F3: PSK-Pc | F4: PSK-FIX
+
+----------------------------------------
+
+Code: P402
+Name: Okno PSK 4 skrz. ze sł. ruch., lewe skrzydło czynne
+Fields: 4 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: PSK-FIX | F2: PSK-Lc | F3: PSK-Pb | F4: PSK-FIX
+
+----------------------------------------
+
+Code: PP100
+Name: Stałe szklenie PSK
+Fields: 1 | IsDoor: J | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: PSK-FIX
+
+----------------------------------------
+
+Code: PP101
+Name: PSK na profilu pośrednim otw. na prawo
+Name2: montaż prowadnic na sąsiadującej jednostce
+Fields: 1 | IsDoor: J | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: PSK-P
+
+----------------------------------------
+
+Code: PP102
+Name: PSK na profilu pośrednim otw. na lewo
+Name2: montaż prowadnic na sąsiadującej jednostce
+Fields: 1 | IsDoor: J | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: PSK-L
+
+----------------------------------------
+
+Code: PP103
+Name: Stałe szklenie w skrzydle PSK
+Fields: 1 | IsDoor: J | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: PSK-FIX-S
+
+----------------------------------------
+
+Code: PP201
+Name: PSK na profilu pośrednim otw. na prawo
+Fields: 2 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: PSK-P | F2: PSK-FIX
+
+----------------------------------------
+
+Code: PP202
+Name: PSK na profilu pośrednim otw. na lewo
+Fields: 2 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: PSK-FIX | F2: PSK-L
+
+----------------------------------------
+
+Code: PP203
+Name: PSK na profilu pośrednim otw. na prawo UP + FF
+Fields: 2 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: PSK-P | F2: PSK-FIX-S
+
+----------------------------------------
+
+Code: PP204
+Name: PSK na profilu pośrednim otw. na lewo  FF + UP
+Fields: 2 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: PSK-FIX-S | F2: PSK-L
+
+----------------------------------------
+
+Code: PP205
+Name: PSK na profilu pośrednim 2 skrz. ze sł. ruch., prawe czynne
+Fields: 2 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: PSK-Pc | F2: PSK-Lb
+
+----------------------------------------
+
+Code: PP206
+Name: PSK na profilu pośrednim 2 skrz. ze sł. ruch., lewe czynne
+Fields: 2 | IsDoor: J | IsStulp: N
+Post Type: Vertical Mullion
+Openings: F1: PSK-Lc | F2: PSK-Pb
+
+----------------------------------------
+
+Code: PR_S
+Name: Pergola Single
+Fields: 1 | IsDoor: N | IsStulp: N
+Post Type: None (Single Field)
+Openings: F1: X
+
+----------------------------------------

@@ -91,4 +91,64 @@ This is the structured, transformed JSON payload that will be synced to Supabase
 - **DYNAMIC HANDLE HEIGHT (CONSTANT GEAR):** Handle height (`handleY`) must be dynamically calculated from the true 3D sash height (`H / scale`) using a constant gear bucket logic (e.g. 170mm for 380-550mm, 260mm for 550-800mm, 410mm for 800-1200mm, 560mm for 1200-1600mm, 710mm for 1600-1800mm). Balcony doors/doors (classified by typology prefixes like `D`, `DS`, `FS`, `F15`, `F27`, etc.) and sashes over 1800mm get a fixed 1050mm ergonomic height.
 - **TILT SCISSOR LIMITATION RULE:** Due to the physical limitation of the top scissor hardware, the window tilt angle must be calculated dynamically using `Math.asin(150 / height)` so that the top of the sash opens a maximum of exactly 150mm, regardless of the overall window height.
 
+## DXF-to-ThreeJS Cross-Section Parsing Rules
+*(Valid for vertical AND horizontal cuts. Supersedes ad-hoc per-session logic.)*
+
+### 1. Coordinate Conventions (IGLO 5)
+- **Units:** mm
+- **Vertical Cut:**
+  - X-Axis: Left (EXT/outdoor) -> Right (INT/indoor), i.e., depth direction.
+  - Y-Axis: Bottom -> Top, i.e., height of the window.
+- **Horizontal Cut:**
+  - X-Axis: Left (EXT/outdoor) -> Right (INT/indoor), same depth direction as vertical cut.
+  - Y-Axis: Left -> Right across the window width.
+- **Note:** EXT is always the LOWER x value, INT is always the HIGHER x value in both cut orientations. Never infer EXT/INT from glazing position alone; confirm against a known gasket or glass layer bbox first.
+
+### 2. Corner Junctions
+- **Criticality:** HIGH (prevents gasket overshoot/overlap).
+- **Rule:** L-corners (frame, sash, fixed-light corners) must be 45-degree MITRED so adjacent members share one diagonal seam. T-junctions (transom/mullion meeting jambs) must be SQUARE BUTT joints (through-member runs full, abutting member is cut square and stops flush).
+- **Gasket Alignment:** Gaskets must be mitred/butted identically to the profile they sit on and share the exact corner point (use `assemblyOrigin`/`anchorPoints`), forming a clean closed rectangular loop with no overrun.
+- **Constraint:** Never mitre a T-junction; never run two members full-length into the same corner volume.
+
+### 3. Degraded Source Contours
+- **Criticality:** HIGH (prevents force-closing broken profiles with genuine gaps).
+- **Rule:** Some source exports contain genuine geometry gaps (mid-profile holes of several mm). Chaining cannot fix these. Measure the residual gap before force-closing; if it exceeds ~0.5mm, flag the layer as DEGRADED and do NOT treat the force-closed result as valid geometry.
+- **Repaired Layers:** IG5_F1XXX_1FRM_1SSH GSK_BZD was fragmented but is now REPAIRED in the SHAPES file (registered GSK_BZD_HORIZONTAL directly onto vertical fragment cloud, chamfer fit 0.28mm).
+- **Check Loop Report:** Read `_meta.loopReport[layer].status` in each SHAPES file. Render only layers marked OK. Skip or replace any marked DEGRADED.
+
+### 4. Loop Assembly
+- **Criticality:** HIGHEST (prevents floating disconnected strips in 3D).
+- **Rule:** DXF layers must be chained end-to-end into closed loops by matching segment endpoints within a 0.05mm tolerance. A single layer can resolve to MULTIPLE closed loops (keep them separate, do not merge).
+- **Constraint:** NEVER feed raw per-segment geometry into ExtrudeGeometry. The `*_SHAPES.json` file in this handoff has ALREADY been loop-assembled; build one `THREE.Shape` per loop directly. Do NOT re-chain or re-flatten it.
+
+### 5. Nested Insert Flattening
+- **Rule:** ALWAYS recursively walk the full INSERT tree and accumulate a single Matrix44 transform chain (`insert.matrix44()` composed at each level) before extracting geometry. NEVER use a single-level `virtual_entities()` call.
+- **Mirrored Geometry:** Negative xscale or yscale on an INSERT indicates mirrored child geometry. Apply the transform matrix directly to entity vertices (`entity.transform(m44)`).
+- **Closed Polyline Rule:** For POLYLINE/LWPOLYLINE with the closed flag set true, explicitly append the first vertex to the end of the extracted point list if it is not already coincident with the last vertex.
+
+### 6. Dual-Color Seam Transfer
+- **Problem:** Some source DXFs (rail cuts) draw sash, frame, or post as a single merged outline without splitting the EXT/INT boundary.
+- **Method:**
+  1. Locate the equivalent member's ALREADY-SPLIT EXT/INT contours in a reference cut (e.g., vertical JSON).
+  2. Determine the affine transform by matching a small, unambiguous reference feature (e.g., EXT gasket bounding box).
+  3. Transform the reference contour's two seam endpoints.
+  4. Find the nearest points on the target's single merged closed loop to the transformed seam endpoints.
+  5. Split the loop into two open arcs at those two indices. Label whichever arc sits on the same side (lower x = EXT, higher x = INT) as the known EXT gasket.
+  - **Validation:** Always render the result and visually confirm the split arc shape matches the reference cut's EXT/INT silhouette before accepting it.
+
+### 7. Layer Naming Convention
+- **Suffixes:** Vertical suffix: none (e.g., `FRM_EXT`). Horizontal suffix: `_HORIZONTAL` (e.g., `FRM_EXT_HORIZONTAL`).
+- **Known Part Aliases:**
+  - `słupek`: POST (mullion/stable divider)
+  - `skrzydło`: SSH (sash)
+  - `listwa`: BZD (glazing bead)
+  - `szyba`: GLS (glass)
+  - `złożenie`: top-level assembly insert (non-renderable)
+- **Rename on Ingest:** Rename output layer to match the physical part block name from the block tree, rather than trusting the literal generic source layer name alone.
+
+### 8. Per-Family Metadata
+- **Rule:** Every profile family gets its own `metadata.json` so families can be swapped without touching assembly code.
+- **Constraint:** Material colors, gasket part numbers, and glass makeups must be read from `metadata.json`, never hardcoded in the Three.js assembly code.
+
+
 

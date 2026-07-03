@@ -1,0 +1,1 @@
+import{$ as e,et as t,nt as n,tt as r}from"./index-BUIti0qF.js";export{e as default,t as profiles,r as system,n as type};

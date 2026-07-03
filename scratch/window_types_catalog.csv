@@ -1,0 +1,418 @@
+Code,Name,Name2,FieldCount,IsDoor,IsStulp,PostType,OpeningPerField
+B100,"Profil Pośredni","",1,Yes,No,None (Single Field),F1: PP-R-P
+B200,"Profil Pośredni 2-skrz. ze słupkiem ruchomym","",2,Yes,Yes,Vertical Mullion + Movable Post (Stulp),F1: PP-R-SBP-L | F2: PP-R-SC-P
+B201,"Profil Pośredni 1-skrz. ze stałym naświetlem górnym","",2,Yes,No,Transom,F1: PP-FIX | F2: PP-R-P
+B300,"Profil Pośredni 2-skrz. ze stałym naświetlem górnym","",3,Yes,No,Transom + Vertical Mullion,F1: PP-FIX | F2: PP-R-SBP-L | F3: PP-R-SC-P
+BR,"Brama Segmentowa DRUTEX","",1,No,No,None (Single Field),F1: X
+BS1,"Barierka szklana pojedyncza","",1,No,No,None (Single Field),F1: X
+BS2,"Barierka szklana podwójna","",2,No,No,Vertical Mullion,F1: X | F2: X
+BS3,"Barierka szklana potrójna","",3,No,No,Vertical Mullion,F1: X | F2: X | F3: X
+BS4,"Barierka szklana poczwórna","",4,No,No,Vertical Mullion,F1: X | F2: X | F3: X | F4: X
+C,"Cassonetto","",1,No,No,None (Single Field),F1: X
+CV202,"Cor Vision Plus (Lewe wiodące) Typ A","",2,Yes,No,Vertical Mullion,F1: SG-PW | F2: SG-PFIX
+CV203,"Cor Vision Plus (Prawe wiodące) Typ A","",2,Yes,No,Vertical Mullion,F1: SG-LFIX | F2: SG-LW
+D100,"Drzwi 1-skrzydłowe","",1,Yes,No,None (Single Field),F1: DW-P
+D101,"Naświetle boczne","",1,No,No,None (Single Field),F1: FIX
+D102,"Fest w skrzydle drzwiowym","",1,Yes,No,None (Single Field),F1: DW-FF
+D105,"Naświetle górne","",1,No,No,None (Single Field),F1: FIX
+D200,"Drzwi 2-skrzydłowe","",2,Yes,Yes,Vertical Mullion + Movable Post (Stulp),F1: DW-SB-L | F2: DW-SC-P
+D201,"Drzwi z naświetlem górnym","",2,Yes,No,Transom,F1: FIX | F2: DW-P
+D201P,"Drzwi jednoskrzydłowe z naświetlem górnym","",2,No,No,Transom,None
+D211,"Drzwi z naświetlem bocznym lewym","",2,Yes,No,Vertical Mullion,F1: DW-FIX | F2: DW-P
+D212,"Drzwi z naświetlem bocznym prawym","",2,Yes,No,Vertical Mullion,F1: DW-L | F2: DW-FIX
+D300,"Drzwi 2-skrzydłowe z naświetlem górnym","",3,Yes,Yes,Transom + Vertical Mullion + Movable Post (Stulp),F1: FIX | F2: DW-SB-L | F3: DW-SC-P
+D303,"Drzwi 1-skrzydłowe z naświetlem górnym i bocznym","",3,Yes,Yes,Vertical Mullion + Transom + Movable Post (Stulp),F1: DW-FIX | F2: FIX | F3: DW-P
+D304,"Drzwi 1-skrzydłowe z naświetlem górnym i bocznym","",3,Yes,Yes,Vertical Mullion + Transom + Movable Post (Stulp),F1: FIX | F2: DW-FIX | F3: DW-L
+D305,"Drzwi 1-skrzydłowe z naświetlem górnym i bocznym","",4,Yes,No,Vertical Mullion + Transom + Transom,F1: FIX | F2: FIX | F3: DW-P | F4: DW-FIX
+D306,"Drzwi 1-skrzydłowe z naświetlem górnym i bocznym","",4,Yes,Yes,Vertical Mullion + Transom + Transom + Movable Post (Stulp),F1: FIX | F2: FIX | F3: DW-L | F4: DW-FIX
+D310,"Drzwi z naświetlem bocznym lewym i prawym","",3,Yes,No,Vertical Mullion,F1: DW-FIX | F2: DW-P | F3: DW-FIX
+D400,"Drzwi z naświetlem lewym, prawym, górnym","",99,Yes,No,Vertical Mullion + Transom + Transom + Transom,F1: FIX | F2: FIX | F3: FIX | F4: DW-P | F5: DW-FIX | F6: DW-FIX
+D401,"Drzwi z naświetlem lewym, prawym, górnym","",4,Yes,No,Vertical Mullion + Transom,F1: DW-FIX | F2: FIX | F3: DW-FIX | F4: DW-P
+D412,"Drzwi 2-skrzydłowe z naświetlem górnym i bocznym","",4,Yes,Yes,Vertical Mullion + Transom + Vertical Mullion + Movable Post (Stulp),F1: DW-FIX | F2: FIX | F3: DW-SB-L | F4: DW-SC-P
+D413,"Drzwi 2-skrzydłowe z naświetlem górnym i bocznym","",4,Yes,Yes,Vertical Mullion + Transom + Vertical Mullion + Movable Post (Stulp),F1: FIX | F2: DW-FIX | F3: DW-SB-L | F4: DW-SC-P
+D414,"Drzwi 2-skrzydłowe z naświetlem górnym i bocznym","",99,Yes,Yes,Vertical Mullion + Transom + Transom + Vertical Mullion + Movable Post (Stulp),F1: FIX | F2: FIX | F3: DW-SB-L | F4: DW-SC-P | F5: DW-FIX
+D415,"Drzwi 2-skrzydłowe z naświetlem górnym i bocznym","",99,Yes,Yes,Vertical Mullion + Transom + Transom + Vertical Mullion + Movable Post (Stulp),F1: FIX | F2: FIX | F3: DW-SB-L | F4: DW-SC-P | F5: DW-FIX
+D416,"Drzwi 2-skrzydłowe z naświetlem bocznym","",4,Yes,Yes,Vertical Mullion + Movable Post (Stulp),F1: DW-FIX | F2: DW-SB-L | F3: DW-SC-P | F4: DW-FIX
+D418,"Drzwi 2-skrzydłowe z naświetlem górnym i bocznym","",99,Yes,Yes,Vertical Mullion + Transom + Vertical Mullion + Movable Post (Stulp),F1: DW-FIX | F2: FIX | F3: DW-FIX | F4: DW-SB-L | F5: DW-SC-P
+D419,"Drzwi 2-skrzydłowe z naświetlem górnym i bocznym","",99,Yes,Yes,Vertical Mullion + Transom + Transom + Transom + Vertical Mullion + Movable Post (Stulp),F1: FIX | F2: FIX | F3: FIX | F4: DW-SB-L | F5: DW-SC-P | F6: DW-FIX | F7: DW-FIX
+D511,"Drzwi 2-skrzydłowe z naświetlem bocznym lewym","",3,Yes,No,Vertical Mullion,F1: DW-FIX | F2: DW-SC-L | F3: DW-SB-P
+D512,"Drzwi  2-skrzydłowe z naświetlem bocznym prawym","",3,Yes,No,Vertical Mullion,F1: DW-SB-L | F2: DW-SC-P | F3: DW-FIX
+DS100,"Drzwi serwisowe 1-skrzydłowe","",1,Yes,No,None (Single Field),F1: DW-P
+DS200,"Drzwi serwisowe 2-skrzydłowe","",2,Yes,Yes,Vertical Mullion + Movable Post (Stulp),F1: DW-SB-L | F2: DW-SC-P
+F100,"Okno 1 kwaterowe","",1,No,No,None (Single Field),F1: UR-P
+F101,"Okno 1 kwaterowe","",1,No,No,None (Single Field),F1: UR-L
+F102,"Okno 1 kwaterowe","",1,No,No,None (Single Field),F1: R-P
+F102E,"Okno 1 kwaterowe","",1,No,No,None (Single Field),F1: R-Pz
+F102P,"Okno 1 kwaterowe","",1,No,No,None (Single Field),F1: PR-R-Pz
+F102Z,"Okno 1 kwaterowe","",1,No,No,None (Single Field),F1: R-Pz
+F103,"Okno 1 kwaterowe","",1,No,No,None (Single Field),F1: R-L
+F103E,"Okno 1 kwaterowe","",1,No,No,None (Single Field),F1: R-Lz
+F103P,"Okno 1 kwaterowe","",1,No,No,None (Single Field),F1: PR-R-Lz
+F103Z,"Okno 1 kwaterowe","",1,No,No,None (Single Field),F1: R-Lz
+F104,"Okno 1 kwaterowe","",1,No,No,None (Single Field),F1: FIX
+F105,"Okno 1 kwaterowe","",1,No,No,None (Single Field),F1: FIX-S
+F105E,"Okno 1 kwaterowe","",1,No,No,None (Single Field),F1: FIX-Sz
+F105P,"Okno 1 kwaterowe","",1,No,No,None (Single Field),F1: PR-FIX-Sz
+F106,"Okno 1 kwaterowe","",1,No,No,None (Single Field),F1: U
+F106P,"Okno 1 kwaterowe","",1,No,No,None (Single Field),F1: PR-Wz
+F106Z,"Okno 1 kwaterowe","",1,No,No,None (Single Field),F1: PR-Wz
+F150,"Balkon 1 kwaterowy","",1,No,No,None (Single Field),F1: UR-P
+F151,"Balkon 1 kwaterowy","",1,No,No,None (Single Field),F1: UR-L
+F152,"Balkon 1 kwaterowy","",1,No,No,None (Single Field),F1: R-P
+F152E,"Balkon 1 kwaterowy","",1,No,No,None (Single Field),F1: R-Pz
+F153,"Balkon 1 kwaterowy","",1,No,No,None (Single Field),F1: R-L
+F153E,"Balkon 1 kwaterowy","",1,No,No,None (Single Field),F1: R-Lz
+F200,"Okno 2 kw. słupek stały","",2,No,No,Vertical Mullion,F1: R-L | F2: UR-P
+F200E,"Okno 2 kw. słupek stały","",2,No,No,Vertical Mullion,F1: R-Pz | F2: R-Lz
+F201,"Okno 2 kw. słupek stały","",2,No,No,Vertical Mullion,F1: UR-L | F2: R-P
+F202,"Okno 2 kw. słupek ruchomy","",2,No,Yes,Vertical Mullion + Movable Post (Stulp),F1: R-SBP-L | F2: UR-SC-P
+F202E,"Okno 2 kw. słupek ruchomy","",2,No,Yes,Vertical Mullion + Movable Post (Stulp),F1: R-SBP-Pz | F2: R-SC-Lz
+F203,"Okno 2 kw. słupek ruchomy","",2,No,Yes,Vertical Mullion + Movable Post (Stulp),F1: UR-SC-L | F2: R-SBP-P
+F203E,"Okno 2 kw. słupek ruchomy","",2,No,Yes,Vertical Mullion + Movable Post (Stulp),F1: R-SC-Pz | F2: R-SBP-Lz
+F204,"Okno 2 kw. słupek stały","",2,No,No,Vertical Mullion,F1: FIX | F2: UR-P
+F204E,"Okno 2 kw. słupek stały","",2,No,No,Vertical Mullion,F1: FIX-Sz | F2: R-Lz
+F205,"Okno 2 kw. słupek stały","",2,No,No,Vertical Mullion,F1: UR-L | F2: FIX
+F205E,"Okno 2 kw. słupek stały","",2,No,No,Vertical Mullion,F1: R-Pz | F2: FIX-Sz
+F206,"Okno 2 kw. słupek stały","",2,No,No,Vertical Mullion,F1: UR-L | F2: UR-P
+F206P,"Okno 2 kwaterowe","",2,No,No,Vertical Mullion,F1: PR-R-Pz | F2: PR-R-Lz
+F207,"Okno 2 kw. słupek stały","",2,No,No,Vertical Mullion,F1: FIX | F2: FIX
+F207P,"Okno 2 kwaterowe","",2,No,No,Vertical Mullion,F1: PR-Wz | F2: PR-Wz
+F208,"Okno 2 kw. słupek stały","",2,No,No,Transom,F1: FIX | F2: FIX
+F208P,"Okno 2 kwaterowe","",2,No,No,Vertical Mullion,F1: PR-R-Pz | F2: PR-Wz
+F209P,"Okno 2 kwaterowe","",2,No,No,Vertical Mullion,F1: PR-Wz | F2: PR-R-Lz
+F210,"Balkon 2 kwaterowy","",2,No,No,Transom,F1: FIX | F2: UR-P
+F220E,"Balkon 2 kwaterowy","",2,No,No,Transom,F1: FIX-Sz | F2: R-Pz
+F221E,"Balkon 2 kwaterowy","",2,No,No,Transom,F1: FIX-Sz | F2: R-Lz
+F250,"Okno 2 kwaterowe","",2,No,No,Transom,F1: FIX | F2: UR-P
+F251,"Okno 2 kwaterowe","",2,No,No,Transom,F1: FIX | F2: UR-L
+F252,"Okno 2 kwaterowe","",2,No,No,Transom,F1: UR-P | F2: FIX
+F253,"Okno 2 kwaterowe","",2,No,No,Transom,F1: UR-L | F2: FIX
+F254,"Okno 2 kwaterowe","",2,No,No,Transom,F1: UR-P | F2: UR-P
+F254E,"Okno 2 kwaterowe","",2,No,No,Transom,F1: R-Pz | F2: R-Pz
+F254P,"Okno 2 kwaterowe","",2,No,No,Transom,F1: PR-Wz | F2: PR-R-Pz
+F255,"Okno 2 kwaterowe","",2,No,No,Transom,F1: UR-L | F2: UR-L
+F255E,"Okno 2 kwaterowe","",2,No,No,Transom,F1: R-Lz | F2: R-Lz
+F255P,"Okno 2 kwaterowe","",2,No,No,Transom,F1: PR-Wz | F2: PR-R-Lz
+F256P,"Okno 2 kwaterowe","",2,No,No,Transom,F1: PR-Wz | F2: PR-FIX-Sz
+F264P,"Okno 2 kwaterowe","",2,No,No,Transom,F1: PR-FIX-Sz | F2: PR-R-Pz
+F265P,"Okno 2 kwaterowe","",2,No,No,Transom,F1: PR-FIX-Sz | F2: PR-R-Lz
+F266P,"Okno 2 kwaterowe","",2,No,No,Transom,F1: PR-FIX-Sz | F2: PR-Wz
+F270,"Balkon 2 kw. słupek ruchomy","",2,No,Yes,Vertical Mullion + Movable Post (Stulp),F1: R-SBP-L | F2: UR-SC-P
+F270E,"Balkon 2 kw. słupek ruchomy","",2,No,Yes,Vertical Mullion + Movable Post (Stulp),F1: R-SBP-Pz | F2: R-SC-Lz
+F271,"Balkon 2 kw. słupek ruchomy","",2,No,Yes,Vertical Mullion + Movable Post (Stulp),F1: UR-SC-L | F2: R-SBP-P
+F271E,"Balkon 2 kw. słupek ruchomy","",2,No,Yes,Vertical Mullion + Movable Post (Stulp),F1: R-SC-Pz | F2: R-SBP-Lz
+F272,"Balkon 2 kw. słupek stały","",2,No,No,Vertical Mullion,F1: R-L | F2: UR-P
+F273,"Balkon 2 kw. słupek stały","",2,No,No,Vertical Mullion,F1: UR-L | F2: R-P
+F274,"Balkon 2 kw. słupek stały","",2,No,No,Vertical Mullion,F1: UR-L | F2: UR-P
+F280,"Balkon 2 kw. słupek stały naświetle boczne","",2,No,No,Vertical Mullion,F1: UR-L | F2: FIX
+F281,"Balkon 2 kw. słupek stały naświetle boczne","",2,No,No,Vertical Mullion,F1: FIX | F2: UR-P
+F282,"Balkon 2 kw. słupek stały naświetle boczne","",2,No,No,Vertical Mullion,F1: R-L | F2: FIX
+F282E,"Balkon 2 kw. słupek stały","",2,No,No,Vertical Mullion,F1: R-Pz | F2: FIX-Sz
+F283,"Balkon 2 kw. słupek stały naświetle boczne","",2,No,No,Vertical Mullion,F1: FIX | F2: R-P
+F283E,"Balkon 2 kw. słupek stały","",2,No,No,Vertical Mullion,F1: FIX-Sz | F2: R-Lz
+F284,"Balkon 3 kw. słupek stały naświetle boczne","",3,No,No,Vertical Mullion + Transom,F1: FIX | F2: UR-P | F3: FIX
+F285,"Balkon 3 kw. słupek stały naświetle boczne","",3,No,No,Vertical Mullion + Transom,F1: UR-L | F2: FIX | F3: FIX
+F300,"Okno 3 kw. słupek stały","",3,No,No,Vertical Mullion,F1: UR-L | F2: R-P | F3: UR-P
+F300E,"Okno 3 kw. słupek stały","",3,No,No,Vertical Mullion,F1: R-Pz | F2: R-Lz | F3: R-Lz
+F300P,"Okno 3 kwaterowe","",3,No,No,Vertical Mullion,F1: PR-R-Pz | F2: PR-R-Lz | F3: PR-R-Lz
+F301,"Okno 3 kw. słupek stały","",3,No,No,Vertical Mullion,F1: UR-L | F2: R-L | F3: UR-P
+F301E,"Okno 3 kw. słupek stały","",3,No,No,Vertical Mullion,F1: R-Pz | F2: R-Pz | F3: R-Lz
+F301P,"Okno 3 kwaterowe","",3,No,No,Vertical Mullion,F1: PR-R-Pz | F2: PR-R-Pz | F3: PR-R-Lz
+F302,"Okno 3 kw. słupek ruchomy","",3,No,Yes,Vertical Mullion + Movable Post (Stulp),F1: UR-SC-L | F2: R-SBP-P | F3: UR-P
+F302E,"Okno 3 kw. słupek ruchomy","",3,No,Yes,Vertical Mullion + Movable Post (Stulp),F1: R-SC-Pz | F2: R-SBP-Lz | F3: R-Lz
+F302P,"Okno 3 kwaterowe","",3,No,No,Vertical Mullion,F1: PR-R-Pz | F2: PR-FIX-Sz | F3: PR-R-Lz
+F303,"Okno 3 kw. słupek ruchomy","",3,No,Yes,Vertical Mullion + Movable Post (Stulp),F1: UR-L | F2: R-SBP-L | F3: UR-SC-P
+F303E,"Okno 3 kw. słupek ruchomy","",3,No,Yes,Vertical Mullion + Movable Post (Stulp),F1: R-Pz | F2: R-SBP-Pz | F3: R-SC-Lz
+F304,"Okno 3 kw. słupek stały","",3,No,No,Vertical Mullion,F1: UR-L | F2: FIX | F3: UR-P
+F304E,"Okno 3 kw. słupek stały","",3,No,No,Vertical Mullion,F1: R-Pz | F2: FIX-Sz | F3: R-Lz
+F307,"Okno 3 kw. słupek stały","",3,No,No,Vertical Mullion,F1: FIX | F2: FIX | F3: FIX
+F309,"Okno 3 kw. w pionie","",3,No,No,Transom,F1: FIX | F2: UR-P | F3: FIX
+F309EI,"Okno 3 kw.","",3,No,No,Transom,F1: FIX | F2: FIX | F3: FIX
+F350,"Okno 3 kw. słupek stały","",3,No,No,Transom + Vertical Mullion,F1: UR-L | F2: UR-P | F3: FIX
+F351,"Okno 3 kw. słupek ruchomy","",3,No,No,Transom + Vertical Mullion,F1: R-SBP-L | F2: UR-SC-P | F3: FIX
+F352,"Okno 3 kw. słupek stały","",3,No,No,Transom + Vertical Mullion,F1: FIX | F2: UR-L | F3: UR-P
+F353,"Okno 3 kw. słupek ruchomy","",3,No,No,Transom + Vertical Mullion,F1: FIX | F2: R-SBP-L | F3: UR-SC-P
+F354,"Okno 3 kw.","",3,No,No,Vertical Mullion + Transom,F1: FIX | F2: UR-L | F3: FIX
+F355,"Okno 3 kw.","",3,No,No,Vertical Mullion + Transom,F1: FIX | F2: FIX | F3: UR-P
+F357,"Okno 3 kw. słupek stały","",3,No,No,Transom + Vertical Mullion,F1: FIX | F2: FIX | F3: FIX
+F358,"Okno 3 kw. słupek stały","",3,No,No,Transom + Vertical Mullion,F1: FIX | F2: FIX | F3: FIX
+F370,"Balkon 3 kw. słupek stały","",3,No,No,Vertical Mullion,F1: UR-L | F2: R-P | F3: UR-P
+F370EI,"Okno 3 kw.","",3,No,No,Vertical Mullion,F1: FIX | F2: FIX | F3: FIX
+F371,"Balkon 3 kw. słupek stały","",3,No,No,Vertical Mullion,F1: UR-L | F2: R-L | F3: UR-P
+F372,"Balkon 3 kw. słupek ruchomy","",3,No,Yes,Vertical Mullion + Movable Post (Stulp),F1: UR-SC-L | F2: R-SBP-P | F3: UR-P
+F373,"Balkon 3 kw. słupek ruchomy","",3,No,Yes,Vertical Mullion + Movable Post (Stulp),F1: UR-L | F2: R-SBP-L | F3: UR-SC-P
+F380,"Balkon 3 kw. słupek ruchomy","",3,No,Yes,Transom + Vertical Mullion + Movable Post (Stulp),F1: FIX | F2: R-SBP-L | F3: UR-SC-P
+F380E,"Balkon 3 kw. słupek ruchomy","",3,No,Yes,Transom + Vertical Mullion + Movable Post (Stulp),F1: FIX-Sz | F2: R-SBP-Pz | F3: R-SC-Lz
+F381E,"Balkon 3 kw. słupek ruchomy","",3,No,Yes,Transom + Vertical Mullion + Movable Post (Stulp),F1: FIX-Sz | F2: R-SC-Pz | F3: R-SBP-Lz
+F384,"Balkon 3 kw. słupek stały","",3,No,No,Transom + Vertical Mullion,F1: FIX | F2: UR-L | F3: UR-P
+F400,"Okno 4 kw. słupek stały","",4,No,No,Vertical Mullion,F1: UR-L | F2: R-L | F3: R-P | F4: UR-P
+F401,"Okno 4 kw. słupek ruchomy na środku","",4,No,No,Vertical Mullion,F1: UR-L | F2: R-SBP-L | F3: UR-SC-P | F4: UR-P
+F402,"Okno 4 kw. słupek ruchomy z lewej","",4,No,No,Vertical Mullion,F1: UR-SC-L | F2: R-SBP-P | F3: UR-P | F4: UR-P
+F403,"Okno 4 kw. słupek ruchomy z prawej","",4,No,No,Vertical Mullion,F1: UR-L | F2: UR-L | F3: R-SBP-L | F4: UR-SC-P
+F450,"Okno 4 kw.","",4,No,No,Transom + Vertical Mullion + Vertical Mullion,F1: UR-L | F2: UR-P | F3: FIX | F4: FIX
+F450EI,"Okno 4 kw.","",4,No,No,Vertical Mullion + Transom + Transom,F1: FIX | F2: FIX | F3: FIX | F4: FIX
+F451,"Okno 4 kw.","",4,No,Yes,Transom + Vertical Mullion + Vertical Mullion + Movable Post (Stulp),F1: R-SBP-L | F2: UR-SC-P | F3: FIX | F4: FIX
+F452,"Okno 4 kw.","",4,No,No,Transom + Vertical Mullion + Vertical Mullion,F1: R-L | F2: UR-P | F3: R-L | F4: UR-P
+F453,"Okno 4 kw.","",4,No,No,Transom + Vertical Mullion + Vertical Mullion,F1: R-SBP-L | F2: UR-SC-P | F3: R-SBP-L | F4: UR-SC-P
+F457,"Okno 4 kw. słupek stały","",4,No,No,Vertical Mullion + Transom + Transom,F1: FIX | F2: FIX | F3: FIX | F4: FIX
+FS202,"Drzwi harmonijkowe 2 kw. otw. na prawo","",2,Yes,No,Vertical Mullion,F1: FS-PWS | F2: FS-PW
+FS202Z,"Drzwi harmonijkowe 2 kw. otw. na prawo","",2,Yes,No,Vertical Mullion,F1: FS-PZS | F2: FS-PZ
+FS220,"Drzwi harmonijkowe 2 kw. otw. na lewo","",2,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS
+FS220Z,"Drzwi harmonijkowe 2 kw. otw. na lewo","",2,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS
+FS303,"Drzwi harmonijkowe 3 kw. otw. na prawo","",3,Yes,No,Vertical Mullion,F1: FS-PW | F2: FS-PWS | F3: FS-PW
+FS303Z,"Drzwi harmonijkowe 3 kw. otw. na prawo","",3,Yes,No,Vertical Mullion,F1: FS-PZ | F2: FS-PZS | F3: FS-PZ
+FS312,"Drzwi harmonijkowe 3 kw. (1 kw. rozw + 2 kw. otw. na prawo)","",3,Yes,No,Vertical Mullion,F1: FS-R-LW | F2: FS-PWS | F3: FS-PW
+FS312Z,"Drzwi harmonijkowe 3 kw. (1 kw. rozw + 2 kw. otw. na prawo)","",3,Yes,No,Vertical Mullion,F1: FS-R-LZ | F2: FS-PZS | F3: FS-PZ
+FS321,"Drzwi harmonijkowe 3 kw. (2 kw. otw. na lewo + 1 kw. rozw.)","",3,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-R-PW
+FS321Z,"Drzwi harmonijkowe 3 kw. (2 kw. otw. na lewo + 1 kw. rozw.)","",3,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-R-PZ
+FS330,"Drzwi harmonijkowe 3 kw. otw. na lewo","",3,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-LW
+FS330Z,"Drzwi harmonijkowe 3 kw. otw. na lewo","",3,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-LZ
+FS404,"Drzwi harmonijkowe 4 kw. otw. na prawo","",4,Yes,No,Vertical Mullion,F1: FS-PWS | F2: FS-PW | F3: FS-PWS2 | F4: FS-PW
+FS404Z,"Drzwi harmonijkowe 4 kw. otw. na prawo","",4,Yes,No,Vertical Mullion,F1: FS-PZS | F2: FS-PZ | F3: FS-PZS2 | F4: FS-PZ
+FS413,"Drzwi harmonijkowe 4 kw. (1 kw. rozw + 3 kw. otw. na prawo)","",4,Yes,No,Vertical Mullion,F1: FS-R-LW | F2: FS-PWS | F3: FS-PWS | F4: FS-PW
+FS413Z,"Drzwi harmonijkowe 4 kw. (1 kw. rozw + 3 kw. otw. na prawo)","",4,Yes,No,Vertical Mullion,F1: FS-R-LZ | F2: FS-PZS | F3: FS-PZS | F4: FS-PZ
+FS422,"Drzwi harmonijkowe 4 kw. (2 kw. na lewo + 2 kw. na prawo)","",4,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-PWS | F4: FS-PW
+FS422Z,"Drzwi harmonijkowe 4 kw. (2 kw. na lewo + 2 kw. na prawo)","",4,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-PZS | F4: FS-PZ
+FS431,"Drzwi harmonijkowe 4 kw. (3 kw. otw. na lewo + 1 kw. rozw.)","",4,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-LWS | F4: FS-R-PW
+FS431Z,"Drzwi harmonijkowe 4 kw. (3 kw. otw. na lewo + 1 kw. rozw.)","",4,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-LZS | F4: FS-R-PZ
+FS440,"Drzwi harmonijkowe 4 kw. otw. na lewo","",4,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS2 | F3: FS-LW | F4: FS-LWS
+FS440Z,"Drzwi harmonijkowe 4 kw. otw. na lewo","",4,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS2 | F3: FS-LZ | F4: FS-LZS
+FS505,"Drzwi harmonijkowe 5 kw. otw. na prawo","",99,Yes,No,Vertical Mullion,F1: FS-PW | F2: FS-PWS | F3: FS-PW | F4: FS-PWS2 | F5: FS-PW
+FS505Z,"Drzwi harmonijkowe 5 kw. otw. na prawo","",99,Yes,No,Vertical Mullion,F1: FS-PZ | F2: FS-PZS | F3: FS-PZ | F4: FS-PZS2 | F5: FS-PZ
+FS514,"Drzwi harmonijkowe 5 kw. (1 kw. rozw + 4 kw. otw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-R-LW | F2: FS-PWS | F3: FS-PW | F4: FS-PWS2 | F5: FS-PW
+FS514Z,"Drzwi harmonijkowe 5 kw. (1 kw. rozw + 4 kw. otw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-R-LZ | F2: FS-PZS | F3: FS-PZ | F4: FS-PZS2 | F5: FS-PZ
+FS523,"Drzwi harmonijkowe 5 kw. (2 kw. na lewo + 3 kw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-PW | F4: FS-PWS | F5: FS-PW
+FS523Z,"Drzwi harmonijkowe 5 kw. (2 kw. na lewo + 3 kw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-PZ | F4: FS-PZS | F5: FS-PZ
+FS532,"Drzwi harmonijkowe 5 kw. (3 kw. na lewo + 2 kw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-PWS | F5: FS-PW
+FS532Z,"Drzwi harmonijkowe 5 kw. (3 kw. na lewo + 2 kw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-PZS | F5: FS-PZ
+FS541,"Drzwi harmonijkowe 5 kw. (4 kw. otw. na lewo + 1 kw. rozw.)","",99,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS2 | F3: FS-LW | F4: FS-LWS | F5: FS-R-PW
+FS541Z,"Drzwi harmonijkowe 5 kw. (4 kw. otw. na lewo + 1 kw. rozw.)","",99,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS2 | F3: FS-LZ | F4: FS-LZS | F5: FS-R-PZ
+FS550,"Drzwi harmonijkowe 5 kw. otw. na lewo","",99,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS2 | F3: FS-LW | F4: FS-LWS | F5: FS-LW
+FS550Z,"Drzwi harmonijkowe 5 kw. otw. na lewo","",99,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS2 | F3: FS-LZ | F4: FS-LZS | F5: FS-LZ
+FS606,"Drzwi harmonijkowe 6 kw. otw. na prawo","",99,Yes,No,Vertical Mullion,F1: FS-PWS3 | F2: FS-PW | F3: FS-PWS2 | F4: FS-PW | F5: FS-PWS | F6: FS-PW
+FS606Z,"Drzwi harmonijkowe 6 kw. otw. na prawo","",99,Yes,No,Vertical Mullion,F1: FS-PZS3 | F2: FS-PZ | F3: FS-PZS2 | F4: FS-PZ | F5: FS-PZS | F6: FS-PZ
+FS615,"Drzwi harmonijkowe 6 kw. (1 kw. rozw + 5 kw. otw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-R-LW | F2: FS-PWS | F3: FS-PWS2 | F4: FS-PW | F5: FS-PWS | F6: FS-PW
+FS615Z,"Drzwi harmonijkowe 6 kw. (1 kw. rozw + 5 kw. otw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-R-LZ | F2: FS-PZS | F3: FS-PZS2 | F4: FS-PZ | F5: FS-PZS | F6: FS-PZ
+FS624,"Drzwi harmonijkowe 6 kw. (2 kw. na lewo + 4 kw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-PWS2 | F4: FS-PW | F5: FS-PWS | F6: FS-PW
+FS624Z,"Drzwi harmonijkowe 6 kw. (2 kw. na lewo + 4 kw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-PZS2 | F4: FS-PZ | F5: FS-PZS | F6: FS-PZ
+FS633L,"Drzwi harmonijkowe 6 kw. (3 kw. na lewo + 3 kw. na prawo)","Lewe wiodące",99,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-PWS | F5: FS-PWS | F6: FS-PW
+FS633LZ,"Drzwi harmonijkowe 6 kw. (3 kw. na lewo + 3 kw. na prawo)","Lewe wiodące",99,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-PZS | F5: FS-PZS | F6: FS-PZ
+FS633P,"Drzwi harmonijkowe 6 kw. (3 kw. na lewo + 3 kw. na prawo)","Prawe wiodące",99,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-LWS | F4: FS-PW | F5: FS-PWS | F6: FS-PW
+FS633PZ,"Drzwi harmonijkowe 6 kw. (3 kw. na lewo + 3 kw. na prawo)","Prawe wiodące",99,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-LZS | F4: FS-PZ | F5: FS-PZS | F6: FS-PZ
+FS642,"Drzwi harmonijkowe 6 kw. (4 kw. na lewo + 2 kw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-LWS2 | F5: FS-PWS | F6: FS-PW
+FS642Z,"Drzwi harmonijkowe 6 kw. (4 kw. na lewo + 2 kw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-LZS2 | F5: FS-PZS | F6: FS-PZ
+FS651,"Drzwi harmonijkowe 6 kw. (5 kw. otw. na lewo + 1 kw. rozw.)","",99,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-LWS2 | F5: FS-LWS | F6: FS-R-PW
+FS651Z,"Drzwi harmonijkowe 6 kw. (5 kw. otw. na lewo + 1 kw. rozw.)","",99,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-LZS2 | F5: FS-LZS | F6: FS-R-PZ
+FS660,"Drzwi harmonijkowe 6 kw. otw. na lewo","",99,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-LWS2 | F5: FS-LW | F6: FS-LWS3
+FS660Z,"Drzwi harmonijkowe 6 kw. otw. na lewo","",99,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-LZS2 | F5: FS-LZ | F6: FS-LZS3
+FS707,"Drzwi harmonijkowe 7 kw. otw. na prawo","",99,Yes,No,Vertical Mullion,F1: FS-PW | F2: FS-PWS3 | F3: FS-PW | F4: FS-PWS2 | F5: FS-PW | F6: FS-PWS | F7: FS-PW
+FS707Z,"Drzwi harmonijkowe 7 kw. otw. na prawo","",99,Yes,No,Vertical Mullion,F1: FS-PZ | F2: FS-PZS3 | F3: FS-PZ | F4: FS-PZS2 | F5: FS-PZ | F6: FS-PZS | F7: FS-PZ
+FS716,"Drzwi harmonijkowe 7 kw. (1 kw. rozw + 6 kw. otw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-R-LW | F2: FS-PWS3 | F3: FS-PW | F4: FS-PWS2 | F5: FS-PW | F6: FS-PWS | F7: FS-PW
+FS716Z,"Drzwi harmonijkowe 7 kw. (1 kw. rozw + 6 kw. otw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-R-LZ | F2: FS-PZS3 | F3: FS-PZ | F4: FS-PZS2 | F5: FS-PZ | F6: FS-PZS | F7: FS-PZ
+FS725,"Drzwi harmonijkowe 7 kw. (2 kw. na lewo + 5 kw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-PW | F4: FS-PWS2 | F5: FS-PW | F6: FS-PWS | F7: FS-PW
+FS725Z,"Drzwi harmonijkowe 7 kw. (2 kw. na lewo + 5 kw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-PZ | F4: FS-PZS2 | F5: FS-PZ | F6: FS-PZS | F7: FS-PZ
+FS752,"Drzwi harmonijkowe 7 kw. (5 kw. na lewo + 2 kw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-LWS2 | F5: FS-LW | F6: FS-PWS | F7: FS-PW
+FS752Z,"Drzwi harmonijkowe 7 kw. (5 kw. na lewo + 2 kw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-LZS2 | F5: FS-LZ | F6: FS-PZS | F7: FS-PZ
+FS761,"Drzwi harmonijkowe 7 kw. (6 kw. na lewo + 1 kw. rozw.)","",99,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-LWS2 | F5: FS-LW | F6: FS-LWS3 | F7: FS-R-PW
+FS761Z,"Drzwi harmonijkowe 7 kw. (6 kw. na lewo + 1 kw. rozw.)","",99,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-LZS2 | F5: FS-LZ | F6: FS-LZS3 | F7: FS-R-PZ
+FS770,"Drzwi harmonijkowe 7 kw. otw. na lewo","",99,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-LWS2 | F5: FS-LW | F6: FS-LWS3 | F7: FS-LW
+FS770Z,"Drzwi harmonijkowe 7 kw. otw. na lewo","",99,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-LZS2 | F5: FS-LZ | F6: FS-LZS3 | F7: FS-LZ
+FS808,"Drzwi harmonijkowe 8 kw. otw. na prawo","",99,Yes,No,Vertical Mullion,F1: FS-PWS4 | F2: FS-PW | F3: FS-PWS3 | F4: FS-PW | F5: FS-PWS2 | F6: FS-PW | F7: FS-PWS | F8: FS-PW
+FS808Z,"Drzwi harmonijkowe 8 kw. otw. na prawo","",99,Yes,No,Vertical Mullion,F1: FS-PZS4 | F2: FS-PZ | F3: FS-PZS3 | F4: FS-PZ | F5: FS-PZS2 | F6: FS-PZ | F7: FS-PZS | F8: FS-PZ
+FS817,"Drzwi harmonijkowe 8 kw. (1 kw. rozw + 7 kw. otw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-R-LW | F2: FS-PWS | F3: FS-PWS3 | F4: FS-PW | F5: FS-PWS2 | F6: FS-PW | F7: FS-PWS | F8: FS-PW
+FS817Z,"Drzwi harmonijkowe 8 kw. (1 kw. rozw + 7 kw. otw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-R-LZ | F2: FS-PZS | F3: FS-PZS3 | F4: FS-PZ | F5: FS-PZS2 | F6: FS-PZ | F7: FS-PZS | F8: FS-PZ
+FS826,"Drzwi harmonijkowe 8 kw. (2 kw. na lewo + 6 kw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-PWS3 | F4: FS-PW | F5: FS-PWS2 | F6: FS-PW | F7: FS-PWS | F8: FS-PW
+FS826Z,"Drzwi harmonijkowe 8 kw. (2 kw. na lewo + 6 kw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-PZS3 | F4: FS-PZ | F5: FS-PZS2 | F6: FS-PZ | F7: FS-PZS | F8: FS-PZ
+FS835,"Drzwi harmonijkowe 8 kw. (3 kw. na lewo + 5 kw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-LWS | F4: FS-PW | F5: FS-PWS2 | F6: FS-PW | F7: FS-PWS | F8: FS-PW
+FS835Z,"Drzwi harmonijkowe 8 kw. (3 kw. na lewo + 5 kw. na prawo)","Prawe wiodące",99,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-LZS | F4: FS-PZ | F5: FS-PZS2 | F6: FS-PZ | F7: FS-PZS | F8: FS-PZ
+FS844,"Drzwi harmonijkowe 8 kw. (4 kw. na lewo + 4 kw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-LWS2 | F5: FS-PWS2 | F6: FS-PW | F7: FS-PWS | F8: FS-PW
+FS844Z,"Drzwi harmonijkowe 8 kw. (4 kw. na lewo + 4 kw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-LZS2 | F5: FS-PZS2 | F6: FS-PZ | F7: FS-PZS | F8: FS-PZ
+FS853,"Drzwi harmonijkowe 8 kw. (5 kw. na lewo + 3 kw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-LWS2 | F5: FS-LW | F6: FS-PWS | F7: FS-PWS | F8: FS-PW
+FS853Z,"Drzwi harmonijkowe 8 kw. (5 kw. na lewo + 3 kw. na prawo)","Lewe wiodące",99,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-LZS2 | F5: FS-LZ | F6: FS-PZS | F7: FS-PZS | F8: FS-PZ
+FS862,"Drzwi harmonijkowe 8 kw. (6 kw. na lewo + 2 kw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-LWS2 | F5: FS-LW | F6: FS-LWS3 | F7: FS-PWS | F8: FS-PW
+FS862Z,"Drzwi harmonijkowe 8 kw. (6 kw. na lewo + 2 kw. na prawo)","",99,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-LZS2 | F5: FS-LZ | F6: FS-LZS3 | F7: FS-PZS | F8: FS-PZ
+FS871,"Drzwi harmonijkowe 8 kw. (7 kw. na lewo + 1 kw. rozw.)","",99,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-LWS2 | F5: FS-LW | F6: FS-LWS3 | F7: FS-LWS | F8: FS-R-PW
+FS871Z,"Drzwi harmonijkowe 8 kw. (7 kw. otw. na lewo + 1 kw. rozw.)","",99,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-LZS2 | F5: FS-LZ | F6: FS-LZS3 | F7: FS-LZS | F8: FS-R-PZ
+FS880,"Drzwi harmonijkowe 8 kw. otw. na lewo","",99,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-LW | F4: FS-LWS2 | F5: FS-LW | F6: FS-LWS3 | F7: FS-LW | F8: FS-LWS4
+FS880Z,"Drzwi harmonijkowe 8 kw. otw. na lewo","",99,Yes,No,Vertical Mullion,F1: FS-LZ | F2: FS-LZS | F3: FS-LZ | F4: FS-LZS2 | F5: FS-LZ | F6: FS-LZS3 | F7: FS-LZ | F8: FS-LZS4
+FSD303,"Drzwi harmonijkowe 3 kw. otw. na prawo","",3,Yes,No,Vertical Mullion,F1: FS-PW | F2: FS-PWS | F3: FS-PW
+FSD312,"Drzwi harmonijkowe 3 kw. (1 kw. rozw + 2 kw. otw. na prawo)","",3,Yes,No,Vertical Mullion,F1: FS-R-LW | F2: FS-PWS | F3: FS-PW
+FSD321,"Drzwi harmonijkowe 3 kw. (2 kw. otw. na lewo + 1 kw. rozw.)","",3,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-R-PW
+FSD330,"Drzwi harmonijkowe 3 kw. otw. na lewo","",3,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-LW
+FSD413,"Drzwi harmonijkowe 4 kw. (1 kw. rozw + 3 kw. otw. na prawo)","",4,Yes,No,Vertical Mullion,F1: FS-R-LW | F2: FS-PWSL | F3: FS-PWS | F4: FS-PW
+FSD431,"Drzwi harmonijkowe 4 kw. (3 kw. otw. na lewo + 1 kw. rozw.)","",4,Yes,No,Vertical Mullion,F1: FS-LW | F2: FS-LWS | F3: FS-LWSP | F4: FS-R-PW
+G,"Szyba / Wypełnienie / Panel drzwiowy","",1,No,No,None (Single Field),F1: X
+H201,"HS schemat A (2 kw.) otw. na prawo","",2,Yes,No,Vertical Mullion,F1: HST-A-P | F2: HST-FIX
+H201N,"HS schemat A (2 kw.) otw. na prawo z naświetlem","",3,Yes,No,Transom + Vertical Mullion,F1: HST-N | F2: HST-A-P | F3: HST-FIX
+H202,"HS schemat A (2 kw.) otw. na lewo","",2,Yes,No,Vertical Mullion,F1: HST-FIX | F2: HST-A-L
+H202N,"HS schemat A (2 kw.) otw. na lewo z naświetlem","",3,Yes,No,Transom + Vertical Mullion,F1: HST-N | F2: HST-FIX | F3: HST-A-L
+H203,"HS schemat D (2 kw.) skrzydlo lewe wewn., prawe zewn.","",2,Yes,No,Vertical Mullion,F1: HST-D-P | F2: HST-D-Lz
+H204,"HS schemat D (2 kw.) skrzydlo lewe zewn., prawe wewn.","",2,Yes,No,Vertical Mullion,F1: HST-D-Pz | F2: HST-D-L
+H301,"HS schemat G1 (3 kw.) otw. na prawo","",3,Yes,No,Vertical Mullion,F1: HST-FIX | F2: HST-G-P | F3: HST-FIX
+H302,"HS schemat G1 (3 kw.) otw. na lewo","",3,Yes,No,Vertical Mullion,F1: HST-FIX | F2: HST-G-L | F3: HST-FIX
+H303,"HS schemat G3 (3 kw.) otw. na prawo","",3,Yes,No,Vertical Mullion,F1: HST-G2-FIX | F2: HST-G-P | F3: HST-FIX
+H304,"HS schemat G3 (3 kw.) otw. na lewo","",3,Yes,No,Vertical Mullion,F1: HST-FIX | F2: HST-G-L | F3: HST-G2-FIX
+H305,"HS schemat K (3 kw.)","",3,Yes,No,Vertical Mullion,F1: HST-A-P | F2: HST-FIX | F3: HST-A-L
+H311,"HS schemat AG (3 kw.) otw. na praw (3-szynowy)","",3,Yes,No,Vertical Mullion,F1: HST-A-P | F2: HST-AG-P | F3: HST-FIX
+H312,"HS schemat AG (3 kw.) otw. na lewo (3-szynowy)","",3,Yes,No,Vertical Mullion,F1: HST-FIX | F2: HST-AG-L | F3: HST-A-L
+H401,"HS schemat C (4 kw.) - wiodące prawe","",4,Yes,No,Vertical Mullion,F1: HST-FIX | F2: HST-C-Lb | F3: HST-C-Pc | F4: HST-FIX
+H401N,"HS schemat C (4 kw.) - wiodące prawe z naświetlem","",99,Yes,No,Transom + Vertical Mullion,F1: HST-C-Pc | F2: HST-C-Lb | F3: HST-FIX | F4: HST-FIX | F5: HST-N
+H401_DL,"HS schemat C (4 kw.) - wiodące prawe - DO USUNIĘCIA","DUOLINE (= SKRZYDŁA )",4,Yes,No,Vertical Mullion,F1: HST-FIX | F2: HST-C-Lb | F3: HST-C-Pc | F4: HST-FIX
+H402,"HS schemat C (4 kw.) - wiodące lewe","",4,Yes,No,Vertical Mullion,F1: HST-FIX | F2: HST-C-Lc | F3: HST-C-Pb | F4: HST-FIX
+H402N,"HS schemat C (4 kw.) - wiodące lewe z naświetlem","",99,Yes,No,Transom + Vertical Mullion,F1: HST-C-Lc | F2: HST-C-Pb | F3: HST-FIX | F4: HST-FIX | F5: HST-N
+HM201,"HS schemat A Fix (2 kw.) otw. na prawo","",2,Yes,No,Vertical Mullion,F1: HST-A-P | F2: HSM-FIX
+HM202,"HS schemat A Fix (2 kw.) otw. na lewo","",2,Yes,No,Vertical Mullion,F1: HSM-FIX | F2: HST-A-L
+HM301,"HS schemat G1 Fix (3 kw.) otw. na prawo","",3,Yes,No,Vertical Mullion,F1: HSM-FIX | F2: HST-G-P | F3: HSM2-FIX
+HM302,"HS schemat G1 Fix (3 kw.) otw. na lewo","",3,Yes,No,Vertical Mullion,F1: HSM2-FIX | F2: HST-G-L | F3: HSM-FIX
+HM401,"HS schemat C Fix (4 kw.) otw. na prawo","",4,Yes,No,Vertical Mullion,F1: HSM-FIX | F2: HST-C-Lb | F3: HST-C-Pc | F4: HSM2-FIX
+HM402,"HS schemat C Fix (4 kw.) otw. na lewo","",4,Yes,No,Vertical Mullion,F1: HSM-FIX | F2: HST-C-Lc | F3: HST-C-Pb | F4: HSM2-FIX
+M1,"Moskitiera plisowana pojedyncza","",1,No,No,None (Single Field),F1: X
+M2,"Zestaw 2 moskitier plisowanych","",2,No,No,Vertical Mullion,F1: X | F2: X
+M200,"MB SLIDE 2-skrzydłowe - WIODĄCE PRAWE","",2,No,No,Vertical Mullion,F1: SL-LZ | F2: SL-PW
+M201,"MB SLIDE 2-skrzydłowe- WIODĄCE LEWE","",2,No,No,Vertical Mullion,F1: SL-LW | F2: SL-PZ
+M210,"MB SLIDE 2-skrzydłowe - WIODĄCE PRAWE + FEST","",2,No,No,Vertical Mullion,F1: SL-FIX | F2: SL-PW
+M211,"MB SLIDE 2-skrzydłowe - WIODĄCE LEWE + FEST","",2,No,No,Vertical Mullion,F1: SL-LW | F2: SL-FIX
+M300,"MB SLIDE 3-skrzydłowe - WIODĄCE PRAWE","",3,No,No,Vertical Mullion,F1: SL-LZ | F2: SL-S | F3: SL-PW
+M301,"MB SLIDE 3-skrzydłowe - WIODĄCE LEWE","",3,No,No,Vertical Mullion,F1: SL-LW | F2: SL-S | F3: SL-PZ
+M310,"MB SLIDE 3-skrzydłowe - WIODĄCE PRAWE + FEST","",3,No,No,Vertical Mullion,F1: SL-FIX | F2: SL-S | F3: SL-PW
+M311,"MB SLIDE 3-skrzydłowe - WIODĄCE LEWE + FEST","",3,No,No,Vertical Mullion,F1: SL-LW | F2: SL-S | F3: SL-FIX
+M400,"MB SLIDE 4-skrzydłowe - WIODĄCE PRAWE","",4,No,No,Vertical Mullion,F1: SL-LZ | F2: SL-LWb | F3: SL-PWc | F4: SL-PZ
+M401,"MB SLIDE 4-skrzydłowe - WIODĄCE LEWE","",4,No,No,Vertical Mullion,F1: SL-LZ | F2: SL-LWc | F3: SL-PWb | F4: SL-PZ
+M410,"MB SLIDE 4-skrzydłowe - WIODĄCE PRAWE + FEST","",4,No,No,Vertical Mullion,F1: SL-FIX | F2: SL-LWb | F3: SL-PWc | F4: SL-FIX
+M411,"MB SLIDE 4-skrzydłowe - WIODĄCE LEWE + FEST","",4,No,No,Vertical Mullion,F1: SL-FIX | F2: SL-LWc | F3: SL-PWb | F4: SL-FIX
+MFR,"Moskitiera Flex-Screen","",1,No,No,None (Single Field),F1: X
+MO,"Moskitiera drzwiowa","",1,No,No,None (Single Field),F1: X
+MR,"Moskitiera ramkowa","",1,No,No,None (Single Field),F1: X
+ND,"Narożnik drzwiowy","",1,No,No,None (Single Field),F1: NAR
+ND_ALU,"Narożnik drzwiowy Alu","(otw na zew)",1,No,No,None (Single Field),F1: NAR_DW-Z
+ND_ALU_NAK,"Narożnik drzwiowy Alu panel nakładkowy","(otw na zew)",1,No,No,None (Single Field),F1: NAR_DW-Z
+NF,"Narożnik okienny","",1,No,No,None (Single Field),F1: NAR
+NFL,"Narożnik Fold Line","",1,No,No,None (Single Field),F1: NAR
+NH,"Narożnik HS ""C""","",1,No,No,None (Single Field),F1: NAR
+NHW,"Narożnik HS ""W""","",2,No,No,Vertical Mullion,F1: NAR | F2: NAR
+NHW_ALU,"Narożnik HS ""W"" Alu","",2,No,No,Vertical Mullion,F1: NAR-FIX | F2: NAR
+NH_ALU,"Narożnik HS ""L"" Alu","",1,No,No,None (Single Field),F1: NAR
+NS,"Narożnik SLIDE","",1,No,No,None (Single Field),F1: NAR
+NS_ALU,"Narożnik SLIDE","",1,No,No,None (Single Field),F1: NAR
+P100,"Stałe szklenie PSK","",1,Yes,No,None (Single Field),F1: PSK-FIX
+P101,"PSK  otw. na prawo","montaż prowadnic na sąsiadującej jednostce",1,Yes,No,None (Single Field),F1: PSK-P
+P102,"PSK  otw. na lewo","montaż prowadnic na sąsiadującej jednostce",1,Yes,No,None (Single Field),F1: PSK-L
+P103,"Stałe szklenie w skrzydle PSK","",1,Yes,No,None (Single Field),F1: PSK-FIX-S
+P201,"PSK  otw. na prawo","",2,Yes,No,Vertical Mullion,F1: PSK-P | F2: PSK-FIX
+P202,"PSK  otw. na lewo","",2,Yes,No,Vertical Mullion,F1: PSK-FIX | F2: PSK-L
+P203,"PSK  otw. na prawo UP + FF","",2,Yes,No,Vertical Mullion,F1: PSK-P | F2: PSK-FIX-S
+P204,"PSK  otw. na lewo  FF + UP","",2,Yes,No,Vertical Mullion,F1: PSK-FIX-S | F2: PSK-L
+P205,"PSK 2 skrz. ze sł. ruch., prawe skrzydło czynne","",2,Yes,No,Vertical Mullion,F1: PSK-Pc | F2: PSK-Lb
+P206,"PSK 2 skrz. ze sł. ruch., lewe skrzydło czynne","",2,Yes,No,Vertical Mullion,F1: PSK-Lc | F2: PSK-Pb
+P401,"Okno PSK 4 skrz. ze sł. ruch., prawe skrzydło czynne","",4,Yes,No,Vertical Mullion,F1: PSK-FIX | F2: PSK-Lb | F3: PSK-Pc | F4: PSK-FIX
+P402,"Okno PSK 4 skrz. ze sł. ruch., lewe skrzydło czynne","",4,Yes,No,Vertical Mullion,F1: PSK-FIX | F2: PSK-Lc | F3: PSK-Pb | F4: PSK-FIX
+PP100,"Stałe szklenie PSK","",1,Yes,No,None (Single Field),F1: PSK-FIX
+PP101,"PSK na profilu pośrednim otw. na prawo","montaż prowadnic na sąsiadującej jednostce",1,Yes,No,None (Single Field),F1: PSK-P
+PP102,"PSK na profilu pośrednim otw. na lewo","montaż prowadnic na sąsiadującej jednostce",1,Yes,No,None (Single Field),F1: PSK-L
+PP103,"Stałe szklenie w skrzydle PSK","",1,Yes,No,None (Single Field),F1: PSK-FIX-S
+PP201,"PSK na profilu pośrednim otw. na prawo","",2,Yes,No,Vertical Mullion,F1: PSK-P | F2: PSK-FIX
+PP202,"PSK na profilu pośrednim otw. na lewo","",2,Yes,No,Vertical Mullion,F1: PSK-FIX | F2: PSK-L
+PP203,"PSK na profilu pośrednim otw. na prawo UP + FF","",2,Yes,No,Vertical Mullion,F1: PSK-P | F2: PSK-FIX-S
+PP204,"PSK na profilu pośrednim otw. na lewo  FF + UP","",2,Yes,No,Vertical Mullion,F1: PSK-FIX-S | F2: PSK-L
+PP205,"PSK na profilu pośrednim 2 skrz. ze sł. ruch., prawe czynne","",2,Yes,No,Vertical Mullion,F1: PSK-Pc | F2: PSK-Lb
+PP206,"PSK na profilu pośrednim 2 skrz. ze sł. ruch., lewe czynne","",2,Yes,No,Vertical Mullion,F1: PSK-Lc | F2: PSK-Pb
+PR_S,"Pergola Single","",1,No,No,None (Single Field),F1: X
+R1,"Roleta pojedyncza","",1,No,No,None (Single Field),F1: X
+R2,"Zestaw 2 rolet w jednej skrzynce","",2,No,No,Vertical Mullion,F1: X | F2: X
+R3,"Zestaw 3 rolet w jednej skrzynce","",3,No,No,Vertical Mullion,F1: X | F2: X | F3: X
+S100,"Okno suwane na lewo","",1,No,No,None (Single Field),F1: S-L
+S101,"Okno suwane na prawo","",1,No,No,None (Single Field),F1: S-P
+S110,"Drzwi suwane na lewo","",1,No,No,None (Single Field),F1: S-L
+S111,"Drzwi suwane na prawo","",1,No,No,None (Single Field),F1: S-P
+S120,"Drzwi suwane na lewo","",1,No,No,None (Single Field),F1: S-L
+S121,"Drzwi suwane na prawo","",1,No,No,None (Single Field),F1: S-P
+S130,"Drzwi suwane na lewo","",1,No,No,None (Single Field),F1: S-L
+S131,"Drzwi suwane na prawo","",1,No,No,None (Single Field),F1: S-P
+S200,"Okno podnoszone ręcznie bez wspomagania","",2,No,No,Transom,F1: FIX | F2: S-G
+S201,"Okno suwane na lewo i prawo","",2,No,No,Vertical Mullion,F1: S-L | F2: S-P
+S202,"Okno suwane na lewo","Z bocznym festem",2,No,No,Vertical Mullion,F1: FIX | F2: S-L
+S203,"Okno suwane na prawo","Z bocznym festem",2,No,No,Vertical Mullion,F1: S-P | F2: FIX
+S211,"Drzwi suwane na lewo i prawo","",2,No,No,Vertical Mullion,F1: S-L | F2: S-P
+S212,"Drzwi suwane na lewo","Z bocznym festem",2,No,No,Vertical Mullion,F1: FIX | F2: S-L
+S213,"Drzwi suwane na prawo","Z bocznym festem",2,No,No,Vertical Mullion,F1: S-P | F2: FIX
+S221,"Drzwi suwane na lewo i prawo","",2,No,No,Vertical Mullion,F1: S-L | F2: S-P
+S222,"Drzwi suwane na lewo","Z bocznym festem",2,No,No,Vertical Mullion,F1: FIX | F2: S-L
+S223,"Drzwi suwane na prawo","Z bocznym festem",2,No,No,Vertical Mullion,F1: S-P | F2: FIX
+S231,"Drzwi suwane na lewo i prawo","",2,No,No,Vertical Mullion,F1: S-L | F2: S-P
+S232,"Drzwi suwane na lewo","Z bocznym festem",2,No,No,Vertical Mullion,F1: FIX | F2: S-L
+S233,"Drzwi suwane na prawo","Z bocznym festem",2,No,No,Vertical Mullion,F1: S-P | F2: FIX
+S300,"Okno suwane na lewo","Z festem bocznym i naświetlem",3,No,No,Transom + Vertical Mullion,F1: FIX | F2: FIX | F3: S-L
+S301,"Okno suwane na prawo","Z festem bocznym i naświetlem",3,No,No,Transom + Vertical Mullion,F1: FIX | F2: S-P | F3: FIX
+S302,"Okno suwane na lewo","Z festem bocznym i dolnym",3,No,No,Transom + Vertical Mullion,F1: FIX | F2: S-L | F3: FIX
+S303,"Okno suwane na prawo","Z festem bocznym i dolnym",3,No,No,Transom + Vertical Mullion,F1: S-P | F2: FIX | F3: FIX
+S310,"Drzwi suwane na lewo","Z festem bocznym i naświetlem",4,No,No,Vertical Mullion + Transom + Transom,F1: FIX | F2: FIX | F3: FIX | F4: S-L
+S311,"Drzwi suwane na prawo","Z festem bocznym i naświetlem",4,No,No,Vertical Mullion + Transom + Transom,F1: FIX | F2: FIX | F3: S-P | F4: FIX
+S320,"Drzwi suwane na lewo","Z festem bocznym i naświetlem",4,No,No,Vertical Mullion + Transom + Transom,F1: FIX | F2: FIX | F3: FIX | F4: S-L
+S321,"Drzwi suwane na prawo","Z festem bocznym i naświetlem",4,No,No,Vertical Mullion + Transom + Transom,F1: FIX | F2: FIX | F3: S-P | F4: FIX
+S330,"Drzwi suwane na lewo","Z festem bocznym i naświetlem",4,No,No,Vertical Mullion + Transom + Transom,F1: FIX | F2: FIX | F3: FIX | F4: S-L
+S331,"Drzwi suwane na prawo","Z festem bocznym i naświetlem",4,No,No,Vertical Mullion + Transom + Transom,F1: FIX | F2: FIX | F3: S-P | F4: FIX
+S400,"Okno suwane na lewo i prawo","Z festami bocznymi",4,No,No,Vertical Mullion,F1: FIX | F2: S-L | F3: S-P | F4: FIX
+S401N,"Okno suwane na lewo i prawo","Naświetla boczne i górne",99,No,No,Vertical Mullion + Transom + Transom + Transom + Vertical Mullion,F1: FIX | F2: FIX | F3: FIX | F4: FIX | F5: S-L | F6: S-P | F7: FIX
+S402N,"Okno suwane na lewo i prawo","Naświetla boczne i dolne",99,No,No,Vertical Mullion + Transom + Transom + Transom + Vertical Mullion,F1: FIX | F2: S-L | F3: S-P | F4: FIX | F5: FIX | F6: FIX | F7: FIX
+S410,"Drzwi suwane na lewo i prawo","Z festami bocznymi",4,No,No,Vertical Mullion,F1: FIX | F2: S-L | F3: S-P | F4: FIX
+S411N,"Drzwi suwane na lewo i prawo","Naświetla boczne i górne",99,No,No,Vertical Mullion + Transom + Transom + Transom + Vertical Mullion,F1: FIX | F2: FIX | F3: FIX | F4: FIX | F5: S-L | F6: S-P | F7: FIX
+S420,"Drzwi suwane na lewo i prawo","Z festami bocznymi",4,No,No,Vertical Mullion,F1: FIX | F2: S-L | F3: S-P | F4: FIX
+S421N,"Drzwi suwane na lewo i prawo","Naświetla boczne i górne",99,No,No,Vertical Mullion + Transom + Transom + Transom + Vertical Mullion,F1: FIX | F2: FIX | F3: FIX | F4: FIX | F5: S-L | F6: S-P | F7: FIX
+S430,"Drzwi suwane na lewo i prawo","Z festami bocznymi",4,No,No,Vertical Mullion,F1: FIX | F2: S-L | F3: S-P | F4: FIX
+S431N,"Drzwi suwane na lewo i prawo","Naświetla boczne i górne",99,No,No,Vertical Mullion + Transom + Transom + Transom + Vertical Mullion,F1: FIX | F2: FIX | F3: FIX | F4: FIX | F5: S-L | F6: S-P | F7: FIX
+SG1044L_5,"SLIDE GLASS SG1044L_5 (10-SKRZ. - WIODĄCE LEWE + FEST)","5-torowy",99,No,No,Vertical Mullion,F1: SG-LFIX | F2: SG-LW4 | F3: SG-LW3 | F4: SG-LW2 | F5: SG-LWc | F6: SG-PWb | F7: SG-PW2 | F8: SG-PW3 | F9: SG-PW4 | F10: SG-PFIX
+SG1044P_5,"SLIDE GLASS SG1044P_5 (10-SKRZ. - WIODĄCE PRAWE + FEST)","5-torowy",99,No,No,Vertical Mullion,F1: SG-LFIX | F2: SG-LW4 | F3: SG-LW3 | F4: SG-LW2 | F5: SG-LWb | F6: SG-PWc | F7: SG-PW3 | F8: SG-PW3 | F9: SG-PW4 | F10: SG-PFIX
+SG302_3,"SLIDE GLASS SG302_3 (3-SKRZ. - WIODĄCE PRAWE + FEST)","3-torowy",3,No,No,Vertical Mullion,F1: SG-LFIX | F2: SG-LW2 | F3: SG-LW
+SG320_3,"SLIDE GLASS SG320_3 (3-SKRZ. - WIODĄCE LEWE + FEST)","3-torowy",3,No,No,Vertical Mullion,F1: SG-PW | F2: SG-PW2 | F3: SG-PFIX
+SG403_4,"SLIDE GLASS SG403_4 (4-skrz. - WIODĄCE PRAWE + FEST)","4-torowy",4,No,No,Vertical Mullion,F1: SG-LFIX | F2: SG-LW3 | F3: SG-LW2 | F4: SG-LW
+SG411L_3,"SLIDE GLASS SG411L_3 4-(SKRZ. - WIODĄCE LEWE + FEST)","3-torowy",4,No,No,Vertical Mullion,F1: SG-LFIX | F2: SG-LWc | F3: SG-PWb | F4: SG-PFIX
+SG411P_3,"SLIDE GLASS SG411P_3 (4-SKRZ. - WIODĄCE PRAWE + FEST)","3-torowy",4,No,No,Vertical Mullion,F1: SG-LFIX | F2: SG-LWb | F3: SG-PWc | F4: SG-PFIX
+SG430_4,"SLIDE GLASS SG430_4 (4-SKRZ. - WIODĄCE LEWE + FEST)","4-torowy",4,No,No,Vertical Mullion,F1: SG-PW | F2: SG-PW2 | F3: SG-PW3 | F4: SG-PFIX
+SG504_5,"SLIDE GLASS SG504_5 (5-SKRZ. - WIODĄCE PRAWE + FEST)","5-torowy",99,No,No,Vertical Mullion,F1: SG-LFIX | F2: SG-LW4 | F3: SG-LW3 | F4: SG-LW2 | F5: SG-LW
+SG540_5,"SLIDE GLASS SG540_5 (5-SKRZ. - WIODĄCE LEWE + FEST)","5-torowy",99,No,No,Vertical Mullion,F1: SG-PW | F2: SG-PW2 | F3: SG-PW3 | F4: SG-PW4 | F5: SG-PFIX
+SG622L_3,"SLIDE GLASS SG622L_3 (6-skrz. - WIODĄCE LEWE + FEST)","3-torowy",99,No,No,Vertical Mullion,F1: SG-LFIX | F2: SG-LW2 | F3: SG-LWc | F4: SG-PWb | F5: SG-PW2 | F6: SG-PFIX
+SG622P_3,"SLIDE GLASS SG622P_3 (6-SKRZ. - WIODĄCE PRAWE + FEST)","3-torowy",99,No,No,Vertical Mullion,F1: SG-LFIX | F2: SG-LW2 | F3: SG-LWb | F4: SG-PWc | F5: SG-PW2 | F6: SG-PFIX
+SG833L_4,"SLIDE GLASS SG833L_4 (8-SKRZ. - WIODĄCE LEWE + FEST)","4-torowy",99,No,No,Vertical Mullion,F1: SG-LFIX | F2: SG-LW3 | F3: SG-LW2 | F4: SG-LWc | F5: SG-PWb | F6: SG-PW2 | F7: SG-PW3 | F8: SG-PFIX
+SG833P_4,"SLIDE GLASS SG833P_4 (8-SKRZ. - WIODĄCE PRAWE + FEST)","4-torowy",99,No,No,Vertical Mullion,F1: SG-LFIX | F2: SG-LW3 | F3: SG-LW2 | F4: SG-LWb | F5: SG-PWc | F6: SG-PW2 | F7: SG-PW3 | F8: SG-PFIX
+SL200,"Iglo Slide schemat D (2 kw.) skrzydlo lewe zewn, prawe wewn","",2,No,No,Vertical Mullion,F1: SL-LZ | F2: SL-PW
+SL201,"Iglo Slide schemat D (2 kw.) skrzydlo lewe wewn, prawe zewn","",2,No,No,Vertical Mullion,F1: SL-LW | F2: SL-PZ
+SL202,"Iglo Slide schemat A (2 kw.) otw. na prawo","",2,No,No,Vertical Mullion,F1: SL-LW | F2: SL-FIX
+SL203,"Iglo Slide schemat A (2 kw.) otw. na lewo","",2,No,No,Vertical Mullion,F1: SL-FIX | F2: SL-PW
+SL400,"Iglo Slide schemat F (4 kw.) - wiodace prawe","",4,No,No,Vertical Mullion,F1: SL-LZ | F2: SL-LWb | F3: SL-PWc | F4: SL-PZ
+SL401,"Iglo Slide schemat F (4 kw.) - wiodace lewe","",4,No,No,Vertical Mullion,F1: SL-LZ | F2: SL-LWc | F3: SL-PWb | F4: SL-PZ
+SL402,"Iglo Slide schemat C (4 kw.) - wiodące prawe","",4,No,No,Vertical Mullion,F1: SL-FIX | F2: SL-LWb | F3: SL-PWc | F4: SL-FIX
+SL403,"Iglo Slide schemat C (4 kw.) - wiodace lewe","",4,No,No,Vertical Mullion,F1: SL-FIX | F2: SL-LWc | F3: SL-PWb | F4: SL-FIX
+SLE100,"Stałe szklenie Iglo Edge Slide","",1,Yes,No,None (Single Field),F1: HSM-FIX
+SLE201,"Iglo Edge Slide A (2 kw.) otw. na prawo","",2,Yes,No,Vertical Mullion,F1: HST-A-P | F2: HSM-FIX
+SLE202,"Iglo Edge Slide A (2 kw.) otw. na lewo","",2,Yes,No,Vertical Mullion,F1: HSM-FIX | F2: HST-A-L
+SLE303,"Iglo Edge Slide G3 (3 kw.) otw. na prawo","",3,Yes,No,Vertical Mullion,F1: HST-G2-FIX | F2: HST-G-P | F3: HSM-FIX
+SLE304,"Iglo Edge Slide G3 (3 kw.) otw. na lewo","",3,Yes,No,Vertical Mullion,F1: HSM-FIX | F2: HST-G-L | F3: HST-G2-FIX
+SLE305,"Iglo Edge Slide K (3 kw.)","",3,Yes,No,Vertical Mullion,F1: HST-A-P | F2: HSM-FIX | F3: HST-A-L
+SLE401,"Iglo Edge Slide C (4 kw.) - wiodące prawe","",4,Yes,No,Vertical Mullion,F1: HSM-FIX | F2: HST-C-Lb | F3: HST-C-Pc | F4: HSM-FIX
+SLE402,"Iglo Edge Slide C (4 kw.) - wiodące lewe","",4,Yes,No,Vertical Mullion,F1: HSM-FIX | F2: HST-C-Lc | F3: HST-C-Pb | F4: HSM-FIX
+W100,"Drzwi wahadłowe 1-skrzydłowe","",1,Yes,No,None (Single Field),F1: W-L
+W200,"Drzwi wahadłowe 2-skrzydłowe","",2,Yes,Yes,Vertical Mullion + Movable Post (Stulp),F1: W-SB-L | F2: W-SC-P
+WJ,"Okno - wolna jednostka","",1,No,No,None (Single Field),None
+WJB,"Balkon - wolna jednostka","",1,No,No,None (Single Field),None
+WJDW,"Drzwi wejściowe - wolna jednostka","",1,No,No,None (Single Field),None
+WJOZ,"Okno otw na zewn - wolna jednostka","",1,No,No,None (Single Field),None
+WJP,"Zestaw - wolna jednostka połączona","",1,No,No,None (Single Field),None
+WJPP,"Profil pośredni - wolna jednostka","",1,No,No,None (Single Field),None
+WJPSK,"PSK - wolna jednostka","",1,No,No,None (Single Field),None
+WJPSKPP,"PSK PP - wolna jednostka","",1,No,No,None (Single Field),None
+Z1,"Żaluzja pojedyncza","",1,No,No,None (Single Field),F1: X
+Z2,"Zestaw 2 żaluzji w jednej skrzynce","",2,No,No,Vertical Mullion,F1: X | F2: X
+Z201,"Zestaw (element łączący)","",2,No,No,Vertical Mullion,None
+Z202,"Zestaw (element łączący)","",2,No,No,Transom,None
+Z205,"Zestaw (element łączący)","",2,No,No,Vertical Mullion + Transom,None
+Z206,"Zestaw (element łączący)","",2,No,No,Vertical Mullion + Transom,None
+Z3,"Zestaw 3 żaluzji w jednej skrzynce","",3,No,No,Vertical Mullion,F1: X | F2: X | F3: X
+Z301,"Zestaw (element łączący)","",3,No,No,Vertical Mullion,None
+Z303,"Zestaw (element łączący)","",3,No,No,Transom + Vertical Mullion,None
+Z304,"Zestaw (element łączący)","",3,No,No,Transom + Vertical Mullion,None
+Z305,"Zestaw (element łączący)","",3,No,No,Vertical Mullion + Transom,None
+Z306,"Zestaw (element łączący)","",3,No,No,Vertical Mullion + Transom,None
+Z307,"Zestaw (element łączący)","",3,No,No,Vertical Mullion + Transom + Transom,None
+Z401,"Zestaw (element łączący)","",4,No,No,Vertical Mullion,None
+Z503,"Zestaw (element łączący)","",99,No,No,Vertical Mullion + Transom + Transom,None
+ZW,"Żaluzja wewnętrzna","",1,No,No,None (Single Field),F1: X

@@ -1,0 +1,1 @@
+var e=`/assets/JsMaterialXGenShader.data-CPKuu-Ly.txt`;export{e as default};

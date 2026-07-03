@@ -1,0 +1,154 @@
+{
+ "złożenie 27": [
+  {
+   "ref": "słupek 01",
+   "component": "mullion_fixed",
+   "offset": [
+    0.0,
+    0.0
+   ],
+   "rot": 0
+  },
+  {
+   "ref": "mostek podszybowy",
+   "component": "spacer_bridge",
+   "offset": [
+    -23.92,
+    -17.0
+   ],
+   "rot": 180.0
+  },
+  {
+   "ref": "szyba 24mm",
+   "component": "glass",
+   "offset": [
+    -55.0,
+    -42.0
+   ],
+   "rot": 180.0
+  },
+  {
+   "ref": "50924 - listwa 22mm",
+   "component": "glazing_bead",
+   "offset": [
+    -1.0,
+    -22.0
+   ],
+   "rot": 90.0
+  },
+  {
+   "ref": "skrzydło 01",
+   "component": "sash",
+   "offset": [
+    0.0,
+    21.0
+   ],
+   "rot": 0
+  }
+ ],
+ "złożenie 07": [
+  {
+   "ref": "rama 01",
+   "component": "frame",
+   "offset": [
+    0.0,
+    0.0
+   ],
+   "rot": 0
+  },
+  {
+   "ref": "mostek podszybowy",
+   "component": "spacer_bridge",
+   "offset": [
+    -23.92,
+    41.0
+   ],
+   "rot": 0
+  },
+  {
+   "ref": "szyba 24mm",
+   "component": "glass",
+   "offset": [
+    -55.0,
+    66.0
+   ],
+   "rot": 0
+  },
+  {
+   "ref": "50924 - listwa 22mm",
+   "component": "glazing_bead",
+   "offset": [
+    -1.0,
+    46.0
+   ],
+   "rot": 90.0
+  }
+ ],
+ "złożenie 30": [
+  {
+   "ref": "słupek 01",
+   "component": "mullion_fixed",
+   "offset": [
+    0.0,
+    0.0
+   ],
+   "rot": 0
+  },
+  {
+   "ref": "mostek podszybowy",
+   "component": "spacer_bridge",
+   "offset": [
+    -23.92,
+    -17.0
+   ],
+   "rot": 180.0
+  },
+  {
+   "ref": "szyba 24mm",
+   "component": "glass",
+   "offset": [
+    -55.0,
+    -42.0
+   ],
+   "rot": 180.0
+  },
+  {
+   "ref": "50924 - listwa 22mm",
+   "component": "glazing_bead",
+   "offset": [
+    -1.0,
+    -22.0
+   ],
+   "rot": 90.0
+  },
+  {
+   "ref": "skrzydło 02",
+   "component": "sash",
+   "offset": [
+    0.0,
+    21.0
+   ],
+   "rot": 0
+  }
+ ],
+ "złożenie 02": [
+  {
+   "ref": "rama 01",
+   "component": "frame",
+   "offset": [
+    0.0,
+    0.0
+   ],
+   "rot": 0
+  },
+  {
+   "ref": "skrzydło 02",
+   "component": "sash",
+   "offset": [
+    0.0,
+    45.0
+   ],
+   "rot": 0
+  }
+ ]
+}

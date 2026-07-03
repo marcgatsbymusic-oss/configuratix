@@ -12,6 +12,7 @@ import { MaterialHelp, WindowTypeHelp } from './HelpContents';
 import { BlueprintPreview } from './BlueprintPreview';
 import { NeedlePreview } from './NeedlePreview';
 import { F100TViewer } from '../configurator/F100TViewer';
+import { F100_FIX_BOTViewer } from '../configurator/F100_FIX_BOTViewer';
 import { F101CViewer } from '../configurator/F101CViewer';
 import { SLE201Viewer } from '../configurator/SLE201Viewer';
 import { F104Viewer } from '../configurator/F104Viewer';
@@ -868,6 +869,19 @@ export function MainConfigurator() {
               {show3D ? (
                 state.windowTypeId === 'F100T' ? (
                   <F100TViewer isColorPaletteOpen={isColorWheelOpen}
+                    width={state.dimensions.width}
+                    height={state.dimensions.height}
+                    colorExt={getHexColor(state.exteriorColor)}
+                    colorInt={getHexColor(state.interiorColor)}
+                    colorExtTexture={getTextureUrl(state.exteriorColor)}
+                    colorIntTexture={getTextureUrl(state.interiorColor)}
+                    colorSpacer={spacerHex}
+                    colorGsk={gasketHex}
+                    onDimensionChange={(w, h) => dispatch({ type: 'SET_DIMENSIONS', payload: { width: w, height: h } })}
+                    activeLimits={activeLimits}
+                  />
+                ) : state.windowTypeId === 'F100_FIX_BOT' ? (
+                  <F100_FIX_BOTViewer isColorPaletteOpen={isColorWheelOpen}
                     width={state.dimensions.width}
                     height={state.dimensions.height}
                     colorExt={getHexColor(state.exteriorColor)}

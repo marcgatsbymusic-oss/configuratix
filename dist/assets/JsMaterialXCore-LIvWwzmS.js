@@ -1,0 +1,1 @@
+var e=`/assets/JsMaterialXCore-B97gKRq_.wasm`;export{e as default};

@@ -26,25 +26,24 @@ import fs   from 'fs';
 import path from 'path';
 
 // ─── Constants ───────────────────────────────────────────────────────────────
-const SNAP_TOLERANCE   = 0.05;  // mm – gap between first and last vertex
+const SNAP_TOLERANCE   = 10.0;  // mm — gap between first and last vertex
 const ARC_SEGMENTS     = 24;    // subdivisions per arc
 const SIMPLIFY_TOLERANCE = 0.05; // mm - deviation tolerance for line simplification
 
 // Canonical layer names (uppercase) we care about
 const TARGET_LAYERS = new Set([
-  'FRM_EXT', 'FRM_INT',
-  'GSK_FRM_EXT',
-  'SSH_EXT', 'SSH_INT',
-  'GSK_SSH_EXT', 'GSK_SSH_INT',
-  'BZD', 'GSK_BZD',
-  'SPACER', 'GLS_INT', 'GLS_EXT',
+  'FRM_EXT', 'FRM_INT', 'GSK_FRM_EXT', 'GSK_FRM_INT',
+  'SSH_EXT', 'SSH_INT', 'GSK_SSH_EXT', 'GSK_SSH_INT',
+  'POST_EXT', 'POST_INT', 'GSK_POST_EXT', 'GSK_POST_INT',
+  'BZD_SSH', 'BZD_POST', 'BZD_FRM', 'GSK_BZD_SSH', 'GSK_BZD_POST', 'GSK_BZD_FRM', 'SPACER_SSH', 'SPACER_POST', 'SPACER_FRM', 'GLS_INT', 'GLS_EXT'
 ]);
 
 // Three.js group membership (F100T window type under IGLO 5)
 const GROUP_MAP = {
-  FRM: ['FRM_EXT', 'FRM_INT', 'GSK_FRM_EXT'],
+  FRM: ['FRM_EXT', 'FRM_INT', 'GSK_FRM_EXT', 'GSK_FRM_INT', 'BZD_FRM', 'GSK_BZD_FRM', 'SPACER_FRM'],
   SSH: ['SSH_EXT', 'SSH_INT', 'GSK_SSH_EXT', 'GSK_SSH_INT',
-        'BZD', 'GSK_BZD', 'SPACER', 'GLS_INT', 'GLS_EXT'],
+        'BZD_SSH', 'GSK_BZD_SSH', 'SPACER_SSH', 'GLS_INT', 'GLS_EXT'],
+  POST: ['POST_EXT', 'POST_INT', 'GSK_POST_EXT', 'GSK_POST_INT', 'BZD_POST', 'GSK_BZD_POST', 'SPACER_POST'],
 };
 
 // ─── Geometry helpers ─────────────────────────────────────────────────────────
@@ -541,8 +540,35 @@ async function main() {
 
   console.log(`\n🔍 Found target layers: ${processLayers.join(', ')}`);
 
+  function polygonArea(points) {
+    let area = 0;
+    const n = points.length;
+    for (let i = 0; i < n; i++) {
+      const j = (i + 1) % n;
+      area += points[i].x * points[j].y - points[j].x * points[i].y;
+    }
+    return Math.abs(area) / 2.0;
+  }
+
   for (const layer of processLayers) {
-    const contours = processLayer(layer, entities);
+    let contours = processLayer(layer, entities);
+    
+    // Solid block logic: Keep only the largest loop for main bodies
+    if (layer === 'FRM_EXT' || layer === 'FRM_INT' || layer === 'SSH_EXT' || layer === 'SSH_INT' || layer === 'BZD_SSH' || layer === 'BZD_POST' || layer === 'BZD_FRM' || layer === 'SPACER_SSH' || layer === 'SPACER_POST' || layer === 'SPACER_FRM' || layer === 'GSK_FRM_EXT' || layer === 'GSK_BZD_SSH' || layer === 'GSK_BZD_POST' || layer === 'GSK_BZD_FRM' || layer === 'POST_EXT' || layer === 'POST_INT') {
+      let maxArea = -1;
+      let maxIdx = -1;
+      for (let i = 0; i < contours.length; i++) {
+         let area = polygonArea(contours[i].points);
+         if (area > maxArea) {
+           maxArea = area;
+           maxIdx = i;
+         }
+      }
+      if (maxIdx >= 0) {
+        contours = [contours[maxIdx]];
+      }
+    }
+
     if (contours.length > 0) {
       layerResults[layer] = contours;
       const totalPts = contours.reduce((s, c) => s + c.points.length, 0);
@@ -561,6 +587,98 @@ async function main() {
   const normalised = {};
   for (const [layer, contours] of Object.entries(layerResults)) {
     normalised[layer] = translateLayer(contours, bounds.minX, bounds.minY);
+  }
+
+  // ── Frame Splitting (Ext/Int) ──
+  function clipPolygonX(points, splitX, keepLeft) {
+    const result = [];
+    function inside(p) { return keepLeft ? p.x <= splitX + 0.0001 : p.x >= splitX - 0.0001; }
+    function intersect(p1, p2) {
+      const t = (splitX - p1.x) / (p2.x - p1.x);
+      return { x: splitX, y: p1.y + t * (p2.y - p1.y) };
+    }
+    for (let i = 0; i < points.length; i++) {
+      const cur = points[i];
+      const prev = points[i === 0 ? points.length - 1 : i - 1];
+      const curIn = inside(cur);
+      const prevIn = inside(prev);
+      if (curIn !== prevIn) result.push(intersect(prev, cur));
+      if (curIn) result.push(cur);
+    }
+    return result;
+  }
+
+  // Calculate frame bounds to find the correct split point
+  let frmMinX = Infinity;
+  const allFrmContours = [...(normalised['FRM_EXT'] || []), ...(normalised['FRM_INT'] || [])];
+  for (const c of allFrmContours) {
+    for (const p of c.points) {
+      if (p.x < frmMinX) frmMinX = p.x;
+    }
+  }
+  let splitX = (frmMinX !== Infinity) ? frmMinX + 35.0 : 35.0; 
+  if (frmMinX === Infinity) {
+    let postMinX = Infinity;
+    let postMaxX = -Infinity;
+    const allPostContours = [...(normalised['POST_EXT'] || []), ...(normalised['POST_INT'] || [])];
+    for (const c of allPostContours) {
+      for (const p of c.points) {
+        if (p.x < postMinX) postMinX = p.x;
+        if (p.x > postMaxX) postMaxX = p.x;
+      }
+    }
+    if (postMinX !== Infinity) {
+      splitX = (postMinX + postMaxX) / 2.0;
+    }
+  }
+
+  if (normalised['FRM_EXT']) {
+    normalised['FRM_EXT'] = normalised['FRM_EXT'].map(c => ({
+      ...c,
+      points: clipPolygonX(c.points, splitX, true)
+    }));
+  }
+  if (normalised['FRM_INT']) {
+    normalised['FRM_INT'] = normalised['FRM_INT'].map(c => ({
+      ...c,
+      points: clipPolygonX(c.points, splitX, false)
+    }));
+  }
+  if (normalised['POST_EXT']) {
+    normalised['POST_EXT'] = normalised['POST_EXT'].map(c => ({
+      ...c,
+      points: clipPolygonX(c.points, splitX, true)
+    }));
+  }
+  if (normalised['POST_INT']) {
+    normalised['POST_INT'] = normalised['POST_INT'].map(c => ({
+      ...c,
+      points: clipPolygonX(c.points, splitX, false)
+    }));
+  }
+
+  // Calculate splitX for SSH (Sash)
+  let sshSplitX = splitX;
+  let sshMinX = Infinity, sshMaxX = -Infinity;
+  if (normalised['SSH_EXT'] && normalised['SSH_EXT'].length > 0) {
+    normalised['SSH_EXT'][0].points.forEach(p => {
+      if (p.x < sshMinX) sshMinX = p.x;
+      if (p.x > sshMaxX) sshMaxX = p.x;
+    });
+    sshSplitX = (sshMinX + sshMaxX) / 2.0;
+  }
+
+  if (normalised['SSH_EXT']) {
+    normalised['SSH_EXT'] = normalised['SSH_EXT'].map(c => ({
+      ...c,
+      points: clipPolygonX(c.points, sshSplitX, true)
+    }));
+  }
+  if (normalised['SSH_INT']) {
+    normalised['SSH_INT'] = normalised['SSH_INT'].map(c => ({
+      ...c,
+      points: clipPolygonX(c.points, sshSplitX, false)
+    }));
   }
 
   // ── Build output ──

@@ -1,0 +1,42 @@
+{
+  "version": "1.0.0",
+  "system": "IGLO_5",
+  "note": "Placeholder hex values are typical PVC window defaults -- replace exteriorColor with the actual RAL/foil color for this configuration before rendering. All other colors are physically consistent across configurations and should not normally change.",
+
+  "layerMaterials": {
+    "FRM_EXT":            { "role": "frame, exterior-facing skin", "colorSource": "exteriorColor", "metalness": 0.05, "roughness": 0.35 },
+    "FRM_INT":             { "role": "frame, interior-facing skin", "color": "#FFFFFF", "metalness": 0.05, "roughness": 0.4 },
+    "POST_EXT_HORIZONTAL": { "role": "mullion/post, exterior-facing skin", "colorSource": "exteriorColor", "metalness": 0.05, "roughness": 0.35 },
+    "POST_INT_HORIZONTAL": { "role": "mullion/post, interior-facing skin", "color": "#FFFFFF", "metalness": 0.05, "roughness": 0.4 },
+    "POST_HORIZONTAL":     { "role": "DEPRECATED -- legacy unsplit fallback, no longer produced for this profile (post is now split into POST_EXT_HORIZONTAL/POST_INT_HORIZONTAL). Kept only for backward compatibility with older geometry files.", "color": "#E0E0E0", "metalness": 0.05, "roughness": 0.4 },
+
+    "SSH_EXT":              { "role": "sash, exterior-facing skin", "colorSource": "exteriorColor", "metalness": 0.05, "roughness": 0.35 },
+    "SSH_INT":              { "role": "sash, interior-facing skin", "color": "#FFFFFF", "metalness": 0.05, "roughness": 0.4 },
+    "SSH_EXT_HORIZONTAL":   { "role": "sash, exterior-facing skin (horizontal cut)", "colorSource": "exteriorColor", "metalness": 0.05, "roughness": 0.35 },
+    "SSH_INT_HORIZONTAL":   { "role": "sash, interior-facing skin (horizontal cut)", "color": "#FFFFFF", "metalness": 0.05, "roughness": 0.4 },
+
+    "GSK_FRM_EXT":          { "role": "frame weather gasket", "color": "#1A1A1A", "metalness": 0, "roughness": 0.9 },
+    "GSK_SSH_EXT":           { "role": "sash exterior gasket", "color": "#1A1A1A", "metalness": 0, "roughness": 0.9 },
+    "GSK_SSH_INT":           { "role": "sash interior gasket", "color": "#1A1A1A", "metalness": 0, "roughness": 0.9 },
+    "GSK_SSH_EXT_HORIZONTAL":{ "role": "sash/post exterior gasket (horizontal cut)", "color": "#1A1A1A", "metalness": 0, "roughness": 0.9 },
+    "GSK_SSH_INT_HORIZONTAL":{ "role": "sash/post interior gasket (horizontal cut)", "color": "#1A1A1A", "metalness": 0, "roughness": 0.9 },
+    "GSK_BZD":               { "role": "glazing bead gasket", "color": "#1A1A1A", "metalness": 0, "roughness": 0.9 },
+    "GSK_BZD_HORIZONTAL":    { "role": "glazing bead gasket (horizontal cut)", "color": "#1A1A1A", "metalness": 0, "roughness": 0.9 },
+
+    "BZD":                   { "role": "glazing bead (trim cap)", "colorSource": "exteriorColor", "metalness": 0.05, "roughness": 0.35 },
+    "BZD_SSH_HORIZONTAL":    { "role": "glazing bead (trim cap, horizontal cut)", "colorSource": "exteriorColor", "metalness": 0.05, "roughness": 0.35 },
+
+    "GLS_EXT":               { "role": "glass pane, exterior leaf", "material": "glassPhysical", "color": "#BFD9E6", "transmission": 0.95, "ior": 1.52, "thickness": 4 },
+    "GLS_INT":               { "role": "glass pane, interior leaf", "material": "glassPhysical", "color": "#BFD9E6", "transmission": 0.95, "ior": 1.52, "thickness": 4 },
+    "GLS_EXT_SSH_HORIZONTAL":{ "role": "glass pane, exterior leaf (horizontal cut)", "material": "glassPhysical", "color": "#BFD9E6", "transmission": 0.95, "ior": 1.52, "thickness": 4 },
+    "GLS_INT_SSH_HORIZONTAL":{ "role": "glass pane, interior leaf (horizontal cut)", "material": "glassPhysical", "color": "#BFD9E6", "transmission": 0.95, "ior": 1.52, "thickness": 4 },
+
+    "SPACER":                { "role": "warm-edge spacer bar", "color": "#3A3A3A", "metalness": 0.2, "roughness": 0.6 },
+    "SPACER_SSH_HORIZONAL":  { "role": "warm-edge spacer bar (horizontal cut, note source DXF typo retained for traceability)", "color": "#3A3A3A", "metalness": 0.2, "roughness": 0.6 }
+  },
+
+  "colorVariables": {
+    "exteriorColor": "#7A4B2E",
+    "_exteriorColorNote": "Example RAL/foil color (e.g. a wood-grain foil). Override per configurator selection -- this is the only color that should vary by customer choice. Interior is always white PVC unless a dual-foil (color/color) option is selected, in which case interiorColor should be added here too."
+  }
+}

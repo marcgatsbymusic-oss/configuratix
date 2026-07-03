@@ -7,9 +7,11 @@ import { ThreejsWindowEngine } from '../components/configurator/ThreejsWindowEng
 import { SLE201Viewer } from '../components/configurator/SLE201Viewer';
 import { F104Viewer } from '../components/configurator/F104Viewer';
 import { F104_FIX_BOTViewer } from '../components/configurator/F104_FIX_BOTViewer';
+import { F100_FIX_BOTViewer } from '../components/configurator/F100_FIX_BOTViewer';
 import { F202LViewer } from '../components/configurator/F202LViewer';
 import { F202Lv2Viewer } from '../components/configurator/F202Lv2Viewer';
 import { F202RFixV2Viewer } from '../components/configurator/F202RFixV2Viewer';
+import { F252proofconcept } from '../components/configurator/F252proofconcept';
 import { ColorPaletteOverlay } from '../components/configurator/ColorPaletteOverlay';
 import { supabase } from '../lib/supabase';
 import { ChevronDown, ChevronUp, ChevronRight, Package, Share2 } from 'lucide-react';
@@ -589,6 +591,7 @@ export const ViewerOnly: React.FC = () => {
   // Interactivity States
   const [width, setWidth] = useState(1000);
   const [height, setHeight] = useState(1000);
+  const [bottomHeight, setBottomHeight] = useState(560);
   const [colorExt, setColorExt] = useState('#e8e0d4');
   const [colorInt, setColorInt] = useState('#f0ece6');
   const [colorExtTexture, setColorExtTexture] = useState<string | undefined>(undefined);
@@ -617,8 +620,10 @@ export const ViewerOnly: React.FC = () => {
       cITex = activeItem.config?.cIntTex;
       inv = !!activeItem.config?.invertSides;
     } else {
-      w = parseInt(searchParams.get('w') || '1000', 10);
-      h = parseInt(searchParams.get('h') || '1000', 10);
+      const defaultW = typology === 'F100_FIX_BOT' ? '720' : '1000';
+      const defaultH = typology === 'F100_FIX_BOT' ? '1450' : '1000';
+      w = parseInt(searchParams.get('w') || defaultW, 10);
+      h = parseInt(searchParams.get('h') || defaultH, 10);
       cE = searchParams.get('cExt') ? decodeURIComponent(searchParams.get('cExt')!) : '#e8e0d4';
       cI = searchParams.get('cInt') ? decodeURIComponent(searchParams.get('cInt')!) : '#f0ece6';
       cETex = searchParams.get('cExtTex') ? decodeURIComponent(searchParams.get('cExtTex')!) : undefined;
@@ -825,6 +830,20 @@ export const ViewerOnly: React.FC = () => {
             hidePill={true}
             isColorPaletteOpen={isColorWheelOpen}
           />
+        ) : typology === 'F100_FIX_BOT' ? (
+          <F100_FIX_BOTViewer
+            width={width}
+            height={height}
+            bottomHeight={bottomHeight}
+            colorExt={colorExt}
+            colorInt={colorInt}
+            colorExtTexture={colorExtTexture}
+            colorIntTexture={colorIntTexture}
+            colorGsk={colorGsk}
+            colorSpacer={colorSpacer}
+            hidePill={true}
+            isColorPaletteOpen={isColorWheelOpen}
+          />
         ) : typology === 'F101C' ? (
           <F101CViewer 
             width={width}
@@ -932,6 +951,8 @@ export const ViewerOnly: React.FC = () => {
             hidePill={true}
             isColorPaletteOpen={isColorWheelOpen}
           />
+        ) : typology === 'F252' ? (
+          <F252proofconcept />
         ) : (
           <ThreejsWindowEngine
             width={width}
@@ -1026,6 +1047,31 @@ export const ViewerOnly: React.FC = () => {
             labelPosition="inside"
           />
         </div>
+
+        {/* Bottom Height Scroll Wheel overlay at the bottom */}
+        {typology === 'F100_FIX_BOT' && (
+        <div 
+          className={`absolute bottom-16 md:bottom-20 left-[60px] md:left-[80px] right-3 md:right-4 h-10 md:h-12 z-30 flex items-center justify-center font-mono transition-all duration-300 ${
+            isWidthScrollVisible ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-4 pointer-events-none'
+          }`}
+          onPointerMove={resetInactivityTimer}
+          onPointerDown={resetInactivityTimer}
+        >
+          <NumericScrollWheel
+            label="Bottom Height"
+            value={bottomHeight}
+            onChange={(val) => {
+              setBottomHeight(val);
+              resetInactivityTimer();
+            }}
+            min={200}
+            max={800}
+            step={10}
+            orientation="horizontal"
+            labelPosition="inside"
+          />
+        </div>
+        )}
 
         {/* Width Scroll Wheel (Width) overlay at the bottom */}
         <div 

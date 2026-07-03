@@ -1,0 +1,55 @@
+{
+  "version": "1.0.0",
+  "system": "IGLO_5",
+  "profileId": "F1XXX_BOTTOM_FIX_HORIZONTAL",
+  "description": "Horizontal cross-section through the bottom fixed light (item '2' in the elevation drawing), cut through the post (mullion), sash, glazing bead, and glass of a fixed (non-opening) light.",
+  "sourceFiles": {
+    "geometry": "IGLO5_F1XXX_FIX_HORIZONTAL_FINAL.json",
+    "verticalReference": "IG5_F1XXX_1FRM_1SSH.json",
+    "rawDXF": "IGLO5_CROSS_SECTION_BOTTOM_PART_FIX_V2.dxf"
+  },
+
+  "units": "mm",
+  "extrusionAxis": "Y (this cross section is extruded along the window WIDTH for a horizontal member; do not confuse with the vertical profile's Z/height extrusion)",
+
+  "verticalToHorizontalTransform": {
+    "translation": [0, 41.0],
+    "rotation": 0,
+    "scale": [1, 1],
+    "confirmedVia": "GSK_SSH_EXT_HORIZONTAL gasket bbox vs vertical GSK_SSH_EXT bbox, residual < 0.02mm",
+    "note": "This transform is specific to this profile instance (F1XXX bottom fix). Re-derive per-profile using the dualColorSeamTransfer method in assemblyRules.json -- do not assume this same (0, 41.0) offset applies to other window sizes or other members."
+  },
+
+  "anchorPoints": {
+    "assemblyOrigin": {
+      "description": "Reference point used to position this cross-section slice along the extrusion path in the full 3D assembly. Matches the assemblyOrigin/anchorPoints convention used in the vertical FRM/SSH pipeline.",
+      "point": [0, 0],
+      "definedAs": "Exterior-facing corner of the post profile at its lowest x, lowest y vertex in local section coordinates"
+    },
+    "sashSeamPoints": {
+      "description": "The two points where SSH_EXT_HORIZONTAL and SSH_INT_HORIZONTAL meet (dual-color cap seam). Useful as a stable registration feature if this profile needs to be re-aligned against future DXF revisions.",
+      "points": [
+        [53.5000007486733, 131.99999850592621],
+        [56.50000074707532, 110.9999985059253]
+      ]
+    },
+    "postSeamPoints": {
+      "description": "The two points where POST_EXT_HORIZONTAL and POST_INT_HORIZONTAL meet. Derived from the vertical FRM_EXT/FRM_INT seam (the post is the same extrusion as the frame), residual 0.38mm -- looser than the sash match because the source seam coordinate was only known to ~1mm precision, not because the transform is wrong.",
+      "points": [
+        [35.35355338711884, 81.85355339059424],
+        [35.35355338711861, 48.14644660940804]
+      ]
+    }
+  },
+
+  "knownIssuesFixed": [
+    "POLYLINE closed-flag implicit closing segment was not being added, causing the post's interior-facing wall to appear missing. Fixed in flatten_horizontal.py -- now appends first vertex when closed=True and not already coincident.",
+    "FRM_HORIZONTAL source layer name renamed to POST_HORIZONTAL, then split -- it is physically the mullion/post (nested inside block 'słupek 01'), not the window frame.",
+    "SSH_HORIZONTAL (single merged sash outline) split into SSH_EXT_HORIZONTAL / SSH_INT_HORIZONTAL via seam transfer from the vertical reference file.",
+    "POST_HORIZONTAL (single merged post outline) split into POST_EXT_HORIZONTAL / POST_INT_HORIZONTAL via seam transfer from the vertical FRM_EXT/FRM_INT reference (the post is the same extrusion as the frame)."
+  ],
+
+  "openQuestions": [
+    "SPACER_SSH_HORIZONAL renders as a small isolated rectangle disconnected from the glass pane outlines -- geometrically plausible (spacer drawn separately from glass edges in source DXF) but not yet visually verified against the original AutoCAD file. Confirm before treating its position as a reliable anchor."
+  ]
+}

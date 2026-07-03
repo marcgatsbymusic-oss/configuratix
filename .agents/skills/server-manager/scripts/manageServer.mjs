@@ -1,4 +1,5 @@
 import { execSync, spawn } from 'child_process';
+import fs from 'fs';
 
 const action = process.argv[2];
 
@@ -49,8 +50,11 @@ function startServer() {
     }
     console.log("Starting server (npm run dev)...");
     
+    const out = fs.openSync('./server.log', 'w');
+    const err = fs.openSync('./server_err.log', 'w');
+    
     const child = spawn('npm', ['run', 'dev'], {
-        stdio: 'ignore',
+        stdio: ['ignore', out, err],
         detached: true,
         shell: true
     });

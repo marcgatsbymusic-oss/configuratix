@@ -1,0 +1,68 @@
+{
+  "version": "1.5.0",
+  "system": "IGLO_5",
+  "scope": "DXF-to-ThreeJS cross-section parsing rules, valid for vertical AND horizontal cuts. Supersedes ad-hoc per-session logic. Any agent (Google Antigravity, Cursor, etc.) processing IGLO5 DXF cross-sections must follow these rules before writing new parsing code.",
+
+  "coordinateConventions": {
+    "units": "mm",
+    "verticalCut": {
+      "xAxis": "left(EXT/outdoor) -> right(INT/indoor), i.e. depth direction",
+      "yAxis": "bottom -> top, i.e. height of the window"
+    },
+    "horizontalCut": {
+      "xAxis": "left(EXT/outdoor) -> right(INT/indoor), same depth direction as vertical cut",
+      "yAxis": "left -> right across the window width"
+    },
+    "note": "EXT is always the LOWER x value, INT is always the HIGHER x value, in both cut orientations. Never infer EXT/INT from glazing position alone -- confirm against a known gasket or glass layer bbox first."
+  },
+
+  "degradedSourceContours": {
+    "criticality": "HIGH -- silent force-closing of broken contours produces malformed parts that look wrong but don't error.",
+    "rule": "Some older/rougher source exports contain contours with GENUINE geometry gaps (mid-profile holes of several mm), not just an unset closed flag. Chaining cannot fix these -- force-closing draws a straight fake edge across the hole, producing a malformed blob. Before force-closing any chained loop, measure the residual gap. If it exceeds ~0.5mm, flag the layer as DEGRADED and do NOT treat the force-closed result as valid geometry.",
+    "knownCase": "IG5_F1XXX_1FRM_1SSH GSK_BZD was originally fragmented (7 pieces, up to 6.8mm gaps). It has been REPAIRED in the SHAPES file: the clean GSK_BZD_HORIZONTAL profile was registered directly onto the original (correctly-positioned but open) vertical fragment cloud, chamfer fit 0.28mm. It is now flagged OK. The general lesson stands: when a layer is genuinely degraded, prefer transferring the clean equivalent from the other cut and registering it onto the original fragment positions (NOT onto the bead -- bead registration was looser at 0.92mm and mispositioned the result; direct fragment-to-gasket registration was tight at 0.28mm).",
+    "checkLoopReport": "Always read _meta.loopReport[layer].status in each SHAPES file. Render only layers marked OK. Skip or replace any marked DEGRADED."
+  },
+
+  "loopAssembly": {
+    "criticality": "HIGHEST -- skipping this produces floating disconnected strips in the 3D render, which is the most common and most visible failure of this pipeline.",
+    "rule": "A DXF layer is almost never a single ready-to-use closed outline. It is typically a PILE of individual LINE and ARC entities (e.g. a glazing bead may be 600+ separate segments) that together trace one or more closed profiles. Before any layer can become a THREE.Shape for ExtrudeGeometry, its segments MUST be chained end-to-end into closed loops by matching segment endpoints within a small tolerance (0.05mm works for IGLO5). A single layer can legitimately resolve to MULTIPLE closed loops (e.g. a gasket that appears at two positions, or a bead with an inner and outer wall) -- keep them all as separate loops, do not merge.",
+    "doNotExtrudeRawSegments": "NEVER feed raw per-segment geometry into ExtrudeGeometry. Extruding 656 disconnected line fragments individually produces 656 paper-thin floating slivers, not a solid profile. If you see floating strips in the render, this is the cause.",
+    "alreadyDoneInHandoff": "The *_SHAPES.json file in this handoff has ALREADY been loop-assembled: every layer is a list of closed loops with first==last point. Build one THREE.Shape per loop directly. Do NOT re-chain or re-flatten it. The raw *_FINAL.json (segment-level) is included only for traceability -- do not extrude from it."
+  },
+
+  "nestedInsertFlattening": {
+    "rule": "ALWAYS recursively walk the full INSERT tree and accumulate a single Matrix44 transform chain (insert.matrix44() composed at each level) before extracting geometry. NEVER use a single-level virtual_entities() call -- it only unrolls one level of nesting and silently drops everything below grandchildren.",
+    "mirrorHandling": "Negative xscale or yscale on an INSERT indicates mirrored child geometry. Apply the transform matrix directly to entity vertices/control points (entity.transform(m44)). Do NOT attempt to reason about flipped ARC start/end angles manually -- this was the source of the original OCS-mirror bug on the vertical pipeline and must not be reintroduced.",
+    "closedPolylineRule": "For POLYLINE/LWPOLYLINE entities with the closed flag set true, you MUST explicitly append the first vertex to the end of the extracted point list if it is not already coincident with the last vertex. The DXF closed flag implies an implicit final edge that is NOT present in the raw vertex list. Forgetting this produces a profile that looks correct at a glance but is missing exactly one wall -- this caused the 'missing interior face of the post' defect and must be checked for every closed POLYLINE/LWPOLYLINE on every future profile."
+  },
+
+  "dualColorSeamTransfer": {
+    "problem": "Some source DXFs (typically horizontal/rail cuts) draw the sash, frame, or post as a single merged outline without splitting the dual-color EXT/INT cap boundary, even though the gasket and glass layers ARE split. There is no reliable purely-geometric way to find this seam (it is frequently an internal straight cut, not a feature on the outer silhouette).",
+    "method": [
+      "1. Locate the equivalent member's ALREADY-SPLIT EXT/INT contours in a reference cut of the same profile family (e.g. the vertical cross-section JSON for the same SSH/FRM/POST part).",
+      "2. Determine the affine transform between the reference cut's coordinate frame and the target cut's coordinate frame by matching a small, unambiguous, already-split reference feature -- the EXT gasket bounding box is reliable because gaskets are almost always pre-split by layer in every source DXF we've seen. Compare bbox width/height first to confirm it's a pure translation (no scale/rotation) before trusting it.",
+      "3. Transform the reference contour's two seam endpoints through that affine transform.",
+      "4. Find the nearest points on the target's single merged closed loop to the transformed seam endpoints (expect sub-micron distance, e.g. <1e-5mm, if the transform is correct -- if the nearest distance is large, the transform is wrong, do not proceed).",
+      "5. Split the loop into two open arcs at those two indices. Label whichever arc sits on the same side (lower x = EXT, higher x = INT) as the known EXT gasket."
+    ],
+    "validation": "Always render the result and visually confirm the split arc shape matches the reference cut's EXT/INT silhouette before accepting it. Do not accept a seam-transfer result without this rendered check."
+  },
+
+  "layerNamingConvention": {
+    "verticalSuffix": "none (e.g. FRM_EXT, SSH_INT, GSK_BZD)",
+    "horizontalSuffix": "_HORIZONTAL (e.g. FRM_EXT_HORIZONTAL, SSH_INT_HORIZONTAL) -- except where the source file uses the literal Polish part name as the block name (e.g. 'słupek 01' = post/mullion, 'skrzydło 02' = sash, 'złożenie' = assembly)",
+    "knownPartAliases": {
+      "słupek": "POST (mullion / movable or fixed vertical divider)",
+      "skrzydło": "SSH (sash)",
+      "listwa": "BZD (glazing bead)",
+      "szyba": "GLS (glass)",
+      "złożenie": "top-level assembly insert, not a renderable part"
+    },
+    "renameOnIngest": "If a source DXF labels a part's polyline/contour with a generic name (e.g. FRM_HORIZONTAL) but the block tree shows it nested inside a part block with a different physical identity (e.g. nested inside 'słupek 01'), rename the output layer to match the physical part (POST_HORIZONTAL), not the literal source layer name. Always cross-check against the block tree, never trust the layer name alone."
+  },
+
+  "perFamilyMetadata": {
+    "rule": "Every profile family (IGLO_5, IGLO_EDGE, etc.) gets its own metadata.json (see materials.json / profile_metadata.json in this same handoff) so families can be swapped without touching assembly code.",
+    "doNotHardcode": "Material colors, gasket part numbers, and glass makeups must be read from metadata.json, never hardcoded in the Three.js assembly code."
+  }
+}

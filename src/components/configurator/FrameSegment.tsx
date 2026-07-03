@@ -34,7 +34,8 @@ export type MatType = 'ext' | 'int' | 'gsk' | 'spacer' | 'glass';
 
 interface FrameSegmentProps {
   length: number;
-  vertices: {x: number, y: number}[];
+  vertices?: {x: number, y: number}[];
+  loops?: { closed: boolean; pts: { x: number; y: number }[] }[];
   /** R3F-native material type — drives a JSX <meshStandardMaterial> child so colors are reactive. */
   matType?: MatType;
   /** Hex color string for this segment.  Defaults vary by matType. */
@@ -73,6 +74,8 @@ interface FrameSegmentProps {
   /** Name of the DXF layer this segment originated from, used for performance telemetry. */
   layerName?: string;
   compositeCut?: boolean;
+  mitredLeft?: boolean;
+  mitredRight?: boolean;
 }
 
 export function applyUVs(
@@ -100,7 +103,7 @@ export function applyUVs(
     let u = 0;
     let v = 0;
 
-    if (Math.abs(nz) > 0.707) {
+    if (Math.abs(nz) > 0.5) {
       // End-cap faces (flat cross-section at each end of the extrusion, including
       // 45° mitre-cut planes): project cross-section onto Y-X plane.
       u = py;
@@ -127,6 +130,122 @@ export function applyUVs(
 
   geometry.setAttribute('uv',  new THREE.BufferAttribute(uvs, 2));
   geometry.setAttribute('uv2', new THREE.BufferAttribute(uvs, 2));
+}
+
+export function getOuterEdgeY(layerName: string): number {
+  return 0; // Deprecated. Use origin.y directly instead.
+}
+
+export function buildLoftedGeometry(
+  vertices: { x: number; y: number }[],
+  length: number,
+  scaleFactor: number,
+  oy: number,
+  ox: number,
+  mitredLeft: boolean,
+  mitredRight: boolean,
+): THREE.BufferGeometry {
+  const pos: number[] = [];
+  const push = (x: number, y: number, z: number) => pos.push(x, y, z);
+  const N = vertices.length;
+
+  const scaledLength = length * scaleFactor;
+
+  const mapPoint = (p: { x: number; y: number }, end: 'A' | 'B'): [number, number, number] => {
+    const lx = (p.x - ox) * scaleFactor;
+    const ly = (p.y - oy) * scaleFactor;
+    const u = Math.max(0, (p.y - oy) * scaleFactor);
+    if (end === 'A') {
+      return [lx, ly, mitredLeft ? u : 0];
+    } else {
+      return [lx, ly, mitredRight ? scaledLength - u : scaledLength];
+    }
+  };
+
+  // 1. Side walls
+  for (let i = 0; i < N; i++) {
+    const j = (i + 1) % N;
+    const a0 = mapPoint(vertices[i], 'A');
+    const a1 = mapPoint(vertices[j], 'A');
+    const b0 = mapPoint(vertices[i], 'B');
+    const b1 = mapPoint(vertices[j], 'B');
+
+    push(...a0); push(...a1); push(...b1);
+    push(...a0); push(...b1); push(...b0);
+  }
+
+  // 2. End caps
+  const contour = vertices.map(p => new THREE.Vector2(p.x, p.y));
+  const tris = THREE.ShapeUtils.triangulateShape(contour, []);
+  for (const [i, j, k] of tris) {
+    const aI = mapPoint(vertices[i], 'A');
+    const aJ = mapPoint(vertices[j], 'A');
+    const aK = mapPoint(vertices[k], 'A');
+
+    const bI = mapPoint(vertices[i], 'B');
+    const bJ = mapPoint(vertices[j], 'B');
+    const bK = mapPoint(vertices[k], 'B');
+
+    push(...aI); push(...aK); push(...aJ);
+    push(...bI); push(...bJ); push(...bK);
+  }
+
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.computeVertexNormals();
+  return g;
+}
+
+function signedArea(pts: { x: number; y: number }[]): number {
+  let s = 0;
+  for (let i = 0; i < pts.length; i++) {
+    const p1 = pts[i];
+    const p2 = pts[(i + 1) % pts.length];
+    s += p1.x * p2.y - p2.x * p1.y;
+  }
+  return s / 2;
+}
+
+function centroid(pts: { x: number; y: number }[]): [number, number] {
+  let x = 0, y = 0;
+  for (const p of pts) { x += p.x; y += p.y; }
+  return [x / pts.length, y / pts.length];
+}
+
+function pointInPolygon(pt: [number, number], pts: { x: number; y: number }[]): boolean {
+  const [px, py] = pt;
+  let inside = false;
+  for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) {
+    const xi = pts[i].x, yi = pts[i].y;
+    const xj = pts[j].x, yj = pts[j].y;
+    if (((yi > py) !== (yj > py)) &&
+        (px < ((xj - xi) * (py - yi)) / (yj - yi) + xi)) inside = !inside;
+  }
+  return inside;
+}
+
+function classifyLoops(loops: { closed: boolean; pts: { x: number; y: number }[] }[]) {
+  const closed = loops.map((L, i) => ({ i, pts: L.pts, closed: L.closed }))
+                      .filter(L => L.closed && L.pts.length >= 3);
+  if (!closed.length) return { outer: -1, holes: [] as number[] };
+  let outer = closed[0];
+  let best = Math.abs(signedArea(outer.pts));
+  for (const c of closed) {
+    const a = Math.abs(signedArea(c.pts));
+    if (a > best) {
+      best = a;
+      outer = c;
+    }
+  }
+  const holes = closed
+    .filter(c => c.i !== outer.i && pointInPolygon(centroid(c.pts), outer.pts))
+    .map(c => c.i);
+  return { outer: outer.i, holes };
+}
+
+function orient(pts: { x: number; y: number }[], wantCCW: boolean): { x: number; y: number }[] {
+  const ccw = signedArea(pts) > 0;
+  return ccw === wantCCW ? pts.slice() : pts.slice().reverse();
 }
 
 // ─── Inline reactive material ─────────────────────────────────────────────────
@@ -283,12 +402,16 @@ export const FrameSegment = React.memo(FrameSegmentComponent, (prev, next) => {
          prev.leftCutYOffset === next.leftCutYOffset &&
          prev.rightCutYOffset === next.rightCutYOffset &&
          prev.cutAxis === next.cutAxis &&
-         prev.compositeCut === next.compositeCut;
+         prev.compositeCut === next.compositeCut &&
+         prev.mitredLeft === next.mitredLeft &&
+         prev.mitredRight === next.mitredRight &&
+         prev.loops === next.loops;
 });
 
 function FrameSegmentComponent({
   length,
   vertices,
+  loops,
   matType,
   color,
   textureUrl,
@@ -311,39 +434,100 @@ function FrameSegmentComponent({
   uvMode  = 'triplanar',
   layerName,
   compositeCut = false,
+  mitredLeft,
+  mitredRight,
 }: FrameSegmentProps) {
   console.log(`[FrameSegment Debug] layerName=${layerName || matType} skipCuts=${skipCuts} skipLeftCut=${skipLeftCut} skipRightCut=${skipRightCut} length=${length}`);
   const geometry = useMemo(() => {
-    if (!vertices || vertices.length === 0) return new THREE.BufferGeometry();
+    const hasLoops = loops && loops.length > 0;
+    const hasVertices = vertices && vertices.length > 0;
+    if (!hasLoops && !hasVertices) return new THREE.BufferGeometry();
 
     // Calculate bounds first so we can include them in the cache key to prevent collisions 
     // between different profiles that happen to have the same vertex count (e.g. gaskets).
     let minX =  Infinity, minY =  Infinity;
     let maxX = -Infinity, maxY = -Infinity;
-    for (const v of vertices) {
-      if (v.x < minX) minX = v.x;
-      if (v.y < minY) minY = v.y;
-      if (v.x > maxX) maxX = v.x;
-      if (v.y > maxY) maxY = v.y;
+    if (hasLoops) {
+      for (const L of loops!) {
+        for (const v of L.pts) {
+          if (v.x < minX) minX = v.x;
+          if (v.y < minY) minY = v.y;
+          if (v.x > maxX) maxX = v.x;
+          if (v.y > maxY) maxY = v.y;
+        }
+      }
+    } else {
+      for (const v of vertices!) {
+        if (v.x < minX) minX = v.x;
+        if (v.y < minY) minY = v.y;
+        if (v.x > maxX) maxX = v.x;
+        if (v.y > maxY) maxY = v.y;
+      }
     }
 
     // Per-end sign: invertLeftCut/invertRightCut override the global invertCuts per end
     const leftSign  = (invertLeftCut  !== undefined ? invertLeftCut  : invertCuts) ? -1 : 1;
     const rightSign = (invertRightCut !== undefined ? invertRightCut : invertCuts) ? -1 : 1;
-    const cacheKey = `${layerName || matType}_${length}_${leftSign}_${rightSign}_${cutAxis}_${skipCuts}_${skipLeftCut}_${skipRightCut}_${leftCutYOffset.toFixed(4)}_${rightCutYOffset.toFixed(4)}_${scaleFactor}_${uSign}_${uOffset}_${uvMode}_${vertices.length}_${Math.round(minX)}_${Math.round(minY)}_${Math.round(maxX)}_${Math.round(maxY)}_${compositeCut}`;
+    
+    const totalVerts = hasLoops ? loops!.reduce((acc, L) => acc + L.pts.length, 0) : vertices!.length;
+    const cacheKey = `${layerName || matType}_${length}_${leftSign}_${rightSign}_${cutAxis}_${skipCuts}_${skipLeftCut}_${skipRightCut}_${leftCutYOffset.toFixed(4)}_${rightCutYOffset.toFixed(4)}_${scaleFactor}_${uSign}_${uOffset}_${uvMode}_${totalVerts}_${Math.round(minX)}_${Math.round(minY)}_${Math.round(maxX)}_${Math.round(maxY)}_${compositeCut}_${mitredLeft}_${mitredRight}`;
     if (geometryCache.has(cacheKey)) {
       return geometryCache.get(cacheKey)!;
+    }
+
+    if (mitredLeft !== undefined || mitredRight !== undefined) {
+      const oy = origin ? origin.y : 0;
+      const ox = origin ? origin.x : 0;
+      const loftVertices = hasLoops ? orient(loops!.find((_, idx) => idx === classifyLoops(loops!).outer)?.pts || [], true) : vertices!;
+      const geo = buildLoftedGeometry(
+        loftVertices,
+        length,
+        scaleFactor,
+        oy,
+        ox,
+        !!mitredLeft,
+        !!mitredRight
+      );
+      applyUVs(geo, uSign, uOffset, uvMode);
+      geo.clearGroups();
+      geo.computeBoundingBox();
+      geo.computeBoundingSphere();
+      geometryCache.set(cacheKey, geo);
+      return geo;
     }
 
     const ox = origin ? origin.x : minX;
     const oy = origin ? origin.y : minY;
 
     const shape = new THREE.Shape();
-    shape.moveTo((vertices[0].x - ox) * scaleFactor, (vertices[0].y - oy) * scaleFactor);
-    for (let i = 1; i < vertices.length; i++) {
-      shape.lineTo((vertices[i].x - ox) * scaleFactor, (vertices[i].y - oy) * scaleFactor);
+    if (hasLoops) {
+      const { outer, holes } = classifyLoops(loops!);
+      if (outer >= 0) {
+        const outerPts = orient(loops![outer].pts, true);
+        shape.moveTo((outerPts[0].x - ox) * scaleFactor, (outerPts[0].y - oy) * scaleFactor);
+        for (let i = 1; i < outerPts.length; i++) {
+          shape.lineTo((outerPts[i].x - ox) * scaleFactor, (outerPts[i].y - oy) * scaleFactor);
+        }
+        shape.lineTo((outerPts[0].x - ox) * scaleFactor, (outerPts[0].y - oy) * scaleFactor);
+
+        for (const h of holes) {
+          const holePts = orient(loops![h].pts, false);
+          const path = new THREE.Path();
+          path.moveTo((holePts[0].x - ox) * scaleFactor, (holePts[0].y - oy) * scaleFactor);
+          for (let i = 1; i < holePts.length; i++) {
+            path.lineTo((holePts[i].x - ox) * scaleFactor, (holePts[i].y - oy) * scaleFactor);
+          }
+          path.lineTo((holePts[0].x - ox) * scaleFactor, (holePts[0].y - oy) * scaleFactor);
+          shape.holes.push(path);
+        }
+      }
+    } else {
+      shape.moveTo((vertices![0].x - ox) * scaleFactor, (vertices![0].y - oy) * scaleFactor);
+      for (let i = 1; i < vertices!.length; i++) {
+        shape.lineTo((vertices![i].x - ox) * scaleFactor, (vertices![i].y - oy) * scaleFactor);
+      }
+      shape.lineTo((vertices![0].x - ox) * scaleFactor, (vertices![0].y - oy) * scaleFactor);
     }
-    shape.lineTo((vertices[0].x - ox) * scaleFactor, (vertices[0].y - oy) * scaleFactor);
 
     const scaledLength = length * scaleFactor;
     // Extrude extra only for the ends that are actually being cut, to ensure CSG cuts cleanly through side-walls.
@@ -480,14 +664,14 @@ function FrameSegmentComponent({
     
     const t1 = performance.now();
     const duration = t1 - t0;
-    console.log(`[CSG Performance] ${layerName || matType || 'unknown'} segment (len: ${length}) took ${duration.toFixed(2)}ms. Vertices count: ${vertices.length}`);
+    console.log(`[CSG Performance] ${layerName || matType || 'unknown'} segment (len: ${length}) took ${duration.toFixed(2)}ms. Vertices count: ${totalVerts}`);
     if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('csg-performance', { detail: { duration, vertices: vertices.length, matType, layerName, length } }));
+      window.dispatchEvent(new CustomEvent('csg-performance', { detail: { duration, vertices: totalVerts, matType, layerName, length } }));
     }
     
     geometryCache.set(cacheKey, geo);
     return geo;
-  }, [length, vertices, invertCuts, invertLeftCut, invertRightCut, leftCutYOffset, rightCutYOffset, cutAxis, skipCuts, skipLeftCut, skipRightCut, scaleFactor, uSign, uOffset, uvMode, matType, layerName, compositeCut]);
+  }, [length, vertices, loops, invertCuts, invertLeftCut, invertRightCut, leftCutYOffset, rightCutYOffset, cutAxis, skipCuts, skipLeftCut, skipRightCut, scaleFactor, uSign, uOffset, uvMode, matType, layerName, compositeCut, mitredLeft, mitredRight]);
 
   // If a legacy THREE.Material object is passed, use the old imperative path.
   if (material && !matType) {

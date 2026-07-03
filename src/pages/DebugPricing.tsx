@@ -13,6 +13,7 @@ import { F101CViewer } from '../components/configurator/F101CViewer';
 import { SLE201Viewer } from '../components/configurator/SLE201Viewer';
 import { F104Viewer } from '../components/configurator/F104Viewer';
 import { F104_FIX_BOTViewer } from '../components/configurator/F104_FIX_BOTViewer';
+import { F100_FIX_BOTViewer } from '../components/configurator/F100_FIX_BOTViewer';
 import { ColorPaletteOverlay } from '../components/configurator/ColorPaletteOverlay';
 import { PerformanceConsole } from '../components/configurator/PerformanceConsole';
 import { ArViewer } from '../components/configurator/ArViewer';
@@ -4439,6 +4440,21 @@ export function DebugPricing() {
                         hidePill={true}
                         isNeedleMode={displayMode === 'Needle'}
                         needleEngineNode={needleEngineNode}
+                      />
+                    </div>
+                  ) : typology === 'F100_FIX_BOT' ? (
+                    <div className="absolute inset-0">
+                      <F100_FIX_BOTViewer isColorPaletteOpen={isColorWheelOpen}
+                        width={width}
+                        height={height}
+                        colorExt={extDetails.hex}
+                        colorInt={intDetails.hex}
+                        colorExtTexture={extDetails.textureUrl}
+                        colorIntTexture={intDetails.textureUrl}
+                        colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
+                        colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
+                        onSceneReady={handleSceneReady}
+                        hidePill={true}
                       />
                     </div>
                   ) : typology === 'F101C' ? (

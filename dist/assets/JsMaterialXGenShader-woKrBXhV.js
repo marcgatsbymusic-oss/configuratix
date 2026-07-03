@@ -1,0 +1,1 @@
+var e=`/assets/JsMaterialXGenShader-CJK_Ysf-.wasm`;export{e as default};

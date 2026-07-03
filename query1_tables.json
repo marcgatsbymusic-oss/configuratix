@@ -1,0 +1,2502 @@
+[
+  {
+    "TABLE_NAME": "PREISMAT",
+    "RowCount": 1221571
+  },
+  {
+    "TABLE_NAME": "SPRSTAMM",
+    "RowCount": 961324
+  },
+  {
+    "TABLE_NAME": "CUSTOM_SZYBY",
+    "RowCount": 212628
+  },
+  {
+    "TABLE_NAME": "ORDER_GLASS_BOM",
+    "RowCount": 127844
+  },
+  {
+    "TABLE_NAME": "ARTFARB",
+    "RowCount": 121176
+  },
+  {
+    "TABLE_NAME": "SPRTEXTE",
+    "RowCount": 110815
+  },
+  {
+    "TABLE_NAME": "custom_okna_DWU_PVC_akustyka",
+    "RowCount": 93555
+  },
+  {
+    "TABLE_NAME": "PROAM",
+    "RowCount": 56619
+  },
+  {
+    "TABLE_NAME": "ARTKLEST",
+    "RowCount": 31558
+  },
+  {
+    "TABLE_NAME": "KUNDEANLIEFERZEITEN",
+    "RowCount": 29596
+  },
+  {
+    "TABLE_NAME": "KUNDEFLD",
+    "RowCount": 24886
+  },
+  {
+    "TABLE_NAME": "ARTSTLST",
+    "RowCount": 24248
+  },
+  {
+    "TABLE_NAME": "RR_DESCR_FIELD",
+    "RowCount": 22387
+  },
+  {
+    "TABLE_NAME": "ARTSTAMM",
+    "RowCount": 21846
+  },
+  {
+    "TABLE_NAME": "ARTKLESZ",
+    "RowCount": 20305
+  },
+  {
+    "TABLE_NAME": "VORBELEG",
+    "RowCount": 17718
+  },
+  {
+    "TABLE_NAME": "P_MACODE",
+    "RowCount": 17715
+  },
+  {
+    "TABLE_NAME": "ARTPREISE",
+    "RowCount": 17683
+  },
+  {
+    "TABLE_NAME": "GEBIEKAL",
+    "RowCount": 16489
+  },
+  {
+    "TABLE_NAME": "GRIDCOL",
+    "RowCount": 13763
+  },
+  {
+    "TABLE_NAME": "PROFARBX",
+    "RowCount": 12610
+  },
+  {
+    "TABLE_NAME": "RR_FIELD",
+    "RowCount": 11148
+  },
+  {
+    "TABLE_NAME": "LIEFKAL",
+    "RowCount": 11128
+  },
+  {
+    "TABLE_NAME": "CAREPORTFIELDDESC",
+    "RowCount": 10746
+  },
+  {
+    "TABLE_NAME": "KALENDER",
+    "RowCount": 8766
+  },
+  {
+    "TABLE_NAME": "ART",
+    "RowCount": 8606
+  },
+  {
+    "TABLE_NAME": "CASYSVARCONTEXT",
+    "RowCount": 8431
+  },
+  {
+    "TABLE_NAME": "STMSUBST",
+    "RowCount": 7720
+  },
+  {
+    "TABLE_NAME": "GLASS_DECLARATION",
+    "RowCount": 7411
+  },
+  {
+    "TABLE_NAME": "ARTIKELFARBTAUSCH",
+    "RowCount": 7117
+  },
+  {
+    "TABLE_NAME": "ARTKLES",
+    "RowCount": 6893
+  },
+  {
+    "TABLE_NAME": "ABDICHTUNGSZUORDD",
+    "RowCount": 6324
+  },
+  {
+    "TABLE_NAME": "PO_GLASS_BOM",
+    "RowCount": 5708
+  },
+  {
+    "TABLE_NAME": "CAREPORTFIELD",
+    "RowCount": 5369
+  },
+  {
+    "TABLE_NAME": "TOPZUORD",
+    "RowCount": 5189
+  },
+  {
+    "TABLE_NAME": "ADRESSEN",
+    "RowCount": 5117
+  },
+  {
+    "TABLE_NAME": "ARTRESTR",
+    "RowCount": 4931
+  },
+  {
+    "TABLE_NAME": "ARTPRSCHEMA",
+    "RowCount": 4536
+  },
+  {
+    "TABLE_NAME": "FLPRUEFPOLYGON",
+    "RowCount": 4488
+  },
+  {
+    "TABLE_NAME": "GLASS_BOM_EXCH_GROUPS",
+    "RowCount": 4393
+  },
+  {
+    "TABLE_NAME": "GLASS_DECLARATION_TECVALUES",
+    "RowCount": 4352
+  },
+  {
+    "TABLE_NAME": "SYSTEMCONFIG",
+    "RowCount": 3848
+  },
+  {
+    "TABLE_NAME": "ZWMAT",
+    "RowCount": 3791
+  },
+  {
+    "TABLE_NAME": "RR_REF",
+    "RowCount": 3330
+  },
+  {
+    "TABLE_NAME": "UPDATE_SCRIPT_SQL",
+    "RowCount": 3318
+  },
+  {
+    "TABLE_NAME": "USERREPORTFIELD",
+    "RowCount": 3317
+  },
+  {
+    "TABLE_NAME": "AUFVORB",
+    "RowCount": 3212
+  },
+  {
+    "TABLE_NAME": "BESCHVARZUORD",
+    "RowCount": 3193
+  },
+  {
+    "TABLE_NAME": "CASYSVARD",
+    "RowCount": 3099
+  },
+  {
+    "TABLE_NAME": "CASYSVARTRANSLATION",
+    "RowCount": 3046
+  },
+  {
+    "TABLE_NAME": "RR_REFHEAD",
+    "RowCount": 3023
+  },
+  {
+    "TABLE_NAME": "PMINDEX",
+    "RowCount": 2824
+  },
+  {
+    "TABLE_NAME": "SBARTIK",
+    "RowCount": 2761
+  },
+  {
+    "TABLE_NAME": "FELDFUELRESTRIKT",
+    "RowCount": 2757
+  },
+  {
+    "TABLE_NAME": "FARBCODES",
+    "RowCount": 2705
+  },
+  {
+    "TABLE_NAME": "ARTVARBL",
+    "RowCount": 2641
+  },
+  {
+    "TABLE_NAME": "RR_INDEXES",
+    "RowCount": 2515
+  },
+  {
+    "TABLE_NAME": "FELDVORB",
+    "RowCount": 2514
+  },
+  {
+    "TABLE_NAME": "CUSTOM_IFS_KOLORY",
+    "RowCount": 2490
+  },
+  {
+    "TABLE_NAME": "UPDATE_SCRIPT_PROTOCOL",
+    "RowCount": 2169
+  },
+  {
+    "TABLE_NAME": "ARTBAUM",
+    "RowCount": 2094
+  },
+  {
+    "TABLE_NAME": "LOOKUPD",
+    "RowCount": 2014
+  },
+  {
+    "TABLE_NAME": "SYSVARS",
+    "RowCount": 1828
+  },
+  {
+    "TABLE_NAME": "PROFILINGPOSITIONING",
+    "RowCount": 1781
+  },
+  {
+    "TABLE_NAME": "PROMONZ",
+    "RowCount": 1778
+  },
+  {
+    "TABLE_NAME": "PROFARB",
+    "RowCount": 1770
+  },
+  {
+    "TABLE_NAME": "LOOKUPV",
+    "RowCount": 1740
+  },
+  {
+    "TABLE_NAME": "RR_DESCR_TABLE",
+    "RowCount": 1692
+  },
+  {
+    "TABLE_NAME": "GRUNDFARBEN",
+    "RowCount": 1678
+  },
+  {
+    "TABLE_NAME": "SPRBAUM",
+    "RowCount": 1666
+  },
+  {
+    "TABLE_NAME": "GLASS_BOM",
+    "RowCount": 1653
+  },
+  {
+    "TABLE_NAME": "FARBEN",
+    "RowCount": 1652
+  },
+  {
+    "TABLE_NAME": "CUSTOM_IFS_OKU_KLAM",
+    "RowCount": 1638
+  },
+  {
+    "TABLE_NAME": "BESTINFO",
+    "RowCount": 1631
+  },
+  {
+    "TABLE_NAME": "GRID",
+    "RowCount": 1555
+  },
+  {
+    "TABLE_NAME": "CAEXPD",
+    "RowCount": 1550
+  },
+  {
+    "TABLE_NAME": "ARTHOLZARTK",
+    "RowCount": 1535
+  },
+  {
+    "TABLE_NAME": "CASYSVAR",
+    "RowCount": 1523
+  },
+  {
+    "TABLE_NAME": "PURCHASE_ITEM_SUPPLIERS",
+    "RowCount": 1427
+  },
+  {
+    "TABLE_NAME": "P_ARMZUO",
+    "RowCount": 1413
+  },
+  {
+    "TABLE_NAME": "PRODUKTSYSTEMEFARBEN",
+    "RowCount": 1399
+  },
+  {
+    "TABLE_NAME": "VARFLDZUORD",
+    "RowCount": 1381
+  },
+  {
+    "TABLE_NAME": "CUSTOM_OKNA_PODKLADKI",
+    "RowCount": 1332
+  },
+  {
+    "TABLE_NAME": "ARTHOLZART",
+    "RowCount": 1303
+  },
+  {
+    "TABLE_NAME": "ABDICHTUNGSZUORD",
+    "RowCount": 1223
+  },
+  {
+    "TABLE_NAME": "USERFUNCPARAM",
+    "RowCount": 1180
+  },
+  {
+    "TABLE_NAME": "WIDGETD",
+    "RowCount": 1175
+  },
+  {
+    "TABLE_NAME": "SYSTEMSETTING",
+    "RowCount": 1031
+  },
+  {
+    "TABLE_NAME": "GLASS_PANE_POSITIONS",
+    "RowCount": 1010
+  },
+  {
+    "TABLE_NAME": "BESCHVAR",
+    "RowCount": 1006
+  },
+  {
+    "TABLE_NAME": "TOPATTR",
+    "RowCount": 992
+  },
+  {
+    "TABLE_NAME": "CAREPORTOBJECTASSIGN",
+    "RowCount": 982
+  },
+  {
+    "TABLE_NAME": "AUFPREIS",
+    "RowCount": 980
+  },
+  {
+    "TABLE_NAME": "PREISE",
+    "RowCount": 975
+  },
+  {
+    "TABLE_NAME": "PROFKOMB",
+    "RowCount": 973
+  },
+  {
+    "TABLE_NAME": "DRAWOBJ",
+    "RowCount": 944
+  },
+  {
+    "TABLE_NAME": "CUSTOM_DRZWI_WYPELNIENIA_WYMIARY",
+    "RowCount": 938
+  },
+  {
+    "TABLE_NAME": "PROFILPOSITIONIERUNG",
+    "RowCount": 938
+  },
+  {
+    "TABLE_NAME": "ARTKLVAT",
+    "RowCount": 889
+  },
+  {
+    "TABLE_NAME": "CUSTOM_IFS_TYP",
+    "RowCount": 887
+  },
+  {
+    "TABLE_NAME": "NUMPOOL",
+    "RowCount": 873
+  },
+  {
+    "TABLE_NAME": "RR_TABLE",
+    "RowCount": 846
+  },
+  {
+    "TABLE_NAME": "CASYSTBL",
+    "RowCount": 846
+  },
+  {
+    "TABLE_NAME": "BESCHTAU",
+    "RowCount": 735
+  },
+  {
+    "TABLE_NAME": "P_MODDET",
+    "RowCount": 727
+  },
+  {
+    "TABLE_NAME": "CASYSTBLFIELDTRANSLATION",
+    "RowCount": 681
+  },
+  {
+    "TABLE_NAME": "USERFUNC",
+    "RowCount": 663
+  },
+  {
+    "TABLE_NAME": "PRODTYP",
+    "RowCount": 620
+  },
+  {
+    "TABLE_NAME": "PROFILINGEXCHANGE",
+    "RowCount": 602
+  },
+  {
+    "TABLE_NAME": "AUF_HIST",
+    "RowCount": 570
+  },
+  {
+    "TABLE_NAME": "ARTESINT",
+    "RowCount": 566
+  },
+  {
+    "TABLE_NAME": "AUFARTIK",
+    "RowCount": 555
+  },
+  {
+    "TABLE_NAME": "PROFSATZECKZUORD",
+    "RowCount": 555
+  },
+  {
+    "TABLE_NAME": "PRODCONF",
+    "RowCount": 548
+  },
+  {
+    "TABLE_NAME": "CAREPORTOBJECTDESC",
+    "RowCount": 546
+  },
+  {
+    "TABLE_NAME": "ECKTAUSCHDDEF",
+    "RowCount": 542
+  },
+  {
+    "TABLE_NAME": "ECKTAUSCHDBED",
+    "RowCount": 536
+  },
+  {
+    "TABLE_NAME": "CUSTOM_BRAMY_DOBOR_PANELI",
+    "RowCount": 534
+  },
+  {
+    "TABLE_NAME": "GLASS_SPACER_EXCH_THICKNESS",
+    "RowCount": 503
+  },
+  {
+    "TABLE_NAME": "CUSTOM_IFS_WYPELNIENIA",
+    "RowCount": 491
+  },
+  {
+    "TABLE_NAME": "ARTIKEL",
+    "RowCount": 486
+  },
+  {
+    "TABLE_NAME": "LOOKUPK",
+    "RowCount": 454
+  },
+  {
+    "TABLE_NAME": "CUSTOM_ROLETY_MOSKITIERA_DOSTEPNOSC",
+    "RowCount": 442
+  },
+  {
+    "TABLE_NAME": "P_ZUBVAR",
+    "RowCount": 427
+  },
+  {
+    "TABLE_NAME": "FARBKOMBI",
+    "RowCount": 423
+  },
+  {
+    "TABLE_NAME": "PREISSCHEMAD",
+    "RowCount": 419
+  },
+  {
+    "TABLE_NAME": "LOOKUPDT",
+    "RowCount": 414
+  },
+  {
+    "TABLE_NAME": "RECHTE",
+    "RowCount": 399
+  },
+  {
+    "TABLE_NAME": "BESCHLAGSPAKETD",
+    "RowCount": 388
+  },
+  {
+    "TABLE_NAME": "FELDFUEL",
+    "RowCount": 374
+  },
+  {
+    "TABLE_NAME": "CUSTOM_DRZWI_WYPELNIENIA_SZYBY_POZYCJE",
+    "RowCount": 343
+  },
+  {
+    "TABLE_NAME": "CUSTOM_OKNA_KOLORY_AKCESORIA_ALU",
+    "RowCount": 339
+  },
+  {
+    "TABLE_NAME": "PROAMTXT",
+    "RowCount": 337
+  },
+  {
+    "TABLE_NAME": "CUSTOM_IFS_KLAMKA",
+    "RowCount": 332
+  },
+  {
+    "TABLE_NAME": "PBEREICH",
+    "RowCount": 331
+  },
+  {
+    "TABLE_NAME": "GLASS_SPACER_EXCHANGE",
+    "RowCount": 319
+  },
+  {
+    "TABLE_NAME": "CUSTOM_DRZWI_WYPELNIENIA_MODELE",
+    "RowCount": 290
+  },
+  {
+    "TABLE_NAME": "CUSTOM_ROLETY_KOLORY_AKCESORIA",
+    "RowCount": 282
+  },
+  {
+    "TABLE_NAME": "CAREPORTOBJECT",
+    "RowCount": 273
+  },
+  {
+    "TABLE_NAME": "SERVKAL",
+    "RowCount": 261
+  },
+  {
+    "TABLE_NAME": "VORBKOPF",
+    "RowCount": 259
+  },
+  {
+    "TABLE_NAME": "ECKTAUSCHD",
+    "RowCount": 255
+  },
+  {
+    "TABLE_NAME": "CUSTOM_OKNA_KOLORY_AKCESORIA_DRE",
+    "RowCount": 248
+  },
+  {
+    "TABLE_NAME": "ARTKL",
+    "RowCount": 248
+  },
+  {
+    "TABLE_NAME": "CUSTOM_SZYBY_OGRANICZENIA",
+    "RowCount": 229
+  },
+  {
+    "TABLE_NAME": "STMPROF",
+    "RowCount": 221
+  },
+  {
+    "TABLE_NAME": "TRANSLAT",
+    "RowCount": 220
+  },
+  {
+    "TABLE_NAME": "FARBKOMBID",
+    "RowCount": 216
+  },
+  {
+    "TABLE_NAME": "P_PRGEHR",
+    "RowCount": 215
+  },
+  {
+    "TABLE_NAME": "GLASS_PANE",
+    "RowCount": 214
+  },
+  {
+    "TABLE_NAME": "LOOKUPVF",
+    "RowCount": 213
+  },
+  {
+    "TABLE_NAME": "PROFTAB",
+    "RowCount": 206
+  },
+  {
+    "TABLE_NAME": "PLZTAG",
+    "RowCount": 205
+  },
+  {
+    "TABLE_NAME": "PROFILINGDEDUCTION",
+    "RowCount": 203
+  },
+  {
+    "TABLE_NAME": "CAREPORTDESC",
+    "RowCount": 202
+  },
+  {
+    "TABLE_NAME": "P_LAENG",
+    "RowCount": 198
+  },
+  {
+    "TABLE_NAME": "HELPID",
+    "RowCount": 197
+  },
+  {
+    "TABLE_NAME": "HANDCONF",
+    "RowCount": 192
+  },
+  {
+    "TABLE_NAME": "FF_GLAS",
+    "RowCount": 191
+  },
+  {
+    "TABLE_NAME": "TEXTBAUS",
+    "RowCount": 185
+  },
+  {
+    "TABLE_NAME": "RESTRMGR",
+    "RowCount": 181
+  },
+  {
+    "TABLE_NAME": "PROFILINGASSIGNMENT",
+    "RowCount": 177
+  },
+  {
+    "TABLE_NAME": "MGRRECHT",
+    "RowCount": 176
+  },
+  {
+    "TABLE_NAME": "CUSTOM_OKNA_DWU_PVC_TYP",
+    "RowCount": 174
+  },
+  {
+    "TABLE_NAME": "LOOKUPUSERRETVALS",
+    "RowCount": 171
+  },
+  {
+    "TABLE_NAME": "AUFCAD",
+    "RowCount": 166
+  },
+  {
+    "TABLE_NAME": "BESCHLAGSPAKET",
+    "RowCount": 164
+  },
+  {
+    "TABLE_NAME": "LOOKUPFD",
+    "RowCount": 164
+  },
+  {
+    "TABLE_NAME": "SYSTEMSETTING_HIST",
+    "RowCount": 154
+  },
+  {
+    "TABLE_NAME": "AUFPRGRP",
+    "RowCount": 153
+  },
+  {
+    "TABLE_NAME": "CUSTOM_ROLETY_DOBOR_SKRZYNKI",
+    "RowCount": 153
+  },
+  {
+    "TABLE_NAME": "CAFORMULA",
+    "RowCount": 148
+  },
+  {
+    "TABLE_NAME": "PROFSUB",
+    "RowCount": 147
+  },
+  {
+    "TABLE_NAME": "CANTOR_ERPCOCKPIT_DEMO",
+    "RowCount": 143
+  },
+  {
+    "TABLE_NAME": "CUSTOM_OKNA_KOLORY_AKCESORIA_PVC",
+    "RowCount": 143
+  },
+  {
+    "TABLE_NAME": "GEBIET",
+    "RowCount": 137
+  },
+  {
+    "TABLE_NAME": "AUFTAB",
+    "RowCount": 137
+  },
+  {
+    "TABLE_NAME": "LASTGRP",
+    "RowCount": 133
+  },
+  {
+    "TABLE_NAME": "FF_ABST",
+    "RowCount": 131
+  },
+  {
+    "TABLE_NAME": "FELDTAB",
+    "RowCount": 124
+  },
+  {
+    "TABLE_NAME": "ARMIERU",
+    "RowCount": 119
+  },
+  {
+    "TABLE_NAME": "CASYSAKTIONEN",
+    "RowCount": 118
+  },
+  {
+    "TABLE_NAME": "MWEINH",
+    "RowCount": 117
+  },
+  {
+    "TABLE_NAME": "SBFORMEN",
+    "RowCount": 117
+  },
+  {
+    "TABLE_NAME": "NUMSRV",
+    "RowCount": 108
+  },
+  {
+    "TABLE_NAME": "CUSTOM_ROLETY_PANCERZE_KLASY_WIATROWE",
+    "RowCount": 108
+  },
+  {
+    "TABLE_NAME": "ARTKLINT",
+    "RowCount": 106
+  },
+  {
+    "TABLE_NAME": "FELDKOMB",
+    "RowCount": 105
+  },
+  {
+    "TABLE_NAME": "GLASS_SPACER",
+    "RowCount": 103
+  },
+  {
+    "TABLE_NAME": "CAREPORT",
+    "RowCount": 101
+  },
+  {
+    "TABLE_NAME": "XMLESIMPORT",
+    "RowCount": 100
+  },
+  {
+    "TABLE_NAME": "P_LMKOMB",
+    "RowCount": 98
+  },
+  {
+    "TABLE_NAME": "TOPPAKET",
+    "RowCount": 97
+  },
+  {
+    "TABLE_NAME": "LOOKUPF",
+    "RowCount": 96
+  },
+  {
+    "TABLE_NAME": "GRIDCUST",
+    "RowCount": 94
+  },
+  {
+    "TABLE_NAME": "CUSTOM_DRZWI_WYPELNIENIA_SZYBY_RAMKI",
+    "RowCount": 93
+  },
+  {
+    "TABLE_NAME": "P_MOD",
+    "RowCount": 92
+  },
+  {
+    "TABLE_NAME": "WANDELD",
+    "RowCount": 88
+  },
+  {
+    "TABLE_NAME": "CAEXPK",
+    "RowCount": 87
+  },
+  {
+    "TABLE_NAME": "P_MAKOPF",
+    "RowCount": 85
+  },
+  {
+    "TABLE_NAME": "SPRART",
+    "RowCount": 84
+  },
+  {
+    "TABLE_NAME": "AUFPOS",
+    "RowCount": 83
+  },
+  {
+    "TABLE_NAME": "AUFSTKLASSE",
+    "RowCount": 83
+  },
+  {
+    "TABLE_NAME": "DOKZUORD",
+    "RowCount": 82
+  },
+  {
+    "TABLE_NAME": "RESTRIKT",
+    "RowCount": 81
+  },
+  {
+    "TABLE_NAME": "EVENTS",
+    "RowCount": 78
+  },
+  {
+    "TABLE_NAME": "GLASS_SPACER_EXCH_PRODTYPES",
+    "RowCount": 73
+  },
+  {
+    "TABLE_NAME": "RSETZUOR",
+    "RowCount": 71
+  },
+  {
+    "TABLE_NAME": "PROAMDEF",
+    "RowCount": 70
+  },
+  {
+    "TABLE_NAME": "PREISZYK",
+    "RowCount": 69
+  },
+  {
+    "TABLE_NAME": "PROFILING",
+    "RowCount": 67
+  },
+  {
+    "TABLE_NAME": "STAUFFOL",
+    "RowCount": 67
+  },
+  {
+    "TABLE_NAME": "STAUFWF",
+    "RowCount": 67
+  },
+  {
+    "TABLE_NAME": "PREISSCHEMA",
+    "RowCount": 65
+  },
+  {
+    "TABLE_NAME": "FARBKL",
+    "RowCount": 64
+  },
+  {
+    "TABLE_NAME": "CUSTOM_ROLETY_TYP_NAPEDU",
+    "RowCount": 58
+  },
+  {
+    "TABLE_NAME": "PREISGRUPPE",
+    "RowCount": 58
+  },
+  {
+    "TABLE_NAME": "CUSTOM_IFS_BRAMY_PANELE",
+    "RowCount": 55
+  },
+  {
+    "TABLE_NAME": "SBMAKRO",
+    "RowCount": 53
+  },
+  {
+    "TABLE_NAME": "WIDGET",
+    "RowCount": 52
+  },
+  {
+    "TABLE_NAME": "CUSTOM_ZAL_WEW_KOLORY_AKCESORIA",
+    "RowCount": 52
+  },
+  {
+    "TABLE_NAME": "LAND",
+    "RowCount": 51
+  },
+  {
+    "TABLE_NAME": "CUSTOM_KOLORYFOLII_VEKA",
+    "RowCount": 49
+  },
+  {
+    "TABLE_NAME": "CUSTOM_ZALUZJE_KOLORY_AKCESORIA",
+    "RowCount": 48
+  },
+  {
+    "TABLE_NAME": "CUSTOM_ROLETY_STRONA_STEROWANIA",
+    "RowCount": 48
+  },
+  {
+    "TABLE_NAME": "TOPATTRGRUPPE",
+    "RowCount": 48
+  },
+  {
+    "TABLE_NAME": "PROFILINGSEGMENTDEDUCTION",
+    "RowCount": 47
+  },
+  {
+    "TABLE_NAME": "DRSCHL",
+    "RowCount": 47
+  },
+  {
+    "TABLE_NAME": "GLSKTLG",
+    "RowCount": 47
+  },
+  {
+    "TABLE_NAME": "BESGRP",
+    "RowCount": 47
+  },
+  {
+    "TABLE_NAME": "CUSTOM_ROLETY_OGRANICZNIKI",
+    "RowCount": 45
+  },
+  {
+    "TABLE_NAME": "AUFFARBEN",
+    "RowCount": 44
+  },
+  {
+    "TABLE_NAME": "KUNDKAL",
+    "RowCount": 44
+  },
+  {
+    "TABLE_NAME": "CUSTOM_OKNA_DWU_PVC",
+    "RowCount": 43
+  },
+  {
+    "TABLE_NAME": "AUFVORBK",
+    "RowCount": 41
+  },
+  {
+    "TABLE_NAME": "EVENTTASKS",
+    "RowCount": 41
+  },
+  {
+    "TABLE_NAME": "TOPPAKETWIDGET",
+    "RowCount": 37
+  },
+  {
+    "TABLE_NAME": "STEUERREGELD",
+    "RowCount": 36
+  },
+  {
+    "TABLE_NAME": "AUFART",
+    "RowCount": 36
+  },
+  {
+    "TABLE_NAME": "AUFKOPF",
+    "RowCount": 34
+  },
+  {
+    "TABLE_NAME": "ECKTAUSCH",
+    "RowCount": 34
+  },
+  {
+    "TABLE_NAME": "ZWINDEX",
+    "RowCount": 34
+  },
+  {
+    "TABLE_NAME": "CUSTOM_FORMULA_TRANSLATIONS",
+    "RowCount": 33
+  },
+  {
+    "TABLE_NAME": "CUSTOM_PRICE_MAPPING",
+    "RowCount": 33
+  },
+  {
+    "TABLE_NAME": "ERRORID",
+    "RowCount": 32
+  },
+  {
+    "TABLE_NAME": "BESCHMA",
+    "RowCount": 32
+  },
+  {
+    "TABLE_NAME": "REPDEFD",
+    "RowCount": 31
+  },
+  {
+    "TABLE_NAME": "KSCHEMAD",
+    "RowCount": 31
+  },
+  {
+    "TABLE_NAME": "ICONSET",
+    "RowCount": 30
+  },
+  {
+    "TABLE_NAME": "GLASS_EXCHANGE_GROUPS",
+    "RowCount": 30
+  },
+  {
+    "TABLE_NAME": "TRSYSTEM",
+    "RowCount": 29
+  },
+  {
+    "TABLE_NAME": "SYSTEXT",
+    "RowCount": 29
+  },
+  {
+    "TABLE_NAME": "SYSQUEUE",
+    "RowCount": 29
+  },
+  {
+    "TABLE_NAME": "STEUERREGEL",
+    "RowCount": 27
+  },
+  {
+    "TABLE_NAME": "LOCKSRV",
+    "RowCount": 27
+  },
+  {
+    "TABLE_NAME": "PROFILINGSEGMENT",
+    "RowCount": 27
+  },
+  {
+    "TABLE_NAME": "CUSTOM_ROLETY_KOLORYSTYKA_RYSUNKI_SKRZ",
+    "RowCount": 26
+  },
+  {
+    "TABLE_NAME": "CAFORMULASUBBEREICH",
+    "RowCount": 25
+  },
+  {
+    "TABLE_NAME": "CUSTOM_ROLETY_KOLORYSTYKA_RYSUNKI_PROW",
+    "RowCount": 24
+  },
+  {
+    "TABLE_NAME": "EXTERNALORDERDATACONFIG",
+    "RowCount": 24
+  },
+  {
+    "TABLE_NAME": "KSATZD",
+    "RowCount": 24
+  },
+  {
+    "TABLE_NAME": "MWST",
+    "RowCount": 24
+  },
+  {
+    "TABLE_NAME": "ORDERFIELDS",
+    "RowCount": 23
+  },
+  {
+    "TABLE_NAME": "PRUEFPOLYGONED",
+    "RowCount": 23
+  },
+  {
+    "TABLE_NAME": "STEUERKLASSE",
+    "RowCount": 23
+  },
+  {
+    "TABLE_NAME": "AUFARTIKD",
+    "RowCount": 23
+  },
+  {
+    "TABLE_NAME": "CUSTOM_ROLETY_WYJSCIE_KABLA",
+    "RowCount": 22
+  },
+  {
+    "TABLE_NAME": "PROFTEXT",
+    "RowCount": 22
+  },
+  {
+    "TABLE_NAME": "USERGROUPSITES",
+    "RowCount": 22
+  },
+  {
+    "TABLE_NAME": "WIDGETGRUPPE",
+    "RowCount": 21
+  },
+  {
+    "TABLE_NAME": "SQLQUERYGRP",
+    "RowCount": 21
+  },
+  {
+    "TABLE_NAME": "MITARBFUNKTION",
+    "RowCount": 21
+  },
+  {
+    "TABLE_NAME": "CUSTOM_IFS_BRAMY_OKNA",
+    "RowCount": 21
+  },
+  {
+    "TABLE_NAME": "CADUSRLAYER",
+    "RowCount": 20
+  },
+  {
+    "TABLE_NAME": "AUFSTREGEL",
+    "RowCount": 20
+  },
+  {
+    "TABLE_NAME": "AUFSTEUER",
+    "RowCount": 20
+  },
+  {
+    "TABLE_NAME": "AUFSTEUERD",
+    "RowCount": 20
+  },
+  {
+    "TABLE_NAME": "TXTTYPEN",
+    "RowCount": 19
+  },
+  {
+    "TABLE_NAME": "P_LM",
+    "RowCount": 19
+  },
+  {
+    "TABLE_NAME": "KUNDEPZU",
+    "RowCount": 18
+  },
+  {
+    "TABLE_NAME": "REPDEF",
+    "RowCount": 18
+  },
+  {
+    "TABLE_NAME": "CUSTOM_ROLETY_WYJSCIE_KORBY",
+    "RowCount": 18
+  },
+  {
+    "TABLE_NAME": "FARBCODEGRP",
+    "RowCount": 18
+  },
+  {
+    "TABLE_NAME": "PROVINZ",
+    "RowCount": 17
+  },
+  {
+    "TABLE_NAME": "P_GEHR",
+    "RowCount": 16
+  },
+  {
+    "TABLE_NAME": "CUSTOM_ROLETY_WARIANT_ZABUDOWY",
+    "RowCount": 16
+  },
+  {
+    "TABLE_NAME": "STATUS",
+    "RowCount": 15
+  },
+  {
+    "TABLE_NAME": "PREISGRUPPED",
+    "RowCount": 14
+  },
+  {
+    "TABLE_NAME": "LIEFBED",
+    "RowCount": 14
+  },
+  {
+    "TABLE_NAME": "EXTERNALORDERDATA",
+    "RowCount": 14
+  },
+  {
+    "TABLE_NAME": "GLASS_SPACER_STYLES",
+    "RowCount": 14
+  },
+  {
+    "TABLE_NAME": "FF_EIGT",
+    "RowCount": 14
+  },
+  {
+    "TABLE_NAME": "PRODUKTSYSTEME",
+    "RowCount": 13
+  },
+  {
+    "TABLE_NAME": "SPRACHEN",
+    "RowCount": 13
+  },
+  {
+    "TABLE_NAME": "PROSTATI",
+    "RowCount": 13
+  },
+  {
+    "TABLE_NAME": "TRSHIST",
+    "RowCount": 13
+  },
+  {
+    "TABLE_NAME": "CAFORMULABEREICH",
+    "RowCount": 12
+  },
+  {
+    "TABLE_NAME": "BESCHAUS",
+    "RowCount": 12
+  },
+  {
+    "TABLE_NAME": "AUFTYPEN",
+    "RowCount": 11
+  },
+  {
+    "TABLE_NAME": "BESCHTYP",
+    "RowCount": 11
+  },
+  {
+    "TABLE_NAME": "ESSTCODE",
+    "RowCount": 11
+  },
+  {
+    "TABLE_NAME": "ZAHLART",
+    "RowCount": 11
+  },
+  {
+    "TABLE_NAME": "STARTUP",
+    "RowCount": 11
+  },
+  {
+    "TABLE_NAME": "WANDELK",
+    "RowCount": 10
+  },
+  {
+    "TABLE_NAME": "WAEHKURS",
+    "RowCount": 10
+  },
+  {
+    "TABLE_NAME": "WAEHRUNG",
+    "RowCount": 10
+  },
+  {
+    "TABLE_NAME": "VORBGRUPPE",
+    "RowCount": 10
+  },
+  {
+    "TABLE_NAME": "CUSTOM_ROLETY_WYJSCIE_LINKI_PASKA",
+    "RowCount": 10
+  },
+  {
+    "TABLE_NAME": "CUSTOM_ROLETY_ZABEZPIECZENIE",
+    "RowCount": 10
+  },
+  {
+    "TABLE_NAME": "AUFTRAGSARTIKEL",
+    "RowCount": 9
+  },
+  {
+    "TABLE_NAME": "AUFTRAGSGRUND",
+    "RowCount": 9
+  },
+  {
+    "TABLE_NAME": "CA_SER",
+    "RowCount": 9
+  },
+  {
+    "TABLE_NAME": "WIDGETELEMENTPARAMS",
+    "RowCount": 9
+  },
+  {
+    "TABLE_NAME": "ZYKLEN",
+    "RowCount": 8
+  },
+  {
+    "TABLE_NAME": "VORBSTAT",
+    "RowCount": 8
+  },
+  {
+    "TABLE_NAME": "STANDRABPRG",
+    "RowCount": 8
+  },
+  {
+    "TABLE_NAME": "ARTIKELQSCHNITTE",
+    "RowCount": 8
+  },
+  {
+    "TABLE_NAME": "CUSTOM_ROLETY_WARIANTY_OKL_PROW",
+    "RowCount": 8
+  },
+  {
+    "TABLE_NAME": "AUFGKATEGORIE",
+    "RowCount": 7
+  },
+  {
+    "TABLE_NAME": "BESHGRP",
+    "RowCount": 7
+  },
+  {
+    "TABLE_NAME": "STATINFO",
+    "RowCount": 7
+  },
+  {
+    "TABLE_NAME": "TERMPLAN",
+    "RowCount": 7
+  },
+  {
+    "TABLE_NAME": "KUNDEN",
+    "RowCount": 7
+  },
+  {
+    "TABLE_NAME": "KLASSIFK",
+    "RowCount": 7
+  },
+  {
+    "TABLE_NAME": "PROFILINGSCHEME",
+    "RowCount": 7
+  },
+  {
+    "TABLE_NAME": "TELEFONBEZ",
+    "RowCount": 6
+  },
+  {
+    "TABLE_NAME": "TOPATTRTEMPLATED",
+    "RowCount": 6
+  },
+  {
+    "TABLE_NAME": "SERVICEEINHEIT",
+    "RowCount": 6
+  },
+  {
+    "TABLE_NAME": "CUSTOM_ROLETY_WARIANTY_OKL_SKRZ",
+    "RowCount": 6
+  },
+  {
+    "TABLE_NAME": "ERLOESK",
+    "RowCount": 6
+  },
+  {
+    "TABLE_NAME": "FF_GAS",
+    "RowCount": 5
+  },
+  {
+    "TABLE_NAME": "AUFGSTATUS",
+    "RowCount": 5
+  },
+  {
+    "TABLE_NAME": "REPZUORD",
+    "RowCount": 5
+  },
+  {
+    "TABLE_NAME": "SYSTEM_DLG_COMMAND_HIDING",
+    "RowCount": 5
+  },
+  {
+    "TABLE_NAME": "TEXTE",
+    "RowCount": 4
+  },
+  {
+    "TABLE_NAME": "USERREPORT",
+    "RowCount": 4
+  },
+  {
+    "TABLE_NAME": "ZAHLFORM",
+    "RowCount": 4
+  },
+  {
+    "TABLE_NAME": "KSCHEMA",
+    "RowCount": 4
+  },
+  {
+    "TABLE_NAME": "KSATZ",
+    "RowCount": 4
+  },
+  {
+    "TABLE_NAME": "PROFGRP",
+    "RowCount": 4
+  },
+  {
+    "TABLE_NAME": "ARTSPRA",
+    "RowCount": 4
+  },
+  {
+    "TABLE_NAME": "BRANCHE",
+    "RowCount": 4
+  },
+  {
+    "TABLE_NAME": "CUSTOM_ROLETY_SRED_WALU_WYNIKOWA",
+    "RowCount": 4
+  },
+  {
+    "TABLE_NAME": "EINGART",
+    "RowCount": 4
+  },
+  {
+    "TABLE_NAME": "ACCESSORY_GROUPS",
+    "RowCount": 3
+  },
+  {
+    "TABLE_NAME": "PLANKENNZ",
+    "RowCount": 3
+  },
+  {
+    "TABLE_NAME": "HOLZARTEN",
+    "RowCount": 3
+  },
+  {
+    "TABLE_NAME": "MAHNUNG",
+    "RowCount": 3
+  },
+  {
+    "TABLE_NAME": "WANDELKLASSED",
+    "RowCount": 3
+  },
+  {
+    "TABLE_NAME": "VERSTAT",
+    "RowCount": 3
+  },
+  {
+    "TABLE_NAME": "UEBFILTD",
+    "RowCount": 3
+  },
+  {
+    "TABLE_NAME": "REKLAGRUND",
+    "RowCount": 3
+  },
+  {
+    "TABLE_NAME": "STBUCHB",
+    "RowCount": 3
+  },
+  {
+    "TABLE_NAME": "STANDRAB",
+    "RowCount": 2
+  },
+  {
+    "TABLE_NAME": "RR_LANGUAGE",
+    "RowCount": 2
+  },
+  {
+    "TABLE_NAME": "PRUEFPOLYGONE",
+    "RowCount": 2
+  },
+  {
+    "TABLE_NAME": "UEBFILT",
+    "RowCount": 2
+  },
+  {
+    "TABLE_NAME": "LIEFERAN",
+    "RowCount": 2
+  },
+  {
+    "TABLE_NAME": "MPGRUPPENPRODTYP",
+    "RowCount": 2
+  },
+  {
+    "TABLE_NAME": "OBJSTATUS",
+    "RowCount": 2
+  },
+  {
+    "TABLE_NAME": "GLASS_GAS",
+    "RowCount": 2
+  },
+  {
+    "TABLE_NAME": "FARBSTUF",
+    "RowCount": 2
+  },
+  {
+    "TABLE_NAME": "EXT_WEBSERVICE",
+    "RowCount": 1
+  },
+  {
+    "TABLE_NAME": "DUMMY",
+    "RowCount": 1
+  },
+  {
+    "TABLE_NAME": "DEFAULTTEXTFORMATS",
+    "RowCount": 1
+  },
+  {
+    "TABLE_NAME": "ADRESSANLIEFERZEITEN",
+    "RowCount": 1
+  },
+  {
+    "TABLE_NAME": "ARTLAGERLAENGEN",
+    "RowCount": 1
+  },
+  {
+    "TABLE_NAME": "MITARB",
+    "RowCount": 1
+  },
+  {
+    "TABLE_NAME": "MGRUPPEN",
+    "RowCount": 1
+  },
+  {
+    "TABLE_NAME": "MANDANT",
+    "RowCount": 1
+  },
+  {
+    "TABLE_NAME": "TOPATTRTEMPLATE",
+    "RowCount": 1
+  },
+  {
+    "TABLE_NAME": "TEXTFORMATS",
+    "RowCount": 1
+  },
+  {
+    "TABLE_NAME": "WANDELKLASSE",
+    "RowCount": 1
+  },
+  {
+    "TABLE_NAME": "RECHTSET",
+    "RowCount": 1
+  },
+  {
+    "TABLE_NAME": "STEUERKLASSEX",
+    "RowCount": 1
+  },
+  {
+    "TABLE_NAME": "SEGMTYP",
+    "RowCount": 1
+  },
+  {
+    "TABLE_NAME": "SEGMTYPD",
+    "RowCount": 1
+  },
+  {
+    "TABLE_NAME": "SITE_WEBSERVICE_USERS",
+    "RowCount": 1
+  },
+  {
+    "TABLE_NAME": "RWGRUND",
+    "RowCount": 1
+  },
+  {
+    "TABLE_NAME": "RR_TODO",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "SBSTUFEN",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "SCM_ORDER_SEARCH_PARAMS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "SHIPPINGSPLITCONDITION",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "SHIPPINGSTAGES",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "STEUERN",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "STLINFOL",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "STLINWF",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "STATIST",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "SQLQUERY",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "PURCHASE_ORDER_SUPPLIERS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "PURCHGROUP_ADDRESSES",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "PURCHGROUP_ALT_SUPPLIERS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "PROVISIO",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RR_MSG",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RR_SITE",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RR_JOB",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RR_JOBHEAD",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RR_FIELD_CON",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RF_ANALYSIS_GROUP",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RF_ASSIGNMENT",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "VERWEISE",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "VKLIEFVP",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "VORBFEB",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "WEB_CONNECTOR_ITEM_PARAMS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "WEB_CONNECTOR_ITEMS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "WEBPORT",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "WIDGETROW",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ZAHLUNGSBEDINGUNG",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EXPORTHISTORIE",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "STSCHEMA",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "STSCHEMD",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "STSCHEMG",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "STSCHGD",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "SYSDIAGRAMS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "TOPATTR_EXTERNAL_NAMES",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "UNITSIZECODE",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "UNITSIZECODED",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "UPDLOG",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "UPDUSER",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "MANDANTENSPRACHE",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "MANDANTNUMKREIS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "MANDKAL",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "MANDLOCALFIELD",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "MANDLOCALTABLES",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "MGRUPPENTEXTBAUS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "MAILJOB",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "MODELLREIHE",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "MPGRUPPEN",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "MWCONVERTMATERIAL",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ORDER_CALCULATION_ACCESSORY",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ORDER_FILTER_TOP_ATTRIBUTE",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "OBJEKPOS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "OBJEKTE",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "OBJ_HIST",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "OBJKALKSATZD",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "OBJRAB",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "HWSTATICCLASS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "IMPORT_DB_TO_BOM",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "IMPORT_DB_TO_BOM_PROPERTY",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "KDDRSCH",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "KONTO",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "KUNDEAKTION",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "KUNDEAPA",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "LAGERART",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "KUNDEVORB",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "LOGIKAL_IMPORT",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "LOGIKAL_IMPORT_ART",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "LOGISTIC_REASONS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "LIEFKOPF",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "LIEFPOS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "LOADGROUPD",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "PLANKENNZEICHEN",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "PLANKENNZEICHEND",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "PLANVORGANG",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "PLANVORGANGKENNZEICHEN",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "PLZMITAR",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "PLANKATEGORIE",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ORDER_PROFILE_DEDUCTIONSETS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ORDER_PROFILINGPOSITIONING",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ORDER_TRANSFER_VALID_SITES",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "PO_PROFILE_DEDUCTIONSETS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "PO_PROFILINGPOSITIONING",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "PRNZUORD",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "PROFILBAUGRUPPE",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "PROFILECONNECTORASSIGNMENT",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "PRODUCTCLASS_WEB_PROPERTIES",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "PRODUKTDESIGN",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RABGRENZ",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RABSCHEM",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RECHCODE",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RECH_HIST",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RECHKALKSATZD",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RECHKOM",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RECHKOPF",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RECHPOS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RECHPRGRP",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RECHPROV",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RECHPRS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RECHRAB",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RECHRABPRG",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RECHSTEU",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RECHSTEUER",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RECHSTEUERD",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RECHSTKLASSE",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "RECHSTREGEL",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ARTICLEPROFILINGDEDUCTION",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ARTKLMANDANT",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ABRECH",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AKTIONEN",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AKTIVITAETD",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AKTIVITAETK",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AKTIVITAETZ",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ANSCHREIBENSET",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ANSCHREIBENSETD",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ARMIERULAENG",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ARTEINH",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFGABEN",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFGEKEL",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFSTKL",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFPRODKOM",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFPRODPOS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFPROFILBAUGRUPPE",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFPROFILBAUGRUPPED",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFPROVI",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFRAB",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFRABPRG",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFSTAT",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFSTEU",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFGLINK",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFGPROT",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFGRAF",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFKALK",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFKALKD",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFKALKINF",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFKALKSATZD",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFKOM",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFDMABSCHNITT",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFDMABSCHNITTD",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFDMFLAECHE",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFDMFLAECHED",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFDMKNOTEN",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFDRUCK",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "BESTMSUB",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "BLONLINE",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "BESGSUB",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "BESGVERS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFTEXT",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "BESCHAUSMODELL",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "AUFWKONT",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "BE_ALFAK",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "BE_EXP",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "BE_KOPF",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "BELEGARCHIV",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "BE_POS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "CASEARCHBEREICH",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "CASEARCHKATALOG",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "CASEARCHKEYS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "CASEARCHKEYVALUES",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "CANSYSUSER",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "CONNECTOR_GROUPS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "CONNECTORPOINTS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "CONNECTORPOINTSD",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "CONNECTORSTYLES",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "COST_OBJECTS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "CASYSVAROBJECT",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "CASYSVAROBJECTCONTEXT",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "DELIVERYNOTE_HIST",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "DOC_ARCHIVE_DESC_ASSIGNMENT",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "DOC_ARCHIVE_DESCRIPTIONS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "DOKARTIKELBEZ",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "DOKZUS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "DRART",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "DRARTPOS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "DATEVOP",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "DATEVOP_RECH",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "CUSTOM_ROLETY_DOBOR_WALU",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "CUSTOM_IFS_LINES",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKARTIK",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKCAD",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKFARBEN",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKFELDER",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKFELDPROFILE",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKGEKEL",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EK_HIST",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKKOM",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKKOPF",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKLIEFK",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKLIEFP",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKLIEFVP",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKPOS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKPREIS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKPRGRP",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKPROFILE",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKRAB",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKRABPRG",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKRECHBUCH",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKRECHK",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKRECHP",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKRECHPRGRP",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKRECHSTEUER",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKRECHSTEUERD",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKRECHSTKLASSE",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKRECHSTREGEL",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKRKOM",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKRPREIS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKRRAB",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKRRABPRG",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKRSTEU",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKSTEU",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKSTEUER",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKSTEUERD",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKSTKLASSE",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKSTREGEL",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKTEXT",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKVORB",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EKVORBK",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ERLKTOZU",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "DRUCKJOB",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "DRUCKTEXTE",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "DRAWOBJD",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ERP_ORDER_HEADS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ERP_ORDER_ITEM_IMAGES",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ERP_ORDER_ITEMS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ERP_ORDER_MT_REFERENCES",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ERP_ORDER_PARAMS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ECKVERBVAR",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ECKVERBVARDET",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "FAGRUPPE",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ERRORLOG",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "EXPORT",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "FARBPRZU",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "GLASS_FILM",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "GRIDUSER",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "FF_KOMB",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "FF_SPROS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "FIREATTACKLEVELS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "FLUEMASS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "GEBIETD",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "TASK_STATUS_CHAINS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "TASK_STATUS_CHAIN_STATUS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "TASK_CATEGORY_EMPLOYEE_GROUPS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "ENTRYVARIANT",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "DEALER_BUSINESS_CASES",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "DEALER_BUSINESS_CASE_OPTIONS",
+    "RowCount": 0
+  },
+  {
+    "TABLE_NAME": "DEALER_BUSINESS_CASE_ASSIGNMENT",
+    "RowCount": 0
+  }
+]

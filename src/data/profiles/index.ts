@@ -48,6 +48,14 @@ export const ProfileRegistry: Record<string, ProfileMetadata> = {
     description: 'Tilt and turn window profile for Iglo 5 system.',
     fileName: 'IGLO5/IG5_F100T.json'
   },
+  IG5_F100_FIX_BOT: {
+    id: 'IG5_F100_FIX_BOT',
+    system: 'IGLO_5',
+    type: 'F100_FIX_BOT',
+    name: 'Iglo 5 - Horizontal Bottom Fixed',
+    description: 'Horizontal profile for bottom fixed part window typology in Iglo 5 system.',
+    fileName: 'IGLO5/IG5_F100_FIX_BOT.json'
+  },
   IG5_F101B: {
     id: 'IG5_F101B',
     system: 'IGLO_5',

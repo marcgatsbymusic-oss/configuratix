@@ -21,7 +21,7 @@ async function convert(svgPath, pngPath) {
 
 async function run() {
   const workspaceRoot = "c:/Users/Shadow/.gemini/antigravity/scratch/fantastic-octo-giggle";
-  const brainDir = "C:/Users/Shadow/.gemini/antigravity/brain/a5e41a8c-73d7-4f0e-b46c-82bd5a548e85";
+  const brainDir = "C:/Users/Shadow/.gemini/antigravity/brain/c480dfc6-16d1-4eba-a3c0-ef5f0f060d17";
   const downloadsDir = "C:/Users/Shadow/Downloads";
 
   // We have multiple SVGs for the movable post left opening, let's render them all so the user has the best visual reference
