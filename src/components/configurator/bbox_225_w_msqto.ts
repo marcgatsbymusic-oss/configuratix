@@ -180,7 +180,7 @@ export function buildBBox225WMsqto(opts: BBoxOptions = {}): BBoxHandle {
       const originalY = -i * PITCH - slatTopY;
       const currentY = originalY + offsetY;
       
-      if (currentY > 0) {
+      if (currentY > 200) {
         tempMtx.makeTranslation(99999, 99999, 99999);
       } else {
         tempMtx.makeTranslation(slatX - (sbb.min.x + sbb.max.x) / 2, currentY, cZ0 - sbb.min.z);
@@ -190,7 +190,7 @@ export function buildBBox225WMsqto(opts: BBoxOptions = {}): BBoxHandle {
     inst.instanceMatrix.needsUpdate = true;
     
     const endbarY = -nSlat * PITCH - ebb.max.y + offsetY;
-    if (endbarY > 0) {
+    if (endbarY > 200) {
       endbar.visible = false;
     } else {
       endbar.visible = true;

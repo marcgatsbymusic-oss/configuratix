@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
+import { Html } from '@react-three/drei';
+import { ArrowUp, ArrowDown, Pause } from 'lucide-react';
 import { buildBBox225WMsqto } from './bbox_225_w_msqto';
 
 interface BBoxModelProps {
@@ -33,6 +35,30 @@ const BBoxModel: React.FC<BBoxModelProps> = ({
   // Smooth animation tracking variables
   const blindVal = useRef(blindDeployed ? 1.0 : 0.045);
   const mosquitoVal = useRef(mosquitoDeployed ? 1.0 : 0.045);
+
+  const [bAnimating, setBAnimating] = useState(false);
+  const [bDirection, setBDirection] = useState<'up' | 'down'>(blindDeployed ? 'down' : 'up');
+  const lastBProp = useRef(blindDeployed);
+
+  const [mAnimating, setMAnimating] = useState(false);
+  const [mDirection, setMDirection] = useState<'up' | 'down'>(mosquitoDeployed ? 'down' : 'up');
+  const lastMProp = useRef(mosquitoDeployed);
+
+  useEffect(() => {
+    if (lastBProp.current !== blindDeployed) {
+       setBDirection(blindDeployed ? 'down' : 'up');
+       setBAnimating(true);
+       lastBProp.current = blindDeployed;
+    }
+  }, [blindDeployed]);
+
+  useEffect(() => {
+    if (lastMProp.current !== mosquitoDeployed) {
+       setMDirection(mosquitoDeployed ? 'down' : 'up');
+       setMAnimating(true);
+       lastMProp.current = mosquitoDeployed;
+    }
+  }, [mosquitoDeployed]);
 
   useEffect(() => {
     // build parametric group using raw millimeters
@@ -125,19 +151,83 @@ const BBoxModel: React.FC<BBoxModelProps> = ({
 
   useFrame(() => {
     if (bboxRef.current) {
-      const targetB = blindDeployed ? 1.0 : 0.045;
-      const targetM = mosquitoDeployed ? 1.0 : 0.045;
-
-      // Smooth interpolation for deployment transition (slowed down for realistic speed)
-      blindVal.current += (targetB - blindVal.current) * 0.015;
-      mosquitoVal.current += (targetM - mosquitoVal.current) * 0.015;
+      if (bAnimating) {
+        const step = bDirection === 'down' ? 0.003 : -0.003;
+        blindVal.current = THREE.MathUtils.clamp(blindVal.current + step, 0.045, 1.0);
+        if (blindVal.current === 0.045 || blindVal.current === 1.0) setBAnimating(false);
+      }
+      if (mAnimating) {
+        const step = mDirection === 'down' ? 0.003 : -0.003;
+        mosquitoVal.current = THREE.MathUtils.clamp(mosquitoVal.current + step, 0.045, 1.0);
+        if (mosquitoVal.current === 0.045 || mosquitoVal.current === 1.0) setMAnimating(false);
+      }
 
       bboxRef.current.setBlind(blindVal.current);
       bboxRef.current.setMosquito(mosquitoVal.current);
     }
   });
 
-  return <group ref={groupRef} />;
+  // Calculate box front center for UI
+  const boxZ = (247 * 0.001) / 2 + 0.02; // Front of box + slight offset
+  const boxY = (drop * 0.001) / 2; // Center Y of the top box part
+
+  return (
+    <group ref={groupRef}>
+      {/* Mosquito Net Controls (Left) */}
+      <Html position={[-0.25, boxY, boxZ]} center zIndexRange={[100, 0]}>
+        <div className="flex flex-col items-center gap-1 p-1.5 bg-[#0c0c16]/80 backdrop-blur-md rounded-[10px] border border-white/10 shadow-2xl pointer-events-auto">
+          <div className="text-[7px] font-black uppercase tracking-widest text-[#eab676] mb-0.5">Mosquito</div>
+          <div className="flex gap-1">
+            <button
+              onClick={() => { setMDirection('up'); setMAnimating(true); }}
+              className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${
+                mAnimating && mDirection === 'up' ? 'bg-mammut-gold text-mammut-black animate-pulse shadow-[0_0_8px_rgba(234,182,118,0.5)]' : 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110'
+              }`}
+            ><ArrowUp className="w-3 h-3" strokeWidth={2.5} /></button>
+            <button
+              onClick={() => setMAnimating(false)}
+              className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${
+                mAnimating ? 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110' : 'bg-white/5 text-white/20'
+              }`}
+            ><Pause className="w-3 h-3" strokeWidth={2.5} /></button>
+            <button
+              onClick={() => { setMDirection('down'); setMAnimating(true); }}
+              className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${
+                mAnimating && mDirection === 'down' ? 'bg-mammut-gold text-mammut-black animate-pulse shadow-[0_0_8px_rgba(234,182,118,0.5)]' : 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110'
+              }`}
+            ><ArrowDown className="w-3 h-3" strokeWidth={2.5} /></button>
+          </div>
+        </div>
+      </Html>
+
+      {/* Blinds Controls (Right) */}
+      <Html position={[0.25, boxY, boxZ]} center zIndexRange={[100, 0]}>
+        <div className="flex flex-col items-center gap-1 p-1.5 bg-[#0c0c16]/80 backdrop-blur-md rounded-[10px] border border-white/10 shadow-2xl pointer-events-auto">
+          <div className="text-[7px] font-black uppercase tracking-widest text-[#eab676] mb-0.5">Blinds</div>
+          <div className="flex gap-1">
+            <button
+              onClick={() => { setBDirection('up'); setBAnimating(true); }}
+              className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${
+                bAnimating && bDirection === 'up' ? 'bg-mammut-gold text-mammut-black animate-pulse shadow-[0_0_8px_rgba(234,182,118,0.5)]' : 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110'
+              }`}
+            ><ArrowUp className="w-3 h-3" strokeWidth={2.5} /></button>
+            <button
+              onClick={() => setBAnimating(false)}
+              className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${
+                bAnimating ? 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110' : 'bg-white/5 text-white/20'
+              }`}
+            ><Pause className="w-3 h-3" strokeWidth={2.5} /></button>
+            <button
+              onClick={() => { setBDirection('down'); setBAnimating(true); }}
+              className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${
+                bAnimating && bDirection === 'down' ? 'bg-mammut-gold text-mammut-black animate-pulse shadow-[0_0_8px_rgba(234,182,118,0.5)]' : 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110'
+              }`}
+            ><ArrowDown className="w-3 h-3" strokeWidth={2.5} /></button>
+          </div>
+        </div>
+      </Html>
+    </group>
+  );
 };
 
 const CameraController: React.FC<{ maxDim: number }> = ({ maxDim }) => {

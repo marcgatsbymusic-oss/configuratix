@@ -2,6 +2,7 @@ import React, { Suspense, useState, useEffect, useRef, useCallback } from 'react
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows, Html } from '@react-three/drei';
 import { IG5_F104_Component } from './IG5_F104/IG5_F104_Component';
+import { BBox225BlindBox } from './BBox225Component';
 
 const LoadingOverlay = () => (
   <Html center>
@@ -23,6 +24,12 @@ interface IG5_F104ViewerProps {
   isThumbnail?: boolean;
   solarTreatment?: boolean;
   thermalTreatment?: boolean;
+  hasBlind?: boolean;
+  hasMosquito?: boolean;
+  blindDeployed?: boolean;
+  mosquitoDeployed?: boolean;
+  colorGuides?: string;
+  colorSlats?: string;
 }
 
 export const IG5_F104Viewer: React.FC<IG5_F104ViewerProps> = ({
@@ -36,6 +43,12 @@ export const IG5_F104Viewer: React.FC<IG5_F104ViewerProps> = ({
   isThumbnail = false,
   solarTreatment = false,
   thermalTreatment = false,
+  hasBlind = false,
+  hasMosquito = false,
+  blindDeployed = false,
+  mosquitoDeployed = false,
+  colorGuides = '#383e42',
+  colorSlats = '#eab676'
 }) => {
   const [autoRotate, setAutoRotate] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -90,6 +103,19 @@ export const IG5_F104Viewer: React.FC<IG5_F104ViewerProps> = ({
                 INT_Texture={colorIntTexture}
                 solarTreatment={solarTreatment}
                 thermalTreatment={thermalTreatment}
+              />
+              <BBox225BlindBox 
+                width={width}
+                height={height}
+                blindDeployed={blindDeployed}
+                mosquitoDeployed={mosquitoDeployed}
+                colorExt={colorExt}
+                colorInt={colorInt}
+                colorGuides={colorGuides}
+                colorSlats={colorSlats}
+                hasBlind={hasBlind}
+                hasMosquito={hasMosquito}
+                isThumbnail={isThumbnail}
               />
             </group>
           </group>

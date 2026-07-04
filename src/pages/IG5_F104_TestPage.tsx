@@ -18,6 +18,14 @@ export function IG5_F104_TestPage() {
   const [thermalTreatment, setThermalTreatment] = useState(false);
   const [preSales, setPreSales] = useState(false);
 
+  // Blind Box States
+  const [hasBlind, setHasBlind] = useState(false);
+  const [hasMosquito, setHasMosquito] = useState(false);
+  const [blindDeployed, setBlindDeployed] = useState(false);
+  const [mosquitoDeployed, setMosquitoDeployed] = useState(false);
+  const [colorGuides, setColorGuides] = useState('#383e42');
+  const [colorSlats, setColorSlats] = useState('#eab676');
+
   const [typedWidth, setTypedWidth] = useState(String(width));
   const [typedHeight, setTypedHeight] = useState(String(height));
 
@@ -56,6 +64,12 @@ export function IG5_F104_TestPage() {
           isColorPaletteOpen={isColorWheelOpen}
           solarTreatment={solarTreatment}
           thermalTreatment={thermalTreatment}
+          hasBlind={hasBlind}
+          hasMosquito={hasMosquito}
+          blindDeployed={blindDeployed}
+          mosquitoDeployed={mosquitoDeployed}
+          colorGuides={colorGuides}
+          colorSlats={colorSlats}
         />
       </div>
 
@@ -211,6 +225,82 @@ export function IG5_F104_TestPage() {
                   ))}
                 </select>
               </div>
+            </div>
+          </div>
+
+          <hr className="border-gray-200" />
+
+          {/* Roller Blinds & Mosquito Net */}
+          <div className="space-y-4">
+            <h3 className="text-sm font-bold text-gray-800">Additional Options</h3>
+            
+            <div className="flex flex-col gap-3">
+              <label className="flex items-center gap-3 cursor-pointer group">
+                <input 
+                  type="checkbox" 
+                  checked={hasBlind} 
+                  onChange={(e) => setHasBlind(e.target.checked)}
+                  className="w-4 h-4 rounded text-mammut-gold focus:ring-mammut-gold border-gray-300 accent-mammut-gold"
+                />
+                <div className="flex flex-col">
+                  <span className="text-sm font-medium text-gray-700">Roller Blinds</span>
+                  <span className="text-xs text-gray-500">Add integrated roller blind box</span>
+                </div>
+              </label>
+
+              {hasBlind && (
+                <div className="pl-7 space-y-3">
+                  <label className="flex items-center gap-3 cursor-pointer group">
+                    <input 
+                      type="checkbox" 
+                      checked={blindDeployed} 
+                      onChange={(e) => setBlindDeployed(e.target.checked)}
+                      className="w-4 h-4 rounded text-mammut-gold focus:ring-mammut-gold border-gray-300 accent-mammut-gold"
+                    />
+                    <span className="text-sm font-medium text-gray-700">Deploy Blinds (Default)</span>
+                  </label>
+
+                  <div className="space-y-2">
+                    <label className="text-xs text-gray-500 font-medium block">Slats Color</label>
+                    <div className="flex gap-2 items-center">
+                      <div className="w-8 h-8 rounded border border-gray-300 shadow-inner" style={{ backgroundColor: colorSlats }} />
+                      <input 
+                        type="color" 
+                        value={colorSlats}
+                        onChange={(e) => setColorSlats(e.target.value)}
+                        className="p-0 border-0 w-8 h-8 rounded cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <label className="flex items-center gap-3 cursor-pointer group">
+                <input 
+                  type="checkbox" 
+                  checked={hasMosquito} 
+                  onChange={(e) => setHasMosquito(e.target.checked)}
+                  className="w-4 h-4 rounded text-mammut-gold focus:ring-mammut-gold border-gray-300 accent-mammut-gold"
+                />
+                <div className="flex flex-col">
+                  <span className="text-sm font-medium text-gray-700">Mosquito Net</span>
+                  <span className="text-xs text-gray-500">Integrated retractable screen</span>
+                </div>
+              </label>
+
+              {hasMosquito && (
+                <div className="pl-7">
+                  <label className="flex items-center gap-3 cursor-pointer group">
+                    <input 
+                      type="checkbox" 
+                      checked={mosquitoDeployed} 
+                      onChange={(e) => setMosquitoDeployed(e.target.checked)}
+                      className="w-4 h-4 rounded text-mammut-gold focus:ring-mammut-gold border-gray-300 accent-mammut-gold"
+                    />
+                    <span className="text-sm font-medium text-gray-700">Deploy Mosquito Net (Default)</span>
+                  </label>
+                </div>
+              )}
             </div>
           </div>
 

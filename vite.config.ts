@@ -41,4 +41,15 @@ export default defineConfig({
     tailwindcss(),
     cantorPricingApi(),
   ],
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      'three',
+      '@react-three/fiber',
+      '@react-three/drei',
+      'three-bvh-csg',
+      'three-mesh-bvh'
+    ]
+  }
 });
