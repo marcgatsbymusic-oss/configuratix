@@ -11,7 +11,7 @@ import { F100_FIX_BOTViewer } from '../components/configurator/F100_FIX_BOTViewe
 import { F202LViewer } from '../components/configurator/F202LViewer';
 import { F202Lv2Viewer } from '../components/configurator/F202Lv2Viewer';
 import { F202RFixV2Viewer } from '../components/configurator/F202RFixV2Viewer';
-import { F252proofconcept } from '../components/configurator/F252proofconcept';
+import { F252Viewer } from '../components/configurator/F252Viewer';
 import { ColorPaletteOverlay } from '../components/configurator/ColorPaletteOverlay';
 import { supabase } from '../lib/supabase';
 import { ChevronDown, ChevronUp, ChevronRight, Package, Share2 } from 'lucide-react';
@@ -952,7 +952,16 @@ export const ViewerOnly: React.FC = () => {
             isColorPaletteOpen={isColorWheelOpen}
           />
         ) : typology === 'F252' ? (
-          <F252proofconcept />
+          <F252Viewer
+            width={width}
+            height={height}
+            bottomHeight={bottomHeight}
+            colorExt={colorExt}
+            colorInt={colorInt}
+            colorExtTexture={colorExtTexture}
+            colorIntTexture={colorIntTexture}
+            isColorPaletteOpen={isColorWheelOpen}
+          />
         ) : (
           <ThreejsWindowEngine
             width={width}
@@ -1071,6 +1080,31 @@ export const ViewerOnly: React.FC = () => {
             labelPosition="inside"
           />
         </div>
+        )}
+
+        {/* Bottom Height Scroll Wheel overlay at the bottom for F252 */}
+        {typology === 'F252' && !isColorWheelOpen && (
+          <div 
+            className={`absolute bottom-16 md:bottom-20 left-[60px] md:left-[80px] right-3 md:right-4 h-10 md:h-12 z-30 flex items-center justify-center font-mono transition-all duration-300 ${
+              isWidthScrollVisible ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-4 pointer-events-none'
+            }`}
+            onPointerMove={resetInactivityTimer}
+            onPointerDown={resetInactivityTimer}
+          >
+            <NumericScrollWheel
+              label="Bottom Height"
+              value={bottomHeight}
+              onChange={(val) => {
+                setBottomHeight(val);
+                resetInactivityTimer();
+              }}
+              min={250}
+              max={1500}
+              step={10}
+              orientation="horizontal"
+              labelPosition="inside"
+            />
+          </div>
         )}
 
         {/* Width Scroll Wheel (Width) overlay at the bottom */}

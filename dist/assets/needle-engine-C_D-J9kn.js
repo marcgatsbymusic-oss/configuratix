@@ -1,0 +1,1 @@
+import{t as e}from"./needle-engine-C3DOLigp.js";export{e as NeedleEngineWebComponent};

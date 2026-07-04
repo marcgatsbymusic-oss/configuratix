@@ -242,13 +242,14 @@ function BlindAssembly({
       const bottomBarH = pd.meta.bottomBarHeight * scale; // 0.0555m
       const slatExposureH = 0.037; // 37mm overlap height
       const startY = -bottomBarH; // bottom bar sits below box (Y=0 bottom)
-      
-      const bottomBarPos = -H * (1 - t) + startY * t;
+      const offsetY = t * H;
+      const bottomBarPos = -H + offsetY;
       
       // Update bottom bar position
       const bottomBarMesh = slatsGroupRef.current.getObjectByName('bottomBar');
       if (bottomBarMesh) {
-        bottomBarMesh.position.y = bottomBarPos;
+        bottomBarMesh.position.y = Math.min(startY, bottomBarPos);
+        bottomBarMesh.visible = bottomBarPos < startY + 0.01;
       }
 
       // Update slats positions
@@ -258,14 +259,11 @@ function BlindAssembly({
         const child = children[i];
         if (child.name.startsWith('slat_')) {
           const y_closed = -H + bottomBarH + slatIndex * slatExposureH;
-          const y_open = startY + slatIndex * 0.002; // stacked very tightly inside box when open
-          
-          // Interpolate position based on open progress
-          const currY = y_closed * (1 - t) + y_open * t;
+          const currY = y_closed + offsetY;
           child.position.y = currY;
 
           // Only render/show slats that are visible below the box casing (Y <= 0)
-          child.visible = currY < 0.02;
+          child.visible = currY < startY;
           slatIndex++;
         }
       }

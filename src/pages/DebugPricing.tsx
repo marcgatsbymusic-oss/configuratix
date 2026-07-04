@@ -14,6 +14,8 @@ import { SLE201Viewer } from '../components/configurator/SLE201Viewer';
 import { F104Viewer } from '../components/configurator/F104Viewer';
 import { F104_FIX_BOTViewer } from '../components/configurator/F104_FIX_BOTViewer';
 import { F100_FIX_BOTViewer } from '../components/configurator/F100_FIX_BOTViewer';
+import { F252Viewer } from '../components/configurator/F252Viewer';
+import { IG5_F104Viewer } from '../components/configurator/IG5_F104Viewer';
 import { ColorPaletteOverlay } from '../components/configurator/ColorPaletteOverlay';
 import { PerformanceConsole } from '../components/configurator/PerformanceConsole';
 import { ArViewer } from '../components/configurator/ArViewer';
@@ -2481,7 +2483,7 @@ const TYPOLOGY_GROUPS = [
   {
     category: "WINDOWS",
     subgroups: [
-      { name: "TYPE 1 Window", ids: ["F100","F100T","F101","F101B","F101C","F102","F103","F104","F105","F106","F200","F2XX1","F201","F203","F204","F205","F206","F207","F208","F250","F251","F252","F253","F254","F255","F300","F301","F302","F303","F304","F350","F351","F352","F353","F309","F400","F401","F402","F403","F450","F451","F542","F453"] },
+      { name: "TYPE 1 Window", ids: ["F100","F100T","F101","F101B","F101C","F102","F103","F104","F105","F106","F200","F2XX1","F201","F203","F204","F205","F206","F207","F208","F250","F251","F252","F252_TEST","F253","F254","F255","F300","F301","F302","F303","F304","F350","F351","F352","F353","F309","F400","F401","F402","F403","F450","F451","F542","F453"] },
     ]
   },
   {
@@ -4442,6 +4444,28 @@ export function DebugPricing() {
                         needleEngineNode={needleEngineNode}
                       />
                     </div>
+                  ) : typology === 'F252_TEST' ? (
+                    <div className="absolute inset-0">
+                      <F252Viewer
+                        isColorPaletteOpen={isColorWheelOpen}
+                        width={width}
+                        height={height}
+                        colorExt={extDetails.hex}
+                        colorInt={intDetails.hex}
+                        colorExtTexture={extDetails.textureUrl}
+                        colorIntTexture={intDetails.textureUrl}
+                      />
+                      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50">
+                        <a 
+                          href="/test/f252" 
+                          target="_blank" 
+                          rel="noreferrer"
+                          className="bg-mammut-gold text-black px-6 py-2 rounded-full font-bold shadow-lg hover:bg-white transition-colors flex items-center gap-2"
+                        >
+                          Open Fullscreen Tester
+                        </a>
+                      </div>
+                    </div>
                   ) : typology === 'F100_FIX_BOT' ? (
                     <div className="absolute inset-0">
                       <F100_FIX_BOTViewer isColorPaletteOpen={isColorWheelOpen}
@@ -4506,22 +4530,46 @@ export function DebugPricing() {
                        />
                      </div>
                   ) : typology === 'F104' ? (
-                     <div className="absolute inset-0">
-                       <F104Viewer isColorPaletteOpen={isColorWheelOpen}
-                         width={width}
-                         height={height}
-                         colorExt={extDetails.hex}
-                         colorInt={intDetails.hex}
-                         colorExtTexture={extDetails.textureUrl}
-                         colorIntTexture={intDetails.textureUrl}
-                         colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
-                         colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
-                         onSceneReady={handleSceneReady}
-                         hidePill={true}
-                         isNeedleMode={displayMode === 'Needle'}
-                         needleEngineNode={needleEngineNode}
-                       />
-                     </div>
+                      <div className="absolute inset-0">
+                        {profilsatz === '1100' ? (
+                          <>
+                            <IG5_F104Viewer
+                              width={width}
+                              height={height}
+                              colorExt={extDetails.hex}
+                              colorInt={intDetails.hex}
+                              colorExtTexture={extDetails.textureUrl}
+                              colorIntTexture={intDetails.textureUrl}
+                              isThumbnail={false}
+                            />
+                            <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50">
+                              <a 
+                                href="/test/ig5-f104" 
+                                target="_blank" 
+                                rel="noreferrer"
+                                className="bg-mammut-gold text-black px-6 py-2 rounded-full font-bold shadow-lg hover:bg-white transition-colors flex items-center gap-2"
+                              >
+                                Open Fullscreen Tester
+                              </a>
+                            </div>
+                          </>
+                        ) : (
+                          <F104Viewer isColorPaletteOpen={isColorWheelOpen}
+                            width={width}
+                            height={height}
+                            colorExt={extDetails.hex}
+                            colorInt={intDetails.hex}
+                            colorExtTexture={extDetails.textureUrl}
+                            colorIntTexture={intDetails.textureUrl}
+                            colorGsk={sealColor === 'szary' ? '#808080' : sealColor === 'mix' ? '#404040' : '#1c1c1c'}
+                            colorSpacer={FRAME_STYLES.find(fs => fs.code === (infills[0]?.frameStyle || 'S'))?.hex || '#b0b5b9'}
+                            onSceneReady={handleSceneReady}
+                            hidePill={true}
+                            isNeedleMode={displayMode === 'Needle'}
+                            needleEngineNode={needleEngineNode}
+                          />
+                        )}
+                      </div>
                   ) : typology === 'F104_FIX_BOT' ? (
                       <div className="absolute inset-0">
                         <F104_FIX_BOTViewer isColorPaletteOpen={isColorWheelOpen}

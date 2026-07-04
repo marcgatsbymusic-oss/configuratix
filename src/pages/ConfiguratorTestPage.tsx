@@ -52,6 +52,13 @@ export const ConfiguratorTestPage: React.FC = () => {
                 <span>Roller Blind + Mosquito Net</span>
                 <span className="text-sm">→</span>
               </Link>
+              <Link 
+                to="/bbox-225-mosquito" 
+                className="inline-flex items-center justify-between px-3 py-1.5 rounded-lg border border-orange-500/20 bg-orange-500/10 text-orange-400 hover:bg-orange-500/20 transition-all text-xs font-bold uppercase tracking-wider cursor-pointer animate-pulse"
+              >
+                <span>Blind Box 225 + Mosquito (Parametric)</span>
+                <span className="text-sm">→</span>
+              </Link>
             </div>
           </div>
           

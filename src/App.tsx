@@ -21,6 +21,8 @@ import { CookieConsentBadge } from './components/common/CookieConsentBadge'
 import { SiteMapPage } from './pages/SiteMapPage'
 import { WhereToBuyPage } from './pages/WhereToBuyPage'
 import { CartDrawer } from './components/Shop/CartDrawer'
+import { StagingPage } from './pages/StagingPage'
+import { PdfImportPage } from './pages/PdfImportPage'
 import { MainConfigurator } from './components/SlateConfigurator/MainConfigurator'
 import { ConfiguratorTestPage } from './pages/ConfiguratorTestPage'
 import { ArPage } from './pages/ArPage'
@@ -38,6 +40,7 @@ import { F202RPage } from './pages/F202RPage'
 import { F104ProfileInspectorPage } from './pages/F104ProfileInspectorPage'
 import { RollerBlindTestPage } from './pages/RollerBlindTestPage'
 import { RollerBlindTestMosquitoPage } from './pages/RollerBlindTestMosquitoPage'
+import { BBox225MosquitoPage } from './pages/BBox225MosquitoPage'
 import { IGLSideTestBuildPage } from './pages/IGLSideTestBuildPage'
 import { GarageDoorSimPage } from './pages/GarageDoorSimPage'
 import { MovableMullionTestPage } from './pages/MovableMullionTestPage'
@@ -46,7 +49,10 @@ import { Iglo5FixedPage } from './pages/Iglo5FixedPage'
 import { F202Page } from './pages/F202Page'
 import { Zlozenie07Page } from './pages/Zlozenie07Page'
 import { SingleFixedBottomPage } from './pages/SingleFixedBottomPage'
-import { F252proofconceptPage } from './pages/F252proofconceptPage'
+import { F252TestPage } from './pages/F252TestPage'
+import F252V204072026Page from './pages/F252V204072026Page'
+import IG5_F252_TestPage from './pages/IG5_F252_TestPage'
+import IG5_F104_TestPage from './pages/IG5_F104_TestPage'
 import './index.css'
 
 // Error boundary to catch silent crashes in the component tree
@@ -58,9 +64,9 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | 
   render() {
     if (this.state.error) {
       return (
-        <div style={{ color: 'white', padding: '40px', fontFamily: 'Montserrat, sans-serif' }}>
+        <div style={{ color: 'white', backgroundColor: 'black', padding: '40px', fontFamily: 'Montserrat, sans-serif', minHeight: '100vh' }}>
           <h1 style={{ color: '#eab676' }}>MAMMUT</h1>
-          <p style={{ color: '#888' }}>Runtime error: {(this.state.error as Error).message}</p>
+          <p style={{ color: '#ff8888' }}>Runtime error: {(this.state.error as Error).message}</p>
         </div>
       )
     }
@@ -123,6 +129,8 @@ function StorefrontLayout() {
           <Route path="/inspiration" element={<InspirationsPage />} />
           <Route path="/inspiration/:category" element={<InspirationsPage />} />
           <Route path="/sitemap" element={<SiteMapPage />} />
+          <Route path="/staging" element={<StagingPage />} />
+          <Route path="/import" element={<PdfImportPage />} />
         </Routes>
       </div>
       <CartDrawer />
@@ -217,6 +225,9 @@ function App() {
             {/* Roller Blind Casing + Mosquito Net Tester */}
             <Route path="/roller-blind-test-mosquito" element={<RollerBlindTestMosquitoPage />} />
 
+            {/* Standalone Parametric Blind Box 225 + Mosquito Viewer */}
+            <Route path="/bbox-225-mosquito" element={<BBox225MosquitoPage />} />
+
             {/* IGLSIDE_TEST_BUILD Sliding Door Test Page */}
             <Route path="/igls-test-build" element={<IGLSideTestBuildPage />} />
 
@@ -235,11 +246,19 @@ function App() {
             {/* Złożenie 07 Preview */}
             <Route path="/preview/zlozenie-07-final" element={<Zlozenie07Page />} />
 
-            {/* Single Fixed Bottom Preview */}
+            <Route path="/preview/zlozenie07" element={<Zlozenie07Page />} />
             <Route path="/preview/single-fixed-bottom" element={<SingleFixedBottomPage />} />
 
-            {/* F252 Proof of Concept Preview */}
-            <Route path="/f252proofconcept" element={<F252proofconceptPage />} />
+            {/* F252 Previews */}
+            <Route path="/test/f252" element={<F252TestPage />} />
+            <Route path="/debug-pricing/f252-test" element={<F252TestPage />} />
+            <Route path="/f252-v2" element={<F252V204072026Page />} />
+
+            {/* IG5-F252 Test Page */}
+            <Route path="/test/ig5-f252" element={<IG5_F252_TestPage />} />
+
+            {/* IG5-F104 Test Page */}
+            <Route path="/test/ig5-f104" element={<IG5_F104_TestPage />} />
 
             {/* Public Storefront Routes */}
             <Route path="*" element={<StorefrontLayout />} />

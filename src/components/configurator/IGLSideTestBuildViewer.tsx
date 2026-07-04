@@ -311,7 +311,8 @@ function SingleBlindAssembly({
       opacity: 0.65,
       roughness: 0.9,
       metalness: 0.1,
-      side: THREE.DoubleSide
+      side: THREE.DoubleSide,
+      clippingPlanes: [new THREE.Plane(new THREE.Vector3(0, -1, 0), 0)]
     });
   }, [mosquitoTexture, hasMosquito]);
 
@@ -351,11 +352,13 @@ function SingleBlindAssembly({
       const bottomBarH = bpd.meta.bottomBarHeight * scale;
       const slatExposureH = 0.037;
       const startY = -bottomBarH;
-      const bottomBarPos = -H * (1 - tB) + startY * tB;
+      const offsetY = tB * H;
+      const bottomBarPos = -H + offsetY;
       
       const bottomBarMesh = slatsGroupRef.current.getObjectByName('bottomBar');
       if (bottomBarMesh) {
-        bottomBarMesh.position.y = bottomBarPos;
+        bottomBarMesh.position.y = Math.min(startY, bottomBarPos);
+        bottomBarMesh.visible = bottomBarPos < startY + 0.01;
       }
 
       const children = slatsGroupRef.current.children;
@@ -364,10 +367,9 @@ function SingleBlindAssembly({
         const child = children[i];
         if (child.name.startsWith('slat_')) {
           const y_closed = -H + bottomBarH + slatIndex * slatExposureH;
-          const y_open = startY + slatIndex * 0.002;
-          const currY = y_closed * (1 - tB) + y_open * tB;
+          const currY = y_closed + offsetY;
           child.position.y = currY;
-          child.visible = currY < 0.02;
+          child.visible = currY < startY;
           slatIndex++;
         }
       }
@@ -380,22 +382,20 @@ function SingleBlindAssembly({
         mosquitoProgress.current = targetMosquito;
       }
       const tM = mosquitoProgress.current;
-      const activeHeight = H * (1 - tM);
-      
+
       const netMesh = mosquitoGroupRef.current.getObjectByName('mosquitoNetMesh');
       const netBar = mosquitoGroupRef.current.getObjectByName('mosquitoNetBar');
 
       if (netMesh && netBar) {
-        if (activeHeight < 0.001) {
-          netMesh.visible = false;
-          netBar.visible = false;
-        } else {
-          netMesh.visible = true;
-          netBar.visible = true;
-          netMesh.scale.y = activeHeight;
-          netMesh.position.y = -activeHeight / 2;
-          netBar.position.y = -activeHeight - 0.0125;
-        }
+        const netY = -H / 2 + tM * H;
+        const barY = -H + tM * H - 0.0125;
+
+        netMesh.visible = tM < 0.99;
+        netBar.visible = barY < -0.01;
+
+        netMesh.scale.y = H;
+        netMesh.position.y = netY;
+        netBar.position.y = barY;
       }
     }
   });
@@ -1637,7 +1637,7 @@ export const IGLSideTestBuildViewer: React.FC<IGLSideTestBuildViewerProps> = ({
             pointer-events stay enabled so OrbitControls + Html hotspots work. */}
         <Canvas
           shadows
-          gl={{ antialias: true, alpha: isNeedleMode, premultipliedAlpha: false }}
+          gl={{ antialias: true, alpha: isNeedleMode, premultipliedAlpha: false, localClippingEnabled: true }}
           camera={{ position: camPos, fov: 32 }}
           style={{ background: 'transparent' }}
         >

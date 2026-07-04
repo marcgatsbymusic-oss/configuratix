@@ -1,0 +1,101 @@
+{
+ "id": "BBOX_225_W_MSQTO",
+ "title": "Blind Box 225 + Mosquito",
+ "family": "IGLO 5 roller-shutter box",
+ "units": "mm",
+ "provenance": {
+  "box_and_profiles": "Blind_box_225_with_mosquito.dxf",
+  "end_lid": "lid_of_225m_box.step"
+ },
+ "parametric": {
+  "width": {
+   "default": 1200,
+   "axis": "z"
+  },
+  "drop": {
+   "default": 1200,
+   "axis": "-y"
+  },
+  "slatPitch": 37
+ },
+ "frame": {
+  "x": "depth (x+ = exterior/street)",
+  "y": "height (y=0 = box bottom = frame head)",
+  "z": "width (extrusion)"
+ },
+ "components": {
+  "box": "hollow extruded skin of the real section outline; face is EXTERIOR if normal.x>0.5 else INTERIOR",
+  "lids": "real STEP 'Cover blind box 225mm', one inside each end, INTERIOR colour",
+  "guides": "R0003-A, one per jamb; grooves face inward to the curtain (left built + rotationY 90\u00b0, right = z-mirror)",
+  "blind": "p\u00f3ro 37 slats seated in the EXTERNAL groove, tiled contiguously to a fixed end bar (no gap), convex face to street",
+  "mosquitoNet": "screen seated in the INTERNAL groove, independently deployable"
+ },
+ "grooves": {
+  "external": {
+   "worldXFromFront": 17,
+   "holds": "blind"
+  },
+  "internal": {
+   "worldXFromFront": 39,
+   "holds": "mosquitoNet"
+  }
+ },
+ "materials": {
+  "boxExterior": {
+   "default": "#3a3f44",
+   "colourable": true,
+   "appliesTo": [
+    "street face"
+   ]
+  },
+  "boxInterior": {
+   "default": "#ece9e1",
+   "colourable": true,
+   "appliesTo": [
+    "top",
+    "bottom",
+    "inside",
+    "end lids"
+   ]
+  },
+  "guides": {
+   "default": "#9aa1a7",
+   "colourable": true
+  },
+  "blind": {
+   "default": "#c8bfa8",
+   "colourable": true,
+   "appliesTo": [
+    "slats",
+    "end bar"
+   ]
+  },
+  "mosquitoNet": {
+   "default": "#b7bcbf",
+   "colourable": true
+  }
+ },
+ "deploy": {
+  "blind": "setBlind(0..1)",
+  "mosquitoNet": "setMosquito(0..1)",
+  "pivot": "y=0 (box bottom)"
+ },
+ "files": {
+  "builder": "bbox_225_w_msqto.ts",
+  "geometry": "BBOX_225_W_MSQTO.data.json",
+  "preview": "BBOX_225_W_MSQTO_viewer.html",
+  "spec": "BBOX_225_W_MSQTO.json",
+  "readme": "README_BBOX_225_W_MSQTO.md"
+ },
+ "excluded": [
+  "250xxx steel reinforcement",
+  "internal chambers (outer skin only)"
+ ],
+ "poly_budget": {
+  "box_tris": 576,
+  "guide_tris_each": "~120",
+  "slats": "~30 instanced",
+  "lid_faces_each": 788,
+  "note": "mobile-oriented"
+ }
+}

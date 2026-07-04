@@ -155,6 +155,7 @@ export const IGLO_DOOR_COLORS: SwatchColor[] = [
 ];
 
 export const IGLO_EDGE_COLORS: SwatchColor[] = [
+  { id: 'c0', name: 'System White', hex: '#ffffff', group: 'Solid' },
   { id: 'c209', name: 'Basalt Grey', image: '/assets/windowcolors/textures/bazaltowy_szary.jpg', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/gris-basalto.webp', hex: '#404040', group: 'Metal Effect' },
   { id: 'c210', name: 'Basalt Grey Gadki', image: '/assets/windowcolors/textures/bazaltowy-szary-gadki.jpg', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/gris-basalto-liso.webp', hex: '#404040', group: 'Metal Effect' },
   { id: 'c232', name: 'Deep Bronze', image: '/assets/windowcolors/textures/deep_bronze.jpg', windowImage: '/assets/windowcolors/wingloedgeframeswithcolor/shine-deep-bronze-fixed.webp', hex: '#404040', group: 'Metal Effect' },

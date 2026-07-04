@@ -250,7 +250,8 @@ function BlindAssembly({
       opacity: 0.65,
       roughness: 0.9,
       metalness: 0.1,
-      side: THREE.DoubleSide
+      side: THREE.DoubleSide,
+      clippingPlanes: [new THREE.Plane(new THREE.Vector3(0, -1, 0), 0)]
     });
   }, [mosquitoTexture]);
 
@@ -296,11 +297,13 @@ function BlindAssembly({
       const bottomBarH = pd.meta.bottomBarHeight * scale;
       const slatExposureH = 0.037;
       const startY = -bottomBarH;
-      const bottomBarPos = -H * (1 - tB) + startY * tB;
+      const offsetY = tB * H;
+      const bottomBarPos = -H + offsetY;
       
       const bottomBarMesh = slatsGroupRef.current.getObjectByName('bottomBar');
       if (bottomBarMesh) {
-        bottomBarMesh.position.y = bottomBarPos;
+        bottomBarMesh.position.y = Math.min(startY, bottomBarPos);
+        bottomBarMesh.visible = bottomBarPos < startY + 0.01;
       }
 
       const children = slatsGroupRef.current.children;
@@ -309,10 +312,9 @@ function BlindAssembly({
         const child = children[i];
         if (child.name.startsWith('slat_')) {
           const y_closed = -H + bottomBarH + slatIndex * slatExposureH;
-          const y_open = startY + slatIndex * 0.002;
-          const currY = y_closed * (1 - tB) + y_open * tB;
+          const currY = y_closed + offsetY;
           child.position.y = currY;
-          child.visible = currY < 0.02;
+          child.visible = currY < startY;
           slatIndex++;
         }
       }
@@ -327,26 +329,19 @@ function BlindAssembly({
     const tM = mosquitoProgress.current;
 
     if (mosquitoGroupRef.current) {
-      const activeHeight = H * (1 - tM);
-      
       const netMesh = mosquitoGroupRef.current.getObjectByName('mosquitoNetMesh');
       const netBar = mosquitoGroupRef.current.getObjectByName('mosquitoNetBar');
 
       if (netMesh && netBar) {
-        if (activeHeight < 0.001) {
-          netMesh.visible = false;
-          netBar.visible = false;
-        } else {
-          netMesh.visible = true;
-          netBar.visible = true;
+        const netY = -H / 2 + tM * H;
+        const barY = -H + tM * H - 0.0125;
 
-          // Scale and reposition the 1m mesh to match activeHeight
-          netMesh.scale.y = activeHeight;
-          netMesh.position.y = -activeHeight / 2;
+        netMesh.visible = tM < 0.99;
+        netBar.visible = barY < -0.01;
 
-          // Position bottom bar at the very bottom of the active screen mesh
-          netBar.position.y = -activeHeight - 0.0125; // offset by half height of bar
-        }
+        netMesh.scale.y = H;
+        netMesh.position.y = netY;
+        netBar.position.y = barY;
       }
     }
   });
@@ -468,7 +463,7 @@ export interface ROLLER_BLIND_BOX_225_MosquitoViewerProps {
   isColorPaletteOpen?: boolean;
 }
 
-const GL_CONFIG = { antialias: true, preserveDrawingBuffer: true };
+const GL_CONFIG = { antialias: true, preserveDrawingBuffer: true, localClippingEnabled: true };
 
 export const ROLLER_BLIND_BOX_225_MosquitoViewer: React.FC<ROLLER_BLIND_BOX_225_MosquitoViewerProps> = ({
   width = 1200,
