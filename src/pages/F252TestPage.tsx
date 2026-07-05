@@ -242,7 +242,7 @@ export function F252TestPage() {
   };
 
   return (
-    <div className="fixed inset-0 flex flex-col md:flex-row bg-[#080810] overflow-hidden text-white font-sans">
+    <div className="fixed inset-0 flex flex-col md:flex-row max-md:bg-[#f5f5f7] bg-[#080810] overflow-hidden max-md:text-gray-900 text-white font-sans">
       <style>{`
         .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius: 4px; }
@@ -284,7 +284,7 @@ export function F252TestPage() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => navigate('/debug-pricing')}
-              className="flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 rounded-xl border border-white/10 bg-[#0c0c16]/80 text-white/80 hover:text-white hover:bg-white/5 hover:border-white/20 transition-all active:scale-95 backdrop-blur-md shadow-lg shrink-0"
+              className="flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 rounded-xl border max-md:border-gray-300 border-white/10 bg-[#0c0c16]/80 max-md:text-gray-900 text-white/80 hover:max-md:text-gray-900 text-white hover:bg-white/5 hover:max-md:border-gray-300 border-white/20 transition-all active:scale-95 backdrop-blur-md shadow-lg shrink-0"
             >
               <ArrowLeft className="w-4 h-4" />
               <span className="text-[10px] font-black uppercase tracking-wider hidden sm:inline">Back</span>
@@ -308,7 +308,7 @@ export function F252TestPage() {
               }}
               disabled={!currentScene}
               className={`flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 rounded-xl border transition-all active:scale-95 backdrop-blur-md shadow-lg group shrink-0
-                ${currentScene ? 'border-blue-400/30 bg-blue-400/10 text-blue-400 hover:bg-blue-400/20 hover:border-blue-400/50' : 'border-white/5 bg-white/5 text-white/30 cursor-not-allowed'}`}
+                ${currentScene ? 'border-blue-400/30 bg-blue-400/10 text-blue-400 hover:bg-blue-400/20 hover:border-blue-400/50' : 'max-md:border-gray-200 border-white/5 bg-white/5 max-md:text-gray-900 max-md:text-gray-400 text-white/30 cursor-not-allowed'}`}
             >
               <Box className="w-4 h-4 group-hover:scale-110 transition-transform" />
               <span className="text-[10px] font-black uppercase tracking-wider hidden sm:inline">AR Preview</span>
@@ -316,7 +316,7 @@ export function F252TestPage() {
 
             <button
               onClick={() => navigate('/staging')}
-              className="flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 rounded-xl border border-white/10 bg-[#0c0c16]/80 text-white/80 hover:text-white hover:bg-white/5 hover:border-white/20 transition-all active:scale-95 backdrop-blur-md shadow-lg group shrink-0"
+              className="flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 rounded-xl border max-md:border-gray-300 border-white/10 bg-[#0c0c16]/80 max-md:text-gray-900 text-white/80 hover:max-md:text-gray-900 text-white hover:bg-white/5 hover:max-md:border-gray-300 border-white/20 transition-all active:scale-95 backdrop-blur-md shadow-lg group shrink-0"
             >
               <PackagePlus className="w-4 h-4 group-hover:scale-110 transition-transform" />
               <span className="text-[10px] font-black uppercase tracking-wider hidden sm:inline">Staging</span>
@@ -326,15 +326,15 @@ export function F252TestPage() {
 
         {/* Dynamic Watermark */}
         <div className="absolute bottom-4 left-4 z-20 pointer-events-none select-none hidden md:block">
-          <div className="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-1">Window Profile</div>
+          <div className="text-[10px] font-bold max-md:text-gray-900 max-md:text-gray-500 text-white/40 uppercase tracking-widest mb-1">Window Profile</div>
           <h2 className="text-xl font-black text-[#eab676] tracking-tight">IGLO 5 F252</h2>
-          <p className="text-xs text-white/50">Double-light transom window with bottom fixed pane</p>
+          <p className="text-xs max-md:text-gray-900 text-white/50">Double-light transom window with bottom fixed pane</p>
         </div>
 
         {/* Hotspot Instructions Overlay */}
-        <div className="absolute top-4 right-[340px] z-20 pointer-events-none hidden md:flex items-center gap-2 bg-[#0c0c16]/85 border border-[#eab676]/30 px-3 py-2 rounded-xl backdrop-blur-md shadow-lg max-w-[280px]">
+        <div className="absolute top-4 right-[340px] z-20 pointer-events-none hidden md:flex items-center gap-2 max-md:bg-white/85 bg-[#0c0c16]/85 border border-[#eab676]/30 px-3 py-2 rounded-xl backdrop-blur-md shadow-lg max-w-[280px]">
           <HelpCircle className="w-5 h-5 text-[#eab676] shrink-0" />
-          <div className="text-[10.5px] text-white/80 leading-normal font-medium">
+          <div className="text-[10.5px] max-md:text-gray-900 text-white/80 leading-normal font-medium">
             Click the <span className="text-[#eab676] font-bold">3D hotspots (pulsing circles)</span> directly inside the scene to toggle blind or insect screen deployment, and to open the sash.
           </div>
         </div>
@@ -351,32 +351,32 @@ export function F252TestPage() {
         }}
       >
         {/* Header */}
-        <div className="border-b border-white/10 pb-4 shrink-0">
+        <div className="border-b max-md:border-gray-300 border-white/10 pb-4 shrink-0">
           <div className="text-[10px] font-extrabold uppercase tracking-widest text-[#eab676] mb-1">
             Component Configurator
           </div>
-          <h1 className="text-lg font-black tracking-tight text-white leading-none">
+          <h1 className="text-lg font-black tracking-tight max-md:text-gray-900 text-white leading-none">
             IGLO 5 F252
           </h1>
-          <p className="text-xs text-white/40 mt-1">Unified Foils & RAL Library</p>
+          <p className="text-xs max-md:text-gray-900 max-md:text-gray-500 text-white/40 mt-1">Unified Foils & RAL Library</p>
         </div>
 
         {/* Section: Dimensions */}
-        <div className="flex flex-col gap-4 border-b border-white/5 pb-5 shrink-0">
-          <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest text-white/60 mb-1">
+        <div className="flex flex-col gap-4 border-b max-md:border-gray-200 border-white/5 pb-5 shrink-0">
+          <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest max-md:text-gray-900 max-md:text-gray-600 text-white/60 mb-1">
             <Sliders className="w-3.5 h-3.5 text-[#eab676]" />
             <span>Dimensions</span>
           </div>
 
           <div className="flex flex-col gap-1">
             <div className="flex justify-between items-center text-xs">
-              <span className="text-white/50">Total Width</span>
+              <span className="max-md:text-gray-900 text-white/50">Total Width</span>
               <div className="flex items-center gap-1">
                 <input
                   type="number" min={500} max={2500}
                   value={width} onChange={e => setWidth(Number(e.target.value))}
                   onBlur={() => setWidth(Math.max(500, Math.min(2500, width)))}
-                  className="w-16 bg-[#121222] text-[#eab676] font-bold text-right border border-white/10 rounded px-1.5 py-0.5 focus:outline-none focus:border-[#eab676]/50"
+                  className="w-16 bg-[#121222] text-[#eab676] font-bold text-right border max-md:border-gray-300 border-white/10 rounded px-1.5 py-0.5 focus:outline-none focus:border-[#eab676]/50"
                 />
                 <span className="text-[#eab676] font-bold">mm</span>
               </div>
@@ -390,13 +390,13 @@ export function F252TestPage() {
 
           <div className="flex flex-col gap-1">
             <div className="flex justify-between items-center text-xs">
-              <span className="text-white/50">Total Height</span>
+              <span className="max-md:text-gray-900 text-white/50">Total Height</span>
               <div className="flex items-center gap-1">
                 <input
                   type="number" min={500} max={3000}
                   value={height} onChange={e => handleHeightChange(Number(e.target.value))}
                   onBlur={() => handleHeightChange(Math.max(500, Math.min(3000, height)))}
-                  className="w-16 bg-[#121222] text-[#eab676] font-bold text-right border border-white/10 rounded px-1.5 py-0.5 focus:outline-none focus:border-[#eab676]/50"
+                  className="w-16 bg-[#121222] text-[#eab676] font-bold text-right border max-md:border-gray-300 border-white/10 rounded px-1.5 py-0.5 focus:outline-none focus:border-[#eab676]/50"
                 />
                 <span className="text-[#eab676] font-bold">mm</span>
               </div>
@@ -408,16 +408,16 @@ export function F252TestPage() {
             />
           </div>
 
-          <div className="bg-[#121222]/50 rounded-xl border border-white/5 p-3 space-y-3 mt-1">
+          <div className="max-md:bg-gray-100/50 bg-[#121222]/50 rounded-xl border max-md:border-gray-200 border-white/5 p-3 space-y-3 mt-1">
             <div className="flex flex-col gap-1">
-              <div className="flex justify-between items-center text-[10px] font-semibold text-white/60">
+              <div className="flex justify-between items-center text-[10px] font-semibold max-md:text-gray-900 max-md:text-gray-600 text-white/60">
                 <span>Top Sash Height</span>
                 <div className="flex items-center gap-1">
                   <input
                     type="number" min={MIN_SECTION} max={height - MIN_SECTION}
                     value={height - bottomHeight} onChange={e => setBottomHeight(height - Number(e.target.value))}
                     onBlur={() => setBottomHeight(safeBottom)}
-                    className="w-14 bg-transparent text-white font-bold text-right border border-white/10 rounded px-1 py-0.5 focus:outline-none focus:border-white/30"
+                    className="w-14 bg-transparent max-md:text-gray-900 text-white font-bold text-right border max-md:border-gray-300 border-white/10 rounded px-1 py-0.5 focus:outline-none focus:border-white/30"
                   />
                   <span>mm</span>
                 </div>
@@ -429,14 +429,14 @@ export function F252TestPage() {
               />
             </div>
             <div className="flex flex-col gap-1">
-              <div className="flex justify-between items-center text-[10px] font-semibold text-white/60">
+              <div className="flex justify-between items-center text-[10px] font-semibold max-md:text-gray-900 max-md:text-gray-600 text-white/60">
                 <span>Bottom Fixed Height</span>
                 <div className="flex items-center gap-1">
                   <input
                     type="number" min={MIN_SECTION} max={height - MIN_SECTION}
                     value={bottomHeight} onChange={e => setBottomHeight(Number(e.target.value))}
                     onBlur={() => setBottomHeight(safeBottom)}
-                    className="w-14 bg-transparent text-white font-bold text-right border border-white/10 rounded px-1 py-0.5 focus:outline-none focus:border-white/30"
+                    className="w-14 bg-transparent max-md:text-gray-900 text-white font-bold text-right border max-md:border-gray-300 border-white/10 rounded px-1 py-0.5 focus:outline-none focus:border-white/30"
                   />
                   <span>mm</span>
                 </div>
@@ -451,8 +451,8 @@ export function F252TestPage() {
         </div>
 
         {/* Section: Window Foils & Colors */}
-        <div className="flex flex-col gap-4 border-b border-white/5 pb-5 shrink-0">
-          <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest text-white/60">
+        <div className="flex flex-col gap-4 border-b max-md:border-gray-200 border-white/5 pb-5 shrink-0">
+          <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest max-md:text-gray-900 max-md:text-gray-600 text-white/60">
             <Palette className="w-3.5 h-3.5 text-[#eab676]" />
             <span>Profile Colors</span>
           </div>
@@ -467,14 +467,14 @@ export function F252TestPage() {
             );
 
             return (
-              <div key={item.key} className="flex flex-col gap-2 bg-[#121222]/50 p-2.5 rounded-xl border border-white/5">
+              <div key={item.key} className="flex flex-col gap-2 max-md:bg-gray-100/50 bg-[#121222]/50 p-2.5 rounded-xl border max-md:border-gray-200 border-white/5">
                 <div className="flex justify-between items-start">
                   <div>
                     <div className="text-xs font-semibold">{item.label}</div>
-                    <div className="text-[9px] text-white/40">{item.hint}</div>
+                    <div className="text-[9px] max-md:text-gray-900 max-md:text-gray-500 text-white/40">{item.hint}</div>
                   </div>
                   <div 
-                    className="w-8 h-8 rounded-lg border border-white/10 shadow-lg bg-cover bg-center shrink-0 transition-transform hover:scale-105" 
+                    className="w-8 h-8 rounded-lg border max-md:border-gray-300 border-white/10 shadow-lg bg-cover bg-center shrink-0 transition-transform hover:scale-105" 
                     style={{ backgroundColor: item.value, backgroundImage: item.texture ? `url(${item.texture})` : 'none' }} 
                   />
                 </div>
@@ -483,7 +483,7 @@ export function F252TestPage() {
                   placeholder={`Search ${item.label.split(' ')[0]} foils...`}
                   value={pvcSearches[item.key]}
                   onChange={e => setPvcSearches(prev => ({ ...prev, [item.key]: e.target.value }))}
-                  className="w-full bg-[#17172a] text-[10px] border border-white/10 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[#eab676] text-white placeholder-white/30"
+                  className="w-full max-md:bg-white max-md:border-gray-300 bg-[#17172a] text-[10px] border max-md:border-gray-300 border-white/10 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[#eab676] max-md:text-gray-900 text-white placeholder-white/30"
                 />
                 <div className="grid grid-cols-6 gap-1.5 max-h-[80px] overflow-y-auto mt-1 pr-1 custom-scrollbar">
                   {filteredPvc.map(preset => (
@@ -500,15 +500,15 @@ export function F252TestPage() {
                       title={preset.label}
                     >
                       {item.value === preset.hex && item.texture === preset.image && (
-                        <div className="absolute inset-0 flex items-center justify-center text-[9px] font-black text-white drop-shadow-md bg-black/20 rounded-full">✓</div>
+                        <div className="absolute inset-0 flex items-center justify-center text-[9px] font-black max-md:text-gray-900 text-white drop-shadow-md max-md:bg-gray-200 bg-black/20 rounded-full">✓</div>
                       )}
-                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block bg-black/95 text-[8px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap z-50 pointer-events-none border border-white/10 shadow-lg">
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block max-md:bg-gray-800 bg-black/95 text-[8px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap z-50 pointer-events-none border max-md:border-gray-300 border-white/10 shadow-lg">
                         {preset.label}
                       </div>
                     </button>
                   ))}
                   {filteredPvc.length === 0 && (
-                    <div className="col-span-6 text-center text-[10px] text-white/30 py-2">No matching colors</div>
+                    <div className="col-span-6 text-center text-[10px] max-md:text-gray-900 max-md:text-gray-400 text-white/30 py-2">No matching colors</div>
                   )}
                 </div>
               </div>
@@ -517,26 +517,26 @@ export function F252TestPage() {
         </div>
 
         {/* Section: Hardware & Handles */}
-        <div className="flex flex-col gap-4 border-b border-white/5 pb-5 shrink-0">
-          <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest text-white/60">
+        <div className="flex flex-col gap-4 border-b max-md:border-gray-200 border-white/5 pb-5 shrink-0">
+          <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest max-md:text-gray-900 max-md:text-gray-600 text-white/60">
             <Settings2 className="w-3.5 h-3.5 text-[#eab676]" />
             <span>Hardware</span>
           </div>
 
-          <div className="bg-[#121222]/50 p-2.5 rounded-xl border border-white/5 space-y-3">
+          <div className="max-md:bg-gray-100/50 bg-[#121222]/50 p-2.5 rounded-xl border max-md:border-gray-200 border-white/5 space-y-3">
             <div className="flex flex-col gap-1">
-              <label className="text-[10px] font-semibold text-white/60 uppercase tracking-wider">Handle Type</label>
+              <label className="text-[10px] font-semibold max-md:text-gray-900 max-md:text-gray-600 text-white/60 uppercase tracking-wider">Handle Type</label>
               <select 
                 value={handleType}
                 onChange={e => setHandleType(e.target.value)}
-                className="bg-[#17172a] border border-white/10 rounded-lg px-2.5 py-1.5 text-xs w-full outline-none focus:border-[#eab676] text-white"
+                className="max-md:bg-white max-md:border-gray-300 bg-[#17172a] border max-md:border-gray-300 border-white/10 rounded-lg px-2.5 py-1.5 text-xs w-full outline-none focus:border-[#eab676] max-md:text-gray-900 text-white"
               >
                 {HANDLE_TYPES.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
               </select>
             </div>
             
             <div className="flex flex-col gap-1">
-              <label className="text-[10px] font-semibold text-white/60 uppercase tracking-wider">Handle Color</label>
+              <label className="text-[10px] font-semibold max-md:text-gray-900 max-md:text-gray-600 text-white/60 uppercase tracking-wider">Handle Color</label>
               <div className="flex gap-2 flex-wrap">
                 {HANDLE_COLORS.map(c => (
                   <button
@@ -549,8 +549,8 @@ export function F252TestPage() {
                       boxShadow: handleColor === c.id ? '0 0 4px #eab676' : 'none',
                     }}
                   >
-                    {handleColor === c.id && <div className="absolute inset-0 flex items-center justify-center text-[8px] font-black text-white mix-blend-difference">✓</div>}
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden group-hover:block bg-black/95 text-[8px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap z-50 pointer-events-none border border-white/10">
+                    {handleColor === c.id && <div className="absolute inset-0 flex items-center justify-center text-[8px] font-black max-md:text-gray-900 text-white mix-blend-difference">✓</div>}
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden group-hover:block max-md:bg-gray-800 bg-black/95 text-[8px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap z-50 pointer-events-none border max-md:border-gray-300 border-white/10">
                       {c.name}
                     </div>
                   </button>
@@ -561,17 +561,17 @@ export function F252TestPage() {
         </div>
 
         {/* Section: Glazing */}
-        <div className="flex flex-col gap-4 border-b border-white/5 pb-5 shrink-0">
-          <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest text-white/60">
+        <div className="flex flex-col gap-4 border-b max-md:border-gray-200 border-white/5 pb-5 shrink-0">
+          <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest max-md:text-gray-900 max-md:text-gray-600 text-white/60">
             <Box className="w-3.5 h-3.5 text-[#eab676]" />
             <span>Glazing Package</span>
           </div>
-          <div className="bg-[#121222]/50 p-2.5 rounded-xl border border-white/5 space-y-3">
+          <div className="max-md:bg-gray-100/50 bg-[#121222]/50 p-2.5 rounded-xl border max-md:border-gray-200 border-white/5 space-y-3">
             <div className="flex flex-col gap-1">
               <select 
                 value={glazing}
                 onChange={e => setGlazing(e.target.value)}
-                className="bg-[#17172a] border border-white/10 rounded-lg px-2.5 py-1.5 text-xs w-full outline-none focus:border-[#eab676] text-white"
+                className="max-md:bg-white max-md:border-gray-300 bg-[#17172a] border max-md:border-gray-300 border-white/10 rounded-lg px-2.5 py-1.5 text-xs w-full outline-none focus:border-[#eab676] max-md:text-gray-900 text-white"
               >
                 {ig5Glazings.map(pkg => (
                   <option key={pkg.id} value={pkg.name || pkg.id}>{pkg.name || pkg.id}</option>
@@ -582,67 +582,67 @@ export function F252TestPage() {
         </div>
 
         {/* Section: Treatments */}
-        <div className="flex flex-col gap-3 border-b border-white/5 pb-5 shrink-0">
-          <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest text-white/60 mb-1">
+        <div className="flex flex-col gap-3 border-b max-md:border-gray-200 border-white/5 pb-5 shrink-0">
+          <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest max-md:text-gray-900 max-md:text-gray-600 text-white/60 mb-1">
             <ShieldCheck className="w-3.5 h-3.5 text-[#eab676]" />
             <span>Treatments & Options</span>
           </div>
 
-          <label className="flex items-center gap-3 cursor-pointer group bg-[#121222]/50 p-2.5 rounded-xl border border-white/5 hover:border-white/10 transition-colors">
-            <div className={`flex items-center justify-center w-5 h-5 rounded border ${solarTreatment ? 'bg-[#eab676] border-[#eab676]' : 'border-white/20 bg-black/20'}`}>
-              {solarTreatment && <div className="text-black text-xs font-bold">✓</div>}
+          <label className="flex items-center gap-3 cursor-pointer group max-md:bg-gray-100/50 bg-[#121222]/50 p-2.5 rounded-xl border max-md:border-gray-200 border-white/5 hover:max-md:border-gray-300 border-white/10 transition-colors">
+            <div className={`flex items-center justify-center w-5 h-5 rounded border ${solarTreatment ? 'bg-[#eab676] border-[#eab676]' : 'max-md:border-gray-300 border-white/20 max-md:bg-gray-200 bg-black/20'}`}>
+              {solarTreatment && <div className="max-md:text-white text-black text-xs font-bold">✓</div>}
             </div>
             <input type="checkbox" checked={solarTreatment} onChange={e => setSolarTreatment(e.target.checked)} className="hidden" />
             <div className="flex flex-col">
-              <span className="text-xs font-medium text-white/90 flex items-center gap-1.5"><Sun className="w-3 h-3 text-orange-400" /> Solar Treatment</span>
-              <span className="text-[9px] text-white/40">Reflective exterior shield</span>
+              <span className="text-xs font-medium max-md:text-gray-900 text-white/90 flex items-center gap-1.5"><Sun className="w-3 h-3 text-orange-400" /> Solar Treatment</span>
+              <span className="text-[9px] max-md:text-gray-900 max-md:text-gray-500 text-white/40">Reflective exterior shield</span>
             </div>
           </label>
 
-          <label className="flex items-center gap-3 cursor-pointer group bg-[#121222]/50 p-2.5 rounded-xl border border-white/5 hover:border-white/10 transition-colors">
-            <div className={`flex items-center justify-center w-5 h-5 rounded border ${thermalTreatment ? 'bg-[#eab676] border-[#eab676]' : 'border-white/20 bg-black/20'}`}>
-              {thermalTreatment && <div className="text-black text-xs font-bold">✓</div>}
+          <label className="flex items-center gap-3 cursor-pointer group max-md:bg-gray-100/50 bg-[#121222]/50 p-2.5 rounded-xl border max-md:border-gray-200 border-white/5 hover:max-md:border-gray-300 border-white/10 transition-colors">
+            <div className={`flex items-center justify-center w-5 h-5 rounded border ${thermalTreatment ? 'bg-[#eab676] border-[#eab676]' : 'max-md:border-gray-300 border-white/20 max-md:bg-gray-200 bg-black/20'}`}>
+              {thermalTreatment && <div className="max-md:text-white text-black text-xs font-bold">✓</div>}
             </div>
             <input type="checkbox" checked={thermalTreatment} onChange={e => setThermalTreatment(e.target.checked)} className="hidden" />
             <div className="flex flex-col">
-              <span className="text-xs font-medium text-white/90 flex items-center gap-1.5"><ThermometerSun className="w-3 h-3 text-red-400" /> Thermal Treatment</span>
-              <span className="text-[9px] text-white/40">Enhanced interior insulation</span>
+              <span className="text-xs font-medium max-md:text-gray-900 text-white/90 flex items-center gap-1.5"><ThermometerSun className="w-3 h-3 text-red-400" /> Thermal Treatment</span>
+              <span className="text-[9px] max-md:text-gray-900 max-md:text-gray-500 text-white/40">Enhanced interior insulation</span>
             </div>
           </label>
         </div>
 
         {/* Section: Roller Blinds & Mosquito */}
-        <div className="flex flex-col gap-4 border-b border-white/5 pb-5 shrink-0">
-          <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest text-white/60">
+        <div className="flex flex-col gap-4 border-b max-md:border-gray-200 border-white/5 pb-5 shrink-0">
+          <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest max-md:text-gray-900 max-md:text-gray-600 text-white/60">
             <Box className="w-3.5 h-3.5 text-[#eab676]" />
             <span>Add-ons</span>
           </div>
 
-          <label className="flex items-center gap-3 cursor-pointer group bg-[#121222]/50 p-2.5 rounded-xl border border-white/5 hover:border-white/10 transition-colors">
-            <div className={`flex items-center justify-center w-5 h-5 rounded border ${blindBox ? 'bg-[#eab676] border-[#eab676]' : 'border-white/20 bg-black/20'}`}>
-              {blindBox && <div className="text-black text-xs font-bold">✓</div>}
+          <label className="flex items-center gap-3 cursor-pointer group max-md:bg-gray-100/50 bg-[#121222]/50 p-2.5 rounded-xl border max-md:border-gray-200 border-white/5 hover:max-md:border-gray-300 border-white/10 transition-colors">
+            <div className={`flex items-center justify-center w-5 h-5 rounded border ${blindBox ? 'bg-[#eab676] border-[#eab676]' : 'max-md:border-gray-300 border-white/20 max-md:bg-gray-200 bg-black/20'}`}>
+              {blindBox && <div className="max-md:text-white text-black text-xs font-bold">✓</div>}
             </div>
             <input type="checkbox" checked={blindBox} onChange={e => {
               setBlindBox(e.target.checked);
               if (e.target.checked) setBlindDeployed(true);
             }} className="hidden" />
             <div className="flex flex-col">
-              <span className="text-xs font-medium text-white/90">Roller Blind System</span>
-              <span className="text-[9px] text-white/40">225mm box casing & shutter</span>
+              <span className="text-xs font-medium max-md:text-gray-900 text-white/90">Roller Blind System</span>
+              <span className="text-[9px] max-md:text-gray-900 max-md:text-gray-500 text-white/40">225mm box casing & shutter</span>
             </div>
           </label>
 
-          <label className="flex items-center gap-3 cursor-pointer group bg-[#121222]/50 p-2.5 rounded-xl border border-white/5 hover:border-white/10 transition-colors">
-            <div className={`flex items-center justify-center w-5 h-5 rounded border ${mosquito ? 'bg-[#eab676] border-[#eab676]' : 'border-white/20 bg-black/20'}`}>
-              {mosquito && <div className="text-black text-xs font-bold">✓</div>}
+          <label className="flex items-center gap-3 cursor-pointer group max-md:bg-gray-100/50 bg-[#121222]/50 p-2.5 rounded-xl border max-md:border-gray-200 border-white/5 hover:max-md:border-gray-300 border-white/10 transition-colors">
+            <div className={`flex items-center justify-center w-5 h-5 rounded border ${mosquito ? 'bg-[#eab676] border-[#eab676]' : 'max-md:border-gray-300 border-white/20 max-md:bg-gray-200 bg-black/20'}`}>
+              {mosquito && <div className="max-md:text-white text-black text-xs font-bold">✓</div>}
             </div>
             <input type="checkbox" checked={mosquito} onChange={e => {
               setMosquito(e.target.checked);
               if (e.target.checked) setMosquitoDeployed(true);
             }} className="hidden" />
             <div className="flex flex-col">
-              <span className="text-xs font-medium text-white/90">Mosquito Net</span>
-              <span className="text-[9px] text-white/40">Integrated insect screen</span>
+              <span className="text-xs font-medium max-md:text-gray-900 text-white/90">Mosquito Net</span>
+              <span className="text-[9px] max-md:text-gray-900 max-md:text-gray-500 text-white/40">Integrated insect screen</span>
             </div>
           </label>
 
@@ -660,13 +660,13 @@ export function F252TestPage() {
                 );
 
                 return (
-                  <div key={item.key} className="flex flex-col gap-1.5 bg-[#121222]/50 p-2.5 rounded-xl border border-white/5">
+                  <div key={item.key} className="flex flex-col gap-1.5 max-md:bg-gray-100/50 bg-[#121222]/50 p-2.5 rounded-xl border max-md:border-gray-200 border-white/5">
                     <div className="flex justify-between items-start">
                       <div>
                         <div className="text-xs font-semibold">{item.label}</div>
-                        <div className="text-[9px] text-white/40">{item.hint}</div>
+                        <div className="text-[9px] max-md:text-gray-900 max-md:text-gray-500 text-white/40">{item.hint}</div>
                       </div>
-                      <div className="relative w-8 h-8 rounded-lg overflow-hidden border border-white/10 cursor-pointer transition-transform hover:scale-105">
+                      <div className="relative w-8 h-8 rounded-lg overflow-hidden border max-md:border-gray-300 border-white/10 cursor-pointer transition-transform hover:scale-105">
                         <input
                           type="color"
                           value={colours[item.key]}
@@ -681,7 +681,7 @@ export function F252TestPage() {
                       placeholder={`Search ${item.label.split(' (')[0]}...`}
                       value={blindSearches[item.key]}
                       onChange={e => setBlindSearches(prev => ({ ...prev, [item.key]: e.target.value }))}
-                      className="w-full bg-[#17172a] text-[10px] border border-white/10 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[#eab676] text-white placeholder-white/30"
+                      className="w-full max-md:bg-white max-md:border-gray-300 bg-[#17172a] text-[10px] border max-md:border-gray-300 border-white/10 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[#eab676] max-md:text-gray-900 text-white placeholder-white/30"
                     />
                     <div className="grid grid-cols-6 gap-1.5 max-h-[90px] overflow-y-auto mt-1 pr-1 custom-scrollbar">
                       {filteredPvc.map(preset => (
@@ -697,14 +697,14 @@ export function F252TestPage() {
                           title={preset.label}
                         >
                           {colours[item.key] === preset.hex && (
-                            <div className="absolute inset-0 flex items-center justify-center text-[9px] font-black text-white drop-shadow">✓</div>
+                            <div className="absolute inset-0 flex items-center justify-center text-[9px] font-black max-md:text-gray-900 text-white drop-shadow">✓</div>
                           )}
-                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block bg-black/95 text-[8px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap z-50 pointer-events-none border border-white/10 shadow-lg">
+                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block max-md:bg-gray-800 bg-black/95 text-[8px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap z-50 pointer-events-none border max-md:border-gray-300 border-white/10 shadow-lg">
                             {preset.label}
                           </div>
                         </button>
                       ))}
-                      {filteredPvc.length === 0 && <div className="col-span-6 text-center text-[10px] text-white/30 py-2">No matching colors</div>}
+                      {filteredPvc.length === 0 && <div className="col-span-6 text-center text-[10px] max-md:text-gray-900 max-md:text-gray-400 text-white/30 py-2">No matching colors</div>}
                     </div>
                   </div>
                 );
@@ -712,13 +712,13 @@ export function F252TestPage() {
 
               {/* Shutter Slats (RAL) */}
               {blindBox && (
-                <div className="flex flex-col gap-2 bg-[#121222]/50 p-2.5 rounded-xl border border-white/5">
+                <div className="flex flex-col gap-2 max-md:bg-gray-100/50 bg-[#121222]/50 p-2.5 rounded-xl border max-md:border-gray-200 border-white/5">
                   <div className="flex justify-between items-start">
                     <div>
                       <div className="text-xs font-semibold">Blind Shutter Curtain</div>
-                      <div className="text-[9px] text-white/40">Aluminium slats & bottom bar (RAL Library)</div>
+                      <div className="text-[9px] max-md:text-gray-900 max-md:text-gray-500 text-white/40">Aluminium slats & bottom bar (RAL Library)</div>
                     </div>
-                    <div className="relative w-8 h-8 rounded-lg overflow-hidden border border-white/10 cursor-pointer transition-transform hover:scale-105">
+                    <div className="relative w-8 h-8 rounded-lg overflow-hidden border max-md:border-gray-300 border-white/10 cursor-pointer transition-transform hover:scale-105">
                       <input
                         type="color"
                         value={colours.blind}
@@ -733,7 +733,7 @@ export function F252TestPage() {
                     placeholder="Search 200+ RAL colors..."
                     value={ralSearch}
                     onChange={e => setRalSearch(e.target.value)}
-                    className="w-full bg-[#17172a] text-xs border border-white/10 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[#eab676] text-white placeholder-white/30"
+                    className="w-full max-md:bg-white max-md:border-gray-300 bg-[#17172a] text-xs border max-md:border-gray-300 border-white/10 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[#eab676] max-md:text-gray-900 text-white placeholder-white/30"
                   />
                   <div className="grid grid-cols-6 gap-1.5 max-h-[140px] overflow-y-auto mt-1 pr-1 custom-scrollbar">
                     {filteredRalColors.map(c => (
@@ -748,26 +748,26 @@ export function F252TestPage() {
                         }}
                         title={c.name}
                       >
-                        {colours.blind === c.hex && <div className="absolute inset-0 flex items-center justify-center text-[9px] font-black text-white drop-shadow">✓</div>}
-                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block bg-black/95 text-[8px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap z-50 pointer-events-none border border-white/10 shadow-lg">
+                        {colours.blind === c.hex && <div className="absolute inset-0 flex items-center justify-center text-[9px] font-black max-md:text-gray-900 text-white drop-shadow">✓</div>}
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block max-md:bg-gray-800 bg-black/95 text-[8px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap z-50 pointer-events-none border max-md:border-gray-300 border-white/10 shadow-lg">
                           {c.name}
                         </div>
                       </button>
                     ))}
-                    {filteredRalColors.length === 0 && <div className="col-span-6 text-center text-[10px] text-white/30 py-3">No matching RAL colors</div>}
+                    {filteredRalColors.length === 0 && <div className="col-span-6 text-center text-[10px] max-md:text-gray-900 max-md:text-gray-400 text-white/30 py-3">No matching RAL colors</div>}
                   </div>
                 </div>
               )}
 
               {/* Mosquito Net Screen */}
               {mosquito && (
-                <div className="flex flex-col gap-1.5 bg-[#121222]/50 p-2.5 rounded-xl border border-white/5">
+                <div className="flex flex-col gap-1.5 max-md:bg-gray-100/50 bg-[#121222]/50 p-2.5 rounded-xl border max-md:border-gray-200 border-white/5">
                   <div className="flex justify-between items-start">
                     <div>
                       <div className="text-xs font-semibold">Mosquito Net Screen</div>
-                      <div className="text-[9px] text-white/40">Charcoal net frame & screen mesh</div>
+                      <div className="text-[9px] max-md:text-gray-900 max-md:text-gray-500 text-white/40">Charcoal net frame & screen mesh</div>
                     </div>
-                    <div className="relative w-8 h-8 rounded-lg overflow-hidden border border-white/10 cursor-pointer transition-transform hover:scale-105">
+                    <div className="relative w-8 h-8 rounded-lg overflow-hidden border max-md:border-gray-300 border-white/10 cursor-pointer transition-transform hover:scale-105">
                       <input
                         type="color"
                         value={colours.mosquitoNet}
@@ -782,7 +782,7 @@ export function F252TestPage() {
                     placeholder="Search Mosquito Net..."
                     value={mosquitoSearch}
                     onChange={e => setMosquitoSearch(e.target.value)}
-                    className="w-full bg-[#17172a] text-[10px] border border-white/10 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[#eab676] text-white placeholder-white/30"
+                    className="w-full max-md:bg-white max-md:border-gray-300 bg-[#17172a] text-[10px] border max-md:border-gray-300 border-white/10 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[#eab676] max-md:text-gray-900 text-white placeholder-white/30"
                   />
                   <div className="flex gap-2 mt-1.5 flex-wrap">
                     {filteredMosquitoOptions.map(preset => (
@@ -799,7 +799,7 @@ export function F252TestPage() {
                         {preset.label}
                       </button>
                     ))}
-                    {filteredMosquitoOptions.length === 0 && <div className="text-[10px] text-white/30 py-1">No matching options</div>}
+                    {filteredMosquitoOptions.length === 0 && <div className="text-[10px] max-md:text-gray-900 max-md:text-gray-400 text-white/30 py-1">No matching options</div>}
                   </div>
                 </div>
               )}
@@ -808,10 +808,10 @@ export function F252TestPage() {
         </div>
 
         {/* reset */}
-        <div className="mt-auto pt-6 border-t border-white/10 shrink-0 mb-6">
+        <div className="mt-auto pt-6 border-t max-md:border-gray-300 border-white/10 shrink-0 mb-6">
           <button
             onClick={handleReset}
-            className="flex items-center justify-center gap-2 w-full py-2 border border-white/10 hover:border-[#eab676]/50 hover:bg-[#eab676]/5 rounded-xl text-white/70 hover:text-white transition-all text-xs font-bold uppercase tracking-wider select-none cursor-pointer"
+            className="flex items-center justify-center gap-2 w-full py-2 border max-md:border-gray-300 border-white/10 hover:border-[#eab676]/50 hover:bg-[#eab676]/5 rounded-xl max-md:text-gray-900 text-white/70 hover:max-md:text-gray-900 text-white transition-all text-xs font-bold uppercase tracking-wider select-none cursor-pointer"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             <span>Reset Config</span>
