@@ -188,6 +188,11 @@ export const BBox225BlindBox: React.FC<BBox225BlindBoxProps> = ({
           <div
             className={`group/hotspot relative flex items-center justify-center cursor-pointer transition-all ${isThumbnail ? 'w-6 h-6' : 'w-12 h-12'}`}
             style={{ pointerEvents: 'auto' }}
+            onClick={(e) => { 
+              e.stopPropagation(); 
+              setMDirection(prev => prev === 'down' ? 'up' : 'down');
+              setMAnimating(true);
+            }}
           >
             {/* Hotspot Circle */}
             <div className={`absolute inset-0 flex items-center justify-center group-hover/hotspot:opacity-0 group-hover/hotspot:scale-50 transition-all duration-300 pointer-events-none ${isThumbnail ? 'scale-50' : ''}`} style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}>
@@ -227,6 +232,11 @@ export const BBox225BlindBox: React.FC<BBox225BlindBoxProps> = ({
           <div
             className={`group/hotspot relative flex items-center justify-center cursor-pointer transition-all ${isThumbnail ? 'w-6 h-6' : 'w-12 h-12'}`}
             style={{ pointerEvents: 'auto' }}
+            onClick={(e) => { 
+              e.stopPropagation(); 
+              setBDirection(prev => prev === 'down' ? 'up' : 'down');
+              setBAnimating(true);
+            }}
           >
             {/* Hotspot Circle */}
             <div className={`absolute inset-0 flex items-center justify-center group-hover/hotspot:opacity-0 group-hover/hotspot:scale-50 transition-all duration-300 pointer-events-none ${isThumbnail ? 'scale-50' : ''}`} style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}>
