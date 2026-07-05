@@ -86,6 +86,7 @@ export function F252TestPage() {
   const [width, setWidth] = useState(initialConfig?.width ?? 1200);
   const [height, setHeight] = useState(initialConfig?.height ?? 1400);
   const [bottomHeight, setBottomHeight] = useState(initialConfig?.bottomHeight ?? 430);
+  const [isMirrored, setIsMirrored] = useState(initialConfig?.isMirrored ?? false);
   
   const MIN_SECTION = 250;
   const safeBottom = Math.max(MIN_SECTION, Math.min(bottomHeight, height - MIN_SECTION));
@@ -135,6 +136,7 @@ export function F252TestPage() {
     setF252Memory({
       width, height, bottomHeight: safeBottom,
       colorExt, colorInt, colorExtTexture, colorIntTexture,
+      isMirrored,
       handleType, handleColor,
       solarTreatment, thermalTreatment, preSales,
       glazing,
@@ -144,6 +146,7 @@ export function F252TestPage() {
   }, [
     width, height, safeBottom,
     colorExt, colorInt, colorExtTexture, colorIntTexture,
+    isMirrored,
     handleType, handleColor,
     solarTreatment, thermalTreatment, preSales,
     glazing,
@@ -251,6 +254,8 @@ export function F252TestPage() {
           colorInt={colorInt}
           colorExtTexture={colorExtTexture}
           colorIntTexture={colorIntTexture}
+          isMirrored={isMirrored}
+          onMirroredChange={setIsMirrored}
           isColorPaletteOpen={false}
           solarTreatment={solarTreatment}
           thermalTreatment={thermalTreatment}
@@ -797,6 +802,7 @@ export function F252TestPage() {
         config={{
           width, height, bottomHeight: safeBottom,
           colorExt, colorInt, colorExtTexture, colorIntTexture,
+          isMirrored,
           solarTreatment, thermalTreatment, handleType, handleColor,
           preSales, blindBox, mosquito, glazing,
           blindDeployed, mosquitoDeployed,

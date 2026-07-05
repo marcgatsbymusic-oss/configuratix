@@ -130,6 +130,7 @@ function StorefrontLayout() {
           <Route path="/inspiration/:category" element={<InspirationsPage />} />
           <Route path="/sitemap" element={<SiteMapPage />} />
           <Route path="/staging" element={<StagingPage />} />
+          <Route path="/pilartest" element={<StagingPage presetSlug="pilartest" />} />
           <Route path="/import" element={<PdfImportPage />} />
         </Routes>
       </div>

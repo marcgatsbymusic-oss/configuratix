@@ -175,6 +175,8 @@ export const BBox225BlindBox: React.FC<BBox225BlindBoxProps> = ({
   const boxZ = 125;
   const boxY = -50; // offset slightly down
   
+  if (!hasBlind && !hasMosquito) return null;
+
   return (
     <group 
       ref={groupRef} 

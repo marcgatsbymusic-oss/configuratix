@@ -1,5 +1,7 @@
 import React, { Suspense, useState, useEffect, useRef, useCallback } from 'react';
 import { Canvas, useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
+import { Environment } from '@react-three/drei';
+import { EffectComposer, N8AO } from '@react-three/postprocessing';
 import { OrbitControls, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
@@ -53,6 +55,9 @@ interface F252ViewerProps {
   blindColorSlats?: string;
   onToggleBlind?: () => void;
   onToggleMosquito?: () => void;
+  isMirrored?: boolean;
+  onMirroredChange?: (val: boolean) => void;
+  onSceneReady?: (group: THREE.Group) => void;
 }
 
 export const F252Viewer: React.FC<F252ViewerProps> = ({
@@ -77,7 +82,10 @@ export const F252Viewer: React.FC<F252ViewerProps> = ({
   blindColorGuides,
   blindColorSlats,
   onToggleBlind,
-  onToggleMosquito
+  onToggleMosquito,
+  isMirrored,
+  onMirroredChange,
+  onSceneReady,
 }) => {
   const [windowState, setWindowState] = useState<'Closed' | 'Open' | 'Tilt'>('Closed');
 
@@ -90,6 +98,10 @@ export const F252Viewer: React.FC<F252ViewerProps> = ({
     timeoutRef.current = setTimeout(() => setAutoRotate(true), 5000);
   }, []);
 
+  const groupRef = useRef<THREE.Group>(null);
+
+
+
   useEffect(() => {
     resetAutoRotate();
     return () => {
@@ -97,7 +109,20 @@ export const F252Viewer: React.FC<F252ViewerProps> = ({
     };
   }, [resetAutoRotate]);
 
-  const [isMirrored, setIsMirrored] = useState(false);
+  const [internalMirrored, setInternalMirrored] = useState(false);
+  const mirrored = isMirrored !== undefined ? isMirrored : internalMirrored;
+
+  useEffect(() => {
+    if (groupRef.current && onSceneReady) {
+      onSceneReady(groupRef.current);
+    }
+  }, [groupRef.current, onSceneReady, width, height, colorExt, colorInt, mirrored]);
+  
+  const toggleMirrored = () => {
+    if (onMirroredChange) onMirroredChange(!mirrored);
+    else setInternalMirrored(!mirrored);
+  };
+
   const [fixedPartPosition, setFixedPartPosition] = useState<'Bottom' | 'Top'>('Bottom');
 
   const W_M = width / 1000;
@@ -121,39 +146,45 @@ export const F252Viewer: React.FC<F252ViewerProps> = ({
 
   return (
     <div className="relative w-full h-full" style={{ minHeight: isThumbnail ? '200px' : '400px', background: 'radial-gradient(circle, #ffffff 0%, #e6e4e0 100%)' }}>
-      <Canvas dpr={[1, 2]} shadows camera={{ position: [W_M / 2, H_M / 2, cameraZ], fov: 45 }} gl={{ antialias: true, localClippingEnabled: false, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.1, outputColorSpace: THREE.SRGBColorSpace }} onPointerDown={isThumbnail ? undefined : resetAutoRotate}>
+      <Canvas dpr={[1, 2]} shadows camera={{ position: [W_M / 2, H_M / 2, cameraZ], fov: 45 }} gl={{ antialias: true, localClippingEnabled: false, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.0, outputColorSpace: THREE.SRGBColorSpace }} onPointerDown={isThumbnail ? undefined : resetAutoRotate}>
+        <color attach="background" args={['#e8e8e8']} />
         <directionalLight
           position={[5, 8, 5]}
-          intensity={2.5}
+          intensity={1.4}
           castShadow
           shadow-mapSize={[2048, 2048]}
           shadow-bias={-0.0005}
           shadow-normalBias={0.02}
           shadow-camera-near={0.1}
-          shadow-camera-far={15}
-          shadow-camera-left={-2}
-          shadow-camera-right={2}
-          shadow-camera-top={2}
-          shadow-camera-bottom={-2}
-          shadow-radius={10}
+          shadow-camera-far={20}
+          shadow-camera-left={-5}
+          shadow-camera-right={5}
+          shadow-camera-top={5}
+          shadow-camera-bottom={-5}
+          shadow-radius={15}
           color="#ffffff"
         />
+        <hemisphereLight args={['#ffffff', '#b0b0b0', 0.4]} />
         
         <Suspense fallback={<LoadingOverlay />}>
-          <RoomEnv />
+          <Environment preset="city" background={false} />
+          
+          <EffectComposer>
+            <N8AO aoRadius={2} intensity={1} color="#000000" />
+          </EffectComposer>
           
           <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow position={[W_M / 2, 0, 0]}>
             <planeGeometry args={[20, 20]} />
             <shadowMaterial opacity={0.25} />
           </mesh>
           
-          <group position={[0, 0, 0]} rotation={[0, 0, 0]}>
+          <group ref={groupRef} position={[0, 0, 0]} rotation={[0, 0, 0]}>
             <group scale={0.001}>
               <IG5_F252_Component 
                 W={width}
                 TopSectionHeight={engineTopHeight}
                 BottomSectionHeight={engineBottomHeight}
-                isMirrored={isMirrored}
+                isMirrored={mirrored}
                 OperableSection={engineOperableSection}
                 EXT_Color={colorExt}
                 INT_Color={colorInt}
@@ -229,10 +260,10 @@ export const F252Viewer: React.FC<F252ViewerProps> = ({
       {!isColorPaletteOpen && !isThumbnail && (
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-4 z-40 bg-black/40 backdrop-blur-md p-2 rounded-xl border border-white/10">
           <button 
-            className={`px-4 py-2 rounded-lg font-bold text-sm transition-colors ${isMirrored ? 'bg-mammut-gold text-black' : 'bg-white/10 text-white hover:bg-white/20'}`}
-            onClick={() => setIsMirrored(!isMirrored)}
+            className={`px-4 py-2 rounded-lg font-bold text-sm transition-colors ${mirrored ? 'bg-mammut-gold text-black' : 'bg-white/10 text-white hover:bg-white/20'}`}
+            onClick={toggleMirrored}
           >
-            {isMirrored ? 'Hinge Left' : 'Hinge Right'}
+            {mirrored ? 'Hinge Left' : 'Hinge Right'}
           </button>
           
           <button 

@@ -1,1 +1,0 @@
-import{at as e,it as t,ot as n,rt as r}from"./index-2f_GZYcw.js";export{r as default,t as profiles,e as system,n as type};

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Send, Trash2, Box, PackagePlus, ChevronLeft, Image as ImageIcon, FileText, Edit2, Lock } from 'lucide-react';
 import { useStagingStore } from '../store/useStagingStore';
@@ -7,6 +7,23 @@ import { F252Viewer } from '../components/configurator/F252Viewer';
 import { IG5_F104Viewer } from '../components/configurator/IG5_F104Viewer';
 import { useAuth } from '../hooks/useAuth';
 import { supabase } from '../lib/supabase';
+import WindowConfigSummaryCard from '../components/WindowConfigSummaryCard';
+import * as THREE from 'three';
+import { ArViewer } from '../components/configurator/ArViewer';
+
+const getColorHex = (colorName: string | undefined): string => {
+  if (!colorName) return '#ffffff';
+  const name = colorName.toLowerCase();
+  if (name.includes('czarny') || name.includes('black') || name === '9005') return '#111111';
+  if (name.includes('antracyt') || name.includes('anthracite') || name === '7016') return '#383e42';
+  if (name.includes('braz') || name.includes('brown') || name === '8019') return '#5c4033';
+  if (name.includes('f1') || name.includes('silver')) return '#c0c0c0';
+  if (name.includes('kremowy') || name.includes('creamy')) return '#f5f5dc';
+  if (name.includes('zloto') || name.includes('gold')) return '#b8860b';
+  if (name.includes('bialy') || name.includes('white') || name === '9016') return '#ffffff';
+  if (name.startsWith('#')) return name;
+  return '#ffffff'; // Fallback
+};
 
 const formatDimensionBucket = (val: number | undefined) => {
   if (!val) return 'Unknown';
@@ -17,7 +34,7 @@ const formatDimensionBucket = (val: number | undefined) => {
   return '> 2500mm';
 };
 
-export function StagingPage() {
+export function StagingPage({ presetSlug }: { presetSlug?: string }) {
   const { t } = useTranslation();
   const { areas, removeWindowFromArea, updateWindowInArea, addArea, renameArea, removeArea, clonedWindow } = useStagingStore();
   const { user, signIn, signUp, signOut } = useAuth();
@@ -38,6 +55,9 @@ export function StagingPage() {
   const [savedSessions, setSavedSessions] = useState<any[]>([]);
   const [editingAreaId, setEditingAreaId] = useState<string | null>(null);
   const [editingAreaName, setEditingAreaName] = useState('');
+
+  const windowScenes = useRef<Record<string, THREE.Group>>({});
+  const [selectedArScene, setSelectedArScene] = useState<{ group: THREE.Group, typology: string } | null>(null);
 
   const isSupabaseConfigured = !!import.meta.env.VITE_SUPABASE_URL;
 
@@ -141,6 +161,31 @@ export function StagingPage() {
       setSavedSessions([]);
     }
   }, [user]);
+
+  useEffect(() => {
+    if (presetSlug && isSupabaseConfigured) {
+      const loadPreset = async () => {
+        try {
+          const { data, error } = await supabase
+            .from('configurator_saves')
+            .select('*')
+            .eq('name', presetSlug)
+            .eq('product_line', 'Staging')
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .single();
+          const anyData = data as any;
+          if (!error && anyData && anyData.configuration && Array.isArray(anyData.configuration)) {
+            useStagingStore.setState({ areas: anyData.configuration });
+            alert(t('stagingArea.alerts.sessionLoaded', { name: anyData.name }));
+          }
+        } catch (err) {
+          console.error('Error loading preset session:', err);
+        }
+      };
+      loadPreset();
+    }
+  }, [presetSlug, isSupabaseConfigured, t]);
 
   const handleSendToUser = (areaName: string) => {
     alert(t('stagingArea.alerts.listSent', { name: areaName }));
@@ -382,9 +427,47 @@ export function StagingPage() {
                     </div>
                   ) : (
                     area.windows.map((window, index) => (
-                      <div key={window.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden relative group hover:border-gray-300 transition-colors flex flex-col shadow-sm">
-                        
-                        {/* 3D Viewer / Image Section (Top) */}
+                  <div key={window.id} className="w-full">
+                    <WindowConfigSummaryCard
+                      roomIndex={index + 1}
+                      roomName={window.name}
+                      profileCode={window.profile.split(' ')[0] + ' ' + (window.profile.split(' ')[1] || '')}
+                      profileType={window.profile.split(' ').slice(2).join(' ')}
+                      dimensionsLocked={window.config?.preSales ? true : false}
+                      dimensionsNote={t('stagingArea.locked')}
+                      dimensionsValue={window.config?.width ? `${window.config.width} x ${window.config.height} mm` : null}
+                      glazing={window.glazing}
+                      handle={`${window.config?.handleType === 'locked' ? t('stagingArea.handles.keyLocked') : window.config?.handleType === 'premium' ? t('stagingArea.handles.premium') : t('stagingArea.handles.standard')} (${window.config?.handleColor || t('stagingArea.handles.silverF1')})`}
+                      treatments={`${window.config?.solarTreatment ? t('stagingArea.solar') : ''} ${window.config?.thermalTreatment ? t('stagingArea.thermal') : ''}`.trim() || t('stagingArea.none')}
+                      colors={[
+                        ...(window.config?.colorInt ? [{ label: t('stagingArea.frameInt', 'Marco int.'), hex: getColorHex(window.config.colorInt) }] : []),
+                        ...(window.config?.colorExt ? [{ label: t('stagingArea.frameExt', 'Marco ext.'), hex: getColorHex(window.config.colorExt) }] : []),
+                        ...(window.config?.blindColorInt ? [{ label: t('stagingArea.blindBoxInt', 'Cajón int.'), hex: getColorHex(window.config.blindColorInt) }] : []),
+                        ...(window.config?.blindColorExt ? [{ label: t('stagingArea.blindBoxExt', 'Cajón ext.'), hex: getColorHex(window.config.blindColorExt) }] : []),
+                        ...(window.config?.blindColorSlats ? [{ label: t('stagingArea.blinds', 'Persiana'), hex: getColorHex(window.config.blindColorSlats) }] : []),
+                        ...(window.config?.blindColorGuides ? [{ label: t('stagingArea.blindRails', 'Guías'), hex: getColorHex(window.config.blindColorGuides) }] : []),
+                      ]}
+                      complements={[
+                        ...(window.config?.blindBox ? [{ label: t('stagingArea.blindBox'), included: true, variant: "neutral" }] : []),
+                        ...(window.motor ? [{ label: t('stagingArea.motor'), included: true, variant: "neutral" }] : []),
+                        ...(window.config?.mosquito ? [{ label: t('stagingArea.mosquitoNet'), included: true, variant: "neutral" }] : []),
+                        ...(window.config?.solarTreatment ? [{ label: t('stagingArea.solarTreatment'), included: true, variant: "solar" }] : []),
+                        ...(window.config?.thermalTreatment ? [{ label: t('stagingArea.thermalTreatment'), included: true, variant: "thermal" }] : []),
+                      ]}
+                      efficiencyRating="A++"
+                      uwValue={window.uwValue || "0.74"}
+                      manufacturingDays={5}
+                      deliveryDate={"15 días"}
+                      onViewAR={() => {
+                        const scene = windowScenes.current[window.id];
+                        if (scene) {
+                          setSelectedArScene({ group: scene, typology: window.profile.split(' ')[2] || 'F100' });
+                        } else {
+                          navigate('/ar-preview'); // fallback
+                        }
+                      }}
+                      onDelete={() => removeWindowFromArea(area.id, window.id)}
+                      thumbnail={
                         <div 
                           className="w-full bg-gray-50 border-b border-gray-200 relative" 
                           style={{ 
@@ -404,6 +487,7 @@ export function StagingPage() {
                               colorInt={window.config.colorInt}
                               colorExtTexture={window.config.colorExtTexture}
                               colorIntTexture={window.config.colorIntTexture}
+                              isMirrored={window.config.isMirrored}
                               isThumbnail={true}
                               solarTreatment={window.config.solarTreatment}
                               thermalTreatment={window.config.thermalTreatment}
@@ -425,6 +509,7 @@ export function StagingPage() {
                               blindColorInt={window.config.blindColorInt}
                               blindColorGuides={window.config.blindColorGuides}
                               blindColorSlats={window.config.blindColorSlats}
+                              onSceneReady={(group) => { windowScenes.current[window.id] = group; }}
                             />
                           ) : window.profile === 'IGLO 5 F104' && window.config ? (
                             <IG5_F104Viewer 
@@ -443,6 +528,7 @@ export function StagingPage() {
                               mosquitoDeployed={window.config.mosquitoDeployed}
                               colorGuides={window.config.blindColorGuides}
                               colorSlats={window.config.blindColorSlats}
+                              onSceneReady={(group) => { windowScenes.current[window.id] = group; }}
                             />
                           ) : window.image ? (
                             <div className="w-full h-full flex items-center justify-center p-4">
@@ -455,102 +541,26 @@ export function StagingPage() {
                             </div>
                           )}
                         </div>
-
-                        {/* Details Section (Bottom) */}
-                        <div className="p-5">
-                          <div className="flex justify-between items-start mb-4">
-                            <h4 className="font-bold text-lg text-gray-900 pr-8">{index + 1}. {window.name}</h4>
-                            <button 
-                              onClick={() => removeWindowFromArea(area.id, window.id)}
-                              className="absolute top-4 right-4 text-gray-400 hover:text-red-500 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity p-2 bg-gray-100 md:bg-transparent rounded-full z-10"
-                              title={t('stagingArea.removeWindow')}
-                            >
-                              <Trash2 size={18} />
-                            </button>
-                          </div>
-                          
-                          <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 text-sm text-gray-600">
-                            <div>
-                              <span className="block text-gray-400 mb-1 uppercase tracking-wider text-xs font-bold">{t('stagingArea.profile')}</span> 
-                              <span className="text-mammut-gold font-medium">{window.profile}</span>
-                            </div>
-                            <div>
-                              <span className="block text-gray-400 mb-1 uppercase tracking-wider text-xs font-bold">{t('stagingArea.dimensions')}</span> 
-                              {window.config?.preSales ? (
-                                <div className="flex items-center gap-1.5 mt-1.5 text-red-600 font-bold" title="Measurements Locked">
-                                  <Lock size={20} className="shrink-0" />
-                                  <span className="text-xs uppercase tracking-wider">{t('stagingArea.locked')}</span>
-                                </div>
-                              ) : (
-                                <span className="text-gray-400 text-xs italic block mt-1.5">{t('stagingArea.unlocked')}</span>
-                              )}
-                            </div>
-                            <div>
-                              <span className="block text-gray-400 mb-1 uppercase tracking-wider text-xs font-bold">{t('stagingArea.glazing')}</span> 
-                              <span className="text-gray-800 font-medium block">{window.glazing}</span>
-                            </div>
-                            <div>
-                              <span className="block text-gray-400 mb-1 uppercase tracking-wider text-xs font-bold">{t('stagingArea.handle')}</span> 
-                              <span className="text-gray-800 font-medium block capitalize">
-                                {window.config?.handleType === 'locked' ? t('stagingArea.handles.keyLocked') : window.config?.handleType === 'premium' ? t('stagingArea.handles.premium') : t('stagingArea.handles.standard')} ({window.config?.handleColor === 'st_zloto' ? t('stagingArea.handles.oldGold') : window.config?.handleColor === 'kremowy' ? t('stagingArea.handles.creamy') : window.config?.handleColor === 'braz' ? t('stagingArea.handles.brown') : window.config?.handleColor === 'czarny' ? t('stagingArea.handles.black') : window.config?.handleColor === 'antracyt' ? t('stagingArea.handles.anthracite') : window.config?.handleColor === 'bialy' ? t('stagingArea.handles.white') : window.config?.handleColor || t('stagingArea.handles.silverF1')})
-                              </span>
-                            </div>
-                            <div>
-                              <span className="block text-gray-400 mb-1 uppercase tracking-wider text-xs font-bold">{t('stagingArea.treatments')}</span> 
-                              <span className="text-gray-800 font-medium block">
-                                {window.config?.solarTreatment ? t('stagingArea.solar') : ''}
-                                {window.config?.solarTreatment && window.config?.thermalTreatment ? t('stagingArea.and') : ''}
-                                {window.config?.thermalTreatment ? t('stagingArea.thermal') : ''}
-                                {!window.config?.solarTreatment && !window.config?.thermalTreatment ? t('stagingArea.none') : ''}
-                              </span>
-                            </div>
-                            
-                            {(window.blindBox || window.motor || window.mosquito || window.config?.solarTreatment || window.config?.thermalTreatment) && (
-                              <div className="col-span-2 lg:col-span-4 mt-2 pt-4 border-t border-gray-100">
-                                <span className="block text-gray-400 mb-2 uppercase tracking-wider text-xs font-bold">{t('stagingArea.addOns')}</span>
-                                <div className="flex flex-wrap gap-2">
-                                  {window.blindBox && <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium border border-gray-200">{t('stagingArea.blindBox')}</span>}
-                                  {window.motor && <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium border border-gray-200">{t('stagingArea.motor')}</span>}
-                                  {window.mosquito && <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium border border-gray-200">{t('stagingArea.mosquitoNet')}</span>}
-                                  {window.config?.solarTreatment && <span className="bg-yellow-50 text-yellow-700 border border-yellow-200 px-3 py-1 rounded-full text-xs font-medium">{t('stagingArea.solarTreatment')}</span>}
-                                  {window.config?.thermalTreatment && <span className="bg-red-50 text-red-700 border border-red-200 px-3 py-1 rounded-full text-xs font-medium">{t('stagingArea.thermalTreatment')}</span>}
-                                </div>
-                              </div>
-                            )}
-
-                            {/* Uw Input & AR Button Row */}
-                            <div className="col-span-2 lg:col-span-4 mt-2 pt-4 border-t border-gray-100 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-                              <div className="w-full sm:max-w-xs">
-                                <span className="block text-gray-400 mb-1.5 uppercase tracking-wider text-xs font-bold">{t('stagingArea.uwValue')}</span> 
-                                <input 
-                                  type="text" 
-                                  value={window.uwValue || ''} 
-                                  onChange={(e) => updateWindowInArea(area.id, window.id, { uwValue: e.target.value })}
-                                  placeholder={t('stagingArea.uwPlaceholder')}
-                                  className="w-full bg-white border border-gray-300 rounded-xl px-3.5 py-2 text-sm outline-none focus:border-mammut-gold focus:ring-1 focus:ring-mammut-gold text-gray-900 shadow-sm"
-                                />
-                              </div>
-                              <div className="flex justify-end shrink-0">
-                                <Link 
-                                  to="/ar-preview" 
-                                  className="inline-flex items-center gap-2 bg-mammut-gold hover:bg-mammut-gold/80 text-black font-bold py-3 px-5 rounded-xl text-xs uppercase tracking-wider transition-colors shadow-sm"
-                                >
-                                  <Box size={16} />
-                                  <span>{t('stagingArea.viewInAR')}</span>
-                                </Link>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                  )}
+                      }
+                    />
+                  </div>
+                ))
+              )}
                 </div>
               </div>
             ))}
           </div>
         )}
       </div>
+      {/* AR Modal Overlay */}
+      {selectedArScene && (
+        <ArViewer
+          sceneGroup={selectedArScene.group}
+          placement="wall" // Staging area is mostly windows, so default to wall. Doors might be floor, but we can stick to wall for simplicity.
+          typology={selectedArScene.typology}
+          onClose={() => setSelectedArScene(null)}
+        />
+      )}
     </div>
   );
 }

@@ -167,8 +167,8 @@ export const IG5_F252_Component: React.FC<IG5_F252Props> = ({
   
   const materials = useMemo(() => {
     return {
-      ext: new THREE.MeshPhysicalMaterial({ color: EXT_Color, roughness: 0.35, metalness: 0.0, clearcoat: 0.15, clearcoatRoughness: 0.25, envMapIntensity: 0.8, side: THREE.DoubleSide }),
-      int: new THREE.MeshPhysicalMaterial({ color: INT_Color, roughness: 0.35, metalness: 0.0, clearcoat: 0.15, clearcoatRoughness: 0.25, envMapIntensity: 0.8, side: THREE.DoubleSide }),
+      ext: new THREE.MeshPhysicalMaterial({ color: EXT_Color, roughness: 0.45, metalness: 0.0, envMapIntensity: 1.0, side: THREE.DoubleSide }),
+      int: new THREE.MeshPhysicalMaterial({ color: INT_Color, roughness: 0.45, metalness: 0.0, envMapIntensity: 1.0, side: THREE.DoubleSide }),
       gsk: new THREE.MeshPhysicalMaterial({ color: 0x222222, roughness: 0.8, metalness: 0.1, side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -4 }),
       glass: new THREE.MeshPhysicalMaterial({ 
         color: 0xeaf2f0, 
@@ -392,21 +392,21 @@ export const IG5_F252_Component: React.FC<IG5_F252Props> = ({
     <group>
       {/* FRAME */}
       {geoms.frameMeshes.map((m, i) => (
-        <mesh key={`f-${i}`} geometry={m.geom} material={m.matKey === 'glass' ? undefined : getMat(m.matKey)}>
+        <mesh key={`f-${i}`} geometry={m.geom} material={m.matKey === 'glass' ? undefined : getMat(m.matKey)} castShadow receiveShadow frustumCulled={false}>
           {m.matKey === 'glass' && <MeshTransmissionMaterial color="#ffffff" transmission={1.0} thickness={0.015} roughness={0.02} ior={1.52} resolution={1024} samples={16} chromaticAberration={0.02} background={new THREE.Color('#d4d4d8')} polygonOffset={true} polygonOffsetFactor={1} polygonOffsetUnits={1} />}
         </mesh>
       ))}
       
       {/* TRANSOM */}
       {geoms.transomMeshes.map((m, i) => (
-        <mesh key={`t-${i}`} geometry={m.geom} material={m.matKey === 'glass' ? undefined : getMat(m.matKey)}>
+        <mesh key={`t-${i}`} geometry={m.geom} material={m.matKey === 'glass' ? undefined : getMat(m.matKey)} castShadow receiveShadow frustumCulled={false}>
           {m.matKey === 'glass' && <MeshTransmissionMaterial color="#ffffff" transmission={1.0} thickness={0.015} roughness={0.02} ior={1.52} resolution={1024} samples={16} chromaticAberration={0.02} background={new THREE.Color('#d4d4d8')} polygonOffset={true} polygonOffsetFactor={1} polygonOffsetUnits={1} />}
         </mesh>
       ))}
 
       {/* FIXED GLAZING */}
       {geoms.fixedMeshes.map((m, i) => (
-        <mesh key={`fix-${i}`} geometry={m.geom} material={m.matKey === 'glass' ? undefined : getMat(m.matKey)}>
+        <mesh key={`fix-${i}`} geometry={m.geom} material={m.matKey === 'glass' ? undefined : getMat(m.matKey)} castShadow receiveShadow frustumCulled={false}>
           {m.matKey === 'glass' && <MeshTransmissionMaterial color="#ffffff" transmission={1.0} thickness={0.015} roughness={0.02} ior={1.52} resolution={1024} samples={16} chromaticAberration={0.02} background={new THREE.Color('#d4d4d8')} polygonOffset={true} polygonOffsetFactor={1} polygonOffsetUnits={1} />}
         </mesh>
       ))}
@@ -424,7 +424,7 @@ export const IG5_F252_Component: React.FC<IG5_F252Props> = ({
       {/* SASH GROUP */}
       <group ref={sashRef} position={geoms.sashGroupOrigin}>
         {geoms.sashMeshes.map((m, i) => (
-          <mesh key={`s-${i}`} geometry={m.geom} material={m.matKey === 'glass' ? undefined : getMat(m.matKey)}>
+          <mesh key={`s-${i}`} geometry={m.geom} material={m.matKey === 'glass' ? undefined : getMat(m.matKey)} castShadow receiveShadow frustumCulled={false}>
             {m.matKey === 'glass' && <MeshTransmissionMaterial color="#ffffff" transmission={1.0} thickness={0.015} roughness={0.02} ior={1.52} resolution={1024} samples={16} chromaticAberration={0.02} background={new THREE.Color('#d4d4d8')} polygonOffset={true} polygonOffsetFactor={1} polygonOffsetUnits={1} />}
           </mesh>
         ))}

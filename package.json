@@ -25,6 +25,7 @@
     "@needle-tools/engine": "^5.0.0",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.5.0",
+    "@react-three/postprocessing": "^3.0.4",
     "@react-three/xr": "^5.7.1",
     "@supabase/supabase-js": "^2.103.2",
     "@types/leaflet": "^1.9.21",

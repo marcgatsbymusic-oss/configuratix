@@ -47,6 +47,7 @@ interface IG5_F104ViewerProps {
   mosquitoDeployed?: boolean;
   colorGuides?: string;
   colorSlats?: string;
+  onSceneReady?: (group: THREE.Group) => void;
 }
 
 export const IG5_F104Viewer: React.FC<IG5_F104ViewerProps> = ({
@@ -65,7 +66,8 @@ export const IG5_F104Viewer: React.FC<IG5_F104ViewerProps> = ({
   blindDeployed = false,
   mosquitoDeployed = false,
   colorGuides = '#383e42',
-  colorSlats = '#eab676'
+  colorSlats = '#eab676',
+  onSceneReady
 }) => {
   const [autoRotate, setAutoRotate] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -82,6 +84,14 @@ export const IG5_F104Viewer: React.FC<IG5_F104ViewerProps> = ({
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, [resetAutoRotate]);
+
+  const groupRef = useRef<THREE.Group>(null);
+
+  useEffect(() => {
+    if (groupRef.current && onSceneReady) {
+      onSceneReady(groupRef.current);
+    }
+  }, [groupRef.current, onSceneReady, width, height, colorExt, colorInt]);
 
   const W_M = width / 1000;
   const H_M = height / 1000;
@@ -120,7 +130,7 @@ export const IG5_F104Viewer: React.FC<IG5_F104ViewerProps> = ({
             <shadowMaterial opacity={0.25} />
           </mesh>
           
-          <group position={[0, 0, 0]} rotation={[0, 0, 0]}>
+          <group ref={groupRef} position={[0, 0, 0]} rotation={[0, 0, 0]}>
             <group scale={0.001}>
               <IG5_F104_Component 
                 W={width}
