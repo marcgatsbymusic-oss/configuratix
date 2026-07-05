@@ -236,7 +236,7 @@ export function F252TestPage() {
   };
 
   return (
-    <div className="fixed inset-0 flex bg-[#080810] overflow-hidden text-white font-sans">
+    <div className="fixed inset-0 flex flex-col md:flex-row bg-[#080810] overflow-hidden text-white font-sans">
       <style>{`
         .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius: 4px; }
@@ -245,7 +245,7 @@ export function F252TestPage() {
       `}</style>
 
       {/* 3D Viewport */}
-      <div className="relative flex-1 h-full">
+      <div className="relative w-full h-[45vh] md:h-full md:flex-1 shrink-0">
         <F252Viewer 
           width={Math.max(width, 400)}
           height={Math.max(height, 500)}
@@ -317,9 +317,8 @@ export function F252TestPage() {
 
       {/* Sidebar Controls */}
       <div
-        className="flex flex-col gap-6 p-6 shrink-0 h-full overflow-y-auto custom-scrollbar"
+        className="flex flex-col gap-4 md:gap-6 p-4 md:p-6 shrink-0 flex-1 md:flex-none md:h-full w-full md:w-[340px] overflow-y-auto custom-scrollbar relative z-10"
         style={{
-          width: 340,
           background: 'rgba(10, 10, 20, 0.9)',
           borderLeft: '1px solid rgba(255, 255, 255, 0.08)',
           backdropFilter: 'blur(24px)',

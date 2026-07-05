@@ -128,7 +128,7 @@ export const BBox225MosquitoPage: React.FC = () => {
   );
 
   return (
-    <div className="fixed inset-0 flex bg-[#080810] overflow-hidden text-white font-sans">
+    <div className="fixed inset-0 flex flex-col md:flex-row bg-[#080810] overflow-hidden text-white font-sans">
       {/* Style overrides for custom scrollbar */}
       <style>{`
         .custom-scrollbar::-webkit-scrollbar {
@@ -149,7 +149,7 @@ export const BBox225MosquitoPage: React.FC = () => {
       `}</style>
 
       {/* 3D Viewport */}
-      <div className="relative flex-1 h-full">
+      <div className="relative w-full h-[45vh] md:h-full md:flex-1 shrink-0">
         <BBox225MosquitoViewer
           width={width}
           height={height}
@@ -188,9 +188,8 @@ export const BBox225MosquitoPage: React.FC = () => {
 
       {/* Sidebar Controls */}
       <div
-        className="flex flex-col gap-5 p-6 shrink-0 h-full overflow-y-auto custom-scrollbar"
+        className="flex flex-col gap-4 md:gap-5 p-4 md:p-6 shrink-0 flex-1 md:flex-none md:h-full w-full md:w-[340px] overflow-y-auto custom-scrollbar relative z-10"
         style={{
-          width: 320,
           background: 'rgba(10, 10, 20, 0.9)',
           borderLeft: '1px solid rgba(255, 255, 255, 0.08)',
           backdropFilter: 'blur(24px)',
