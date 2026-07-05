@@ -19,6 +19,8 @@ interface BBoxModelProps {
     mosquitoNet: string;
   };
   onBoundingBoxChange?: (size: THREE.Vector3) => void;
+  onToggleBlind?: () => void;
+  onToggleMosquito?: () => void;
 }
 
 const BBoxModel: React.FC<BBoxModelProps> = ({
@@ -27,7 +29,9 @@ const BBoxModel: React.FC<BBoxModelProps> = ({
   blindDeployed,
   mosquitoDeployed,
   colours,
-  onBoundingBoxChange
+  onBoundingBoxChange,
+  onToggleBlind,
+  onToggleMosquito
 }) => {
   const groupRef = useRef<THREE.Group>(null);
   const bboxRef = useRef<any>(null);
@@ -88,8 +92,8 @@ const BBoxModel: React.FC<BBoxModelProps> = ({
       const ctx = canvas.getContext('2d');
       if (ctx) {
         ctx.clearRect(0, 0, 16, 16);
-        // Draw very thin dark grid lines
-        ctx.strokeStyle = 'rgba(20, 20, 22, 0.85)';
+        // Draw very thin white grid lines to allow dynamic material color multiplication
+        ctx.strokeStyle = 'rgba(255, 255, 255, 1.0)';
         ctx.lineWidth = 1;
         ctx.strokeRect(0, 0, 16, 16);
       }
@@ -171,61 +175,44 @@ const BBoxModel: React.FC<BBoxModelProps> = ({
   const boxZ = (247 * 0.001) / 2 + 0.02; // Front of box + slight offset
   const boxY = (drop * 0.001) / 2; // Center Y of the top box part
 
+  const hotspotX_blind = 0.15;
+  const hotspotX_mosquito = -0.15;
+
   return (
     <group ref={groupRef}>
-      {/* Mosquito Net Controls (Left) */}
-      <Html position={[-0.25, boxY, boxZ]} center zIndexRange={[100, 0]}>
-        <div className="flex flex-col items-center gap-1 p-1.5 bg-[#0c0c16]/80 backdrop-blur-md rounded-[10px] border border-white/10 shadow-2xl pointer-events-auto">
-          <div className="text-[7px] font-black uppercase tracking-widest text-[#eab676] mb-0.5">Mosquito</div>
-          <div className="flex gap-1">
-            <button
-              onClick={() => { setMDirection('up'); setMAnimating(true); }}
-              className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${
-                mAnimating && mDirection === 'up' ? 'bg-mammut-gold text-mammut-black animate-pulse shadow-[0_0_8px_rgba(234,182,118,0.5)]' : 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110'
-              }`}
-            ><ArrowUp className="w-3 h-3" strokeWidth={2.5} /></button>
-            <button
-              onClick={() => setMAnimating(false)}
-              className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${
-                mAnimating ? 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110' : 'bg-white/5 text-white/20'
-              }`}
-            ><Pause className="w-3 h-3" strokeWidth={2.5} /></button>
-            <button
-              onClick={() => { setMDirection('down'); setMAnimating(true); }}
-              className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${
-                mAnimating && mDirection === 'down' ? 'bg-mammut-gold text-mammut-black animate-pulse shadow-[0_0_8px_rgba(234,182,118,0.5)]' : 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110'
-              }`}
-            ><ArrowDown className="w-3 h-3" strokeWidth={2.5} /></button>
+      {/* Mosquito Net Pulsing Toggle Circle (Interior/Room Side) */}
+      {onToggleMosquito && (
+        <Html position={[hotspotX_mosquito, boxY, -boxZ]} center zIndexRange={[100, 0]}>
+          <div
+            className="w-10 h-10 flex items-center justify-center cursor-pointer transition-all hover:scale-125"
+            style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite', pointerEvents: 'auto' }}
+            onClick={(e) => { e.stopPropagation(); onToggleMosquito(); }}
+            title="Toggle Mosquito Net Screen (Interior)"
+          >
+            <div className="relative w-4.5 h-4.5 flex items-center justify-center">
+              <div className="absolute inset-0 rounded-full bg-[#d4d4d8] opacity-50 blur-[2px]" />
+              <div className="absolute w-3 h-3 rounded-full bg-[#d4d4d8] border-[1.5px] border-white shadow-md" />
+            </div>
           </div>
-        </div>
-      </Html>
+        </Html>
+      )}
 
-      {/* Blinds Controls (Right) */}
-      <Html position={[0.25, boxY, boxZ]} center zIndexRange={[100, 0]}>
-        <div className="flex flex-col items-center gap-1 p-1.5 bg-[#0c0c16]/80 backdrop-blur-md rounded-[10px] border border-white/10 shadow-2xl pointer-events-auto">
-          <div className="text-[7px] font-black uppercase tracking-widest text-[#eab676] mb-0.5">Blinds</div>
-          <div className="flex gap-1">
-            <button
-              onClick={() => { setBDirection('up'); setBAnimating(true); }}
-              className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${
-                bAnimating && bDirection === 'up' ? 'bg-mammut-gold text-mammut-black animate-pulse shadow-[0_0_8px_rgba(234,182,118,0.5)]' : 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110'
-              }`}
-            ><ArrowUp className="w-3 h-3" strokeWidth={2.5} /></button>
-            <button
-              onClick={() => setBAnimating(false)}
-              className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${
-                bAnimating ? 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110' : 'bg-white/5 text-white/20'
-              }`}
-            ><Pause className="w-3 h-3" strokeWidth={2.5} /></button>
-            <button
-              onClick={() => { setBDirection('down'); setBAnimating(true); }}
-              className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${
-                bAnimating && bDirection === 'down' ? 'bg-mammut-gold text-mammut-black animate-pulse shadow-[0_0_8px_rgba(234,182,118,0.5)]' : 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110'
-              }`}
-            ><ArrowDown className="w-3 h-3" strokeWidth={2.5} /></button>
+      {/* Blinds Pulsing Toggle Circle (Exterior/Street Side) */}
+      {onToggleBlind && (
+        <Html position={[hotspotX_blind, boxY, boxZ]} center zIndexRange={[100, 0]}>
+          <div
+            className="w-10 h-10 flex items-center justify-center cursor-pointer transition-all hover:scale-125"
+            style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite', pointerEvents: 'auto' }}
+            onClick={(e) => { e.stopPropagation(); onToggleBlind(); }}
+            title="Toggle Roller Blind Shutter (Exterior)"
+          >
+            <div className="relative w-4.5 h-4.5 flex items-center justify-center">
+              <div className="absolute inset-0 rounded-full bg-[#d4d4d8] opacity-50 blur-[2px]" />
+              <div className="absolute w-3 h-3 rounded-full bg-[#d4d4d8] border-[1.5px] border-white shadow-md" />
+            </div>
           </div>
-        </div>
-      </Html>
+        </Html>
+      )}
     </group>
   );
 };
@@ -272,6 +259,8 @@ export interface BBox225MosquitoViewerProps {
     blind: string;
     mosquitoNet: string;
   };
+  onToggleBlind?: () => void;
+  onToggleMosquito?: () => void;
 }
 
 export const BBox225MosquitoViewer: React.FC<BBox225MosquitoViewerProps> = ({
@@ -279,7 +268,9 @@ export const BBox225MosquitoViewer: React.FC<BBox225MosquitoViewerProps> = ({
   height,
   blindDeployed,
   mosquitoDeployed,
-  colours
+  colours,
+  onToggleBlind,
+  onToggleMosquito
 }) => {
   const [maxDim, setMaxDim] = useState(1.5);
 
@@ -344,6 +335,8 @@ export const BBox225MosquitoViewer: React.FC<BBox225MosquitoViewerProps> = ({
           mosquitoDeployed={mosquitoDeployed}
           colours={colours}
           onBoundingBoxChange={handleBoundingBoxChange}
+          onToggleBlind={onToggleBlind}
+          onToggleMosquito={onToggleMosquito}
         />
 
         {/* Orbit Controls */}

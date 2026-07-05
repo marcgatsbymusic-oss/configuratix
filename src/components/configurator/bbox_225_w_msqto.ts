@@ -10,6 +10,7 @@
  */
 import * as THREE from "three";
 import DATA from "./BBOX_225_W_MSQTO.data.json";
+import { createSlatTextures } from "./slatTextures";
 
 export interface BBoxColours {
   boxExterior?: string; // street face only
@@ -51,6 +52,8 @@ export function buildBBox225WMsqto(opts: BBoxOptions = {}): BBoxHandle {
   const PITCH = DATA.defaults.slatPitch;
   const c = opts.colours ?? {};
 
+  const slatTex = createSlatTextures();
+  
   const materials = {
     boxExterior: new THREE.MeshStandardMaterial({
       color: c.boxExterior ?? DATA.materials.boxExterior.default, roughness: 0.62, metalness: 0.12,
@@ -62,7 +65,12 @@ export function buildBBox225WMsqto(opts: BBoxOptions = {}): BBoxHandle {
       color: c.guides ?? DATA.materials.guides.default, roughness: 0.5, metalness: 0.12, side: THREE.DoubleSide,
     }),
     blind: new THREE.MeshStandardMaterial({
-      color: c.blind ?? DATA.materials.blind.default, roughness: 0.7, metalness: 0.05,
+      color: c.blind ?? DATA.materials.blind.default, 
+      map: slatTex.colorMap,
+      normalMap: slatTex.normalMap,
+      roughness: 0.55, 
+      metalness: 0.1,
+      envMapIntensity: 0.6
     }),
     mosquitoNet: new THREE.MeshStandardMaterial({
       color: c.mosquitoNet ?? DATA.materials.mosquitoNet.default, roughness: 0.9, metalness: 0.0,
@@ -146,6 +154,7 @@ export function buildBBox225WMsqto(opts: BBoxOptions = {}): BBoxHandle {
   const nSlat = Math.round((DROP - ebH) / PITCH);
   const inst = new THREE.InstancedMesh(slatGeo, materials.blind, nSlat);
   inst.name = "slats"; inst.castShadow = inst.receiveShadow = true;
+  inst.frustumCulled = false;
   const mtx = new THREE.Matrix4();
   for (let i = 0; i < nSlat; i++) {
     mtx.makeTranslation(slatX - (sbb.min.x + sbb.max.x) / 2, -i * PITCH - slatTopY, cZ0 - sbb.min.z);

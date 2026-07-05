@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { PROFILES } from './f252_profiles';
 import { HANDLE } from './f252_handle';
 

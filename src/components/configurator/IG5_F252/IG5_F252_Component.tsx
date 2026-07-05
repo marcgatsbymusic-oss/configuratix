@@ -1,7 +1,7 @@
 import React, { useMemo, useRef, useState, useEffect } from 'react';
 import * as THREE from 'three';
 import { useFrame, type ThreeEvent } from '@react-three/fiber';
-import { Html } from '@react-three/drei';
+import { Html, MeshTransmissionMaterial } from '@react-three/drei';
 import { buildF252Geometries, type F252Geometries } from './IG5_F252_Engine';
 
 const SolarSun: React.FC<{ position: [number, number, number] }> = ({ position }) => {
@@ -165,25 +165,27 @@ export const IG5_F252_Component: React.FC<IG5_F252Props> = ({
   handleColor = '#aaaaaa',
 }) => {
   
-  // Keep materials outside the render path or in useMemo to avoid recreating them
   const materials = useMemo(() => {
     return {
-      ext: new THREE.MeshStandardMaterial({ color: EXT_Color, roughness: 0.6, metalness: 0.1, side: THREE.DoubleSide }),
-      int: new THREE.MeshStandardMaterial({ color: INT_Color, roughness: 0.6, metalness: 0.1, side: THREE.DoubleSide }),
-      gsk: new THREE.MeshStandardMaterial({ color: 0x111111, side: THREE.DoubleSide, roughness: 0.8 }),
+      ext: new THREE.MeshPhysicalMaterial({ color: EXT_Color, roughness: 0.35, metalness: 0.0, clearcoat: 0.15, clearcoatRoughness: 0.25, envMapIntensity: 0.8, side: THREE.DoubleSide }),
+      int: new THREE.MeshPhysicalMaterial({ color: INT_Color, roughness: 0.35, metalness: 0.0, clearcoat: 0.15, clearcoatRoughness: 0.25, envMapIntensity: 0.8, side: THREE.DoubleSide }),
+      gsk: new THREE.MeshPhysicalMaterial({ color: 0x222222, roughness: 0.8, metalness: 0.1, side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -4 }),
       glass: new THREE.MeshPhysicalMaterial({ 
-        color: 0xffffff, 
+        color: 0xeaf2f0, 
         transmission: 1.0, 
-        opacity: 0.6, 
-        transparent: true, 
-        roughness: 0.0, 
-        metalness: 0.0,
+        roughness: 0.03,
+        metalness: 0,
+        thickness: 24, // Assuming 24mm unit based on tips
         ior: 1.5,
-        thickness: 0.01,
+        specularIntensity: 1,
+        envMapIntensity: 1.2,
+        clearcoat: 0.3,
+        clearcoatRoughness: 0.1,
+        transparent: true,
         side: THREE.DoubleSide 
       }),
-      spacer: new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.5, side: THREE.DoubleSide }),
-      hardware: new THREE.MeshStandardMaterial({ color: handleColor, metalness: 0.8, side: THREE.DoubleSide }),
+      spacer: new THREE.MeshPhysicalMaterial({ color: 0x999999, roughness: 0.5, metalness: 0.6, side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -4 }),
+      hardware: new THREE.MeshPhysicalMaterial({ color: handleColor, roughness: 0.4, metalness: 0.8, side: THREE.DoubleSide }),
     };
   }, []);
 
@@ -223,6 +225,15 @@ export const IG5_F252_Component: React.FC<IG5_F252Props> = ({
 
     if (handleColor) {
       materials.hardware.color.set(handleColor);
+      
+      // If the handle is explicitly white or black, treat it as a painted/powder-coated finish
+      const hex = handleColor.toLowerCase();
+      const isPainted = hex === '#ffffff' || hex === '#fff' || hex === '#000000' || hex === '#000' || hex === '#111111';
+      
+      materials.hardware.metalness = isPainted ? 0.05 : 0.8;
+      materials.hardware.roughness = isPainted ? 0.4 : 0.4;
+      materials.hardware.clearcoat = isPainted ? 0.3 : 0.0;
+      
       materials.hardware.needsUpdate = true;
     }
   }, [EXT_Color, INT_Color, EXT_Texture, INT_Texture, handleColor, materials]);
@@ -381,17 +392,23 @@ export const IG5_F252_Component: React.FC<IG5_F252Props> = ({
     <group>
       {/* FRAME */}
       {geoms.frameMeshes.map((m, i) => (
-        <mesh key={`f-${i}`} geometry={m.geom} material={getMat(m.matKey)} />
+        <mesh key={`f-${i}`} geometry={m.geom} material={m.matKey === 'glass' ? undefined : getMat(m.matKey)}>
+          {m.matKey === 'glass' && <MeshTransmissionMaterial color="#ffffff" transmission={1.0} thickness={0.015} roughness={0.02} ior={1.52} resolution={1024} samples={16} chromaticAberration={0.02} background={new THREE.Color('#d4d4d8')} polygonOffset={true} polygonOffsetFactor={1} polygonOffsetUnits={1} />}
+        </mesh>
       ))}
       
       {/* TRANSOM */}
       {geoms.transomMeshes.map((m, i) => (
-        <mesh key={`t-${i}`} geometry={m.geom} material={getMat(m.matKey)} />
+        <mesh key={`t-${i}`} geometry={m.geom} material={m.matKey === 'glass' ? undefined : getMat(m.matKey)}>
+          {m.matKey === 'glass' && <MeshTransmissionMaterial color="#ffffff" transmission={1.0} thickness={0.015} roughness={0.02} ior={1.52} resolution={1024} samples={16} chromaticAberration={0.02} background={new THREE.Color('#d4d4d8')} polygonOffset={true} polygonOffsetFactor={1} polygonOffsetUnits={1} />}
+        </mesh>
       ))}
 
       {/* FIXED GLAZING */}
       {geoms.fixedMeshes.map((m, i) => (
-        <mesh key={`fix-${i}`} geometry={m.geom} material={getMat(m.matKey)} />
+        <mesh key={`fix-${i}`} geometry={m.geom} material={m.matKey === 'glass' ? undefined : getMat(m.matKey)}>
+          {m.matKey === 'glass' && <MeshTransmissionMaterial color="#ffffff" transmission={1.0} thickness={0.015} roughness={0.02} ior={1.52} resolution={1024} samples={16} chromaticAberration={0.02} background={new THREE.Color('#d4d4d8')} polygonOffset={true} polygonOffsetFactor={1} polygonOffsetUnits={1} />}
+        </mesh>
       ))}
 
       {/* SOLAR TREATMENT (Bottom Fixed Glazing) */}
@@ -407,7 +424,9 @@ export const IG5_F252_Component: React.FC<IG5_F252Props> = ({
       {/* SASH GROUP */}
       <group ref={sashRef} position={geoms.sashGroupOrigin}>
         {geoms.sashMeshes.map((m, i) => (
-          <mesh key={`s-${i}`} geometry={m.geom} material={getMat(m.matKey)} />
+          <mesh key={`s-${i}`} geometry={m.geom} material={m.matKey === 'glass' ? undefined : getMat(m.matKey)}>
+            {m.matKey === 'glass' && <MeshTransmissionMaterial color="#ffffff" transmission={1.0} thickness={0.015} roughness={0.02} ior={1.52} resolution={1024} samples={16} chromaticAberration={0.02} background={new THREE.Color('#d4d4d8')} polygonOffset={true} polygonOffsetFactor={1} polygonOffsetUnits={1} />}
+          </mesh>
         ))}
 
         {/* SOLAR TREATMENT (Top Sash Glazing) */}

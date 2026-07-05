@@ -31,6 +31,10 @@ interface StagingStore {
   removeWindowFromArea: (areaId: string, windowId: string) => void;
   updateWindowInArea: (areaId: string, windowId: string, updates: Partial<StagedWindow>) => void;
   toggleDrawer: () => void;
+  clonedWindow: Partial<StagedWindow> | null;
+  setClonedWindow: (window: Partial<StagedWindow> | null) => void;
+  f252Memory: any;
+  setF252Memory: (memory: any) => void;
 }
 
 export const useStagingStore = create<StagingStore>()(
@@ -40,6 +44,10 @@ export const useStagingStore = create<StagingStore>()(
         { id: 'pilar_stq', name: 'pilar_stq', windows: [] }
       ],
       isDrawerOpen: false,
+      clonedWindow: null,
+      setClonedWindow: (window) => set({ clonedWindow: window }),
+      f252Memory: null,
+      setF252Memory: (memory) => set({ f252Memory: memory }),
       addArea: (name) => set((state) => ({
         areas: [...state.areas, { id: Date.now().toString(36) + Math.random().toString(36).substring(2), name, windows: [] }]
       })),

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Send, Trash2, Box, PackagePlus, ChevronLeft, Image as ImageIcon, FileText, Edit2, Lock } from 'lucide-react';
 import { useStagingStore } from '../store/useStagingStore';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { F252Viewer } from '../components/configurator/F252Viewer';
 import { IG5_F104Viewer } from '../components/configurator/IG5_F104Viewer';
 import { useAuth } from '../hooks/useAuth';
@@ -17,8 +18,18 @@ const formatDimensionBucket = (val: number | undefined) => {
 };
 
 export function StagingPage() {
-  const { areas, removeWindowFromArea, updateWindowInArea, addArea, renameArea, removeArea } = useStagingStore();
+  const { t } = useTranslation();
+  const { areas, removeWindowFromArea, updateWindowInArea, addArea, renameArea, removeArea, clonedWindow } = useStagingStore();
   const { user, signIn, signUp, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleBackToConfigurator = () => {
+    if (clonedWindow?.profile === 'IGLO 5 F104') {
+      navigate('/test/ig5-f104');
+    } else {
+      navigate('/test/f252'); // Default to F252 if no specific clone or profile not recognized
+    }
+  };
 
   const [newAreaName, setNewAreaName] = useState('');
   const [email, setEmail] = useState('');
@@ -42,9 +53,9 @@ export function StagingPage() {
     try {
       const { error } = await signIn(email, password);
       if (error) throw error;
-      alert('Logged in successfully!');
+      alert(t('stagingArea.alerts.loggedIn'));
     } catch (err: any) {
-      alert('Login error: ' + err.message);
+      alert(t('stagingArea.alerts.loginError', { message: err.message }));
     }
   };
 
@@ -53,15 +64,15 @@ export function StagingPage() {
     try {
       const { error } = await signUp(email, password);
       if (error) throw error;
-      alert('Sign up successful! Please check email to verify or try logging in.');
+      alert(t('stagingArea.alerts.signUpSuccess'));
     } catch (err: any) {
-      alert('Sign up error: ' + err.message);
+      alert(t('stagingArea.alerts.signUpError', { message: err.message }));
     }
   };
 
   const handleSaveSession = async () => {
     if (!user) return;
-    const nameToUse = saveName.trim() || `Staging Area - ${new Date().toLocaleDateString()}`;
+    const nameToUse = saveName.trim() || saveName.trim() || t('stagingArea.title') + ' - ' + new Date().toLocaleDateString();
     try {
       const { error } = await supabase
         .from('configurator_saves')
@@ -74,11 +85,11 @@ export function StagingPage() {
           configuration: areas as any
         } as any);
       if (error) throw error;
-      alert('Staging session saved to cloud!');
+      alert(t('stagingArea.alerts.sessionSaved'));
       setSaveName('');
       loadSavedSessions();
     } catch (err: any) {
-      alert('Error saving session: ' + err.message);
+      alert(t('stagingArea.alerts.sessionSaveError', { message: err.message }));
     }
   };
 
@@ -102,24 +113,24 @@ export function StagingPage() {
   const handleLoadSession = (session: any) => {
     if (session.configuration && Array.isArray(session.configuration)) {
       useStagingStore.setState({ areas: session.configuration });
-      alert(`Loaded staging session: ${session.name}`);
+      alert(t('stagingArea.alerts.sessionLoaded', { name: session.name }));
     } else {
-      alert('Invalid session configuration payload.');
+      alert(t('stagingArea.alerts.invalidSession'));
     }
   };
 
   const handleDeleteSession = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this saved session?')) return;
+    if (!confirm(t('stagingArea.alerts.deleteConfirm'))) return;
     try {
       const { error } = await supabase
         .from('configurator_saves')
         .delete()
         .eq('id', id);
       if (error) throw error;
-      alert('Session deleted.');
+      alert(t('stagingArea.alerts.sessionDeleted'));
       loadSavedSessions();
     } catch (err: any) {
-      alert('Error deleting session: ' + err.message);
+      alert(t('stagingArea.alerts.sessionDeleteError', { message: err.message }));
     }
   };
 
@@ -132,7 +143,7 @@ export function StagingPage() {
   }, [user]);
 
   const handleSendToUser = (areaName: string) => {
-    alert(`List "${areaName}" sent to user!`);
+    alert(t('stagingArea.alerts.listSent', { name: areaName }));
   };
 
   return (
@@ -142,15 +153,24 @@ export function StagingPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-200 pb-6 gap-4">
           <div className="flex items-center gap-4">
             <PackagePlus size={32} className="text-mammut-gold" />
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-wider">STAGING AREA</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-wider">{t('stagingArea.title')}</h1>
           </div>
-          <Link 
-            to="/import"
-            className="flex items-center gap-2 bg-white hover:bg-gray-50 text-black border border-gray-200 font-bold py-2 px-4 rounded-xl transition-colors shadow-sm"
-          >
-            <FileText size={18} />
-            <span>Import PDF Quote</span>
-          </Link>
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={handleBackToConfigurator}
+              className="flex items-center gap-2 bg-[#eab676] hover:bg-black hover:text-white text-black font-bold py-2 px-4 rounded-xl transition-colors shadow-sm"
+            >
+              <ChevronLeft size={18} />
+              <span>{t('stagingArea.backToConfigurator')}</span>
+            </button>
+            <Link 
+              to="/import"
+              className="flex items-center gap-2 bg-white hover:bg-gray-50 text-black border border-gray-200 font-bold py-2 px-4 rounded-xl transition-colors shadow-sm"
+            >
+              <FileText size={18} />
+              <span>{t('stagingArea.importPdfQuote')}</span>
+            </Link>
+          </div>
         </div>
 
         {/* Staging Area Controls & Cloud Sync Panel */}
@@ -158,13 +178,13 @@ export function StagingPage() {
           {/* Card A: Staging List Manager */}
           <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between gap-4">
             <div>
-              <h3 className="font-bold text-lg text-gray-900">Manage Staging Lists</h3>
-              <p className="text-xs text-gray-500 mt-1">Create multiple list configurations to organize your projects.</p>
+              <h3 className="font-bold text-lg text-gray-900">{t('stagingArea.manageLists')}</h3>
+              <p className="text-xs text-gray-500 mt-1">{t('stagingArea.manageListsDesc')}</p>
             </div>
             <form onSubmit={handleCreateArea} className="flex gap-2 w-full">
               <input 
                 type="text" 
-                placeholder="e.g. Project North Wing"
+                placeholder={t('stagingArea.listNamePlaceholder')}
                 value={newAreaName}
                 onChange={(e) => setNewAreaName(e.target.value)}
                 className="flex-1 bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-mammut-gold shadow-sm text-gray-900"
@@ -173,9 +193,7 @@ export function StagingPage() {
               <button 
                 type="submit" 
                 className="bg-mammut-gold hover:bg-black hover:text-white text-black font-bold py-2.5 px-5 rounded-xl text-sm transition-all shadow-md whitespace-nowrap"
-              >
-                Create List
-              </button>
+              >{t('stagingArea.createList')}</button>
             </form>
           </div>
 
@@ -183,19 +201,19 @@ export function StagingPage() {
           {!isSupabaseConfigured ? (
             <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 shadow-sm flex items-center justify-center text-center p-8">
               <p className="text-sm text-gray-500 font-medium">
-                Cloud database sync is not configured locally. Staging sessions will be saved in your browser local storage.
+                {t('stagingArea.cloudSyncUnconfigured')}
               </p>
             </div>
           ) : !user ? (
             <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 shadow-sm flex flex-col gap-4">
               <div>
-                <h3 className="font-bold text-lg text-gray-900">Cloud Sync & Profile Save</h3>
-                <p className="text-xs text-gray-500 mt-1">Log in to save and retrieve your staging sessions from your user profile.</p>
+                <h3 className="font-bold text-lg text-gray-900">{t('stagingArea.cloudSyncTitle')}</h3>
+                <p className="text-xs text-gray-500 mt-1">{t('stagingArea.cloudSyncDesc')}</p>
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <input 
                   type="email" 
-                  placeholder="Email" 
+                  placeholder={t('stagingArea.emailPlaceholder')} 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="col-span-2 bg-white border border-gray-300 rounded-xl px-3 py-2 text-xs outline-none focus:border-mammut-gold text-gray-900"
@@ -203,7 +221,7 @@ export function StagingPage() {
                 />
                 <input 
                   type="password" 
-                  placeholder="Password" 
+                  placeholder={t('stagingArea.passwordPlaceholder')} 
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="col-span-2 bg-white border border-gray-300 rounded-xl px-3 py-2 text-xs outline-none focus:border-mammut-gold text-gray-900"
@@ -213,38 +231,32 @@ export function StagingPage() {
                   type="button"
                   onClick={handleSignIn}
                   className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-3 rounded-xl text-xs transition-colors"
-                >
-                  Sign In
-                </button>
+                >{t('stagingArea.signIn')}</button>
                 <button 
                   type="button"
                   onClick={handleSignUp}
                   className="bg-mammut-gold hover:bg-black hover:text-white text-black font-bold py-2 px-3 rounded-xl text-xs transition-colors"
-                >
-                  Sign Up
-                </button>
+                >{t('stagingArea.signUp')}</button>
               </div>
             </div>
           ) : (
             <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 shadow-sm flex flex-col gap-4">
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="font-bold text-lg text-gray-900">Cloud Sync Active</h3>
-                  <p className="text-xs text-gray-500 mt-1 truncate max-w-[200px] sm:max-w-xs font-semibold text-gray-700">Logged in as {user.email}</p>
+                  <h3 className="font-bold text-lg text-gray-900">{t('stagingArea.cloudSyncActive')}</h3>
+                  <p className="text-xs text-gray-500 mt-1 truncate max-w-[200px] sm:max-w-xs font-semibold text-gray-700">{t('stagingArea.loggedInAs', { email: user.email })}</p>
                 </div>
                 <button 
                   onClick={signOut}
                   className="text-xs text-red-500 hover:underline font-bold"
-                >
-                  Sign Out
-                </button>
+                >{t('stagingArea.signOut')}</button>
               </div>
               
               <div className="flex flex-col gap-3">
                 <div className="flex gap-2">
                   <input 
                     type="text"
-                    placeholder="Staging Session Name..."
+                    placeholder={t('stagingArea.sessionNamePlaceholder')}
                     value={saveName}
                     onChange={(e) => setSaveName(e.target.value)}
                     className="flex-1 bg-white border border-gray-300 rounded-xl px-3 py-2 text-xs outline-none focus:border-mammut-gold text-gray-900"
@@ -252,14 +264,12 @@ export function StagingPage() {
                   <button 
                     onClick={handleSaveSession}
                     className="bg-mammut-gold hover:bg-black hover:text-white text-black font-bold py-2 px-4 rounded-xl text-xs transition-colors shrink-0"
-                  >
-                    Save Session
-                  </button>
+                  >{t('stagingArea.saveSession')}</button>
                 </div>
 
                 {savedSessions.length > 0 && (
                   <div className="space-y-1.5 max-h-[100px] overflow-y-auto border border-gray-200 rounded-xl p-2 bg-white">
-                    <span className="block text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1">Load Staging Session</span>
+                    <span className="block text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1">{t('stagingArea.loadSession')}</span>
                     {savedSessions.map(sess => (
                       <div key={sess.id} className="flex items-center justify-between gap-2 text-xs border-b border-gray-50 pb-1.5 mb-1.5 last:border-0 last:pb-0 last:mb-0">
                         <button 
@@ -286,13 +296,13 @@ export function StagingPage() {
         {areas.length === 0 ? (
           <div className="text-center text-gray-500 py-24 bg-gray-50 rounded-2xl border border-gray-200">
             <Box size={64} className="mx-auto mb-6 opacity-30" />
-            <p className="text-xl">Your staging area is empty.</p>
+            <p className="text-xl">{t('stagingArea.emptyArea')}</p>
             <Link 
               to="/debug-pricing"
               className="mt-6 inline-flex items-center gap-2 text-mammut-gold hover:text-black transition-colors font-bold"
             >
               <ChevronLeft size={20} />
-              Return to Configurator
+              {t('stagingArea.returnToConfigurator')}
             </Link>
           </div>
         ) : (
@@ -334,33 +344,33 @@ export function StagingPage() {
                             setEditingAreaName(area.name);
                           }}
                           className="opacity-100 sm:opacity-0 sm:group-hover/title:opacity-100 transition-opacity text-gray-400 hover:text-mammut-gold p-1"
-                          title="Rename list"
+                          title={t('stagingArea.renameList')}
                         >
                           <Edit2 size={16} />
                         </button>
                         {area.id !== 'pilar_stq' && (
                           <button
                             onClick={() => {
-                              if (confirm('Are you sure you want to delete this list?')) {
+                              if (confirm(t('stagingArea.alerts.deleteListConfirm'))) {
                                 removeArea(area.id);
                               }
                             }}
                             className="opacity-100 sm:opacity-0 sm:group-hover/title:opacity-100 transition-opacity text-gray-400 hover:text-red-500 p-1"
-                            title="Delete list"
+                            title={t('stagingArea.deleteList')}
                           >
                             <Trash2 size={16} />
                           </button>
                         )}
                       </div>
                     )}
-                    <p className="text-sm text-gray-500 mt-1">{area.windows.length} items configured</p>
+                    <p className="text-sm text-gray-500 mt-1">{t('stagingArea.itemsConfigured_' + (area.windows.length === 1 ? 'one' : 'other'), { count: area.windows.length })}</p>
                   </div>
                   <button
                     onClick={() => handleSendToUser(area.name)}
                     className="flex items-center justify-center gap-2 bg-mammut-gold hover:bg-black hover:text-white text-black font-bold py-3 sm:py-2 px-6 rounded-xl transition-colors shadow-md"
                     disabled={area.windows.length === 0}
                   >
-                    <span>Send to User</span>
+                    <span>{t('stagingArea.sendToUser')}</span>
                     <Send size={16} />
                   </button>
                 </div>
@@ -368,7 +378,7 @@ export function StagingPage() {
                 <div className="flex-1 space-y-4">
                   {area.windows.length === 0 ? (
                     <div className="h-full flex items-center justify-center text-gray-500 italic py-12">
-                      No windows in this list yet.
+                      {t('stagingArea.emptyList')}
                     </div>
                   ) : (
                     area.windows.map((window, index) => (
@@ -409,6 +419,8 @@ export function StagingPage() {
                               }
                               blindBox={window.config.blindBox}
                               mosquito={window.config.mosquito}
+                              blindDeployed={window.config.blindDeployed}
+                              mosquitoDeployed={window.config.mosquitoDeployed}
                               blindColorExt={window.config.blindColorExt}
                               blindColorInt={window.config.blindColorInt}
                               blindColorGuides={window.config.blindColorGuides}
@@ -425,6 +437,12 @@ export function StagingPage() {
                               isThumbnail={true}
                               solarTreatment={window.config.solarTreatment}
                               thermalTreatment={window.config.thermalTreatment}
+                              hasBlind={window.config.blindBox}
+                              hasMosquito={window.config.mosquito}
+                              blindDeployed={window.config.blindDeployed}
+                              mosquitoDeployed={window.config.mosquitoDeployed}
+                              colorGuides={window.config.blindColorGuides}
+                              colorSlats={window.config.blindColorSlats}
                             />
                           ) : window.image ? (
                             <div className="w-full h-full flex items-center justify-center p-4">
@@ -433,7 +451,7 @@ export function StagingPage() {
                           ) : (
                             <div className="w-full h-full flex flex-col items-center justify-center text-gray-600 gap-2">
                               <ImageIcon size={32} />
-                              <span className="text-xs">No Image</span>
+                              <span className="text-xs">{t('stagingArea.noImage')}</span>
                             </div>
                           )}
                         </div>
@@ -445,7 +463,7 @@ export function StagingPage() {
                             <button 
                               onClick={() => removeWindowFromArea(area.id, window.id)}
                               className="absolute top-4 right-4 text-gray-400 hover:text-red-500 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity p-2 bg-gray-100 md:bg-transparent rounded-full z-10"
-                              title="Remove window"
+                              title={t('stagingArea.removeWindow')}
                             >
                               <Trash2 size={18} />
                             </button>
@@ -453,51 +471,49 @@ export function StagingPage() {
                           
                           <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 text-sm text-gray-600">
                             <div>
-                              <span className="block text-gray-400 mb-1 uppercase tracking-wider text-xs font-bold">Profile</span> 
+                              <span className="block text-gray-400 mb-1 uppercase tracking-wider text-xs font-bold">{t('stagingArea.profile')}</span> 
                               <span className="text-mammut-gold font-medium">{window.profile}</span>
                             </div>
                             <div>
-                              <span className="block text-gray-400 mb-1 uppercase tracking-wider text-xs font-bold">
-                                Dimensions
-                              </span> 
+                              <span className="block text-gray-400 mb-1 uppercase tracking-wider text-xs font-bold">{t('stagingArea.dimensions')}</span> 
                               {window.config?.preSales ? (
                                 <div className="flex items-center gap-1.5 mt-1.5 text-red-600 font-bold" title="Measurements Locked">
                                   <Lock size={20} className="shrink-0" />
-                                  <span className="text-xs uppercase tracking-wider">Locked</span>
+                                  <span className="text-xs uppercase tracking-wider">{t('stagingArea.locked')}</span>
                                 </div>
                               ) : (
-                                <span className="text-gray-400 text-xs italic block mt-1.5">Unlocked</span>
+                                <span className="text-gray-400 text-xs italic block mt-1.5">{t('stagingArea.unlocked')}</span>
                               )}
                             </div>
                             <div>
-                              <span className="block text-gray-400 mb-1 uppercase tracking-wider text-xs font-bold">Glazing</span> 
+                              <span className="block text-gray-400 mb-1 uppercase tracking-wider text-xs font-bold">{t('stagingArea.glazing')}</span> 
                               <span className="text-gray-800 font-medium block">{window.glazing}</span>
                             </div>
                             <div>
-                              <span className="block text-gray-400 mb-1 uppercase tracking-wider text-xs font-bold">Handle</span> 
+                              <span className="block text-gray-400 mb-1 uppercase tracking-wider text-xs font-bold">{t('stagingArea.handle')}</span> 
                               <span className="text-gray-800 font-medium block capitalize">
-                                {window.config?.handleType === 'locked' ? 'Key-Locked' : window.config?.handleType === 'premium' ? 'Premium' : 'Standard'} ({window.config?.handleColor === 'st_zloto' ? 'Old Gold' : window.config?.handleColor === 'kremowy' ? 'Creamy' : window.config?.handleColor === 'braz' ? 'Brown' : window.config?.handleColor === 'czarny' ? 'Black' : window.config?.handleColor === 'antracyt' ? 'Anthracite' : window.config?.handleColor === 'bialy' ? 'White' : window.config?.handleColor || 'Silver F1'})
+                                {window.config?.handleType === 'locked' ? t('stagingArea.handles.keyLocked') : window.config?.handleType === 'premium' ? t('stagingArea.handles.premium') : t('stagingArea.handles.standard')} ({window.config?.handleColor === 'st_zloto' ? t('stagingArea.handles.oldGold') : window.config?.handleColor === 'kremowy' ? t('stagingArea.handles.creamy') : window.config?.handleColor === 'braz' ? t('stagingArea.handles.brown') : window.config?.handleColor === 'czarny' ? t('stagingArea.handles.black') : window.config?.handleColor === 'antracyt' ? t('stagingArea.handles.anthracite') : window.config?.handleColor === 'bialy' ? t('stagingArea.handles.white') : window.config?.handleColor || t('stagingArea.handles.silverF1')})
                               </span>
                             </div>
                             <div>
-                              <span className="block text-gray-400 mb-1 uppercase tracking-wider text-xs font-bold">Treatments</span> 
+                              <span className="block text-gray-400 mb-1 uppercase tracking-wider text-xs font-bold">{t('stagingArea.treatments')}</span> 
                               <span className="text-gray-800 font-medium block">
-                                {window.config?.solarTreatment ? 'Solar' : ''}
-                                {window.config?.solarTreatment && window.config?.thermalTreatment ? ' & ' : ''}
-                                {window.config?.thermalTreatment ? 'Thermal' : ''}
-                                {!window.config?.solarTreatment && !window.config?.thermalTreatment ? 'None' : ''}
+                                {window.config?.solarTreatment ? t('stagingArea.solar') : ''}
+                                {window.config?.solarTreatment && window.config?.thermalTreatment ? t('stagingArea.and') : ''}
+                                {window.config?.thermalTreatment ? t('stagingArea.thermal') : ''}
+                                {!window.config?.solarTreatment && !window.config?.thermalTreatment ? t('stagingArea.none') : ''}
                               </span>
                             </div>
                             
                             {(window.blindBox || window.motor || window.mosquito || window.config?.solarTreatment || window.config?.thermalTreatment) && (
                               <div className="col-span-2 lg:col-span-4 mt-2 pt-4 border-t border-gray-100">
-                                <span className="block text-gray-400 mb-2 uppercase tracking-wider text-xs font-bold">Add-ons & Treatments</span>
+                                <span className="block text-gray-400 mb-2 uppercase tracking-wider text-xs font-bold">{t('stagingArea.addOns')}</span>
                                 <div className="flex flex-wrap gap-2">
-                                  {window.blindBox && <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium border border-gray-200">Blind Box</span>}
-                                  {window.motor && <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium border border-gray-200">Motor</span>}
-                                  {window.mosquito && <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium border border-gray-200">Mosquito Net</span>}
-                                  {window.config?.solarTreatment && <span className="bg-yellow-50 text-yellow-700 border border-yellow-200 px-3 py-1 rounded-full text-xs font-medium">Solar Treatment</span>}
-                                  {window.config?.thermalTreatment && <span className="bg-red-50 text-red-700 border border-red-200 px-3 py-1 rounded-full text-xs font-medium">Thermal Treatment</span>}
+                                  {window.blindBox && <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium border border-gray-200">{t('stagingArea.blindBox')}</span>}
+                                  {window.motor && <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium border border-gray-200">{t('stagingArea.motor')}</span>}
+                                  {window.mosquito && <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium border border-gray-200">{t('stagingArea.mosquitoNet')}</span>}
+                                  {window.config?.solarTreatment && <span className="bg-yellow-50 text-yellow-700 border border-yellow-200 px-3 py-1 rounded-full text-xs font-medium">{t('stagingArea.solarTreatment')}</span>}
+                                  {window.config?.thermalTreatment && <span className="bg-red-50 text-red-700 border border-red-200 px-3 py-1 rounded-full text-xs font-medium">{t('stagingArea.thermalTreatment')}</span>}
                                 </div>
                               </div>
                             )}
@@ -505,12 +521,12 @@ export function StagingPage() {
                             {/* Uw Input & AR Button Row */}
                             <div className="col-span-2 lg:col-span-4 mt-2 pt-4 border-t border-gray-100 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                               <div className="w-full sm:max-w-xs">
-                                <span className="block text-gray-400 mb-1.5 uppercase tracking-wider text-xs font-bold">Uw Value</span> 
+                                <span className="block text-gray-400 mb-1.5 uppercase tracking-wider text-xs font-bold">{t('stagingArea.uwValue')}</span> 
                                 <input 
                                   type="text" 
                                   value={window.uwValue || ''} 
                                   onChange={(e) => updateWindowInArea(area.id, window.id, { uwValue: e.target.value })}
-                                  placeholder="e.g. 0.85 W/m²K"
+                                  placeholder={t('stagingArea.uwPlaceholder')}
                                   className="w-full bg-white border border-gray-300 rounded-xl px-3.5 py-2 text-sm outline-none focus:border-mammut-gold focus:ring-1 focus:ring-mammut-gold text-gray-900 shadow-sm"
                                 />
                               </div>
@@ -520,7 +536,7 @@ export function StagingPage() {
                                   className="inline-flex items-center gap-2 bg-mammut-gold hover:bg-mammut-gold/80 text-black font-bold py-3 px-5 rounded-xl text-xs uppercase tracking-wider transition-colors shadow-sm"
                                 >
                                   <Box size={16} />
-                                  <span>View in AR</span>
+                                  <span>{t('stagingArea.viewInAR')}</span>
                                 </Link>
                               </div>
                             </div>

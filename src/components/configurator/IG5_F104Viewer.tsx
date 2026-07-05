@@ -1,8 +1,25 @@
 import React, { Suspense, useState, useEffect, useRef, useCallback } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Environment, ContactShadows, Html } from '@react-three/drei';
+import { Canvas, useThree } from '@react-three/fiber';
+import { OrbitControls, Html } from '@react-three/drei';
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { IG5_F104_Component } from './IG5_F104/IG5_F104_Component';
 import { BBox225BlindBox } from './BBox225Component';
+
+const RoomEnv = () => {
+  const { gl, scene } = useThree();
+  useEffect(() => {
+    const pmremGenerator = new THREE.PMREMGenerator(gl);
+    const envTexture = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
+    scene.environment = envTexture;
+    return () => {
+      scene.environment = null;
+      envTexture.dispose();
+      pmremGenerator.dispose();
+    };
+  }, [gl, scene]);
+  return null;
+};
 
 const LoadingOverlay = () => (
   <Html center>
@@ -73,9 +90,8 @@ export const IG5_F104Viewer: React.FC<IG5_F104ViewerProps> = ({
   const cameraZ = isThumbnail ? maxDim * 1.35 : maxDim * 2.2;
 
   return (
-    <div className="relative w-full h-full" style={{ minHeight: isThumbnail ? '200px' : '400px' }}>
-      <Canvas shadows camera={{ position: [W_M / 2, H_M / 2, cameraZ], fov: 45 }} gl={{ antialias: true }} onPointerDown={isThumbnail ? undefined : resetAutoRotate}>
-        <color attach="background" args={['#ffffff']} />
+    <div className="relative w-full h-full" style={{ minHeight: isThumbnail ? '200px' : '400px', background: 'radial-gradient(circle, #ffffff 0%, #e6e4e0 100%)' }}>
+      <Canvas dpr={[1, 2]} shadows camera={{ position: [W_M / 2, H_M / 2, cameraZ], fov: 45 }} gl={{ antialias: true, localClippingEnabled: false, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.1, outputColorSpace: THREE.SRGBColorSpace }} onPointerDown={isThumbnail ? undefined : resetAutoRotate}>
         <ambientLight intensity={0.40} />
         <directionalLight
           position={[W_M * 2.5, H_M * 3, H_M * 2]}
@@ -83,6 +99,14 @@ export const IG5_F104Viewer: React.FC<IG5_F104ViewerProps> = ({
           castShadow
           shadow-mapSize={[4096, 4096]}
           shadow-bias={-0.0004}
+          shadow-normalBias={0.02}
+          shadow-camera-near={0.1}
+          shadow-camera-far={15}
+          shadow-camera-left={-2}
+          shadow-camera-right={2}
+          shadow-camera-top={2}
+          shadow-camera-bottom={-2}
+          shadow-radius={10}
           color="#fff6e8"
         />
         <directionalLight position={[-W_M, H_M * 0.5, H_M]} intensity={0.7} color="#a8c8ff" />
@@ -90,7 +114,11 @@ export const IG5_F104Viewer: React.FC<IG5_F104ViewerProps> = ({
         <pointLight position={[W_M * 0.5, H_M * 0.5, H_M * 1.5]} intensity={0.35} />
         
         <Suspense fallback={<LoadingOverlay />}>
-          <Environment files="/assets/hdri/monochrome_studio_02_1k.exr" />
+          <RoomEnv />
+          <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow position={[W_M / 2, 0, 0]}>
+            <planeGeometry args={[20, 20]} />
+            <shadowMaterial opacity={0.25} />
+          </mesh>
           
           <group position={[0, 0, 0]} rotation={[0, 0, 0]}>
             <group scale={0.001}>
@@ -120,8 +148,6 @@ export const IG5_F104Viewer: React.FC<IG5_F104ViewerProps> = ({
             </group>
           </group>
         </Suspense>
-
-        <ContactShadows position={[W_M / 2, -0.005, -0.04]} opacity={0.12} scale={maxDim * 5} blur={2.5} far={maxDim * 2} />
         <OrbitControls 
           makeDefault 
           enablePan={!isThumbnail}

@@ -181,57 +181,79 @@ export const BBox225BlindBox: React.FC<BBox225BlindBoxProps> = ({
       rotation={[0, Math.PI / 2, 0]} 
       position={[0, height + yOffset, zOffset]} 
     >
-      {!isThumbnail && hasMosquito && (
-        <Html position={[135, boxY, boxZ]} center zIndexRange={[100, 0]}>
-          <div className="flex flex-col items-center gap-1 p-1.5 bg-[#0c0c16]/80 backdrop-blur-md rounded-[10px] border border-white/10 shadow-2xl pointer-events-auto">
-            <div className="text-[7px] font-black uppercase tracking-widest text-[#10b981] mb-0.5">Mosquito</div>
-            <div className="flex gap-1">
+      {hasMosquito && (
+        <Html position={[-20.16, 143.5, width / 2 - 150]} center zIndexRange={[100, 0]}>
+          <div
+            className={`group/hotspot relative flex items-center justify-center cursor-pointer transition-all ${isThumbnail ? 'w-6 h-6' : 'w-12 h-12'}`}
+            style={{ pointerEvents: 'auto' }}
+          >
+            {/* Hotspot Circle */}
+            <div className={`absolute inset-0 flex items-center justify-center group-hover/hotspot:opacity-0 group-hover/hotspot:scale-50 transition-all duration-300 pointer-events-none ${isThumbnail ? 'scale-50' : ''}`} style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}>
+              <div className="relative w-4.5 h-4.5 flex items-center justify-center">
+                <div className="absolute inset-0 rounded-full bg-[#d4d4d8] opacity-50 blur-[2px]" />
+                <div className="absolute w-3 h-3 rounded-full bg-[#d4d4d8] border-[1.5px] border-white shadow-md" />
+              </div>
+            </div>
+
+            {/* Hover Panel */}
+            <div className={`absolute flex items-center gap-1 p-1 bg-[#0c0c16]/90 backdrop-blur-md rounded-full border border-white/10 shadow-2xl opacity-0 scale-90 group-hover/hotspot:opacity-100 group-hover/hotspot:scale-100 transition-all duration-300 ${isThumbnail ? 'scale-[0.6] group-hover/hotspot:scale-[0.8]' : ''}`}>
               <button
                 onClick={(e) => { e.stopPropagation(); setMDirection('up'); setMAnimating(true); }}
-                className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${
-                  mAnimating && mDirection === 'up' ? 'bg-[#10b981] text-mammut-black animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-white/10 text-white hover:bg-[#10b981] hover:text-mammut-black hover:scale-110'
+                className={`w-7 h-7 flex items-center justify-center rounded-full transition-all ${
+                  mAnimating && mDirection === 'up' ? 'bg-[#d4d4d8] text-mammut-black shadow-[0_0_8px_rgba(212,212,216,0.5)]' : 'bg-white/5 text-white hover:bg-[#d4d4d8] hover:text-mammut-black'
                 }`}
-              ><ArrowUp className="w-3 h-3" strokeWidth={2.5} /></button>
+              ><ArrowUp className="w-3.5 h-3.5" strokeWidth={2.5} /></button>
               <button
                 onClick={(e) => { e.stopPropagation(); setMAnimating(false); }}
-                className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${
-                  mAnimating ? 'bg-white/10 text-white hover:bg-[#10b981] hover:text-mammut-black hover:scale-110' : 'bg-white/5 text-white/20'
+                className={`w-7 h-7 flex items-center justify-center rounded-full transition-all ${
+                  !mAnimating ? 'bg-white/20 text-white shadow-inner' : 'bg-white/5 text-white/50 hover:bg-white/20 hover:text-white'
                 }`}
-              ><Pause className="w-3 h-3" strokeWidth={2.5} /></button>
+              ><Pause className="w-3.5 h-3.5" strokeWidth={2.5} /></button>
               <button
                 onClick={(e) => { e.stopPropagation(); setMDirection('down'); setMAnimating(true); }}
-                className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${
-                  mAnimating && mDirection === 'down' ? 'bg-[#10b981] text-mammut-black animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-white/10 text-white hover:bg-[#10b981] hover:text-mammut-black hover:scale-110'
+                className={`w-7 h-7 flex items-center justify-center rounded-full transition-all ${
+                  mAnimating && mDirection === 'down' ? 'bg-[#d4d4d8] text-mammut-black shadow-[0_0_8px_rgba(212,212,216,0.5)]' : 'bg-white/5 text-white hover:bg-[#d4d4d8] hover:text-mammut-black'
                 }`}
-              ><ArrowDown className="w-3 h-3" strokeWidth={2.5} /></button>
+              ><ArrowDown className="w-3.5 h-3.5" strokeWidth={2.5} /></button>
             </div>
           </div>
         </Html>
       )}
 
-      {!isThumbnail && hasBlind && (
-        <Html position={[135, boxY, width - boxZ]} center zIndexRange={[100, 0]}>
-          <div className="flex flex-col items-center gap-1 p-1.5 bg-[#0c0c16]/80 backdrop-blur-md rounded-[10px] border border-white/10 shadow-2xl pointer-events-auto">
-            <div className="text-[7px] font-black uppercase tracking-widest text-[#eab676] mb-0.5">Blinds</div>
-            <div className="flex gap-1">
+      {hasBlind && (
+        <Html position={[266.84, 143.5, width / 2 + 150]} center zIndexRange={[100, 0]}>
+          <div
+            className={`group/hotspot relative flex items-center justify-center cursor-pointer transition-all ${isThumbnail ? 'w-6 h-6' : 'w-12 h-12'}`}
+            style={{ pointerEvents: 'auto' }}
+          >
+            {/* Hotspot Circle */}
+            <div className={`absolute inset-0 flex items-center justify-center group-hover/hotspot:opacity-0 group-hover/hotspot:scale-50 transition-all duration-300 pointer-events-none ${isThumbnail ? 'scale-50' : ''}`} style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}>
+              <div className="relative w-4.5 h-4.5 flex items-center justify-center">
+                <div className="absolute inset-0 rounded-full bg-[#d4d4d8] opacity-50 blur-[2px]" />
+                <div className="absolute w-3 h-3 rounded-full bg-[#d4d4d8] border-[1.5px] border-white shadow-md" />
+              </div>
+            </div>
+
+            {/* Hover Panel */}
+            <div className={`absolute flex items-center gap-1 p-1 bg-[#0c0c16]/90 backdrop-blur-md rounded-full border border-white/10 shadow-2xl opacity-0 scale-90 group-hover/hotspot:opacity-100 group-hover/hotspot:scale-100 transition-all duration-300 ${isThumbnail ? 'scale-[0.6] group-hover/hotspot:scale-[0.8]' : ''}`}>
               <button
                 onClick={(e) => { e.stopPropagation(); setBDirection('up'); setBAnimating(true); }}
-                className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${
-                  bAnimating && bDirection === 'up' ? 'bg-mammut-gold text-mammut-black animate-pulse shadow-[0_0_8px_rgba(234,182,118,0.5)]' : 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110'
+                className={`w-7 h-7 flex items-center justify-center rounded-full transition-all ${
+                  bAnimating && bDirection === 'up' ? 'bg-mammut-gold text-mammut-black shadow-[0_0_8px_rgba(234,182,118,0.5)]' : 'bg-white/5 text-white hover:bg-mammut-gold hover:text-mammut-black'
                 }`}
-              ><ArrowUp className="w-3 h-3" strokeWidth={2.5} /></button>
+              ><ArrowUp className="w-3.5 h-3.5" strokeWidth={2.5} /></button>
               <button
                 onClick={(e) => { e.stopPropagation(); setBAnimating(false); }}
-                className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${
-                  bAnimating ? 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110' : 'bg-white/5 text-white/20'
+                className={`w-7 h-7 flex items-center justify-center rounded-full transition-all ${
+                  !bAnimating ? 'bg-white/20 text-white shadow-inner' : 'bg-white/5 text-white/50 hover:bg-white/20 hover:text-white'
                 }`}
-              ><Pause className="w-3 h-3" strokeWidth={2.5} /></button>
+              ><Pause className="w-3.5 h-3.5" strokeWidth={2.5} /></button>
               <button
                 onClick={(e) => { e.stopPropagation(); setBDirection('down'); setBAnimating(true); }}
-                className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${
-                  bAnimating && bDirection === 'down' ? 'bg-mammut-gold text-mammut-black animate-pulse shadow-[0_0_8px_rgba(234,182,118,0.5)]' : 'bg-white/10 text-white hover:bg-mammut-gold hover:text-mammut-black hover:scale-110'
+                className={`w-7 h-7 flex items-center justify-center rounded-full transition-all ${
+                  bAnimating && bDirection === 'down' ? 'bg-mammut-gold text-mammut-black shadow-[0_0_8px_rgba(234,182,118,0.5)]' : 'bg-white/5 text-white hover:bg-mammut-gold hover:text-mammut-black'
                 }`}
-              ><ArrowDown className="w-3 h-3" strokeWidth={2.5} /></button>
+              ><ArrowDown className="w-3.5 h-3.5" strokeWidth={2.5} /></button>
             </div>
           </div>
         </Html>

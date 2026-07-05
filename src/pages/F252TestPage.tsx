@@ -1,14 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { F252Viewer } from '../components/configurator/F252Viewer';
-import { ChevronLeft, ShoppingCart, PackagePlus } from 'lucide-react';
-import { ColorPaletteOverlay } from '../components/configurator/ColorPaletteOverlay';
-import { IGLO_EDGE_COLORS } from '../data/productDetails';
+import { ArrowLeft, Sliders, Palette, ShoppingCart, PackagePlus, HelpCircle, Box, Settings2, ShieldCheck, Sun, ThermometerSun, RefreshCw } from 'lucide-react';
+import { IGLO_EDGE_COLORS, FULL_RAL_COLORS } from '../data/productDetails';
+import { CONFIG_SCHEMA, PROFILE_GLAZING_LIMITS } from '../components/SlateConfigurator/types';
 import { AddToStagingModal } from '../components/configurator/AddToStagingModal';
+import { useStagingStore } from '../store/useStagingStore';
+
+const COLOR_HEX_MAP: Record<string, string> = {
+  'c197': '#ffffff', // White
+  'c214': '#3b3c3f', // Anthracite
+  'c217': '#0a0a0a', // Jet Black
+  'c231': '#3e2b23', // Chocolate Brown
+  'c205': '#878c93', // Grey
+  'c209': '#4f5358', // Basalt Grey
+  'c236': '#163e63', // Brilliant Blue
+  'c234': '#0d2d1e', // Dark Green
+  'c235': '#461515', // Dark Red
+  'c206': '#9e9e9e', // Concrete Grey
+  'c200': '#f5f5dc', // Cream
+  'c233': '#4b5320', // Moss Green
+  'c204': '#d3d3d3', // Light Grey
+  'c211': '#708090', // Slate
+  'c202': '#d2b48c', // Bleached Oak
+  'c227': '#3e2723', // Dark Oak
+  'c225': '#8d6e63', // Douglas Fir
+  'c229': '#5d4037', // Macore
+  'c230': '#4e342e', // Mahogany
+  'c203': '#a1887f', // Natural Oak
+  'c224': '#8d6e63', // Oregon
+  'c220': '#bcaaa4', // Turner Oak
+  'c226': '#3e2723', // Walnut
+  'c223': '#a1887f', // Winchester
+  'c219': '#bcaaa4', // Golden Oak
+  'c199': '#5a5a5a', // Croviu Platynium
+  'c201': '#8c8c8c', // Piryt
+  'c210': '#4f5358', // Basalt Grey Gadki
+  'c207': '#757a7d', // Grey Quartz
+  'c208': '#757a7d', // Grey Quartz Smooth
+  'c237': '#4682b4', // Steel Blue
+  'c216': '#3b3c3f', // Anthracite Ulti Matt
+  'c215': '#3b3c3f', // Anthracite Smooth
+  'c218': '#0a0a0a', // Black Ulti Matt
+  'c212': '#708090', // Slate Smooth
+  'c198': '#f5f5f0', // White Sand Matt
+  'c232': '#554433', // Deep Bronze
+  'c213': '#41424c', // Graphite Sandblasted
+  'c228': '#4a2f26', // Palisander
+  'c221': '#a57850', // Turner Oak Toffee
+  'c222': '#704730', // Turner Oak Walnut
+  'c0': '#ffffff',   // System White
+};
 
 const HANDLE_TYPES = [
-  { id: 'standard', name: 'Standard Dublin Handle' },
-  { id: 'premium', name: 'Premium Metal Handle' },
-  { id: 'locked', name: 'Key-Locked Safety Handle' }
+  { id: 'standard', name: 'Standard Dublin' },
+  { id: 'premium', name: 'Premium Metal' },
+  { id: 'locked', name: 'Key-Locked Safety' }
 ];
 
 const HANDLE_COLORS = [
@@ -22,76 +69,115 @@ const HANDLE_COLORS = [
   { id: 'st_zloto', name: 'Old Gold', hex: '#b8860b' }
 ];
 
-const BLIND_COLORS = [
-  { id: '#383e42', name: 'Anthracite' },
-  { id: '#f3f4f6', name: 'White' },
-  { id: '#8a939e', name: 'Gray' },
-  { id: '#a67c45', name: 'Golden Oak' },
-  { id: '#5c4021', name: 'Dark Oak' },
-  { id: '#111111', name: 'Deep Black' },
-];
-
 export function F252TestPage() {
-  const [width, setWidth] = useState(1200);
-  const [height, setHeight] = useState(1400);
-  const [bottomHeight, setBottomHeight] = useState(430);
-  const [colorExt, setColorExt] = useState('#383e42');
-  const [colorInt, setColorInt] = useState('#ffffff');
-  const [colorExtTexture, setColorExtTexture] = useState<string | undefined>();
-  const [colorIntTexture, setColorIntTexture] = useState<string | undefined>();
-  const [isColorWheelOpen, setIsColorWheelOpen] = useState(false);
-  const [isStagingModalOpen, setIsStagingModalOpen] = useState(false);
-  const [solarTreatment, setSolarTreatment] = useState(false);
-  const [thermalTreatment, setThermalTreatment] = useState(false);
-  const [handleType, setHandleType] = useState('standard');
-  const [handleColor, setHandleColor] = useState('F1');
-  const [preSales, setPreSales] = useState(false);
-  const [blindBox, setBlindBox] = useState(false);
-  const [mosquito, setMosquito] = useState(false);
-  const [blindDeployed, setBlindDeployed] = useState(false);
-  const [mosquitoDeployed, setMosquitoDeployed] = useState(false);
-  const [blindColorExt, setBlindColorExt] = useState('#383e42');
-  const [blindColorInt, setBlindColorInt] = useState('#f3f4f6');
-  const [blindColorGuides, setBlindColorGuides] = useState('#383e42');
-  const [blindColorSlats, setBlindColorSlats] = useState('#8a939e');
+  const navigate = useNavigate();
 
+  const clonedWindow = useStagingStore(state => state.clonedWindow);
+  const setClonedWindow = useStagingStore(state => state.setClonedWindow);
+  const f252Memory = useStagingStore(state => state.f252Memory);
+  const setF252Memory = useStagingStore(state => state.setF252Memory);
+  
+  const initialConfig = (clonedWindow?.profile === 'IGLO 5 F252' ? clonedWindow.config : null) || f252Memory;
+
+  const ig5GlazingIds = PROFILE_GLAZING_LIMITS['IG5']?.packages || [];
+  const ig5Glazings = CONFIG_SCHEMA.glazing.filter(g => ig5GlazingIds.includes(g.id));
+
+  // Dimensions
+  const [width, setWidth] = useState(initialConfig?.width ?? 1200);
+  const [height, setHeight] = useState(initialConfig?.height ?? 1400);
+  const [bottomHeight, setBottomHeight] = useState(initialConfig?.bottomHeight ?? 430);
+  
   const MIN_SECTION = 250;
-
-  // Safe boundaries
   const safeBottom = Math.max(MIN_SECTION, Math.min(bottomHeight, height - MIN_SECTION));
   const safeTop = height - safeBottom;
 
-  const [typedWidth, setTypedWidth] = useState(String(width));
-  const [typedHeight, setTypedHeight] = useState(String(height));
-  const [typedTop, setTypedTop] = useState(String(safeTop));
-  const [typedBottom, setTypedBottom] = useState(String(safeBottom));
+  // Window Foils
+  const [colorExt, setColorExt] = useState(initialConfig?.colorExt ?? '#3b3c3f');
+  const [colorInt, setColorInt] = useState(initialConfig?.colorInt ?? '#ffffff');
+  const [colorExtTexture, setColorExtTexture] = useState<string | undefined>(initialConfig?.colorExtTexture);
+  const [colorIntTexture, setColorIntTexture] = useState<string | undefined>(initialConfig?.colorIntTexture);
 
-  React.useEffect(() => {
-    setTypedWidth(String(width));
-  }, [width]);
+  // Hardware
+  const [handleType, setHandleType] = useState(initialConfig?.handleType ?? 'standard');
+  const [handleColor, setHandleColor] = useState(initialConfig?.handleColor ?? 'F1');
 
-  React.useEffect(() => {
-    setTypedHeight(String(height));
-  }, [height]);
+  // Treatments
+  const [solarTreatment, setSolarTreatment] = useState(initialConfig?.solarTreatment ?? false);
+  const [thermalTreatment, setThermalTreatment] = useState(initialConfig?.thermalTreatment ?? false);
+  const [preSales, setPreSales] = useState(initialConfig?.preSales ?? false);
 
-  React.useEffect(() => {
-    setTypedTop(String(safeTop));
-    setTypedBottom(String(safeBottom));
-  }, [safeTop, safeBottom]);
+  // Glazing
+  const [glazing, setGlazing] = useState(initialConfig?.glazing || ig5Glazings[0]?.name || ig5Glazings[0]?.id || '');
 
-  const handleBottomChange = (newBottom: number) => {
-    const valid = Math.max(MIN_SECTION, Math.min(newBottom, height - MIN_SECTION));
-    setBottomHeight(valid);
+  // Blinds & Mosquito
+  const [blindBox, setBlindBox] = useState(initialConfig?.blindBox ?? true);
+  const [mosquito, setMosquito] = useState(initialConfig?.mosquito ?? true);
+  const [blindDeployed, setBlindDeployed] = useState(true);
+  const [mosquitoDeployed, setMosquitoDeployed] = useState(true);
+  
+  const [colours, setColours] = useState({
+    boxExterior: initialConfig?.blindColorExt ?? initialConfig?.colours?.boxExterior ?? '#3b3c3f',
+    boxInterior: initialConfig?.blindColorInt ?? initialConfig?.colours?.boxInterior ?? '#ffffff',
+    guides: initialConfig?.blindColorGuides ?? initialConfig?.colours?.guides ?? '#3b3c3f',
+    blind: initialConfig?.blindColorSlats ?? initialConfig?.colours?.blind ?? 'rgb(198, 166, 100)',
+    mosquitoNet: '#333333',
+  });
+
+  // Consume cloned window on mount so it doesn't stick around
+  useEffect(() => {
+    if (clonedWindow) {
+      setClonedWindow(null);
+    }
+  }, []); // Only run once on mount
+
+  // Sync memory continuously
+  useEffect(() => {
+    setF252Memory({
+      width, height, bottomHeight: safeBottom,
+      colorExt, colorInt, colorExtTexture, colorIntTexture,
+      handleType, handleColor,
+      solarTreatment, thermalTreatment, preSales,
+      glazing,
+      blindBox, mosquito,
+      colours
+    });
+  }, [
+    width, height, safeBottom,
+    colorExt, colorInt, colorExtTexture, colorIntTexture,
+    handleType, handleColor,
+    solarTreatment, thermalTreatment, preSales,
+    glazing,
+    blindBox, mosquito,
+    colours,
+    setF252Memory
+  ]);
+
+  // Staging Modal
+  const [isStagingModalOpen, setIsStagingModalOpen] = useState(false);
+
+  // Searches
+  const [pvcSearches, setPvcSearches] = useState({ ext: '', int: '' });
+  const [blindSearches, setBlindSearches] = useState({ boxExterior: '', boxInterior: '', guides: '' });
+  const [ralSearch, setRalSearch] = useState('');
+  const [mosquitoSearch, setMosquitoSearch] = useState('');
+
+  // Handlers for Window Foils
+  const handleFoilChange = (side: 'ext' | 'int', hex: string, texture?: string) => {
+    if (side === 'ext') {
+      setColorExt(hex);
+      setColorExtTexture(texture);
+    } else {
+      setColorInt(hex);
+      setColorIntTexture(texture);
+    }
   };
 
-  const handleTopChange = (newTop: number) => {
-    const valid = Math.max(MIN_SECTION, Math.min(newTop, height - MIN_SECTION));
-    setBottomHeight(height - valid);
+  const handleColorChange = (key: keyof typeof colours, value: string) => {
+    setColours(prev => ({ ...prev, [key]: value }));
   };
 
   const handleHeightChange = (newHeight: number) => {
     setHeight(newHeight);
-    // Adjust bottom if it exceeds new bounds
     if (safeBottom > newHeight - MIN_SECTION) {
       setBottomHeight(Math.max(MIN_SECTION, newHeight - MIN_SECTION));
     }
@@ -99,22 +185,73 @@ export function F252TestPage() {
 
   const activeHandleColorHex = HANDLE_COLORS.find(c => c.id === handleColor)?.hex || '#aaaaaa';
 
-  return (
-    <div className="w-screen h-screen overflow-hidden bg-white text-gray-800 relative shadow-[inset_0_0_100px_rgba(0,0,0,0.05)]">
-      {/* Subtle radial gradient to make the window pop */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-transparent to-gray-200/50 pointer-events-none" />
+  const pvcColors = IGLO_EDGE_COLORS.map(c => ({
+    id: c.id,
+    label: c.name,
+    hex: COLOR_HEX_MAP[c.id] || c.hex || '#404040',
+    image: c.image
+  }));
 
-      {/* 3D Canvas Full Screen */}
-      <div className="absolute inset-0">
+  const filteredRalColors = FULL_RAL_COLORS.filter(c =>
+    c.name.toLowerCase().includes(ralSearch.toLowerCase()) ||
+    c.id.toLowerCase().includes(ralSearch.toLowerCase())
+  );
+
+  const mosquitoOptions = [
+    { label: 'Black', hex: '#111111' },
+    { label: 'Charcoal', hex: '#333333' },
+    { label: 'Grey', hex: '#666666' },
+    { label: 'White', hex: '#ffffff' },
+  ];
+  const filteredMosquitoOptions = mosquitoOptions.filter(preset =>
+    preset.label.toLowerCase().includes(mosquitoSearch.toLowerCase())
+  );
+
+  const handleReset = () => {
+    setWidth(1200);
+    setHeight(1400);
+    setBottomHeight(430);
+    setColorExt('#3b3c3f');
+    setColorInt('#ffffff');
+    setColorExtTexture(undefined);
+    setColorIntTexture(undefined);
+    setHandleType('standard');
+    setHandleColor('F1');
+    setSolarTreatment(false);
+    setThermalTreatment(false);
+    setBlindBox(true);
+    setMosquito(true);
+    setBlindDeployed(true);
+    setMosquitoDeployed(true);
+    setColours({
+      boxExterior: '#3b3c3f',
+      boxInterior: '#ffffff',
+      guides: '#3b3c3f',
+      blind: 'rgb(198, 166, 100)',
+      mosquitoNet: '#333333',
+    });
+  };
+
+  return (
+    <div className="fixed inset-0 flex bg-[#080810] overflow-hidden text-white font-sans">
+      <style>{`
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(234,182,118,0.4); }
+      `}</style>
+
+      {/* 3D Viewport */}
+      <div className="relative flex-1 h-full">
         <F252Viewer 
-          width={width}
-          height={height}
-          bottomHeight={safeBottom}
+          width={Math.max(width, 400)}
+          height={Math.max(height, 500)}
+          bottomHeight={Math.max(safeBottom, 250)}
           colorExt={colorExt}
           colorInt={colorInt}
           colorExtTexture={colorExtTexture}
           colorIntTexture={colorIntTexture}
-          isColorPaletteOpen={isColorWheelOpen}
+          isColorPaletteOpen={false}
           solarTreatment={solarTreatment}
           thermalTreatment={thermalTreatment}
           handleColor={activeHandleColorHex}
@@ -122,531 +259,551 @@ export function F252TestPage() {
           mosquito={mosquito}
           blindDeployed={blindDeployed}
           mosquitoDeployed={mosquitoDeployed}
-          blindColorExt={blindColorExt}
-          blindColorInt={blindColorInt}
-          blindColorGuides={blindColorGuides}
-          blindColorSlats={blindColorSlats}
+          blindColorExt={colours.boxExterior}
+          blindColorInt={colours.boxInterior}
+          blindColorGuides={colours.guides}
+          blindColorSlats={colours.blind}
           onToggleBlind={() => setBlindDeployed(prev => !prev)}
           onToggleMosquito={() => setMosquitoDeployed(prev => !prev)}
         />
-      </div>
 
-      {/* Top Left Navigation & Actions */}
-      <div className="absolute top-4 left-4 z-50 flex flex-wrap items-center gap-4">
-        <a 
-          href="/debug-pricing"
-          className="flex items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-xl text-mammut-gold hover:bg-gray-100 transition-colors border border-gray-200 shadow-sm"
-        >
-          <ChevronLeft size={20} />
-          <span className="font-bold text-sm">Back to Pricing</span>
-        </a>
+        {/* Floating Top Left Controls */}
+        <div className="absolute top-4 left-4 z-30 flex flex-wrap items-center gap-3">
+          <button
+            onClick={() => navigate('/debug-pricing')}
+            className="flex items-center justify-center gap-2 px-3 py-2 rounded-xl border border-white/10 bg-[#0c0c16]/80 text-white/80 hover:text-white hover:bg-white/5 hover:border-white/20 transition-all active:scale-95 backdrop-blur-md cursor-pointer shadow-lg"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span className="text-[10px] font-black uppercase tracking-wider">Back</span>
+          </button>
 
-        <button
-          onClick={() => setIsStagingModalOpen(true)}
-          className="flex items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-xl text-mammut-gold hover:bg-mammut-gold hover:text-black transition-colors border border-gray-200 shadow-sm group"
-        >
-          <ShoppingCart size={20} className="group-hover:scale-110 transition-transform" />
-          <span className="font-bold text-sm">Add to Staging</span>
-        </button>
+          <button
+            onClick={() => setIsStagingModalOpen(true)}
+            className="flex items-center justify-center gap-2 px-3 py-2 rounded-xl border border-[#eab676]/30 bg-[#eab676]/10 text-[#eab676] hover:bg-[#eab676]/20 hover:border-[#eab676]/50 transition-all active:scale-95 backdrop-blur-md cursor-pointer shadow-lg group"
+          >
+            <ShoppingCart className="w-4 h-4 group-hover:scale-110 transition-transform" />
+            <span className="text-[10px] font-black uppercase tracking-wider">Add to Staging</span>
+          </button>
 
-        <a
-          href="/staging"
-          className="flex items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-xl text-mammut-gold hover:bg-mammut-gold hover:text-black transition-colors border border-gray-200 shadow-sm group"
-        >
-          <PackagePlus size={20} className="group-hover:scale-110 transition-transform" />
-          <span className="font-bold text-sm">View Staging Area</span>
-        </a>
-      </div>
+          <button
+            onClick={() => navigate('/staging')}
+            className="flex items-center justify-center gap-2 px-3 py-2 rounded-xl border border-white/10 bg-[#0c0c16]/80 text-white/80 hover:text-white hover:bg-white/5 hover:border-white/20 transition-all active:scale-95 backdrop-blur-md cursor-pointer shadow-lg group"
+          >
+            <PackagePlus className="w-4 h-4 group-hover:scale-110 transition-transform" />
+            <span className="text-[10px] font-black uppercase tracking-wider">Staging Area</span>
+          </button>
+        </div>
 
-      {/* Dimension Controls Panel */}
-      <div className="absolute right-4 top-1/2 -translate-y-1/2 z-50 bg-white/90 backdrop-blur-xl p-6 rounded-2xl border border-gray-200 w-96 shadow-xl max-h-[90vh] overflow-y-auto">
-        <h2 className="text-xl font-bold text-mammut-gold mb-6 border-b border-gray-200 pb-4">F252 CONFIGURATION</h2>
-        
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <div className="flex justify-between items-center text-sm">
-              <span className="text-gray-600 font-medium">Total Width</span>
-              <div className="flex items-center gap-1">
-                <input 
-                  type="text"
-                  value={typedWidth}
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    setTypedWidth(val);
-                    const num = Number(val);
-                    if (!isNaN(num) && num >= 500 && num <= 2500) {
-                      setWidth(num);
-                    }
-                  }}
-                  onBlur={() => {
-                    const num = Math.max(500, Math.min(2500, Number(typedWidth) || 1200));
-                    setWidth(num);
-                    setTypedWidth(String(num));
-                  }}
-                  className="w-20 bg-white border border-gray-300 rounded px-2 py-0.5 text-right font-bold text-mammut-gold outline-none focus:border-mammut-gold"
-                />
-                <span className="text-gray-500 font-bold text-xs">mm</span>
-              </div>
-            </div>
-            <input 
-              type="range" min="500" max="2500" step="10"
-              value={width} onChange={(e) => setWidth(Number(e.target.value))}
-              className="w-full accent-mammut-gold"
-            />
-          </div>
+        {/* Dynamic Watermark */}
+        <div className="absolute bottom-4 left-4 z-20 pointer-events-none select-none hidden md:block">
+          <div className="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-1">Window Profile</div>
+          <h2 className="text-xl font-black text-[#eab676] tracking-tight">IGLO 5 F252</h2>
+          <p className="text-xs text-white/50">Double-light transom window with bottom fixed pane</p>
+        </div>
 
-          <div className="space-y-2">
-            <div className="flex justify-between items-center text-sm">
-              <span className="text-gray-600 font-medium">Total Height</span>
-              <div className="flex items-center gap-1">
-                <input 
-                  type="text"
-                  value={typedHeight}
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    setTypedHeight(val);
-                    const num = Number(val);
-                    if (!isNaN(num) && num >= 500 && num <= 3000) {
-                      handleHeightChange(num);
-                    }
-                  }}
-                  onBlur={() => {
-                    const num = Math.max(500, Math.min(3000, Number(typedHeight) || 1400));
-                    handleHeightChange(num);
-                    setTypedHeight(String(num));
-                  }}
-                  className="w-20 bg-white border border-gray-300 rounded px-2 py-0.5 text-right font-bold text-mammut-gold outline-none focus:border-mammut-gold"
-                />
-                <span className="text-gray-500 font-bold text-xs">mm</span>
-              </div>
-            </div>
-            <input 
-              type="range" min="500" max="3000" step="10"
-              value={height} onChange={(e) => handleHeightChange(Number(e.target.value))}
-              className="w-full accent-mammut-gold"
-            />
-          </div>
-
-          <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-4">
-            <div className="space-y-2">
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-gray-600 font-medium">Top Section</span>
-                <div className="flex items-center gap-1">
-                  <input 
-                    type="text"
-                    value={typedTop}
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      setTypedTop(val);
-                      const num = Number(val);
-                      if (!isNaN(num) && num >= MIN_SECTION && num <= height - MIN_SECTION) {
-                        handleTopChange(num);
-                      }
-                    }}
-                    onBlur={() => {
-                      const num = Math.max(MIN_SECTION, Math.min(height - MIN_SECTION, Number(typedTop) || MIN_SECTION));
-                      handleTopChange(num);
-                      setTypedTop(String(num));
-                    }}
-                    className="w-20 bg-white border border-gray-300 rounded px-2 py-0.5 text-right font-bold text-blue-500 outline-none focus:border-blue-300"
-                  />
-                  <span className="text-gray-500 font-bold text-xs">mm</span>
-                </div>
-              </div>
-              <input 
-                type="range" min={MIN_SECTION} max={height - MIN_SECTION} step="10"
-                value={safeTop} onChange={(e) => handleTopChange(Number(e.target.value))}
-                className="w-full accent-blue-300"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-gray-600 font-medium">Bottom Section</span>
-                <div className="flex items-center gap-1">
-                  <input 
-                    type="text"
-                    value={typedBottom}
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      setTypedBottom(val);
-                      const num = Number(val);
-                      if (!isNaN(num) && num >= MIN_SECTION && num <= height - MIN_SECTION) {
-                        handleBottomChange(num);
-                      }
-                    }}
-                    onBlur={() => {
-                      const num = Math.max(MIN_SECTION, Math.min(height - MIN_SECTION, Number(typedBottom) || MIN_SECTION));
-                      handleBottomChange(num);
-                      setTypedBottom(String(num));
-                    }}
-                    className="w-20 bg-white border border-gray-300 rounded px-2 py-0.5 text-right font-bold text-green-600 outline-none focus:border-green-300"
-                  />
-                  <span className="text-gray-500 font-bold text-xs">mm</span>
-                </div>
-              </div>
-              <input 
-                type="range" min={MIN_SECTION} max={height - MIN_SECTION} step="10"
-                value={safeBottom} onChange={(e) => handleBottomChange(Number(e.target.value))}
-                className="w-full accent-green-300"
-              />
-            </div>
-          </div>
-          
-          <hr className="border-gray-200" />
-          <hr className="border-gray-200" />
-
-          {/* Custom Color Inputs */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-bold text-gray-800">PVC Colors</h3>
-            
-            <div className="space-y-2">
-              <label className="text-xs text-gray-500 font-medium block">Exterior Profile</label>
-              <div className="flex gap-2 items-center">
-                <div 
-                  className="w-8 h-8 rounded border border-white/20 shadow-inner bg-cover bg-center" 
-                  style={{ backgroundColor: colorExt, backgroundImage: colorExtTexture ? `url(${colorExtTexture})` : 'none' }} 
-                />
-                <select 
-                  value={IGLO_EDGE_COLORS.find(c => c.hex === colorExt && (c.image === colorExtTexture || (!c.image && !colorExtTexture)))?.id || ''}
-                  onChange={(e) => {
-                    const col = IGLO_EDGE_COLORS.find(c => c.id === e.target.value);
-                    if (col) {
-                      setColorExt(col.hex);
-                      setColorExtTexture(col.image || undefined);
-                    }
-                  }}
-                  className="bg-white border border-gray-300 rounded px-3 py-1.5 text-sm w-full outline-none focus:border-mammut-gold focus:ring-1 focus:ring-mammut-gold text-gray-900 shadow-sm"
-                >
-                  <option value="" disabled>Select exterior color...</option>
-                  {IGLO_EDGE_COLORS.map(c => (
-                    <option key={c.id} value={c.id}>{c.name}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-xs text-gray-500 font-medium block">Interior Profile</label>
-              <div className="flex gap-2 items-center">
-                <div 
-                  className="w-8 h-8 rounded border border-gray-300 shadow-inner bg-cover bg-center" 
-                  style={{ backgroundColor: colorInt, backgroundImage: colorIntTexture ? `url(${colorIntTexture})` : 'none' }} 
-                />
-                <select 
-                  value={IGLO_EDGE_COLORS.find(c => c.hex === colorInt && (c.image === colorIntTexture || (!c.image && !colorIntTexture)))?.id || ''}
-                  onChange={(e) => {
-                    const col = IGLO_EDGE_COLORS.find(c => c.id === e.target.value);
-                    if (col) {
-                      setColorInt(col.hex);
-                      setColorIntTexture(col.image || undefined);
-                    }
-                  }}
-                  className="bg-white border border-gray-300 rounded px-3 py-1.5 text-sm w-full outline-none focus:border-mammut-gold focus:ring-1 focus:ring-mammut-gold text-gray-900 shadow-sm"
-                >
-                  <option value="" disabled>Select interior color...</option>
-                  {IGLO_EDGE_COLORS.map(c => (
-                    <option key={c.id} value={c.id}>{c.name}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-            
-            <p className="text-xs text-gray-500 italic mt-2">
-              You can also click the palette icon in the bottom right for a visual grid view.
-            </p>
-          </div>
-
-          <hr className="border-gray-200" />
-
-          {/* Glass Treatments */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-bold text-gray-800">Glass Treatments</h3>
-            
-            <div className="flex flex-col gap-3">
-              <label className="flex items-center gap-3 cursor-pointer group">
-                <input 
-                  type="checkbox" 
-                  checked={solarTreatment} 
-                  onChange={(e) => setSolarTreatment(e.target.checked)}
-                  className="w-4 h-4 rounded text-mammut-gold focus:ring-mammut-gold border-gray-300 accent-mammut-gold"
-                />
-                <div className="flex flex-col">
-                  <span className="text-sm font-medium text-gray-700">Solar Treatment</span>
-                  <span className="text-xs text-gray-500">Reflective exterior shield (Sun icon)</span>
-                </div>
-              </label>
-
-              <label className="flex items-center gap-3 cursor-pointer group">
-                <input 
-                  type="checkbox" 
-                  checked={thermalTreatment} 
-                  onChange={(e) => setThermalTreatment(e.target.checked)}
-                  className="w-4 h-4 rounded text-mammut-gold focus:ring-mammut-gold border-gray-300 accent-mammut-gold"
-                />
-                <div className="flex flex-col">
-                  <span className="text-sm font-medium text-gray-700">Thermal Treatment</span>
-                  <span className="text-xs text-gray-500">Enhanced interior insulation (Thermometer)</span>
-                </div>
-              </label>
-
-              <label className="flex items-center gap-3 cursor-pointer group">
-                <input 
-                  type="checkbox" 
-                  checked={preSales} 
-                  onChange={(e) => setPreSales(e.target.checked)}
-                  className="w-4 h-4 rounded text-mammut-gold focus:ring-mammut-gold border-gray-300 accent-mammut-gold"
-                />
-                <div className="flex flex-col">
-                  <span className="text-sm font-medium text-gray-700">Pre-sales Lock</span>
-                  <span className="text-xs text-gray-500">Lock measurements with lock icon in staging</span>
-                </div>
-              </label>
-            </div>
-          </div>
-
-          <hr className="border-gray-200" />
-
-          {/* Hardware & Handles */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-bold text-gray-800">Hardware & Handles</h3>
-            
-            <div className="space-y-3">
-              <div className="space-y-1">
-                <label className="text-xs text-gray-500 font-medium block">Handle Type</label>
-                <select 
-                  value={handleType}
-                  onChange={(e) => setHandleType(e.target.value)}
-                  className="bg-white border border-gray-300 rounded px-3 py-1.5 text-sm w-full outline-none focus:border-mammut-gold focus:ring-1 focus:ring-mammut-gold text-gray-900 shadow-sm"
-                >
-                  {HANDLE_TYPES.map(t => (
-                    <option key={t.id} value={t.id}>{t.name}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-xs text-gray-500 font-medium block">Handle Color</label>
-                <div className="flex gap-2 items-center">
-                  <div 
-                    className="w-8 h-8 rounded border border-gray-300 shadow-inner" 
-                    style={{ backgroundColor: HANDLE_COLORS.find(c => c.id === handleColor)?.hex || '#ffffff' }} 
-                  />
-                  <select 
-                    value={handleColor}
-                    onChange={(e) => setHandleColor(e.target.value)}
-                    className="bg-white border border-gray-300 rounded px-3 py-1.5 text-sm w-full outline-none focus:border-mammut-gold focus:ring-1 focus:ring-mammut-gold text-gray-900 shadow-sm"
-                  >
-                    {HANDLE_COLORS.map(c => (
-                      <option key={c.id} value={c.id}>{c.name}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <hr className="border-gray-200" />
-
-          {/* Roller Blinds & Mosquito Net */}
-          <div className="space-y-4 pb-6">
-            <h3 className="text-sm font-bold text-gray-800">Roller Blinds & Mosquito</h3>
-            
-            <div className="space-y-3">
-              <label className="flex items-center gap-3 cursor-pointer group">
-                <input 
-                  type="checkbox" 
-                  checked={blindBox} 
-                  onChange={(e) => {
-                    setBlindBox(e.target.checked);
-                    if (e.target.checked) setBlindDeployed(true);
-                  }}
-                  className="w-4 h-4 rounded text-mammut-gold focus:ring-mammut-gold border-gray-300 accent-mammut-gold"
-                />
-                <div className="flex flex-col">
-                  <span className="text-sm font-medium text-gray-700">Roller Blinds</span>
-                  <span className="text-xs text-gray-500">225mm box casing (BBOX_225_W_MSQTO)</span>
-                </div>
-              </label>
-
-              <label className="flex items-center gap-3 cursor-pointer group">
-                <input 
-                  type="checkbox" 
-                  checked={mosquito} 
-                  onChange={(e) => {
-                    setMosquito(e.target.checked);
-                    if (e.target.checked) setMosquitoDeployed(true);
-                  }}
-                  className="w-4 h-4 rounded text-mammut-gold focus:ring-mammut-gold border-gray-300 accent-mammut-gold"
-                />
-                <div className="flex flex-col">
-                  <span className="text-sm font-medium text-gray-700">Mosquito Net</span>
-                  <span className="text-xs text-gray-500">Integrated protective insect screen mesh</span>
-                </div>
-              </label>
-
-              {/* Deployment sliders */}
-              {blindBox && (
-                <div className="space-y-1 bg-gray-50 p-2.5 rounded-lg border border-gray-200">
-                  <div className="flex justify-between text-xs text-gray-600 font-medium">
-                    <span>Deploy Blinds</span>
-                    <span>{blindDeployed ? 'Deployed' : 'Retracted'}</span>
-                  </div>
-                  <button
-                    onClick={() => setBlindDeployed(!blindDeployed)}
-                    className={`w-full py-1 text-xs font-bold rounded transition-colors ${blindDeployed ? 'bg-mammut-gold text-black' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
-                  >
-                    {blindDeployed ? 'Retract Blinds' : 'Deploy Blinds'}
-                  </button>
-                </div>
-              )}
-
-              {mosquito && (
-                <div className="space-y-1 bg-gray-50 p-2.5 rounded-lg border border-gray-200">
-                  <div className="flex justify-between text-xs text-gray-600 font-medium">
-                    <span>Deploy Mosquito Net</span>
-                    <span>{mosquitoDeployed ? 'Deployed' : 'Retracted'}</span>
-                  </div>
-                  <button
-                    onClick={() => setMosquitoDeployed(!mosquitoDeployed)}
-                    className={`w-full py-1 text-xs font-bold rounded transition-colors ${mosquitoDeployed ? 'bg-mammut-gold text-black' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
-                  >
-                    {mosquitoDeployed ? 'Retract Screen' : 'Deploy Screen'}
-                  </button>
-                </div>
-              )}
-              {/* Color Selectors for Blinds */}
-              {(blindBox || mosquito) && (
-                <div className="space-y-3 bg-gray-50 p-2.5 rounded-lg border border-gray-200 mt-2">
-                  <div className="text-[10px] font-bold text-[#eab676] uppercase tracking-wider mb-1">Blind Color Customizer</div>
-                  
-                  {/* Casing Ext */}
-                  <div className="space-y-1">
-                    <label className="text-[10px] text-gray-500 font-bold uppercase tracking-wider block">Casing Exterior</label>
-                    <div className="flex gap-2 items-center">
-                      <div 
-                        className="w-6 h-6 rounded border border-gray-300 shadow-inner shrink-0" 
-                        style={{ backgroundColor: blindColorExt }} 
-                      />
-                      <select 
-                        value={blindColorExt}
-                        onChange={(e) => setBlindColorExt(e.target.value)}
-                        className="bg-white border border-gray-300 rounded px-2 py-1 text-xs w-full outline-none focus:border-mammut-gold text-gray-900 shadow-sm"
-                      >
-                        {BLIND_COLORS.map(c => (
-                          <option key={c.id} value={c.id}>{c.name}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Casing Int */}
-                  <div className="space-y-1">
-                    <label className="text-[10px] text-gray-500 font-bold uppercase tracking-wider block">Casing Interior</label>
-                    <div className="flex gap-2 items-center">
-                      <div 
-                        className="w-6 h-6 rounded border border-gray-300 shadow-inner shrink-0" 
-                        style={{ backgroundColor: blindColorInt }} 
-                      />
-                      <select 
-                        value={blindColorInt}
-                        onChange={(e) => setBlindColorInt(e.target.value)}
-                        className="bg-white border border-gray-300 rounded px-2 py-1 text-xs w-full outline-none focus:border-mammut-gold text-gray-900 shadow-sm"
-                      >
-                        {BLIND_COLORS.map(c => (
-                          <option key={c.id} value={c.id}>{c.name}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Guide Rails */}
-                  <div className="space-y-1">
-                    <label className="text-[10px] text-gray-500 font-bold uppercase tracking-wider block">Side Guide Rails</label>
-                    <div className="flex gap-2 items-center">
-                      <div 
-                        className="w-6 h-6 rounded border border-gray-300 shadow-inner shrink-0" 
-                        style={{ backgroundColor: blindColorGuides }} 
-                      />
-                      <select 
-                        value={blindColorGuides}
-                        onChange={(e) => setBlindColorGuides(e.target.value)}
-                        className="bg-white border border-gray-300 rounded px-2 py-1 text-xs w-full outline-none focus:border-mammut-gold text-gray-900 shadow-sm"
-                      >
-                        {BLIND_COLORS.map(c => (
-                          <option key={c.id} value={c.id}>{c.name}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Curtain Slats */}
-                  {blindBox && (
-                    <div className="space-y-1">
-                      <label className="text-[10px] text-gray-500 font-bold uppercase tracking-wider block">Shutter Slats</label>
-                      <div className="flex gap-2 items-center">
-                        <div 
-                          className="w-6 h-6 rounded border border-gray-300 shadow-inner shrink-0" 
-                          style={{ backgroundColor: blindColorSlats }} 
-                        />
-                        <select 
-                          value={blindColorSlats}
-                          onChange={(e) => setBlindColorSlats(e.target.value)}
-                          className="bg-white border border-gray-300 rounded px-2 py-1 text-xs w-full outline-none focus:border-mammut-gold text-gray-900 shadow-sm"
-                        >
-                          {BLIND_COLORS.map(c => (
-                            <option key={c.id} value={c.id}>{c.name}</option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
+        {/* Hotspot Instructions Overlay */}
+        <div className="absolute top-4 right-[340px] z-20 pointer-events-none hidden md:flex items-center gap-2 bg-[#0c0c16]/85 border border-[#eab676]/30 px-3 py-2 rounded-xl backdrop-blur-md shadow-lg max-w-[280px]">
+          <HelpCircle className="w-5 h-5 text-[#eab676] shrink-0" />
+          <div className="text-[10.5px] text-white/80 leading-normal font-medium">
+            Click the <span className="text-[#eab676] font-bold">3D hotspots (pulsing circles)</span> directly inside the scene to toggle blind or insect screen deployment, and to open the sash.
           </div>
         </div>
       </div>
 
-      {/* Color Palette Overlay widget */}
-      <ColorPaletteOverlay
-        colorExt={colorExt}
-        colorInt={colorInt}
-        onChangeExt={(col) => {
-          setColorExt(col.hex);
-          setColorExtTexture(col.image || undefined);
+      {/* Sidebar Controls */}
+      <div
+        className="flex flex-col gap-6 p-6 shrink-0 h-full overflow-y-auto custom-scrollbar"
+        style={{
+          width: 340,
+          background: 'rgba(10, 10, 20, 0.9)',
+          borderLeft: '1px solid rgba(255, 255, 255, 0.08)',
+          backdropFilter: 'blur(24px)',
+          boxShadow: '-10px 0 30px rgba(0, 0, 0, 0.5)',
         }}
-        onChangeInt={(col) => {
-          setColorInt(col.hex);
-          setColorIntTexture(col.image || undefined);
-        }}
-        onOpenChange={setIsColorWheelOpen}
-        className="absolute bottom-4 right-4 z-[60]"
-      />
+      >
+        {/* Header */}
+        <div className="border-b border-white/10 pb-4 shrink-0">
+          <div className="text-[10px] font-extrabold uppercase tracking-widest text-[#eab676] mb-1">
+            Component Configurator
+          </div>
+          <h1 className="text-lg font-black tracking-tight text-white leading-none">
+            IGLO 5 F252
+          </h1>
+          <p className="text-xs text-white/40 mt-1">Unified Foils & RAL Library</p>
+        </div>
+
+        {/* Section: Dimensions */}
+        <div className="flex flex-col gap-4 border-b border-white/5 pb-5 shrink-0">
+          <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest text-white/60 mb-1">
+            <Sliders className="w-3.5 h-3.5 text-[#eab676]" />
+            <span>Dimensions</span>
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <div className="flex justify-between items-center text-xs">
+              <span className="text-white/50">Total Width</span>
+              <div className="flex items-center gap-1">
+                <input
+                  type="number" min={500} max={2500}
+                  value={width} onChange={e => setWidth(Number(e.target.value))}
+                  onBlur={() => setWidth(Math.max(500, Math.min(2500, width)))}
+                  className="w-16 bg-[#121222] text-[#eab676] font-bold text-right border border-white/10 rounded px-1.5 py-0.5 focus:outline-none focus:border-[#eab676]/50"
+                />
+                <span className="text-[#eab676] font-bold">mm</span>
+              </div>
+            </div>
+            <input
+              type="range" min={500} max={2500} step={10}
+              value={width} onChange={e => setWidth(Number(e.target.value))}
+              className="w-full accent-[#eab676] cursor-pointer"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <div className="flex justify-between items-center text-xs">
+              <span className="text-white/50">Total Height</span>
+              <div className="flex items-center gap-1">
+                <input
+                  type="number" min={500} max={3000}
+                  value={height} onChange={e => handleHeightChange(Number(e.target.value))}
+                  onBlur={() => handleHeightChange(Math.max(500, Math.min(3000, height)))}
+                  className="w-16 bg-[#121222] text-[#eab676] font-bold text-right border border-white/10 rounded px-1.5 py-0.5 focus:outline-none focus:border-[#eab676]/50"
+                />
+                <span className="text-[#eab676] font-bold">mm</span>
+              </div>
+            </div>
+            <input
+              type="range" min={500} max={3000} step={10}
+              value={height} onChange={e => handleHeightChange(Number(e.target.value))}
+              className="w-full accent-[#eab676] cursor-pointer"
+            />
+          </div>
+
+          <div className="bg-[#121222]/50 rounded-xl border border-white/5 p-3 space-y-3 mt-1">
+            <div className="flex flex-col gap-1">
+              <div className="flex justify-between items-center text-[10px] font-semibold text-white/60">
+                <span>Top Sash Height</span>
+                <div className="flex items-center gap-1">
+                  <input
+                    type="number" min={MIN_SECTION} max={height - MIN_SECTION}
+                    value={height - bottomHeight} onChange={e => setBottomHeight(height - Number(e.target.value))}
+                    onBlur={() => setBottomHeight(safeBottom)}
+                    className="w-14 bg-transparent text-white font-bold text-right border border-white/10 rounded px-1 py-0.5 focus:outline-none focus:border-white/30"
+                  />
+                  <span>mm</span>
+                </div>
+              </div>
+              <input 
+                type="range" min={MIN_SECTION} max={height - MIN_SECTION} step="10"
+                value={safeTop} onChange={e => setBottomHeight(height - Number(e.target.value))}
+                className="w-full accent-[#eab676] cursor-pointer h-1"
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <div className="flex justify-between items-center text-[10px] font-semibold text-white/60">
+                <span>Bottom Fixed Height</span>
+                <div className="flex items-center gap-1">
+                  <input
+                    type="number" min={MIN_SECTION} max={height - MIN_SECTION}
+                    value={bottomHeight} onChange={e => setBottomHeight(Number(e.target.value))}
+                    onBlur={() => setBottomHeight(safeBottom)}
+                    className="w-14 bg-transparent text-white font-bold text-right border border-white/10 rounded px-1 py-0.5 focus:outline-none focus:border-white/30"
+                  />
+                  <span>mm</span>
+                </div>
+              </div>
+              <input 
+                type="range" min={MIN_SECTION} max={height - MIN_SECTION} step="10"
+                value={safeBottom} onChange={e => setBottomHeight(Number(e.target.value))}
+                className="w-full accent-[#eab676] cursor-pointer h-1"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Section: Window Foils & Colors */}
+        <div className="flex flex-col gap-4 border-b border-white/5 pb-5 shrink-0">
+          <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest text-white/60">
+            <Palette className="w-3.5 h-3.5 text-[#eab676]" />
+            <span>Profile Colors</span>
+          </div>
+
+          {[
+            { key: 'ext' as const, label: 'Exterior Profile', value: colorExt, texture: colorExtTexture, hint: 'Outside street face' },
+            { key: 'int' as const, label: 'Interior Profile', value: colorInt, texture: colorIntTexture, hint: 'Inside room face' },
+          ].map(item => {
+            const filteredPvc = pvcColors.filter(preset =>
+              preset.label.toLowerCase().includes(pvcSearches[item.key].toLowerCase()) ||
+              preset.id.toLowerCase().includes(pvcSearches[item.key].toLowerCase())
+            );
+
+            return (
+              <div key={item.key} className="flex flex-col gap-2 bg-[#121222]/50 p-2.5 rounded-xl border border-white/5">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <div className="text-xs font-semibold">{item.label}</div>
+                    <div className="text-[9px] text-white/40">{item.hint}</div>
+                  </div>
+                  <div 
+                    className="w-8 h-8 rounded-lg border border-white/10 shadow-lg bg-cover bg-center shrink-0 transition-transform hover:scale-105" 
+                    style={{ backgroundColor: item.value, backgroundImage: item.texture ? `url(${item.texture})` : 'none' }} 
+                  />
+                </div>
+                <input
+                  type="text"
+                  placeholder={`Search ${item.label.split(' ')[0]} foils...`}
+                  value={pvcSearches[item.key]}
+                  onChange={e => setPvcSearches(prev => ({ ...prev, [item.key]: e.target.value }))}
+                  className="w-full bg-[#17172a] text-[10px] border border-white/10 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[#eab676] text-white placeholder-white/30"
+                />
+                <div className="grid grid-cols-6 gap-1.5 max-h-[80px] overflow-y-auto mt-1 pr-1 custom-scrollbar">
+                  {filteredPvc.map(preset => (
+                    <button
+                      key={preset.id}
+                      onClick={() => handleFoilChange(item.key, preset.hex, preset.image)}
+                      className="w-8 h-8 rounded-full border hover:scale-110 active:scale-95 transition-transform cursor-pointer relative group shrink-0 bg-cover bg-center"
+                      style={{
+                        backgroundColor: preset.hex,
+                        backgroundImage: preset.image ? `url(${preset.image})` : 'none',
+                        borderColor: item.value === preset.hex && item.texture === preset.image ? '#eab676' : 'rgba(255, 255, 255, 0.15)',
+                        boxShadow: item.value === preset.hex && item.texture === preset.image ? '0 0 4px #eab676' : 'none',
+                      }}
+                      title={preset.label}
+                    >
+                      {item.value === preset.hex && item.texture === preset.image && (
+                        <div className="absolute inset-0 flex items-center justify-center text-[9px] font-black text-white drop-shadow-md bg-black/20 rounded-full">✓</div>
+                      )}
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block bg-black/95 text-[8px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap z-50 pointer-events-none border border-white/10 shadow-lg">
+                        {preset.label}
+                      </div>
+                    </button>
+                  ))}
+                  {filteredPvc.length === 0 && (
+                    <div className="col-span-6 text-center text-[10px] text-white/30 py-2">No matching colors</div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Section: Hardware & Handles */}
+        <div className="flex flex-col gap-4 border-b border-white/5 pb-5 shrink-0">
+          <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest text-white/60">
+            <Settings2 className="w-3.5 h-3.5 text-[#eab676]" />
+            <span>Hardware</span>
+          </div>
+
+          <div className="bg-[#121222]/50 p-2.5 rounded-xl border border-white/5 space-y-3">
+            <div className="flex flex-col gap-1">
+              <label className="text-[10px] font-semibold text-white/60 uppercase tracking-wider">Handle Type</label>
+              <select 
+                value={handleType}
+                onChange={e => setHandleType(e.target.value)}
+                className="bg-[#17172a] border border-white/10 rounded-lg px-2.5 py-1.5 text-xs w-full outline-none focus:border-[#eab676] text-white"
+              >
+                {HANDLE_TYPES.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+              </select>
+            </div>
+            
+            <div className="flex flex-col gap-1">
+              <label className="text-[10px] font-semibold text-white/60 uppercase tracking-wider">Handle Color</label>
+              <div className="flex gap-2 flex-wrap">
+                {HANDLE_COLORS.map(c => (
+                  <button
+                    key={c.id}
+                    onClick={() => setHandleColor(c.id)}
+                    className="w-7 h-7 rounded-full border hover:scale-110 active:scale-95 transition-transform cursor-pointer relative group"
+                    style={{
+                      backgroundColor: c.hex,
+                      borderColor: handleColor === c.id ? '#eab676' : 'rgba(255, 255, 255, 0.15)',
+                      boxShadow: handleColor === c.id ? '0 0 4px #eab676' : 'none',
+                    }}
+                  >
+                    {handleColor === c.id && <div className="absolute inset-0 flex items-center justify-center text-[8px] font-black text-white mix-blend-difference">✓</div>}
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden group-hover:block bg-black/95 text-[8px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap z-50 pointer-events-none border border-white/10">
+                      {c.name}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Section: Glazing */}
+        <div className="flex flex-col gap-4 border-b border-white/5 pb-5 shrink-0">
+          <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest text-white/60">
+            <Box className="w-3.5 h-3.5 text-[#eab676]" />
+            <span>Glazing Package</span>
+          </div>
+          <div className="bg-[#121222]/50 p-2.5 rounded-xl border border-white/5 space-y-3">
+            <div className="flex flex-col gap-1">
+              <select 
+                value={glazing}
+                onChange={e => setGlazing(e.target.value)}
+                className="bg-[#17172a] border border-white/10 rounded-lg px-2.5 py-1.5 text-xs w-full outline-none focus:border-[#eab676] text-white"
+              >
+                {ig5Glazings.map(pkg => (
+                  <option key={pkg.id} value={pkg.name || pkg.id}>{pkg.name || pkg.id}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* Section: Treatments */}
+        <div className="flex flex-col gap-3 border-b border-white/5 pb-5 shrink-0">
+          <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest text-white/60 mb-1">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#eab676]" />
+            <span>Treatments & Options</span>
+          </div>
+
+          <label className="flex items-center gap-3 cursor-pointer group bg-[#121222]/50 p-2.5 rounded-xl border border-white/5 hover:border-white/10 transition-colors">
+            <div className={`flex items-center justify-center w-5 h-5 rounded border ${solarTreatment ? 'bg-[#eab676] border-[#eab676]' : 'border-white/20 bg-black/20'}`}>
+              {solarTreatment && <div className="text-black text-xs font-bold">✓</div>}
+            </div>
+            <input type="checkbox" checked={solarTreatment} onChange={e => setSolarTreatment(e.target.checked)} className="hidden" />
+            <div className="flex flex-col">
+              <span className="text-xs font-medium text-white/90 flex items-center gap-1.5"><Sun className="w-3 h-3 text-orange-400" /> Solar Treatment</span>
+              <span className="text-[9px] text-white/40">Reflective exterior shield</span>
+            </div>
+          </label>
+
+          <label className="flex items-center gap-3 cursor-pointer group bg-[#121222]/50 p-2.5 rounded-xl border border-white/5 hover:border-white/10 transition-colors">
+            <div className={`flex items-center justify-center w-5 h-5 rounded border ${thermalTreatment ? 'bg-[#eab676] border-[#eab676]' : 'border-white/20 bg-black/20'}`}>
+              {thermalTreatment && <div className="text-black text-xs font-bold">✓</div>}
+            </div>
+            <input type="checkbox" checked={thermalTreatment} onChange={e => setThermalTreatment(e.target.checked)} className="hidden" />
+            <div className="flex flex-col">
+              <span className="text-xs font-medium text-white/90 flex items-center gap-1.5"><ThermometerSun className="w-3 h-3 text-red-400" /> Thermal Treatment</span>
+              <span className="text-[9px] text-white/40">Enhanced interior insulation</span>
+            </div>
+          </label>
+        </div>
+
+        {/* Section: Roller Blinds & Mosquito */}
+        <div className="flex flex-col gap-4 border-b border-white/5 pb-5 shrink-0">
+          <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest text-white/60">
+            <Box className="w-3.5 h-3.5 text-[#eab676]" />
+            <span>Add-ons</span>
+          </div>
+
+          <label className="flex items-center gap-3 cursor-pointer group bg-[#121222]/50 p-2.5 rounded-xl border border-white/5 hover:border-white/10 transition-colors">
+            <div className={`flex items-center justify-center w-5 h-5 rounded border ${blindBox ? 'bg-[#eab676] border-[#eab676]' : 'border-white/20 bg-black/20'}`}>
+              {blindBox && <div className="text-black text-xs font-bold">✓</div>}
+            </div>
+            <input type="checkbox" checked={blindBox} onChange={e => {
+              setBlindBox(e.target.checked);
+              if (e.target.checked) setBlindDeployed(true);
+            }} className="hidden" />
+            <div className="flex flex-col">
+              <span className="text-xs font-medium text-white/90">Roller Blind System</span>
+              <span className="text-[9px] text-white/40">225mm box casing & shutter</span>
+            </div>
+          </label>
+
+          <label className="flex items-center gap-3 cursor-pointer group bg-[#121222]/50 p-2.5 rounded-xl border border-white/5 hover:border-white/10 transition-colors">
+            <div className={`flex items-center justify-center w-5 h-5 rounded border ${mosquito ? 'bg-[#eab676] border-[#eab676]' : 'border-white/20 bg-black/20'}`}>
+              {mosquito && <div className="text-black text-xs font-bold">✓</div>}
+            </div>
+            <input type="checkbox" checked={mosquito} onChange={e => {
+              setMosquito(e.target.checked);
+              if (e.target.checked) setMosquitoDeployed(true);
+            }} className="hidden" />
+            <div className="flex flex-col">
+              <span className="text-xs font-medium text-white/90">Mosquito Net</span>
+              <span className="text-[9px] text-white/40">Integrated insect screen</span>
+            </div>
+          </label>
+
+          {(blindBox || mosquito) && (
+            <>
+              {/* PVC Foils for Blinds */}
+              {[
+                { key: 'boxExterior' as const, label: 'Box Exterior', hint: 'Outside street face (PVC Foils)' },
+                { key: 'boxInterior' as const, label: 'Box Interior', hint: 'Inside casing & lids (PVC Foils)' },
+                { key: 'guides' as const, label: 'Guide Rails (R0003-A)', hint: 'Side guides (PVC Foils)' },
+              ].map(item => {
+                const filteredPvc = pvcColors.filter(preset =>
+                  preset.label.toLowerCase().includes(blindSearches[item.key].toLowerCase()) ||
+                  preset.id.toLowerCase().includes(blindSearches[item.key].toLowerCase())
+                );
+
+                return (
+                  <div key={item.key} className="flex flex-col gap-1.5 bg-[#121222]/50 p-2.5 rounded-xl border border-white/5">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <div className="text-xs font-semibold">{item.label}</div>
+                        <div className="text-[9px] text-white/40">{item.hint}</div>
+                      </div>
+                      <div className="relative w-8 h-8 rounded-lg overflow-hidden border border-white/10 cursor-pointer transition-transform hover:scale-105">
+                        <input
+                          type="color"
+                          value={colours[item.key]}
+                          onChange={e => handleColorChange(item.key, e.target.value)}
+                          className="absolute inset-[-6px] w-[200%] h-[200%] cursor-pointer border-none p-0 bg-transparent"
+                        />
+                        <div className="w-full h-full pointer-events-none" style={{ backgroundColor: colours[item.key] }} />
+                      </div>
+                    </div>
+                    <input
+                      type="text"
+                      placeholder={`Search ${item.label.split(' (')[0]}...`}
+                      value={blindSearches[item.key]}
+                      onChange={e => setBlindSearches(prev => ({ ...prev, [item.key]: e.target.value }))}
+                      className="w-full bg-[#17172a] text-[10px] border border-white/10 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[#eab676] text-white placeholder-white/30"
+                    />
+                    <div className="grid grid-cols-6 gap-1.5 max-h-[90px] overflow-y-auto mt-1 pr-1 custom-scrollbar">
+                      {filteredPvc.map(preset => (
+                        <button
+                          key={preset.id}
+                          onClick={() => handleColorChange(item.key, preset.hex)}
+                          className="w-8 h-8 rounded-full border hover:scale-110 active:scale-95 transition-transform cursor-pointer relative group shrink-0"
+                          style={{
+                            backgroundColor: preset.hex,
+                            borderColor: colours[item.key] === preset.hex ? '#eab676' : 'rgba(255, 255, 255, 0.15)',
+                            boxShadow: colours[item.key] === preset.hex ? '0 0 4px #eab676' : 'none',
+                          }}
+                          title={preset.label}
+                        >
+                          {colours[item.key] === preset.hex && (
+                            <div className="absolute inset-0 flex items-center justify-center text-[9px] font-black text-white drop-shadow">✓</div>
+                          )}
+                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block bg-black/95 text-[8px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap z-50 pointer-events-none border border-white/10 shadow-lg">
+                            {preset.label}
+                          </div>
+                        </button>
+                      ))}
+                      {filteredPvc.length === 0 && <div className="col-span-6 text-center text-[10px] text-white/30 py-2">No matching colors</div>}
+                    </div>
+                  </div>
+                );
+              })}
+
+              {/* Shutter Slats (RAL) */}
+              {blindBox && (
+                <div className="flex flex-col gap-2 bg-[#121222]/50 p-2.5 rounded-xl border border-white/5">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <div className="text-xs font-semibold">Blind Shutter Curtain</div>
+                      <div className="text-[9px] text-white/40">Aluminium slats & bottom bar (RAL Library)</div>
+                    </div>
+                    <div className="relative w-8 h-8 rounded-lg overflow-hidden border border-white/10 cursor-pointer transition-transform hover:scale-105">
+                      <input
+                        type="color"
+                        value={colours.blind}
+                        onChange={e => handleColorChange('blind', e.target.value)}
+                        className="absolute inset-[-6px] w-[200%] h-[200%] cursor-pointer border-none p-0 bg-transparent"
+                      />
+                      <div className="w-full h-full pointer-events-none" style={{ backgroundColor: colours.blind }} />
+                    </div>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Search 200+ RAL colors..."
+                    value={ralSearch}
+                    onChange={e => setRalSearch(e.target.value)}
+                    className="w-full bg-[#17172a] text-xs border border-white/10 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[#eab676] text-white placeholder-white/30"
+                  />
+                  <div className="grid grid-cols-6 gap-1.5 max-h-[140px] overflow-y-auto mt-1 pr-1 custom-scrollbar">
+                    {filteredRalColors.map(c => (
+                      <button
+                        key={c.id}
+                        onClick={() => handleColorChange('blind', c.hex)}
+                        className="w-8 h-8 rounded-full border hover:scale-110 active:scale-95 transition-transform cursor-pointer relative group shrink-0"
+                        style={{
+                          backgroundColor: c.hex,
+                          borderColor: colours.blind === c.hex ? '#eab676' : 'rgba(255, 255, 255, 0.15)',
+                          boxShadow: colours.blind === c.hex ? '0 0 4px #eab676' : 'none',
+                        }}
+                        title={c.name}
+                      >
+                        {colours.blind === c.hex && <div className="absolute inset-0 flex items-center justify-center text-[9px] font-black text-white drop-shadow">✓</div>}
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block bg-black/95 text-[8px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap z-50 pointer-events-none border border-white/10 shadow-lg">
+                          {c.name}
+                        </div>
+                      </button>
+                    ))}
+                    {filteredRalColors.length === 0 && <div className="col-span-6 text-center text-[10px] text-white/30 py-3">No matching RAL colors</div>}
+                  </div>
+                </div>
+              )}
+
+              {/* Mosquito Net Screen */}
+              {mosquito && (
+                <div className="flex flex-col gap-1.5 bg-[#121222]/50 p-2.5 rounded-xl border border-white/5">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <div className="text-xs font-semibold">Mosquito Net Screen</div>
+                      <div className="text-[9px] text-white/40">Charcoal net frame & screen mesh</div>
+                    </div>
+                    <div className="relative w-8 h-8 rounded-lg overflow-hidden border border-white/10 cursor-pointer transition-transform hover:scale-105">
+                      <input
+                        type="color"
+                        value={colours.mosquitoNet}
+                        onChange={e => handleColorChange('mosquitoNet', e.target.value)}
+                        className="absolute inset-[-6px] w-[200%] h-[200%] cursor-pointer border-none p-0 bg-transparent"
+                      />
+                      <div className="w-full h-full pointer-events-none" style={{ backgroundColor: colours.mosquitoNet }} />
+                    </div>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Search Mosquito Net..."
+                    value={mosquitoSearch}
+                    onChange={e => setMosquitoSearch(e.target.value)}
+                    className="w-full bg-[#17172a] text-[10px] border border-white/10 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[#eab676] text-white placeholder-white/30"
+                  />
+                  <div className="flex gap-2 mt-1.5 flex-wrap">
+                    {filteredMosquitoOptions.map(preset => (
+                      <button
+                        key={preset.label}
+                        onClick={() => handleColorChange('mosquitoNet', preset.hex)}
+                        className="px-2 py-1 rounded-md border text-[9px] font-bold tracking-wider uppercase transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                        style={{
+                          backgroundColor: preset.hex,
+                          color: preset.hex === '#ffffff' ? '#111111' : '#ffffff',
+                          borderColor: colours.mosquitoNet === preset.hex ? '#eab676' : 'rgba(255,255,255,0.1)',
+                        }}
+                      >
+                        {preset.label}
+                      </button>
+                    ))}
+                    {filteredMosquitoOptions.length === 0 && <div className="text-[10px] text-white/30 py-1">No matching options</div>}
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+
+        {/* reset */}
+        <div className="mt-auto pt-6 border-t border-white/10 shrink-0 mb-6">
+          <button
+            onClick={handleReset}
+            className="flex items-center justify-center gap-2 w-full py-2 border border-white/10 hover:border-[#eab676]/50 hover:bg-[#eab676]/5 rounded-xl text-white/70 hover:text-white transition-all text-xs font-bold uppercase tracking-wider select-none cursor-pointer"
+          >
+            <RefreshCw className="w-3.5 h-3.5" />
+            <span>Reset Config</span>
+          </button>
+        </div>
+      </div>
 
       <AddToStagingModal 
         isOpen={isStagingModalOpen}
         onClose={() => setIsStagingModalOpen(false)}
         defaultProfile="IGLO 5 F252"
         config={{
-          width,
-          height,
-          bottomHeight: safeBottom,
-          colorExt,
-          colorInt,
-          colorExtTexture,
-          colorIntTexture,
-          solarTreatment,
-          thermalTreatment,
-          handleType,
-          handleColor,
-          preSales,
-          blindBox,
-          mosquito,
-          blindColorExt,
-          blindColorInt,
-          blindColorGuides,
-          blindColorSlats
+          width, height, bottomHeight: safeBottom,
+          colorExt, colorInt, colorExtTexture, colorIntTexture,
+          solarTreatment, thermalTreatment, handleType, handleColor,
+          preSales, blindBox, mosquito, glazing,
+          blindDeployed, mosquitoDeployed,
+          blindColorExt: colours.boxExterior, 
+          blindColorInt: colours.boxInterior,
+          blindColorGuides: colours.guides, 
+          blindColorSlats: colours.blind
         }}
       />
     </div>

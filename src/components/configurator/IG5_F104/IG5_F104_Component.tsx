@@ -23,21 +23,24 @@ export const IG5_F104_Component: React.FC<IG5_F104Props> = ({
 }) => {
   const materials = useMemo(() => {
     return {
-      ext: new THREE.MeshStandardMaterial({ color: EXT_Color, roughness: 0.6, metalness: 0.1, side: THREE.DoubleSide }),
-      int: new THREE.MeshStandardMaterial({ color: INT_Color, roughness: 0.6, metalness: 0.1, side: THREE.DoubleSide }),
-      gsk: new THREE.MeshStandardMaterial({ color: 0x111111, side: THREE.DoubleSide, roughness: 0.8 }),
+      ext: new THREE.MeshPhysicalMaterial({ color: EXT_Color, roughness: 0.35, metalness: 0.0, clearcoat: 0.15, clearcoatRoughness: 0.25, envMapIntensity: 0.8, side: THREE.DoubleSide }),
+      int: new THREE.MeshPhysicalMaterial({ color: INT_Color, roughness: 0.35, metalness: 0.0, clearcoat: 0.15, clearcoatRoughness: 0.25, envMapIntensity: 0.8, side: THREE.DoubleSide }),
+      gsk: new THREE.MeshPhysicalMaterial({ color: 0x111111, side: THREE.DoubleSide, roughness: 0.8 }),
       glass: new THREE.MeshPhysicalMaterial({ 
-        color: 0xffffff, 
+        color: 0xeaf2f0, 
         transmission: 1.0, 
-        opacity: 0.6, 
-        transparent: true, 
-        roughness: 0.0, 
-        metalness: 0.0,
+        roughness: 0.03,
+        metalness: 0,
+        thickness: 24,
         ior: 1.5,
-        thickness: 0.01,
+        specularIntensity: 1,
+        envMapIntensity: 1.2,
+        clearcoat: 0.3,
+        clearcoatRoughness: 0.1,
+        transparent: true,
         side: THREE.DoubleSide 
       }),
-      spacer: new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.5, side: THREE.DoubleSide }),
+      spacer: new THREE.MeshPhysicalMaterial({ color: 0xcccccc, metalness: 0.5, roughness: 0.5, side: THREE.DoubleSide }),
     };
   }, []);
 

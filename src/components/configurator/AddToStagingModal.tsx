@@ -13,6 +13,7 @@ interface AddToStagingModalProps {
 export function AddToStagingModal({ isOpen, onClose, config, defaultProfile = 'IGLO 5 F252' }: AddToStagingModalProps) {
   const stagingAreas = useStagingStore(state => state.areas);
   const addWindowToArea = useStagingStore(state => state.addWindowToArea);
+  const setClonedWindow = useStagingStore(state => state.setClonedWindow);
 
   const ig5GlazingIds = PROFILE_GLAZING_LIMITS['IG5']?.packages || [];
   const ig5Glazings = CONFIG_SCHEMA.glazing.filter(g => ig5GlazingIds.includes(g.id));
@@ -24,6 +25,7 @@ export function AddToStagingModal({ isOpen, onClose, config, defaultProfile = 'I
   const [blindBox, setBlindBox] = useState(false);
   const [motor, setMotor] = useState(false);
   const [mosquito, setMosquito] = useState(false);
+  const [cloneConfig, setCloneConfig] = useState(true);
   const [uwValue, setUwValue] = useState('0.85 W/m²K');
   
   const [isSuccess, setIsSuccess] = useState(false);
@@ -32,14 +34,14 @@ export function AddToStagingModal({ isOpen, onClose, config, defaultProfile = 'I
     if (isOpen) {
       setProfileName(defaultProfile);
       setWindowName('');
-      setBlindBox(false);
-      setMotor(false);
-      setMosquito(false);
-      setUwValue('0.85 W/m²K');
-      setGlazing(ig5Glazings[0]?.name || ig5Glazings[0]?.id || '');
+      setBlindBox(config?.blindBox ?? false);
+      setMotor(config?.motor ?? false);
+      setMosquito(config?.mosquito ?? false);
+      setUwValue(config?.uwValue ?? '0.85 W/m²K');
+      setGlazing(config?.glazing || ig5Glazings[0]?.name || ig5Glazings[0]?.id || '');
       setIsSuccess(false);
     }
-  }, [isOpen, defaultProfile]);
+  }, [isOpen, defaultProfile, config]);
 
   if (!isOpen) return null;
 
@@ -61,6 +63,19 @@ export function AddToStagingModal({ isOpen, onClose, config, defaultProfile = 'I
       image: '/iglo_edge_preview.svg',
       uwValue
     });
+
+    if (cloneConfig) {
+      setClonedWindow({
+        name: windowName + ' (Clone)',
+        profile: profileName,
+        glazing,
+        blindBox,
+        motor,
+        mosquito,
+        config,
+        uwValue
+      });
+    }
 
     setIsSuccess(true);
     setTimeout(() => {
@@ -189,6 +204,19 @@ export function AddToStagingModal({ isOpen, onClose, config, defaultProfile = 'I
                   </div>
                 </div>
                 <span className="text-sm text-gray-300">Mosquito Net</span>
+              </label>
+
+              <label className="flex items-center gap-3 cursor-pointer group mt-4 pt-4 border-t border-white/10">
+                <div className="relative flex items-center justify-center">
+                  <input type="checkbox" className="sr-only" checked={cloneConfig} onChange={(e) => setCloneConfig(e.target.checked)} />
+                  <div className={`w-5 h-5 rounded flex items-center justify-center transition-colors ${cloneConfig ? 'bg-[#10b981] text-white' : 'bg-white/10 group-hover:bg-white/20'}`}>
+                    {cloneConfig && <Check size={14} strokeWidth={4} />}
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-sm font-bold text-gray-200">Clone Configuration</span>
+                  <span className="text-[10px] text-gray-400">Keep these exact measurements and options for the next window</span>
+                </div>
               </label>
             </div>
 

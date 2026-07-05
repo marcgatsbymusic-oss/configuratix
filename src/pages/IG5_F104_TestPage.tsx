@@ -383,7 +383,15 @@ export function IG5_F104_TestPage() {
           colorIntTexture,
           solarTreatment,
           thermalTreatment,
-          preSales
+          preSales,
+          blindBox: hasBlind,
+          mosquito: hasMosquito,
+          blindDeployed,
+          mosquitoDeployed,
+          blindColorExt: colorExt,
+          blindColorInt: colorInt,
+          blindColorGuides: colorGuides,
+          blindColorSlats: colorSlats
         }}
       />
     </div>

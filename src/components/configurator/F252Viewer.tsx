@@ -1,9 +1,25 @@
 import React, { Suspense, useState, useEffect, useRef, useCallback } from 'react';
-import { Canvas, useFrame, type ThreeEvent } from '@react-three/fiber';
-import { OrbitControls, Environment, ContactShadows, Html } from '@react-three/drei';
+import { Canvas, useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
+import { OrbitControls, Html } from '@react-three/drei';
 import * as THREE from 'three';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { IG5_F252_Component } from './IG5_F252/IG5_F252_Component';
 import { BBox225BlindBox } from './BBox225Component';
+
+const RoomEnv = () => {
+  const { gl, scene } = useThree();
+  useEffect(() => {
+    const pmremGenerator = new THREE.PMREMGenerator(gl);
+    const envTexture = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
+    scene.environment = envTexture;
+    return () => {
+      scene.environment = null;
+      envTexture.dispose();
+      pmremGenerator.dispose();
+    };
+  }, [gl, scene]);
+  return null;
+};
 
 const LoadingOverlay = () => (
   <Html center>
@@ -104,24 +120,32 @@ export const F252Viewer: React.FC<F252ViewerProps> = ({
   const cameraZ = isThumbnail ? maxDim * 1.35 : maxDim * 2.2;
 
   return (
-    <div className="relative w-full h-full" style={{ minHeight: isThumbnail ? '200px' : '400px' }}>
-      <Canvas shadows camera={{ position: [W_M / 2, H_M / 2, cameraZ], fov: 45 }} gl={{ antialias: true, localClippingEnabled: true }} onPointerDown={isThumbnail ? undefined : resetAutoRotate}>
-        <color attach="background" args={['#ffffff']} />
-        <ambientLight intensity={0.40} />
+    <div className="relative w-full h-full" style={{ minHeight: isThumbnail ? '200px' : '400px', background: 'radial-gradient(circle, #ffffff 0%, #e6e4e0 100%)' }}>
+      <Canvas dpr={[1, 2]} shadows camera={{ position: [W_M / 2, H_M / 2, cameraZ], fov: 45 }} gl={{ antialias: true, localClippingEnabled: false, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.1, outputColorSpace: THREE.SRGBColorSpace }} onPointerDown={isThumbnail ? undefined : resetAutoRotate}>
         <directionalLight
-          position={[W_M * 2.5, H_M * 3, H_M * 2]}
-          intensity={2.6}
+          position={[5, 8, 5]}
+          intensity={2.5}
           castShadow
-          shadow-mapSize={[4096, 4096]}
-          shadow-bias={-0.0004}
-          color="#fff6e8"
+          shadow-mapSize={[2048, 2048]}
+          shadow-bias={-0.0005}
+          shadow-normalBias={0.02}
+          shadow-camera-near={0.1}
+          shadow-camera-far={15}
+          shadow-camera-left={-2}
+          shadow-camera-right={2}
+          shadow-camera-top={2}
+          shadow-camera-bottom={-2}
+          shadow-radius={10}
+          color="#ffffff"
         />
-        <directionalLight position={[-W_M, H_M * 0.5, H_M]} intensity={0.7} color="#a8c8ff" />
-        <directionalLight position={[W_M * 0.5, -H_M, H_M * 0.5]} intensity={0.2} color="#ffe0a0" />
-        <pointLight position={[W_M * 0.5, H_M * 0.5, H_M * 1.5]} intensity={0.35} />
         
         <Suspense fallback={<LoadingOverlay />}>
-          <Environment files="/assets/hdri/monochrome_studio_02_1k.exr" />
+          <RoomEnv />
+          
+          <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow position={[W_M / 2, 0, 0]}>
+            <planeGeometry args={[20, 20]} />
+            <shadowMaterial opacity={0.25} />
+          </mesh>
           
           <group position={[0, 0, 0]} rotation={[0, 0, 0]}>
             <group scale={0.001}>
@@ -159,10 +183,11 @@ export const F252Viewer: React.FC<F252ViewerProps> = ({
                 />
               )}
             </group>
+
           </group>
         </Suspense>
 
-        <ContactShadows position={[W_M / 2, -0.005, -0.04]} opacity={0.12} scale={maxDim * 5} blur={2.5} far={maxDim * 2} />
+
         <OrbitControls 
           makeDefault 
           enablePan={!isThumbnail}
@@ -170,9 +195,9 @@ export const F252Viewer: React.FC<F252ViewerProps> = ({
           target={[W_M / 2, H_M / 2, -0.04]} 
           minDistance={maxDim * 0.4} 
           maxDistance={maxDim * 6} 
-          autoRotate={!isThumbnail && autoRotate}
+          autoRotate={false}
           autoRotateSpeed={1.5}
-          onStart={isThumbnail ? undefined : resetAutoRotate}
+          onStart={undefined}
           minPolarAngle={isThumbnail ? Math.PI / 2 : 0}
           maxPolarAngle={isThumbnail ? Math.PI / 2 : Math.PI}
         />
