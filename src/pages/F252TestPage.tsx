@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { F252Viewer } from '../components/configurator/F252Viewer';
-import { ArrowLeft, Sliders, Palette, ShoppingCart, PackagePlus, HelpCircle, Box, Settings2, ShieldCheck, Sun, ThermometerSun, RefreshCw } from 'lucide-react';
+import { ArrowLeft, Sliders, Palette, ShoppingCart, PackagePlus, HelpCircle, Box, Settings2, ShieldCheck, Sun, ThermometerSun, RefreshCw, Menu, X, DoorOpen, DoorClosed, Rotate3D, PanelTop, PanelBottom } from 'lucide-react';
 import { IGLO_EDGE_COLORS, FULL_RAL_COLORS } from '../data/productDetails';
 import { CONFIG_SCHEMA, PROFILE_GLAZING_LIMITS } from '../components/SlateConfigurator/types';
 import { AddToStagingModal } from '../components/configurator/AddToStagingModal';
@@ -164,6 +164,11 @@ export function F252TestPage() {
   const [currentScene, setCurrentScene] = useState<THREE.Group | null>(null);
   const [showArViewer, setShowArViewer] = useState(false);
 
+  // Menu and Viewer State
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [windowState, setWindowState] = useState<'Closed' | 'Open' | 'Tilt'>('Closed');
+  const [fixedPartPosition, setFixedPartPosition] = useState<'Bottom' | 'Top'>('Bottom');
+
   // Searches
   const [pvcSearches, setPvcSearches] = useState({ ext: '', int: '' });
   const [blindSearches, setBlindSearches] = useState({ boxExterior: '', boxInterior: '', guides: '' });
@@ -277,51 +282,64 @@ export function F252TestPage() {
           onToggleBlind={() => setBlindDeployed(prev => !prev)}
           onToggleMosquito={() => setMosquitoDeployed(prev => !prev)}
           onSceneReady={setCurrentScene}
+          hideControls={true}
+          windowState={windowState}
+          onWindowStateChange={setWindowState}
+          fixedPartPosition={fixedPartPosition}
+          onFixedPartPositionChange={setFixedPartPosition}
         />
 
-        {/* Floating Top Left Controls */}
-        <div className="absolute top-4 left-2 right-2 md:left-4 md:right-auto z-30 flex items-center justify-between md:justify-start gap-2 overflow-x-auto no-scrollbar pb-2 md:pb-0">
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => navigate('/debug-pricing')}
-              className="flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 rounded-xl border max-md:border-gray-300 border-white/10 bg-[#0c0c16]/80 max-md:text-gray-900 text-white/80 hover:max-md:text-gray-900 text-white hover:bg-white/5 hover:max-md:border-gray-300 border-white/20 transition-all active:scale-95 backdrop-blur-md shadow-lg shrink-0"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span className="text-[10px] font-black uppercase tracking-wider hidden sm:inline">Back</span>
-            </button>
+        {/* Pancake Menu (Top Left) */}
+        <div className="absolute top-4 left-4 z-40">
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="w-10 h-10 flex items-center justify-center rounded-xl bg-[#0c0c16]/50 border border-white/10 text-white/80 hover:bg-white/10 transition-all backdrop-blur-md shadow-lg"
+          >
+            {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
 
-            <button
-              onClick={() => setIsStagingModalOpen(true)}
-              className="flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 rounded-xl border border-[#eab676]/30 bg-[#eab676]/10 text-[#eab676] hover:bg-[#eab676]/20 hover:border-[#eab676]/50 transition-all active:scale-95 backdrop-blur-md shadow-lg group shrink-0"
-            >
-              <ShoppingCart className="w-4 h-4 group-hover:scale-110 transition-transform" />
-              <span className="text-[10px] font-black uppercase tracking-wider hidden sm:inline">Add to Staging</span>
-            </button>
-          </div>
+          {isMenuOpen && (
+            <div className="absolute top-12 left-0 min-w-[220px] flex flex-col p-1.5 rounded-xl bg-[#0c0c16]/80 border border-white/10 backdrop-blur-md shadow-2xl">
+              
+              <button onClick={() => { setIsStagingModalOpen(true); setIsMenuOpen(false); }} className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/10 text-white/90 text-xs font-medium transition-colors text-left w-full group">
+                <ShoppingCart className="w-4 h-4 text-[#eab676]" />
+                <span>Add to Staging</span>
+              </button>
 
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => {
-                if (currentScene) {
-                  setShowArViewer(true);
-                }
-              }}
-              disabled={!currentScene}
-              className={`flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 rounded-xl border transition-all active:scale-95 backdrop-blur-md shadow-lg group shrink-0
-                ${currentScene ? 'border-blue-400/30 bg-blue-400/10 text-blue-400 hover:bg-blue-400/20 hover:border-blue-400/50' : 'max-md:border-gray-200 border-white/5 bg-white/5 max-md:text-gray-900 max-md:text-gray-400 text-white/30 cursor-not-allowed'}`}
-            >
-              <Box className="w-4 h-4 group-hover:scale-110 transition-transform" />
-              <span className="text-[10px] font-black uppercase tracking-wider hidden sm:inline">AR Preview</span>
-            </button>
+              <button onClick={() => { if (currentScene) setShowArViewer(true); setIsMenuOpen(false); }} disabled={!currentScene} className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/10 text-white/90 text-xs font-medium transition-colors text-left w-full disabled:opacity-50 group">
+                <Box className="w-4 h-4 text-blue-400" />
+                <span>AR Preview</span>
+              </button>
 
-            <button
-              onClick={() => navigate('/staging')}
-              className="flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 rounded-xl border max-md:border-gray-300 border-white/10 bg-[#0c0c16]/80 max-md:text-gray-900 text-white/80 hover:max-md:text-gray-900 text-white hover:bg-white/5 hover:max-md:border-gray-300 border-white/20 transition-all active:scale-95 backdrop-blur-md shadow-lg group shrink-0"
-            >
-              <PackagePlus className="w-4 h-4 group-hover:scale-110 transition-transform" />
-              <span className="text-[10px] font-black uppercase tracking-wider hidden sm:inline">Staging</span>
-            </button>
-          </div>
+              <button onClick={() => { navigate('/staging'); setIsMenuOpen(false); }} className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/10 text-white/90 text-xs font-medium transition-colors text-left w-full group">
+                <PackagePlus className="w-4 h-4 text-white/80" />
+                <span>Staging</span>
+              </button>
+
+              <div className="h-px bg-white/10 my-1.5 mx-2" />
+
+              <button onClick={() => setWindowState(windowState === 'Closed' ? 'Open' : 'Closed')} className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/10 text-white/90 text-xs font-medium transition-colors text-left w-full group">
+                {windowState === 'Closed' ? <DoorClosed className="w-4 h-4 text-white/60" /> : <DoorOpen className="w-4 h-4 text-[#eab676]" />}
+                <span>{windowState === 'Closed' ? 'Open Window' : 'Close Window'}</span>
+              </button>
+
+              <button onClick={() => setWindowState(windowState === 'Tilt' ? 'Closed' : 'Tilt')} className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/10 text-white/90 text-xs font-medium transition-colors text-left w-full group">
+                 <Rotate3D className={`w-4 h-4 ${windowState === 'Tilt' ? 'text-[#eab676]' : 'text-white/60'}`} />
+                 <span>{windowState === 'Tilt' ? 'Close Tilt' : 'Tilt Window'}</span>
+              </button>
+
+              <button onClick={() => setIsMirrored(!isMirrored)} className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/10 text-white/90 text-xs font-medium transition-colors text-left w-full group">
+                <ArrowLeft className={`w-4 h-4 text-white/60 transition-transform ${isMirrored ? 'rotate-180' : ''}`} />
+                <span>Hinge {isMirrored ? 'Left' : 'Right'}</span>
+              </button>
+
+              <button onClick={() => setFixedPartPosition(f => f === 'Bottom' ? 'Top' : 'Bottom')} className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/10 text-white/90 text-xs font-medium transition-colors text-left w-full group">
+                {fixedPartPosition === 'Bottom' ? <PanelBottom className="w-4 h-4 text-white/60" /> : <PanelTop className="w-4 h-4 text-[#eab676]" />}
+                <span>Fixed: {fixedPartPosition}</span>
+              </button>
+
+            </div>
+          )}
         </div>
 
         {/* Dynamic Watermark */}
@@ -331,13 +349,7 @@ export function F252TestPage() {
           <p className="text-xs max-md:text-gray-900 text-white/50">Double-light transom window with bottom fixed pane</p>
         </div>
 
-        {/* Hotspot Instructions Overlay */}
-        <div className="absolute top-4 right-[340px] z-20 pointer-events-none hidden md:flex items-center gap-2 max-md:bg-white/85 bg-[#0c0c16]/85 border border-[#eab676]/30 px-3 py-2 rounded-xl backdrop-blur-md shadow-lg max-w-[280px]">
-          <HelpCircle className="w-5 h-5 text-[#eab676] shrink-0" />
-          <div className="text-[10.5px] max-md:text-gray-900 text-white/80 leading-normal font-medium">
-            Click the <span className="text-[#eab676] font-bold">3D hotspots (pulsing circles)</span> directly inside the scene to toggle blind or insect screen deployment, and to open the sash.
-          </div>
-        </div>
+
       </div>
 
       {/* Sidebar Controls */}

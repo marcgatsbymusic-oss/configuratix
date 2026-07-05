@@ -144,6 +144,7 @@ export interface IG5_F252Props {
   solarTreatment?: boolean;
   thermalTreatment?: boolean;
   handleColor?: string;
+  isThumbnail?: boolean;
 }
 
 export const IG5_F252_Component: React.FC<IG5_F252Props> = ({
@@ -163,14 +164,22 @@ export const IG5_F252_Component: React.FC<IG5_F252Props> = ({
   solarTreatment = false,
   thermalTreatment = false,
   handleColor = '#aaaaaa',
+  isThumbnail = false,
 }) => {
   
   const materials = useMemo(() => {
     return {
-      ext: new THREE.MeshPhysicalMaterial({ color: EXT_Color, roughness: 0.45, metalness: 0.0, envMapIntensity: 1.0, side: THREE.DoubleSide }),
-      int: new THREE.MeshPhysicalMaterial({ color: INT_Color, roughness: 0.45, metalness: 0.0, envMapIntensity: 1.0, side: THREE.DoubleSide }),
-      gsk: new THREE.MeshPhysicalMaterial({ color: 0x222222, roughness: 0.8, metalness: 0.1, side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -4 }),
-      glass: new THREE.MeshPhysicalMaterial({ 
+      ext: new THREE.MeshStandardMaterial({ color: EXT_Color, roughness: 0.45, metalness: 0.0, envMapIntensity: 1.0, side: THREE.DoubleSide }),
+      int: new THREE.MeshStandardMaterial({ color: INT_Color, roughness: 0.45, metalness: 0.0, envMapIntensity: 1.0, side: THREE.DoubleSide }),
+      gsk: new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.8, metalness: 0.1, side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -4 }),
+      glass: isThumbnail ? new THREE.MeshStandardMaterial({
+        color: 0xeaf2f0,
+        transparent: true,
+        opacity: 0.5,
+        roughness: 0.1,
+        metalness: 0.3,
+        side: THREE.DoubleSide
+      }) : new THREE.MeshPhysicalMaterial({ 
         color: 0xeaf2f0, 
         transmission: 1.0, 
         roughness: 0.03,
@@ -184,10 +193,10 @@ export const IG5_F252_Component: React.FC<IG5_F252Props> = ({
         transparent: true,
         side: THREE.DoubleSide 
       }),
-      spacer: new THREE.MeshPhysicalMaterial({ color: 0x999999, roughness: 0.5, metalness: 0.6, side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -4 }),
-      hardware: new THREE.MeshPhysicalMaterial({ color: handleColor, roughness: 0.4, metalness: 0.8, side: THREE.DoubleSide }),
+      spacer: new THREE.MeshStandardMaterial({ color: 0x999999, roughness: 0.5, metalness: 0.6, side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -4 }),
+      hardware: new THREE.MeshStandardMaterial({ color: handleColor, roughness: 0.4, metalness: 0.8, side: THREE.DoubleSide }),
     };
-  }, []);
+  }, [EXT_Color, INT_Color, handleColor, isThumbnail]);
 
   // Update dynamic colors and textures
   useEffect(() => {
@@ -232,7 +241,6 @@ export const IG5_F252_Component: React.FC<IG5_F252Props> = ({
       
       materials.hardware.metalness = isPainted ? 0.05 : 0.8;
       materials.hardware.roughness = isPainted ? 0.4 : 0.4;
-      materials.hardware.clearcoat = isPainted ? 0.3 : 0.0;
       
       materials.hardware.needsUpdate = true;
     }
@@ -392,22 +400,22 @@ export const IG5_F252_Component: React.FC<IG5_F252Props> = ({
     <group>
       {/* FRAME */}
       {geoms.frameMeshes.map((m, i) => (
-        <mesh key={`f-${i}`} geometry={m.geom} material={m.matKey === 'glass' ? undefined : getMat(m.matKey)} castShadow receiveShadow frustumCulled={false}>
-          {m.matKey === 'glass' && <MeshTransmissionMaterial color="#ffffff" transmission={1.0} thickness={0.015} roughness={0.02} ior={1.52} resolution={1024} samples={16} chromaticAberration={0.02} background={new THREE.Color('#d4d4d8')} polygonOffset={true} polygonOffsetFactor={1} polygonOffsetUnits={1} />}
+        <mesh key={`f-${i}`} geometry={m.geom} material={m.matKey === 'glass' ? undefined : getMat(m.matKey)} castShadow={!isThumbnail} receiveShadow={!isThumbnail} frustumCulled={false}>
+          {m.matKey === 'glass' && !isThumbnail && <MeshTransmissionMaterial color="#ffffff" transmission={1.0} thickness={0.015} roughness={0.02} ior={1.52} resolution={1024} samples={16} chromaticAberration={0.02} background={new THREE.Color('#d4d4d8')} polygonOffset={true} polygonOffsetFactor={1} polygonOffsetUnits={1} />}
         </mesh>
       ))}
       
       {/* TRANSOM */}
       {geoms.transomMeshes.map((m, i) => (
-        <mesh key={`t-${i}`} geometry={m.geom} material={m.matKey === 'glass' ? undefined : getMat(m.matKey)} castShadow receiveShadow frustumCulled={false}>
-          {m.matKey === 'glass' && <MeshTransmissionMaterial color="#ffffff" transmission={1.0} thickness={0.015} roughness={0.02} ior={1.52} resolution={1024} samples={16} chromaticAberration={0.02} background={new THREE.Color('#d4d4d8')} polygonOffset={true} polygonOffsetFactor={1} polygonOffsetUnits={1} />}
+        <mesh key={`t-${i}`} geometry={m.geom} material={m.matKey === 'glass' ? undefined : getMat(m.matKey)} castShadow={!isThumbnail} receiveShadow={!isThumbnail} frustumCulled={false}>
+          {m.matKey === 'glass' && !isThumbnail && <MeshTransmissionMaterial color="#ffffff" transmission={1.0} thickness={0.015} roughness={0.02} ior={1.52} resolution={1024} samples={16} chromaticAberration={0.02} background={new THREE.Color('#d4d4d8')} polygonOffset={true} polygonOffsetFactor={1} polygonOffsetUnits={1} />}
         </mesh>
       ))}
 
       {/* FIXED GLAZING */}
       {geoms.fixedMeshes.map((m, i) => (
-        <mesh key={`fix-${i}`} geometry={m.geom} material={m.matKey === 'glass' ? undefined : getMat(m.matKey)} castShadow receiveShadow frustumCulled={false}>
-          {m.matKey === 'glass' && <MeshTransmissionMaterial color="#ffffff" transmission={1.0} thickness={0.015} roughness={0.02} ior={1.52} resolution={1024} samples={16} chromaticAberration={0.02} background={new THREE.Color('#d4d4d8')} polygonOffset={true} polygonOffsetFactor={1} polygonOffsetUnits={1} />}
+        <mesh key={`fix-${i}`} geometry={m.geom} material={m.matKey === 'glass' ? undefined : getMat(m.matKey)} castShadow={!isThumbnail} receiveShadow={!isThumbnail} frustumCulled={false}>
+          {m.matKey === 'glass' && !isThumbnail && <MeshTransmissionMaterial color="#ffffff" transmission={1.0} thickness={0.015} roughness={0.02} ior={1.52} resolution={1024} samples={16} chromaticAberration={0.02} background={new THREE.Color('#d4d4d8')} polygonOffset={true} polygonOffsetFactor={1} polygonOffsetUnits={1} />}
         </mesh>
       ))}
 
@@ -424,8 +432,8 @@ export const IG5_F252_Component: React.FC<IG5_F252Props> = ({
       {/* SASH GROUP */}
       <group ref={sashRef} position={geoms.sashGroupOrigin}>
         {geoms.sashMeshes.map((m, i) => (
-          <mesh key={`s-${i}`} geometry={m.geom} material={m.matKey === 'glass' ? undefined : getMat(m.matKey)} castShadow receiveShadow frustumCulled={false}>
-            {m.matKey === 'glass' && <MeshTransmissionMaterial color="#ffffff" transmission={1.0} thickness={0.015} roughness={0.02} ior={1.52} resolution={1024} samples={16} chromaticAberration={0.02} background={new THREE.Color('#d4d4d8')} polygonOffset={true} polygonOffsetFactor={1} polygonOffsetUnits={1} />}
+          <mesh key={`s-${i}`} geometry={m.geom} material={m.matKey === 'glass' ? undefined : getMat(m.matKey)} castShadow={!isThumbnail} receiveShadow={!isThumbnail} frustumCulled={false}>
+            {m.matKey === 'glass' && !isThumbnail && <MeshTransmissionMaterial color="#ffffff" transmission={1.0} thickness={0.015} roughness={0.02} ior={1.52} resolution={1024} samples={16} chromaticAberration={0.02} background={new THREE.Color('#d4d4d8')} polygonOffset={true} polygonOffsetFactor={1} polygonOffsetUnits={1} />}
           </mesh>
         ))}
 
@@ -442,8 +450,8 @@ export const IG5_F252_Component: React.FC<IG5_F252Props> = ({
         {/* HANDLE */}
         {geoms.handleGripMesh && geoms.handleBaseMesh && (
           <group position={geoms.handlePos}>
-            <mesh geometry={geoms.handleBaseMesh} material={getMat('hardware')} castShadow receiveShadow />
-            <mesh ref={handleRef} geometry={geoms.handleGripMesh} material={getMat('hardware')} castShadow receiveShadow />
+            <mesh geometry={geoms.handleBaseMesh} material={getMat('hardware')} castShadow={!isThumbnail} receiveShadow={!isThumbnail} />
+            <mesh ref={handleRef} geometry={geoms.handleGripMesh} material={getMat('hardware')} castShadow={!isThumbnail} receiveShadow={!isThumbnail} />
           </group>
         )}
 

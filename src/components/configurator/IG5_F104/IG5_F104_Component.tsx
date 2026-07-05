@@ -11,6 +11,7 @@ export interface IG5_F104Props {
   INT_Texture?: string;
   solarTreatment?: boolean;
   thermalTreatment?: boolean;
+  isThumbnail?: boolean;
 }
 
 export const IG5_F104_Component: React.FC<IG5_F104Props> = ({
@@ -20,13 +21,21 @@ export const IG5_F104_Component: React.FC<IG5_F104Props> = ({
   INT_Color = '#ffffff',
   EXT_Texture,
   INT_Texture,
+  isThumbnail = false,
 }) => {
   const materials = useMemo(() => {
     return {
-      ext: new THREE.MeshPhysicalMaterial({ color: EXT_Color, roughness: 0.35, metalness: 0.0, clearcoat: 0.15, clearcoatRoughness: 0.25, envMapIntensity: 0.8, side: THREE.DoubleSide }),
-      int: new THREE.MeshPhysicalMaterial({ color: INT_Color, roughness: 0.35, metalness: 0.0, clearcoat: 0.15, clearcoatRoughness: 0.25, envMapIntensity: 0.8, side: THREE.DoubleSide }),
-      gsk: new THREE.MeshPhysicalMaterial({ color: 0x111111, side: THREE.DoubleSide, roughness: 0.8 }),
-      glass: new THREE.MeshPhysicalMaterial({ 
+      ext: new THREE.MeshStandardMaterial({ color: EXT_Color, roughness: 0.35, metalness: 0.0, envMapIntensity: 0.8, side: THREE.DoubleSide }),
+      int: new THREE.MeshStandardMaterial({ color: INT_Color, roughness: 0.35, metalness: 0.0, envMapIntensity: 0.8, side: THREE.DoubleSide }),
+      gsk: new THREE.MeshStandardMaterial({ color: 0x111111, side: THREE.DoubleSide, roughness: 0.8 }),
+      glass: isThumbnail ? new THREE.MeshStandardMaterial({
+        color: 0xeaf2f0,
+        transparent: true,
+        opacity: 0.5,
+        roughness: 0.1,
+        metalness: 0.3,
+        side: THREE.DoubleSide
+      }) : new THREE.MeshPhysicalMaterial({ 
         color: 0xeaf2f0, 
         transmission: 1.0, 
         roughness: 0.03,
@@ -40,9 +49,9 @@ export const IG5_F104_Component: React.FC<IG5_F104Props> = ({
         transparent: true,
         side: THREE.DoubleSide 
       }),
-      spacer: new THREE.MeshPhysicalMaterial({ color: 0xcccccc, metalness: 0.5, roughness: 0.5, side: THREE.DoubleSide }),
+      spacer: new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.5, roughness: 0.5, side: THREE.DoubleSide }),
     };
-  }, []);
+  }, [EXT_Color, INT_Color, isThumbnail]);
 
   useEffect(() => {
     const loader = new THREE.TextureLoader();
@@ -97,12 +106,12 @@ export const IG5_F104_Component: React.FC<IG5_F104Props> = ({
     <group>
       {/* FRAME */}
       {geoms.frameMeshes.map((m, i) => (
-        <mesh key={`f-${i}`} geometry={m.geom} material={getMat(m.matKey)} />
+        <mesh key={`f-${i}`} geometry={m.geom} material={getMat(m.matKey)} castShadow={!isThumbnail} receiveShadow={!isThumbnail} frustumCulled={false} />
       ))}
       
       {/* FIXED GLAZING */}
       {geoms.fixedMeshes.map((m, i) => (
-        <mesh key={`fix-${i}`} geometry={m.geom} material={getMat(m.matKey)} />
+        <mesh key={`fix-${i}`} geometry={m.geom} material={getMat(m.matKey)} castShadow={!isThumbnail} receiveShadow={!isThumbnail} frustumCulled={false} />
       ))}
     </group>
   );

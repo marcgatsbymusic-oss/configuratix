@@ -1,1 +1,0 @@
-import{$ as e,et as t,nt as n,tt as r}from"./index-BBFsCg5W.js";export{e as default,t as profiles,r as system,n as type};

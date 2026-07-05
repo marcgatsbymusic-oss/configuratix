@@ -1,0 +1,1 @@
+import{t as e}from"./needle-engine-BHHNxNms.js";export{e as NeedleEngineWebComponent};

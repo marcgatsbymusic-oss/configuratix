@@ -1,12 +1,14 @@
-import React, { Suspense, useState, useEffect, useRef, useCallback } from 'react';
+import React, { Suspense, useState, useEffect, useRef } from 'react';
 import { Canvas, useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
 import { Environment } from '@react-three/drei';
 import { EffectComposer, N8AO } from '@react-three/postprocessing';
-import { OrbitControls, Html } from '@react-three/drei';
+import { OrbitControls, Html, Stats } from '@react-three/drei';
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { IG5_F252_Component } from './IG5_F252/IG5_F252_Component';
 import { BBox225BlindBox } from './BBox225Component';
+
+const IS_MOBILE = typeof navigator !== 'undefined' && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
 
 const RoomEnv = () => {
   const { gl, scene } = useThree();
@@ -31,6 +33,21 @@ const LoadingOverlay = () => (
     </div>
   </Html>
 );
+
+const RendererDiagnostics = () => {
+  const { gl } = useThree();
+  let frameCount = 0;
+  
+  useFrame(() => {
+    frameCount++;
+    // Log every 60 frames to avoid console spam
+    if (frameCount % 60 === 0) {
+      console.log(`[Renderer] Draw Calls: ${gl.info.render.calls} | Triangles: ${gl.info.render.triangles}`);
+    }
+  });
+  
+  return <Stats className="!absolute !right-4 !top-4 !left-auto" />;
+};
 
 interface F252ViewerProps {
   width?: number;
@@ -58,6 +75,11 @@ interface F252ViewerProps {
   isMirrored?: boolean;
   onMirroredChange?: (val: boolean) => void;
   onSceneReady?: (group: THREE.Group) => void;
+  windowState?: 'Closed' | 'Open' | 'Tilt';
+  onWindowStateChange?: (state: 'Closed' | 'Open' | 'Tilt') => void;
+  fixedPartPosition?: 'Bottom' | 'Top';
+  onFixedPartPositionChange?: (pos: 'Bottom' | 'Top') => void;
+  hideControls?: boolean;
 }
 
 export const F252Viewer: React.FC<F252ViewerProps> = ({
@@ -84,30 +106,35 @@ export const F252Viewer: React.FC<F252ViewerProps> = ({
   onToggleBlind,
   onToggleMosquito,
   isMirrored,
-  onMirroredChange,
   onSceneReady,
+  windowState: externalWindowState,
+  onWindowStateChange,
+  fixedPartPosition: externalFixedPartPosition,
+  onFixedPartPositionChange,
+  hideControls = false,
 }) => {
-  const [windowState, setWindowState] = useState<'Closed' | 'Open' | 'Tilt'>('Closed');
+  const [internalWindowState, setInternalWindowState] = useState<'Closed' | 'Open' | 'Tilt'>('Closed');
+  const windowState = externalWindowState !== undefined ? externalWindowState : internalWindowState;
 
-  const [autoRotate, setAutoRotate] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [internalFixedPartPosition, setInternalFixedPartPosition] = useState<'Bottom' | 'Top'>('Bottom');
+  const fixedPartPosition = externalFixedPartPosition !== undefined ? externalFixedPartPosition : internalFixedPartPosition;
 
-  const resetAutoRotate = useCallback(() => {
-    setAutoRotate(false);
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => setAutoRotate(true), 5000);
-  }, []);
+  const handleWindowStateChange = (state: 'Closed' | 'Open' | 'Tilt') => {
+    if (onWindowStateChange) onWindowStateChange(state);
+    else setInternalWindowState(state);
+  };
+
+  const toggleFixedPartPosition = () => {
+    const next = fixedPartPosition === 'Bottom' ? 'Top' : 'Bottom';
+    if (onFixedPartPositionChange) onFixedPartPositionChange(next);
+    else setInternalFixedPartPosition(next);
+  };
 
   const groupRef = useRef<THREE.Group>(null);
 
 
 
-  useEffect(() => {
-    resetAutoRotate();
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
-  }, [resetAutoRotate]);
+
 
   const [internalMirrored, setInternalMirrored] = useState(false);
   const mirrored = isMirrored !== undefined ? isMirrored : internalMirrored;
@@ -122,8 +149,6 @@ export const F252Viewer: React.FC<F252ViewerProps> = ({
     if (onMirroredChange) onMirroredChange(!mirrored);
     else setInternalMirrored(!mirrored);
   };
-
-  const [fixedPartPosition, setFixedPartPosition] = useState<'Bottom' | 'Top'>('Bottom');
 
   const W_M = width / 1000;
   const boxHeightOffset = (blindBox || mosquito) ? 0.2467 : 0;
@@ -146,13 +171,14 @@ export const F252Viewer: React.FC<F252ViewerProps> = ({
 
   return (
     <div className="relative w-full h-full" style={{ minHeight: isThumbnail ? '200px' : '400px', background: 'radial-gradient(circle, #ffffff 0%, #e6e4e0 100%)' }}>
-      <Canvas dpr={[1, 2]} shadows camera={{ position: [W_M / 2, H_M / 2, cameraZ], fov: 45 }} gl={{ antialias: true, localClippingEnabled: false, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.0, outputColorSpace: THREE.SRGBColorSpace }} onPointerDown={isThumbnail ? undefined : resetAutoRotate}>
+      <Canvas dpr={isThumbnail ? 1 : [1, IS_MOBILE ? 1.5 : 2]} shadows={!isThumbnail} camera={{ position: [W_M / 2, H_M / 2, cameraZ], fov: 45 }} gl={{ powerPreference: IS_MOBILE ? 'default' : 'high-performance', antialias: !isThumbnail && !IS_MOBILE, localClippingEnabled: false, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.0, outputColorSpace: THREE.SRGBColorSpace }}>
+        {import.meta.env.DEV && !isThumbnail && <RendererDiagnostics />}
         <color attach="background" args={['#e8e8e8']} />
         <directionalLight
           position={[5, 8, 5]}
           intensity={1.4}
-          castShadow
-          shadow-mapSize={[2048, 2048]}
+          castShadow={!isThumbnail}
+          shadow-mapSize={IS_MOBILE ? [512, 512] : [1024, 1024]}
           shadow-bias={-0.0005}
           shadow-normalBias={0.02}
           shadow-camera-near={0.1}
@@ -161,17 +187,19 @@ export const F252Viewer: React.FC<F252ViewerProps> = ({
           shadow-camera-right={5}
           shadow-camera-top={5}
           shadow-camera-bottom={-5}
-          shadow-radius={15}
+          shadow-radius={IS_MOBILE ? 4 : 15}
           color="#ffffff"
         />
         <hemisphereLight args={['#ffffff', '#b0b0b0', 0.4]} />
         
         <Suspense fallback={<LoadingOverlay />}>
-          <Environment preset="city" background={false} />
+          {IS_MOBILE ? <RoomEnv /> : <Environment preset="city" background={false} />}
           
-          <EffectComposer>
-            <N8AO aoRadius={2} intensity={1} color="#000000" />
-          </EffectComposer>
+          {!isThumbnail && !IS_MOBILE && (
+            <EffectComposer>
+              <N8AO aoRadius={2} intensity={1} color="#000000" />
+            </EffectComposer>
+          )}
           
           <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow position={[W_M / 2, 0, 0]}>
             <planeGeometry args={[20, 20]} />
@@ -192,11 +220,12 @@ export const F252Viewer: React.FC<F252ViewerProps> = ({
                 INT_Texture={colorIntTexture}
                 windowState={windowState}
                 isColorPaletteOpen={isColorPaletteOpen}
-                onToggleOpen={() => setWindowState(prev => prev === 'Open' ? 'Closed' : 'Open')}
-                onToggleTilt={() => setWindowState(prev => prev === 'Tilt' ? 'Closed' : 'Tilt')}
+                onToggleOpen={() => handleWindowStateChange(windowState === 'Open' ? 'Closed' : 'Open')}
+                onToggleTilt={() => handleWindowStateChange(windowState === 'Tilt' ? 'Closed' : 'Tilt')}
                 solarTreatment={solarTreatment}
                 thermalTreatment={thermalTreatment}
                 handleColor={handleColor}
+                isThumbnail={isThumbnail}
               />
               {(blindBox || mosquito) && (
                 <BBox225BlindBox 
@@ -234,30 +263,30 @@ export const F252Viewer: React.FC<F252ViewerProps> = ({
         />
       </Canvas>
 
-      {!isColorPaletteOpen && !isThumbnail && (
+      {!hideControls && !isColorPaletteOpen && !isThumbnail && (
         <div className="absolute top-4 left-1/2 -translate-x-1/2 flex gap-4 z-40 bg-black/40 backdrop-blur-md p-2 rounded-xl border border-white/10">
           <button 
             className={`px-4 py-2 rounded-lg font-bold text-sm transition-colors ${windowState === 'Closed' ? 'bg-mammut-gold text-black' : 'bg-white/10 text-white hover:bg-white/20'}`}
-            onClick={() => setWindowState('Closed')}
+            onClick={() => handleWindowStateChange('Closed')}
           >
             Closed
           </button>
           <button 
             className={`px-4 py-2 rounded-lg font-bold text-sm transition-colors ${windowState === 'Open' ? 'bg-mammut-gold text-black' : 'bg-white/10 text-white hover:bg-white/20'}`}
-            onClick={() => setWindowState('Open')}
+            onClick={() => handleWindowStateChange('Open')}
           >
             Open
           </button>
           <button 
             className={`px-4 py-2 rounded-lg font-bold text-sm transition-colors ${windowState === 'Tilt' ? 'bg-mammut-gold text-black' : 'bg-white/10 text-white hover:bg-white/20'}`}
-            onClick={() => setWindowState('Tilt')}
+            onClick={() => handleWindowStateChange('Tilt')}
           >
             Tilt
           </button>
         </div>
       )}
 
-      {!isColorPaletteOpen && !isThumbnail && (
+      {!hideControls && !isColorPaletteOpen && !isThumbnail && (
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-4 z-40 bg-black/40 backdrop-blur-md p-2 rounded-xl border border-white/10">
           <button 
             className={`px-4 py-2 rounded-lg font-bold text-sm transition-colors ${mirrored ? 'bg-mammut-gold text-black' : 'bg-white/10 text-white hover:bg-white/20'}`}
@@ -268,7 +297,7 @@ export const F252Viewer: React.FC<F252ViewerProps> = ({
           
           <button 
             className="px-4 py-2 rounded-lg font-bold text-sm bg-white/10 text-white hover:bg-white/20 transition-colors"
-            onClick={() => setFixedPartPosition(f => f === 'Bottom' ? 'Top' : 'Bottom')}
+            onClick={toggleFixedPartPosition}
           >
             Fixed: {fixedPartPosition}
           </button>

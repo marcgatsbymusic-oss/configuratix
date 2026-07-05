@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Send, Trash2, Box, PackagePlus, ChevronLeft, Image as ImageIcon, FileText, Edit2, Lock } from 'lucide-react';
+import { Send, Trash2, Box, PackagePlus, ChevronLeft, Image as ImageIcon, FileText, Edit2, Lock, Menu, X } from 'lucide-react';
 import { useStagingStore } from '../store/useStagingStore';
 import { Link, useNavigate } from 'react-router-dom';
 import { F252Viewer } from '../components/configurator/F252Viewer';
@@ -55,6 +55,7 @@ export function StagingPage({ presetSlug }: { presetSlug?: string }) {
   const [savedSessions, setSavedSessions] = useState<any[]>([]);
   const [editingAreaId, setEditingAreaId] = useState<string | null>(null);
   const [editingAreaName, setEditingAreaName] = useState('');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const windowScenes = useRef<Record<string, THREE.Group>>({});
   const [selectedArScene, setSelectedArScene] = useState<{ group: THREE.Group, typology: string } | null>(null);
@@ -200,21 +201,33 @@ export function StagingPage({ presetSlug }: { presetSlug?: string }) {
             <PackagePlus size={32} className="text-mammut-gold" />
             <h1 className="text-2xl sm:text-3xl font-bold tracking-wider">{t('stagingArea.title')}</h1>
           </div>
-          <div className="flex items-center gap-3">
-            <button 
-              onClick={handleBackToConfigurator}
-              className="flex items-center gap-2 bg-[#eab676] hover:bg-black hover:text-white text-black font-bold py-2 px-4 rounded-xl transition-colors shadow-sm"
+          <div className="relative">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="p-2 rounded-xl hover:bg-gray-100 text-gray-600 transition-colors"
             >
-              <ChevronLeft size={18} />
-              <span>{t('stagingArea.backToConfigurator')}</span>
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-            <Link 
-              to="/import"
-              className="flex items-center gap-2 bg-white hover:bg-gray-50 text-black border border-gray-200 font-bold py-2 px-4 rounded-xl transition-colors shadow-sm"
-            >
-              <FileText size={18} />
-              <span>{t('stagingArea.importPdfQuote')}</span>
-            </Link>
+
+            {isMenuOpen && (
+              <div className="absolute top-12 right-0 min-w-[200px] flex flex-col p-1.5 rounded-xl bg-white/90 border border-gray-200 backdrop-blur-md shadow-xl z-50">
+                <Link 
+                  to="/import"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-100 text-gray-800 text-xs font-bold transition-colors text-left w-full group"
+                >
+                  <FileText className="w-4 h-4 text-gray-500" />
+                  <span>{t('stagingArea.importPdfQuote')}</span>
+                </Link>
+                <button 
+                  onClick={() => { handleBackToConfigurator(); setIsMenuOpen(false); }}
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-100 text-gray-800 text-xs font-bold transition-colors text-left w-full group"
+                >
+                  <ChevronLeft className="w-4 h-4 text-gray-500" />
+                  <span>{t('stagingArea.backToConfigurator')}</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
 

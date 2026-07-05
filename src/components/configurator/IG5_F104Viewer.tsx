@@ -1,6 +1,6 @@
 import React, { Suspense, useState, useEffect, useRef, useCallback } from 'react';
-import { Canvas, useThree } from '@react-three/fiber';
-import { OrbitControls, Html } from '@react-three/drei';
+import { Canvas, useThree, useFrame } from '@react-three/fiber';
+import { OrbitControls, Html, Stats } from '@react-three/drei';
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { IG5_F104_Component } from './IG5_F104/IG5_F104_Component';
@@ -29,6 +29,20 @@ const LoadingOverlay = () => (
     </div>
   </Html>
 );
+
+const RendererDiagnostics = () => {
+  const { gl } = useThree();
+  let frameCount = 0;
+  
+  useFrame(() => {
+    frameCount++;
+    if (frameCount % 60 === 0) {
+      console.log(`[Renderer] Draw Calls: ${gl.info.render.calls} | Triangles: ${gl.info.render.triangles}`);
+    }
+  });
+  
+  return <Stats className="!absolute !right-4 !top-4 !left-auto" />;
+};
 
 interface IG5_F104ViewerProps {
   width?: number;
@@ -101,13 +115,14 @@ export const IG5_F104Viewer: React.FC<IG5_F104ViewerProps> = ({
 
   return (
     <div className="relative w-full h-full" style={{ minHeight: isThumbnail ? '200px' : '400px', background: 'radial-gradient(circle, #ffffff 0%, #e6e4e0 100%)' }}>
-      <Canvas dpr={[1, 2]} shadows camera={{ position: [W_M / 2, H_M / 2, cameraZ], fov: 45 }} gl={{ antialias: true, localClippingEnabled: false, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.1, outputColorSpace: THREE.SRGBColorSpace }} onPointerDown={isThumbnail ? undefined : resetAutoRotate}>
+      <Canvas dpr={isThumbnail ? 1 : [1, 1.5]} shadows={!isThumbnail} camera={{ position: [W_M / 2, H_M / 2, cameraZ], fov: 45 }} gl={{ powerPreference: 'high-performance', antialias: !isThumbnail, localClippingEnabled: false, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.1, outputColorSpace: THREE.SRGBColorSpace }} onPointerDown={isThumbnail ? undefined : resetAutoRotate}>
+        {!isThumbnail && <RendererDiagnostics />}
         <ambientLight intensity={0.40} />
         <directionalLight
           position={[W_M * 2.5, H_M * 3, H_M * 2]}
           intensity={2.6}
-          castShadow
-          shadow-mapSize={[4096, 4096]}
+          castShadow={!isThumbnail}
+          shadow-mapSize={[1024, 1024]}
           shadow-bias={-0.0004}
           shadow-normalBias={0.02}
           shadow-camera-near={0.1}
@@ -141,6 +156,7 @@ export const IG5_F104Viewer: React.FC<IG5_F104ViewerProps> = ({
                 INT_Texture={colorIntTexture}
                 solarTreatment={solarTreatment}
                 thermalTreatment={thermalTreatment}
+                isThumbnail={isThumbnail}
               />
               <BBox225BlindBox 
                 width={width}
