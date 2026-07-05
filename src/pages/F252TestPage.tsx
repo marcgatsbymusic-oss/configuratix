@@ -839,6 +839,7 @@ export function F252TestPage() {
       {showArViewer && currentScene && (
         <ArViewer 
           sceneGroup={currentScene}
+          placement="wall"
           typology="F252"
           onClose={() => setShowArViewer(false)}
         />
