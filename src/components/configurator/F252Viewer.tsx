@@ -106,6 +106,7 @@ export const F252Viewer: React.FC<F252ViewerProps> = ({
   onToggleBlind,
   onToggleMosquito,
   isMirrored,
+  onMirroredChange,
   onSceneReady,
   windowState: externalWindowState,
   onWindowStateChange,
