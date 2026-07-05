@@ -6,6 +6,8 @@ import { IGLO_EDGE_COLORS, FULL_RAL_COLORS } from '../data/productDetails';
 import { CONFIG_SCHEMA, PROFILE_GLAZING_LIMITS } from '../components/SlateConfigurator/types';
 import { AddToStagingModal } from '../components/configurator/AddToStagingModal';
 import { useStagingStore } from '../store/useStagingStore';
+import { ArViewer } from '../components/configurator/ArViewer';
+import * as THREE from 'three';
 
 const COLOR_HEX_MAP: Record<string, string> = {
   'c197': '#ffffff', // White
@@ -155,8 +157,12 @@ export function F252TestPage() {
     setF252Memory
   ]);
 
-  // Staging Modal
+  // Staging Modal State
   const [isStagingModalOpen, setIsStagingModalOpen] = useState(false);
+
+  // AR State
+  const [currentScene, setCurrentScene] = useState<THREE.Group | null>(null);
+  const [showArViewer, setShowArViewer] = useState(false);
 
   // Searches
   const [pvcSearches, setPvcSearches] = useState({ ext: '', int: '' });
@@ -270,33 +276,52 @@ export function F252TestPage() {
           blindColorSlats={colours.blind}
           onToggleBlind={() => setBlindDeployed(prev => !prev)}
           onToggleMosquito={() => setMosquitoDeployed(prev => !prev)}
+          onSceneReady={setCurrentScene}
         />
 
         {/* Floating Top Left Controls */}
-        <div className="absolute top-4 left-4 z-30 flex flex-wrap items-center gap-3">
-          <button
-            onClick={() => navigate('/debug-pricing')}
-            className="flex items-center justify-center gap-2 px-3 py-2 rounded-xl border border-white/10 bg-[#0c0c16]/80 text-white/80 hover:text-white hover:bg-white/5 hover:border-white/20 transition-all active:scale-95 backdrop-blur-md cursor-pointer shadow-lg"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span className="text-[10px] font-black uppercase tracking-wider">Back</span>
-          </button>
+        <div className="absolute top-4 left-2 right-2 md:left-4 md:right-auto z-30 flex items-center justify-between md:justify-start gap-2 overflow-x-auto no-scrollbar pb-2 md:pb-0">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => navigate('/debug-pricing')}
+              className="flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 rounded-xl border border-white/10 bg-[#0c0c16]/80 text-white/80 hover:text-white hover:bg-white/5 hover:border-white/20 transition-all active:scale-95 backdrop-blur-md shadow-lg shrink-0"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span className="text-[10px] font-black uppercase tracking-wider hidden sm:inline">Back</span>
+            </button>
 
-          <button
-            onClick={() => setIsStagingModalOpen(true)}
-            className="flex items-center justify-center gap-2 px-3 py-2 rounded-xl border border-[#eab676]/30 bg-[#eab676]/10 text-[#eab676] hover:bg-[#eab676]/20 hover:border-[#eab676]/50 transition-all active:scale-95 backdrop-blur-md cursor-pointer shadow-lg group"
-          >
-            <ShoppingCart className="w-4 h-4 group-hover:scale-110 transition-transform" />
-            <span className="text-[10px] font-black uppercase tracking-wider">Add to Staging</span>
-          </button>
+            <button
+              onClick={() => setIsStagingModalOpen(true)}
+              className="flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 rounded-xl border border-[#eab676]/30 bg-[#eab676]/10 text-[#eab676] hover:bg-[#eab676]/20 hover:border-[#eab676]/50 transition-all active:scale-95 backdrop-blur-md shadow-lg group shrink-0"
+            >
+              <ShoppingCart className="w-4 h-4 group-hover:scale-110 transition-transform" />
+              <span className="text-[10px] font-black uppercase tracking-wider hidden sm:inline">Add to Staging</span>
+            </button>
+          </div>
 
-          <button
-            onClick={() => navigate('/staging')}
-            className="flex items-center justify-center gap-2 px-3 py-2 rounded-xl border border-white/10 bg-[#0c0c16]/80 text-white/80 hover:text-white hover:bg-white/5 hover:border-white/20 transition-all active:scale-95 backdrop-blur-md cursor-pointer shadow-lg group"
-          >
-            <PackagePlus className="w-4 h-4 group-hover:scale-110 transition-transform" />
-            <span className="text-[10px] font-black uppercase tracking-wider">Staging Area</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                if (currentScene) {
+                  setShowArViewer(true);
+                }
+              }}
+              disabled={!currentScene}
+              className={`flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 rounded-xl border transition-all active:scale-95 backdrop-blur-md shadow-lg group shrink-0
+                ${currentScene ? 'border-blue-400/30 bg-blue-400/10 text-blue-400 hover:bg-blue-400/20 hover:border-blue-400/50' : 'border-white/5 bg-white/5 text-white/30 cursor-not-allowed'}`}
+            >
+              <Box className="w-4 h-4 group-hover:scale-110 transition-transform" />
+              <span className="text-[10px] font-black uppercase tracking-wider hidden sm:inline">AR Preview</span>
+            </button>
+
+            <button
+              onClick={() => navigate('/staging')}
+              className="flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 rounded-xl border border-white/10 bg-[#0c0c16]/80 text-white/80 hover:text-white hover:bg-white/5 hover:border-white/20 transition-all active:scale-95 backdrop-blur-md shadow-lg group shrink-0"
+            >
+              <PackagePlus className="w-4 h-4 group-hover:scale-110 transition-transform" />
+              <span className="text-[10px] font-black uppercase tracking-wider hidden sm:inline">Staging</span>
+            </button>
+          </div>
         </div>
 
         {/* Dynamic Watermark */}
@@ -811,6 +836,13 @@ export function F252TestPage() {
           blindColorSlats: colours.blind
         }}
       />
+      {showArViewer && currentScene && (
+        <ArViewer 
+          sceneGroup={currentScene}
+          typology="F252"
+          onClose={() => setShowArViewer(false)}
+        />
+      )}
     </div>
   );
 }
