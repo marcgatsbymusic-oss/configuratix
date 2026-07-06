@@ -76,76 +76,89 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
 
     const exportGroup = sceneGroup.clone(true);
 
-    // Deeply bake scale into geometry and position to bypass Quick Look root scale bugs.
-    exportGroup.traverse((node: any) => {
-      if (node.isMesh && node.geometry) {
-        node.geometry = node.geometry.clone();
-        node.geometry.scale(0.001, 0.001, 0.001);
-      }
-      if (node.position) {
-        node.position.multiplyScalar(0.001);
-      }
-    });
+    // Flatten all meshes into a single group to prevent iOS Quick Look from rejecting 
+    // deep hierarchies or nodes with negative scales (which are common in DXF mirrors).
+    const materialsMap = new Map<string, { material: THREE.Material; geometries: THREE.BufferGeometry[] }>();
 
     exportGroup.updateMatrixWorld(true);
 
-    // Restore original state on LIVE scene immediately
-    restoreFunctions.forEach(fn => fn());
-    
-    // Prune empty/non-visual nodes
-    pruneEmptyNodes(exportGroup);
-
     exportGroup.traverse((node: any) => {
-      if (node.isMesh && node.material) {
-        const processMaterial = (mat: any) => {
-          if (mat.transmission && mat.transmission > 0) {
-            return new THREE.MeshStandardMaterial({
-              color: 0xffffff,
-              transparent: true,
-              opacity: 0.25,
-              metalness: 0,
-              roughness: 0.05,
-              side: THREE.FrontSide
-            });
-          }
+      if (node.isMesh && node.geometry) {
+        const geom = node.geometry.clone();
+        
+        // Bake all world transforms (including negative scales!) directly into the geometry vertices
+        geom.applyMatrix4(node.matrixWorld);
+        
+        // Scale down from millimeters to meters for AR
+        geom.scale(0.001, 0.001, 0.001);
 
-          const m = mat.clone();
-          m.side = THREE.FrontSide;
+        let mat = Array.isArray(node.material) ? node.material[0] : node.material;
+        
+        // Process material for AR safety
+        let processedMat;
+        if (mat.transmission && mat.transmission > 0) {
+          processedMat = new THREE.MeshStandardMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.25,
+            metalness: 0,
+            roughness: 0.05,
+            side: THREE.DoubleSide // Use DoubleSide to prevent invisible faces if negatively scaled
+          });
+        } else {
+          processedMat = mat.clone();
+          processedMat.side = THREE.DoubleSide; // Fix normals for mirrored DXF parts
           
-          if (m.map) {
-            const src = m.map.image?.src || '';
+          if (processedMat.map) {
+            const src = processedMat.map.image?.src || '';
             const srcLower = src.toLowerCase();
             if (srcLower.includes('oak') || srcLower.includes('wood')) {
-              m.color.set('#a16207');
+              processedMat.color.set('#a16207');
             } else if (srcLower.includes('anthracite') || srcLower.includes('dark')) {
-              m.color.set('#374151');
+              processedMat.color.set('#374151');
             } else if (srcLower.includes('gray') || srcLower.includes('grey')) {
-              m.color.set('#9ca3af');
+              processedMat.color.set('#9ca3af');
             } else if (srcLower.includes('white')) {
-              m.color.set('#f9fafb');
+              processedMat.color.set('#f9fafb');
             }
           }
 
-          for (const key in m) {
-            if (m[key] && m[key].isTexture) {
-              m[key] = null;
+          // Strip textures to keep the blob tiny
+          for (const key in processedMat) {
+            if (processedMat[key] && processedMat[key].isTexture) {
+              processedMat[key] = null;
             }
           }
-          m.needsUpdate = true;
-          return m;
-        };
-
-        if (Array.isArray(node.material)) {
-          node.material = node.material.map(processMaterial);
-        } else {
-          node.material = processMaterial(node.material);
+          processedMat.needsUpdate = true;
         }
+
+        // We use a unique string key based on color/opacity to group materials, 
+        // because cloning creates different UUIDs.
+        const matKey = `${(processedMat as THREE.MeshStandardMaterial).color.getHex()}-${processedMat.opacity}`;
+        
+        if (!materialsMap.has(matKey)) {
+          materialsMap.set(matKey, { material: processedMat, geometries: [] });
+        }
+        materialsMap.get(matKey)!.geometries.push(geom);
+      }
+    });
+
+    // Restore original state on LIVE scene immediately
+    restoreFunctions.forEach(fn => fn());
+
+    const mergedGroup = new THREE.Group();
+    materialsMap.forEach(({ material, geometries }) => {
+      if (geometries.length > 0) {
+        geometries.forEach(g => {
+          const mesh = new THREE.Mesh(g, material);
+          mergedGroup.add(mesh);
+        });
       }
     });
 
     const exporter = new GLTFExporter();
     exporter.parse(
-      exportGroup,
+      mergedGroup,
       (gltf: any) => {
         const blob = new Blob([gltf as ArrayBuffer], { type: 'model/gltf-binary' });
         setBlobSize(blob.size);
