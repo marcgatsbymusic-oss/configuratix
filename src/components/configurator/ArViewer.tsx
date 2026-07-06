@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
+import { USDZExporter } from 'three/examples/jsm/exporters/USDZExporter.js';
 import '@google/model-viewer';
 
 const ModelViewer = 'model-viewer' as any;
 
 import { saveModelToDB, savePublicUrlToDB, getAnimationClipsForTypology } from '../../utils/arStorage';
 
-const isAndroid = typeof navigator !== 'undefined' && /android/i.test(navigator.userAgent);
 
-// Helper to upload GLB to tmpfiles.org for public AR sharing
-async function uploadToTmpFiles(blob: Blob): Promise<string> {
+
+// Helper to upload GLB or USDZ to tmpfiles.org for public AR sharing
+async function uploadToTmpFiles(blob: Blob, filename = 'window-scene.glb'): Promise<string> {
   const formData = new FormData();
-  formData.append('file', blob, 'window-scene.glb');
+  formData.append('file', blob, filename);
   const res = await fetch('https://tmpfiles.org/api/v1/upload', {
     method: 'POST',
     body: formData
@@ -56,8 +57,10 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
   const [error, setError]       = useState<string | null>(null);
   const [blobSize, setBlobSize] = useState<number | null>(null);
   const [publicUrl, setPublicUrl] = useState<string | null>(null);
+  const [usdzUrl, setUsdzUrl] = useState<string | null>(null);
+  const [publicUsdzUrl, setPublicUsdzUrl] = useState<string | null>(null);
 
-  // Export Three.js scene → GLB blob.
+  // Export Three.js scene → GLB blob and USDZ blob.
   useEffect(() => {
     if (!sceneGroup) return;
 
@@ -78,6 +81,21 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
 
     const exportGroup = sceneGroup.clone(true);
 
+    // Deeply bake scale into geometry and position to bypass Quick Look root scale bugs.
+    // Quick Look often ignores the root node's transform matrix, which means exportGroup.scale
+    // would be ignored and the window would remain 1.4km tall, making it invisible from inside.
+    exportGroup.traverse((node: any) => {
+      if (node.isMesh && node.geometry) {
+        node.geometry = node.geometry.clone();
+        node.geometry.scale(0.001, 0.001, 0.001);
+      }
+      if (node.position) {
+        node.position.multiplyScalar(0.001);
+      }
+    });
+
+    exportGroup.updateMatrixWorld(true);
+
     // Restore original state on LIVE scene immediately
     restoreFunctions.forEach(fn => fn());
     
@@ -87,7 +105,22 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
     exportGroup.traverse((node: any) => {
       if (node.isMesh && node.material) {
         const processMaterial = (mat: any) => {
+          // Replace transmissive materials (glass) with an export-friendly transparent material
+          if (mat.transmission && mat.transmission > 0) {
+            return new THREE.MeshStandardMaterial({
+              color: 0xffffff,
+              transparent: true,
+              opacity: 0.25,        // this is what the exporter actually writes
+              metalness: 0,
+              roughness: 0.05,
+              side: THREE.FrontSide
+            });
+          }
+
           const m = mat.clone();
+          
+          // Force FrontSide to mitigate z-fighting on back faces of thin panels in Quick Look
+          m.side = THREE.FrontSide;
           
           // Set color fallback based on texture path before clearing maps
           if (m.map) {
@@ -122,7 +155,6 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
       }
     });
 
-    const clips = getAnimationClipsForTypology(typology || '');
     const exporter = new GLTFExporter();
     exporter.parse(
       exportGroup,
@@ -140,7 +172,7 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
         setModelUrl(url);
 
         // Upload to tmpfiles.org
-        uploadToTmpFiles(blob).then((pUrl) => {
+        uploadToTmpFiles(blob, 'window-scene.glb').then((pUrl) => {
           setPublicUrl(pUrl);
           // DO NOT override modelUrl with the public URL to avoid CORS/network failures in the browser!
           // We keep using the local blob URL for model-viewer / in-browser preview.
@@ -150,12 +182,30 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
         }).catch(err => {
           console.error('[ArViewer] Upload to tmpfiles.org failed, using local URL:', err);
         });
+
+        // --- NEW: GENERATE USDZ ---
+        (async () => {
+          try {
+            const usdzExporter = new USDZExporter();
+            // @ts-ignore
+            const usdzArray = await usdzExporter.parse(exportGroup);
+            const usdzBlob = new Blob([usdzArray as any], { type: 'model/vnd.usdz+zip' });
+            const localUsdzUrl = URL.createObjectURL(usdzBlob) + '#window-scene.usdz';
+            setUsdzUrl(localUsdzUrl);
+
+            uploadToTmpFiles(usdzBlob, 'window-scene.usdz').then((pUsdzUrl) => {
+              setPublicUsdzUrl(pUsdzUrl);
+            }).catch(e => console.error("[ArViewer] tmpfiles usdz upload fail", e));
+          } catch(e) {
+            console.error("[ArViewer] USDZ Export failed:", e);
+          }
+        })();
       },
       (err: any) => {
         console.error('GLTF Export Error:', err);
         setError('Failed to generate AR model.');
       },
-      { binary: true, animations: clips }
+      { binary: true } // Removed animations to prevent bounding box explosion in AR
     );
 
     return () => {
@@ -166,82 +216,19 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
         }
         return null;
       });
+      setUsdzUrl(prev => {
+        if (prev && prev.startsWith('blob:')) {
+          const cleanUrl = prev.split('#')[0];
+          URL.revokeObjectURL(cleanUrl);
+        }
+        return null;
+      });
       setPublicUrl(null);
+      setPublicUsdzUrl(null);
     };
   }, [sceneGroup]);
 
-  // ─── ANDROID: Needle Engine AR page (bypasses WebXR/blob issues) ─────────
-  if (isAndroid) {
-    const needleArUrl = '/ar-preview';
-    const host = typeof window !== 'undefined' && window.location.host && !window.location.host.includes('localhost') && !window.location.host.includes('127.0.0.1')
-      ? window.location.host
-      : 'configuratix-kohl.vercel.app';
-    const publicGlb = `https://${host}/models/window-scene.glb`;
-    const finalGlbUrl = publicUrl || publicGlb;
-    const encodedFallback = encodeURIComponent('https://developers.google.com/ar');
-    const sceneViewerFallback = `intent://arvr.google.com/scene-viewer/1.1?file=${encodeURIComponent(finalGlbUrl)}&mode=ar_preferred&title=Mammut%20Window&resizable=false#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=${encodedFallback};end;`;
-
-    return (
-      <div className="fixed inset-0 z-50 bg-[#0a0a0b] flex flex-col">
-        <div className="w-full bg-gray-900 text-white p-4 flex items-center justify-between shadow-md">
-          <h2 className="font-bold text-lg">AR Preview</h2>
-          <button
-            onClick={onClose}
-            className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-sm font-bold uppercase tracking-wider"
-          >
-            Close
-          </button>
-        </div>
-
-        <div className="flex-1 flex flex-col items-center justify-center gap-8 p-8">
-          {/* Scanning animation */}
-          <div className="w-32 h-40 border-2 border-mammut-gold/60 rounded-xl relative flex items-center justify-center overflow-hidden bg-gray-900/50">
-            <div
-              className="w-full h-[2px] bg-mammut-gold shadow-[0_0_12px_#cc9900]"
-              style={{ animation: 'arScan 2s ease-in-out infinite' }}
-            />
-          </div>
-          <style>{`@keyframes arScan { 0%{transform:translateY(-60px)} 50%{transform:translateY(60px)} 100%{transform:translateY(-60px)} }`}</style>
-
-          <div className="text-center max-w-xs">
-            <h3 className="text-white font-black text-xl uppercase tracking-widest mb-3">
-              Place on your {placement}
-            </h3>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              Opens the AR viewer — scan your {placement} and place the window at real scale.
-            </p>
-          </div>
-
-          {/* Primary: Needle Engine AR page */}
-          {modelUrl ? (
-            <a
-              href={needleArUrl}
-              className="w-full max-w-xs bg-mammut-gold text-black font-black uppercase tracking-widest py-5 rounded-2xl text-center shadow-[0_0_30px_rgba(234,182,118,0.4)] text-sm no-underline block animate-in fade-in"
-            >
-              Launch AR Viewer
-            </a>
-          ) : (
-            <button
-              disabled
-              className="w-full max-w-xs bg-gray-800 text-gray-500 font-black uppercase tracking-widest py-5 rounded-2xl text-center text-sm cursor-not-allowed border-none"
-            >
-              Preparing 3D AR Model...
-            </button>
-          )}
-
-          {/* Fallback: Google Scene Viewer via intent */}
-          <a
-            href={sceneViewerFallback}
-            className="w-full max-w-xs border border-gray-700 text-gray-400 font-bold uppercase tracking-widest py-3 rounded-xl text-center text-xs no-underline block hover:border-gray-500 hover:text-gray-300 transition-colors"
-          >
-            or Open in Google AR
-          </a>
-        </div>
-      </div>
-    );
-  }
-
-  // ─── iOS / Desktop: model-viewer with Apple Quick Look ───────────────────
+  // ─── UNIVERSAL: model-viewer for Android (Scene Viewer) & iOS (Quick Look) ───────────────────
   return (
     <div className="fixed inset-0 z-50 bg-black flex flex-col">
       <div className="w-full bg-gray-900 text-white p-4 flex items-center justify-between shadow-md z-10 relative">
@@ -261,9 +248,11 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
           <div className="text-mammut-gold font-bold p-8 text-center animate-pulse">Generating 3D AR Model...</div>
         ) : (
           <ModelViewer
-            src={modelUrl}
+            src={publicUrl || modelUrl}
+            ios-src={publicUsdzUrl || usdzUrl || undefined}
             ar="true"
-            ar-modes="quick-look"
+            ar-modes="scene-viewer webxr quick-look"
+            ar-scale="fixed"
             ar-placement={placement}
             camera-controls="true"
             auto-rotate="true"

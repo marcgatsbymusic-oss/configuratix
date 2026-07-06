@@ -1,1 +1,0 @@
-import{J as e,X as t,Y as n,Z as r}from"./index-CUhVRX9b.js";export{e as default,n as profiles,t as system,r as type};
