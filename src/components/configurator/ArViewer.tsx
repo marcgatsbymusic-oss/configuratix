@@ -41,19 +41,6 @@ function reverseWindingOrder(geometry: THREE.BufferGeometry) {
   }
 }
 
-async function uploadToTmpFiles(blob: Blob, filename = 'window-scene.glb'): Promise<string> {
-  const formData = new FormData();
-  formData.append('file', blob, filename);
-  const res = await fetch('https://tmpfiles.org/api/v1/upload', {
-    method: 'POST',
-    body: formData
-  });
-  if (!res.ok) throw new Error(`Upload failed: ${res.statusText}`);
-  const json = await res.json();
-  if (json.status !== 'success') throw new Error(json.message || 'Upload failed');
-  return json.data.url.replace('https://tmpfiles.org/', 'https://tmpfiles.org/dl/');
-}
-
 function pruneEmptyNodes(node: THREE.Object3D): boolean {
   let hasVisual = false;
   node.traverse((child) => {
@@ -231,18 +218,9 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
           console.error('[ArViewer] Error saving model to IndexedDB:', err);
         });
 
-        // For Android: Scene Viewer frequently crashes when sent a blob: URL over an intent,
-        // especially if WebXR is disabled (e.g. testing on local IP).
-        // Upload to tmpfiles to get a stable public HTTPS URL.
-        uploadToTmpFiles(blob, 'window-scene.glb')
-          .then(publicUrl => {
-            setModelUrl(publicUrl);
-          })
-          .catch(err => {
-            console.error("Tmpfiles upload failed:", err);
-            // Fallback to blob if upload fails (works for WebXR or some devices)
-            setModelUrl(url);
-          });
+        // Set pure inline blob URL without tmpfiles proxy swap.
+        // tmpfiles.org fails CORS, which prevents model-viewer from loading the model, rendering the AR button dead.
+        setModelUrl(url);
 
         // FIX 3: Explicitly generate USDZ and set ios-src
         (async () => {
