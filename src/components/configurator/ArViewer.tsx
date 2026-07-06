@@ -77,11 +77,10 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
 
           const geom = node.geometry.clone();
           
-          // Bake all world transforms (including negative scales!) directly into the geometry vertices
+          // Bake all world transforms directly into the geometry vertices
+          // Because the original scene graph has a `<group scale={0.001}>` wrapper,
+          // node.matrixWorld ALREADY contains the 0.001 scale factor! 
           geom.applyMatrix4(node.matrixWorld);
-          
-          // Scale down from millimeters to meters for AR
-          geom.scale(0.001, 0.001, 0.001);
 
           // Process material for AR safety
           let processedMat;
@@ -146,6 +145,20 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
         });
       }
     });
+
+    // Compute the exact bounding box of the baked geometries.
+    // We MUST shift the model so its bottom-center rests precisely at (0,0,0) in local space.
+    // Otherwise, Android Scene Viewer and iOS Quick Look might place it floating in the air or buried in the wall.
+    const box = new THREE.Box3().setFromObject(mergedGroup);
+    if (!box.isEmpty()) {
+      const center = new THREE.Vector3();
+      box.getCenter(center);
+      const bottomY = box.min.y;
+
+      mergedGroup.children.forEach((mesh: any) => {
+        mesh.geometry.translate(-center.x, -bottomY, -center.z);
+      });
+    }
 
     // 1. Export GLB
     const gltfExporter = new GLTFExporter();
