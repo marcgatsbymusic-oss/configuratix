@@ -15,6 +15,45 @@ interface ArViewerProps {
   typology?: string;
 }
 
+function reverseWindingOrder(geometry: THREE.BufferGeometry) {
+  const index = geometry.getIndex();
+  if (index !== null) {
+    const array = index.array;
+    for (let i = 0; i < array.length; i += 3) {
+      const temp = array[i];
+      array[i] = array[i + 2];
+      array[i + 2] = temp;
+    }
+  } else {
+    const position = geometry.getAttribute('position');
+    const array = position.array;
+    for (let i = 0; i < array.length; i += 9) {
+      const tempX = array[i];
+      const tempY = array[i + 1];
+      const tempZ = array[i + 2];
+      array[i] = array[i + 6];
+      array[i + 1] = array[i + 7];
+      array[i + 2] = array[i + 8];
+      array[i + 6] = tempX;
+      array[i + 7] = tempY;
+      array[i + 8] = tempZ;
+    }
+  }
+}
+
+async function uploadToTmpFiles(blob: Blob, filename = 'window-scene.glb'): Promise<string> {
+  const formData = new FormData();
+  formData.append('file', blob, filename);
+  const res = await fetch('https://tmpfiles.org/api/v1/upload', {
+    method: 'POST',
+    body: formData
+  });
+  if (!res.ok) throw new Error(`Upload failed: ${res.statusText}`);
+  const json = await res.json();
+  if (json.status !== 'success') throw new Error(json.message || 'Upload failed');
+  return json.data.url.replace('https://tmpfiles.org/', 'https://tmpfiles.org/dl/');
+}
+
 function pruneEmptyNodes(node: THREE.Object3D): boolean {
   let hasVisual = false;
   node.traverse((child) => {
@@ -77,21 +116,24 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
 
           const geom = node.geometry.clone();
           
+          // Check if this node was mirrored (negative scale). 
+          const isMirrored = node.matrixWorld.determinant() < 0;
+
           // Bake all world transforms directly into the geometry vertices
-          // Because the original scene graph has a `<group scale={0.001}>` wrapper,
-          // node.matrixWorld ALREADY contains the 0.001 scale factor! 
           geom.applyMatrix4(node.matrixWorld);
 
+          // If mirrored, the triangle winding order was flipped to clockwise!
+          // This causes normals to point inwards, which makes USDZ exporters and FrontSide rendering fail.
+          if (isMirrored) {
+            reverseWindingOrder(geom);
+          }
+
           // CRITICAL FIX: applyMatrix4 modifies vertices but leaves the cached bounding box in millimeters!
-          // GLTFExporter uses these cached boxes to write the `min`/`max` accessors. 
-          // If we don't recompute, Android thinks the model is 1.5 Kilometers wide and crashes.
           geom.computeBoundingBox();
           geom.computeBoundingSphere();
           
-          // USDZExporter is happiest with valid normals.
-          if (!geom.attributes.normal) {
-            geom.computeVertexNormals();
-          }
+          // USDZExporter is happiest with valid normals. Must be computed AFTER fixing winding order!
+          geom.computeVertexNormals();
 
           // Process material for AR safety
           let processedMat;
@@ -102,7 +144,7 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
               opacity: 0.25,
               metalness: 0,
               roughness: 0.05,
-              side: THREE.DoubleSide // Use DoubleSide to prevent invisible faces if negatively scaled
+              side: THREE.FrontSide // FrontSide! DoubleSide corrupts USDZ
             });
           } else {
             // Normalize EVERYTHING to MeshStandardMaterial. 
@@ -114,7 +156,7 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
               roughness: mat.roughness !== undefined ? mat.roughness : 0.5,
               transparent: mat.transparent || false,
               opacity: mat.opacity !== undefined ? mat.opacity : 1.0,
-              side: THREE.DoubleSide
+              side: THREE.FrontSide // FrontSide! DoubleSide corrupts USDZ
             });
             
             if (mat.map) {
@@ -189,8 +231,18 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
           console.error('[ArViewer] Error saving model to IndexedDB:', err);
         });
 
-        // FIX 2: Set pure inline blob URL without tmpfiles proxy swap
-        setModelUrl(url);
+        // For Android: Scene Viewer frequently crashes when sent a blob: URL over an intent,
+        // especially if WebXR is disabled (e.g. testing on local IP).
+        // Upload to tmpfiles to get a stable public HTTPS URL.
+        uploadToTmpFiles(blob, 'window-scene.glb')
+          .then(publicUrl => {
+            setModelUrl(publicUrl);
+          })
+          .catch(err => {
+            console.error("Tmpfiles upload failed:", err);
+            // Fallback to blob if upload fails (works for WebXR or some devices)
+            setModelUrl(url);
+          });
 
         // FIX 3: Explicitly generate USDZ and set ios-src
         (async () => {
