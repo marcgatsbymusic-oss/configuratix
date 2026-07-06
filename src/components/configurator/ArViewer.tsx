@@ -176,7 +176,8 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
       (gltf: any) => {
         const blob = new Blob([gltf as ArrayBuffer], { type: 'model/gltf-binary' });
         setBlobSize(blob.size);
-        const url = URL.createObjectURL(blob) + '#window-scene.glb';
+        // Do NOT append a hash to the GLB blob URL. Android Scene Viewer Intents can crash if the blob URI has a hash fragment.
+        const url = URL.createObjectURL(blob);
         
         saveModelToDB(blob).catch(err => {
           console.error('[ArViewer] Error saving model to IndexedDB:', err);
@@ -245,7 +246,7 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
             src={modelUrl}
             ios-src={usdzUrl || undefined}
             ar="true"
-            ar-modes="scene-viewer webxr quick-look"
+            ar-modes="webxr scene-viewer quick-look"
             ar-scale="fixed"
             ar-placement={placement}
             camera-controls="true"
