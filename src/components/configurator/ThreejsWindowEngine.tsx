@@ -244,6 +244,75 @@ const WindowAssembly = ({
     }
   }, [groupObj, extMaps, intMaps]);
 
+  React.useEffect(() => {
+    if (groupObj) {
+      groupObj.userData.prepareForAR = () => {
+        const tiltRadians = Math.asin(Math.min(150 / height, 1.0));
+        const restores: (() => void)[] = [];
+
+        if (leftPivotRef.current) {
+          const oldX = leftPivotRef.current.rotation.x;
+          const oldY = leftPivotRef.current.rotation.y;
+          let oldZ = 0;
+          if (leftHandleRef.current) {
+            const handle = leftHandleRef.current.getObjectByName('Handle') || leftHandleRef.current.getObjectByName('handle') || leftHandleRef.current.getObjectByName('Pencere_Kulbu');
+            if (handle) oldZ = handle.rotation.z;
+          }
+
+          leftPivotRef.current.rotation.x = -tiltRadians;
+          leftPivotRef.current.rotation.y = Math.PI / 4;
+          
+          if (leftHandleRef.current) {
+            const handle = leftHandleRef.current.getObjectByName('Handle') || leftHandleRef.current.getObjectByName('handle') || leftHandleRef.current.getObjectByName('Pencere_Kulbu');
+            if (handle) handle.rotation.z = Math.PI;
+          }
+          leftPivotRef.current.updateMatrixWorld(true);
+
+          restores.push(() => {
+            leftPivotRef.current!.rotation.x = oldX;
+            leftPivotRef.current!.rotation.y = oldY;
+            if (leftHandleRef.current) {
+              const handle = leftHandleRef.current.getObjectByName('Handle') || leftHandleRef.current.getObjectByName('handle') || leftHandleRef.current.getObjectByName('Pencere_Kulbu');
+              if (handle) handle.rotation.z = oldZ;
+            }
+            leftPivotRef.current!.updateMatrixWorld(true);
+          });
+        }
+
+        if (rightPivotRef.current && (typology === 'F200' || typology === 'F2XX1' || typology === 'F2MPX' || typology === 'F101C')) {
+          const oldX = rightPivotRef.current.rotation.x;
+          const oldY = rightPivotRef.current.rotation.y;
+          let oldZ = 0;
+          if (rightHandleRef.current) {
+            const handle = rightHandleRef.current.getObjectByName('Handle') || rightHandleRef.current.getObjectByName('handle') || rightHandleRef.current.getObjectByName('Pencere_Kulbu');
+            if (handle) oldZ = handle.rotation.z;
+          }
+
+          rightPivotRef.current.rotation.x = -tiltRadians;
+          rightPivotRef.current.rotation.y = -Math.PI / 4;
+          
+          if (rightHandleRef.current) {
+            const handle = rightHandleRef.current.getObjectByName('Handle') || rightHandleRef.current.getObjectByName('handle') || rightHandleRef.current.getObjectByName('Pencere_Kulbu');
+            if (handle) handle.rotation.z = -Math.PI;
+          }
+          rightPivotRef.current.updateMatrixWorld(true);
+
+          restores.push(() => {
+            rightPivotRef.current!.rotation.x = oldX;
+            rightPivotRef.current!.rotation.y = oldY;
+            if (rightHandleRef.current) {
+              const handle = rightHandleRef.current.getObjectByName('Handle') || rightHandleRef.current.getObjectByName('handle') || rightHandleRef.current.getObjectByName('Pencere_Kulbu');
+              if (handle) handle.rotation.z = oldZ;
+            }
+            rightPivotRef.current!.updateMatrixWorld(true);
+          });
+        }
+
+        return () => restores.forEach(fn => fn());
+      };
+    }
+  }, [groupObj, height, typology]);
+
   // Helper to extract the texture folder name and build PBR asset paths
   const resolveBakedPaths = (texturePath: string) => {
     console.log("[ThreejsWindowEngine] resolveBakedPaths input:", texturePath);

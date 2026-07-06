@@ -1,1 +1,0 @@
-import{G as e,K as t,W as n,q as r}from"./index-B8-Nm_8w.js";export{n as default,e as profiles,t as system,r as type};

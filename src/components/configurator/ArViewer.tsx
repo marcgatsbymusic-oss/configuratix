@@ -61,7 +61,25 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
   useEffect(() => {
     if (!sceneGroup) return;
 
+    // Prepare for AR export (run on LIVE scene so clone captures it)
+    const restoreFunctions: (() => void)[] = [];
+    sceneGroup.traverse((node: any) => {
+      if (node.userData && typeof node.userData.prepareForAR === 'function') {
+        try {
+          const restore = node.userData.prepareForAR();
+          if (typeof restore === 'function') {
+            restoreFunctions.push(restore);
+          }
+        } catch (e) {
+          console.error('[ArViewer] Error in prepareForAR:', e);
+        }
+      }
+    });
+
     const exportGroup = sceneGroup.clone(true);
+
+    // Restore original state on LIVE scene immediately
+    restoreFunctions.forEach(fn => fn());
     
     // Prune empty/non-visual nodes (like <Html> components) to prevent GLTFExporter errors
     pruneEmptyNodes(exportGroup);

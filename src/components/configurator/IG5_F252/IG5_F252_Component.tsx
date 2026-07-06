@@ -390,6 +390,32 @@ export const IG5_F252_Component: React.FC<IG5_F252Props> = ({
     handleRef.current.rotation.z = THREE.MathUtils.lerp(handleRef.current.rotation.z, handleRotZ, delta * lerpSpeedZ);
   });
 
+  const mainGroupRef = useRef<THREE.Group>(null);
+
+  useEffect(() => {
+    if (mainGroupRef.current && sashRef.current && handleRef.current) {
+      mainGroupRef.current.userData.prepareForAR = () => {
+        const oldX = sashRef.current!.rotation.x;
+        const oldY = sashRef.current!.rotation.y;
+        const oldZ = handleRef.current!.rotation.z;
+
+        const operableHeight = OperableSection === 'Top' ? TopSectionHeight : BottomSectionHeight;
+        sashRef.current!.rotation.x = Math.asin(150 / operableHeight); // Tilted
+        sashRef.current!.rotation.y = isMirrored ? -(30 * Math.PI / 180) : (30 * Math.PI / 180); // Opened 30 degrees
+        handleRef.current!.rotation.z = Math.PI; // Tilted handle
+
+        sashRef.current!.updateMatrixWorld(true);
+
+        return () => {
+          sashRef.current!.rotation.x = oldX;
+          sashRef.current!.rotation.y = oldY;
+          handleRef.current!.rotation.z = oldZ;
+          sashRef.current!.updateMatrixWorld(true);
+        };
+      };
+    }
+  });
+
   if (!geoms) {
     return null;
   }
@@ -397,7 +423,7 @@ export const IG5_F252_Component: React.FC<IG5_F252Props> = ({
   const getMat = (key: string) => materials[key as keyof typeof materials] || materials.int;
 
   return (
-    <group>
+    <group ref={mainGroupRef}>
       {/* FRAME */}
       {geoms.frameMeshes.map((m, i) => (
         <mesh key={`f-${i}`} geometry={m.geom} material={m.matKey === 'glass' ? undefined : getMat(m.matKey)} castShadow={!isThumbnail} receiveShadow={!isThumbnail} frustumCulled={false}>
