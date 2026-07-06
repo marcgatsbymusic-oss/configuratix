@@ -87,6 +87,11 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
           // If we don't recompute, Android thinks the model is 1.5 Kilometers wide and crashes.
           geom.computeBoundingBox();
           geom.computeBoundingSphere();
+          
+          // USDZExporter is happiest with valid normals.
+          if (!geom.attributes.normal) {
+            geom.computeVertexNormals();
+          }
 
           // Process material for AR safety
           let processedMat;
@@ -100,11 +105,20 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
               side: THREE.DoubleSide // Use DoubleSide to prevent invisible faces if negatively scaled
             });
           } else {
-            processedMat = mat.clone();
-            processedMat.side = THREE.DoubleSide; // Fix normals for mirrored DXF parts
+            // Normalize EVERYTHING to MeshStandardMaterial. 
+            // USDZExporter handles MeshStandardMaterial/MeshPhysicalMaterial well 
+            // but can emit broken USDZ for Basic/Lambert/Phong materials.
+            processedMat = new THREE.MeshStandardMaterial({
+              color: mat.color ? mat.color.clone() : new THREE.Color(0xffffff),
+              metalness: mat.metalness !== undefined ? mat.metalness : 0,
+              roughness: mat.roughness !== undefined ? mat.roughness : 0.5,
+              transparent: mat.transparent || false,
+              opacity: mat.opacity !== undefined ? mat.opacity : 1.0,
+              side: THREE.DoubleSide
+            });
             
-            if (processedMat.map) {
-              const src = processedMat.map.image?.src || '';
+            if (mat.map) {
+              const src = mat.map.image?.src || '';
               const srcLower = src.toLowerCase();
               if (srcLower.includes('oak') || srcLower.includes('wood')) {
                 processedMat.color.set('#a16207');
@@ -116,14 +130,6 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
                 processedMat.color.set('#f9fafb');
               }
             }
-
-            // Strip textures to keep the blob tiny
-            for (const key in processedMat) {
-              if (processedMat[key] && processedMat[key].isTexture) {
-                processedMat[key] = null;
-              }
-            }
-            processedMat.needsUpdate = true;
           }
 
           // We use a unique string key based on color/opacity to group materials
@@ -191,7 +197,7 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
           try {
             const usdzExporter = new USDZExporter();
             // @ts-ignore
-            const usdzArray = await usdzExporter.parse(mergedGroup);
+            const usdzArray = await usdzExporter.parseAsync(mergedGroup);
             const usdzBlob = new Blob([usdzArray as any], { type: 'model/vnd.usdz+zip' });
             // The '#window-scene.usdz' hash at the end is crucial for iOS Quick Look to recognize the blob correctly
             const localUsdzUrl = URL.createObjectURL(usdzBlob) + '#window-scene.usdz';
