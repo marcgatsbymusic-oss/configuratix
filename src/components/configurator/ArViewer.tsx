@@ -1,25 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
+import { USDZExporter } from 'three/examples/jsm/exporters/USDZExporter.js';
 import '@google/model-viewer';
 
 const ModelViewer = 'model-viewer' as any;
 
-import { saveModelToDB, savePublicUrlToDB } from '../../utils/arStorage';
-
-// Helper to upload GLB to tmpfiles.org for public AR sharing (fallback for non-blob environments)
-async function uploadToTmpFiles(blob: Blob, filename = 'window-scene.glb'): Promise<string> {
-  const formData = new FormData();
-  formData.append('file', blob, filename);
-  const res = await fetch('https://tmpfiles.org/api/v1/upload', {
-    method: 'POST',
-    body: formData
-  });
-  if (!res.ok) throw new Error(`Upload failed: ${res.statusText}`);
-  const json = await res.json();
-  if (json.status !== 'success') throw new Error(json.message || 'Upload failed');
-  return json.data.url.replace('https://tmpfiles.org/', 'https://tmpfiles.org/dl/');
-}
+import { saveModelToDB } from '../../utils/arStorage';
 
 interface ArViewerProps {
   sceneGroup: THREE.Group | THREE.Scene | null;
@@ -51,11 +38,11 @@ function pruneEmptyNodes(node: THREE.Object3D): boolean {
 
 export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClose, typology }) => {
   const [modelUrl, setModelUrl] = useState<string | null>(null);
+  const [usdzUrl, setUsdzUrl]   = useState<string | null>(null);
   const [error, setError]       = useState<string | null>(null);
   const [blobSize, setBlobSize] = useState<number | null>(null);
-  const [publicUrl, setPublicUrl] = useState<string | null>(null);
 
-  // Export Three.js scene → GLB blob.
+  // Export Three.js scene → GLB blob & USDZ blob.
   useEffect(() => {
     if (!sceneGroup) return;
 
@@ -83,63 +70,67 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
     exportGroup.updateMatrixWorld(true);
 
     exportGroup.traverse((node: any) => {
-      if (node.isMesh && node.geometry) {
-        const geom = node.geometry.clone();
-        
-        // Bake all world transforms (including negative scales!) directly into the geometry vertices
-        geom.applyMatrix4(node.matrixWorld);
-        
-        // Scale down from millimeters to meters for AR
-        geom.scale(0.001, 0.001, 0.001);
+      try {
+        if (node.isMesh && node.geometry) {
+          let mat = Array.isArray(node.material) ? node.material[0] : node.material;
+          if (!mat) return; // FIX 1: Guard against null material crashing the loop
 
-        let mat = Array.isArray(node.material) ? node.material[0] : node.material;
-        
-        // Process material for AR safety
-        let processedMat;
-        if (mat.transmission && mat.transmission > 0) {
-          processedMat = new THREE.MeshStandardMaterial({
-            color: 0xffffff,
-            transparent: true,
-            opacity: 0.25,
-            metalness: 0,
-            roughness: 0.05,
-            side: THREE.DoubleSide // Use DoubleSide to prevent invisible faces if negatively scaled
-          });
-        } else {
-          processedMat = mat.clone();
-          processedMat.side = THREE.DoubleSide; // Fix normals for mirrored DXF parts
+          const geom = node.geometry.clone();
           
-          if (processedMat.map) {
-            const src = processedMat.map.image?.src || '';
-            const srcLower = src.toLowerCase();
-            if (srcLower.includes('oak') || srcLower.includes('wood')) {
-              processedMat.color.set('#a16207');
-            } else if (srcLower.includes('anthracite') || srcLower.includes('dark')) {
-              processedMat.color.set('#374151');
-            } else if (srcLower.includes('gray') || srcLower.includes('grey')) {
-              processedMat.color.set('#9ca3af');
-            } else if (srcLower.includes('white')) {
-              processedMat.color.set('#f9fafb');
+          // Bake all world transforms (including negative scales!) directly into the geometry vertices
+          geom.applyMatrix4(node.matrixWorld);
+          
+          // Scale down from millimeters to meters for AR
+          geom.scale(0.001, 0.001, 0.001);
+
+          // Process material for AR safety
+          let processedMat;
+          if (mat.transmission && mat.transmission > 0) {
+            processedMat = new THREE.MeshStandardMaterial({
+              color: 0xffffff,
+              transparent: true,
+              opacity: 0.25,
+              metalness: 0,
+              roughness: 0.05,
+              side: THREE.DoubleSide // Use DoubleSide to prevent invisible faces if negatively scaled
+            });
+          } else {
+            processedMat = mat.clone();
+            processedMat.side = THREE.DoubleSide; // Fix normals for mirrored DXF parts
+            
+            if (processedMat.map) {
+              const src = processedMat.map.image?.src || '';
+              const srcLower = src.toLowerCase();
+              if (srcLower.includes('oak') || srcLower.includes('wood')) {
+                processedMat.color.set('#a16207');
+              } else if (srcLower.includes('anthracite') || srcLower.includes('dark')) {
+                processedMat.color.set('#374151');
+              } else if (srcLower.includes('gray') || srcLower.includes('grey')) {
+                processedMat.color.set('#9ca3af');
+              } else if (srcLower.includes('white')) {
+                processedMat.color.set('#f9fafb');
+              }
             }
+
+            // Strip textures to keep the blob tiny
+            for (const key in processedMat) {
+              if (processedMat[key] && processedMat[key].isTexture) {
+                processedMat[key] = null;
+              }
+            }
+            processedMat.needsUpdate = true;
           }
 
-          // Strip textures to keep the blob tiny
-          for (const key in processedMat) {
-            if (processedMat[key] && processedMat[key].isTexture) {
-              processedMat[key] = null;
-            }
+          // We use a unique string key based on color/opacity to group materials
+          const matKey = `${(processedMat as THREE.MeshStandardMaterial).color.getHex()}-${processedMat.opacity}`;
+          
+          if (!materialsMap.has(matKey)) {
+            materialsMap.set(matKey, { material: processedMat, geometries: [] });
           }
-          processedMat.needsUpdate = true;
+          materialsMap.get(matKey)!.geometries.push(geom);
         }
-
-        // We use a unique string key based on color/opacity to group materials, 
-        // because cloning creates different UUIDs.
-        const matKey = `${(processedMat as THREE.MeshStandardMaterial).color.getHex()}-${processedMat.opacity}`;
-        
-        if (!materialsMap.has(matKey)) {
-          materialsMap.set(matKey, { material: processedMat, geometries: [] });
-        }
-        materialsMap.get(matKey)!.geometries.push(geom);
+      } catch (e) {
+        console.error('[ArViewer] Error flattening mesh:', e);
       }
     });
 
@@ -156,8 +147,9 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
       }
     });
 
-    const exporter = new GLTFExporter();
-    exporter.parse(
+    // 1. Export GLB
+    const gltfExporter = new GLTFExporter();
+    gltfExporter.parse(
       mergedGroup,
       (gltf: any) => {
         const blob = new Blob([gltf as ArrayBuffer], { type: 'model/gltf-binary' });
@@ -168,16 +160,23 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
           console.error('[ArViewer] Error saving model to IndexedDB:', err);
         });
 
+        // FIX 2: Set pure inline blob URL without tmpfiles proxy swap
         setModelUrl(url);
 
-        uploadToTmpFiles(blob, 'window-scene.glb').then((pUrl) => {
-          setPublicUrl(pUrl);
-          savePublicUrlToDB(pUrl).catch(err => {
-            console.error('[ArViewer] Error saving public URL to IndexedDB:', err);
-          });
-        }).catch(err => {
-          console.error('[ArViewer] Upload to tmpfiles.org failed, using local URL:', err);
-        });
+        // FIX 3: Explicitly generate USDZ and set ios-src
+        (async () => {
+          try {
+            const usdzExporter = new USDZExporter();
+            // @ts-ignore
+            const usdzArray = await usdzExporter.parse(mergedGroup);
+            const usdzBlob = new Blob([usdzArray as any], { type: 'model/vnd.usdz+zip' });
+            // The '#window-scene.usdz' hash at the end is crucial for iOS Quick Look to recognize the blob correctly
+            const localUsdzUrl = URL.createObjectURL(usdzBlob) + '#window-scene.usdz';
+            setUsdzUrl(localUsdzUrl);
+          } catch(e) {
+            console.error("[ArViewer] USDZ Export failed:", e);
+          }
+        })();
       },
       (err: any) => {
         console.error('GLTF Export Error:', err);
@@ -193,7 +192,12 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
         }
         return null;
       });
-      setPublicUrl(null);
+      setUsdzUrl(prev => {
+        if (prev && prev.startsWith('blob:')) {
+          URL.revokeObjectURL(prev.split('#')[0]);
+        }
+        return null;
+      });
     };
   }, [sceneGroup]);
 
@@ -216,7 +220,8 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
           <div className="text-mammut-gold font-bold p-8 text-center animate-pulse">Generating 3D AR Model...</div>
         ) : (
           <ModelViewer
-            src={publicUrl || modelUrl}
+            src={modelUrl}
+            ios-src={usdzUrl || undefined}
             ar="true"
             ar-modes="scene-viewer webxr quick-look"
             ar-scale="fixed"
