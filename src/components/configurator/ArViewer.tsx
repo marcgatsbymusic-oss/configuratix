@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
-import { USDZExporter } from 'three/examples/jsm/exporters/USDZExporter.js';
 import '@google/model-viewer';
 
 const ModelViewer = 'model-viewer' as any;
 
-import { saveModelToDB, savePublicUrlToDB, getAnimationClipsForTypology } from '../../utils/arStorage';
+import { saveModelToDB, savePublicUrlToDB } from '../../utils/arStorage';
 
-
-
-// Helper to upload GLB or USDZ to tmpfiles.org for public AR sharing
+// Helper to upload GLB to tmpfiles.org for public AR sharing (fallback for non-blob environments)
 async function uploadToTmpFiles(blob: Blob, filename = 'window-scene.glb'): Promise<string> {
   const formData = new FormData();
   formData.append('file', blob, filename);
@@ -57,10 +54,8 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
   const [error, setError]       = useState<string | null>(null);
   const [blobSize, setBlobSize] = useState<number | null>(null);
   const [publicUrl, setPublicUrl] = useState<string | null>(null);
-  const [usdzUrl, setUsdzUrl] = useState<string | null>(null);
-  const [publicUsdzUrl, setPublicUsdzUrl] = useState<string | null>(null);
 
-  // Export Three.js scene → GLB blob and USDZ blob.
+  // Export Three.js scene → GLB blob.
   useEffect(() => {
     if (!sceneGroup) return;
 
@@ -82,8 +77,6 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
     const exportGroup = sceneGroup.clone(true);
 
     // Deeply bake scale into geometry and position to bypass Quick Look root scale bugs.
-    // Quick Look often ignores the root node's transform matrix, which means exportGroup.scale
-    // would be ignored and the window would remain 1.4km tall, making it invisible from inside.
     exportGroup.traverse((node: any) => {
       if (node.isMesh && node.geometry) {
         node.geometry = node.geometry.clone();
@@ -99,18 +92,17 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
     // Restore original state on LIVE scene immediately
     restoreFunctions.forEach(fn => fn());
     
-    // Prune empty/non-visual nodes (like <Html> components) to prevent GLTFExporter errors
+    // Prune empty/non-visual nodes
     pruneEmptyNodes(exportGroup);
 
     exportGroup.traverse((node: any) => {
       if (node.isMesh && node.material) {
         const processMaterial = (mat: any) => {
-          // Replace transmissive materials (glass) with an export-friendly transparent material
           if (mat.transmission && mat.transmission > 0) {
             return new THREE.MeshStandardMaterial({
               color: 0xffffff,
               transparent: true,
-              opacity: 0.25,        // this is what the exporter actually writes
+              opacity: 0.25,
               metalness: 0,
               roughness: 0.05,
               side: THREE.FrontSide
@@ -118,26 +110,22 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
           }
 
           const m = mat.clone();
-          
-          // Force FrontSide to mitigate z-fighting on back faces of thin panels in Quick Look
           m.side = THREE.FrontSide;
           
-          // Set color fallback based on texture path before clearing maps
           if (m.map) {
             const src = m.map.image?.src || '';
             const srcLower = src.toLowerCase();
             if (srcLower.includes('oak') || srcLower.includes('wood')) {
-              m.color.set('#a16207'); // Warm oak brown fallback
+              m.color.set('#a16207');
             } else if (srcLower.includes('anthracite') || srcLower.includes('dark')) {
-              m.color.set('#374151'); // Anthracite grey fallback
+              m.color.set('#374151');
             } else if (srcLower.includes('gray') || srcLower.includes('grey')) {
-              m.color.set('#9ca3af'); // Grey fallback
+              m.color.set('#9ca3af');
             } else if (srcLower.includes('white')) {
-              m.color.set('#f9fafb'); // White fallback
+              m.color.set('#f9fafb');
             }
           }
 
-          // Clear all textures from the material recursively
           for (const key in m) {
             if (m[key] && m[key].isTexture) {
               m[key] = null;
@@ -163,72 +151,39 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
         setBlobSize(blob.size);
         const url = URL.createObjectURL(blob) + '#window-scene.glb';
         
-        // Save to IndexedDB for the full-screen AR page to consume
         saveModelToDB(blob).catch(err => {
           console.error('[ArViewer] Error saving model to IndexedDB:', err);
         });
 
-        // Set local fallback first
         setModelUrl(url);
 
-        // Upload to tmpfiles.org
         uploadToTmpFiles(blob, 'window-scene.glb').then((pUrl) => {
           setPublicUrl(pUrl);
-          // DO NOT override modelUrl with the public URL to avoid CORS/network failures in the browser!
-          // We keep using the local blob URL for model-viewer / in-browser preview.
           savePublicUrlToDB(pUrl).catch(err => {
             console.error('[ArViewer] Error saving public URL to IndexedDB:', err);
           });
         }).catch(err => {
           console.error('[ArViewer] Upload to tmpfiles.org failed, using local URL:', err);
         });
-
-        // --- NEW: GENERATE USDZ ---
-        (async () => {
-          try {
-            const usdzExporter = new USDZExporter();
-            // @ts-ignore
-            const usdzArray = await usdzExporter.parse(exportGroup);
-            const usdzBlob = new Blob([usdzArray as any], { type: 'model/vnd.usdz+zip' });
-            const localUsdzUrl = URL.createObjectURL(usdzBlob) + '#window-scene.usdz';
-            setUsdzUrl(localUsdzUrl);
-
-            uploadToTmpFiles(usdzBlob, 'window-scene.usdz').then((pUsdzUrl) => {
-              setPublicUsdzUrl(pUsdzUrl);
-            }).catch(e => console.error("[ArViewer] tmpfiles usdz upload fail", e));
-          } catch(e) {
-            console.error("[ArViewer] USDZ Export failed:", e);
-          }
-        })();
       },
       (err: any) => {
         console.error('GLTF Export Error:', err);
         setError('Failed to generate AR model.');
       },
-      { binary: true } // Removed animations to prevent bounding box explosion in AR
+      { binary: true }
     );
 
     return () => {
       setModelUrl(prev => {
         if (prev && prev.startsWith('blob:')) {
-          const cleanUrl = prev.split('#')[0];
-          URL.revokeObjectURL(cleanUrl);
-        }
-        return null;
-      });
-      setUsdzUrl(prev => {
-        if (prev && prev.startsWith('blob:')) {
-          const cleanUrl = prev.split('#')[0];
-          URL.revokeObjectURL(cleanUrl);
+          URL.revokeObjectURL(prev.split('#')[0]);
         }
         return null;
       });
       setPublicUrl(null);
-      setPublicUsdzUrl(null);
     };
   }, [sceneGroup]);
 
-  // ─── UNIVERSAL: model-viewer for Android (Scene Viewer) & iOS (Quick Look) ───────────────────
   return (
     <div className="fixed inset-0 z-50 bg-black flex flex-col">
       <div className="w-full bg-gray-900 text-white p-4 flex items-center justify-between shadow-md z-10 relative">
@@ -249,7 +204,6 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
         ) : (
           <ModelViewer
             src={publicUrl || modelUrl}
-            ios-src={publicUsdzUrl || usdzUrl || undefined}
             ar="true"
             ar-modes="scene-viewer webxr quick-look"
             ar-scale="fixed"
