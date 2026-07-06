@@ -82,6 +82,12 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
           // node.matrixWorld ALREADY contains the 0.001 scale factor! 
           geom.applyMatrix4(node.matrixWorld);
 
+          // CRITICAL FIX: applyMatrix4 modifies vertices but leaves the cached bounding box in millimeters!
+          // GLTFExporter uses these cached boxes to write the `min`/`max` accessors. 
+          // If we don't recompute, Android thinks the model is 1.5 Kilometers wide and crashes.
+          geom.computeBoundingBox();
+          geom.computeBoundingSphere();
+
           // Process material for AR safety
           let processedMat;
           if (mat.transmission && mat.transmission > 0) {
@@ -157,6 +163,9 @@ export const ArViewer: React.FC<ArViewerProps> = ({ sceneGroup, placement, onClo
 
       mergedGroup.children.forEach((mesh: any) => {
         mesh.geometry.translate(-center.x, -bottomY, -center.z);
+        // CRITICAL FIX: translate also modifies vertices, so recompute boxes again!
+        mesh.geometry.computeBoundingBox();
+        mesh.geometry.computeBoundingSphere();
       });
     }
 
