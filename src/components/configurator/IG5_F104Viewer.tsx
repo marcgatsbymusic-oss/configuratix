@@ -115,7 +115,7 @@ export const IG5_F104Viewer: React.FC<IG5_F104ViewerProps> = ({
 
   return (
     <div className="relative w-full h-full" style={{ minHeight: isThumbnail ? '200px' : '400px', background: 'radial-gradient(circle, #ffffff 0%, #e6e4e0 100%)' }}>
-      <Canvas dpr={isThumbnail ? 1 : [1, 1.5]} shadows={!isThumbnail} camera={{ position: [W_M / 2, H_M / 2, cameraZ], fov: 45 }} gl={{ powerPreference: 'high-performance', antialias: !isThumbnail, localClippingEnabled: false, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.1, outputColorSpace: THREE.SRGBColorSpace }} onPointerDown={isThumbnail ? undefined : resetAutoRotate}>
+      <Canvas dpr={isThumbnail ? 1 : [1, 2]} shadows={!isThumbnail} camera={{ position: [W_M / 2, H_M / 2, cameraZ], fov: 45 }} gl={{ powerPreference: 'high-performance', antialias: !isThumbnail, localClippingEnabled: false, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.1, outputColorSpace: THREE.SRGBColorSpace }} onPointerDown={isThumbnail ? undefined : resetAutoRotate}>
         {!isThumbnail && <RendererDiagnostics />}
         <ambientLight intensity={0.40} />
         <directionalLight

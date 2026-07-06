@@ -172,7 +172,7 @@ export const F252Viewer: React.FC<F252ViewerProps> = ({
 
   return (
     <div className="relative w-full h-full" style={{ minHeight: isThumbnail ? '200px' : '400px', background: 'radial-gradient(circle, #ffffff 0%, #e6e4e0 100%)' }}>
-      <Canvas dpr={isThumbnail ? 1 : [1, IS_MOBILE ? 1.5 : 2]} shadows={!isThumbnail} camera={{ position: [W_M / 2, H_M / 2, cameraZ], fov: 45 }} gl={{ powerPreference: IS_MOBILE ? 'default' : 'high-performance', antialias: !isThumbnail && !IS_MOBILE, localClippingEnabled: false, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.0, outputColorSpace: THREE.SRGBColorSpace }}>
+      <Canvas dpr={isThumbnail ? 1 : [1, 2]} shadows={!isThumbnail} camera={{ position: [W_M / 2, H_M / 2, cameraZ], fov: 45 }} gl={{ powerPreference: IS_MOBILE ? 'default' : 'high-performance', antialias: !isThumbnail, localClippingEnabled: false, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.0, outputColorSpace: THREE.SRGBColorSpace }}>
         {import.meta.env.DEV && !isThumbnail && <RendererDiagnostics />}
         <color attach="background" args={['#e8e8e8']} />
         <directionalLight
