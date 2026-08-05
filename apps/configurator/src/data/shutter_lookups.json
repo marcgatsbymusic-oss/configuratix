@@ -1,0 +1,152 @@
+{
+  "rollerBlindTypes": [
+    {
+      "value": "RNV",
+      "label": "RNV (Standard)"
+    },
+    {
+      "value": "RA",
+      "label": "RA (Exterior)"
+    },
+    {
+      "value": "RS",
+      "label": "RS (Facade)"
+    },
+    {
+      "value": "RSZ",
+      "label": "RSZ"
+    },
+    {
+      "value": "RAOW",
+      "label": "RAOW"
+    },
+    {
+      "value": "RA90",
+      "label": "RA90"
+    }
+  ],
+  "windowScreens": [
+    {
+      "value": "",
+      "label": "Lack (-)"
+    },
+    {
+      "value": "MOSK",
+      "label": "Mosquito Net (MKT)"
+    }
+  ],
+  "windowScreenLocations": [
+    {
+      "value": "IN",
+      "label": "Inside"
+    },
+    {
+      "value": "OUT",
+      "label": "Outside"
+    }
+  ],
+  "curtainTypes": [
+    {
+      "value": "",
+      "label": "Lack (-)"
+    },
+    {
+      "value": "ALU37",
+      "label": "ALU 37mm"
+    },
+    {
+      "value": "ALU42",
+      "label": "ALU 42mm"
+    },
+    {
+      "value": "ALU55",
+      "label": "ALU 55mm"
+    }
+  ],
+  "finsPerforations": [
+    {
+      "value": "PERF",
+      "label": "Perforated"
+    },
+    {
+      "value": "NOPERF",
+      "label": "Non-Perforated"
+    }
+  ],
+  "driveTypes": [
+    {
+      "value": "",
+      "label": "Lack (-)"
+    },
+    {
+      "value": "PKS",
+      "label": "Drive: PKS"
+    }
+  ],
+  "controlSides": [
+    {
+      "value": "L",
+      "label": "Left"
+    },
+    {
+      "value": "R",
+      "label": "Right"
+    }
+  ],
+  "doorChecks": [
+    {
+      "value": "STD",
+      "label": "Standard"
+    }
+  ],
+  "boxTypes": [
+    {
+      "value": "SP",
+      "label": "Standard Profile (SP)"
+    },
+    {
+      "value": "SK",
+      "label": "Square (SK)"
+    }
+  ],
+  "plasterCarriers": [
+    {
+      "value": "YES",
+      "label": "Yes"
+    },
+    {
+      "value": "NO",
+      "label": "No"
+    }
+  ],
+  "reviews": [
+    {
+      "value": "BOT",
+      "label": "From Bottom"
+    },
+    {
+      "value": "IN",
+      "label": "From Inside"
+    }
+  ],
+  "guideRailsCuttings": [
+    {
+      "value": "STD",
+      "label": "Standard"
+    },
+    {
+      "value": "CUST",
+      "label": "Custom"
+    }
+  ],
+  "guideRailsTypes": [
+    {
+      "value": "PVC",
+      "label": "PVC"
+    },
+    {
+      "value": "ALU",
+      "label": "Aluminum"
+    }
+  ]
+}

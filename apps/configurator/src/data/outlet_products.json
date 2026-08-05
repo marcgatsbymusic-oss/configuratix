@@ -1,0 +1,4680 @@
+[
+  {
+    "id": 129,
+    "name": "DUOLINE - 68",
+    "type": "Window",
+    "height": 1000,
+    "width": 1500,
+    "material": "Wood",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "RAL 7016 M - mat",
+    "price": 260.47,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "4cfb04644229b05df7b83c98d9e58ee2",
+      "aa55e4fc22d2ebf7c76eb6c9cc9165b7",
+      "4e0a22b167173915b269e27342770e1f"
+    ],
+    "localImages": [
+      "/outlet/4cfb04644229b05df7b83c98d9e58ee2.jpg",
+      "/outlet/4e0a22b167173915b269e27342770e1f.jpg",
+      "/outlet/summary_129.png"
+    ]
+  },
+  {
+    "id": 449,
+    "name": "DUOLINE - 78",
+    "type": "Balcony",
+    "height": 2400,
+    "width": 1100,
+    "material": "Wood",
+    "openability": "Inward",
+    "innerColor": "085 teak",
+    "outerColor": "RAL 7016 M - mat",
+    "price": 518.11,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "b51305becdd9e315776a89933d5a6896",
+      "d9169f3557618bb7309106d5a7bb4c1b",
+      "b9eecda194c358087104917394dd4525"
+    ],
+    "localImages": [
+      "/outlet/b9eecda194c358087104917394dd4525.jpg",
+      "/outlet/d9169f3557618bb7309106d5a7bb4c1b.jpg",
+      "/outlet/summary_449.png"
+    ]
+  },
+  {
+    "id": 445,
+    "name": "DUOLINE - 88",
+    "type": "Balcony",
+    "height": 2400,
+    "width": 1100,
+    "material": "Wood",
+    "openability": "Inward",
+    "innerColor": "czarny szary gładki (7021) 02.11.71.000042.097",
+    "outerColor": "RAL 7016 M - mat",
+    "price": 478.16,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "89e195d9e090789c16991d6c1e2ab879",
+      "338ae2e572047d2f8f53693904769ca0",
+      "01b6d77950adec0bdcd39e497d2f35cd"
+    ],
+    "localImages": [
+      "/outlet/89e195d9e090789c16991d6c1e2ab879.jpg",
+      "/outlet/01b6d77950adec0bdcd39e497d2f35cd.jpg",
+      "/outlet/summary_445.png"
+    ]
+  },
+  {
+    "id": 446,
+    "name": "DUOLINE - 88",
+    "type": "Window",
+    "height": 1500,
+    "width": 1300,
+    "material": "Wood",
+    "openability": "Inward",
+    "innerColor": "006 dąb jasny",
+    "outerColor": "RAL 7016 M - mat",
+    "price": 378.12,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "21f3caf9b5352a1428dbdae9da12066c",
+      "32ab0893123365cd3f1bf844f34f1c81",
+      "d68598f9469aae7613e6a9d9f8653b1d"
+    ],
+    "localImages": [
+      "/outlet/21f3caf9b5352a1428dbdae9da12066c.jpg",
+      "/outlet/d68598f9469aae7613e6a9d9f8653b1d.jpg",
+      "/outlet/summary_446.png"
+    ]
+  },
+  {
+    "id": 450,
+    "name": "DUOLINE - 88",
+    "type": "Window",
+    "height": 1500,
+    "width": 1300,
+    "material": "Wood",
+    "openability": "Inward",
+    "innerColor": "006 dąb jasny",
+    "outerColor": "RAL 9005",
+    "price": 621.87,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "d23919fd9eae6f233322055e15a50bb6",
+      "9a82d19c53366e376be4299514b84ae5",
+      "9677bb17f981f4c5eb672b9d6ece1619"
+    ],
+    "localImages": [
+      "/outlet/9677bb17f981f4c5eb672b9d6ece1619.jpg",
+      "/outlet/9a82d19c53366e376be4299514b84ae5.jpg",
+      "/outlet/summary_450.png"
+    ]
+  },
+  {
+    "id": 642,
+    "name": "DUOLINE - 88",
+    "type": "Window",
+    "height": 1500,
+    "width": 1300,
+    "material": "Wood",
+    "openability": "Inward",
+    "innerColor": "RAL 6005 T - drobna struktura",
+    "outerColor": "RAL 6005 T - drobna struktura",
+    "price": 482.92,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "170a6f310cbc0f9ff27f5d43056bf5a3",
+      "c5834a6f5222ce4676d25fc5ec44dae1",
+      "2305ea8ce2eb923185f56f8fa556590a"
+    ],
+    "localImages": [
+      "/outlet/170a6f310cbc0f9ff27f5d43056bf5a3.jpg",
+      "/outlet/c5834a6f5222ce4676d25fc5ec44dae1.jpg",
+      "/outlet/summary_642.png"
+    ]
+  },
+  {
+    "id": 1048,
+    "name": "IDEAL NEO 76 AD",
+    "type": "Window",
+    "height": 1600,
+    "width": 1650,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Nut 2178007-167",
+    "price": 136.46,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "448c12c2a5a9afe7103e75e07ec3805a",
+      "c4da3869b87fd532ab2943c4a0a1acc5",
+      "9aa1e22c576b61cc59c7c0a510364c77"
+    ],
+    "localImages": [
+      "/outlet/ideal_neo_brown_frame.png",
+      "/outlet/ideal_neo_white_frame.png",
+      "/outlet/448c12c2a5a9afe7103e75e07ec3805a.jpg",
+      "/outlet/c4da3869b87fd532ab2943c4a0a1acc5.jpg",
+      "/outlet/summary_1048.png"
+    ]
+  },
+  {
+    "id": 515,
+    "name": "Iglo 5",
+    "type": "Door",
+    "height": 2430,
+    "width": 940,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Anthracite 701605-167",
+    "price": 420.72,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "387871618996afba68534e698f6b6c4b",
+      "c53feadedbcc2df1d4f4837aa2577884",
+      "c20fec7e938362ef8bbed47f91cf3e7b"
+    ],
+    "localImages": [
+      "/outlet/iglo5_515_1_ai.png",
+      "/outlet/iglo5_515_2_ai.png",
+      "/outlet/387871618996afba68534e698f6b6c4b.jpg",
+      "/outlet/c20fec7e938362ef8bbed47f91cf3e7b.jpg",
+      "/outlet/summary_515.png"
+    ]
+  },
+  {
+    "id": 347,
+    "name": "Iglo 5",
+    "type": "Door",
+    "height": 1810,
+    "width": 990,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Golden Oak 2178001-167",
+    "outerColor": "Veneer Golden Oak 2178001-167",
+    "price": 254.71,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "928352c410e9bab48d32482ffa0a04fb",
+      "7b847e8b78d44403a868212a1ddab34a",
+      "c7177bb5a66c1630646db2eb02f07646"
+    ],
+    "localImages": [
+      "/outlet/iglo5_347_1_ai.png",
+      "/outlet/iglo5_347_2_ai.png",
+      "/outlet/928352c410e9bab48d32482ffa0a04fb.jpg",
+      "/outlet/7b847e8b78d44403a868212a1ddab34a.jpg",
+      "/outlet/summary_347.png"
+    ]
+  },
+  {
+    "id": 780,
+    "name": "Iglo 5",
+    "type": "Door",
+    "height": 2110,
+    "width": 1000,
+    "material": "PCV",
+    "openability": "Outward",
+    "innerColor": "Veneer Sheffield Oak Light F456-3081",
+    "outerColor": "Veneer Sheffield Oak Light F456-3081",
+    "price": 419.86,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "e7e89dbae12e49263a08e786c5699864",
+      "0b4e109f9bb0fc955e01dc6ecb92e323",
+      "8ab1a964171c1dc5ffa19f135ba1c90a"
+    ],
+    "localImages": [
+      "/outlet/e7e89dbae12e49263a08e786c5699864.jpg",
+      "/outlet/8ab1a964171c1dc5ffa19f135ba1c90a.jpg",
+      "/outlet/summary_780.png"
+    ]
+  },
+  {
+    "id": 254,
+    "name": "Iglo 5",
+    "type": "Door",
+    "height": 2190,
+    "width": 1545,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 460.87,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "9cc48f71c7a12570b5f0ee0d02dc6358",
+      "eef06db699fca833b405f44476fabf2a",
+      "ecf97fa19234f454eae72efa37b96357"
+    ],
+    "localImages": [
+      "/outlet/9cc48f71c7a12570b5f0ee0d02dc6358.jpg",
+      "/outlet/eef06db699fca833b405f44476fabf2a.jpg",
+      "/outlet/summary_254.png"
+    ]
+  },
+  {
+    "id": 331,
+    "name": "Iglo 5",
+    "type": "Renovation, Window",
+    "height": 1480,
+    "width": 860,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "Veneer Chocolate Brown 887505-167",
+    "price": 69.23,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "3c1354cb8a7d8a64d993b1a0b12c34c2",
+      "14957c7abb4a6e259b336f197f9d3fc5",
+      "c297af4a6c8e486507f2452fc4a020d0"
+    ],
+    "localImages": [
+      "/outlet/c297af4a6c8e486507f2452fc4a020d0.jpg",
+      "/outlet/14957c7abb4a6e259b336f197f9d3fc5.jpg",
+      "/outlet/summary_331.png"
+    ]
+  },
+  {
+    "id": 409,
+    "name": "Iglo 5",
+    "type": "Door",
+    "height": 2400,
+    "width": 1100,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Anthracite Ulti-Matt 02.20.71.000001-504700-047",
+    "outerColor": "Veneer Anthracite Ulti-Matt 02.20.71.000001-504700-047",
+    "price": 786.85,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "4a0783af23db993528a8ac89839d6ae3",
+      "a73f4d8e7632329ebe4d811dc24243e6",
+      "7fcebc5079dfd31ccb7cf39030ed44a9"
+    ],
+    "localImages": [
+      "/outlet/4a0783af23db993528a8ac89839d6ae3.jpg",
+      "/outlet/7fcebc5079dfd31ccb7cf39030ed44a9.jpg",
+      "/outlet/summary_409.png"
+    ]
+  },
+  {
+    "id": 423,
+    "name": "Iglo 5",
+    "type": "Door",
+    "height": 2430,
+    "width": 1055,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 452.15,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "5b236ce37a23947a489d51ff70e04053",
+      "9acfd316d664c4f5e2e7bf6e9f22fc44",
+      "7c8bb1ece48579d14935cabdf1ce8a89"
+    ],
+    "localImages": [
+      "/outlet/5b236ce37a23947a489d51ff70e04053.jpg",
+      "/outlet/7c8bb1ece48579d14935cabdf1ce8a89.jpg",
+      "/outlet/summary_423.png"
+    ]
+  },
+  {
+    "id": 775,
+    "name": "Iglo 5",
+    "type": "Balcony",
+    "height": 2185,
+    "width": 1720,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Golden Oak 2178001-167",
+    "price": 391.59,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "82ae4cc304ca70e409031eb5dd27e8fc",
+      "d7dad7373cbfbb29519466a99cdb6b15",
+      "c904d4ad6a629b61c0f87f4bd875513d"
+    ],
+    "localImages": [
+      "/outlet/c904d4ad6a629b61c0f87f4bd875513d.jpg",
+      "/outlet/d7dad7373cbfbb29519466a99cdb6b15.jpg",
+      "/outlet/summary_775.png"
+    ]
+  },
+  {
+    "id": 491,
+    "name": "Iglo 5",
+    "type": "Door",
+    "height": 2050,
+    "width": 980,
+    "material": "PCV",
+    "openability": "Outward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 426.43,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "8ee20013dd2cf89933d035308c2f5024",
+      "d91f83e5f44a167136e8beb530b69c66",
+      "dd8bc9bffa8e061e2fec5a3496693c23"
+    ],
+    "localImages": [
+      "/outlet/8ee20013dd2cf89933d035308c2f5024.jpg",
+      "/outlet/d91f83e5f44a167136e8beb530b69c66.jpg",
+      "/outlet/summary_491.png"
+    ]
+  },
+  {
+    "id": 238,
+    "name": "Iglo 5",
+    "type": "Renovation, Door",
+    "height": 2520,
+    "width": 1070,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Nut 2178007-167",
+    "outerColor": "Veneer Nut 2178007-167",
+    "price": 372.06,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "2460bbf44ac67ab41889299ae23ad2e0",
+      "dde475d81867cf02ce9963a0a44ee7fe",
+      "a116c80fe5ead5e7e64005096b22ff82"
+    ],
+    "localImages": [
+      "/outlet/2460bbf44ac67ab41889299ae23ad2e0.jpg",
+      "/outlet/a116c80fe5ead5e7e64005096b22ff82.jpg",
+      "/outlet/summary_238.png"
+    ]
+  },
+  {
+    "id": 774,
+    "name": "Iglo 5",
+    "type": "Door",
+    "height": 2380,
+    "width": 1100,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Anthracite 701605-167",
+    "price": 660.47,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "63fd37f90fe7a4aeabed9059c1be7115",
+      "afed3e2142efe793f3e2dfb4e7b183b8",
+      "0c91a0a44b5942296ffdcb5c22b6f3a3"
+    ],
+    "localImages": [
+      "/outlet/63fd37f90fe7a4aeabed9059c1be7115.jpg",
+      "/outlet/0c91a0a44b5942296ffdcb5c22b6f3a3.jpg",
+      "/outlet/summary_774.png"
+    ]
+  },
+  {
+    "id": 773,
+    "name": "Iglo 5",
+    "type": "Door",
+    "height": 1955,
+    "width": 970,
+    "material": "PCV",
+    "openability": "Outward",
+    "innerColor": "Veneer Anthracite 701605-167",
+    "outerColor": "Veneer Anthracite 701605-167",
+    "price": 555.29,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "cd66d95899af5f67c1120789bf9643c4",
+      "4fc6cc84c5f5f6df8700dc056abea86f",
+      "4e93b70de9c257945a24ecc46c6d3db0"
+    ],
+    "localImages": [
+      "/outlet/cd66d95899af5f67c1120789bf9643c4.jpg",
+      "/outlet/4e93b70de9c257945a24ecc46c6d3db0.jpg",
+      "/outlet/summary_773.png"
+    ]
+  },
+  {
+    "id": 626,
+    "name": "Iglo 5",
+    "type": "Door",
+    "height": 2130,
+    "width": 1560,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Anthracite 701605-167",
+    "price": 492.08,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "c7ad7eacccc80820ed1c3ec7a62c4903",
+      "7ca3425129a371425d15505b0c916fcc",
+      "fea6ae2c4648b7075ba09ab69f54f879"
+    ],
+    "localImages": [
+      "/outlet/c7ad7eacccc80820ed1c3ec7a62c4903.jpg",
+      "/outlet/7ca3425129a371425d15505b0c916fcc.jpg",
+      "/outlet/summary_626.png"
+    ]
+  },
+  {
+    "id": 278,
+    "name": "Iglo 5",
+    "type": "Door",
+    "height": 2675,
+    "width": 895,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Nut 2178007-167",
+    "outerColor": "Veneer Nut 2178007-167",
+    "price": 399.03,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "88ffd3b61732bf7de885b838aeb718ed",
+      "8eec0acc44b5e3bd0c32f2bda400c2ff",
+      "dd0480efba2900c560ba22ffff3125e8"
+    ],
+    "localImages": [
+      "/outlet/dd0480efba2900c560ba22ffff3125e8.jpg",
+      "/outlet/8eec0acc44b5e3bd0c32f2bda400c2ff.jpg",
+      "/outlet/summary_278.png"
+    ]
+  },
+  {
+    "id": 826,
+    "name": "Iglo 5",
+    "type": "Window",
+    "height": 1500,
+    "width": 1300,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer White FX-915205-168",
+    "outerColor": "Veneer White FX-915205-168",
+    "price": 470.32,
+    "currency": "EUR",
+    "addons": "Shutter",
+    "imageHashes": [
+      "f69442295d7ab92f0b057f8b67ba8669",
+      "870d80e9aadddeaa002b81aebeb29f56",
+      "f2dd29556b2705020de12c1d445724d6"
+    ],
+    "localImages": [
+      "/outlet/f2dd29556b2705020de12c1d445724d6.jpg",
+      "/outlet/870d80e9aadddeaa002b81aebeb29f56.jpg",
+      "/outlet/summary_826.png"
+    ]
+  },
+  {
+    "id": 922,
+    "name": "Iglo 5",
+    "type": "Window",
+    "height": 1530,
+    "width": 1910,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer White FX-915205-168",
+    "outerColor": "Veneer Dark Red 308105-167",
+    "price": 241.96,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "67c4b542a5b09e050b1600adfdd15d95",
+      "9c46fe9f3a5fcf30e02f1169e44c5d47"
+    ],
+    "localImages": [
+      "/outlet/9c46fe9f3a5fcf30e02f1169e44c5d47.jpg",
+      "/outlet/summary_922.png"
+    ]
+  },
+  {
+    "id": 813,
+    "name": "Iglo 5",
+    "type": "Renovation, Door",
+    "height": 1985,
+    "width": 890,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Nut 2178007-167",
+    "outerColor": "Veneer Nut 2178007-167",
+    "price": 284.78,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "01603c6d3336f8403fc0140637da8900",
+      "fb9e813d707f84c928dc0f019efc3b4f",
+      "e70ed202d96e0251e4690f2d08a88a12"
+    ],
+    "localImages": [
+      "/outlet/01603c6d3336f8403fc0140637da8900.jpg",
+      "/outlet/fb9e813d707f84c928dc0f019efc3b4f.jpg",
+      "/outlet/summary_813.png"
+    ]
+  },
+  {
+    "id": 949,
+    "name": "Iglo 5",
+    "type": "Door",
+    "height": 2230,
+    "width": 1280,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 543.17,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "4eab2c7fb1b398eb88c09cc4355e8853",
+      "a265119d2a6b5dc87cd132c5a6c5a6b7",
+      "dadd9a457a5e22af09a5889db64dfd4e"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 910,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 1370,
+    "width": 750,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 53.07,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "e4d57ff19c0c3879fff146137580c3a5",
+      "53d149acf7c05fcd72160dd09ea66302",
+      "b5593fb0e6c5d09f54a963e39349b398"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 69,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Balcony",
+    "height": 2270,
+    "width": 745,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 149.7,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "ec9baac33a644018c5c1afffbfddc4f5",
+      "2c4efc4743db4ea5da75663e1751a43d",
+      "014893fa1074751ec1f62bffe668dd1f"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 83,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 1846,
+    "width": 2426,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Anthracite 701605-167",
+    "price": 235.2,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "666182c9098b4cb8ae7e9d9deff79e62",
+      "9fa495858687a0b8630d230a63bf2863",
+      "43bfa6455d25c8d40184f7b1640bb750"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 61,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 1610,
+    "width": 1480,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 225.45,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "216b39b03bf3a3be9af9b9edcd52619b",
+      "85876c2072fdd057ced0e6bedebfc539",
+      "5244c3f10c3cd4efb63737d21d02326f",
+      "a29e604388144f0e63a05f25640fdb26"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 909,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 1370,
+    "width": 750,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 53.07,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "16302d504462511fcef4c95a8daa70ad",
+      "71063f3eb22ca0ee560b9a8bdd7c324d",
+      "ffeb37f4d5a882fd98eb5dabeae84e0f"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 73,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Balcony",
+    "height": 2540,
+    "width": 980,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Grey 715505-167",
+    "price": 352.6,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "5fcf54a651767772bb4c12df8cd0ecaa",
+      "599702d36ec9100ed8b8f4fa54d8d454",
+      "ad7e2f7ffd91799bf8055e9c20abb8b5"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 270,
+    "name": "Iglo 5 Classic",
+    "type": "Balcony",
+    "height": 2498,
+    "width": 1020,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 138.85,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "9ebb5954decd1c26780d4405764e0619",
+      "bafcf47cf51834806e2d9a38a285777e",
+      "bdf958c3c1263ed9f60d969967b23278"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 344,
+    "name": "Iglo 5 Classic",
+    "type": "Balcony",
+    "height": 2600,
+    "width": 1690,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Anthracite Ulti-Matt 02.20.71.000001-504700-047",
+    "outerColor": "Veneer Nut 2178007-167",
+    "price": 422.68,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "408fbdedb9f3838827edf67cac6a172a",
+      "d28d1bbe769c794870549ad6d0e78e8a",
+      "160129f1ca927b1a88344bf0349abc82"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 199,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 1300,
+    "width": 2840,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Nut 2178007-167",
+    "outerColor": "Veneer Nut 2178007-167",
+    "price": 349.55,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "488d77cefc689554c538df84e4a4dd23",
+      "5b4b97d91576cca8871367dfe9680348",
+      "7ef619e1dd93860cc40c4eb26a063ae3"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 220,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 1300,
+    "width": 2840,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Nut 2178007-167",
+    "outerColor": "Veneer Nut 2178007-167",
+    "price": 349.55,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "bf86ba31632f540b624293957c5ce217",
+      "f80c0d0e6e7631d23d7852a42ab482a9",
+      "5d573b74585a148e0e0bc5519ca99489"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 196,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 1860,
+    "width": 2130,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 162.89,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "9df740f6ede1b997ff1eac36524ed92f",
+      "4050d87ac630549a9938ab9d38274a10",
+      "b996f48be877d8dbfb57f3ffba820bca"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 192,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 2721,
+    "width": 1130,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "Veneer Black Ulti-Matt 02.20.01.000002-504700-047",
+    "outerColor": "Veneer Black Ulti-Matt 02.20.01.000002-504700-047",
+    "price": 84.67,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "05bea6c4115e11496f7a74418e9ceb5b",
+      "76fa14b8f9d49058a883dbe5bede6e76",
+      "6d30bd0ee6ea367ef7c7d145030c1765"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 240,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Window",
+    "height": 1490,
+    "width": 935,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Dark Red 308105-167",
+    "price": 148.34,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "1af7a5253c981f9113b4bac6424c0164",
+      "ead82fdd51f2c2ee9468db89621a6176",
+      "6fe30f93334e28fc52c2fe0420db6069"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 88,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Window",
+    "height": 1270,
+    "width": 750,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer White FX-915205-168",
+    "outerColor": "Veneer White FX-915205-168",
+    "price": 102.43,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "2e81dc6532dd9ea5bf236f7c3e0a885c",
+      "406fec31218780e6ddb067bebee773c6",
+      "44ae6dc389c896b8bbf92eae916163ca"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1141,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Balcony",
+    "height": 2128,
+    "width": 1516,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Sheffield Oak Light F456-3081",
+    "outerColor": "Veneer Sheffield Oak Light F456-3081",
+    "price": 290.54,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "7525d078f3baaf924b318eeb7569224c",
+      "b7ff0c5f3f3b8c5365edb6337d201de9",
+      "305f090ca717f36121a898cfcd89ce41"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 210,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Balcony",
+    "height": 2140,
+    "width": 790,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 217.08,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "b31d81653d68ae81e0322e60fdc9e97d",
+      "a8bbc3d6f45ea91d182d6a460f4d210f",
+      "7256996713a012fd73594c8be87b17bf"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 203,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 2521,
+    "width": 1130,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "Veneer Black Ulti-Matt 02.20.01.000002-504700-047",
+    "outerColor": "Veneer Black Ulti-Matt 02.20.01.000002-504700-047",
+    "price": 80.54,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "d47628b6a521d31247ff34b8ddcfe3d9",
+      "7114e1a24eeca0056a92eb3e75d9d0e8",
+      "7346496a2fdf54adbb066f27289d2d92"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 237,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Window",
+    "height": 1490,
+    "width": 935,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Dark Red 308105-167",
+    "price": 148.34,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "d719f8a463b7e3a9a2e7a6b2b5ed0336",
+      "2decb6a6ee450d67945b894c4e595bda",
+      "40d00e2c078169c902a49acbd1687a79"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 68,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Balcony",
+    "height": 2270,
+    "width": 745,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 149.7,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "e9e4b691869b76769bbba838997aaade",
+      "c42cf85bf52fe0678422b4aa54516cac",
+      "b4e71a82eac4fa47a8d6c4adbbe4fc66"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 255,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 1806,
+    "width": 1117,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 181.44,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "0aeb6fca223e3f3dfe1d8aecc4c26b3d",
+      "f541bd1c6f64b8dbe232390e488cc550",
+      "203793deff956d9afc5153e4689cabfa"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 403,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 1770,
+    "width": 1740,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "Veneer Anthracite 701605-167",
+    "price": 73.89,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "6092dcc395f5ac03a05406aaff909c85",
+      "c524bd0b4f2a3d81f801e44ffb0446f4",
+      "7507e84ce154a98d1a5201d10a9fbffb"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 904,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 1370,
+    "width": 750,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 53.07,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "ea32cea31f0e112e29ac116c2bc0c66c",
+      "7a6497e6815c40768a92d3d965cc28e6",
+      "69c4d9b2cde0ef2cc98466e2f92487d5"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 410,
+    "name": "Iglo 5 Classic",
+    "type": "Balcony",
+    "height": 2400,
+    "width": 1100,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Sheffield Oak Light F456-3081",
+    "outerColor": "Veneer Sheffield Oak Light F456-3081",
+    "price": 297.4,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "92dc2205fba8f275dbf4b4c184078c83",
+      "b70ef2a53790c0e789980330dd8bf332",
+      "2927aa2cf42b2a50969ae777ef855c61",
+      "a11021d405d3ac517dca3060f7eaaae8"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 186,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Balcony",
+    "height": 2476,
+    "width": 1650,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 299.42,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "dd43739425f566e4561738877b335b13",
+      "8ae05abf26c859c3ae13e7eebdb588f4",
+      "37e19b3f6ceefa8b6dd0b39d14d0c326"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 185,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Balcony",
+    "height": 2476,
+    "width": 1650,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 299.42,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "8208603e6fcae97f16bd1223218a1b34",
+      "af930e524926e3fb0cbbd5b274171fa7",
+      "1335b9837a6f43def79310450acb9d35"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1137,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Window",
+    "height": 2139,
+    "width": 481,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "Veneer Sheffield Oak Light F456-3081",
+    "outerColor": "Veneer Sheffield Oak Light F456-3081",
+    "price": 93.46,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "4662546b25ab1e834d9ba5906dfeace7",
+      "ad395765095df3664f5de8c6eaca2a93",
+      "80bcb9481eb001448daffbf6cd02864d"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 184,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Balcony",
+    "height": 2476,
+    "width": 1650,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 299.42,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "0d1105cab1ca50bd0aa7f448f6b401e8",
+      "ec076daa2793b1afcff4b44563383626",
+      "fb435f62a957ebda6e582007b9098ad4"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 98,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Window",
+    "height": 1720,
+    "width": 1650,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 159.5,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "07640f172407c099599289ffc15a21e3",
+      "df3cbabe0c16e4ce55d97dd49c47ef4d",
+      "ca752f23f344c04296ec758991a0f1e1"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 201,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Balcony",
+    "height": 2453,
+    "width": 1249,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 253.82,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "d095b2da8c7ee339dcd5e724e1a909e2",
+      "1869b1b821f3e5d59bf927e5c10ee31b"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1136,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Window",
+    "height": 2122,
+    "width": 488,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "Veneer Sheffield Oak Light F456-3081",
+    "outerColor": "Veneer Sheffield Oak Light F456-3081",
+    "price": 93.51,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "ecf2f0abd33cb3a10b72585072f6edc0",
+      "043abe07e22d52751cce853269e93467",
+      "fc0ed20e7f4ca3108566e26181d7620f"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 233,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Balcony",
+    "height": 2200,
+    "width": 1900,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer White FX-915205-168",
+    "outerColor": "Veneer White FX-915205-168",
+    "price": 316.78,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "04fd978716f7b87a80fa1a4e3845b98f",
+      "5d7c1823ab63f8f6a0e6bf1cc75d4932",
+      "2251c1368c49cd3720284348649e8831",
+      "29dcc52a21cd0dbf811d84ad13dcb1ee"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 150,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 2370,
+    "width": 3144,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 411.97,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "6cb9a102331175765db70f5f269ab781",
+      "3255796823161eb93ff351677f5402c7"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1142,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Window",
+    "height": 1139,
+    "width": 1497,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Sheffield Oak Light F456-3081",
+    "outerColor": "Veneer Sheffield Oak Light F456-3081",
+    "price": 173.84,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "29b5b40cec588ec8fa2c0a5c202385b7",
+      "402681f843e44a96ec028d65ed648280",
+      "059a5e57f581f3824d504aeb37526d5a"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 84,
+    "name": "Iglo 5 Classic",
+    "type": "Balcony",
+    "height": 2220,
+    "width": 2150,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 442.83,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "c2090266775fc344cec2a1836b30d77c",
+      "84b12412034f3ac56b277bc7662cbcde",
+      "5e7cc07d72861f47a47d3b5fe4363cf4"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 242,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Window",
+    "height": 1490,
+    "width": 935,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Dark Red 308105-167",
+    "price": 148.34,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "22d692b660967abc29f968b5e60c334e",
+      "d761d64a04067728ce4b685342282c58",
+      "032d3555bad1119b3bd5b2da28e5720b"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 39,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Balcony",
+    "height": 2270,
+    "width": 745,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 120.69,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "a3e6321df4026063116000aaabfbcc21",
+      "277ff497cffbedba3a75dcb5f5b94e2b",
+      "ffaf5b6a67d2f0535c9ead4d7e2a0c51"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 282,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 1190,
+    "width": 1190,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 97,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "cc0cccbb2e990a259f4da700bb48984d",
+      "dbf5e193a895a038fd18e5fc43d2aea8",
+      "7ce212ae49b1a5371bdf0b0acea10c7e"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 379,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Balcony",
+    "height": 2000,
+    "width": 1090,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Nut 2178007-167",
+    "outerColor": "Veneer Nut 2178007-167",
+    "price": 183.24,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "99d10a9f8f543c3134529c6d4e8b8b8b",
+      "f99b7523c0fdad0eab6837af5159a7eb",
+      "619c3d2b8ed139b9e1ace157745b95e3"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 241,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Window",
+    "height": 1490,
+    "width": 935,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Dark Red 308105-167",
+    "price": 148.34,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "7484bde37fe7b5a97f93342184f2ad5e",
+      "ac558aa7fa5dc38048b3b2ea2d7fe282",
+      "19c48c643b4bbcbd1d0569106026f672"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 277,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Window",
+    "height": 1680,
+    "width": 1040,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 153.96,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "2aa77687c640cb2bf358996faa8dc09a",
+      "4a9d16a12f622d0f194d4042c51f5d09",
+      "baa60366e3a7ce58277b81281dec1859"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1060,
+    "name": "Iglo 5 Classic",
+    "type": "Balcony",
+    "height": 2730,
+    "width": 915,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 199.87,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "d1d52ba7e1e9282d56812a4184a00cc4",
+      "8e6e38a3255ffbe6f3ce1cd262f01086",
+      "7a53df15343f0f479fb60c1b3810edfa"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 375,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 1900,
+    "width": 1750,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 236.99,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "3a97a2b49d51ec34b1af93fd4dd4d421",
+      "6aa3568356bc91ca67258fe399e5669e",
+      "edaa462f76c312e5afdf380df5b05dff"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 916,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 1370,
+    "width": 750,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 53.07,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "8c0ba4ca2e9766c9b0c7b37ebd1bf863",
+      "54998b8c37d913bb2201f6133c95e1ee",
+      "632a763ceddaefa6185ef21461a8d28e"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 906,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 1370,
+    "width": 750,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 53.07,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "4a6bd892bf386a9a92cbc2175b77d343",
+      "0cd18e99efc965a27c5000aa1c2ec7c6",
+      "f58e35821a25ee53c49de69b7fbf290c"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 159,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Balcony",
+    "height": 2476,
+    "width": 1650,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 299.42,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "c3306d95c7504534d4023100d3bbd202",
+      "460bd57a56d33c98e0c0c7f2e5c3e37c",
+      "0bf6afb835bbea126e22583590da8c62"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 917,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 1370,
+    "width": 750,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 53.07,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "7e7c0205b453ef6748bdf04d13c597d0",
+      "52027adc7bd0cf7af351afa7a06b2d82",
+      "6e2aee6b75eb2431833a0a66e3fc9dbc"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 187,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Balcony",
+    "height": 2476,
+    "width": 1650,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 299.42,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "a3976eaba22d5a748214d03df7e2cf21",
+      "854a733bdf49185cadcd5102d4f995b9",
+      "61fb1db7f5117b8eab9e1379e402c1e7"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1143,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Window",
+    "height": 1139,
+    "width": 1116,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Sheffield Oak Light F456-3081",
+    "outerColor": "Veneer Sheffield Oak Light F456-3081",
+    "price": 147.97,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "ca8ff541e3f43b5253446c8df77dcfb0",
+      "6cfc764156fc70ae3316bb50b96f4e12",
+      "5afd8899ea40c69e1a6a1901f1e1da06"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 380,
+    "name": "Iglo 5 Classic",
+    "type": "Balcony",
+    "height": 2400,
+    "width": 1090,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 265.78,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "125e389627d777a6b5f7e903542bb89c",
+      "a0522935505a12ca2103026c0ddde289",
+      "05e0aeda8e131977d45340a0fc6fb716"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 72,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Balcony",
+    "height": 2540,
+    "width": 980,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Grey 715505-167",
+    "price": 411.65,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "aa1938368fd2601151610c41022c8331",
+      "9b3505a87ec615b58f37fcd1e345ff23",
+      "1957b536abb077f0f94954061bb9be18"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 70,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 1730,
+    "width": 990,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 143.79,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "0a4b03d06855364507e055cdbebc6eb7",
+      "5076bfbc0fde2260b229e6abc371c30f",
+      "01b68dedede0afaeee7fe2eca94fdfda"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1138,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Window",
+    "height": 1139,
+    "width": 666,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Sheffield Oak Light F456-3081",
+    "outerColor": "Veneer Sheffield Oak Light F456-3081",
+    "price": 97.52,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "07561fb452c3c39ada1a810ef26ca6e5",
+      "6f00c259cf47f1512ec4d07388baa665",
+      "bbd146e37f643069788b87ebce0b18b9"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 732,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Balcony",
+    "height": 2177,
+    "width": 1192,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer White FX-915205-168",
+    "outerColor": "Veneer White FX-915205-168",
+    "price": 276.73,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "d3629f35a7f7c6bea5e108d5a4c4ef7e",
+      "b067a7370a48b5877fdea9b8adaa78f8",
+      "762dba3bec44bf7de261de8ddffd91de"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1151,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Balcony",
+    "height": 2157,
+    "width": 826,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Sheffield Oak Light F456-3081",
+    "outerColor": "Veneer Sheffield Oak Light F456-3081",
+    "price": 192.28,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "4ac38df0971d02e53beeb3672d295fbd",
+      "762a48c46a5825bba1c5886c72e8a7f1",
+      "942a85d1d7e19418e80e6871a40889f7"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 808,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 1500,
+    "width": 1300,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "Veneer Light Grey 725105-167",
+    "outerColor": "Veneer Light Grey 725105-167",
+    "price": 256.17,
+    "currency": "EUR",
+    "addons": "Shutter",
+    "imageHashes": [
+      "c405654557c6ec77a71ebe9c39eed73d",
+      "d36b9b6d0c1ef542c0bc5501a5ab9615",
+      "0b7791cb01fdfded99b69b1a5d4849f4"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 128,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Balcony",
+    "height": 2055,
+    "width": 1170,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 248.91,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "dfddc2decc3579562b09d55d920408cf",
+      "9c4c00e697a71fc04f60bbd7b827ca5e",
+      "a69981a0deff806e2d57e40d79586a06"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 67,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Balcony",
+    "height": 2270,
+    "width": 745,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 149.7,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "31dd1184dd8736e1b275bb2b27627fcf",
+      "7fef2bdc6033ebbf4416c4f3f78c1a7d",
+      "dade30a9153c0b59f26ab67c797ec8eb"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 499,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 2090,
+    "width": 1100,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 214.04,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "a14f177073012d05cd1e2167dbc4e45a",
+      "3ed2258ac9a7f5b3b9027428a2c438d7",
+      "1feafac4f7ec8a74692dd55093b32f3c"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 548,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 2550,
+    "width": 912,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Nut 2178007-167",
+    "outerColor": "Veneer Nut 2178007-167",
+    "price": 97.65,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "c12ed8e42504f2464e313725b510757a",
+      "ebbcb8a36b05bcd49f506c0d938d4715",
+      "3a6b2056d8575b86e87724e5645dd664"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1144,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Window",
+    "height": 1139,
+    "width": 1116,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Sheffield Oak Light F456-3081",
+    "outerColor": "Veneer Sheffield Oak Light F456-3081",
+    "price": 147.97,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "163c297c13059ced9f93910584a32901",
+      "7237fa0f0ae52801f6538de18ddddcd9",
+      "bce3008910114280e57d3723c2a61aa1"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 231,
+    "name": "Iglo 5 Classic",
+    "type": "Balcony",
+    "height": 2345,
+    "width": 950,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 114.35,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "8fb9064cde2746c7085a35bc586500c8",
+      "6a682a815281a7a3abcc9aa8fa6fa7d4",
+      "cacf67b744a0543c847b60be438eccbe"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 861,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 435,
+    "width": 873,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "Veneer Douglas 3152009-167",
+    "outerColor": "Veneer Douglas 3152009-167",
+    "price": 55.96,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "006ac394232c70ec63e710e7e9ca6f5c",
+      "f7581c21aa09df272bbd2c8c19f87cc6",
+      "7f42ced984c4c1cd9791fdb38418f2b5"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 812,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 1500,
+    "width": 1300,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Anthracite Ulti-Matt 02.20.71.000001-504700-047",
+    "outerColor": "Veneer Anthracite Ulti-Matt 02.20.71.000001-504700-047",
+    "price": 234.88,
+    "currency": "EUR",
+    "addons": "Shutter",
+    "imageHashes": [
+      "07565cc76c8a9a824ef4fcbb953e8ea7",
+      "0aea8e0178efa2d2efb9254fd24a9e54",
+      "d8ffe36f92a61535245c1bcfbe979e59"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 850,
+    "name": "Iglo 5 Classic",
+    "type": "Other",
+    "height": 2085,
+    "width": 885,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 192.74,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "4b316a1bc3b6fd576e9e9f2965c50f64",
+      "487d77c8be48e0fbb5335d5c7a2dd331",
+      "08d9f91adefff71ebcf70e2c6149eb89"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 216,
+    "name": "Iglo 5 Classic",
+    "type": "Renovation, Balcony",
+    "height": 2453,
+    "width": 1249,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 253.82,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "265be366bbc0ff44b18e1c4720382bd2",
+      "8f1f7ad56e5292bbc713c53867daeccf"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1085,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 1555,
+    "width": 1650,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 170.13,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "f53919f01b82cfd32c6a0193b064f648",
+      "382641850e66c89686789d785e6b0a05",
+      "acf0bae20b36a3aeeae6689b75c5edf4",
+      "94e10b4fd5530c0c5a45d46a883b4e0d"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 585,
+    "name": "Iglo 5 Classic",
+    "type": "Window",
+    "height": 2085,
+    "width": 936,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 130.51,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "0662a00b3002a1759698cc637890969c",
+      "d6842e519e7575b4f594029cad133b2a",
+      "82c3597a90265110e2d7d1302d8baa6f"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 284,
+    "name": "Iglo Edge",
+    "type": "Window",
+    "height": 2615,
+    "width": 1600,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "Veneer Basalt Grey 701205-167",
+    "outerColor": "Veneer Basalt Grey 701205-167",
+    "price": 323.92,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "d1d29a95007e386d26897afa8e372d8b",
+      "e58c881346cc1ad408873905d4bececd",
+      "06cb185dcc93eb76780b7f6b31a6fbf5"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 271,
+    "name": "Iglo Edge",
+    "type": "Balcony",
+    "height": 2155,
+    "width": 1880,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Black Ulti-Matt 02.20.01.000002-504700-047",
+    "outerColor": "Veneer Black Ulti-Matt 02.20.01.000002-504700-047",
+    "price": 254.36,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "a48c02daea224a6dabd87105f81eb20d",
+      "a7361e34081aa6589db1ee00f3c6aad0",
+      "474783e2cae162ca495212d7f55da742"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1017,
+    "name": "Iglo Edge",
+    "type": "Window",
+    "height": 2280,
+    "width": 1470,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Anthracite 701605-167",
+    "price": 197.23,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "b7affd688c79fed2142e8d87d221623b",
+      "a3a900dec65325c573fa99019b6f77f8",
+      "5c4991b3a69c895715a3c5c87e0da56a"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1018,
+    "name": "Iglo Edge",
+    "type": "Window",
+    "height": 2280,
+    "width": 1470,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Anthracite 701605-167",
+    "price": 197.23,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "b42b9dbf174297644c175f017e0afeff",
+      "ba26b9488765aa1dd2f0d94f9d36203e",
+      "7a30725033ed355e82121b72641ece5e"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1019,
+    "name": "Iglo Edge",
+    "type": "Window",
+    "height": 2280,
+    "width": 1470,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Anthracite 701605-167",
+    "price": 197.23,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "3d52f5b050228193ddb98cb0b5ca0e41",
+      "8a5cebd4d87a4fdf2bf8502dcfeb8158",
+      "829fd8d1bb83cf17c774e745e9b4e966"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1020,
+    "name": "Iglo Edge",
+    "type": "Window",
+    "height": 2280,
+    "width": 1470,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Anthracite 701605-167",
+    "price": 197.23,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "bc6e45d273c595ea0689cb042316b162",
+      "ca182543fab3bab646f625883518eee8",
+      "1827039db7e6d2c50708cd81d41f869a"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 870,
+    "name": "Iglo Edge",
+    "type": "Balcony",
+    "height": 2190,
+    "width": 1770,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Turner Oak F470-3001",
+    "outerColor": "Veneer Turner Oak F470-3001",
+    "price": 355.21,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "51a576115692a6fda3bc0ee668089154",
+      "e70f080c61a62563032439c55a3f969b",
+      "728ac455c0942113b7be7c8924e6a697"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 434,
+    "name": "Iglo Energy",
+    "type": "Door",
+    "height": 2220,
+    "width": 1200,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 529.89,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "3e6971707118d49c6a6c49ed340e78a4",
+      "0b2b85048f748184690fbde675d716ed",
+      "0857985d284805411bae8f4d4eabae18"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 311,
+    "name": "Iglo Energy",
+    "type": "Door",
+    "height": 2418,
+    "width": 1100,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Nut 2178007-167",
+    "outerColor": "Veneer Nut 2178007-167",
+    "price": 674.55,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "5e7fb43e4c32ac1ed918f8745ca7391a",
+      "d0cc00e127372b005d7a75f155b9bb0d",
+      "40ae77374d0df6f1a82766e1316d4c75"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 262,
+    "name": "Iglo Energy",
+    "type": "Window",
+    "height": 2135,
+    "width": 755,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "Veneer Anthracite 701605-167",
+    "price": 192.49,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "6f374d2adc5e0b731866c6061123c834",
+      "ce67c748e33b342a65c98376b9fc572d",
+      "327aec9494af1d86decfc7bcc12d4f4c"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 525,
+    "name": "Iglo Energy",
+    "type": "Door",
+    "height": 2130,
+    "width": 890,
+    "material": "PCV",
+    "openability": "Outward",
+    "innerColor": "White",
+    "outerColor": "Veneer Anthracite 701605-167",
+    "price": 256.02,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "87a2d0686bb6e6316f2ecc94497d7a00",
+      "b33801727d6868416f3bc5a2867fb91e",
+      "b0c22676e597805d963f850dfe7ec243"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 422,
+    "name": "Iglo Energy",
+    "type": "Window",
+    "height": 2297,
+    "width": 730,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "Veneer Anthracite 701605-167",
+    "outerColor": "Veneer Anthracite 701605-167",
+    "price": 260.95,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "d473c7183e9d72c29066a6c5cf091e78",
+      "93a7bde105a799009b9cd3d7b3b56109",
+      "c4fed197e0e8b170c372113f545546cd"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 253,
+    "name": "Iglo Energy",
+    "type": "Window",
+    "height": 2135,
+    "width": 755,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "Veneer Anthracite 701605-167",
+    "price": 190.75,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "b86767837c90490251008a55fb7ab886",
+      "aa39485f3bf34b73d4ca5b4dbb5faac3",
+      "0c112349890e50def3c53a0cc9381a5b"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 937,
+    "name": "Iglo Energy",
+    "type": "Door",
+    "height": 2390,
+    "width": 1100,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 490.82,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "4d15f16dc4bfabadda0b4a271fd0a8d1",
+      "111663e5a9d087af259902e243f9c144",
+      "b019afe528b61a82431e29539af659ab"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 657,
+    "name": "Iglo Energy",
+    "type": "Door",
+    "height": 2400,
+    "width": 1100,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Black Ulti-Matt 02.20.01.000002-504700-047",
+    "outerColor": "Veneer Black Ulti-Matt 02.20.01.000002-504700-047",
+    "price": 1236.08,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "6355b14b5dfb15f7ae3a3f5e47eee55f",
+      "1acba1a50fa3947f9e45fc8b1912710a"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 306,
+    "name": "Iglo Energy Alucover",
+    "type": "Window",
+    "height": 1500,
+    "width": 1300,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Iron Glimmer Slate (DB703) 1.0065002-097",
+    "outerColor": "Veneer Iron Glimmer Slate (DB703) 1.0065002-097",
+    "price": 450.45,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "d2acb8abe79949f82e1e2d1626d3f414",
+      "1f40483ec8f1301f5d36b5d7a0da689e",
+      "7f3cc8e64b014a63b3d27d19a435092f"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 809,
+    "name": "Iglo Energy Alucover",
+    "type": "Window",
+    "height": 1500,
+    "width": 1300,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer White FX-915205-168",
+    "outerColor": "Veneer White FX-915205-168",
+    "price": 485.73,
+    "currency": "EUR",
+    "addons": "Shutter",
+    "imageHashes": [
+      "89e5cf32231e8d6e39faeb04ab15ba15",
+      "56d11cb473e12bf1203c5d7b3d9d53f5",
+      "b9ce42e3ba66c64b19b285d84f5b8f34"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 697,
+    "name": "Iglo Energy Classic",
+    "type": "Balcony",
+    "height": 2305,
+    "width": 2470,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Anthracite Smooth 701605-097",
+    "price": 324.59,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "9723fbd1d25a868a0714a00aef7c2493",
+      "d4d980ed72f58ce3993a73ec63f22046"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 432,
+    "name": "Iglo Energy Classic",
+    "type": "Balcony",
+    "height": 2544,
+    "width": 1576,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 445.7,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "0c81d82dcc5f1c203ee0fc1ff60b48a6",
+      "7718d8df145c2ae3fda5556f054f3ca3",
+      "f725fec41f06b829fa8d1c492937dd54"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1079,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 1485,
+    "width": 1960,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 189.66,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "11a9f3cf359413198f7a6b6830b16b37",
+      "563580c7a72a9194f979f347d0639c8e",
+      "772467417718a13552d2c515f49cf04b",
+      "893290b4cc681ae477cc26d17915e977"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 385,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 2350,
+    "width": 490,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "Veneer Anthracite Ulti-Matt 02.20.71.000001-504700-047",
+    "outerColor": "Veneer Anthracite Ulti-Matt 02.20.71.000001-504700-047",
+    "price": 81.26,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "f855531bfb1466cf0cbccf342f339ebf",
+      "2d0fb082fd022057b9b279d1454336f6",
+      "4e4d7b790fa62ddb470138d412e44fa9"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 332,
+    "name": "Iglo Energy Classic",
+    "type": "Renovation, Window",
+    "height": 1000,
+    "width": 1120,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Nut 2178007-167",
+    "price": 105.66,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "78e51e2f6bce32c96ecbb103a62421a0",
+      "2faf0003d4dccf87506a06c59ff2f4dc",
+      "6403e507ee6cc87c6b9d3c625c8ccc96"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1105,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 1200,
+    "width": 2000,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Black Ulti-Matt 02.20.01.000002-504700-047",
+    "price": 232.79,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "53e806b8e03951c8df44feae87c35deb",
+      "d0013174309579ae29d14e72717c173f",
+      "a052440ab201d1c55f0c8692252f6c72"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 176,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 2140,
+    "width": 1325,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 139.72,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "683d9792e6d9fb977b646e085c34761e",
+      "8c78a5896513f43409f17f6b4fa41163",
+      "8e55a640cdf100a806b3b71c7aecd36c"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 304,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 1500,
+    "width": 1300,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Black Ulti-Matt 02.20.01.000002-504700-047",
+    "outerColor": "Veneer Black Ulti-Matt 02.20.01.000002-504700-047",
+    "price": 280.68,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "44d4929b6a1108627022efe85dc0dca2",
+      "cbaf54171413aa1767251d77811c880e",
+      "d6f11c53cb4ca345197d43a3fc35d047"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1086,
+    "name": "Iglo Energy Classic",
+    "type": "Balcony",
+    "height": 2350,
+    "width": 2500,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Turner Oak F470-3001",
+    "outerColor": "Veneer Turner Oak F470-3001",
+    "price": 381.76,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "188fd1a3659a22b65222dff4910f6c6e",
+      "591cda374001931aedd40a5817103f60",
+      "ec5642b5874bb94b20ea1fe959f6e236"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 661,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 2015,
+    "width": 1770,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Winchester XA 49240015-148",
+    "price": 198.6,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "0cba508175b9ff62d744e32d28028dff",
+      "dabba857a1301191d7c8f6a5efbd572c",
+      "a629c7ec5654ed9dad7e52eea27a89e6",
+      "ea5a91c7f98b511c5eb503492f219084"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1132,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 1200,
+    "width": 1500,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Anthracite Smooth 701605-097",
+    "outerColor": "Veneer Anthracite Smooth 701605-097",
+    "price": 413.87,
+    "currency": "EUR",
+    "addons": "Shutter",
+    "imageHashes": [
+      "135ebd9a866cd89c8b89bfe1c9f25234",
+      "d4713811e607a2e7b28c27930bb77f91",
+      "a09982ca5e2553c08265a371973ce2e6",
+      "1ca9d3698e48fc0226eda8e493d0c3dd"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 288,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 2288,
+    "width": 988,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer White FX-915205-168",
+    "outerColor": "Veneer Golden Oak 2178001-167",
+    "price": 193.88,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "075ca97ff86538a33800150630346dba",
+      "84821fe7ba3b572a629d0ed5d205c14a",
+      "e270d07f2100ce78474850acc8c6ec38"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 619,
+    "name": "Iglo Energy Classic",
+    "type": "Balcony",
+    "height": 2400,
+    "width": 1000,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Grey 715505-167",
+    "outerColor": "Veneer Grey 715505-167",
+    "price": 208.58,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "024797d24bebc2ab6c305bba184bfb98",
+      "d7f7d9ae62bb19dcb643984176d379a5",
+      "714a6a48ad3e764fd7b1a5f39e6bdd2e"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 258,
+    "name": "Iglo Energy Classic",
+    "type": "Balcony",
+    "height": 2250,
+    "width": 2460,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Chocolate Brown 887505-167",
+    "outerColor": "Veneer Chocolate Brown 887505-167",
+    "price": 447.36,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "64228cf5bb87efe8b084fb0206e03c50",
+      "5e19019775ab9a9c42e5df397f282b93"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 259,
+    "name": "Iglo Energy Classic",
+    "type": "Balcony",
+    "height": 2250,
+    "width": 1083,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Chocolate Brown 887505-167",
+    "outerColor": "Veneer Chocolate Brown 887505-167",
+    "price": 171.28,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "96a28f6615237403cdf66bf3bc9ee477",
+      "af0bc7b39580ddb888d0f7b286b44caa",
+      "e751c3632cd1da28a3d794b4a493bdad"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 766,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 2100,
+    "width": 1100,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "Veneer Dark Red 308105-167",
+    "price": 132.32,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "44deaa8921f152e2ead559b9eeb5e955",
+      "b69a9c8a7e8589b38ebcd1eff4d1fd28",
+      "466fe4f2588bdd18bbc98510fc0ada70"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 765,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 2100,
+    "width": 1100,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "Veneer Dark Red 308105-167",
+    "price": 132.32,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "66d90877ace048f3c970ff3233b04475",
+      "23e0570808dc576b96f29b8f2cb2dbf7",
+      "ae112c240029149f2df863ee83a0ef13"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 257,
+    "name": "Iglo Energy Classic",
+    "type": "Balcony",
+    "height": 2250,
+    "width": 2720,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Chocolate Brown 887505-167",
+    "outerColor": "Veneer Chocolate Brown 887505-167",
+    "price": 474.03,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "79869c4e6c2283787f7d57a610cf2d3f",
+      "a9cf9159fad9d9e15ecb513d15ebd3d1",
+      "3d324c6a7159c90d7f962d4215b03e1c"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 776,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 2375,
+    "width": 1527,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 123.3,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "8289441057108ece7984a5870a1d12a5",
+      "056ffc5c4cfd426c87612fe8767211dd",
+      "9982da55cb7029827ff39802546b81d3"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 800,
+    "name": "Iglo Energy Classic",
+    "type": "Balcony",
+    "height": 3700,
+    "width": 1070,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Jet Black Mattex CC+ 476-6062",
+    "outerColor": "Veneer Jet Black Mattex CC+ 476-6062",
+    "price": 214.14,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "9dca1f5920432e628be9e21dfbdbee8c",
+      "f18d309248be145fc9f116e66acb6fe9",
+      "b79efb35748324bcc24a9989e9aa50b1"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 503,
+    "name": "Iglo Energy Classic",
+    "type": "Balcony",
+    "height": 2528,
+    "width": 995,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 289.1,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "9602d1b85dc5db04cefe19ca54592a76",
+      "d8ef33762f486b1ed1341f3bc92de069",
+      "dff15fc4b1a3da5ae6dbce5222e56e77"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1042,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 2330,
+    "width": 1864,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 191.91,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "795d39cce3dfdf0a86008ab5b460ed64",
+      "ea3fe025e4994dcd21b8b652ac8184a0",
+      "6d8065c640ee2189e9ac68785fb5d3f8"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 101,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 1850,
+    "width": 1320,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 139.88,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "023cc0b81b62368e2424caf975893c90",
+      "61a9cac01f9ee2946e6d8a3b98db82f7",
+      "120db95fbd2c7ebba82400f8fcc2c907"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1043,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 2199,
+    "width": 2555,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 244.02,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "79796309ef6ab21d1fdf73a356a4725f",
+      "1d97334596d34547b159e992f4fe8702",
+      "f51f0f4bedbf27048fdd527500cbc3da"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 466,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 1100,
+    "width": 3000,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 128,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "7eabd88db43ef9128b9b96a23cc8be74",
+      "9d82b1ec7cb08e335bcff1fb77b7f630",
+      "2e89bafd47de921c3ebe18fea4f9ff3a"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 439,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 2705,
+    "width": 2270,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "Veneer Quartz Grey Smooth 703905-097",
+    "outerColor": "Veneer Quartz Grey Smooth 703905-097",
+    "price": 394.72,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "a633093ecc298b7a3316a1732539b750",
+      "0f2746d8930414382c932047c347b9e3",
+      "fec1744bbb1d1d367e24fbdd4a3365a1"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 463,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 2400,
+    "width": 1450,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 141.47,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "5143361fef26121a5b3a13a7fcc0fbb3",
+      "ba92f875acd520566bac2e0c09b1f468",
+      "98d46712c3fb6f33e3dc48734f287459",
+      "65798e43c75e5fc036a99b349fe70800"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 973,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 1955,
+    "width": 2340,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 200.77,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "fadc638c3c77971b95bb914bca21da47",
+      "73eca226b5e24a9c0da0b3366c3ed31c",
+      "e796b23d8a3421637efee52ba2286e26"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1033,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 600,
+    "width": 1510,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Quartz Grey 703905-167",
+    "price": 181.29,
+    "currency": "EUR",
+    "addons": "Shutter",
+    "imageHashes": [
+      "8ca9273695b41bfb6dc005ed0de93176",
+      "af2a297a0accbe5e4d2d9b21ad3a1206",
+      "d43c8377e67e4fe8d4b7d171596691f2"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 722,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 2165,
+    "width": 1102,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "Veneer Moss Green 600505-167",
+    "price": 137.59,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "9906273763564b95e0de77acdd443c69",
+      "d7de12ad5a26201e06e19cd21b91adef",
+      "9b81c89e31581bd4d7648eb1ef6660a6"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 723,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 1240,
+    "width": 2500,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 225.79,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "47a91db793a51b72ae2c0009810e52a5",
+      "c6613baa93139a98219c04be3e50588a",
+      "32e21528ea60f6dfd43669c5ea9ce02b"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 719,
+    "name": "Iglo Energy Classic",
+    "type": "Renovation, Window",
+    "height": 1472,
+    "width": 1737,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer White FX-915205-168",
+    "outerColor": "Veneer Golden Oak 2178001-167",
+    "price": 274.92,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "617dcbd9f7710659811ae58a03a0aabb",
+      "2568dbabc9ef68fb783712979501dbbb",
+      "3f9c8ef2b1488381d8ee53a7e28548e1"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 974,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 1955,
+    "width": 2340,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 200.77,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "8e5677a921f29c63518c4d961b07c07f",
+      "270608728fcce9add21faddc41c97ee7"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 796,
+    "name": "Iglo Energy Classic",
+    "type": "Balcony",
+    "height": 2170,
+    "width": 1810,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Chocolate Brown 887505-167",
+    "outerColor": "Veneer Chocolate Brown 887505-167",
+    "price": 220.42,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "69077991613c68864784ddceed172adf",
+      "a73c1d33413fb54ea478767ad05fd117",
+      "2dd79eff607c1007818f3ca70bd4431f"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 678,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 1240,
+    "width": 1090,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Moss Green 600505-167",
+    "price": 88.29,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "f57f83c009d51edd5f89eb2f8fc6cb4e",
+      "b7fee933957760ca4c8c8b1a14e3e833",
+      "24f2acdd2b5ae2f355a0b46ec89e826b"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 221,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 690,
+    "width": 1030,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 183.74,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "c932da889698ee5b1d8f81caf173810c",
+      "3b94a51f93c5aa5c5e4bc1c60062a7e9",
+      "22471a774d01facaa3020bc27444e061",
+      "1dc3d0c710707f0c98d9ef78f77dccb3"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1021,
+    "name": "Iglo Energy Classic",
+    "type": "Balcony",
+    "height": 2675,
+    "width": 1045,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Chocolate Brown 887505-167",
+    "outerColor": "Veneer Chocolate Brown 887505-167",
+    "price": 374,
+    "currency": "EUR",
+    "addons": "Shutter",
+    "imageHashes": [
+      "1e3dad48c1d7347a8d0011b0af1acb9e",
+      "a0a377ebe6e90912c11fbc5457bd566a",
+      "b341c9cb51eab385e26c7448f54013a3"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1053,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 2180,
+    "width": 1280,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "Veneer Black Ulti-Matt 02.20.01.000002-504700-047",
+    "price": 160.01,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "eac6718c839799a466cee6cf8e367028",
+      "162ad6b03b3507b4d3388cf80072d094",
+      "a95dc59014e6c3c112f8a0d343c32ce9"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 191,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 690,
+    "width": 1030,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 183.74,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "827544853bfbd0466c9be43f2cebd6aa",
+      "78df4bd60f74ec2d882fdc53dd448408",
+      "7819c1a6b9c6acb5b81d885257de01d6",
+      "f7d0672a5567f052eed79dd5767f1288"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 834,
+    "name": "Iglo Energy Classic",
+    "type": "Balcony",
+    "height": 2455,
+    "width": 1000,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Moss Green 600505-167",
+    "price": 215.69,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "09cb4519481c522d940dc33410e6e7e8",
+      "b3e1dc7d328e21abc75a12807d7f833f",
+      "1e2d940850400ad65c603b36931bf60d",
+      "657386d2670e0f421b4cb108b5fa7c09"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 787,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 1425,
+    "width": 710,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Golden Oak 2178001-167",
+    "price": 128.71,
+    "currency": "EUR",
+    "addons": "Shutter",
+    "imageHashes": [
+      "30553c328d0456953b3dc5d4dffec0c0",
+      "2c7fe3eb6033377bffd4d25bbcca91af",
+      "30866247dc394d8633a93848ed4baf8c"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 162,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 1760,
+    "width": 1120,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 189.8,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "df5e76d6577350cc7aabc66b1a0e1d69",
+      "a5d4862f66cabb4eac77f2c525a10b29",
+      "811e22a2c9861a9757d98e3df0d3a637"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 858,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 2300,
+    "width": 1780,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 331.55,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "6c50452f7aaa1eb2af624e4f9d786b6a",
+      "0959f5bb8624a08876a7a7564a93326d",
+      "9ff02b4b3dff0910f9d62881116b6b83",
+      "3beba1ede3670840914a8cbe89e493b8"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1123,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 1200,
+    "width": 1500,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Anthracite Smooth 701605-097",
+    "outerColor": "Veneer Anthracite Smooth 701605-097",
+    "price": 413.87,
+    "currency": "EUR",
+    "addons": "Shutter",
+    "imageHashes": [
+      "dcc47f052b935fc0c4a292699a20ce00",
+      "5dc538c6a9aea1f14479a68baae8e390",
+      "76f597ad5ffc5c98fe5b27aa12f944b8",
+      "da3e3e6fad4613075a6f25d371408134"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 100,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 1850,
+    "width": 1220,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 134.84,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "2ae10203af925a2ae2ff88f2e70dd4e1",
+      "e302ba248ab92912a7869c4fafeb8132",
+      "5b0a738a3a0d782625d9924458eeedaa"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 122,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 2180,
+    "width": 1920,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "White",
+    "outerColor": "Veneer Anthracite 701605-167",
+    "price": 171.92,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "966953647abd9bb2eb9512e8225e217b",
+      "8e5811b1ee7ec6f91bf6ea3479579014",
+      "ddc8b3641ea8d73fed9d08c0a8dbd6c9"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 868,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 2215,
+    "width": 1475,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "Veneer Iron Glimmer Slate (DB703) 1.0065002-097",
+    "outerColor": "Veneer Iron Glimmer Slate (DB703) 1.0065002-097",
+    "price": 278.64,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "74e955d1ffdf3aaf065c15dd163d27de",
+      "a912bf3da827e46219e10184e7493c5f",
+      "2d3b70d66a942609cb8a669ae7dd389f"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 97,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 1850,
+    "width": 1170,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 130.67,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "2d0c1a1c1a3c18bc8cf2bc8eabe9c011",
+      "09c4bc31ef6c056abef798ddf52fdecf",
+      "d500307e1d946cde2cb87dacda1b0f4f"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 874,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 2440,
+    "width": 1493,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 186.51,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "cfd6ac2786044a3ebcb4ddc557e82012",
+      "b9e17f7451fc7021b54e434fe0e0b0b9",
+      "9dd65582a1aebf70f1d512ff79fb25a7"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 123,
+    "name": "Iglo Energy Classic",
+    "type": "Renovation, Window",
+    "height": 1350,
+    "width": 1444,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer White FX-915205-168",
+    "outerColor": "Veneer White FX-915205-168",
+    "price": 213.81,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "2370bd6a99a8103f1141a276e742acd6",
+      "cfe10df5bab3f9cb0df904f8b0dbfa49",
+      "2d413de9671cac4a9821656650d8c050"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 90,
+    "name": "Iglo Energy Classic",
+    "type": "Balcony",
+    "height": 2710,
+    "width": 2025,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 570.31,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "36f40c98c67e8c7af9e679dbfa93f88d",
+      "b4f46f68502f6289c731dad05f730580",
+      "1a0140529d3593db7331a5aaa6847cca"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1022,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 1775,
+    "width": 555,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Chocolate Brown 887505-167",
+    "outerColor": "Veneer Chocolate Brown 887505-167",
+    "price": 207.08,
+    "currency": "EUR",
+    "addons": "Shutter",
+    "imageHashes": [
+      "f39fc4edec878ac3fe7ef1afbff284ed",
+      "ae8161b3fc2e251162aeee32da2c86c1",
+      "e2549d2f8a50683ead75a0276ac1106b"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1023,
+    "name": "Iglo Energy Classic",
+    "type": "Window",
+    "height": 1775,
+    "width": 1165,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Chocolate Brown 887505-167",
+    "outerColor": "Veneer Chocolate Brown 887505-167",
+    "price": 293.47,
+    "currency": "EUR",
+    "addons": "Shutter",
+    "imageHashes": [
+      "b8fb65cd06ca9b7cd2653563cc6ece11",
+      "9dfa8bbddec3067f059565d6d57d2063",
+      "cf96b74bf62160cd043596b463213103"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 991,
+    "name": "Iglo EXT",
+    "type": "Balcony",
+    "height": 1835,
+    "width": 650,
+    "material": "PCV",
+    "openability": "Outward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 112.3,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "17034bff003277393cc3d2bc094fa2c3",
+      "42742c145c513ac88a3acf168432ff65",
+      "4f58c275c1ceaf4929df21cd62d2c9a0"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 615,
+    "name": "Iglo EXT",
+    "type": "Balcony",
+    "height": 2480,
+    "width": 1040,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 201.71,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "6f8a4f8863fd392d442e63ff7ba35d0a",
+      "ec27eb78ba6f3c510e13bde85b4f0bdc",
+      "f091f447f86df914a1d741d7521ed4e9"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1083,
+    "name": "Iglo EXT",
+    "type": "Balcony",
+    "height": 2065,
+    "width": 1800,
+    "material": "PCV",
+    "openability": "Outward",
+    "innerColor": "White",
+    "outerColor": "Veneer Anthracite Ulti-Matt 02.20.71.000001-504700-047",
+    "price": 221.65,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "9f5e6f6a8b3ba644e735ad56523dc909",
+      "3be28486496fc2dc55326bcdbec9a474",
+      "1a05b7ffbaf7db12067c9e0fc63c29b6"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 416,
+    "name": "Iglo EXT",
+    "type": "Balcony",
+    "height": 2117,
+    "width": 1820,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Anthracite Ulti-Matt 02.20.71.000001-504700-047",
+    "outerColor": "Veneer Anthracite Ulti-Matt 02.20.71.000001-504700-047",
+    "price": 242,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "1e43dd84113c135332e48bdc4a61857c",
+      "ed4065e610206adeaf5b4b1480d1e68c",
+      "aa71752f2f09f7d570de5bc399cd3321"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 989,
+    "name": "Iglo EXT",
+    "type": "Balcony",
+    "height": 1835,
+    "width": 650,
+    "material": "PCV",
+    "openability": "Outward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 112.3,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "c1997f6b38a0556431b89e3907d979f5",
+      "8bfe90b13a3a96442488b5d871214fb7",
+      "93e451d7943f1e5ab3a243a666381837"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 502,
+    "name": "Iglo Light",
+    "type": "Renovation, Balcony",
+    "height": 2770,
+    "width": 1000,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 250.14,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "0eb976ad1b0828f80d273c44b2bf6d06",
+      "dc6cf949ad46e748610744423eff3beb",
+      "e871a81a99373664542e6f1e2e9b501a"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 55,
+    "name": "Iglo Light",
+    "type": "Renovation, Balcony",
+    "height": 2650,
+    "width": 1145,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 231.32,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "57843666cc0f94254739ba4afd5faccf",
+      "28c54640e50fc4bfb555341e02b6a9d7",
+      "e85283f98f987b793f95b1d42cc04b57"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 108,
+    "name": "Iglo Light",
+    "type": "Window",
+    "height": 805,
+    "width": 1030,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Oregon 2115008-167",
+    "outerColor": "Veneer Oregon 2115008-167",
+    "price": 104.47,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "7747865657f054f8e20b1a887c1cea38",
+      "fd4fed4bf34e7a38ad6847c3b8ef7a0d",
+      "106ba7088f5ad3caa1c5a4d47cc7f885"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 106,
+    "name": "Iglo Light",
+    "type": "Window",
+    "height": 805,
+    "width": 1030,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Oregon 2115008-167",
+    "outerColor": "Veneer Oregon 2115008-167",
+    "price": 104.47,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "fcfd94a340e4dac7bd29813cb2baa91a",
+      "4733eff1bdbe0bbd414819beae353452",
+      "119e6a1accb6d26b3130bf574cf53141"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 99,
+    "name": "Iglo Light",
+    "type": "Window",
+    "height": 805,
+    "width": 1030,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "Veneer Oregon 2115008-167",
+    "outerColor": "Veneer Oregon 2115008-167",
+    "price": 104.47,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "3de3af36c48520f25a6add5e4923f1f9",
+      "d6eb798e4258814f7324df48f6c783d6",
+      "423eb02c088f9b355ef83089442c36e0"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 161,
+    "name": "Iglo Light",
+    "type": "Balcony",
+    "height": 2336,
+    "width": 1504,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 251.69,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "6be54014ac190d6471769ae7b087a16c",
+      "21fc3b17aea3b062de398366869ddf61",
+      "24ae8e968e75928fc5f2536818fef9b5"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 157,
+    "name": "Iglo Light",
+    "type": "Window",
+    "height": 1495,
+    "width": 1045,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 127.18,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "db470251eee3bac6f0739e10dc145dce",
+      "88d0884c308b6a1ba3fdc412feadb66f",
+      "116103cef0586ad2c0d5c4317b74cecf"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 153,
+    "name": "Iglo Light",
+    "type": "Window",
+    "height": 1495,
+    "width": 1760,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 178.98,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "7a4a86af123b53f2159224f2f9441d48",
+      "7854fc9cd2c951b9a7c5821609783275",
+      "1488f1f545fb5c131f6d0c2866d2b9bd"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 182,
+    "name": "Iglo Light",
+    "type": "Window",
+    "height": 1415,
+    "width": 1495,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 152.65,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "1c16a1082e8a530aefb4ebe105fbe248",
+      "a8670c2f7fc449f23d4ac3e6b9cb3660",
+      "12695033e493391d446f78cca8ca46a0"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 174,
+    "name": "Iglo Light",
+    "type": "Window",
+    "height": 1205,
+    "width": 775,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Creamy 137905-167",
+    "outerColor": "Veneer Creamy 137905-167",
+    "price": 250.45,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "73bbc7e26bd4b9ef83bee0e52e238172",
+      "2856a665995b702ceb1215aedd2eb963",
+      "2f118dd0b931033b7cf2b21b9d17bc2b"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 206,
+    "name": "Iglo Light",
+    "type": "Window",
+    "height": 1110,
+    "width": 1100,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Winchester XA 49240015-148",
+    "outerColor": "Veneer Winchester XA 49240015-148",
+    "price": 156.71,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "b4239ca497c4dadd5712289c777b7a41",
+      "09d38b6db8d2d194cc5f9b0e6c2e50f3",
+      "71d689e8f6ba393ad0bd50c398ac49d2"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 777,
+    "name": "Iglo Light",
+    "type": "Renovation, Window",
+    "height": 1715,
+    "width": 990,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 120.88,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "1ec1e749cc82f9b87be1455c6d3c17e3",
+      "72c7043c3a93ec7415df3936d6f8e38d",
+      "b80bfae70bdcea44d37ac387d19644c8"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 454,
+    "name": "Iglo Light",
+    "type": "Renovation, Window",
+    "height": 2165,
+    "width": 1240,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 183.32,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "6f7d3ebfc3b0c5487aca3f1347dbbcb4",
+      "e542b4712087cabddb227caeb3c933bb",
+      "0a29695a23170fde5541e0ad6f1d0211"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 501,
+    "name": "Iglo Light",
+    "type": "Renovation, Window",
+    "height": 1880,
+    "width": 1010,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "White",
+    "price": 162.24,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "d8c801601e56ae2a66605673d8ccbd42",
+      "3262f68bab5ab1a2bab09473a93d11be",
+      "4916d6c6fdfb3cb08e12c3ba3c66d056"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 426,
+    "name": "Iglo Light",
+    "type": "Window",
+    "height": 1495,
+    "width": 1190,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "czarny szary gładki (7021) 02.11.71.000042.097",
+    "price": 151.6,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "1e10b5a831b29c8917254f0f8d0cae84",
+      "09f5c1d323b7606534f6fd71bf5da3cb",
+      "186a4f1c248e83ee03a38ece0de5da33"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 644,
+    "name": "Iglo Light",
+    "type": "Window",
+    "height": 1500,
+    "width": 1300,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer White FX-915205-168",
+    "outerColor": "Veneer Golden Oak 2178001-167",
+    "price": 179.79,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "8b69c42bfa05919035a56e206386f768",
+      "30fbc9dcdc4d77a3bee7168bfe8d38ec",
+      "e04aaf067d0642323bba4a12eab28354"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 567,
+    "name": "Iglo Light",
+    "type": "Window",
+    "height": 2525,
+    "width": 1210,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Anthracite Smooth 701605-097",
+    "price": 175.1,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "e2de24a9906411fc5862ef36bf870c50",
+      "5991c47d11531c70ecd0d60b92b8a9ab",
+      "06f56d9b2d05ed926c10a5523a0ab020"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 568,
+    "name": "Iglo Light",
+    "type": "Window",
+    "height": 2525,
+    "width": 1210,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Anthracite Smooth 701605-097",
+    "price": 175.1,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "27028bd5517a855e34a326da0c268aea",
+      "a4552a7b315b1f8fc0b08d58ab72ac57",
+      "e3639d4f36ab6382962bb3e247dce987"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 570,
+    "name": "Iglo Light",
+    "type": "Window",
+    "height": 2525,
+    "width": 1210,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Anthracite Smooth 701605-097",
+    "price": 177.04,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "8e4f98a561abf618012048e5397b666b",
+      "a2d771968378e2206a169553342a6cb3",
+      "8b07eb8656581f04f2872caf60232d80"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 569,
+    "name": "Iglo Light",
+    "type": "Window",
+    "height": 2525,
+    "width": 1210,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Anthracite Smooth 701605-097",
+    "price": 177.04,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "4c13c4d8da8717784309ef3d0d9cbaf1",
+      "e6b835bbaf316683e8c36cb776565579",
+      "24c9b5c44005211dd5656c449fa85e30"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 107,
+    "name": "Iglo Light",
+    "type": "Window",
+    "height": 805,
+    "width": 1030,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Oregon 2115008-167",
+    "outerColor": "Veneer Oregon 2115008-167",
+    "price": 104.47,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "33bfef92ac178cb536bfcfc2aa00922a",
+      "842512232e2f6172c724ab0aa4d87107",
+      "6b7dc1806340d1549b6bc5916525f1a4"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 493,
+    "name": "Iglo Light",
+    "type": "Window",
+    "height": 1595,
+    "width": 880,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Chocolate Brown 887505-167",
+    "price": 360.23,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "4eb4f082dd6b26a64815a549547d64b3",
+      "8bd207b4383a9f7e1aae1c586eb71650",
+      "4a9b7a50b3318e1120a84a0004d1a6d0"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 494,
+    "name": "Iglo Light",
+    "type": "Window",
+    "height": 1595,
+    "width": 880,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Chocolate Brown 887505-167",
+    "price": 360.23,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "25c2e79943611c3c955d69ea3d6293ae",
+      "3ef841e038f4f8d008142ec236836c01",
+      "377d3cf4c6b9f150fab2b3c309dffbed"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 495,
+    "name": "Iglo Light",
+    "type": "Window",
+    "height": 1595,
+    "width": 880,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "White",
+    "outerColor": "Veneer Chocolate Brown 887505-167",
+    "price": 360.23,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "855322d4faf99ab836f2bb0d2fee130b",
+      "e37d4ab3f205436445db753e7e4cb306",
+      "998bafdd115c8a813e9af32a5f58be5b"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 997,
+    "name": "Iglo Premier",
+    "type": "Window",
+    "height": 780,
+    "width": 730,
+    "material": "PCV",
+    "openability": "Outward",
+    "innerColor": "Veneer Slate Grey Smooth (7015) 02.11.71.000040-097",
+    "outerColor": "White",
+    "price": 84.81,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "1840cd233171ef29f35a2b33b5fd3573",
+      "caa9266cd8577e9eea99da73b8daf35a",
+      "29d13ff9f9a25ed660f5ebfbc99afcdb"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 638,
+    "name": "Iglo Premier",
+    "type": "Window",
+    "height": 1500,
+    "width": 1300,
+    "material": "PCV",
+    "openability": "Inward",
+    "innerColor": "Veneer Anthracite 701605-167",
+    "outerColor": "Veneer Anthracite 701605-167",
+    "price": 256.78,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "4805225c477b474757946de3de88d9a9",
+      "7d100037ecb1eda558c20662daff7d49",
+      "85fe5169f526af2dcae876721608444e"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 995,
+    "name": "Iglo Premier",
+    "type": "Window",
+    "height": 780,
+    "width": 730,
+    "material": "PCV",
+    "openability": "Outward",
+    "innerColor": "Veneer Slate Grey Smooth (7015) 02.11.71.000040-097",
+    "outerColor": "White",
+    "price": 84.81,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "c9c46a5ab3e444fa2b430ea86b20438f",
+      "2e19dea381babb0a3ebad788d91ba444",
+      "53e40bc0bfdeec641b3aa774c47da3f0"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 996,
+    "name": "Iglo Premier",
+    "type": "Window",
+    "height": 780,
+    "width": 730,
+    "material": "PCV",
+    "openability": "Outward",
+    "innerColor": "Veneer Slate Grey Smooth (7015) 02.11.71.000040-097",
+    "outerColor": "White",
+    "price": 84.81,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "1c8354e18a3d37672e5a377084a4e66c",
+      "605feba8d1400a88011c4a9e13a46b07",
+      "d3a0d47b9b19e47398068f391ef267e6"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 310,
+    "name": "Iglo Slide",
+    "type": "Sliding",
+    "height": 1500,
+    "width": 1300,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "Veneer White FX-915205-168",
+    "outerColor": "Veneer White FX-915205-168",
+    "price": 419.54,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "c6ce5f9003f0e7df19a9feee03e9d361",
+      "f52baf503d83257dbe44626a61afefa8",
+      "c16a75317618226473279f8413a15d34"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 227,
+    "name": "Iglo Slide",
+    "type": "Sliding",
+    "height": 1320,
+    "width": 1335,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "Veneer Nut 2178007-167",
+    "outerColor": "Veneer Nut 2178007-167",
+    "price": 298.19,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "5f2bbf5e9c2684da6ae0fb2c194cd860",
+      "bd04c9f823b7ea62d05ec91a05f66a74",
+      "ccd10fd0bd47dff8e9ff128168fea112"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 411,
+    "name": "Iglo Slide",
+    "type": "Sliding",
+    "height": 1500,
+    "width": 1300,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "Veneer Sheffield Oak Light F456-3081",
+    "outerColor": "Veneer Sheffield Oak Light F456-3081",
+    "price": 409.77,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "e8309a242e9a55c547e8a1586030492f",
+      "427f3af67f8691b0a2a5028803ad6cdc",
+      "1ce40e561939f4d315e3f92a1b1cb77d"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 312,
+    "name": "Iglo Slide",
+    "type": "Sliding",
+    "height": 1500,
+    "width": 1300,
+    "material": "PCV",
+    "openability": "Other",
+    "innerColor": "Veneer White FX-915205-168",
+    "outerColor": "Veneer White FX-915205-168",
+    "price": 433.51,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "39fcfd20a68d543d99f011d7fd1e9ce6",
+      "e03fa845b853a91a093927f9e5a05f98",
+      "d40badc58d1a22cd2b78e8c306b50d8b"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 947,
+    "name": "MB-45",
+    "type": "Window",
+    "height": 2845,
+    "width": 2000,
+    "material": "Aluminium",
+    "openability": "Other",
+    "innerColor": "RAL 7016 M - mat",
+    "outerColor": "RAL 7016 M - mat",
+    "price": 394.23,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "f939510ee9489ef407bf176469f5e11a",
+      "e4689aaef92aab0c3ed6c4d5b9c29886",
+      "927926666af7d9e01a8cff01eae0871f"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 948,
+    "name": "MB-45",
+    "type": "Window",
+    "height": 2845,
+    "width": 2000,
+    "material": "Aluminium",
+    "openability": "Other",
+    "innerColor": "RAL 7016 M - mat",
+    "outerColor": "RAL 7016 M - mat",
+    "price": 394.23,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "53884f0e0da4b96739644995fe1ac8ed",
+      "0c87361a1b07afbbad22d3f767ed9661",
+      "2c45beee1d2346f3d10bbc469b3d956e"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 34,
+    "name": "MB-79N SI",
+    "type": "Balcony",
+    "height": 2585,
+    "width": 1170,
+    "material": "Aluminium",
+    "openability": "Inward",
+    "innerColor": "RAL 7016 T - drobna struktura",
+    "outerColor": "RAL 7016 T - drobna struktura",
+    "price": 317.72,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "5702638d1649ffd9769b14eb29c7f563",
+      "fcde8dabed2a86947f3ab247a14a6746",
+      "3f4282677f6c10e8409866fa27a34671"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 624,
+    "name": "MB-79N SI",
+    "type": "Window",
+    "height": 1219,
+    "width": 1241,
+    "material": "Aluminium",
+    "openability": "Inward",
+    "innerColor": "RAL 9016 M - mat",
+    "outerColor": "RAL 9016 M - mat",
+    "price": 117.48,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "3b0fc69e45bc734466decfb9449c0725",
+      "4bce79a5be8d7e4c215003936d7abf41",
+      "fea8fcff664e3150a28a0f85cb710bbb"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1036,
+    "name": "MB-79N SI",
+    "type": "Window",
+    "height": 2130,
+    "width": 2350,
+    "material": "Aluminium",
+    "openability": "Other",
+    "innerColor": "RAL 7016 M - mat",
+    "outerColor": "RAL 7016 M - mat",
+    "price": 338.72,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "1f4e98ccd9b541fae9af7f09137a14d2",
+      "ae2c0abb0a73b5db7338bc3024d26b58",
+      "5bcbeae260f82813186d01423745e685"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 33,
+    "name": "MB-79N SI",
+    "type": "Balcony",
+    "height": 2610,
+    "width": 3583,
+    "material": "Aluminium",
+    "openability": "Inward",
+    "innerColor": "RAL 7016 M - mat",
+    "outerColor": "RAL 7016 M - mat",
+    "price": 1106.96,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "5dd52163160759323b8f6a990384b6a0",
+      "2a93ee45f84b6cd5cca94ee0911df7ef",
+      "30e4b8817e70a9e6a830f81a8027b247"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 406,
+    "name": "MB-79N SI",
+    "type": "Window",
+    "height": 1870,
+    "width": 1870,
+    "material": "Aluminium",
+    "openability": "Other",
+    "innerColor": "RAL 7035 M - mat",
+    "outerColor": "lakier RAL (X) MATOWY",
+    "price": 419.27,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "9e4219c7c136050e9a07726ffe1c0e74",
+      "f6b60541b739a96b9a9a35c374346c3d",
+      "7ad2aab4afb2eceeb83650254e609212"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 383,
+    "name": "MB-79N SI",
+    "type": "Window",
+    "height": 2405,
+    "width": 2380,
+    "material": "Aluminium",
+    "openability": "Other",
+    "innerColor": "RAL 9005 T - drobna struktura",
+    "outerColor": "RAL 9005 T - drobna struktura",
+    "price": 454.5,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "ffa0568f6f997c2793796fd3cbceacaf"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 407,
+    "name": "MB-79N SI",
+    "type": "Balcony",
+    "height": 2395,
+    "width": 2400,
+    "material": "Aluminium",
+    "openability": "Inward",
+    "innerColor": "RAL 9005 T - drobna struktura",
+    "outerColor": "RAL 9005 T - drobna struktura",
+    "price": 443.71,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "ef4c5ea329d4e872d8fc75e4368c207b",
+      "3b135537cfd76292d6b4c2a21140bef6",
+      "7ba25ffc4e94c8a2cdae3d0a35c918ba"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 885,
+    "name": "MB-79N SI",
+    "type": "Window",
+    "height": 2690,
+    "width": 1880,
+    "material": "Aluminium",
+    "openability": "Other",
+    "innerColor": "RAL 7016 M - mat",
+    "outerColor": "RAL 7016 M - mat",
+    "price": 502.76,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "3415a1c6332d59f1d017aced6075c995",
+      "756c7923425cd48b2dd41cc35343c456"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 884,
+    "name": "MB-79N SI",
+    "type": "Window",
+    "height": 2690,
+    "width": 1880,
+    "material": "Aluminium",
+    "openability": "Other",
+    "innerColor": "RAL 7016 M - mat",
+    "outerColor": "RAL 7016 M - mat",
+    "price": 502.76,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "5c50820eb9305ec0ebaa19021438da0c",
+      "e996f2857b2d42106892ab872add1efc"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 883,
+    "name": "MB-79N SI",
+    "type": "Window",
+    "height": 2690,
+    "width": 1880,
+    "material": "Aluminium",
+    "openability": "Other",
+    "innerColor": "RAL 7016 M - mat",
+    "outerColor": "RAL 7016 M - mat",
+    "price": 502.76,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "172705e8e1158c88bb6461e4f2b11bb2",
+      "90d7a480e1164a2737f28213751e22a6"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 405,
+    "name": "MB-79N SI",
+    "type": "Window",
+    "height": 1870,
+    "width": 1870,
+    "material": "Aluminium",
+    "openability": "Other",
+    "innerColor": "RAL 7035 M - mat",
+    "outerColor": "lakier RAL (X) MATOWY",
+    "price": 509.15,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "d9d1034986245b63ea084f94ea1f66c4",
+      "b6beccefe604725df3f4f636b1867a3f",
+      "a8740cbe7740963583b01b1ff0ce6a10"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 81,
+    "name": "MB-79N SI",
+    "type": "Window",
+    "height": 2500,
+    "width": 2361,
+    "material": "Aluminium",
+    "openability": "Inward",
+    "innerColor": "RAL 9005 T - drobna struktura",
+    "outerColor": "RAL 9005 T - drobna struktura",
+    "price": 599.06,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "8409698d91c28c6fdba706eac7f9131a",
+      "3984a3efd328bba3b403f8aeb5bf7663",
+      "2071db9efce8754e67e8f07750cfa1c1"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 969,
+    "name": "MB-79N SI",
+    "type": "Window",
+    "height": 1530,
+    "width": 1470,
+    "material": "Aluminium",
+    "openability": "Inward",
+    "innerColor": "RAL 7016 T - drobna struktura",
+    "outerColor": "RAL 7016 T - drobna struktura",
+    "price": 322.02,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "1c3fafbc9fc89cd5fbffcf03ed36677b",
+      "c9ccfc2d74cf37aed43356b33e9bc800",
+      "b8a52d8f4efbee16392afe9280c6c981"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 141,
+    "name": "MB-86N",
+    "type": "Door",
+    "height": 2375,
+    "width": 1050,
+    "material": "Aluminium",
+    "openability": "Inward",
+    "innerColor": "RAL 7016 T - drobna struktura",
+    "outerColor": "RAL 7016 T - drobna struktura",
+    "price": 1001.16,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "393b3501af3dfcd1bb060ab210b64f47",
+      "d1a10577145976102b2ee62a04c80794",
+      "406a4cabc6167f0f6bfd6fbec36d7aee"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 612,
+    "name": "MB-86N",
+    "type": "Door",
+    "height": 2620,
+    "width": 1244,
+    "material": "Aluminium",
+    "openability": "Inward",
+    "innerColor": "DB 703 Metallic Grey",
+    "outerColor": "DB 703 Metallic Grey",
+    "price": 1033.27,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "2acfebb38acec17e0f7ee6e41dc2f168",
+      "28febd9f0b678cc71f46318432a116ca",
+      "f03a4ab65aeaef9eaa86258679232d09"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1001,
+    "name": "MB-86N",
+    "type": "Door",
+    "height": 2300,
+    "width": 1022,
+    "material": "Aluminium",
+    "openability": "Inward",
+    "innerColor": "RAL 9016 T - drobna struktura",
+    "outerColor": "RAL 7016 T - drobna struktura",
+    "price": 1048.87,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "e9112eb3b70813f5a5ff61d2d6336fa3",
+      "dbee60d37a8cf15b683356dd7662b826",
+      "1bebbbfadcccfc0c9f9c421fa1ff5ae8"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 613,
+    "name": "MB-86N",
+    "type": "Door",
+    "height": 2620,
+    "width": 1244,
+    "material": "Aluminium",
+    "openability": "Inward",
+    "innerColor": "DB 703 Metallic Grey",
+    "outerColor": "DB 703 Metallic Grey",
+    "price": 1033.27,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "4335651f861772ad2f5c28b3f5972887",
+      "2e354cdcc10283ce032a22e07a5bf577",
+      "c666ab01bc54a78cf0e36b681d537fb1"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 8,
+    "name": "MB-86N SI",
+    "type": "Door",
+    "height": 2500,
+    "width": 1157,
+    "material": "Aluminium",
+    "openability": "Inward",
+    "innerColor": "inny",
+    "outerColor": "inny",
+    "price": 901.08,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "a59f69e0911a2cef97901076f051ed69",
+      "2f2046479d30a1aac5f5cccea012b131",
+      "add57d292865463eb514b538964b67c7"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 76,
+    "name": "Profil PP",
+    "type": "Balcony",
+    "height": 2182,
+    "width": 1817,
+    "material": "PCV",
+    "openability": "Outward",
+    "innerColor": "Veneer Anthracite 701605-167",
+    "outerColor": "Veneer Anthracite 701605-167",
+    "price": 448.32,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "a7523c1c31bac7c7247950c5e622ec7e",
+      "8c345d86ce1baf34938ef7bca355036b",
+      "eddb1c7e0c19f6817f095c56c7d4b384"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 77,
+    "name": "Profil PP",
+    "type": "Balcony",
+    "height": 2212,
+    "width": 1634,
+    "material": "PCV",
+    "openability": "Outward",
+    "innerColor": "Veneer Anthracite 701605-167",
+    "outerColor": "Veneer Anthracite 701605-167",
+    "price": 486.62,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "6a0d76541dd3bcf70ca61d8ae82a7d6a",
+      "fb46f3a10cbe6512b0c98802d138eeed",
+      "2742af613037419270cdc5c6e0f21e4b"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 475,
+    "name": "SOFTLINE - 68",
+    "type": "Door",
+    "height": 2200,
+    "width": 1100,
+    "material": "Wood",
+    "openability": "Inward",
+    "innerColor": "Biały",
+    "outerColor": "Biały",
+    "price": 869.42,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "36202ac323b1da650e2d2f744dc5f746",
+      "723f5803d5f94e3360bf3baa90bbdf22",
+      "1afdd161dca8960b68a7999dd2a35b78"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1074,
+    "name": "SOFTLINE - 68",
+    "type": "Window",
+    "height": 880,
+    "width": 980,
+    "material": "Wood",
+    "openability": "Other",
+    "innerColor": "006 dąb jasny",
+    "outerColor": "006 dąb jasny",
+    "price": 67.02,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "9befcf5c574502e7d8be24bc5a1a7164",
+      "5999157fca70b4307082e725283b3599",
+      "f4113030e272b7b84597e51ada4eea5f"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 828,
+    "name": "SOFTLINE - 68",
+    "type": "Window",
+    "height": 1500,
+    "width": 1300,
+    "material": "Wood",
+    "openability": "Inward",
+    "innerColor": "085 teak",
+    "outerColor": "085 teak",
+    "price": 415.83,
+    "currency": "EUR",
+    "addons": "Shutter",
+    "imageHashes": [
+      "78cf0b88d370134a9c393328b11ba812",
+      "d126e8b0e05645146c04c0dd53aee05e",
+      "b8273f7b33bb0bd632851504a2569fa7"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 846,
+    "name": "SOFTLINE - 68",
+    "type": "Balcony",
+    "height": 2540,
+    "width": 1935,
+    "material": "Wood",
+    "openability": "Inward",
+    "innerColor": "Biały",
+    "outerColor": "Biały",
+    "price": 555.17,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "f5710bfab86a2f7d0bf56fd7b77fe380",
+      "6ba3338f6ed910e135ce381c63690550"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 448,
+    "name": "SOFTLINE - 68",
+    "type": "Door",
+    "height": 2400,
+    "width": 1100,
+    "material": "Wood",
+    "openability": "Inward",
+    "innerColor": "085 teak",
+    "outerColor": "085 teak",
+    "price": 652.4,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "64ba042b615e3af2eb9d42bb3557f32f",
+      "c9e3467fd28315449bbe371cb30d7240",
+      "a1e099bcc1d5bddc60ba20f98aa5298b"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1050,
+    "name": "SOFTLINE - 68",
+    "type": "Window",
+    "height": 2540,
+    "width": 1945,
+    "material": "Wood",
+    "openability": "Other",
+    "innerColor": "Biały",
+    "outerColor": "Biały",
+    "price": 563.62,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "abd7432d2208a2baac886678d23412f8",
+      "bf35875baa5b49009773a7c34ed122d6"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 1051,
+    "name": "SOFTLINE - 68",
+    "type": "Window",
+    "height": 2540,
+    "width": 1925,
+    "material": "Wood",
+    "openability": "Other",
+    "innerColor": "Biały",
+    "outerColor": "Biały",
+    "price": 537.25,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "f7ea3f7fe2a02706b1d0eaf40a640eeb",
+      "d12076d3dd4ad2f03f872706a4cf75cf"
+    ],
+    "localImages": []
+  },
+  {
+    "id": 447,
+    "name": "SOFTLINE - 78",
+    "type": "Window",
+    "height": 1500,
+    "width": 1300,
+    "material": "Wood",
+    "openability": "Inward",
+    "innerColor": "RAL 9005",
+    "outerColor": "RAL 9005",
+    "price": 305.56,
+    "currency": "EUR",
+    "addons": "---",
+    "imageHashes": [
+      "b1c108aa74b86a9a3cd548c3168cc7a5",
+      "7f3adecaea6825b91da53634a325683f",
+      "4e3d559060ddaabf82ef711da29b0256"
+    ],
+    "localImages": []
+  }
+]

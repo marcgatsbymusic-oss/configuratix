@@ -1,0 +1,1120 @@
+{
+  "header": {
+    "topBar": {
+      "partnerPortal": "Portal de socis",
+      "cooperation": "Cooperació",
+      "contact": "Contacte"
+    },
+    "nav": {
+      "products": "Productes",
+      "whereToBuy": "On comprar",
+      "aboutMammut": "Sobre Mammut",
+      "configurator": "Configurador 3D"
+    },
+    "megaMenu": {
+      "viewAll": "Veure tots els productes",
+      "comingSoon": "Contingut per a la {{categoria}} properament.",
+      "cats": {
+        "windows": "Windows",
+        "doors": "Portes",
+        "terrace": "Sistemes de terrasses",
+        "shutters": "Persianes enrotllables",
+        "facade": "Persianes de façana",
+        "mosquito": "Mosquiteres",
+        "garage": "Portes de garatge",
+        "conservatories": "Façanes / Conservatoris",
+        "pergola": "Pèrgola",
+        "smart": "Casa intel·ligent",
+        "extras": "Extres",
+        "promotional": "Material promocional"
+      },
+      "cols": {
+        "pvcWindows": "Finestres de PVC",
+        "alumWindows": "Finestres d'alumini",
+        "woodWindows": "Finestres de fusta",
+        "woodAlumWindows": "Finestres de fusta-alumini",
+        "pvcDoors": "Portes de PVC",
+        "alumDoors": "Portes d'alumini",
+        "liftAndSlide": "Aixeca i llisca HS",
+        "slide": "Diapositiva",
+        "foldingDoors": "Portes Plegables",
+        "tiltAndSlide": "Inclina i llisca PSK"
+      },
+      "new": "Nou"
+    }
+  },
+  "home": {
+    "hero": {
+      "premium": "Portes i finestres Premium",
+      "explore": "Exploreu Productes",
+      "configurator": "Configurador 3D",
+      "slide1": {
+        "headline": "Defineix el teu",
+        "headlineSpan": "espai",
+        "sub": "Finestres i portes dissenyades amb precisió que transformen l'arquitectura amb un rendiment tèrmic i acústic d'avantguarda."
+      },
+      "slide2": {
+        "headline": "Obert al",
+        "headlineSpan": "món",
+        "sub": "Sistemes panoràmics d'elevació i corredissa que dissolen el límit entre l'interior i l'exterior."
+      },
+      "slide3": {
+        "headline": "Lleuger, redefinit",
+        "headlineSpan": "per disseny",
+        "sub": "Vidres de terra a sostre que omplen totes les habitacions de llum natural alhora que eviten la calor i el soroll."
+      }
+    },
+    "offer": {
+      "subtitle": "Solucions completes",
+      "title": "La nostra oferta",
+      "text": "Oferim una àmplia gamma de finestres, marcs, portes exteriors i portes corredisses en PVC, fusta i alumini. A través d'una artesania experta, materials de la màxima qualitat i un nivell de servei assegurem l'estatus de la nostra empresa. Cada finestra i porta es fa per encàrrec, oferint a cada client un servei i una atenció individualitzada. T'oferim el més alt nivell d'experiència i t'ajudarem amb els teus plans de reforma i construcció."
+    },
+    "categories": {
+      "subtitle": "Navega per tipus",
+      "title": "Categories de productes",
+      "tabs": {
+        "windows": "WINDOWS",
+        "doors": "PORTES",
+        "shutters": "PERSIANAS",
+        "blinds": "PERSIES",
+        "terrace": "SISTEMES DE TERRASSES",
+        "additions": "ADICIONS"
+      },
+      "items": {
+        "alu": "ALUMINI",
+        "woodAlu": "FUSTA-ALUMINI",
+        "pvc": "PVC",
+        "wooden": "DE FUSTA",
+        "adaptive": "ADAPTATIU",
+        "topMounted": "MUNTAT SUPERIOR",
+        "externalVenetian": "VENECIÀ EXTERIOR",
+        "liftSlide": "ASCENSOR I LLISSA HS",
+        "tiltSlide": "INCLINAR I LLIMINAR PSK",
+        "folding": "PORTES PLEGABLES",
+        "customization": "PERSONALITZACIÓ"
+      }
+    },
+    "featured": {
+      "subtitle": "La nostra col·lecció",
+      "title": "Sistemes destacats",
+      "viewAll": "Veure-ho tot",
+      "tags": {
+        "new": "NOU",
+        "premium": "PREMIUM",
+        "bestseller": "MÉS VENDES"
+      },
+      "discover": "Descobreix",
+      "igloEdge": {
+        "tagline": "Màxim aïllament, marc mínim"
+      },
+      "igloLight": {
+        "tagline": "Encara més llum al teu espai"
+      },
+      "iglo5": {
+        "tagline": "El clàssic renéixer"
+      }
+    },
+    "cta": {
+      "subtitle": "Configurador 3D",
+      "title": "Dissenya la teva finestra perfecta",
+      "text": "Trieu dimensions, materials, colors i tipus de vidre. Guarda la teva configuració i sol·licita un pressupost a l'instant.",
+      "button": "Inicieu el configurador"
+    }
+  },
+  "products": {
+    "collection": "La nostra col·lecció",
+    "title": "Sistemes Premium",
+    "description": "Descobriu la nostra àmplia gamma de finestres, portes i sistemes de terrasses. Dissenyat per a un rendiment tèrmic superior, aïllament acústic i disseny atemporal.",
+    "allProducts": "Tots els productes",
+    "new": "NOU",
+    "sortBy": "Ordena per",
+    "sortOptions": {
+      "default": "Ordre predeterminat",
+      "uw": "Transmitància tèrmica",
+      "db": "Aïllament acústic",
+      "chambers": "Cambres",
+      "depth": "Profunditat d'instal·lació",
+      "gaskets": "Juntes"
+    }
+  },
+  "productDetail": {
+    "notFound": "No s'ha trobat el producte",
+    "return": "Tornar als productes",
+    "configure": "Configura el {{nom}}",
+    "standardEquipment": "Equipament estàndard",
+    "seeVideo": "Veure vídeo",
+    "hoverDrawing": "Passeu el cursor per mostrar el dibuix tècnic",
+    "profile": "Perfil",
+    "technicalDrawing": "Dibuix Tècnic",
+    "newGeneration": "Nova Generació",
+    "uncompromising": "Qualitat sense compromís i rendiment tèrmic",
+    "colorsTitle": "Colors i Acabats",
+    "colorsDesc": "Personalitzeu el vostre {{nom}} amb més d'un {{compte}} d'acabats premium, que van des de sòlids arquitectònics moderns fins a vetes de fusta hiperrealistes.",
+    "preview": "PREVISUALITZACIÓ",
+    "selectedFinish": "Acabat seleccionat",
+    "selectedColor": "Color seleccionat:",
+    "glassTitle": "Vidre",
+    "glassDesc": "DRUTEX, amb més de 30 anys d'experiència en la producció de vidre compost, ofereix una gamma molt àmplia de vidres amb els quals podràs encaixar les teves finestres i portes. Compleixen requisits estrictes d'eficiència energètica i aïllament acústic. L'oferta també inclou vidre laminat (segur i anti-robatori), vidre protegit solar, vidre amb aïllament acústic millorat, vidre temperat, ornamental i amb sorra.",
+    "handlesTitle": "Nanses",
+    "handlesDesc": "Els nostres tiradors de finestres es distingeixen per la seva excel·lent mà d'obra, funcionalitat i durabilitat. Disponible en diverses variants de color per combinar perfectament amb les vostres finestres.",
+    "optionsTitle": "Opcions addicionals",
+    "optionsDesc": "Millora i personalitza el teu IGLO EDGE amb la nostra àmplia gamma d'accessoris i complements certificats.",
+    "seeAll": "Veure-ho tot",
+    "configureQuote": "Configura producte i pressupost",
+    "mountingAccessoriesTitle": "Mounting accessories",
+    "mountingAccessoriesDesc": "Here you will find the products necessary for proper installation of joinery.",
+    "additionalOptions": {
+      "mounting": {
+        "title": "Mounting accessories",
+        "description": "Here you will find the products necessary for proper installation of joinery."
+      },
+      "muntin": {
+        "title": "Muntin bars",
+        "description": "An attractive addition that highlights the unique character of the building."
+      },
+      "fittings": {
+        "title": "Reliable fittings",
+        "description": "Safety, comfort and functionality in every detail."
+      },
+      "glass": {
+        "title": "Sandblasted glass",
+        "description": "A perfect combination of modern design and privacy."
+      },
+      "spacers": {
+        "title": "Spacers",
+        "description": "The latest generation of spacers ensuring thermal comfort."
+      },
+      "ventilation": {
+        "title": "Ventilation",
+        "description": "Ensure healthy air and optimal humidity in your home."
+      },
+      "shutters": {
+        "title": "Roller Shutters",
+        "description": "Protect your home with integrated external roller shutters."
+      },
+      "mosquito": {
+        "title": "Mosquito Nets",
+        "description": "Effective protection against insects while maintaining air flow."
+      },
+      "sill": {
+        "title": "Window sill PVC",
+        "description": "Over 30 veneer colours to choose from."
+      },
+      "mosquito-nets": {
+        "title": "Mosquito Nets",
+        "description": "Keep insects out while letting fresh air in."
+      }
+    },
+    "searchColorPlaceholder": "Cerca (ex. fusta, metall, blau...)",
+    "noColorsFound": "No s'han trobat colors que coincideixin",
+    "clearSearch": "Netejar cerca"
+  },
+  "footer": {
+    "newsletter": {
+      "title": "Butlletí informatiu",
+      "desc": "Estigueu al dia de nous productes i innovacions.",
+      "placeholder": "La teva adreça de correu electrònic",
+      "subscribe": "Subscriu-te"
+    },
+    "cols": {
+      "about": {
+        "title": "Sobre Mammut",
+        "history": "La nostra Història",
+        "quality": "Qualitat i certificats",
+        "innovation": "Innovació",
+        "sustainability": "Sostenibilitat"
+      },
+      "offer": {
+        "title": "La nostra oferta",
+        "pvc": "Finestres de PVC",
+        "alu": "Finestres d'alumini",
+        "wood": "Finestres de fusta",
+        "doors": "Portes exteriors",
+        "shutters": "Persianes"
+      },
+      "inspiration": {
+        "title": "Inspiració",
+        "kitchen": "Cuina",
+        "living": "Sala d'estar",
+        "bedroom": "Dormitori",
+        "terrace": "Terrassa"
+      },
+      "partners": {
+        "title": "Socis",
+        "portal": "Portal de socis",
+        "coop": "Programa de cooperació",
+        "sales": "Representants de vendes",
+        "contact": "Contacte"
+      }
+    },
+    "legal": {
+      "privacy": "Política de privadesa",
+      "cookies": "Configuració de galetes",
+      "sitemap": "Mapa del lloc",
+      "terms": "Condicions d'ús",
+      "copyright": "Portes i finestres Mammut. Tots els drets reservats."
+    }
+  },
+  "igloEdge": {
+    "tagline": "Màxim aïllament, marc mínim",
+    "description": "La nostra finestra nova i tecnològicament més avançada es distingeix per un excel·lent paràmetre d'aïllament tèrmic de Uw = 0,66 W/(m²K)* i una forma de perfil angular moderna. Els extremadament bons paràmetres d'aïllament tèrmic es deuen, entre altres coses, al disseny del perfil de 7 cambres i 3 juntes d'EPDM, inclosa la junta central.",
+    "basicDescription": "El sistema de finestres IGLO EDGE representa el cim de l'eficiència energètica. Dissenyat per a cases passives i renovacions energètiques, compta amb un perfil de 7 cambres, el millor de la seva classe Uw = 0,66 W/(m²K) i un disseny minimalista que maximitza la llum natural que entra a l'habitació.",
+    "equipment": {
+      "0": "Paquet de vidre de doble cambra Ug = 0,5 W/(m²K)",
+      "1": "Marc càlid de plàstic Swisspacer Ultimate",
+      "2": "Soldadura en V perfecta",
+      "3": "4 davanters antirobatori segons la mida de la faixa i el sistema de ferreteria",
+      "4": "Microventilació",
+      "5": "Tirador de finestra DUBLIN d'alumini",
+      "6": "Mecanisme de bloqueig per desplaçament incorrecte de la maneta",
+      "7": "Juntes perimetrals, envidres i centrals en negre o gris",
+      "8": "Ompliment de la ranura inferior del maquinari",
+      "9": "Tall de llit",
+      "10": "Àmplia selecció de colors de xapa de PVC",
+      "11": "3 colors de perfil a escollir: blanc, marró o antracita"
+    },
+    "specs": {
+      "sound": "Aïllament acústic",
+      "gaskets": "Juntes d'EPDM",
+      "thermal": "Transmissió tèrmica",
+      "chambers": "Nombre de cambres",
+      "depth": "Profunditat d'instal·lació",
+      "class": "Classe de perfil"
+    }
+  },
+  "colorGroups": {
+    "Metal Effect": "Efecte metall",
+    "Solid": "Sòlid",
+    "Wood Effect": "Efecte fusta"
+  },
+  "colors": {
+    "c209": "Gris basalt",
+    "c210": "Gadki gris basalt",
+    "c232": "Bronze profund",
+    "c213": "Grafit amb sorra",
+    "c207": "Quars gris",
+    "c208": "Quars Gris Llis",
+    "c237": "Blau d'acer",
+    "c214": "Antracita",
+    "c216": "Antracita Ulti Matt",
+    "c215": "Antracita Llis",
+    "c218": "Black Ulti Matt",
+    "c236": "Blau brillant",
+    "c231": "Marró Xocolata",
+    "c206": "Gris de formigó",
+    "c200": "Crema",
+    "c199": "Croviu Platinium",
+    "c234": "Verd fosc",
+    "c235": "Vermell fosc",
+    "c233": "Verd Molsa",
+    "c205": "Gris",
+    "c217": "Negre Jet",
+    "c204": "Gris clar",
+    "c201": "Pirita",
+    "c228": "Palissandre",
+    "c211": "Pissarra",
+    "c212": "Pissarra Llisa",
+    "c197": "Blanc",
+    "c198": "Sorra Blanca Mat",
+    "c202": "Roure blanquejat",
+    "c227": "Roure fosc",
+    "c225": "avet Douglas",
+    "c229": "Macore",
+    "c230": "Caoba",
+    "c203": "Roure Natural",
+    "c224": "Oregon",
+    "c220": "Turner Oak 2023",
+    "c221": "Turner Oak Toffee 470 3004",
+    "c222": "Turner Oak Noguera 470 3004",
+    "c226": "Noguera",
+    "c223": "Winchester",
+    "c219": "Roure daurat",
+    "c999": "Fusta de prova"
+  },
+  "configurator": {
+    "title": "Dissenyeu el vostre sistema de finestres personalitzat.",
+    "subtitle": "Trieu el material i configureu les vostres especificacions arquitectòniques exactes a continuació.",
+    "steps": {
+      "material": "Material",
+      "system": "Perfil",
+      "windowType": "Tipus de finestra",
+      "openingType": "Tipus d'obertura",
+      "color": "Color i decoració",
+      "dimensions": "Dimensions (MM)",
+      "glazing": "Paquet de vidre",
+      "options": "Accessoris i complements",
+      "profile": "Perfil",
+      "start": "Comença",
+      "seals": "Juntes"
+    },
+    "summary": {
+      "title": "Visió general de les especificacions",
+      "dimensions": "Dimensions",
+      "material": "Material",
+      "system": "Perfil",
+      "windowType": "Tipus de finestra",
+      "color": "Color i decoració",
+      "glazing": "Envidrament",
+      "financials": "Finances",
+      "baseFramework": "Marc de base",
+      "hardwareAssembly": "Muntatge de maquinari",
+      "accessories": "Accessoris",
+      "totalSystem": "Sistema total",
+      "exportJson": "Exportació JSON",
+      "saveToCart": "Desa al carretó",
+      "edit": "Edita"
+    },
+    "inputs": {
+      "w": "W",
+      "h": "H",
+      "mm": "mm",
+      "cm": "(CM)"
+    },
+    "state": {
+      "selected": "Seleccionat",
+      "selectWindowType": "Seleccioneu el tipus de finestra",
+      "openingDirection": "Direcció d'obertura",
+      "fixedNoOpening": "Fixat (sense obertura)",
+      "turnTilt": "Full interior (gir/inclinació)",
+      "sashes": "{{count}} Configuració de sashes",
+      "closeOnSelect": "Tancar la finestra al seleccionar"
+    },
+    "blueprint": {
+      "interiorView": "Vista interior",
+      "dragToRotate": "Arrossegueu per girar lliurement en 3D",
+      "exteriorView": "Exterior View",
+      "uploadPhoto": "Upload Photo",
+      "removePhoto": "Remove Photo",
+      "positionOptions": "Position & Size Options",
+      "resetWindowFit": "Reset Window Fit",
+      "scale": "Scale",
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "windowTypes": {
+      "1-flugel": "1 fulla",
+      "1-flugel-oberlicht": "1 fulla \namb Toplight",
+      "1-flugel-unterlicht": "1 fulla \namb Bottomlight",
+      "2-flugel": "2 fulles",
+      "2-flugel-oberlicht": "2 fulles \namb Toplight",
+      "2-flugel-oberlicht-asym": "2 Fulles asim. \namb Toplight",
+      "2-flugel-unterlicht": "2 fulles \namb Bottomlight",
+      "2-flugel-unterlicht-asym": "2 Fulles asim. \namb Bottomlight",
+      "3-flugel": "3 fulles",
+      "3-flugel-oberlicht": "3 fulles \namb Toplight",
+      "3-flugel-oberlicht-asym": "3 Fulles asim. \namb Toplight",
+      "3-flugel-unterlicht": "3 fulles \namb Bottomlight",
+      "3-flugel-unterlicht-asym": "3 Fulles asim. \namb Bottomlight",
+      "4-flugel": "4 fulles"
+    },
+    "openingTypes": {
+      "F": "Arreglat",
+      "DKL": "Girar-inclinar (esquerra)",
+      "DKR": "Girar-inclinar (dreta)",
+      "DL": "Girar (esquerra)",
+      "DR": "Girar (dreta)",
+      "K": "Inclinació"
+    },
+    "welcome": {
+      "title": "Benvingut al nostre configurador de Windows amb IA",
+      "description": "Seleccionar finestres no és una tasca fàcil, hi ha moltes opcions i les necessitats de cadascú són diferents, per això el nostre configurador t'orientarà i t'ajudarà a prendre la millor elecció que s'adapti a les teves necessitats i pressupost."
+    },
+    "seals": {
+      "black": "Negre (czarny)",
+      "grey": "Gris (szary)"
+    },
+    "buttons": {
+      "previous": "Pas anterior",
+      "next": "Pas següent"
+    }
+  },
+  "help": {
+    "materialDesc": "Trieu el tipus de material per a la vostra finestra. A continuació trobareu un resum de les principals característiques de cadascun.",
+    "pvc": "PVC",
+    "aluminum": "ALUMINI",
+    "durability": "Durabilitat",
+    "maintenance": "Manteniment",
+    "insulation": "Aïllament",
+    "weatherRes": "Resistència a la intempèrie",
+    "security": "Seguretat",
+    "ecoFootprint": "Petjada ecològica",
+    "legend": "* = neutre | ** = bo | *** = molt bo",
+    "windowTypeDesc": "Les nostres finestres tenen diferents opcions d'obertura. Hi ha finestres d'una, dues i tres fulles amb travessos superiors o inferiors.",
+    "singleLeaf": "Finestres d'una sola fulla",
+    "doubleLeaf": "Finestres de dues fulles",
+    "tripleLeaf": "Finestres de tres fulles",
+    "specialWindows": "Tipus de finestres especials",
+    "leaveConf": "Voleu deixar el configurador?",
+    "stillQuestions": "Encara tens preguntes sobre la teva comanda o el configurador?",
+    "csTeam": "El nostre equip d'atenció al client (i el nostre Assistent d'IA) estaran encantats d'assessorar-vos de forma gratuïta:",
+    "monFri": "(de dilluns a divendres de 8:00 a 18:00)",
+    "aiAssist": "Assistent d'IA",
+    "avail247": "(Disponible 24/7)",
+    "exitWarning": "En sortir del configurador, es perdrà la vostra selecció anterior.",
+    "continueConf": "Continueu al configurador",
+    "exitConf": "Sortir del configurador",
+    "haveQuestions": "Tens alguna pregunta?",
+    "availableToday": "Estem disponibles avui fins a les 18:00h.",
+    "shallWeTalk": "Parlem? Reserva ara la teva trucada.",
+    "scheduleMeeting": "Agenda reunió",
+    "up": "Amunt",
+    "close": "Tancar",
+    "comp": {
+      "title": "Taula de comparació resum (context 2026)",
+      "feature": "Característica",
+      "pvc": "PVC (uPVC)",
+      "aluminum": "Alumini",
+      "bestFor": "Millor per",
+      "bestForPvc": "Pressupost, mides estàndard, màxima eficiència tèrmica a baix cost.",
+      "bestForAlu": "Àmplies zones de vidre, estètica moderna, longevitat i força.",
+      "lifespan": "Vida útil",
+      "lifespanPvc": "20-30 anys",
+      "lifespanAlu": "Més de 45 anys",
+      "cost": "Cost",
+      "costPvc": "Generalment un 30%-50% més barat.",
+      "costAlu": "Punt de preu premium.",
+      "aesthetics": "Estètica",
+      "aestheticsPvc": "Marcs més voluminosos.",
+      "aestheticsAlu": "Perfils prims (més llum natural)."
+    }
+  },
+  "assistant": {
+    "geoTitle": "Partit Climàtic Local",
+    "geoDesc": "Clima a mida per a tu \nLes nostres finestres estan dissenyades específicament per al clima de la vostra zona. En funció de la seva ubicació exacta, calculem el rendiment tèrmic ideal per garantir el màxim aïllament a l'hivern i frescor a l'estiu. \n\nEls teus beneficis: \n\nEstalvi energètic: reduir les despeses de calefacció i aire condicionat. \n\nConfort total: digues adéu als corrents d'aire i a la calor sufocant. \n\nPrecisió local: tecnologia específicament adaptada a la teva ciutat.",
+    "province": "Província",
+    "city": "Municipi / Ciutat",
+    "selectProv": "Seleccioneu la província...",
+    "selectCity": "Seleccioneu la ciutat...",
+    "topoEngine": "Motor topogràfic",
+    "altitude": "Altitud",
+    "cteZone": "CTE DB-HE ZONA CLIMÀTICA",
+    "next": "Següent pas",
+    "matTitle": "Limitacions de material i pressupost",
+    "matPref": "Preferència de material",
+    "guideMe": "No ho sé, guia'm",
+    "budget": "Àmbit pressupostari",
+    "low": "Baixa",
+    "med": "Mitjana",
+    "premium": "Premium",
+    "timeTitle": "Cronologia del projecte",
+    "t1": "Tan aviat com sigui possible",
+    "t1Sub": "15 dies laborables abans",
+    "t2": "Els propers 1-2 mesos",
+    "t3": "Més de 2 mesos",
+    "t4": "Encara no n'estic segur",
+    "archTitle": "Acústica i Arquitectura",
+    "houseType": "Tipus d'habitatge",
+    "villa": "Vila",
+    "apt": "Apartament",
+    "noisePol": "Contaminació acústica local",
+    "nHigh": "Ciutat / Alt trànsit",
+    "nLow": "Rural / Tranquil",
+    "processCalc": "Anàlisi de processos",
+    "analyzing": "Anàlisi de dades",
+    "computing": "Càlcul de càrregues estructurals òptimes...",
+    "perfWin": "La teva finestra perfecta",
+    "basedOn": "Segons les dades climàtiques de la vostra {{zona}} geogràfica absoluta, la contaminació acústica local {{soroll}} i el pressupost definit, els nostres algorismes recomanen:",
+    "recProf": "Sistema de perfils recomanat",
+    "base": "Base",
+    "glaze": "Envidrament",
+    "useData": "Utilitzeu aquestes dades i la finestra de configuració",
+    "inter1": "Recomanat: Assistent guiat intel·ligent",
+    "inter2": "Porta'm directament al configurador",
+    "inter2Sub": "(Configuració complexa)"
+  },
+  "partner": {
+    "layout": {
+      "dashboard": "Tauler de control",
+      "leads": "Conductes i canonades",
+      "profile": "Perfil de la botiga",
+      "settings": "Configuració",
+      "portal": "Portal de socis",
+      "signOut": "Tanca la sessió"
+    },
+    "dashboard": {
+      "title": "Tauler de control",
+      "subtitle": "Benvingut de nou. Aquí teniu el que està passant a la vostra botiga.",
+      "showQr": "Mostra el QR a la botiga",
+      "totalScans": "Escaneigs totals",
+      "activeLeads": "Leads actius",
+      "estCommissions": "Est. Comissions",
+      "fromLastMonth": "del mes passat",
+      "newThisWeek": "nou aquesta setmana",
+      "leadsPending": "porta pendents de tancament",
+      "recentActivity": "Activitat recent"
+    },
+    "leads": {
+      "title": "Conductes i canonades",
+      "subtitle": "Feu un seguiment del progrés dels vostres clients i de les comissions estimades.",
+      "exportCsv": "Exporta CSV",
+      "searchId": "ID de cerca...",
+      "filterStatus": "Filtra per estat",
+      "cols": {
+        "id": "ID de client",
+        "date": "Data d'escaneig",
+        "source": "Font d'escaneig",
+        "status": "Estat",
+        "budget": "Est. Pressupost",
+        "actions": "Accions"
+      }
+    },
+    "profile": {
+      "title": "Perfil de la botiga",
+      "subtitle": "Gestioneu els detalls de la vostra botiga i la configuració de marca compartida.",
+      "basicInfo": "Informació bàsica",
+      "storeName": "Nom de la botiga",
+      "storeType": "Tipus de botiga",
+      "address": "Adreça",
+      "email": "Correu electrònic",
+      "phone": "Telèfon",
+      "saveChanges": "Desa els canvis",
+      "cobranding": "Co-branding",
+      "cobrandingDesc": "Carregueu el vostre logotip perquè aparegui a la pàgina de destinació del client quan escanegen els vostres codis QR.",
+      "clickToUpload": "Feu clic per carregar el logotip",
+      "fileTypes": "SVG, PNG o JPG (màx. 2 MB)",
+      "networkGroup": "Grup Xarxa",
+      "networkDesc": "La teva botiga és un soci independent. Si pertanys a una cadena més gran, pots enllaçar el teu compte.",
+      "linkChain": "Enllaç a Cadena/Grup",
+      "types": {
+        "hardware": "Ferreteria",
+        "pharmacy": "Farmàcia",
+        "restaurant": "Restaurant",
+        "other": "Altres"
+      }
+    }
+  },
+  "handles": {
+    "h1": {
+      "name": "Mànec estàndard",
+      "type": "Alumini"
+    },
+    "h2": {
+      "name": "Mànec amb clau",
+      "type": "Seguretat"
+    },
+    "h3": {
+      "name": "de Secus®",
+      "type": "Anti-robatori"
+    }
+  },
+  "sliderHandles": {
+    "nevada-ral7016": "NEVADA amb clau (RAL7016)",
+    "nevada-ral9001": "NEVADA amb clau (RAL9001)",
+    "nevada-ral9005": "NEVADA amb clau (RAL9005)",
+    "nevada-ral9016": "NEVADA amb clau (RAL9016)",
+    "nevada-f9": "NEVADA amb clau (titani F9)",
+    "mistral-ral7016": "MISTRAL amb clau (RAL7016)",
+    "mistral-ral9001": "MISTRAL amb clau (RAL9001)",
+    "mistral-ral9005": "MISTRAL amb clau (RAL9005)",
+    "mistral-f9-key": "MISTRAL amb clau (titani F9)",
+    "mistral-f9": "MISTRAL F9",
+    "dublin-ral9016": "DUBLIN (blanc RAL9016)",
+    "dublin-ral8019": "DUBLIN (marró RAL8019)",
+    "dublin-ral7016": "DUBLÍ (RAL7016)",
+    "dublin-ral9005": "DUBLÍ (RAL9005)",
+    "dublin-silver": "DUBLÍ (plata)",
+    "dublin-key-ral7016": "DUBLIN amb clau (RAL7016)",
+    "dublin-key-ral9005": "DUBLIN amb clau (RAL9005)",
+    "dublin-key-ral9016": "DUBLIN amb clau (blanc RAL9016)",
+    "dublin-key-ral8019": "DUBLIN amb clau (marró RAL8019)",
+    "dublin-key-silver": "DUBLIN amb clau (plata)",
+    "kwadrat-ral7016": "QUADRAT RAL 7016",
+    "kwadrat-ral8019": "QUADRAT RAL 8019",
+    "kwadrat-ral9016": "QUADRAT RAL 9016",
+    "kwadrat-ral9001": "QUADRAT RAL 9001",
+    "kwadrat-f9": "QUADRAT titani F9",
+    "kwadrat-key-f1": "KWADRAT amb la tecla F1",
+    "kwadrat-key-f4": "KWADRAT amb la tecla F4",
+    "kwadrat-key-f9": "KWADRAT amb la tecla F9",
+    "kwadrat-key-ral7016": "KWADRAT amb clau (RAL7016)",
+    "kwadrat-key-ral8019": "KWADRAT amb clau (RAL8019)",
+    "kwadrat-key-ral9001": "KWADRAT amb clau (RAL9001)",
+    "kwadrat-key-ral9005": "KWADRAT amb clau (RAL9005)",
+    "kwadrat-key-ral9016": "KWADRAT amb clau (RAL9016)"
+  },
+  "productData": {
+    "iglo-edge": {
+      "name": "IGLO EDGE",
+      "tagline": "Maximum insulation, minimal frame",
+      "description": "Our new, most technologically advanced window is distinguished by an excellent thermal insulation parameter of Uw = 0.66 W/(m²K)* and a modern, angular profile shape. The extremely good thermal insulation parameters are due, among other things, to the 7-chamber profile design and 3 EPDM gaskets, including the central gasket.",
+      "specs": {
+        "label_0": "Transmissió tèrmica (Uw)",
+        "value_0": "0,66",
+        "label_1": "Profunditat d'instal·lació",
+        "value_1": "82",
+        "label_2": "Cambres de perfil",
+        "value_2": "7",
+        "label_3": "Aïllament acústic (Rw)",
+        "value_3": "36–47"
+      },
+      "standardEquipment": [
+        "Double-chamber glazing package Ug = 0.5 W/(m²K)",
+        "Swisspacer Ultimate plastic warm frame",
+        "V-perfect weld",
+        "4 anti-theft strikers according to the size of the sash and the hardware system",
+        "Microventilation",
+        "DUBLIN aluminium window handle",
+        "Handle misplacement locking mechanism",
+        "Perimeter, glazing and central gaskets in black or grey",
+        "Filling of the lower hardware groove",
+        "Sill trim",
+        "Wide selection of PVC veneer colours",
+        "3 profile colours to choose from: white, brown or anthracite"
+      ],
+      "keySpecs": {
+        "label_0": "so",
+        "value_0": "36-47 dB",
+        "label_1": "juntes",
+        "value_1": "3",
+        "label_2": "tèrmica",
+        "value_2": "Uw = 0,66 W/(m²K)*",
+        "label_3": "cambres",
+        "value_3": "7",
+        "label_4": "profunditat",
+        "value_4": "82 mm",
+        "label_5": "classe",
+        "value_5": "A"
+      },
+      "hardware": {
+        "name_0": "Mànec estàndard",
+        "type_0": "Alumini",
+        "name_1": "Mànec amb clau",
+        "type_1": "Seguretat",
+        "name_2": "de Secus®",
+        "type_2": "Anti-robatori"
+      },
+      "accessories": {
+        "name_0": "Maco Multi Matic KS",
+        "description_0": "Maquinari perimetral avançat amb microventilació",
+        "name_1": "Soldadura V-Perfect",
+        "description_1": "Soldadura de cantonada pràcticament invisible per a una estètica impecable",
+        "name_2": "Reforç d'acer",
+        "description_2": "Perfil d'acer tancat al bastidor per a una rigidesa extrema",
+        "name_3": "Segells EPDM",
+        "description_3": "Sistema de segellat triple en negre o gris"
+      }
+    },
+    "iglo-energy": {
+      "name": "ENERGIA DE L'AGULLA",
+      "tagline": "Eficiència energètica excepcional",
+      "description": "Un innovador i original sistema de perfils de classe A de 7 cambres, fabricat exclusivament amb material primer, que es distingeix per un excel·lent coeficient d'aïllament tèrmic Uw = 0,6 W/(m2K)*. Iglo Energy estableix l'estàndard per a finestres d'eficiència energètica.",
+      "specs": {
+        "label_0": "Transmissió tèrmica (Uw)",
+        "value_0": "0,71",
+        "label_1": "Profunditat d'instal·lació",
+        "value_1": "82",
+        "label_2": "Cambres de perfil",
+        "value_2": "7",
+        "label_3": "Aïllament acústic (Rw)",
+        "value_3": "37–46"
+      },
+      "standardEquipment": {
+        "eq_0": "Ferreteria MACO MULTI MATIC KS amb 2 ganxos antirobatori",
+        "eq_1": "Revestiment Silber-Look i depressions lineals a les espagnolettes",
+        "eq_2": "Dispositiu de mala manipulació i faixa d'elevació",
+        "eq_3": "Microventilació en finestres oscil·ladors",
+        "eq_4": "Perfil de l'ampit de la finestra",
+        "eq_5": "Reforç d'acer galvanitzat o fibra de vidre (opcional)",
+        "eq_6": "Ampit de la finestra de 5 cambres",
+        "eq_7": "Paquet de triple vidre amb separador de vora càlid"
+      },
+      "keySpecs": {
+        "label_0": "so",
+        "value_0": "37-46 dB",
+        "label_1": "juntes",
+        "value_1": "3 EPDM",
+        "label_2": "tèrmica",
+        "value_2": "Uw = 0,71 W/(m²K)*",
+        "label_3": "cambres",
+        "value_3": "7",
+        "label_4": "profunditat",
+        "value_4": "82 mm",
+        "label_5": "classe",
+        "value_5": "A"
+      },
+      "hardware": {
+        "name_0": "Mànec estàndard",
+        "type_0": "Alumini",
+        "name_1": "Mànec amb clau",
+        "type_1": "Seguretat",
+        "name_2": "de Secus®",
+        "type_2": "Anti-robatori"
+      },
+      "accessories": {
+        "name_0": "Maco Multi Matic KS",
+        "description_0": "Maquinari perimetral avançat amb microventilació",
+        "name_1": "Soldadura V-Perfect",
+        "description_1": "Soldadura de cantonada pràcticament invisible per a una estètica impecable",
+        "name_2": "Reforç d'acer",
+        "description_2": "Perfil d'acer tancat al bastidor per a una rigidesa extrema",
+        "name_3": "Segells EPDM",
+        "description_3": "Sistema de segellat triple en negre o gris"
+      }
+    },
+    "iglo-energy-classic": {
+      "name": "IGLO ENERGY CLASSIC",
+      "tagline": "La perla de vidre quadrada compleix el rendiment de la casa passiva",
+      "description": "Un disseny únic on es pot triar la perla de vidre de forma quadrada per reflectir les últimes tendències arquitectòniques. Els notables paràmetres d'aïllament tèrmic estan garantits per l'òptima estructura de perfil de 7 cambres i un sistema de segellat especialment dissenyat fet d'EPDM escumat. Perfil disponible en blanc, antracita i bronze.",
+      "specs": {
+        "label_0": "Transmissió tèrmica (Uw)",
+        "value_0": "0,73",
+        "label_1": "Profunditat d'instal·lació",
+        "value_1": "82",
+        "label_2": "Cambres de perfil",
+        "value_2": "7",
+        "label_3": "Aïllament acústic (Rw)",
+        "value_3": "36–42"
+      }
+    },
+    "iglo-energy-alucover": {
+      "name": "IGLO ENERGY ALUCOVER",
+      "tagline": "Rendiment de PVC amb elegància exterior d'alumini",
+      "description": "Experimenta la fusió del rendiment d'aïllament tèrmic d'avantguarda i el disseny contemporani. El revestiment d'alumini a l'exterior ofereix possibilitats de color il·limitades, la qual cosa us permet crear un estil personalitzat únic per a cada interior o façana d'edifici, sense comprometre el rendiment tèrmic.",
+      "specs": {
+        "label_0": "Transmissió tèrmica (Uw)",
+        "value_0": "0,76",
+        "label_1": "Profunditat d'instal·lació",
+        "value_1": "82",
+        "label_2": "Cambres de perfil",
+        "value_2": "7",
+        "label_3": "Paquet de vidre (I)",
+        "value_3": "0,5"
+      }
+    },
+    "iglo-5": {
+      "name": "AGULLA 5",
+      "tagline": "Alta qualitat a un preu atractiu",
+      "description": "El sistema IGLO 5 combina elegància, funcionalitat i solucions avançades d'estalvi d'energia. El seu disseny atemporal de perfil de 5 cambres el converteix en una opció versàtil tant per a l'arquitectura moderna com per a les renovacions clàssiques, oferint un rendiment tèrmic sòlid a un preu excel·lent.",
+      "specs": {
+        "label_0": "Transmissió tèrmica (Uw)",
+        "value_0": "0,74",
+        "label_1": "Profunditat d'instal·lació",
+        "value_1": "70",
+        "label_2": "Cambres de perfil",
+        "value_2": "5",
+        "label_3": "Aïllament acústic (Rw)",
+        "value_3": "36–44"
+      }
+    },
+    "iglo-5-classic": {
+      "name": "AGULLA 5 CLASSIC",
+      "tagline": "Les solucions provades signifiquen la satisfacció del client",
+      "description": "L'IGLO 5 Classic combina el sistema de perfils de 5 cambres provat amb una estètica tradicional. El rendiment tèrmic i acústic fiable el converteix en l'opció de confiança tant per a noves construccions com per a projectes de renovació a totes les zones climàtiques.",
+      "specs": {
+        "label_0": "Transmissió tèrmica (Uw)",
+        "value_0": "0,89",
+        "label_1": "Profunditat d'instal·lació",
+        "value_1": "70",
+        "label_2": "Cambres de perfil",
+        "value_2": "5",
+        "label_3": "Aïllament acústic (Rw)",
+        "value_3": "36–44"
+      }
+    },
+    "iglo-light": {
+      "name": "IGLO LLUM",
+      "tagline": "Encara més llum natural al vostre espai",
+      "description": "IGLO LIGHT es caracteritza pels seus perfils excepcionalment prims, que permeten una llum molt més natural a l'interior. Malgrat el seu aspecte esvelt, ofereix una estabilitat estructural i un rendiment tèrmic excepcionals en la clàssica enginyeria de 5 cambres.",
+      "specs": {
+        "label_0": "Transmissió tèrmica (Uw)",
+        "value_0": "0,88",
+        "label_1": "Profunditat d'instal·lació",
+        "value_1": "70",
+        "label_2": "Cambres de perfil",
+        "value_2": "5",
+        "label_3": "Aïllament acústic (Rw)",
+        "value_3": "34"
+      }
+    },
+    "iglo-ext": {
+      "name": "IGLO EXT",
+      "tagline": "Modernes finestres de balcó de PVC que s'obren cap a l'exterior",
+      "description": "IGLO EXT és un modern sistema de PVC d'obertura exterior ideal per a balcons, terrasses i instal·lacions d'espai reduït on l'obertura cap a l'interior no és pràctica. Ofereix una protecció contra la intempèrie i un aïllament tèrmic fiables en un disseny que estalvia espai.",
+      "specs": {
+        "label_0": "Transmissió tèrmica (Uw)",
+        "value_0": "0,89",
+        "label_1": "Profunditat d'instal·lació",
+        "value_1": "70",
+        "label_2": "Cambres de perfil",
+        "value_2": "5",
+        "label_3": "Direcció d'obertura",
+        "value_3": "Cap a fora"
+      }
+    },
+    "iglo-premier": {
+      "name": "NEEDLE PREMIER",
+      "tagline": "Finestres abatibles o basculants modernes amb obertura exterior",
+      "description": "Iglo Premier ofereix l'experiència de la finestra d'obertura cap a l'exterior amb una resistència a la intempèrie i un rendiment tèrmic excepcionals. Dissenyat per a l'arquitectura contemporània que requereix línies de visió netes i un rendiment fiable a llarg termini.",
+      "specs": {
+        "label_0": "Profunditat d'instal·lació",
+        "value_0": "70",
+        "label_1": "Cambres de perfil",
+        "value_1": "5",
+        "label_2": "Direcció d'obertura",
+        "value_2": "Cap a fora",
+        "label_3": "Vidres estàndard (i)",
+        "value_3": "0,6"
+      }
+    },
+    "ideal-neo-ad": {
+      "name": "IDEAL NEO AD",
+      "tagline": "Més que un disseny modern",
+      "description": "L'IDEAL NEO AD ofereix una estructura de perfil de 5/6 cambres amb una versatilitat de disseny excepcional. Incorpora tecnologia avançada de trencament tèrmic i està disponible en una àmplia gamma d'acabats, la qual cosa la fa ideal per a projectes arquitectònicament exigents.",
+      "specs": {
+        "label_0": "Transmissió tèrmica (Uw)",
+        "value_0": "0,79",
+        "label_1": "Profunditat d'instal·lació",
+        "value_1": "76",
+        "label_2": "Cambres de perfil",
+        "value_2": "5/6",
+        "label_3": "Aïllament acústic (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md": {
+      "name": "IDEAL NEO MD",
+      "tagline": "Més que un disseny modern",
+      "description": "IDEAL NEO MD és un sistema premium de 6 cambres que ofereix un excel·lent aïllament tèrmic i una estètica de perfil enrasat contemporània. El disseny de faixa sense costures elimina les rebaixes visibles, creant un aspecte modern que s'adapta a interiors i façanes minimalistes.",
+      "specs": {
+        "label_0": "Transmissió tèrmica (Uw)",
+        "value_0": "0,76",
+        "label_1": "Profunditat d'instal·lació",
+        "value_1": "76",
+        "label_2": "Cambres de perfil",
+        "value_2": "6",
+        "label_3": "Aïllament acústic (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-fs": {
+      "name": "IDEAL NEO MD-FS",
+      "tagline": "En harmonia amb l'arquitectura",
+      "description": "La variant de faixa encastada IDEAL NEO MD-FS elimina el pas visible entre el marc i la faixa, donant com a resultat un aspecte exterior perfectament pla. Ideal per a una arquitectura moderna i minimalista on les línies de visió importen tant com el rendiment.",
+      "specs": {
+        "label_0": "Transmissió tèrmica (Uw)",
+        "value_0": "0,73",
+        "label_1": "Profunditat d'instal·lació",
+        "value_1": "76",
+        "label_2": "Cambres de perfil",
+        "value_2": "6",
+        "label_3": "Aïllament acústic (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-monoblock": {
+      "name": "MONOBLOC IDEAL NEO MD",
+      "tagline": "Dissenyat per a la instal·lació dins de capes d'aïllament",
+      "description": "Els marcs monobloc estan dissenyats per a finestres instal·lades dins d'una capa d'aïllament. L'ampli rang de marc (76-162 mm) permet una selecció adequada en funció del gruix de l'aïllament. Un prestatge exterior especial emmascara estèticament l'aïllament al voltant del perímetre de la finestra.",
+      "specs": {
+        "label_0": "Transmissió tèrmica (Uw)",
+        "value_0": "0,76",
+        "label_1": "Profunditat d'instal·lació",
+        "value_1": "76–162",
+        "label_2": "Cambres de perfil",
+        "value_2": "6",
+        "label_3": "Aïllament acústic (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-renovation": {
+      "name": "RENOVACIÓ IDEAL NEO MD",
+      "tagline": "Finestres noves sense treure el marc antic",
+      "description": "El sistema de marc de renovació permet la instal·lació de finestres sense desmuntar els marcs antics. Els marcs especials amb un perfil d'emmascarament engloben el marc de fusta existent. Els perfils d'emmascarament estan disponibles en amplades de 40 mm i 70 mm i es poden tallar per a requisits específics.",
+      "specs": {
+        "label_0": "Transmissió tèrmica (Uw)",
+        "value_0": "0,76",
+        "label_1": "Profunditat d'instal·lació",
+        "value_1": "76",
+        "label_2": "Cambres de perfil",
+        "value_2": "5/6",
+        "label_3": "Aïllament acústic (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-7000-nl": {
+      "name": "IDEAL 7000 NL",
+      "tagline": "En harmonia amb l'arquitectura",
+      "description": "L'IDEAL 7000 NL és un sistema de finestres de PVC versàtil que ofereix línies de visió netes i un rendiment tèrmic sòlid. Adequat per a projectes on l'arquitectura exigeix ​​un perfil de finestra refinat i contemporani sense comprometre l'aïllament ni la durabilitat.",
+      "specs": {
+        "label_0": "Cambres de perfil",
+        "value_0": "5",
+        "label_1": "Paquet de vidre (I)",
+        "value_1": "0,5",
+        "label_2": "Tipus de soldadura disponibles",
+        "value_2": "V-Perfecte, clàssic",
+        "label_3": "Maquinari estàndard",
+        "value_3": "MACO MULTI-MATIC"
+      }
+    },
+    "mb-86n-si": {
+      "name": "MB-86N SI",
+      "tagline": "Excel·lents paràmetres i durabilitat de l'alumini",
+      "description": "Un sistema de finestres d'alumini molt avançat que compleix els més alts requisits d'aïllament tèrmic. L'espaiador de vora càlida i el trencament tèrmic premium ofereixen valors Uw tan baixos com 0,76 W/(m²K), el que el converteix en el millor rendiment a la gamma de finestres d'alumini Drutex.",
+      "specs": {
+        "label_0": "Transmissió tèrmica (Uw)",
+        "value_0": "0,76",
+        "label_1": "Profunditat d'instal·lació",
+        "value_1": "77",
+        "label_2": "Capes de segellat",
+        "value_2": "3",
+        "label_3": "Vidres estàndard (i)",
+        "value_3": "0,5"
+      }
+    },
+    "mb-79n-si": {
+      "name": "MB-79N SI",
+      "tagline": "Trieu l'eficiència energètica",
+      "description": "El sistema de finestres d'alumini MB-79N SI ofereix un rendiment tèrmic excepcional per a una profunditat de perfil de 70 mm. Tres nivells de segellat i un trencament tèrmic d'alt rendiment el fan adequat tant per a aplicacions residencials com comercials que requereixen un marc d'alumini eficient i durador.",
+      "specs": {
+        "label_0": "Transmissió tèrmica (Uw)",
+        "value_0": "0,81",
+        "label_1": "Profunditat d'instal·lació",
+        "value_1": "70",
+        "label_2": "Capes de segellat",
+        "value_2": "3",
+        "label_3": "Vidres estàndard (i)",
+        "value_3": "0,5"
+      }
+    },
+    "mb-70hi": {
+      "name": "MB-70HI",
+      "tagline": "Alumini lleuger, durador i eficient tèrmicament",
+      "description": "Les finestres d'alumini MB-70HI es poden utilitzar tant en edificis individuals com en façanes d'alumini. La construcció lleugera i duradora garanteix un alt nivell de confort durant molts anys. L'equipament estàndard inclou accessoris MACO MULTI-MATIC KS i microventilació.",
+      "specs": {
+        "label_0": "Transmissió tèrmica (Uw)",
+        "value_0": "0,96",
+        "label_1": "Profunditat d'instal·lació",
+        "value_1": "70",
+        "label_2": "Capes de segellat",
+        "value_2": "3",
+        "label_3": "Gamma de vidre",
+        "value_3": "23,5–62"
+      }
+    },
+    "mb-70": {
+      "name": "MB-70",
+      "tagline": "Alumini fiable amb una profunditat de perfil de 70 mm",
+      "description": "El sistema de finestres d'alumini MB-70 ofereix una solució fiable i rendible per a l'arquitectura moderna. L'equip estàndard inclou maquinari MACO, 70 mm de profunditat d'instal·lació i colors mat RAL en blanc o antracita, que cobreixen la gamma més àmplia d'aplicacions residencials i comercials.",
+      "specs": {
+        "label_0": "Transmissió tèrmica (Uw)",
+        "value_0": "1.06",
+        "label_1": "Profunditat d'instal·lació",
+        "value_1": "70",
+        "label_2": "Capes de segellat",
+        "value_2": "3",
+        "label_3": "Gamma de vidre",
+        "value_3": "23,5–62"
+      }
+    },
+    "mb-45": {
+      "name": "MB-45",
+      "tagline": "Perfil d'alumini prim per a la màxima superfície de vidre",
+      "description": "El MB-45 és un sistema de finestres d'alumini ultra prim amb una profunditat de perfil de 45 mm, perfecte per a aplicacions on la màxima superfície de vidre i una visibilitat mínima del marc són prioritats. L'equip estàndard inclou accessoris MACO, segells EPDM i acabats mat RAL.",
+      "specs": {
+        "label_0": "Profunditat d'instal·lació",
+        "value_0": "45",
+        "label_1": "Capes de segellat",
+        "value_1": "2",
+        "label_2": "Gamma de vidre",
+        "value_2": "1,5–37",
+        "label_3": "Colors disponibles",
+        "value_3": "Blanc RAL 9016, Antracita RAL 7016"
+      }
+    },
+    "softline": {
+      "name": "SOFTLINE 68/78/88",
+      "tagline": "Durabilitat i bellesa de la natura",
+      "description": "Les finestres de fusta SOFTLINE aporten la calidesa i la bellesa dels materials naturals amb una precisió d'enginyeria moderna. Disponible en tres profunditats de perfil (68 mm, 78 mm i 88 mm) per adaptar-se a diferents requisits d'aïllament i estètics, acabat amb laques microporoses d'alta qualitat per a una durabilitat a llarg termini.",
+      "specs": {
+        "label_0": "Profunditats disponibles",
+        "value_0": "68/78/88",
+        "label_1": "Material",
+        "value_1": "Pi / Roure / Meranti",
+        "label_2": "Tractament superficial",
+        "value_2": "Laca microporosa d'alta qualitat",
+        "label_3": "Maquinari estàndard",
+        "value_3": "MACO MULTI-MATIC"
+      }
+    },
+    "duoline": {
+      "name": "DUOLINE 68/78/88",
+      "tagline": "Combinació única de fusta i alumini",
+      "description": "Les finestres de fusta i alumini DUOLINE combinen la calidesa d'un interior de fusta natural amb una carcassa exterior d'alumini robusta i de baix manteniment. Disponible en tres profunditats de perfil (68 mm, 78 mm, 88 mm) amb opcions de color exterior RAL pràcticament il·limitades per a qualsevol estil arquitectònic.",
+      "specs": {
+        "label_0": "Profunditats disponibles",
+        "value_0": "68/78/88",
+        "label_1": "Interior",
+        "value_1": "Fusta natural (pi/alzina/meranti)",
+        "label_2": "Exterior",
+        "value_2": "Carcassa d'alumini, RAL il·limitat",
+        "label_3": "Maquinari estàndard",
+        "value_3": "MACO MULTI-MATIC"
+      }
+    },
+    "iglo-edge-doors": {
+      "name": "PORTES IGLO BORDE",
+      "tagline": "La porta d'entrada a Premium",
+      "description": "Les portes exteriors basades en el sistema IGLO EDGE ofereixen una seguretat, durabilitat i aïllament tèrmic inigualables. Disponible en una àmplia gamma de colors i panells de farciment per combinar amb qualsevol estil arquitectònic.",
+      "specs": {
+        "label_0": "Transmissió tèrmica (Ud)",
+        "value_0": "0,75",
+        "label_1": "Profunditat d'instal·lació",
+        "value_1": "82",
+        "label_2": "Punts de bloqueig",
+        "value_2": "3 a 5"
+      }
+    },
+    "iglo-hs": {
+      "name": "IGLO-HS",
+      "tagline": "Vistes panoràmiques sense límits",
+      "description": "Portes abatibles (HS) que permeten la creació d'un vidre espectacular de gran format. El mecanisme avançat garanteix un funcionament sense esforç fins i tot per a faixa de fins a 400 kg.",
+      "specs": {
+        "label_0": "Transmissió tèrmica (Uw)",
+        "value_0": "0,73",
+        "label_1": "Dimensions màximes",
+        "value_1": "3,2 m x 6,5 m",
+        "label_2": "Profunditat d'instal·lació",
+        "value_2": "194"
+      }
+    },
+    "iglo-edge-slide": {
+      "name": "IGLO EDGE SLIDE",
+      "tagline": "Tecnologia que impressiona",
+      "description": "La nostra nova finestra, tecnològicament més avançada, es distingeix per un excel·lent paràmetre d'aïllament tèrmic de Uw = 0,65 W/(m2K)* i una forma de perfil angular moderna.",
+      "specs": {
+        "label_0": "Transmissió tèrmica (Uw)",
+        "value_0": "0,65",
+        "label_1": "Profunditat d'instal·lació (marc)",
+        "value_1": "163",
+        "label_2": "Cambres de perfil",
+        "value_2": "6",
+        "label_3": "Juntes",
+        "value_3": "3"
+      }
+    },
+    "igloEdge": {
+      "name": "IGLO EDGE",
+      "tagline": "Maximum insulation, minimal frame",
+      "description": "Our new, most technologically advanced window is distinguished by an excellent thermal insulation parameter of Uw = 0.66 W/(m²K)* and a modern, angular profile shape. The extremely good thermal insulation parameters are due, among other things, to the 7-chamber profile design and 3 EPDM gaskets, including the central gasket.",
+      "standardEquipment": [
+        "Double-chamber glazing package Ug = 0.5 W/(m²K)",
+        "Swisspacer Ultimate plastic warm frame",
+        "V-perfect weld",
+        "4 anti-theft strikers according to the size of the sash and the hardware system",
+        "Microventilation",
+        "DUBLIN aluminium window handle",
+        "Handle misplacement locking mechanism",
+        "Perimeter, glazing and central gaskets in black or grey",
+        "Filling of the lower hardware groove",
+        "Sill trim",
+        "Wide selection of PVC veneer colours",
+        "3 profile colours to choose from: white, brown or anthracite"
+      ]
+    }
+  },
+  "themeHint": {
+    "title": "Ho sabíeu?",
+    "description": "Podeu canviar entre el mode de nit i el de dia en qualsevol moment mitjançant la icona de commutació de tema situada a l'extrem superior dret de la barra de navegació.",
+    "dismiss": "Ho entenc, gràcies!"
+  }
+}

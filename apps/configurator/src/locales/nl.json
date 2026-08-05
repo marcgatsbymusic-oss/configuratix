@@ -1,0 +1,1120 @@
+{
+  "header": {
+    "topBar": {
+      "partnerPortal": "Partnerportaal",
+      "cooperation": "Samenwerking",
+      "contact": "Contact"
+    },
+    "nav": {
+      "products": "Producten",
+      "whereToBuy": "Waar te kopen",
+      "aboutMammut": "Over Mammut",
+      "configurator": "3D-configurator"
+    },
+    "megaMenu": {
+      "viewAll": "Bekijk alle producten",
+      "comingSoon": "Inhoud voor {{categorie}} binnenkort beschikbaar.",
+      "cats": {
+        "windows": "Ramen",
+        "doors": "Deuren",
+        "terrace": "Terrassystemen",
+        "shutters": "Rolluiken",
+        "facade": "Gevelgordijnen",
+        "mosquito": "Muskietennetten",
+        "garage": "Garagedeuren",
+        "conservatories": "Gevels / Serres",
+        "pergola": "Pergola",
+        "smart": "Slim huis",
+        "extras": "Extra's",
+        "promotional": "Promotiemateriaal"
+      },
+      "cols": {
+        "pvcWindows": "PVC-ramen",
+        "alumWindows": "Aluminium ramen",
+        "woodWindows": "Houten ramen",
+        "woodAlumWindows": "Hout-aluminium ramen",
+        "pvcDoors": "PVC-deuren",
+        "alumDoors": "Aluminium deuren",
+        "liftAndSlide": "Hef en schuif HS",
+        "slide": "Dia",
+        "foldingDoors": "Vouwdeuren",
+        "tiltAndSlide": "Kantel- en schuif-PSK"
+      },
+      "new": "Nieuw"
+    }
+  },
+  "home": {
+    "hero": {
+      "premium": "Premium ramen en deuren",
+      "explore": "Ontdek producten",
+      "configurator": "3D-configurator",
+      "slide1": {
+        "headline": "Definieer jouw",
+        "headlineSpan": "ruimte",
+        "sub": "Nauwkeurig ontworpen ramen en deuren die de architectuur transformeren met geavanceerde thermische en akoestische prestaties."
+      },
+      "slide2": {
+        "headline": "Open voor de",
+        "headlineSpan": "wereld",
+        "sub": "Panoramische hef-schuifsystemen die de grens tussen binnen en buiten opheffen."
+      },
+      "slide3": {
+        "headline": "Licht, opnieuw gedefinieerd",
+        "headlineSpan": "door ontwerp",
+        "sub": "Kamerhoge beglazing die elke kamer met natuurlijk licht vult en tegelijkertijd warmte en geluid buiten houdt."
+      }
+    },
+    "offer": {
+      "subtitle": "Volledige oplossingen",
+      "title": "Ons aanbod",
+      "text": "Wij bieden een ruim assortiment ramen, kozijnen, buitendeuren en schuifdeuren in PVC, hout en aluminium. Door deskundig vakmanschap, materialen van de hoogste kwaliteit en een hoog serviceniveau waarborgen wij de status van ons bedrijf. Elk raam en elke deur wordt op bestelling gemaakt, waardoor elke klant individuele service en aandacht krijgt. Wij bieden u de hoogste expertise en begeleiden u volledig bij uw renovatie- en bouwplannen."
+    },
+    "categories": {
+      "subtitle": "Blader op type",
+      "title": "Productcategorieën",
+      "tabs": {
+        "windows": "VENSTERS",
+        "doors": "DEUREN",
+        "shutters": "RUIMEN",
+        "blinds": "BLINDEN",
+        "terrace": "TERRAS SYSTEMEN",
+        "additions": "TOEVOEGINGEN"
+      },
+      "items": {
+        "alu": "ALUMINIUM",
+        "woodAlu": "HOUT-ALUMINIUM",
+        "pvc": "PVC",
+        "wooden": "HOUTEN",
+        "adaptive": "ADAPTIEF",
+        "topMounted": "BOVEN GEMONTEERD",
+        "externalVenetian": "EXTERNE VENETIAANSE",
+        "liftSlide": "HEFFEN EN SCHUIF HS",
+        "tiltSlide": "KANTEL EN SCHUIF PSK",
+        "folding": "VOUWDEUREN",
+        "customization": "AANPASSING"
+      }
+    },
+    "featured": {
+      "subtitle": "Onze collectie",
+      "title": "Uitgelichte systemen",
+      "viewAll": "Bekijk alles",
+      "tags": {
+        "new": "NIEUW",
+        "premium": "PREMIE",
+        "bestseller": "BESTSELLER"
+      },
+      "discover": "Ontdekken",
+      "igloEdge": {
+        "tagline": "Maximale isolatie, minimaal frame"
+      },
+      "igloLight": {
+        "tagline": "Nog meer licht in uw ruimte"
+      },
+      "iglo5": {
+        "tagline": "De klassieker herboren"
+      }
+    },
+    "cta": {
+      "subtitle": "3D-configurator",
+      "title": "Ontwerp uw perfecte raam",
+      "text": "Kies afmetingen, materialen, kleuren en glassoort. Sla uw configuratie op en vraag direct een offerte aan.",
+      "button": "Start configurator"
+    }
+  },
+  "products": {
+    "collection": "Onze collectie",
+    "title": "Premium-systemen",
+    "description": "Ontdek ons ​​uitgebreide assortiment ramen, deuren en terrassystemen. Ontworpen voor superieure thermische prestaties, akoestische isolatie en tijdloos design.",
+    "allProducts": "Alle producten",
+    "new": "NIEUW",
+    "sortBy": "Sorteren op",
+    "sortOptions": {
+      "default": "Standaard volgorde",
+      "uw": "Thermische transmissie",
+      "db": "Geluidsisolatie",
+      "chambers": "Kamers",
+      "depth": "Inbouwdiepte",
+      "gaskets": "Afdichtingen"
+    }
+  },
+  "productDetail": {
+    "notFound": "Product niet gevonden",
+    "return": "Terug naar producten",
+    "configure": "Configureer {{naam}}",
+    "standardEquipment": "Standaarduitrusting",
+    "seeVideo": "Zie video",
+    "hoverDrawing": "Beweeg de muis om de technische tekening weer te geven",
+    "profile": "Profiel",
+    "technicalDrawing": "Technische tekening",
+    "newGeneration": "Nieuwe generatie",
+    "uncompromising": "Compromisloze kwaliteit en thermische prestaties",
+    "colorsTitle": "Kleuren en afwerkingen",
+    "colorsDesc": "Pas uw {{naam}} aan met meer dan {{tel}} premium afwerkingen, variërend van moderne architectonische effen kleuren tot hyperrealistische houtnerven.",
+    "preview": "VOORBEELD",
+    "selectedFinish": "Geselecteerde afwerking",
+    "selectedColor": "Geselecteerde kleur:",
+    "glassTitle": "Glas",
+    "glassDesc": "DRUTEX, met ruim 30 jaar ervaring in de productie van composietglas, biedt een zeer ruim assortiment glas waarmee u uw ramen en deuren kunt voorzien van. Ze voldoen aan strenge eisen op het gebied van energie-efficiëntie en geluidsisolatie. Verder omvat het aanbod gelaagd glas (veilig en inbraakwerend), zonwerend glas, glas met verhoogde geluidsisolatie, gehard glas, sierglas en gezandstraald glas.",
+    "handlesTitle": "Handvatten",
+    "handlesDesc": "Onze raamkrukken onderscheiden zich door hun uitstekende afwerking, functionaliteit en duurzaamheid. Verkrijgbaar in meerdere kleurvarianten, zodat deze perfect bij uw ramen passen.",
+    "optionsTitle": "Extra opties",
+    "optionsDesc": "Verbeter en personaliseer uw IGLO EDGE met ons brede assortiment gecertificeerde accessoires en add-ons.",
+    "seeAll": "Bekijk alles",
+    "configureQuote": "Configureer product en offerte",
+    "mountingAccessoriesTitle": "Mounting accessories",
+    "mountingAccessoriesDesc": "Here you will find the products necessary for proper installation of joinery.",
+    "additionalOptions": {
+      "mounting": {
+        "title": "Mounting accessories",
+        "description": "Here you will find the products necessary for proper installation of joinery."
+      },
+      "muntin": {
+        "title": "Muntin bars",
+        "description": "An attractive addition that highlights the unique character of the building."
+      },
+      "fittings": {
+        "title": "Reliable fittings",
+        "description": "Safety, comfort and functionality in every detail."
+      },
+      "glass": {
+        "title": "Sandblasted glass",
+        "description": "A perfect combination of modern design and privacy."
+      },
+      "spacers": {
+        "title": "Spacers",
+        "description": "The latest generation of spacers ensuring thermal comfort."
+      },
+      "ventilation": {
+        "title": "Ventilation",
+        "description": "Ensure healthy air and optimal humidity in your home."
+      },
+      "shutters": {
+        "title": "Roller Shutters",
+        "description": "Protect your home with integrated external roller shutters."
+      },
+      "mosquito": {
+        "title": "Mosquito Nets",
+        "description": "Effective protection against insects while maintaining air flow."
+      },
+      "sill": {
+        "title": "Window sill PVC",
+        "description": "Over 30 veneer colours to choose from."
+      },
+      "mosquito-nets": {
+        "title": "Mosquito Nets",
+        "description": "Keep insects out while letting fresh air in."
+      }
+    },
+    "searchColorPlaceholder": "Zoeken (bijv. hout, metaal, blauw...)",
+    "noColorsFound": "Geen overeenkomstige kleuren gevonden",
+    "clearSearch": "Zoekopdracht wissen"
+  },
+  "footer": {
+    "newsletter": {
+      "title": "Nieuwsbrief",
+      "desc": "Blijf op de hoogte van nieuwe producten en innovaties.",
+      "placeholder": "Uw e-mailadres",
+      "subscribe": "Abonneren"
+    },
+    "cols": {
+      "about": {
+        "title": "Over Mammut",
+        "history": "Onze geschiedenis",
+        "quality": "Kwaliteit & Certificaten",
+        "innovation": "Innovatie",
+        "sustainability": "Duurzaamheid"
+      },
+      "offer": {
+        "title": "Ons aanbod",
+        "pvc": "PVC-ramen",
+        "alu": "Aluminium ramen",
+        "wood": "Houten ramen",
+        "doors": "Buitendeuren",
+        "shutters": "Luiken"
+      },
+      "inspiration": {
+        "title": "Inspiratie",
+        "kitchen": "Keuken",
+        "living": "Woonkamer",
+        "bedroom": "Slaapkamer",
+        "terrace": "Terras"
+      },
+      "partners": {
+        "title": "Partners",
+        "portal": "Partnerportaal",
+        "coop": "Samenwerkingsprogramma",
+        "sales": "Verkoopvertegenwoordigers",
+        "contact": "Contact"
+      }
+    },
+    "legal": {
+      "privacy": "Privacybeleid",
+      "cookies": "Cookie-instellingen",
+      "sitemap": "Sitemap",
+      "terms": "Gebruiksvoorwaarden",
+      "copyright": "Mammut ramen en deuren. Alle rechten voorbehouden."
+    }
+  },
+  "igloEdge": {
+    "tagline": "Maximale isolatie, minimaal frame",
+    "description": "Ons nieuwe, technologisch meest geavanceerde raam onderscheidt zich door een uitstekende thermische isolatieparameter van Uw = 0,66 W/(m²K)* en een moderne, hoekige profielvorm. De extreem goede thermische isolatieparameters zijn onder meer te danken aan het 7-kamerprofielontwerp en 3 EPDM-pakkingen, inclusief de centrale pakking.",
+    "basicDescription": "Het IGLO EDGE raamsysteem vertegenwoordigt het toppunt van energie-efficiëntie. Ontworpen voor passiefhuizen en energiebewuste renovaties, beschikt het over een 7-kamerprofiel, de beste Uw = 0,66 W/(m²K) in zijn klasse, en een minimalistisch ontwerp dat het natuurlijke licht dat de kamer binnenkomt maximaliseert.",
+    "equipment": {
+      "0": "Dubbelkamerbeglazingspakket Ug = 0,5 W/(m²K)",
+      "1": "Swisspacer Ultimate kunststof warm frame",
+      "2": "V-perfecte las",
+      "3": "4 antidiefstalsloten, afhankelijk van de grootte van de vleugel en het beslagsysteem",
+      "4": "Microventilatie",
+      "5": "DUBLIN aluminium raamgreep",
+      "6": "Vergrendelingsmechanisme voor verkeerde plaatsing van het handvat",
+      "7": "Omtrek, beglazing en centrale pakkingen in zwart of grijs",
+      "8": "Vullen van de onderste hardwaregroef",
+      "9": "Dorpelafwerking",
+      "10": "Ruime keuze aan PVC-fineerkleuren",
+      "11": "Keuze uit 3 profielkleuren: wit, bruin of antraciet"
+    },
+    "specs": {
+      "sound": "Geluidsisolatie",
+      "gaskets": "EPDM-pakkingen",
+      "thermal": "Thermische transmissie",
+      "chambers": "Aantal kamers",
+      "depth": "Installatiediepte",
+      "class": "Profiel klasse"
+    }
+  },
+  "colorGroups": {
+    "Metal Effect": "Metaaleffect",
+    "Solid": "Stevig",
+    "Wood Effect": "Houteffect"
+  },
+  "colors": {
+    "c209": "Basaltgrijs",
+    "c210": "Basaltgrijze Gadki",
+    "c232": "Diep brons",
+    "c213": "Grafiet gezandstraald",
+    "c207": "Grijze kwarts",
+    "c208": "Grijze kwarts glad",
+    "c237": "Staalblauw",
+    "c214": "Antraciet",
+    "c216": "Antraciet Ulti Matt",
+    "c215": "Antraciet Glad",
+    "c218": "Zwart Ulti Mat",
+    "c236": "Briljant blauw",
+    "c231": "Chocolade Bruin",
+    "c206": "Betongrijs",
+    "c200": "Room",
+    "c199": "Croviu-platina",
+    "c234": "Donkergroen",
+    "c235": "Donkerrood",
+    "c233": "Mosgroen",
+    "c205": "Grijs",
+    "c217": "Gitzwart",
+    "c204": "Lichtgrijs",
+    "c201": "Pyriet",
+    "c228": "Rozenhout",
+    "c211": "Leisteen",
+    "c212": "Leisteen Glad",
+    "c197": "Wit",
+    "c198": "Wit Zand Mat",
+    "c202": "Gebleekt eiken",
+    "c227": "Donker eiken",
+    "c225": "Douglas spar",
+    "c229": "Macore",
+    "c230": "Mahonie",
+    "c203": "Natuurlijk eiken",
+    "c224": "Oregon",
+    "c220": "Turner Eik 2023",
+    "c221": "Turner Eiken Toffee 470 3004",
+    "c222": "Turner Eiken Walnoot 470 3004",
+    "c226": "Okkernoot",
+    "c223": "Winchester",
+    "c219": "Gouden Eik",
+    "c999": "Test hout"
+  },
+  "configurator": {
+    "title": "Ontwerp uw raamsysteem op maat.",
+    "subtitle": "Kies het materiaal en configureer hieronder uw exacte architectonische specificaties.",
+    "steps": {
+      "material": "Materiaal",
+      "system": "Profiel",
+      "windowType": "Venstertype",
+      "openingType": "Openingstype",
+      "color": "Kleur en inrichting",
+      "dimensions": "Afmetingen (MM)",
+      "glazing": "Beglazingspakket",
+      "options": "Accessoires en toevoegingen",
+      "profile": "Profiel",
+      "start": "Begin",
+      "seals": "Afdichtingen"
+    },
+    "summary": {
+      "title": "Specificatiesoverzicht",
+      "dimensions": "Afmetingen",
+      "material": "Materiaal",
+      "system": "Profiel",
+      "windowType": "Venstertype",
+      "color": "Kleur en inrichting",
+      "glazing": "Beglazing",
+      "financials": "Financiële gegevens",
+      "baseFramework": "Basis raamwerk",
+      "hardwareAssembly": "Hardware-assemblage",
+      "accessories": "Accessoires",
+      "totalSystem": "Totaal systeem",
+      "exportJson": "JSON-export",
+      "saveToCart": "Opslaan in winkelwagen",
+      "edit": "Bewerking"
+    },
+    "inputs": {
+      "w": "W",
+      "h": "H",
+      "mm": "mm",
+      "cm": "(CM)"
+    },
+    "state": {
+      "selected": "Gekozen",
+      "selectWindowType": "Selecteer Venstertype",
+      "openingDirection": "Openingsrichting",
+      "fixedNoOpening": "Vast (geen opening)",
+      "turnTilt": "Binnenblad (Draai/Kantel)",
+      "sashes": "<span translation=\"no\">count</span> Sjerpenconfiguratie",
+      "closeOnSelect": "Venster sluiten bij selectie"
+    },
+    "blueprint": {
+      "interiorView": "Binnenaanzicht",
+      "dragToRotate": "Sleep om vrij te roteren in 3D",
+      "exteriorView": "Exterior View",
+      "uploadPhoto": "Upload Photo",
+      "removePhoto": "Remove Photo",
+      "positionOptions": "Position & Size Options",
+      "resetWindowFit": "Reset Window Fit",
+      "scale": "Scale",
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "windowTypes": {
+      "1-flugel": "1 blad",
+      "1-flugel-oberlicht": "1 blad \nmet Toplight",
+      "1-flugel-unterlicht": "1 blad \nmet onderlicht",
+      "2-flugel": "2 Bladeren",
+      "2-flugel-oberlicht": "2 Bladeren \nmet Toplight",
+      "2-flugel-oberlicht-asym": "2 Bladeren asymm. \nmet Toplight",
+      "2-flugel-unterlicht": "2 Bladeren \nmet onderlicht",
+      "2-flugel-unterlicht-asym": "2 Bladeren asymm. \nmet onderlicht",
+      "3-flugel": "3 Bladeren",
+      "3-flugel-oberlicht": "3 Bladeren \nmet Toplight",
+      "3-flugel-oberlicht-asym": "3 Bladeren asymm. \nmet Toplight",
+      "3-flugel-unterlicht": "3 Bladeren \nmet onderlicht",
+      "3-flugel-unterlicht-asym": "3 Bladeren asymm. \nmet onderlicht",
+      "4-flugel": "4 Bladeren"
+    },
+    "openingTypes": {
+      "F": "Vast",
+      "DKL": "Draai-kantel (links)",
+      "DKR": "Draai-kantel (rechts)",
+      "DL": "Draai (links)",
+      "DR": "Draai (rechts)",
+      "K": "Kantelen"
+    },
+    "welcome": {
+      "title": "Welkom bij onze AI-aangedreven ramenconfigurator",
+      "description": "Het selecteren van vensters is geen gemakkelijke taak, er zijn veel opties en ieders behoeften verschillen. Daarom zal onze configurator u begeleiden en helpen bij het maken van de beste keuze die past bij uw behoeften en budget."
+    },
+    "seals": {
+      "black": "Zwart (czarny)",
+      "grey": "Grijs (szary)"
+    },
+    "buttons": {
+      "previous": "Vorige stap",
+      "next": "Volgende stap"
+    }
+  },
+  "help": {
+    "materialDesc": "Kies het type materiaal voor uw raam. Hieronder vindt u een samenvatting van de belangrijkste kenmerken van elk ervan.",
+    "pvc": "PVC",
+    "aluminum": "ALUMINIUM",
+    "durability": "Duurzaamheid",
+    "maintenance": "Onderhoud",
+    "insulation": "Isolatie",
+    "weatherRes": "Weerbestendigheid",
+    "security": "Beveiliging",
+    "ecoFootprint": "Ecologische voetafdruk",
+    "legend": "* = neutraal | ** = goed | *** = zeer goed",
+    "windowTypeDesc": "Onze ramen hebben verschillende openingsmogelijkheden. Er zijn één-, twee- en driebladige ramen met boven- of onderbalken.",
+    "singleLeaf": "Enkele vleugelramen",
+    "doubleLeaf": "Tweebladige ramen",
+    "tripleLeaf": "Driebladige ramen",
+    "specialWindows": "Speciale raamtypes",
+    "leaveConf": "Configurator verlaten?",
+    "stillQuestions": "Heeft u nog vragen over uw bestelling of de configurator?",
+    "csTeam": "Ons klantenserviceteam (en onze AI Assistant) adviseert u graag gratis:",
+    "monFri": "(maandag t/m vrijdag van 8.00 tot 18.00 uur)",
+    "aiAssist": "AI-assistent",
+    "avail247": "(24/7 beschikbaar)",
+    "exitWarning": "Door de configurator te verlaten gaat uw eerdere selectie verloren.",
+    "continueConf": "Ga verder in de configurator",
+    "exitConf": "Sluit de configurator af",
+    "haveQuestions": "Heeft u vragen?",
+    "availableToday": "Wij zijn vandaag tot 18.00 uur bereikbaar.",
+    "shallWeTalk": "Zullen we praten? Boek nu uw gesprek.",
+    "scheduleMeeting": "Vergadering plannen",
+    "up": "OMHOOG",
+    "close": "Dichtbij",
+    "comp": {
+      "title": "Samenvattende vergelijkingstabel (context 2026)",
+      "feature": "Functie",
+      "pvc": "PVC (uPVC)",
+      "aluminum": "Aluminium",
+      "bestFor": "Beste voor",
+      "bestForPvc": "Budget, standaardafmetingen, maximaal thermisch rendement tegen lage kosten.",
+      "bestForAlu": "Grote glasoppervlakken, moderne esthetiek, lange levensduur en sterkte.",
+      "lifespan": "Levensduur",
+      "lifespanPvc": "20–30 jaar",
+      "lifespanAlu": "45+ jaar",
+      "cost": "Kosten",
+      "costPvc": "Over het algemeen 30%-50% goedkoper.",
+      "costAlu": "Premium prijspunt.",
+      "aesthetics": "Esthetiek",
+      "aestheticsPvc": "Volumineuzere frames.",
+      "aestheticsAlu": "Slanke profielen (meer natuurlijk licht)."
+    }
+  },
+  "assistant": {
+    "geoTitle": "Lokale klimaatmatch",
+    "geoDesc": "Klimaat op maat van u \nOnze ramen zijn speciaal ontworpen voor het klimaat in uw omgeving. Op basis van uw exacte locatie berekenen wij de ideale thermische prestaties om maximale isolatie in de winter en frisheid in de zomer te garanderen. \n\nUw voordelen: \n\nEnergiebesparing: Verlaag de kosten voor verwarming en airconditioning. \n\nTotaal comfort: Zeg vaarwel tegen tocht en verstikkende hitte. \n\nLokale precisie: technologie specifiek aangepast aan uw stad.",
+    "province": "Provincie",
+    "city": "Gemeente / Stad",
+    "selectProv": "Selecteer provincie...",
+    "selectCity": "Selecteer stad...",
+    "topoEngine": "Topografische motor",
+    "altitude": "Hoogte",
+    "cteZone": "CTE DB-HE KLIMAATZONE",
+    "next": "Volgende stap",
+    "matTitle": "Materiaal- en budgetbeperkingen",
+    "matPref": "Materiaalvoorkeur",
+    "guideMe": "Ik weet het niet, leid mij",
+    "budget": "Begrotingsbereik",
+    "low": "Laag",
+    "med": "Medium",
+    "premium": "Premie",
+    "timeTitle": "Projecttijdlijn",
+    "t1": "Zo snel mogelijk",
+    "t1Sub": "Op zijn vroegst 15 werkdagen",
+    "t2": "Volgende 1-2 maanden",
+    "t3": "Ruim 2 maanden",
+    "t4": "Nog steeds niet zeker",
+    "archTitle": "Akoestiek & Architectuur",
+    "houseType": "Woningtype",
+    "villa": "Villa",
+    "apt": "Appartement",
+    "noisePol": "Lokale geluidsoverlast",
+    "nHigh": "Stad / veel verkeer",
+    "nLow": "Landelijk / Rustig",
+    "processCalc": "Procesanalyse",
+    "analyzing": "Gegevens analyseren",
+    "computing": "Optimale structurele belastingen berekenen...",
+    "perfWin": "Uw perfecte raam",
+    "basedOn": "Op basis van uw absolute geografische klimaatgegevens voor de <span translation=\"no\">zone</span>, <span translation=\"no\">lawaai</span> lokale geluidsoverlast en het gedefinieerde budget, bevelen onze algoritmen het volgende aan:",
+    "recProf": "Aanbevolen profielsysteem",
+    "base": "Baseren",
+    "glaze": "Beglazing",
+    "useData": "Gebruik deze gegevens en configureer het venster",
+    "inter1": "Aanbevolen: Intelligente begeleide assistent",
+    "inter2": "Breng mij direct naar de configurator",
+    "inter2Sub": "(Complexe installatie)"
+  },
+  "partner": {
+    "layout": {
+      "dashboard": "Dashboard",
+      "leads": "Leads en pijplijn",
+      "profile": "Profiel opslaan",
+      "settings": "Instellingen",
+      "portal": "Partnerportaal",
+      "signOut": "Uitloggen"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "subtitle": "Welkom terug. Dit is wat er in uw winkel gebeurt.",
+      "showQr": "QR in de winkel weergeven",
+      "totalScans": "Totaal aantal scans",
+      "activeLeads": "Actieve leads",
+      "estCommissions": "Oosten. Commissies",
+      "fromLastMonth": "van vorige maand",
+      "newThisWeek": "nieuw deze week",
+      "leadsPending": "leidt in afwachting van sluiting",
+      "recentActivity": "Recente activiteit"
+    },
+    "leads": {
+      "title": "Leads en pijplijn",
+      "subtitle": "Volg de voortgang van uw klanten en de geschatte commissies.",
+      "exportCsv": "CSV exporteren",
+      "searchId": "Zoek-ID...",
+      "filterStatus": "Filter op status",
+      "cols": {
+        "id": "Klant-ID",
+        "date": "Scandatum",
+        "source": "Bron scannen",
+        "status": "Status",
+        "budget": "Geschat. Begroting",
+        "actions": "Acties"
+      }
+    },
+    "profile": {
+      "title": "Profiel opslaan",
+      "subtitle": "Beheer uw winkelgegevens en co-branding-instellingen.",
+      "basicInfo": "Basisinformatie",
+      "storeName": "Winkelnaam",
+      "storeType": "Winkeltype",
+      "address": "Adres",
+      "email": "E-mail",
+      "phone": "Telefoon",
+      "saveChanges": "Wijzigingen opslaan",
+      "cobranding": "Co-branding",
+      "cobrandingDesc": "Upload uw logo zodat het op de landingspagina van de klant verschijnt wanneer zij uw QR-codes scannen.",
+      "clickToUpload": "Klik om het logo te uploaden",
+      "fileTypes": "SVG, PNG of JPG (max. 2MB)",
+      "networkGroup": "Netwerk groep",
+      "networkDesc": "Uw winkel is een onafhankelijke partner. Als u tot een grotere keten behoort, kunt u uw account koppelen.",
+      "linkChain": "Koppeling aan keten/groep",
+      "types": {
+        "hardware": "IJzerwarenwinkel",
+        "pharmacy": "Apotheek",
+        "restaurant": "Restaurant",
+        "other": "Ander"
+      }
+    }
+  },
+  "handles": {
+    "h1": {
+      "name": "Standaard handvat",
+      "type": "Aluminium"
+    },
+    "h2": {
+      "name": "Handvat met sleutel",
+      "type": "Beveiliging"
+    },
+    "h3": {
+      "name": "van Secus®",
+      "type": "Anti-inbraak"
+    }
+  },
+  "sliderHandles": {
+    "nevada-ral7016": "NEVADA met sleutel (RAL7016)",
+    "nevada-ral9001": "NEVADA met sleutel (RAL9001)",
+    "nevada-ral9005": "NEVADA met sleutel (RAL9005)",
+    "nevada-ral9016": "NEVADA met sleutel (RAL9016)",
+    "nevada-f9": "NEVADA met sleutel (titanium F9)",
+    "mistral-ral7016": "MISTRAL met sleutel (RAL7016)",
+    "mistral-ral9001": "MISTRAL met sleutel (RAL9001)",
+    "mistral-ral9005": "MISTRAL met sleutel (RAL9005)",
+    "mistral-f9-key": "MISTRAL met sleutel (titanium F9)",
+    "mistral-f9": "MISTRAL F9",
+    "dublin-ral9016": "DUBLIN (wit RAL9016)",
+    "dublin-ral8019": "DUBLIN (bruin RAL8019)",
+    "dublin-ral7016": "DUBLIN (RAL7016)",
+    "dublin-ral9005": "DUBLIN (RAL9005)",
+    "dublin-silver": "DUBLIN (zilver)",
+    "dublin-key-ral7016": "DUBLIN met sleutel (RAL7016)",
+    "dublin-key-ral9005": "DUBLIN met sleutel (RAL9005)",
+    "dublin-key-ral9016": "DUBLIN met sleutel (wit RAL9016)",
+    "dublin-key-ral8019": "DUBLIN met sleutel (bruin RAL8019)",
+    "dublin-key-silver": "DUBLIN met sleutel (zilver)",
+    "kwadrat-ral7016": "VIERKANT RAL 7016",
+    "kwadrat-ral8019": "VIERKANT RAL 8019",
+    "kwadrat-ral9016": "VIERKANT RAL 9016",
+    "kwadrat-ral9001": "VIERKANT RAL 9001",
+    "kwadrat-f9": "VIERKANT titanium F9",
+    "kwadrat-key-f1": "KWADRAT met sleutel F1",
+    "kwadrat-key-f4": "KWADRAT met sleutel F4",
+    "kwadrat-key-f9": "KWADRAT met sleutel F9",
+    "kwadrat-key-ral7016": "KWADRAT met sleutel (RAL7016)",
+    "kwadrat-key-ral8019": "KWADRAT met sleutel (RAL8019)",
+    "kwadrat-key-ral9001": "KWADRAT met sleutel (RAL9001)",
+    "kwadrat-key-ral9005": "KWADRAT met sleutel (RAL9005)",
+    "kwadrat-key-ral9016": "KWADRAT met sleutel (RAL9016)"
+  },
+  "productData": {
+    "iglo-edge": {
+      "name": "IGLO EDGE",
+      "tagline": "Maximum insulation, minimal frame",
+      "description": "Our new, most technologically advanced window is distinguished by an excellent thermal insulation parameter of Uw = 0.66 W/(m²K)* and a modern, angular profile shape. The extremely good thermal insulation parameters are due, among other things, to the 7-chamber profile design and 3 EPDM gaskets, including the central gasket.",
+      "specs": {
+        "label_0": "Thermische doorlaatbaarheid (Uw)",
+        "value_0": "0,66",
+        "label_1": "Installatiediepte",
+        "value_1": "82",
+        "label_2": "Profiel Kamers",
+        "value_2": "7",
+        "label_3": "Geluidsisolatie (Rw)",
+        "value_3": "36–47"
+      },
+      "standardEquipment": [
+        "Double-chamber glazing package Ug = 0.5 W/(m²K)",
+        "Swisspacer Ultimate plastic warm frame",
+        "V-perfect weld",
+        "4 anti-theft strikers according to the size of the sash and the hardware system",
+        "Microventilation",
+        "DUBLIN aluminium window handle",
+        "Handle misplacement locking mechanism",
+        "Perimeter, glazing and central gaskets in black or grey",
+        "Filling of the lower hardware groove",
+        "Sill trim",
+        "Wide selection of PVC veneer colours",
+        "3 profile colours to choose from: white, brown or anthracite"
+      ],
+      "keySpecs": {
+        "label_0": "geluid",
+        "value_0": "36–47 dB",
+        "label_1": "pakkingen",
+        "value_1": "3",
+        "label_2": "thermisch",
+        "value_2": "Uw = 0.66 W/(m²K)*",
+        "label_3": "kamers",
+        "value_3": "7",
+        "label_4": "diepte",
+        "value_4": "82 mm",
+        "label_5": "klas",
+        "value_5": "A"
+      },
+      "hardware": {
+        "name_0": "Standaard handvat",
+        "type_0": "Aluminium",
+        "name_1": "Handvat met sleutel",
+        "type_1": "Beveiliging",
+        "name_2": "van Secus®",
+        "type_2": "Anti-inbraak"
+      },
+      "accessories": {
+        "name_0": "Maco Multimatic KS",
+        "description_0": "Geavanceerde perimeterhardware met microventilatie",
+        "name_1": "V-perfect lassen",
+        "description_1": "Vrijwel onzichtbare hoeklassen voor een onberispelijke esthetiek",
+        "name_2": "Stalen versterking",
+        "description_2": "Gesloten stalen profiel in het frame voor extreme stijfheid",
+        "name_3": "EPDM-afdichtingen",
+        "description_3": "Drievoudig afdichtingssysteem in zwart of grijs"
+      }
+    },
+    "iglo-energy": {
+      "name": "NAALD-ENERGIE",
+      "tagline": "Uitstekende energie-efficiëntie",
+      "description": "Een innovatief en origineel 7-kamer A-klasse profielsysteem, uitsluitend vervaardigd uit primair materiaal, gekenmerkt door een uitstekende thermische isolatiecoëfficiënt Uw = 0,6 W/(m2K)*. Iglo Energy zet de norm voor energiezuinige ramen.",
+      "specs": {
+        "label_0": "Thermische doorlaatbaarheid (Uw)",
+        "value_0": "0,71",
+        "label_1": "Installatiediepte",
+        "value_1": "82",
+        "label_2": "Profiel Kamers",
+        "value_2": "7",
+        "label_3": "Geluidsisolatie (Rw)",
+        "value_3": "37–46"
+      },
+      "standardEquipment": {
+        "eq_0": "MACO MULTI MATIC KS beslag met 2 anti-inbraaksluitingen",
+        "eq_1": "Zilverlook-coating en lineaire verdiepingen op de espagnoletten",
+        "eq_2": "Verkeerd gebruik van apparaat en liftvleugel",
+        "eq_3": "Microventilatie in draai-kiepramen",
+        "eq_4": "Vensterbank profiel",
+        "eq_5": "Gegalvaniseerde stalen versterking of glasvezel (optioneel)",
+        "eq_6": "Vensterbank met 5 kamers",
+        "eq_7": "Drievoudig beglazingspakket met afstandhouder voor warme randen"
+      },
+      "keySpecs": {
+        "label_0": "geluid",
+        "value_0": "37-46 dB",
+        "label_1": "pakkingen",
+        "value_1": "3 EPDM",
+        "label_2": "thermisch",
+        "value_2": "Uw = 0.71 W/(m²K)*",
+        "label_3": "kamers",
+        "value_3": "7",
+        "label_4": "diepte",
+        "value_4": "82 mm",
+        "label_5": "klas",
+        "value_5": "A"
+      },
+      "hardware": {
+        "name_0": "Standaard handvat",
+        "type_0": "Aluminium",
+        "name_1": "Handvat met sleutel",
+        "type_1": "Beveiliging",
+        "name_2": "van Secus®",
+        "type_2": "Anti-inbraak"
+      },
+      "accessories": {
+        "name_0": "Maco Multimatic KS",
+        "description_0": "Geavanceerde perimeterhardware met microventilatie",
+        "name_1": "V-perfect lassen",
+        "description_1": "Vrijwel onzichtbare hoeklassen voor een onberispelijke esthetiek",
+        "name_2": "Stalen versterking",
+        "description_2": "Gesloten stalen profiel in het frame voor extreme stijfheid",
+        "name_3": "EPDM-afdichtingen",
+        "description_3": "Drievoudig afdichtingssysteem in zwart of grijs"
+      }
+    },
+    "iglo-energy-classic": {
+      "name": "IGLO ENERGIEKLASSIEK",
+      "tagline": "Vierkante glaslat ontmoet passiefhuisprestaties",
+      "description": "Een uniek ontwerp waarbij u de vierkante glaslat kunt kiezen die de laatste architectonische trends weerspiegelt. De opmerkelijke thermische isolatieparameters worden verzekerd door de optimale 7-kamerprofielstructuur en een speciaal ontworpen afdichtingssysteem van geschuimd EPDM. Profiel verkrijgbaar in wit, antraciet en brons.",
+      "specs": {
+        "label_0": "Thermische doorlaatbaarheid (Uw)",
+        "value_0": "0,73",
+        "label_1": "Installatiediepte",
+        "value_1": "82",
+        "label_2": "Profiel Kamers",
+        "value_2": "7",
+        "label_3": "Geluidsisolatie (Rw)",
+        "value_3": "36–42"
+      }
+    },
+    "iglo-energy-alucover": {
+      "name": "IGLO ENERGIE ALUCOVER",
+      "tagline": "PVC-prestaties met aluminium exterieure elegantie",
+      "description": "Ervaar de combinatie van geavanceerde thermische isolatieprestaties en eigentijds design. De aluminium bekleding aan de buitenkant biedt grenzeloze kleurmogelijkheden, waardoor u voor elk interieur of elke gevel van een gebouw een unieke, gepersonaliseerde stijl kunt creëren – zonder concessies te doen aan de thermische prestaties.",
+      "specs": {
+        "label_0": "Thermische doorlaatbaarheid (Uw)",
+        "value_0": "0,76",
+        "label_1": "Installatiediepte",
+        "value_1": "82",
+        "label_2": "Profiel Kamers",
+        "value_2": "7",
+        "label_3": "Beglazingspakket (en)",
+        "value_3": "0,5"
+      }
+    },
+    "iglo-5": {
+      "name": "NAALD 5",
+      "tagline": "Hoge kwaliteit tegen een aantrekkelijke prijs",
+      "description": "Het IGLO 5-systeem combineert elegantie, functionaliteit en geavanceerde energiebesparende oplossingen. Het tijdloze profielontwerp met 5 kamers maakt het een veelzijdige keuze voor zowel moderne architectuur als klassieke renovaties, en levert solide thermische prestaties tegen een uitstekende prijs-kwaliteitsverhouding.",
+      "specs": {
+        "label_0": "Thermische doorlaatbaarheid (Uw)",
+        "value_0": "0,74",
+        "label_1": "Installatiediepte",
+        "value_1": "70",
+        "label_2": "Profiel Kamers",
+        "value_2": "5",
+        "label_3": "Geluidsisolatie (Rw)",
+        "value_3": "36–44"
+      }
+    },
+    "iglo-5-classic": {
+      "name": "NAALD 5 KLASSIEK",
+      "tagline": "Bewezen oplossingen betekenen klanttevredenheid",
+      "description": "De IGLO 5 Classic combineert het beproefde 5-kamerprofielsysteem met een traditionele esthetiek. Betrouwbare thermische en akoestische prestaties maken het de vertrouwde keuze voor zowel nieuwbouw- als renovatieprojecten in alle klimaatzones.",
+      "specs": {
+        "label_0": "Thermische doorlaatbaarheid (Uw)",
+        "value_0": "0,89",
+        "label_1": "Installatiediepte",
+        "value_1": "70",
+        "label_2": "Profiel Kamers",
+        "value_2": "5",
+        "label_3": "Geluidsisolatie (Rw)",
+        "value_3": "36–44"
+      }
+    },
+    "iglo-light": {
+      "name": "IGLO-LICHT",
+      "tagline": "Nog meer daglicht in uw ruimte",
+      "description": "IGLO LIGHT kenmerkt zich door zijn uitzonderlijk slanke profielen, waardoor aanzienlijk meer natuurlijk licht het interieur binnenkomt. Ondanks zijn slanke uiterlijk biedt het uitstekende structurele stabiliteit en thermische prestaties in de klassieke 5-kamertechniek.",
+      "specs": {
+        "label_0": "Thermische doorlaatbaarheid (Uw)",
+        "value_0": "0,88",
+        "label_1": "Installatiediepte",
+        "value_1": "70",
+        "label_2": "Profiel Kamers",
+        "value_2": "5",
+        "label_3": "Geluidsisolatie (Rw)",
+        "value_3": "34"
+      }
+    },
+    "iglo-ext": {
+      "name": "IGLO EXT",
+      "tagline": "Moderne PVC-balkonramen die naar buiten opengaan",
+      "description": "IGLO EXT is een modern naar buiten openend PVC-systeem, ideaal voor balkons, terrassen en installaties in krappe ruimtes waar naar binnen openen onpraktisch is. Het biedt betrouwbare bescherming tegen weersinvloeden en thermische isolatie in een ruimtebesparend ontwerp.",
+      "specs": {
+        "label_0": "Thermische doorlaatbaarheid (Uw)",
+        "value_0": "0,89",
+        "label_1": "Installatiediepte",
+        "value_1": "70",
+        "label_2": "Profiel Kamers",
+        "value_2": "5",
+        "label_3": "Openingsrichting",
+        "value_3": "Naar buiten"
+      }
+    },
+    "iglo-premier": {
+      "name": "NAALD PREMIER",
+      "tagline": "Moderne naar buiten openende openslaande of kantelramen",
+      "description": "Iglo Premier levert de premium naar buiten openende raamervaring met uitzonderlijke weersbestendigheid en thermische prestaties. Ontworpen voor hedendaagse architectuur die strakke zichtlijnen en betrouwbare prestaties op de lange termijn vereist.",
+      "specs": {
+        "label_0": "Installatiediepte",
+        "value_0": "70",
+        "label_1": "Profiel Kamers",
+        "value_1": "5",
+        "label_2": "Openingsrichting",
+        "value_2": "Naar buiten",
+        "label_3": "Standaard beglazing (en)",
+        "value_3": "0,6"
+      }
+    },
+    "ideal-neo-ad": {
+      "name": "IDEALE NEO ADVERTENTIE",
+      "tagline": "Meer dan modern design",
+      "description": "De IDEAL NEO AD biedt een 5/6-kamerprofielstructuur met een uitstekende ontwerpveelzijdigheid. Het bevat geavanceerde thermische onderbrekingstechnologie en is verkrijgbaar in een breed scala aan afwerkingen, waardoor het ideaal is voor architectonisch veeleisende projecten.",
+      "specs": {
+        "label_0": "Thermische doorlaatbaarheid (Uw)",
+        "value_0": "0,79",
+        "label_1": "Installatiediepte",
+        "value_1": "76",
+        "label_2": "Profiel Kamers",
+        "value_2": "5/6",
+        "label_3": "Geluidsisolatie (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md": {
+      "name": "IDEALE NEO MD",
+      "tagline": "Meer dan modern design",
+      "description": "IDEAL NEO MD is een premium 6-kamersysteem dat uitstekende thermische isolatie en een eigentijdse, vlakke profielesthetiek biedt. Het naadloze vleugelontwerp verwijdert zichtbare sponningen, waardoor een moderne uitstraling ontstaat die past bij minimalistische interieurs en gevels.",
+      "specs": {
+        "label_0": "Thermische doorlaatbaarheid (Uw)",
+        "value_0": "0,76",
+        "label_1": "Installatiediepte",
+        "value_1": "76",
+        "label_2": "Profiel Kamers",
+        "value_2": "6",
+        "label_3": "Geluidsisolatie (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-fs": {
+      "name": "IDEAAL NEO MD-FS",
+      "tagline": "In harmonie met de architectuur",
+      "description": "Bij de vlakke vleugelvariant IDEAL NEO MD-FS wordt de zichtbare trede tussen kozijn en vleugel verwijderd, wat resulteert in een perfect vlak buitenaanzicht. Ideaal voor moderne, minimalistische architectuur waar zichtlijnen net zo belangrijk zijn als prestaties.",
+      "specs": {
+        "label_0": "Thermische doorlaatbaarheid (Uw)",
+        "value_0": "0,73",
+        "label_1": "Installatiediepte",
+        "value_1": "76",
+        "label_2": "Profiel Kamers",
+        "value_2": "6",
+        "label_3": "Geluidsisolatie (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-monoblock": {
+      "name": "IDEAAL NEO MD-MONOBLOCK",
+      "tagline": "Ontworpen voor installatie binnen isolatielagen",
+      "description": "Monoblock-frames zijn ontworpen voor ramen die in een isolatielaag zijn geïnstalleerd. Het brede framebereik (76–162 mm) maakt een passende selectie mogelijk, afhankelijk van de isolatiedikte. Een speciale buitenplank maskeert op esthetische wijze de isolatie rond de raamomtrek.",
+      "specs": {
+        "label_0": "Thermische doorlaatbaarheid (Uw)",
+        "value_0": "0,76",
+        "label_1": "Installatiediepte",
+        "value_1": "76–162",
+        "label_2": "Profiel Kamers",
+        "value_2": "6",
+        "label_3": "Geluidsisolatie (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-renovation": {
+      "name": "IDEALE NEO MD RENOVATIE",
+      "tagline": "Nieuwe ramen zonder het oude kozijn te verwijderen",
+      "description": "Het renovatiekozijnsysteem maakt raammontage mogelijk zonder oude kozijnen te demonteren. Speciale frames met een maskeerprofiel omsluiten het bestaande houten frame. Maskeringsprofielen zijn verkrijgbaar in de breedtes 40 mm en 70 mm en kunnen op maat worden gesneden.",
+      "specs": {
+        "label_0": "Thermische doorlaatbaarheid (Uw)",
+        "value_0": "0,76",
+        "label_1": "Installatiediepte",
+        "value_1": "76",
+        "label_2": "Profiel Kamers",
+        "value_2": "5/6",
+        "label_3": "Geluidsisolatie (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-7000-nl": {
+      "name": "IDEAAL 7000 NL",
+      "tagline": "In harmonie met de architectuur",
+      "description": "De IDEAL 7000 NL is een veelzijdig PVC-raamsysteem met strakke zichtlijnen en solide thermische prestaties. Zeer geschikt voor projecten waarbij de architectuur een verfijnd, eigentijds raamprofiel vereist, zonder concessies te doen aan isolatie of duurzaamheid.",
+      "specs": {
+        "label_0": "Profiel Kamers",
+        "value_0": "5",
+        "label_1": "Beglazingspakket (en)",
+        "value_1": "0,5",
+        "label_2": "Beschikbare lastypen",
+        "value_2": "V-Perfect, klassiek",
+        "label_3": "Standaardhardware",
+        "value_3": "MACO MULTIMATIC"
+      }
+    },
+    "mb-86n-si": {
+      "name": "MB-86NSI",
+      "tagline": "Uitstekende parameters en duurzaamheid van aluminium",
+      "description": "Een zeer geavanceerd aluminium raamsysteem dat voldoet aan de hoogste eisen op het gebied van thermische isolatie. Het afstandsstuk met warme rand en de hoogwaardige thermische onderbreking leveren Uw-waarden van slechts 0,76 W/(m²K), waardoor het de beste speler is in het Drutex aluminium raamassortiment.",
+      "specs": {
+        "label_0": "Thermische doorlaatbaarheid (Uw)",
+        "value_0": "0,76",
+        "label_1": "Installatiediepte",
+        "value_1": "77",
+        "label_2": "Afdichtende lagen",
+        "value_2": "3",
+        "label_3": "Standaard beglazing (en)",
+        "value_3": "0,5"
+      }
+    },
+    "mb-79n-si": {
+      "name": "MB-79N SI",
+      "tagline": "Kies voor energie-efficiëntie",
+      "description": "Het aluminium raamsysteem MB-79N SI levert uitstekende thermische prestaties bij een profieldiepte van 70 mm. Drie afdichtingsniveaus en een hoogwaardige thermische onderbreking maken het geschikt voor zowel residentiële als commerciële toepassingen die een efficiënt, duurzaam aluminium frame vereisen.",
+      "specs": {
+        "label_0": "Thermische doorlaatbaarheid (Uw)",
+        "value_0": "0,81",
+        "label_1": "Installatiediepte",
+        "value_1": "70",
+        "label_2": "Afdichtende lagen",
+        "value_2": "3",
+        "label_3": "Standaard beglazing (en)",
+        "value_3": "0,5"
+      }
+    },
+    "mb-70hi": {
+      "name": "MB-70HI",
+      "tagline": "Lichtgewicht, duurzaam, thermisch efficiënt aluminium",
+      "description": "MB-70HI aluminium ramen kunnen zowel in individuele gebouwen als in aluminium gevels worden gebruikt. De lichtgewicht en duurzame constructie zorgt voor jarenlang comfort. De standaarduitrusting omvat MACO MULTI-MATIC KS-fittingen en microventilatie.",
+      "specs": {
+        "label_0": "Thermische doorlaatbaarheid (Uw)",
+        "value_0": "0,96",
+        "label_1": "Installatiediepte",
+        "value_1": "70",
+        "label_2": "Afdichtende lagen",
+        "value_2": "3",
+        "label_3": "Beglazingsbereik",
+        "value_3": "23,5–62"
+      }
+    },
+    "mb-70": {
+      "name": "MB-70",
+      "tagline": "Betrouwbaar aluminium met een profieldiepte van 70 mm",
+      "description": "Het aluminium raamsysteem MB-70 biedt een betrouwbare, kosteneffectieve oplossing voor moderne architectuur. De standaarduitrusting omvat MACO-beslag, een inbouwdiepte van 70 mm en matte RAL-kleuren in wit of antraciet – voor het breedste scala aan residentiële en commerciële toepassingen.",
+      "specs": {
+        "label_0": "Thermische doorlaatbaarheid (Uw)",
+        "value_0": "1.06",
+        "label_1": "Installatiediepte",
+        "value_1": "70",
+        "label_2": "Afdichtende lagen",
+        "value_2": "3",
+        "label_3": "Beglazingsbereik",
+        "value_3": "23,5–62"
+      }
+    },
+    "mb-45": {
+      "name": "MB-45",
+      "tagline": "Slank aluminium profiel voor maximaal glasoppervlak",
+      "description": "De MB-45 is een ultraslank aluminium raamsysteem met een profieldiepte van 45 mm, perfect voor toepassingen waarbij maximaal glasoppervlak en minimaal zicht op het kozijn prioriteit hebben. De standaarduitrusting omvat MACO-fittingen, EPDM-afdichtingen en RAL-matte afwerkingen.",
+      "specs": {
+        "label_0": "Installatiediepte",
+        "value_0": "45",
+        "label_1": "Afdichtende lagen",
+        "value_1": "2",
+        "label_2": "Beglazingsbereik",
+        "value_2": "1,5–37",
+        "label_3": "Beschikbare kleuren",
+        "value_3": "Wit RAL 9016, antraciet RAL 7016"
+      }
+    },
+    "softline": {
+      "name": "SOFTLINE 68/78/88",
+      "tagline": "Duurzaamheid en schoonheid van de natuur",
+      "description": "SOFTLINE houten ramen brengen de warmte en schoonheid van natuurlijke materialen met moderne technische precisie. Verkrijgbaar in drie profieldieptes — 68 mm, 78 mm en 88 mm — om te voldoen aan uiteenlopende isolatie- en esthetische eisen, afgewerkt met hoogwaardige microporeuze lakken voor duurzaamheid op lange termijn.",
+      "specs": {
+        "label_0": "Beschikbare diepten",
+        "value_0": "68 / 78 / 88",
+        "label_1": "Materiaal",
+        "value_1": "Grenen / Eik / Meranti",
+        "label_2": "Oppervlaktebehandeling",
+        "value_2": "Hoogwaardige microporeuze lak",
+        "label_3": "Standaardhardware",
+        "value_3": "MACO MULTIMATIC"
+      }
+    },
+    "duoline": {
+      "name": "DUOLINE 68/78/88",
+      "tagline": "Unieke combinatie van hout en aluminium",
+      "description": "DUOLINE hout-aluminium ramen combineren de warmte van een natuurlijk houten interieur met een robuuste, onderhoudsarme aluminium buitenschil. Verkrijgbaar in drie profieldieptes (68 mm, 78 mm, 88 mm) met vrijwel onbeperkte RAL-buitenkleuropties voor elke architecturale stijl.",
+      "specs": {
+        "label_0": "Beschikbare diepten",
+        "value_0": "68 / 78 / 88",
+        "label_1": "Interieur",
+        "value_1": "Natuurlijk hout (grenen/eiken/meranti)",
+        "label_2": "Buitenkant",
+        "value_2": "Aluminium schaal, onbeperkt RAL",
+        "label_3": "Standaardhardware",
+        "value_3": "MACO MULTIMATIC"
+      }
+    },
+    "iglo-edge-doors": {
+      "name": "IGLO RANDDEUREN",
+      "tagline": "De toegangspoort tot Premium",
+      "description": "Buitendeuren op basis van het IGLO EDGE-systeem bieden ongeëvenaarde veiligheid, duurzaamheid en thermische isolatie. Verkrijgbaar in een breed scala aan kleuren en opvulpanelen, passend bij elke bouwstijl.",
+      "specs": {
+        "label_0": "Thermische doorlaatbaarheid (Ud)",
+        "value_0": "0,75",
+        "label_1": "Installatiediepte",
+        "value_1": "82",
+        "label_2": "Vergrendelpunten",
+        "value_2": "3 tot 5"
+      }
+    },
+    "iglo-hs": {
+      "name": "IGLO-HS",
+      "tagline": "Panoramisch uitzicht zonder grenzen",
+      "description": "Hef-schuifdeuren (HS) waarmee spectaculaire beglazingen van groot formaat kunnen worden gecreëerd. Het geavanceerde mechanisme zorgt voor een moeiteloze bediening, zelfs voor vleugels tot 400 kg.",
+      "specs": {
+        "label_0": "Thermische doorlaatbaarheid (Uw)",
+        "value_0": "0,73",
+        "label_1": "Maximale afmetingen",
+        "value_1": "3,2 m x 6,5 m",
+        "label_2": "Installatiediepte",
+        "value_2": "194"
+      }
+    },
+    "iglo-edge-slide": {
+      "name": "IGLO RAND-SLIDE",
+      "tagline": "Technologie die indruk maakt",
+      "description": "Ons nieuwe, technologisch meest geavanceerde raam onderscheidt zich door een uitstekende thermische isolatieparameter van Uw = 0,65 W/(m2K)* en een moderne, hoekige profielvorm.",
+      "specs": {
+        "label_0": "Thermische doorlaatbaarheid (Uw)",
+        "value_0": "0,65",
+        "label_1": "Installatiediepte (frame)",
+        "value_1": "163",
+        "label_2": "Profiel Kamers",
+        "value_2": "6",
+        "label_3": "Pakkingen",
+        "value_3": "3"
+      }
+    },
+    "igloEdge": {
+      "name": "IGLO EDGE",
+      "tagline": "Maximum insulation, minimal frame",
+      "description": "Our new, most technologically advanced window is distinguished by an excellent thermal insulation parameter of Uw = 0.66 W/(m²K)* and a modern, angular profile shape. The extremely good thermal insulation parameters are due, among other things, to the 7-chamber profile design and 3 EPDM gaskets, including the central gasket.",
+      "standardEquipment": [
+        "Double-chamber glazing package Ug = 0.5 W/(m²K)",
+        "Swisspacer Ultimate plastic warm frame",
+        "V-perfect weld",
+        "4 anti-theft strikers according to the size of the sash and the hardware system",
+        "Microventilation",
+        "DUBLIN aluminium window handle",
+        "Handle misplacement locking mechanism",
+        "Perimeter, glazing and central gaskets in black or grey",
+        "Filling of the lower hardware groove",
+        "Sill trim",
+        "Wide selection of PVC veneer colours",
+        "3 profile colours to choose from: white, brown or anthracite"
+      ]
+    }
+  },
+  "themeHint": {
+    "title": "Wist je dat?",
+    "description": "U kunt op elk gewenst moment schakelen tussen de nacht- en dagmodus via het themawisselpictogram in de rechterbovenhoek van de navigatiebalk.",
+    "dismiss": "Ik begrijp het, bedankt!"
+  }
+}

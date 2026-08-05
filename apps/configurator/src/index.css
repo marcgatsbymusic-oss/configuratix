@@ -1,0 +1,257 @@
+@import "tailwindcss";
+
+
+/* ─── Mammut Design Tokens ─────────────────────────────────── */
+@theme {
+  /* Dynamic base colors */
+  --color-black: var(--theme-bg-base);
+  --color-white: var(--theme-text-base);
+
+  /* Override gray shades for default utilities */
+  --color-gray-50: var(--theme-gray-50);
+  --color-gray-100: var(--theme-gray-100);
+  --color-gray-200: var(--theme-gray-200);
+  --color-gray-800: var(--theme-gray-800);
+  --color-gray-900: var(--theme-gray-900);
+
+  /* Dynamic custom colors */
+  --color-mammut-black: var(--theme-bg-base);
+  --color-mammut-dark: var(--theme-mammut-dark);
+  --color-mammut-darker: var(--theme-mammut-darker);
+  --color-mammut-gold: var(--theme-mammut-gold);
+  --color-mammut-gold-light: var(--theme-mammut-gold-light);
+  --color-mammut-white: var(--theme-text-base);
+  --color-mammut-grey: var(--theme-mammut-grey);
+  --color-mammut-grey-light: var(--theme-mammut-grey-light);
+  --color-mammut-border: var(--theme-mammut-border);
+
+  --font-sans: 'Montserrat', sans-serif;
+
+  --spacing-section: 6rem;
+
+  --animate-scale-in: scale-in 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+
+  @keyframes scale-in {
+    from {
+      transform: scale(0);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+}
+
+:root {
+  /* Default: Dark Theme */
+  --theme-bg-base: #000000;
+  --theme-text-base: #ffffff;
+  
+  --theme-gray-50: #f9fafb;
+  --theme-gray-100: #f3f4f6;
+  --theme-gray-200: #e5e7eb;
+  --theme-gray-800: #1f2937;
+  --theme-gray-900: #111827;
+
+  --theme-mammut-dark: #1a1a1b;
+  --theme-mammut-darker: #111112;
+  --theme-mammut-gold: #eab676;
+  --theme-mammut-gold-light: #F3C47F;
+  --theme-mammut-grey: #333333;
+  --theme-mammut-grey-light: #888888;
+  --theme-mammut-border: #2a2a2b;
+}
+
+:root[data-theme='light'] {
+  /* Inverted: Light Theme */
+  --theme-bg-base: #ffffff;
+  --theme-text-base: #000000;
+  
+  /* Invert Grays */
+  --theme-gray-50: #111827;
+  --theme-gray-100: #1f2937;
+  --theme-gray-200: #374151;
+  --theme-gray-800: #e5e7eb;
+  --theme-gray-900: #f3f4f6;
+
+  --theme-mammut-dark: #f8f9fa;
+  --theme-mammut-darker: #f0f0f0;
+  --theme-mammut-gold: #c88a3e; /* Darker gold for better contrast on white */
+  --theme-mammut-gold-light: #d89f55;
+  --theme-mammut-grey: #e5e7eb;
+  --theme-mammut-grey-light: #9ca3af;
+  --theme-mammut-border: #d1d5db;
+}
+
+/* ─── Base Styles ───────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--theme-bg-base);
+  color: var(--theme-text-base);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Typography ──────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+:root {
+  /* Drutex Color Palette */
+  --drutex-yellow: #FFD100;
+  --drutex-black: #000000;
+  --drutex-gray-dark: #333333;
+  --drutex-gray-light: #F4F4F4;
+  --drutex-white: #FFFFFF;
+
+  /* Typography */
+  --font-primary: 'Montserrat', sans-serif;
+  --font-secondary: 'Open Sans', sans-serif;
+}
+
+h1 {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--drutex-black);
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-family: var(--font-primary);
+  font-weight: 600;
+  border-left: 5px solid var(--drutex-yellow); /* Signature Drutex accent */
+  padding-left: 15px;
+}
+
+p {
+  font-family: var(--font-secondary);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--drutex-gray-dark);
+}
+
+.btn-primary {
+  background-color: var(--drutex-yellow);
+  color: var(--drutex-black);
+  font-weight: 700;
+  padding: 12px 30px;
+  border: none;
+  text-transform: uppercase;
+  transition: background 0.3s ease;
+}
+
+/* ─── Scrollbar ───────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--theme-mammut-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--theme-mammut-gold);
+  border-radius: 3px;
+}
+
+/* ─── Mammut Spec Card (corner-only gold borders) ──────────── */
+.spec-card {
+  position: relative;
+  padding: 1.25rem;
+  background: transparent;
+}
+.spec-card::before,
+.spec-card::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: var(--theme-mammut-gold);
+  border-style: solid;
+}
+.spec-card::before {
+  top: 0;
+  left: 0;
+  border-width: 2px 0 0 2px;
+}
+.spec-card::after {
+  bottom: 0;
+  right: 0;
+  border-width: 0 2px 2px 0;
+}
+
+/* ─── Transitions ──────────────────────────────────────────── */
+.transition-mammut {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Gold underline animation ─────────────────────────────── */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--theme-mammut-gold);
+  transition: width 0.3s ease;
+}
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ─── Product Hero Typography ──────────────────────────────── */
+.product-hero-title,
+.product-hero-tagline,
+.product-hero-spec-value,
+.product-hero-spec-label {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+/* ─── Dimension Scroll Wheel ────────────────────────────────── */
+.dimension-scroll-wheel {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+/* Brighten slightly when active */
+.dimension-scroll-wheel:active,
+.dimension-scroll-wheel:focus-within {
+  background: rgba(255, 255, 255, 0.5);
+  border-color: #c49a45; /* Matching your gold brand accent */
+}
+
+/* Needle Engine background defaults */
+needle-engine, needle-engine::part(canvas), needle-engine canvas {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  --background-color: #ffffff !important;
+  --loading-background: #ffffff !important;
+}
+
+/* Hide R3F Canvas when Needle Engine is active to allow Drei HTML overlays to remain interactive */
+.needle-active canvas {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}

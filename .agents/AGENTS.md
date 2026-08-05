@@ -61,3 +61,34 @@ plus the recipe offsets. Do NOT fabricate geometry to fill the gap.
 
 ## Blind/Mosquito Net Guidelines
 - **Rail Length Constraint**: The side blind rails (guides) must always be exactly as long as the window itself. Always adjust the length (drop) to the window to ensure rails do not protrude below the bottom frame.
+
+# Installation Execution Platform
+
+1. System Description: A window installation execution platform delivered as a module of an existing configurator platform, comprising a React web back office and a Flutter mobile installer app over a modular-monolith backend.
+
+2. Technology Constraints (NON-NEGOTIABLE):
+   - Backend: modular monolith, PostgreSQL with PostGIS
+   - Web: React
+   - Mobile: Flutter, offline-first with an outbox sync pattern
+   - Auth: OIDC, federated from the configurator platform
+   Do not introduce microservices, a different database, or a different mobile framework.
+
+3. DO NOT INVENT: Technical values that must never be hardcoded from the model's own knowledge:
+   - Levelling tolerances
+   - Fixing hole count and spacing rules
+   - Screw specifications
+   - Tightening sequences
+   - Trim profile geometry
+   - Machine-only size/weight threshold
+   - Three-layer sealing sequence
+   These MUST be loaded from configuration. Placeholder values MUST be marked with a PLACEHOLDER_UNVERIFIED constant. The system MUST log loudly when a placeholder is used.
+
+4. Coding Conventions:
+   - Clear module boundaries with clean interfaces.
+   - Domain logic lives in the backend, NEVER duplicated in mobile or web clients.
+   - Write comprehensive tests.
+   - Robust error handling.
+
+5. Source of Truth: docs/spec/installation-execution-spec.md is the source of truth for all requirements. Any conflict between agent assumption and spec is resolved in favour of the spec. Any gap must be raised as a question rather than filled in silently.
+
+6. PRICING EXCLUSION CONSTRAINT: Do not include or expose any pricing, cost, currency (EUR, PLN, USD, etc.), or commercial information under 'Technical Specifications' or any installer-facing interfaces on the installation execution side. Filter out all price totals, itemized values, and conversion statements from structural details during data extraction.

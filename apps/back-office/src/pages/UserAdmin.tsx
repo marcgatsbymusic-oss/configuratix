@@ -1,0 +1,125 @@
+import React, { useEffect, useState } from 'react';
+import { useAuth } from '../AuthContext';
+
+export const UserAdmin: React.FC = () => {
+  const [users, setUsers] = useState<any[]>([]);
+  const { token } = useAuth();
+  
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [role, setRole] = useState('INSTALLER');
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      const res = await fetch('http://localhost:3001/api/identity/users', {
+        headers: {
+          'x-mock-role': token || ''
+        }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setUsers(data.users);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleCreate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const res = await fetch('http://localhost:3001/api/identity/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-mock-role': token || ''
+        },
+        body: JSON.stringify({ email, name, roleName: role })
+      });
+      if (res.ok) {
+        setEmail('');
+        setName('');
+        fetchUsers();
+      } else {
+        alert('Failed to create user');
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  return (
+    <div>
+      <h1 className="page-title">User Administration</h1>
+      
+      <div className="card">
+        <h2 style={{ marginBottom: '1rem' }}>Invite New User</h2>
+        <form onSubmit={handleCreate} className="form-group">
+          <div className="input-field">
+            <label>Name</label>
+            <input type="text" value={name} onChange={e => setName(e.target.value)} required />
+          </div>
+          <div className="input-field">
+            <label>Email</label>
+            <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+          </div>
+          <div className="input-field">
+            <label>Role</label>
+            <select value={role} onChange={e => setRole(e.target.value)}>
+              <option value="ADMIN">ADMIN</option>
+              <option value="DISPATCHER">DISPATCHER</option>
+              <option value="SUPERVISOR">SUPERVISOR</option>
+              <option value="MANAGEMENT">MANAGEMENT</option>
+              <option value="CREW_LEAD">CREW_LEAD</option>
+              <option value="INSTALLER">INSTALLER</option>
+            </select>
+          </div>
+          <button type="submit" className="btn">Invite User</button>
+        </form>
+        <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>
+          Passwords are not set here. The user will receive an invite email.
+        </p>
+      </div>
+
+      <div className="card" style={{ padding: 0 }}>
+        <table>
+          <thead style={{ background: 'var(--bg-color)' }}>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Roles</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map(u => (
+              <tr key={u.id}>
+                <td>{u.name}</td>
+                <td>{u.email}</td>
+                <td>
+                  <span className={`badge ${u.status === 'ACTIVE' ? 'badge-active' : 'badge-inactive'}`}>
+                    {u.status}
+                  </span>
+                </td>
+                <td>
+                  {u.roleAssignments?.map((ra: any) => ra.role.name).join(', ')}
+                </td>
+                <td>
+                  <button className="text-danger">Suspend</button>
+                </td>
+              </tr>
+            ))}
+            {users.length === 0 && (
+              <tr><td colSpan={5} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>No users found.</td></tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};

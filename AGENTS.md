@@ -53,3 +53,6 @@ A few source blocks store bodies as ACIS REGION (e.g. `rama 66mm`, two composed
 sash wrappers, `próg GU`) and yield 0 polyline loops. Either explode them to
 polylines in CAD, or build those junctions from the clean atomic `50xxx` blocks
 plus the recipe offsets. Do NOT fabricate geometry to fill the gap.
+
+## Pricing Exclusion Rule
+Installers and installation execution team members must never be exposed to pricing information. You MUST exclude and strip out any currency, cost, price calculations, or totals containing EUR, PLN, USD, or gold/euro symbols from the Technical Specifications and any other installer-facing user interfaces or data streams.

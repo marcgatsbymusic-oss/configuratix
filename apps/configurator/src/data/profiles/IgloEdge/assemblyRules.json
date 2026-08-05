@@ -1,0 +1,123 @@
+{
+  "_readme": "assemblyRules.json — IGLO EDGE family. This file is the single source of truth for all junction logic. The AI executor must read this file before generating any geometry. It must not infer, assume, or supplement any rule. If a junction type is not listed here, it must STOP and ask.",
+
+  "family": "iglo_edge",
+  "version": "1.0.0",
+  "coordinateSpace": "normalized_local",
+  "unitsMm": true,
+  "allowedDeviationMm": 0.01,
+
+  "assemblyOrder": [
+    "frame_top",
+    "frame_bottom",
+    "frame_left",
+    "frame_right",
+    "movable_post",
+    "sash_left",
+    "sash_right",
+    "glazing_bead"
+  ],
+
+  "junctionRules": {
+
+    "frame_corner": {
+      "_comment": "All four frame corners. 45° mitre. Reference point is the inner-face corner — cut line runs exactly from inner_face_corner outward at 45°. The outer face is trimmed to meet. No gap, no overlap permitted.",
+      "type": "mitre_45deg",
+      "referencePoint": "inner_face_corner",
+      "cutDirection": "from_inner_to_outer",
+      "trimFace": "outer",
+      "applies_to": ["frame_top+frame_left", "frame_top+frame_right", "frame_bottom+frame_left", "frame_bottom+frame_right"]
+    },
+
+    "sash_corner": {
+      "_comment": "All four sash corners. Same 45° mitre rule as frame. Sash inner-face corners must align with frame rebate edges — NOT with frame inner face.",
+      "type": "mitre_45deg",
+      "referencePoint": "inner_face_corner",
+      "cutDirection": "from_inner_to_outer",
+      "trimFace": "outer",
+      "sashAlignmentRef": "frame_rebate_edge",
+      "applies_to": ["sash_top+sash_left", "sash_top+sash_right", "sash_bottom+sash_left", "sash_bottom+sash_right"]
+    },
+
+    "movable_post_to_frame": {
+      "_comment": "Post top and bottom butt squarely against the frame inner face (the rebate shoulder). Post runs full height of the frame opening. No mitre. Post end is cut 90° square.",
+      "type": "butt_square",
+      "postEndCut": "90deg_square",
+      "postRunsTo": "frame_inner_face",
+      "postHeightRef": "frame_opening_height",
+      "applies_to": ["post_top+frame_top", "post_bottom+frame_bottom"]
+    },
+
+    "movable_post_to_sash": {
+      "_comment": "This is the critical junction causing the visible artifact. The post has a rebate on BOTH sides. The sash stile (vertical member) nests INTO the post rebate — the sash does NOT mitre against the post. The sash outer face aligns flush with the post rebate shoulder. The sash end is NOT cut — it runs full height. The post rebate depth must exactly match the sash stile outerFaceWidth.",
+      "type": "rebate_nest",
+      "junctionFace": "post_rebate",
+      "rebateSide": "both",
+      "sashNestsInto": "post_rebate",
+      "sashEndCut": "none",
+      "sashOuterFaceAlignment": "post_rebate_shoulder",
+      "rebateDepthMustMatch": "sash_outerFaceWidth",
+      "mitre": false,
+      "applies_to": ["post_left_face+sash_right_stile", "post_right_face+sash_left_stile"]
+    },
+
+    "glazing_bead_corner": {
+      "_comment": "Glazing bead corners are 45° mitres, same reference convention as sash corners. Bead sits inside sash rebate.",
+      "type": "mitre_45deg",
+      "referencePoint": "inner_face_corner",
+      "cutDirection": "from_inner_to_outer",
+      "trimFace": "outer",
+      "applies_to": ["bead_top+bead_left", "bead_top+bead_right", "bead_bottom+bead_left", "bead_bottom+bead_right"]
+    }
+
+  },
+
+  "placementRules": {
+
+    "frame": {
+      "_comment": "Frame is placed first. Its inner-face rectangle defines the opening. All other components are positioned relative to frame_opening.",
+      "placedFirst": true,
+      "definesOpening": true,
+      "openingRef": "inner_face_rectangle"
+    },
+
+    "movable_post": {
+      "_comment": "Post X position is defined by the configured split ratio (e.g. 50/50 = center of opening). Post Y runs from frame_inner_face_bottom to frame_inner_face_top. Post is centered on its own width at the split X position.",
+      "xPositionRef": "split_ratio_of_opening_width",
+      "yStart": "frame_inner_face_bottom",
+      "yEnd": "frame_inner_face_top",
+      "centerOnWidth": true
+    },
+
+    "sash_left": {
+      "_comment": "Left sash outer face aligns with frame rebate left edge. Right stile of left sash nests into post rebate left face. Top and bottom sash outer faces align with frame rebate top/bottom edges.",
+      "leftEdge":   "frame_rebate_left",
+      "rightEdge":  "post_rebate_left_shoulder",
+      "topEdge":    "frame_rebate_top",
+      "bottomEdge": "frame_rebate_bottom"
+    },
+
+    "sash_right": {
+      "_comment": "Right sash mirror of left sash. Left stile nests into post rebate right face.",
+      "leftEdge":   "post_rebate_right_shoulder",
+      "rightEdge":  "frame_rebate_right",
+      "topEdge":    "frame_rebate_top",
+      "bottomEdge": "frame_rebate_bottom"
+    },
+
+    "glazing_bead": {
+      "_comment": "Glazing bead sits inside the sash rebate. Inner face of bead is flush with sash inner face.",
+      "parentRef": "sash",
+      "innerFaceAlignment": "sash_inner_face"
+    }
+
+  },
+
+  "forbiddenBehaviors": [
+    "Do not mitre the movable post against the sash — junction type is rebate_nest only",
+    "Do not align sash corners to frame inner face — use frame_rebate_edge",
+    "Do not infer rebate depth from profile geometry — use dimensions.rebateDepth from metadata",
+    "Do not guess any missing value — stop and ask if any dimension or rule is undefined",
+    "Do not apply world coordinates directly — always transform through normalized_local origin first"
+  ]
+}

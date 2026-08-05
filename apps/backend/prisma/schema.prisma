@@ -1,0 +1,470 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String           @id @default(uuid())
+  email          String           @unique
+  name           String?
+  status         UserStatus       @default(ACTIVE)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  roleAssignments RoleAssignment[]
+  auditLogs      AuditLogEntry[]  @relation("ActorLogs")
+  
+  evidencePhotos    EvidencePhoto[]     @relation("ActorEvidencePhotos")
+  measurements      MeasurementRecord[] @relation("ActorMeasurements")
+  
+  overrideRequests  OverrideRequest[]   @relation("UserOverrideRequests")
+  overrideApprovals OverrideRequest[]   @relation("SupervisorOverrideApprovals")
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  DEACTIVATED
+}
+
+model Organisation {
+  id              String           @id @default(uuid())
+  name            String
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  roleAssignments RoleAssignment[]
+}
+
+model Role {
+  id              String           @id @default(uuid())
+  name            String           @unique // e.g. ADMIN, DISPATCHER, SUPERVISOR, MANAGEMENT, CREW_LEAD, INSTALLER
+  description     String?
+  roleAssignments RoleAssignment[]
+}
+
+model RoleAssignment {
+  id             String       @id @default(uuid())
+  user           User         @relation(fields: [userId], references: [id])
+  userId         String
+  role           Role         @relation(fields: [roleId], references: [id])
+  roleId         String
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
+  organisationId String
+  projectId      String?      // Optional scope to project
+  crewId         String?      // Optional scope to crew
+  createdAt      DateTime     @default(now())
+
+  @@unique([userId, roleId, organisationId, projectId, crewId])
+}
+
+model AuditLogEntry {
+  id          String   @id @default(uuid())
+  actionType  String
+  entityType  String
+  entityId    String
+  beforeValue Json?
+  afterValue  Json?
+  actor       User     @relation("ActorLogs", fields: [actorId], references: [id])
+  actorId     String
+  createdAt   DateTime @default(now())
+}
+
+// --- Orders Module ---
+
+model Order {
+  id               String             @id @default(uuid())
+  orderNumber      String             @unique
+  customerName     String?
+  sourceData       Json?              // Original payload/structure
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  installationList InstallationList?
+}
+
+model Invoice {
+  id               String             @id @default(uuid())
+  invoiceNumber    String             @unique
+  sourceData       Json?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  // Either an order or an invoice can spawn an installation list.
+}
+
+model InstallationList {
+  id            String             @id @default(uuid())
+  orderId       String?            @unique
+  order         Order?             @relation(fields: [orderId], references: [id])
+  status        String             @default("DRAFT") // DRAFT, READY, IN_PROGRESS, COMPLETED
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  items         InstallationItem[]
+}
+
+model InstallationItem {
+  id               String           @id @default(uuid())
+  listId           String
+  installationList InstallationList @relation(fields: [listId], references: [id], onDelete: Cascade)
+  
+  type             String           // "JOINERY", "NON_JOINERY"
+  category         String           // "WINDOW", "DOOR", "ACCESSORY", "SERVICE"
+  
+  // Enrichment (FR-2.2)
+  description      String
+  width            Float?
+  height           Float?
+  system           String?
+  glazing          String?
+  color            String?
+  handedness       String?
+  schematicUrl     String?
+  
+  // Barcode Resolution
+  expectedBarcode  String?
+  scannedBarcode   String?
+  barcodeStatus    String           @default("PENDING") // PENDING, CONFIRMED, DISCREPANCY
+  
+  // Opening Assignment (FR-2.3)
+  openingId        String?
+  opening          Opening?         @relation(fields: [openingId], references: [id], onDelete: SetNull)
+  orderIndex       Int?             // For ordered set of items in opening
+  
+  discrepancy      Discrepancy?
+  
+  // V3 Additions
+  weight           Float?
+  entryMethod      String?
+  productTypeId    String?
+  productType      ProductType?     @relation(fields: [productTypeId], references: [id])
+  
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+}
+
+model Opening {
+  id               String             @id @default(uuid())
+  projectId        String?            // Associated project
+  room             String             // e.g., "Living Room"
+  elevation        String             // e.g., "North Elevation"
+  reference        String             // e.g., "W-01"
+  items            InstallationItem[]
+  
+  // Installation execution workflow state per opening
+  workflowInstances WorkflowStepInstance[]
+  
+  // Evidence
+  evidencePhotos    EvidencePhoto[]
+  measurements      MeasurementRecord[]
+
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+}
+
+// -----------------------------------------
+// EVIDENCE MODULE
+// -----------------------------------------
+
+model EvidencePhoto {
+  id              String             @id @default(uuid())
+  openingId       String
+  opening         Opening            @relation(fields: [openingId], references: [id])
+  stepInstanceId  String
+  stepInstance    WorkflowStepInstance @relation(fields: [stepInstanceId], references: [id])
+  actorId         String
+  actor           User               @relation("ActorEvidencePhotos", fields: [actorId], references: [id])
+  url             String
+  geotagLat       Float?
+  geotagLng       Float?
+  perspective     String?            // interior, exterior, detail
+  capturedAt      DateTime
+  createdAt       DateTime           @default(now()) // Implicitly immutable, no updates
+}
+
+model MeasurementRecord {
+  id              String             @id @default(uuid())
+  openingId       String
+  opening         Opening            @relation(fields: [openingId], references: [id])
+  stepInstanceId  String
+  stepInstance    WorkflowStepInstance @relation(fields: [stepInstanceId], references: [id])
+  actorId         String
+  actor           User               @relation("ActorMeasurements", fields: [actorId], references: [id])
+  axis            String             // 'X', 'Y', 'Z'
+  readingValue    Float
+  toleranceUsed   Float
+  passed          Boolean
+  capturedAt      DateTime
+  createdAt       DateTime           @default(now())
+}
+
+// -----------------------------------------
+// OVERRIDE GATE MODULE
+// -----------------------------------------
+
+enum OverrideStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model OverrideRequest {
+  id              String             @id @default(uuid())
+  stepInstanceId  String
+  stepInstance    WorkflowStepInstance @relation(fields: [stepInstanceId], references: [id])
+  
+  requestedById   String
+  requestedBy     User               @relation("UserOverrideRequests", fields: [requestedById], references: [id])
+  
+  proposedMethod  String
+  reason          String
+  photos          Json               // Array of photo URLs
+  
+  status          OverrideStatus     @default(PENDING)
+  
+  supervisorId    String?
+  supervisor      User?              @relation("SupervisorOverrideApprovals", fields: [supervisorId], references: [id])
+  decisionNotes   String?
+  
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+}
+
+model DeliveryReceipt {
+  id               String             @id @default(uuid())
+  orderId          String             // The shipment/order ID this receipt is for
+  receivedBy       String             // User ID of dispatcher receiving
+  receivedAt       DateTime           @default(now())
+  notes            String?
+}
+
+model Discrepancy {
+  id               String             @id @default(uuid())
+  itemId           String             @unique
+  item             InstallationItem   @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  type             String             // MISSING, DAMAGED, UNEXPECTED
+  reason           String?
+  photoUrl         String?            // Evidence photo
+  reportedBy       String             // User ID
+  reportedAt       DateTime           @default(now())
+  resolved         Boolean            @default(false)
+  resolvedAt       DateTime?
+  resolutionNotes  String?
+}
+
+// -----------------------------------------
+// WORKFLOW ENGINE
+// -----------------------------------------
+
+model WorkflowStepDefinition {
+  id                    String   @id @default(uuid())
+  name                  String
+  sequence              Int      // Nominal order
+  conditionalityRules   Json     // JSON logic for inclusion
+  checklistItems        Json     // string[]
+  evidenceRequirements  Json     // rules for photos/documents
+  expectedTools         Json     // string[]
+  preconditions         Json     // dependencies on other steps (e.g. { dependsOn: ["step_id"] })
+  
+  // Timer support: Duration in minutes this step blocks dependents after it completes/starts.
+  blockingTimerMinutes  Int?
+
+  instances             WorkflowStepInstance[]
+}
+
+enum WorkflowStepStatus {
+  PENDING
+  IN_PROGRESS
+  WAITING      // Used for blocking timers
+  COMPLETED
+}
+
+model WorkflowStepInstance {
+  id              String             @id @default(uuid())
+  
+  definitionId    String
+  definition      WorkflowStepDefinition @relation(fields: [definitionId], references: [id])
+  
+  openingId       String
+  opening         Opening            @relation(fields: [openingId], references: [id])
+
+  status          WorkflowStepStatus @default(PENDING)
+  
+  startedAt       DateTime?
+  completedAt     DateTime?
+  timerEndsAt     DateTime?          // Populated if a blocking timer was started
+
+  checklistState  Json               // Map<string, boolean>
+  evidence        Json               // Array of attached photo URLs / metadata
+  
+  evidencePhotos    EvidencePhoto[]
+  measurements      MeasurementRecord[]
+  
+  overrideRequests  OverrideRequest[]
+
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  @@unique([definitionId, openingId])
+}
+
+// --- v3 Module Entities ---
+
+model ProductType {
+  id          String   @id @default(uuid())
+  code        String   @unique // e.g. "WINDOW", "SLIDING_DOOR"
+  name        String
+  profiles    InstallationProfile[]
+  items       InstallationItem[]
+}
+
+model InstallationProfile {
+  id                    String   @id @default(uuid())
+  productTypeId         String
+  productType           ProductType @relation(fields: [productTypeId], references: [id])
+  name                  String
+  workflowGraph         Json     // JSON representation of steps
+  requiredCompetencies  Competency[]
+  handlingRules         HandlingRule[]
+  fixingMethods         FixingMethod[]
+}
+
+model ItemSequenceRule {
+  id              String   @id @default(uuid())
+  predecessorId   String
+  successorId     String
+  ruleType        String   // "BEFORE", "AFTER"
+}
+
+model HandlingRule {
+  id                    String   @id @default(uuid())
+  profileId             String
+  profile               InstallationProfile @relation(fields: [profileId], references: [id])
+  minWeightKg           Float?
+  maxWeightKg           Float?
+  minWidthMm            Float?
+  minHeightMm           Float?
+  crewSizeRequired      Int
+  mechanicalAidRequired Boolean  @default(false)
+}
+
+model Competency {
+  id              String   @id @default(uuid())
+  code            String   @unique
+  name            String
+  profiles        InstallationProfile[]
+  grants          CompetencyGrant[]
+}
+
+model CompetencyGrant {
+  id              String   @id @default(uuid())
+  userId          String
+  competencyId    String
+  competency      Competency @relation(fields: [competencyId], references: [id])
+  grantedAt       DateTime @default(now())
+  validUntil      DateTime?
+}
+
+model ExistingUnitRecord {
+  id              String   @id @default(uuid())
+  openingId       String   @unique
+  material        String   // "WOOD", "PVC", "ALUMINIUM"
+  condition       String
+  disposalMethod  String
+  createdAt       DateTime @default(now())
+}
+
+model AdHocTask {
+  id              String   @id @default(uuid())
+  itemId          String
+  description     String
+  durationMinutes Int
+  createdAt       DateTime @default(now())
+}
+
+model ToolPreference {
+  id              String   @id @default(uuid())
+  userId          String
+  profileId       String
+  toolList        Json
+  createdAt       DateTime @default(now())
+}
+
+model SubstrateDefect {
+  id              String   @id @default(uuid())
+  openingId       String
+  description     String
+  isBlocking      Boolean  @default(false)
+  photoUrl        String?
+  remedyOwner     String?
+  resolved        Boolean  @default(false)
+  createdAt       DateTime @default(now())
+}
+
+model Variation {
+  id              String   @id @default(uuid())
+  openingId       String
+  description     String
+  evidencePhotos  Json
+  approved        Boolean  @default(false)
+  createdAt       DateTime @default(now())
+}
+
+model FixingMethod {
+  id              String   @id @default(uuid())
+  profileId       String
+  profile         InstallationProfile @relation(fields: [profileId], references: [id])
+  methodType      String   // SCREW, ANCHOR_PLATE, CHEMICAL_INJECTION
+  rules           Json     // Distances, counts
+}
+
+model ProductApplication {
+  id              String   @id @default(uuid())
+  stepInstanceId  String
+  productCode     String
+  batchNumber     String?
+  quantity        Float
+  createdAt       DateTime @default(now())
+}
+
+model CureTimer {
+  id              String   @id @default(uuid())
+  stepInstanceId  String
+  initialSetMin   Int
+  fullCureMin     Int
+  startedAt       DateTime @default(now())
+}
+
+model Estimate {
+  id              String   @id @default(uuid())
+  listId          String   // Maps to InstallationList
+  systemForecast  Json     // Range { min: 40, max: 60 }
+  installerEstimate Int?
+  actualDuration  Int?
+  createdAt       DateTime @default(now())
+}
+
+model TrimProfile {
+  id              String   @id @default(uuid())
+  code            String   @unique
+  stockedWidthsMm Json     // [20, 30, 40, 50, 60, 70, 80, 100]
+  sectionGeometry Json
+  measurementDatum String  // PLACEHOLDER_UNVERIFIED
+}
+
+model CutTemplate {
+  id              String   @id @default(uuid())
+  profileId       String
+  calibrationScale String
+  version         String
+  createdAt       DateTime @default(now())
+}
+
+model JobPack {
+  id              String   @id @default(uuid())
+  listId          String   @unique
+  version         String
+  contents        Json
+  assembled       Boolean  @default(false)
+  createdAt       DateTime @default(now())
+}

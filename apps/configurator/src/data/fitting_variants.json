@@ -1,0 +1,98 @@
+[
+  {
+    "id": "FIX",
+    "name": "Fixed glazing in the frame",
+    "typeClass": "FR",
+    "image": "/assets/fitting_variants/fix.svg"
+  },
+  {
+    "id": "FIX-S",
+    "name": "Fixed glazing in the sash",
+    "typeClass": "FF",
+    "image": "/assets/fitting_variants/fix_s.svg"
+  },
+  {
+    "id": "RD-L",
+    "name": "Left outward opening",
+    "typeClass": "FE",
+    "image": "/assets/fitting_variants/rd_l.svg"
+  },
+  {
+    "id": "RD-P",
+    "name": "Right outward opening",
+    "typeClass": "FE",
+    "image": "/assets/fitting_variants/rd_p.svg"
+  },
+  {
+    "id": "R-L",
+    "name": "Left opening",
+    "typeClass": "FE",
+    "image": "/assets/fitting_variants/r_l.svg"
+  },
+  {
+    "id": "R-P",
+    "name": "Right opening",
+    "typeClass": "FE",
+    "image": "/assets/fitting_variants/r_p.svg"
+  },
+  {
+    "id": "U",
+    "name": "Tilted, handle at the top",
+    "typeClass": "FE",
+    "image": "/assets/fitting_variants/u.svg"
+  },
+  {
+    "id": "U-2K-B",
+    "name": "Tilted, 2 handles on sides",
+    "typeClass": "FE",
+    "image": "/assets/fitting_variants/u_2k_b.svg"
+  },
+  {
+    "id": "U-2K-G",
+    "name": "Tilted, 2 handles at top",
+    "typeClass": "FE",
+    "image": "/assets/fitting_variants/u_2k_g.svg"
+  },
+  {
+    "id": "U-D",
+    "name": "Tilted, handle at bottom",
+    "typeClass": "FE",
+    "image": "/assets/fitting_variants/u_d.svg"
+  },
+  {
+    "id": "U-L",
+    "name": "Tilted, handle on the left",
+    "typeClass": "FE",
+    "image": "/assets/fitting_variants/u_l.svg"
+  },
+  {
+    "id": "U-N-L",
+    "name": "Tilted (left) + fanlight ope",
+    "typeClass": "FE",
+    "image": "/assets/fitting_variants/u_n_l.svg"
+  },
+  {
+    "id": "U-N-P",
+    "name": "Tilted + fanlight opener (r",
+    "typeClass": "FE",
+    "image": "/assets/fitting_variants/u_n_p.svg"
+  },
+  {
+    "id": "U-P",
+    "name": "Tilted, handle on the right",
+    "typeClass": "FE",
+    "image": "/assets/fitting_variants/u_p.svg"
+  },
+  {
+    "id": "UR-L",
+    "name": "Tilt&Turn (left)",
+    "typeClass": "FE",
+    "image": "/assets/fitting_variants/ur_l.svg"
+  },
+  {
+    "id": "UR-P",
+    "name": "Tilt&Turn (right)",
+    "typeClass": "FE",
+    "image": "/assets/fitting_variants/ur_p.svg"
+  }
+]

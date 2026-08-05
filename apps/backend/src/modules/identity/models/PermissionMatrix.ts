@@ -1,0 +1,63 @@
+export enum AppRole {
+  ADMIN = 'ADMIN',
+  DISPATCHER = 'DISPATCHER',
+  SUPERVISOR = 'SUPERVISOR',
+  MANAGEMENT = 'MANAGEMENT',
+  CREW_LEAD = 'CREW_LEAD',
+  INSTALLER = 'INSTALLER',
+}
+
+export enum AppAction {
+  MANAGE_USERS_ROLES = 'MANAGE_USERS_ROLES',
+  IMPORT_ORDERS_CREATE_JOBS = 'IMPORT_ORDERS_CREATE_JOBS',
+  ASSIGN_JOBS = 'ASSIGN_JOBS',
+  GENERATE_QR_LABELS = 'GENERATE_QR_LABELS',
+  APPROVE_OVERRIDES = 'APPROVE_OVERRIDES',
+  RESOLVE_DISCREPANCIES = 'RESOLVE_DISCREPANCIES',
+  DECLARE_INSTALLATION_METHOD = 'DECLARE_INSTALLATION_METHOD',
+  EXECUTE_STEPS = 'EXECUTE_STEPS',
+  REQUEST_OVERRIDE = 'REQUEST_OVERRIDE',
+  VIEW_ANALYTICS = 'VIEW_ANALYTICS',
+  VIEW_OWN_PERFORMANCE = 'VIEW_OWN_PERFORMANCE',
+}
+
+export const permissionMatrix: Record<AppRole, AppAction[]> = {
+  [AppRole.ADMIN]: [
+    AppAction.MANAGE_USERS_ROLES,
+    AppAction.IMPORT_ORDERS_CREATE_JOBS,
+    AppAction.ASSIGN_JOBS,
+    AppAction.GENERATE_QR_LABELS,
+    AppAction.RESOLVE_DISCREPANCIES,
+    AppAction.VIEW_ANALYTICS,
+  ],
+  [AppRole.DISPATCHER]: [
+    AppAction.IMPORT_ORDERS_CREATE_JOBS,
+    AppAction.ASSIGN_JOBS,
+    AppAction.GENERATE_QR_LABELS,
+    AppAction.RESOLVE_DISCREPANCIES,
+    AppAction.VIEW_ANALYTICS,
+  ],
+  [AppRole.SUPERVISOR]: [
+    AppAction.APPROVE_OVERRIDES,
+    AppAction.RESOLVE_DISCREPANCIES,
+    AppAction.VIEW_ANALYTICS,
+  ],
+  [AppRole.MANAGEMENT]: [
+    AppAction.VIEW_ANALYTICS,
+  ],
+  [AppRole.CREW_LEAD]: [
+    AppAction.DECLARE_INSTALLATION_METHOD,
+    AppAction.EXECUTE_STEPS,
+    AppAction.REQUEST_OVERRIDE,
+    AppAction.VIEW_OWN_PERFORMANCE,
+  ],
+  [AppRole.INSTALLER]: [
+    AppAction.EXECUTE_STEPS,
+    AppAction.REQUEST_OVERRIDE,
+    AppAction.VIEW_OWN_PERFORMANCE,
+  ],
+};
+
+export function hasPermission(role: AppRole, action: AppAction): boolean {
+  return permissionMatrix[role]?.includes(action) ?? false;
+}

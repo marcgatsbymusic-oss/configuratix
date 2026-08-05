@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>F104_20260702 — IGLO 5 Fixed Frame Geometry Viewer</title>
+  <meta name="description" content="3D geometry verification viewer for IGLO 5 fixed-frame window, code F104_20260702. Profile data: frame__50003_rama_75mm, recipe: złożenie 07.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0b0c11;
+      --surface: #12131a;
+      --surface2: #1a1c26;
+      --border: #2a2d3e;
+      --accent: #4d8fff;
+      --accent2: #6fffb8;
+      --text: #dde1f0;
+      --text-dim: #6b7199;
+      --text-muted: #3d4160;
+      --badge-bg: #1e2236;
+      --radius: 8px;
+    }
+
+    html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 13px; }
+
+    /* ── Layout ─────────────────────────────── */
+    #app { display: flex; height: 100vh; }
+
+    /* ── Sidebar ─────────────────────────────── */
+    #sidebar {
+      width: 280px; min-width: 280px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      overflow-y: auto; overflow-x: hidden;
+      z-index: 10;
+    }
+
+    #sidebar::-webkit-scrollbar { width: 4px; }
+    #sidebar::-webkit-scrollbar-track { background: transparent; }
+    #sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    .sidebar-header {
+      padding: 20px 18px 14px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(135deg, #0f1120 0%, #141826 100%);
+    }
+    .sidebar-header .badge {
+      display: inline-block;
+      background: var(--badge-bg);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .sidebar-header h1 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .sidebar-header p {
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    .section {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-title {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    /* ── Sliders ─────────────────────────────── */
+    .slider-row { margin-bottom: 14px; }
+    .slider-label {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 6px;
+    }
+    .slider-label span:first-child { color: var(--text-dim); font-size: 12px; }
+    .slider-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--accent2);
+      font-weight: 500;
+    }
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%; height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px; height: 14px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 6px rgba(77,143,255,0.4);
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 10px rgba(77,143,255,0.6);
+    }
+
+    /* ── Info grid ─────────────────────────────── */
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .info-cell {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 10px;
+    }
+    .info-cell .label {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-bottom: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .info-cell .value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .info-cell.accent .value { color: var(--accent2); }
+
+    /* ── Camera buttons ─────────────────────────────── */
+    .btn-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .btn {
+      flex: 1; min-width: 0;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-size: 11px;
+      font-family: 'Inter', sans-serif;
+      padding: 7px 6px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .btn:hover { background: var(--border); color: var(--text); border-color: var(--accent); }
+    .btn.active { background: #1a2640; border-color: var(--accent); color: var(--accent); }
+
+    /* ── Toggle row ─────────────────────────────── */
+    .toggle-row { display: flex; flex-direction: column; gap: 8px; }
+    .toggle-item {
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; user-select: none;
+    }
+    .toggle-item span { font-size: 12px; color: var(--text-dim); }
+    .toggle {
+      position: relative; width: 34px; height: 18px;
+      background: var(--border); border-radius: 9px;
+      transition: background 0.2s; cursor: pointer; flex-shrink: 0;
+    }
+    .toggle.on { background: var(--accent); }
+    .toggle::after {
+      content: '';
+      position: absolute; top: 3px; left: 3px;
+      width: 12px; height: 12px;
+      background: white; border-radius: 50%;
+      transition: left 0.2s;
+    }
+    .toggle.on::after { left: 19px; }
+
+    /* ── Recipe data panel ─────────────────────────────── */
+    .recipe-table { width: 100%; border-collapse: collapse; }
+    .recipe-table td {
+      padding: 4px 0;
+      font-size: 11px;
+      vertical-align: top;
+      border-bottom: 1px solid var(--border);
+    }
+    .recipe-table td:first-child { color: var(--text-muted); width: 50%; padding-right: 8px; }
+    .recipe-table td:last-child { font-family: 'JetBrains Mono', monospace; color: var(--accent2); font-size: 10px; }
+    .recipe-table tr:last-child td { border-bottom: none; }
+
+    /* ── Footer ─────────────────────────────── */
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 12px 18px;
+      border-top: 1px solid var(--border);
+    }
+    .sidebar-footer p { font-size: 10px; color: var(--text-muted); line-height: 1.6; }
+    .sidebar-footer strong { color: var(--text-dim); }
+
+    /* ── Canvas area ─────────────────────────────── */
+    #canvas-wrap {
+      flex: 1; position: relative;
+      background: radial-gradient(ellipse at 50% 40%, #0e1020 0%, #080910 100%);
+    }
+    #viewer { display: block; width: 100%; height: 100%; }
+
+    /* ── HUD overlay ─────────────────────────────── */
+    #hud {
+      position: absolute; top: 16px; left: 16px;
+      display: flex; gap: 8px; pointer-events: none;
+    }
+    .hud-chip {
+      background: rgba(18,19,26,0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+    .hud-chip strong { color: var(--text); }
+    .hud-chip .dot {
+      display: inline-block; width: 7px; height: 7px;
+      border-radius: 50%; background: var(--accent2);
+      margin-right: 5px; vertical-align: middle;
+    }
+
+    /* ── Crosshair hint ─────────────────────────────── */
+    #hint {
+      position: absolute; bottom: 16px; right: 16px;
+      font-size: 10px; color: var(--text-muted);
+      pointer-events: none; text-align: right;
+    }
+
+    /* ── Loading overlay ─────────────────────────────── */
+    #loader {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg);
+      z-index: 20;
+      transition: opacity 0.4s;
+    }
+    #loader.hidden { opacity: 0; pointer-events: none; }
+    .loader-inner { text-align: center; }
+    .loader-ring {
+      width: 36px; height: 36px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 12px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loader-inner p { font-size: 12px; color: var(--text-dim); }
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ══ SIDEBAR ══════════════════════════════════════════════ -->
+  <aside id="sidebar">
+    <div class="sidebar-header">
+      <div class="badge">F104_20260702</div>
+      <h1>IGLO 5 — Fixed Frame</h1>
+      <p>Geometry verification browser · złożenie 07</p>
+    </div>
+
+    <!-- Dimensions -->
+    <div class="section">
+      <div class="section-title">Dimensions</div>
+      <div class="slider-row">
+        <div class="slider-label">
+          <span>Width (W)</span>
+          <span class="slider-val" id="val-w">1000 mm</span>
+        </div>
+        <input type="range" id="slider-w" min="400" max="2000" step="10" value="1000">
+      </div>
+      <div class="slider-row">
+        <div class="slider-label">
+          <span>Height (H)</span>
+          <span class="slider-val" id="val-h">1200 mm</span>
+        </div>
+        <input type="range" id="slider-h" min="400" max="2400" step="10" value="1200">
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="section">
+      <div class="section-title">Measurements</div>
+      <div class="info-grid">
+        <div class="info-cell accent">
+          <div class="label">Outer W</div>
+          <div class="value" id="info-w">1000 mm</div>
+        </div>
+        <div class="info-cell accent">
+          <div class="label">Outer H</div>
+          <div class="value" id="info-h">1200 mm</div>
+        </div>
+        <div class="info-cell">
+          <div class="label">DLO W</div>
+          <div class="value" id="info-dlo-w">932 mm</div>
+        </div>
+        <div class="info-cell">
+          <div class="label">DLO H</div>
+          <div class="value" id="info-dlo-h">1132 mm</div>
+        </div>
+        <div class="info-cell">
+          <div class="label">Frame face</div>
+          <div class="value">34 mm</div>
+        </div>
+        <div class="info-cell">
+          <div class="label">Depth</div>
+          <div class="value">70 mm</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Camera controls -->
+    <div class="section">
+      <div class="section-title">Camera</div>
+      <div class="btn-row">
+        <button class="btn" id="btn-front">⬡ Front</button>
+        <button class="btn" id="btn-iso">⬡ Iso</button>
+        <button class="btn" id="btn-side">⬡ Side</button>
+        <button class="btn" id="btn-top">⬡ Top</button>
+      </div>
+    </div>
+
+    <!-- Display toggles -->
+    <div class="section">
+      <div class="section-title">Display</div>
+      <div class="toggle-row">
+        <label class="toggle-item">
+          <span>Frame profile</span>
+          <div class="toggle on" id="tog-frame" role="switch" aria-checked="true" tabindex="0"></div>
+        </label>
+        <label class="toggle-item">
+          <span>Glass pane</span>
+          <div class="toggle on" id="tog-glass" role="switch" aria-checked="true" tabindex="0"></div>
+        </label>
+        <label class="toggle-item">
+          <span>Glazing bead</span>
+          <div class="toggle on" id="tog-bead" role="switch" aria-checked="true" tabindex="0"></div>
+        </label>
+        <label class="toggle-item">
+          <span>Wireframe</span>
+          <div class="toggle" id="tog-wire" role="switch" aria-checked="false" tabindex="0"></div>
+        </label>
+        <label class="toggle-item">
+          <span>Cross-section edge</span>
+          <div class="toggle on" id="tog-edge" role="switch" aria-checked="true" tabindex="0"></div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Recipe data -->
+    <div class="section">
+      <div class="section-title">Recipe — złożenie 07</div>
+      <table class="recipe-table">
+        <tr><td>Frame</td><td>50003 · rama 75mm</td></tr>
+        <tr><td>Frame offset</td><td>[0, 0] rot 0°</td></tr>
+        <tr><td>Bridge</td><td>mostek · [-23.92, 41]</td></tr>
+        <tr><td>Glass</td><td>24mm · [-55, 66]</td></tr>
+        <tr><td>Bead</td><td>50924 22mm · [-1, 46] 90°</td></tr>
+        <tr><td>Rebate inset</td><td>50.0 mm</td></tr>
+        <tr><td>Glass bite</td><td>16.0 mm</td></tr>
+        <tr><td>System depth</td><td>70.0 mm</td></tr>
+      </table>
+    </div>
+
+    <div class="sidebar-footer">
+      <p><strong>Window code:</strong> F104_20260702<br>
+      F = FIX · 1 = 1 field · 04 = frame 75mm<br>
+      Date: 02 Jul 2026</p>
+    </div>
+  </aside>
+
+  <!-- ══ CANVAS ══════════════════════════════════════════════ -->
+  <div id="canvas-wrap">
+    <canvas id="viewer"></canvas>
+
+    <div id="hud">
+      <div class="hud-chip"><span class="dot"></span><strong>IGLO 5</strong> · Fixed Glazing</div>
+      <div class="hud-chip">Profile: <strong>50003 rama 75mm</strong></div>
+    </div>
+
+    <div id="hint">
+      Drag to orbit · Scroll to zoom · Right-drag to pan
+    </div>
+
+    <div id="loader">
+      <div class="loader-inner">
+        <div class="loader-ring"></div>
+        <p>Loading geometry…</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ THREE.JS IMPORT MAP ═════════════════════════════════ -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// ═══════════════════════════════════════════════════════════════
+// PROFILE DATA — verbatim from data/profiles/frame__50003_rama_75mm.json
+// All numbers extracted by pipeline/extract.py. None invented here.
+// bbox: [0,0,75,70]  component: frame  loops: 13 (all closed)
+// ═══════════════════════════════════════════════════════════════
+const FRAME_LOOPS = [{"closed":true,"pts":[[2.726,57.762],[2.753,57.767],[2.781,57.769],[2.809,57.767],[2.837,57.761],[3.855,57.462],[4.583,57.33],[5.316,57.353],[6.028,57.528],[6.694,57.851],[6.743,57.873],[6.795,57.882],[6.847,57.876],[6.897,57.857],[6.94,57.825],[6.972,57.783],[6.993,57.735],[7.0,57.682],[7.0,35.5],[7.146,35.354],[7.256,35.188],[7.293,35.0],[7.256,34.812],[7.146,34.646],[7.0,34.5],[7.0,22.234],[6.993,22.181],[6.972,22.132],[6.94,22.091],[6.897,22.059],[6.847,22.039],[6.795,22.034],[6.743,22.042],[6.694,22.064],[6.028,22.387],[5.316,22.562],[4.583,22.585],[3.855,22.453],[2.837,22.154],[2.809,22.148],[2.781,22.146],[2.753,22.148],[2.726,22.154],[2.431,22.293],[2.202,22.513],[2.053,22.794],[2.0,23.115],[2.0,23.915],[1.0,23.915],[0.611,23.837],[0.293,23.622],[0.079,23.305],[0.0,22.915],[0.0,19.115],[0.016,19.038],[0.059,18.974],[0.122,18.931],[0.2,18.915],[0.5,18.915],[2.0,19.317],[2.0,19.615],[3.064,19.615],[4.559,20.054],[4.785,20.093],[5.011,20.08],[5.229,20.017],[5.429,19.904],[6.918,18.822],[6.952,18.79],[6.978,18.751],[6.994,18.707],[7.0,18.66],[7.0,12.318],[6.993,12.265],[6.972,12.217],[6.94,12.175],[6.897,12.143],[6.847,12.124],[6.795,12.118],[6.743,12.127],[6.694,12.149],[6.028,12.472],[5.316,12.647],[4.583,12.67],[3.855,12.538],[2.837,12.239],[2.809,12.233],[2.781,12.23],[2.753,12.232],[2.726,12.238],[2.431,12.377],[2.202,12.598],[2.053,12.879],[2.0,13.2],[2.0,14.979],[1.0,14.979],[0.611,14.901],[0.293,14.686],[0.079,14.368],[0.0,13.979],[0.0,9.0],[0.5,9.0],[2.0,9.402],[2.0,9.7],[3.064,9.7],[4.559,10.139],[4.785,10.178],[5.011,10.165],[5.229,10.101],[5.429,9.988],[6.918,8.907],[6.952,8.875],[6.978,8.836],[6.994,8.792],[7.0,8.745],[7.0,3.644],[6.936,3.293],[6.76,2.994],[6.493,2.774],[6.156,2.656],[3.156,2.183],[2.939,2.172],[2.728,2.208],[2.529,2.288],[2.35,2.41],[2.202,2.568],[2.092,2.752],[2.023,2.955],[2.0,3.17],[2.0,4.598],[1.0,4.598],[0.611,4.519],[0.293,4.305],[0.079,3.987],[0.0,3.598],[0.0,0.0],[54.0,-0.0],[54.196,0.019],[54.383,0.076],[54.555,0.168],[54.707,0.293],[54.832,0.445],[54.924,0.617],[54.981,0.804],[55.0,1.0],[55.0,4.558],[54.988,4.659],[54.954,4.754],[54.9,4.838],[54.827,4.909],[54.74,4.961],[54.644,4.992],[54.544,5.0],[54.444,4.985],[53.171,4.644],[53.02,4.575],[52.903,4.465],[52.827,4.324],[52.8,4.161],[52.8,3.091],[52.777,2.876],[52.708,2.673],[52.598,2.489],[52.45,2.331],[52.271,2.209],[52.072,2.129],[51.861,2.093],[51.644,2.104],[48.844,2.546],[48.507,2.663],[48.24,2.884],[48.064,3.182],[48.0,3.533],[48.0,9.3],[48.079,9.689],[48.293,10.007],[48.611,10.221],[49.0,10.3],[50.336,10.3],[50.386,10.297],[50.435,10.29],[50.484,10.278],[50.531,10.26],[53.5,9.0],[54.5,9.0],[54.695,9.039],[54.854,9.146],[54.961,9.305],[55.0,9.5],[55.0,11.965],[54.919,12.453],[54.69,12.878],[54.339,13.209],[53.888,13.414],[53.629,13.483],[53.516,13.5],[53.402,13.49],[53.294,13.456],[53.196,13.397],[53.113,13.317],[53.052,13.221],[53.013,13.114],[53.0,13.0],[53.0,12.23],[52.994,12.181],[52.976,12.136],[52.948,12.096],[52.91,12.064],[52.866,12.042],[52.818,12.031],[52.77,12.033],[52.722,12.046],[50.122,13.15],[50.072,13.181],[50.033,13.224],[50.009,13.276],[50.0,13.334],[50.0,34.5],[49.854,34.646],[49.744,34.812],[49.707,35.0],[49.744,35.188],[49.854,35.354],[50.0,35.5],[50.0,41.919],[48.191,54.789],[48.186,55.442],[48.345,56.063],[48.657,56.624],[49.111,57.094],[49.67,57.43],[50.287,57.608],[50.928,57.623],[51.563,57.471],[57.135,55.332],[57.57,55.188],[58.016,55.084],[58.469,55.021],[58.927,55.0],[66.9,55.0],[67.9,56.0],[67.9,56.5],[67.1,56.5],[67.002,56.51],[66.909,56.538],[66.823,56.584],[66.746,56.646],[66.684,56.723],[66.638,56.809],[66.61,56.902],[66.6,57.0],[66.6,59.5],[66.679,59.889],[66.893,60.207],[67.211,60.421],[67.6,60.5],[69.1,60.5],[69.1,60.5],[70.534,60.5],[70.838,60.453],[71.107,60.319],[71.325,60.111],[71.473,59.842],[72.445,57.171],[72.473,57.054],[72.471,56.935],[72.442,56.82],[72.385,56.713],[72.305,56.624],[72.206,56.556],[72.095,56.515],[71.976,56.5],[71.1,56.5],[71.1,56.0],[72.1,55.0],[75.0,55.0],[75.0,56.0],[73.257,60.788],[72.842,61.803],[72.355,62.772],[71.8,63.692],[71.18,64.561],[70.499,65.375],[69.762,66.133],[68.971,66.832],[68.132,67.468],[67.246,68.04],[66.32,68.544],[65.355,68.977],[64.357,69.338],[63.329,69.624],[62.274,69.831],[61.197,69.957],[60.102,70.0],[0.0,70.0],[0.0,66.402],[0.079,66.013],[0.293,65.695],[0.611,65.481],[1.0,65.402],[2.0,65.402],[2.0,66.83],[2.023,67.045],[2.092,67.248],[2.202,67.432],[2.35,67.59],[2.529,67.712],[2.728,67.792],[2.939,67.828],[3.156,67.817],[6.156,67.344],[6.493,67.226],[6.76,67.006],[6.936,66.707],[7.0,66.356],[7.0,61.255],[6.994,61.208],[6.978,61.164],[6.952,61.125],[6.918,61.093],[5.429,60.012],[5.229,59.899],[5.011,59.835],[4.785,59.822],[4.559,59.861],[3.064,60.3],[2.0,60.3],[2.0,60.598],[0.5,61.0],[0.0,61.0],[0.0,57.2],[0.019,57.004],[0.076,56.817],[0.168,56.645],[0.293,56.493],[0.445,56.368],[0.617,56.276],[0.804,56.219],[1.0,56.2],[2.0,56.2],[2.0,56.8],[2.053,57.121],[2.202,57.402],[2.431,57.623],[2.726,57.762]]},{"closed":true,"pts":[[9.7,2.8],[9.661,2.804],[9.623,2.815],[9.589,2.834],[9.559,2.859],[9.534,2.889],[9.515,2.923],[9.504,2.961],[9.5,3.0],[9.5,7.228],[9.505,7.27],[9.518,7.311],[9.54,7.347],[9.569,7.379],[9.604,7.403],[9.643,7.419],[9.685,7.427],[9.728,7.426],[16.128,6.524],[16.196,6.501],[16.251,6.457],[16.287,6.397],[16.3,6.326],[16.3,3.0],[16.284,2.922],[16.241,2.859],[16.178,2.816],[16.1,2.8],[9.7,2.8]]},{"closed":true,"pts":[[40.5,6.296],[40.512,6.364],[40.545,6.423],[40.596,6.467],[40.661,6.492],[45.261,7.412],[45.305,7.416],[45.348,7.41],[45.39,7.395],[45.427,7.371],[45.458,7.339],[45.481,7.302],[45.495,7.26],[45.5,7.216],[45.5,3.833],[45.502,3.716],[45.508,3.6],[45.518,3.483],[45.531,3.367],[45.534,3.26],[45.515,3.156],[45.473,3.058],[45.412,2.971],[45.334,2.898],[45.242,2.845],[45.142,2.811],[45.036,2.8],[40.7,2.8],[40.661,2.804],[40.623,2.815],[40.589,2.834],[40.559,2.859],[40.534,2.889],[40.515,2.923],[40.504,2.961],[40.5,3.0],[40.5,6.296]]},{"closed":true,"pts":[[47.5,12.586],[47.492,12.532],[47.471,12.482],[47.437,12.44],[47.392,12.409],[46.977,12.156],[46.606,11.853],[46.283,11.506],[46.01,11.12],[45.792,10.7],[45.632,10.253],[45.534,9.785],[45.5,9.3],[45.5,8.644],[45.488,8.576],[45.455,8.517],[45.404,8.473],[45.339,8.448],[40.739,7.528],[40.695,7.524],[40.652,7.53],[40.61,7.545],[40.573,7.569],[40.542,7.601],[40.519,7.638],[40.505,7.68],[40.5,7.724],[40.5,11.296],[40.512,11.364],[40.545,11.423],[40.596,11.467],[40.661,11.492],[47.261,12.812],[47.305,12.816],[47.348,12.81],[47.39,12.795],[47.427,12.771],[47.458,12.739],[47.481,12.702],[47.495,12.66],[47.5,12.616],[47.5,12.586]]},{"closed":true,"pts":[[46.967,67.2],[47.045,67.184],[47.108,67.141],[47.151,67.078],[47.167,67.0],[47.167,58.5],[47.164,58.463],[47.154,58.428],[47.137,58.395],[47.115,58.366],[46.625,57.726],[46.251,57.019],[46.0,56.259],[45.878,55.463],[45.87,55.419],[45.853,55.379],[45.828,55.343],[45.795,55.314],[45.756,55.292],[45.715,55.28],[45.671,55.276],[45.627,55.283],[33.418,58.519],[33.352,58.544],[33.299,58.588],[33.265,58.647],[33.252,58.716],[33.252,67.0],[33.256,67.039],[33.268,67.077],[33.286,67.111],[33.311,67.141],[33.341,67.166],[33.376,67.185],[33.413,67.196],[33.452,67.2],[46.967,67.2]]},{"closed":true,"pts":[[45.766,54.085],[46.167,51.228],[46.169,51.185],[46.161,51.143],[46.145,51.104],[46.12,51.069],[46.089,51.04],[46.052,51.018],[46.012,51.005],[45.969,51.0],[33.452,51.0],[33.375,51.016],[33.311,51.059],[33.268,51.122],[33.252,51.2],[33.252,57.269],[33.258,57.314],[33.273,57.357],[33.298,57.395],[33.33,57.427],[33.37,57.451],[33.413,57.465],[33.458,57.469],[33.504,57.462],[45.619,54.251],[45.673,54.227],[45.717,54.19],[45.749,54.142],[45.766,54.085]]},{"closed":true,"pts":[[32.052,57.5],[32.13,57.484],[32.194,57.441],[32.237,57.378],[32.252,57.3],[32.252,51.2],[32.237,51.122],[32.194,51.059],[32.13,51.016],[32.052,51.0],[9.7,51.0],[9.661,51.004],[9.623,51.015],[9.589,51.034],[9.559,51.059],[9.534,51.089],[9.515,51.123],[9.504,51.161],[9.5,51.2],[9.5,57.3],[9.516,57.378],[9.559,57.441],[9.622,57.484],[9.7,57.5],[32.052,57.5]]},{"closed":true,"pts":[[64.6,57.8],[64.561,57.605],[64.454,57.446],[64.295,57.339],[64.1,57.3],[58.927,57.3],[58.679,57.311],[58.435,57.345],[58.194,57.401],[57.959,57.479],[52.387,59.618],[51.404,59.88],[50.4,59.93],[49.406,59.769],[48.459,59.399],[48.411,59.381],[48.36,59.377],[48.31,59.385],[48.263,59.406],[48.223,59.438],[48.193,59.479],[48.174,59.526],[48.167,59.577],[48.167,67.0],[48.171,67.039],[48.182,67.077],[48.201,67.111],[48.226,67.141],[48.256,67.166],[48.29,67.185],[48.328,67.196],[48.367,67.2],[60.102,67.2],[61.312,67.134],[62.498,66.941],[63.65,66.623],[64.759,66.186],[65.815,65.633],[66.808,64.97],[67.731,64.2],[68.572,63.327],[68.65,63.206],[68.689,63.071],[68.689,62.93],[68.649,62.792],[68.571,62.671],[68.464,62.579],[68.336,62.521],[68.194,62.5],[67.6,62.5],[66.995,62.439],[66.432,62.264],[65.923,61.988],[65.479,61.621],[65.112,61.177],[64.836,60.668],[64.661,60.105],[64.6,59.5],[64.6,57.8]]},{"closed":true,"pts":[[40.739,12.528],[40.695,12.524],[40.652,12.53],[40.61,12.545],[40.573,12.569],[40.542,12.601],[40.519,12.638],[40.505,12.68],[40.5,12.724],[40.5,13.3],[40.484,13.378],[40.441,13.441],[40.378,13.484],[40.3,13.5],[39.7,13.5],[39.661,13.496],[39.623,13.485],[39.589,13.466],[39.559,13.441],[39.534,13.411],[39.515,13.377],[39.504,13.339],[39.5,13.3],[39.5,12.7],[39.484,12.622],[39.441,12.559],[39.378,12.516],[39.3,12.5],[17.5,12.5],[17.461,12.504],[17.423,12.515],[17.389,12.534],[17.359,12.559],[17.334,12.589],[17.315,12.623],[17.304,12.661],[17.3,12.7],[17.3,13.3],[17.296,13.339],[17.285,13.377],[17.266,13.411],[17.241,13.441],[17.211,13.466],[17.177,13.485],[17.139,13.496],[17.1,13.5],[16.5,13.5],[16.422,13.484],[16.359,13.441],[16.316,13.378],[16.3,13.3],[16.3,12.74],[16.295,12.697],[16.282,12.657],[16.26,12.621],[16.231,12.589],[16.196,12.565],[16.157,12.548],[16.115,12.541],[16.072,12.542],[9.672,13.443],[9.604,13.466],[9.549,13.51],[9.513,13.57],[9.5,13.641],[9.5,49.8],[9.516,49.878],[9.559,49.941],[9.622,49.984],[9.7,50.0],[19.057,50.0],[19.096,49.996],[19.133,49.985],[19.168,49.966],[19.198,49.941],[19.64,49.5],[20.081,49.941],[20.112,49.966],[20.146,49.985],[20.183,49.996],[20.223,50.0],[38.057,50.0],[38.096,49.996],[38.133,49.985],[38.168,49.966],[38.198,49.941],[38.64,49.5],[39.081,49.941],[39.112,49.966],[39.146,49.985],[39.183,49.996],[39.223,50.0],[46.166,50.0],[46.237,49.987],[46.297,49.951],[46.341,49.896],[46.364,49.828],[47.495,41.779],[47.497,41.762],[47.499,41.745],[47.5,41.727],[47.5,41.71],[47.5,14.044],[47.488,13.976],[47.455,13.917],[47.404,13.873],[47.339,13.848],[40.739,12.528]]},{"closed":true,"pts":[[32.052,67.2],[32.13,67.184],[32.194,67.141],[32.237,67.078],[32.252,67.0],[32.252,58.7],[32.237,58.622],[32.194,58.559],[32.13,58.516],[32.052,58.5],[9.7,58.5],[9.661,58.504],[9.623,58.515],[9.589,58.534],[9.559,58.559],[9.534,58.589],[9.515,58.623],[9.504,58.661],[9.5,58.7],[9.5,67.0],[9.516,67.078],[9.559,67.141],[9.622,67.184],[9.7,67.2],[32.052,67.2]]},{"closed":true,"pts":[[39.3,6.5],[39.339,6.496],[39.377,6.485],[39.411,6.466],[39.441,6.441],[39.466,6.411],[39.485,6.377],[39.496,6.339],[39.5,6.3],[39.5,3.0],[39.496,2.961],[39.485,2.923],[39.466,2.889],[39.441,2.859],[39.411,2.834],[39.377,2.815],[39.339,2.804],[39.3,2.8],[17.5,2.8],[17.461,2.804],[17.423,2.815],[17.389,2.834],[17.359,2.859],[17.334,2.889],[17.315,2.923],[17.304,2.961],[17.3,3.0],[17.3,6.3],[17.304,6.339],[17.315,6.377],[17.334,6.411],[17.359,6.441],[17.389,6.466],[17.423,6.485],[17.461,6.496],[17.5,6.5],[39.3,6.5]]},{"closed":true,"pts":[[16.072,7.542],[9.672,8.443],[9.604,8.466],[9.549,8.51],[9.513,8.57],[9.5,8.641],[9.5,12.228],[9.505,12.27],[9.518,12.311],[9.54,12.347],[9.569,12.379],[9.604,12.403],[9.643,12.419],[9.685,12.427],[9.728,12.426],[16.128,11.524],[16.196,11.501],[16.251,11.457],[16.287,11.397],[16.3,11.326],[16.3,7.74],[16.295,7.697],[16.282,7.657],[16.26,7.621],[16.231,7.589],[16.196,7.565],[16.157,7.548],[16.115,7.541],[16.072,7.542]]},{"closed":true,"pts":[[39.3,11.5],[39.339,11.496],[39.377,11.485],[39.411,11.466],[39.441,11.441],[39.466,11.411],[39.485,11.377],[39.496,11.339],[39.5,11.3],[39.5,7.7],[39.484,7.622],[39.441,7.559],[39.378,7.516],[39.3,7.5],[17.5,7.5],[17.422,7.516],[17.359,7.559],[17.316,7.622],[17.3,7.7],[17.3,11.3],[17.316,11.378],[17.359,11.441],[17.422,11.484],[17.5,11.5],[39.3,11.5]]}];
+
+// ═══════════════════════════════════════════════════════════════
+// BEAD PROFILE — verbatim from data/profiles/glazing_bead__50924_listwa_22mm.json
+// bbox: [-5.75, 0, 20, 22.1]  component: glazing_bead  loops: 2
+// ═══════════════════════════════════════════════════════════════
+const BEAD_LOOPS = [{"closed":true,"pts":[[0.723,10.965],[0.0,10.965],[-0.0,9.465],[0.195,9.425],[0.354,9.318],[0.461,9.159],[0.5,8.965],[0.5,6.996],[0.446,6.671],[0.293,6.387],[0.059,6.167],[-0.241,6.03],[-1.874,5.593],[-1.995,5.576],[-2.115,5.588],[-2.229,5.63],[-2.331,5.698],[-3.705,6.893],[-3.851,7.05],[-3.959,7.233],[-4.026,7.434],[-4.049,7.648],[-4.049,8.449],[-4.116,8.78],[-4.298,9.05],[-4.568,9.232],[-4.899,9.299],[-5.23,9.232],[-5.5,9.05],[-5.682,8.78],[-5.749,8.449],[-5.749,7.329],[-5.703,6.902],[-5.569,6.499],[-5.353,6.134],[-5.061,5.819],[-2.582,3.664],[-2.48,3.595],[-2.366,3.554],[-2.246,3.541],[-2.125,3.558],[0.334,4.217],[0.47,4.234],[0.603,4.214],[0.726,4.159],[0.832,4.072],[0.91,3.959],[0.953,3.832],[0.962,3.697],[0.933,3.563],[0.0,1.0],[0.0,0.0],[5.204,0.918],[6.118,1.11],[7.009,1.361],[7.877,1.668],[8.718,2.029],[10.311,2.907],[11.772,3.98],[13.083,5.233],[14.224,6.65],[14.726,7.415],[15.179,8.216],[15.581,9.051],[15.929,9.917],[20.0,21.102],[20.0,22.102],[17.1,22.102],[16.1,21.102],[16.1,20.602],[17.188,20.602],[17.308,20.587],[17.419,20.545],[17.517,20.478],[17.598,20.388],[17.655,20.282],[17.684,20.167],[17.686,20.048],[17.658,19.931],[16.566,16.931],[16.492,16.796],[16.383,16.692],[16.248,16.625],[16.097,16.602],[12.6,16.602],[12.211,16.68],[11.893,16.894],[11.679,17.212],[11.6,17.602],[11.6,20.102],[11.61,20.2],[11.638,20.293],[11.684,20.379],[11.746,20.455],[11.823,20.518],[11.909,20.563],[12.002,20.592],[12.1,20.602],[12.9,20.602],[12.9,21.102],[11.9,22.102],[9.678,22.102],[9.07,22.007],[8.531,21.74],[8.095,21.325],[7.798,20.786],[5.421,14.255],[5.099,13.546],[4.679,12.907],[4.173,12.346],[3.591,11.869],[2.944,11.485],[2.243,11.201],[1.499,11.025],[0.723,10.965]]},{"closed":true,"pts":[[7.113,13.639],[6.781,12.876],[6.364,12.168],[5.868,11.519],[5.3,10.936],[4.667,10.425],[3.974,9.992],[3.229,9.644],[2.439,9.385],[2.375,9.355],[2.326,9.306],[2.297,9.244],[2.291,9.173],[2.295,9.121],[2.298,9.069],[2.299,9.017],[2.3,8.965],[2.3,6.996],[2.279,6.653],[2.216,6.316],[2.113,5.989],[1.97,5.677],[1.949,5.614],[1.949,5.549],[1.97,5.487],[2.012,5.435],[2.443,4.904],[2.696,4.284],[2.76,3.618],[2.624,2.947],[2.487,2.571],[2.476,2.52],[2.478,2.468],[2.494,2.418],[2.522,2.374],[2.561,2.338],[2.607,2.315],[2.657,2.303],[2.71,2.306],[4.892,2.69],[6.465,3.077],[7.953,3.659],[9.342,4.424],[10.615,5.359],[11.757,6.451],[12.752,7.686],[13.584,9.05],[14.238,10.532],[15.694,14.533],[15.705,14.58],[15.704,14.628],[15.692,14.674],[15.67,14.716],[15.637,14.752],[15.598,14.779],[15.554,14.796],[15.506,14.802],[12.6,14.802],[12.051,14.856],[11.528,15.015],[11.047,15.272],[10.62,15.622],[10.27,16.048],[10.013,16.53],[9.854,17.053],[9.8,17.602],[9.8,19.888],[9.788,19.957],[9.753,20.017],[9.701,20.061],[9.635,20.085],[9.564,20.085],[9.5,20.061],[9.447,20.017],[9.412,19.956],[7.113,13.639]]}];
+
+// ═══════════════════════════════════════════════════════════════
+// JUNCTION DATA — verbatim from data/recipes/zlozenie_recipes.json, złożenie 07
+// and recipe_fixed.json from thursday2july2026.zip
+// ═══════════════════════════════════════════════════════════════
+const RECIPE = {
+  frame:    { offset: [0.0, 0.0],   rot: 0 },
+  bridge:   { offset: [-23.92, 41.0], rot: 0 },
+  glass:    { offset: [-55.0, 66.0], rot: 0 },
+  bead:     { offset: [-1.0, 46.0],  rot: 90 },
+  rebate_inset_mm: 50.0,
+  glass_rebate_bite_mm: 16.0,
+  frame_depth_mm: 70.0,
+};
+
+// ═══════════════════════════════════════════════════════════════
+// META — from data/iglo5.meta.json
+// ═══════════════════════════════════════════════════════════════
+const META = {
+  frameFace: 34,         // iglo5.meta.json: elevation.frameFace (mm, used for DLO layout)
+  systemDepth: 70,       // iglo5.meta.json: systemDepth — this is bbox-Y in all frame profiles
+  profileFaceX: 75,      // frame bbox X extent (FACE-WIDTH axis, varies per frame: 66/75/124mm)
+  profileDepthY: 70,     // frame bbox Y extent (DEPTH axis, constant = systemDepth for IGLO 5)
+};
+
+
+// ═══════════════════════════════════════════════════════════════
+// ENGINE — adapted from engine/three_build.js (signedArea, classifyLoops, orient)
+// ═══════════════════════════════════════════════════════════════
+function signedArea(pts) {
+  let s = 0;
+  for (let i = 0; i < pts.length; i++) {
+    const [x1,y1] = pts[i], [x2,y2] = pts[(i+1)%pts.length];
+    s += x1*y2 - x2*y1;
+  }
+  return s / 2;
+}
+function centroid(pts) {
+  let x=0,y=0; for (const [px,py] of pts){x+=px;y+=py;}
+  return [x/pts.length, y/pts.length];
+}
+function pip([px,py], pts) {
+  let inside=false;
+  for (let i=0,j=pts.length-1;i<pts.length;j=i++){
+    const[xi,yi]=pts[i],[xj,yj]=pts[j];
+    if(((yi>py)!==(yj>py))&&(px<((xj-xi)*(py-yi))/(yj-yi)+xi))inside=!inside;
+  }
+  return inside;
+}
+function classifyLoops(loops) {
+  const closed=loops.map((L,i)=>({i,pts:L.pts})).filter((_,idx)=>loops[idx].closed&&loops[idx].pts.length>=3);
+  if(!closed.length)return{outer:-1,holes:[]};
+  let outer=closed[0],best=Math.abs(signedArea(outer.pts));
+  for(const c of closed){const a=Math.abs(signedArea(c.pts));if(a>best){best=a;outer=c;}}
+  const holes=closed.filter(c=>c.i!==outer.i&&pip(centroid(c.pts),outer.pts)).map(c=>c.i);
+  return{outer:outer.i,holes};
+}
+function orient(pts,wantCCW){
+  const ccw=signedArea(pts)>0;
+  return ccw===wantCCW?pts.slice():pts.slice().reverse();
+}
+
+// Build a THREE.Shape (with holes) from loops, mapping each point via `mapPt([px,py]) => [u,v]`
+function makeShape(loops, mapPt) {
+  const cl = loops.filter(l=>l.closed);
+  const {outer,holes} = classifyLoops(cl);
+  if(outer<0) return null;
+  const toV2 = pts => pts.map(p => { const [u,v]=mapPt(p); return new THREE.Vector2(u,v); });
+  const shape = new THREE.Shape(toV2(orient(cl[outer].pts, true)));
+  for(const h of holes)
+    shape.holes.push(new THREE.Path(toV2(orient(cl[h].pts, false))));
+  return shape;
+}
+
+function extrude(shape, depth) {
+  const geo = new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled:false, steps:1 });
+  geo.computeVertexNormals();
+  return geo;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SCENE
+// ═══════════════════════════════════════════════════════════════
+const canvas = document.getElementById('viewer');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:false });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.15;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0b0c11);
+
+const camera = new THREE.PerspectiveCamera(40, 1, 1, 20000);
+camera.position.set(0, 0, 3500);
+
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+controls.dampingFactor = 0.06;
+controls.panSpeed = 1.2;
+controls.zoomSpeed = 1.2;
+controls.minDistance = 100;
+controls.maxDistance = 15000;
+
+// Lighting
+const ambient = new THREE.AmbientLight(0x98a8c8, 0.5);
+scene.add(ambient);
+
+const key = new THREE.DirectionalLight(0xfff5ea, 1.8);
+key.position.set(1200, 2500, 2000);
+key.castShadow = true;
+key.shadow.mapSize.set(2048, 2048);
+key.shadow.camera.near = 100;
+key.shadow.camera.far = 8000;
+key.shadow.camera.left = key.shadow.camera.bottom = -2000;
+key.shadow.camera.right = key.shadow.camera.top = 2000;
+key.shadow.bias = -0.001;
+scene.add(key);
+
+const fill = new THREE.DirectionalLight(0x7090c0, 0.35);
+fill.position.set(-800, 400, -400);
+scene.add(fill);
+
+const rim = new THREE.DirectionalLight(0xffffff, 0.15);
+rim.position.set(0, -500, -1000);
+scene.add(rim);
+
+// Ground plane for shadows
+const ground = new THREE.Mesh(
+  new THREE.PlaneGeometry(8000, 8000),
+  new THREE.MeshLambertMaterial({ color:0x0d0e17, depthWrite:false })
+);
+ground.rotation.x = -Math.PI/2;
+ground.position.y = -1000;
+ground.receiveShadow = true;
+scene.add(ground);
+
+// ═══════════════════════════════════════════════════════════════
+// MATERIALS
+// ═══════════════════════════════════════════════════════════════
+const pvcMat = new THREE.MeshPhysicalMaterial({
+  color: 0xf3f3f0,
+  roughness: 0.38,
+  metalness: 0.0,
+  clearcoat: 0.25,
+  clearcoatRoughness: 0.35,
+  side: THREE.DoubleSide,
+});
+const pvcMatWire = pvcMat.clone();
+
+const glassMat = new THREE.MeshPhysicalMaterial({
+  color: 0xaaccdd,
+  roughness: 0.04,
+  metalness: 0.0,
+  transmission: 0.92,
+  thickness: 24,
+  ior: 1.52,
+  transparent: true,
+  opacity: 0.38,
+  side: THREE.DoubleSide,
+  depthWrite: false,
+});
+
+const edgeMat = new THREE.LineBasicMaterial({ color: 0x4d8fff, transparent:true, opacity:0.55 });
+const beadEdgeMat = new THREE.LineBasicMaterial({ color: 0x6fffb8, transparent:true, opacity:0.4 });
+
+// ═══════════════════════════════════════════════════════════════
+// WINDOW BUILDER
+// ═══════════════════════════════════════════════════════════════
+
+/**
+ * Build 4 frame members.
+ *
+ * World coord system (window centered at origin):
+ *   X = horizontal width  (–W/2 … +W/2)
+ *   Y = vertical height   (–H/2 … +H/2)
+ *   Z = depth, EXT = 0, INT = –systemDepth (–70mm)
+ *
+ * Profile coords (confirmed by bbox cross-check across all 3 frame families):
+ *   px = FACE WIDTH  (0 … 75mm for rama 75mm; matches name)
+ *   py = DEPTH       (0 … 70mm = systemDepth; constant across IGLO 5)
+ *
+ * In the mapPt lambdas below, py drives shapeX → worldZ (depth),
+ * and px drives shapeY → worldY/worldX (face direction per member).
+ *
+ * HEAD  (top,  face ↓): shape(py, –px), rotation.y = π/2, pos(–W/2, H/2, 0)
+ * SILL  (bot,  face ↑): shape(py,  px), rotation.y = π/2, pos(–W/2, –H/2, 0)
+ * JAMB_L (left, face →): shape(–py, px), rotation(–π/2, 0, π/2), pos(–W/2, –H/2, 0)
+ * JAMB_R (right,face ←): shape(–py,–px), rotation(–π/2, 0, π/2), pos( W/2, –H/2, 0)
+ */
+function buildWindow(W, H, opts = {}) {
+  const group = new THREE.Group();
+
+  const hw = W/2, hh = H/2;
+  const SYS_DEPTH = META.systemDepth; // 70mm — profile Y extent (depth axis)
+  const FACE = META.frameFace;        // 34mm — visible overlap used for DLO layout
+
+  // ── Frame members ────────────────────────────────────────
+  function frameMember(loops, length, mapPt, rx, ry, rz, pos) {
+    const shape = makeShape(loops, mapPt);
+    if (!shape) return null;
+    const geo  = extrude(shape, length);
+    const mesh = new THREE.Mesh(geo, pvcMat);
+    mesh.rotation.set(rx, ry, rz);
+    mesh.position.set(...pos);
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    return mesh;
+  }
+
+  function frameEdge(loops, length, mapPt, rx, ry, rz, pos) {
+    const shape = makeShape(loops, mapPt);
+    if (!shape) return null;
+    const pts = shape.getPoints(48);
+    const pts3 = pts.map(p => new THREE.Vector3(p.x, p.y, 0));
+    pts3.push(pts3[0].clone()); // close
+    const geo = new THREE.BufferGeometry().setFromPoints(pts3);
+    const line = new THREE.Line(geo, edgeMat);
+    line.rotation.set(rx, ry, rz);
+    line.position.set(...pos);
+    return line;
+  }
+
+  const members = [
+    // HEAD  — px=face(0-75) drives Y(downward from top), py=depth(0-70) drives Z
+    { label:'head',   len: W, map:([px,py])=>[py,-px], rx:0,          ry:Math.PI/2, rz:0,         pos:[-hw, hh, 0]  },
+    // SILL  — same, face points upward
+    { label:'sill',   len: W, map:([px,py])=>[py, px], rx:0,          ry:Math.PI/2, rz:0,         pos:[-hw,-hh, 0]  },
+    // JAMB_L — face points rightward (+X)
+    { label:'jamb_l', len: H, map:([px,py])=>[-py,px], rx:-Math.PI/2, ry:0, rz:Math.PI/2, pos:[-hw,-hh, 0]  },
+    // JAMB_R — face points leftward (–X)
+    { label:'jamb_r', len: H, map:([px,py])=>[-py,-px],rx:-Math.PI/2, ry:0, rz:Math.PI/2, pos:[ hw,-hh, 0]  },
+  ];
+
+  const frameGroup = new THREE.Group();
+  frameGroup.name = 'frame';
+  const edgeGroup = new THREE.Group();
+  edgeGroup.name = 'edges';
+
+  for (const m of members) {
+    const mesh = frameMember(FRAME_LOOPS, m.len, m.map, m.rx, m.ry, m.rz, m.pos);
+    if (mesh) { mesh.name = m.label; frameGroup.add(mesh); }
+    if (opts.showEdges !== false) {
+      const edge = frameEdge(FRAME_LOOPS, m.len, m.map, m.rx, m.ry, m.rz, m.pos);
+      if (edge) { edge.name = m.label+'_edge'; edgeGroup.add(edge); }
+    }
+  }
+  group.add(frameGroup);
+  group.add(edgeGroup);
+
+  // ── Glass pane ───────────────────────────────────────────
+  // DLO = daylight opening
+  const dloW = W - 2 * FACE;
+  const dloH = H - 2 * FACE;
+  // Glass depth in Z (profile Y axis = depth, 0=EXT … 70=INT).
+  // recipe_fixed: rebate_inset_mm = 50mm measured from frame reference.
+  // glass_rebate_bite_mm = 16mm → glass centre at rebate_inset – bite/2 ≈ 42mm from EXT.
+  // In world Z: EXT=0, deeper = more negative.
+  const glassZ = -(RECIPE.rebate_inset_mm - RECIPE.glass_rebate_bite_mm / 2);  // ≈ –42mm
+
+  const glassGroup = new THREE.Group();
+  glassGroup.name = 'glass';
+  const glassGeo = new THREE.PlaneGeometry(dloW, dloH);
+  const glassMesh = new THREE.Mesh(glassGeo, glassMat);
+  glassMesh.position.z = glassZ;
+  glassGroup.add(glassMesh);
+  group.add(glassGroup);
+
+  // ── Glazing bead (4 members) ──────────────────────────────
+  // Bead at recipe offset y=46mm → in our Z system: z ≈ –(46 – PX) but
+  // since the bead is interior, we place it flush with the glass at the
+  // rebate mouth (interior side). Bead face is ~22mm, sits at the glazing edge.
+  const beadZ = glassZ;  // bead clips onto glass perimeter from interior
+  const beadGroup = new THREE.Group();
+  beadGroup.name = 'bead';
+
+  // Bead members run along the glass perimeter.
+  // The bead profile (22mm × ~26mm) is placed with its flat face
+  // against the glass, rotated 90° per recipe (depth axis now along window edge).
+  // For viewer: show the 2D cross-section at each corner as a representative sample.
+  function beadMember(loops, length, mapPt, rx, ry, rz, pos) {
+    const shape = makeShape(loops, mapPt);
+    if (!shape) return null;
+    const geo  = extrude(shape, length);
+    const mesh = new THREE.Mesh(geo, pvcMat);
+    mesh.rotation.set(rx, ry, rz);
+    mesh.position.set(...pos);
+    return mesh;
+  }
+  function beadEdge(loops, mapPt, rx, ry, rz, pos) {
+    const shape = makeShape(loops, mapPt);
+    if (!shape) return null;
+    const pts  = shape.getPoints(32);
+    const pts3 = pts.map(p => new THREE.Vector3(p.x, p.y, 0));
+    pts3.push(pts3[0].clone());
+    const geo  = new THREE.BufferGeometry().setFromPoints(pts3);
+    const line = new THREE.Line(geo, beadEdgeMat);
+    line.rotation.set(rx, ry, rz);
+    line.position.set(...pos);
+    return line;
+  }
+
+  // Bead profile rotated 90°: [bx, by] → [–by, bx] then scaled
+  // mapBead: for head bead, face (by axis) → depth, clip (bx) → face Y
+  const BEAD_SCALE = 1.0;
+  const bz = beadZ;   // depth position for bead head face
+
+  // Bead profile: bx=face(−5.75…20), by=depth(0…22.1) — same axis convention as frame.
+  // Recipe: bead placed at rot=90 in assembly → depth axis swapped with face axis.
+  // In the viewer we keep the bead profile in its natural orientation; it sits at the
+  // glazing pocket interior (beadZ) running along the DLO perimeter.
+  const beadMembers = [
+    // BEAD HEAD (top interior)
+    { len:dloW, map:([bx,by])=>[by,-bx], rx:0,          ry:Math.PI/2, rz:0,          pos:[-dloW/2, hh-FACE, bz] },
+    // BEAD SILL
+    { len:dloW, map:([bx,by])=>[by, bx], rx:0,          ry:Math.PI/2, rz:0,          pos:[-dloW/2,-hh+FACE, bz] },
+    // BEAD JAMB_L
+    { len:dloH, map:([bx,by])=>[-by,bx], rx:-Math.PI/2, ry:0, rz:Math.PI/2, pos:[-dloW/2-FACE/2, -dloH/2, bz] },
+    // BEAD JAMB_R
+    { len:dloH, map:([bx,by])=>[-by,-bx],rx:-Math.PI/2, ry:0, rz:Math.PI/2, pos:[ dloW/2+FACE/2, -dloH/2, bz] },
+  ];
+
+  for (const bm of beadMembers) {
+    const mesh = beadMember(BEAD_LOOPS, bm.len, bm.map, bm.rx, bm.ry, bm.rz, bm.pos);
+    if (mesh) { beadGroup.add(mesh); }
+    if (opts.showEdges !== false) {
+      const edge = beadEdge(BEAD_LOOPS, bm.map, bm.rx, bm.ry, bm.rz, bm.pos);
+      if (edge) { beadGroup.add(edge); }
+    }
+  }
+  group.add(beadGroup);
+
+  // ── Dimension wireframe outline ───────────────────────────
+  const outline = (() => {
+    const corners = [
+      new THREE.Vector3(-hw,-hh,0),
+      new THREE.Vector3( hw,-hh,0),
+      new THREE.Vector3( hw, hh,0),
+      new THREE.Vector3(-hw, hh,0),
+      new THREE.Vector3(-hw,-hh,0),
+    ];
+    const geo = new THREE.BufferGeometry().setFromPoints(corners);
+    const mat = new THREE.LineBasicMaterial({ color:0x2a3560, transparent:true, opacity:0.5 });
+    const line = new THREE.Line(geo, mat);
+    line.position.z = 2;
+    return line;
+  })();
+  outline.name = 'outline';
+  group.add(outline);
+
+  return { group, frameGroup, glassGroup, beadGroup, edgeGroup };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// STATE & REBUILD
+// ═══════════════════════════════════════════════════════════════
+let W = 1000, H = 1200;
+let parts = null;
+let wireframeMode = false;
+
+function rebuild() {
+  if (parts) scene.remove(parts.group);
+  parts = buildWindow(W, H, { showEdges: true });
+  scene.add(parts.group);
+  updateInfo();
+  positionCamera();
+}
+
+function positionCamera() {
+  const diag = Math.sqrt(W*W + H*H);
+  camera.position.set(0, 0, diag * 1.5);
+  controls.target.set(0, 0, 0);
+  controls.update();
+}
+
+function updateInfo() {
+  const ff = META.frameFace;
+  document.getElementById('info-w').textContent    = W + ' mm';
+  document.getElementById('info-h').textContent    = H + ' mm';
+  document.getElementById('info-dlo-w').textContent = (W - 2*ff) + ' mm';
+  document.getElementById('info-dlo-h').textContent = (H - 2*ff) + ' mm';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// UI EVENT LISTENERS
+// ═══════════════════════════════════════════════════════════════
+document.getElementById('slider-w').addEventListener('input', e => {
+  W = parseInt(e.target.value);
+  document.getElementById('val-w').textContent = W + ' mm';
+  rebuild();
+});
+document.getElementById('slider-h').addEventListener('input', e => {
+  H = parseInt(e.target.value);
+  document.getElementById('val-h').textContent = H + ' mm';
+  rebuild();
+});
+
+function cam(x, y, z, tx=0, ty=0, tz=0) {
+  camera.position.set(x,y,z);
+  controls.target.set(tx,ty,tz);
+  controls.update();
+}
+document.getElementById('btn-front').addEventListener('click', () => cam(0, 0, Math.max(W,H)*1.8));
+document.getElementById('btn-iso').addEventListener('click', ()  => cam(W*0.7, H*0.5, Math.max(W,H)*1.3));
+document.getElementById('btn-side').addEventListener('click', () => cam(Math.max(W,H)*2.5, 0, 0));
+document.getElementById('btn-top').addEventListener('click', ()  => cam(0, Math.max(W,H)*2.5, 0));
+
+// Toggles
+function setupToggle(id, onToggle) {
+  const el = document.getElementById(id);
+  el.addEventListener('click', () => {
+    const on = el.classList.toggle('on');
+    el.setAttribute('aria-checked', on);
+    onToggle(on);
+  });
+}
+
+setupToggle('tog-frame', on => { if(parts) parts.frameGroup.visible = on; });
+setupToggle('tog-glass', on => { if(parts) parts.glassGroup.visible = on; });
+setupToggle('tog-bead',  on => { if(parts) parts.beadGroup.visible  = on; });
+setupToggle('tog-edge',  on => { if(parts) parts.edgeGroup.visible  = on; });
+setupToggle('tog-wire',  on => {
+  wireframeMode = on;
+  pvcMat.wireframe = on;
+});
+
+// ═══════════════════════════════════════════════════════════════
+// RESIZE
+// ═══════════════════════════════════════════════════════════════
+function resize() {
+  const w = canvas.parentElement.offsetWidth;
+  const h = canvas.parentElement.offsetHeight;
+  renderer.setSize(w, h);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+}
+new ResizeObserver(resize).observe(canvas.parentElement);
+resize();
+
+// ═══════════════════════════════════════════════════════════════
+// ANIMATE
+// ═══════════════════════════════════════════════════════════════
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+}
+
+// ── Boot ─────────────────────────────────────────────────────
+rebuild();
+animate();
+
+// Hide loader after first frame
+requestAnimationFrame(() => {
+  document.getElementById('loader').classList.add('hidden');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+[
+  {
+    "name": "nevada-ral7016",
+    "label": "NEVADA con llave (RAL7016)",
+    "image": "/assets/handles/nevada-ral7016.png"
+  },
+  {
+    "name": "nevada-ral9001",
+    "label": "NEVADA con llave (RAL9001)",
+    "image": "/assets/handles/nevada-ral9001.png"
+  },
+  {
+    "name": "nevada-ral9005",
+    "label": "NEVADA con llave (RAL9005)",
+    "image": "/assets/handles/nevada-ral9005.png"
+  },
+  {
+    "name": "nevada-ral9016",
+    "label": "NEVADA con llave (RAL9016)",
+    "image": "/assets/handles/nevada-ral9016.png"
+  },
+  {
+    "name": "nevada-f9",
+    "label": "NEVADA con llave (tytan F9)",
+    "image": "/assets/handles/nevada-f9.png"
+  },
+  {
+    "name": "mistral-ral7016",
+    "label": "MISTRAL con llave (RAL7016)",
+    "image": "/assets/handles/mistral-ral7016.png"
+  },
+  {
+    "name": "mistral-ral9001",
+    "label": "MISTRAL con llave (RAL9001)",
+    "image": "/assets/handles/mistral-ral9001.png"
+  },
+  {
+    "name": "mistral-ral9005",
+    "label": "MISTRAL con llave (RAL9005)",
+    "image": "/assets/handles/mistral-ral9005.png"
+  },
+  {
+    "name": "mistral-f9-key",
+    "label": "MISTRAL con llave (tytan F9)",
+    "image": "/assets/handles/mistral-f9-key.png"
+  },
+  {
+    "name": "mistral-f9",
+    "label": "MISTRAL F9",
+    "image": "/assets/handles/mistral-f9.png"
+  },
+  {
+    "name": "dublin-ral9016",
+    "label": "DUBLIN (blanco RAL9016)",
+    "image": "/assets/handles/dublin-ral9016.png"
+  },
+  {
+    "name": "dublin-ral8019",
+    "label": "DUBLIN (marrón RAL8019)",
+    "image": "/assets/handles/dublin-ral8019.png"
+  },
+  {
+    "name": "dublin-ral7016",
+    "label": "DUBLIN (RAL7016)",
+    "image": "/assets/handles/dublin-ral7016.png"
+  },
+  {
+    "name": "dublin-ral9005",
+    "label": "DUBLIN (RAL9005)",
+    "image": "/assets/handles/dublin-ral9005.png"
+  },
+  {
+    "name": "dublin-silver",
+    "label": "DUBLIN (plateada)",
+    "image": "/assets/handles/dublin-silver.png"
+  },
+  {
+    "name": "dublin-key-ral7016",
+    "label": "DUBLIN con llave (RAL7016)",
+    "image": "/assets/handles/dublin-key-ral7016.png"
+  },
+  {
+    "name": "dublin-key-ral9005",
+    "label": "DUBLIN con llave (RAL9005)",
+    "image": "/assets/handles/dublin-key-ral9005.png"
+  },
+  {
+    "name": "dublin-key-ral9016",
+    "label": "DUBLIN con llave (blanco RAL9016)",
+    "image": "/assets/handles/dublin-key-ral9016.png"
+  },
+  {
+    "name": "dublin-key-ral8019",
+    "label": "DUBLIN con llave (marrón RAL8019)",
+    "image": "/assets/handles/dublin-key-ral8019.png"
+  },
+  {
+    "name": "dublin-key-silver",
+    "label": "DUBLIN con llave (plateada)",
+    "image": "/assets/handles/dublin-key-silver.png"
+  },
+  {
+    "name": "kwadrat-ral7016",
+    "label": "KWADRAT RAL 7016",
+    "image": "/assets/handles/kwadrat-ral7016.png"
+  },
+  {
+    "name": "kwadrat-ral8019",
+    "label": "KWADRAT RAL 8019",
+    "image": "/assets/handles/kwadrat-ral8019.png"
+  },
+  {
+    "name": "kwadrat-ral9016",
+    "label": "KWADRAT RAL 9016",
+    "image": "/assets/handles/kwadrat-ral9016.png"
+  },
+  {
+    "name": "kwadrat-ral9001",
+    "label": "KWADRAT RAL 9001",
+    "image": "/assets/handles/kwadrat-ral9001.png"
+  },
+  {
+    "name": "kwadrat-ral9005",
+    "label": "KWADRAT RAL 9005",
+    "image": "/assets/handles/kwadrat-ral9005.png"
+  },
+  {
+    "name": "kwadrat-f9",
+    "label": "KWADRAT tytan F9",
+    "image": "/assets/handles/kwadrat-f9.png"
+  },
+  {
+    "name": "kwadrat-key-f1",
+    "label": "KWADRAT con llave F1",
+    "image": "/assets/handles/kwadrat-key-f1.png"
+  },
+  {
+    "name": "kwadrat-key-f4",
+    "label": "KWADRAT con llave F4",
+    "image": "/assets/handles/kwadrat-key-f4.png"
+  },
+  {
+    "name": "kwadrat-key-f9",
+    "label": "KWADRAT con llave F9",
+    "image": "/assets/handles/kwadrat-key-f9.png"
+  },
+  {
+    "name": "kwadrat-key-ral7016",
+    "label": "KWADRAT con llave (RAL7016)",
+    "image": "/assets/handles/kwadrat-key-ral7016.png"
+  },
+  {
+    "name": "kwadrat-key-ral8019",
+    "label": "KWADRAT con llave (RAL8019)",
+    "image": "/assets/handles/kwadrat-key-ral8019.png"
+  },
+  {
+    "name": "kwadrat-key-ral9001",
+    "label": "KWADRAT con llave (RAL9001)",
+    "image": "/assets/handles/kwadrat-key-ral9001.png"
+  },
+  {
+    "name": "kwadrat-key-ral9005",
+    "label": "KWADRAT con llave (RAL9005)",
+    "image": "/assets/handles/kwadrat-key-ral9005.png"
+  },
+  {
+    "name": "kwadrat-key-ral9016",
+    "label": "KWADRAT con llave (RAL9016)",
+    "image": "/assets/handles/kwadrat-key-ral9016.png"
+  }
+]

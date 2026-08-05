@@ -1,0 +1,1120 @@
+{
+  "header": {
+    "topBar": {
+      "partnerPortal": "Portal pentru parteneri",
+      "cooperation": "Cooperare",
+      "contact": "Contact"
+    },
+    "nav": {
+      "products": "Produse",
+      "whereToBuy": "De unde să cumpăr",
+      "aboutMammut": "Despre Mammut",
+      "configurator": "Configurator 3D"
+    },
+    "megaMenu": {
+      "viewAll": "Vezi toate produsele",
+      "comingSoon": "Conținut pentru {{categoria}} va fi în curând.",
+      "cats": {
+        "windows": "Windows",
+        "doors": "Ușile",
+        "terrace": "Sisteme de terase",
+        "shutters": "Jaluzele rulante",
+        "facade": "Jaluzele de fatada",
+        "mosquito": "Plase de tantari",
+        "garage": "Usi de garaj",
+        "conservatories": "Fațade / Conservatoare",
+        "pergola": "Pergolă",
+        "smart": "Casă inteligentă",
+        "extras": "Suplimente",
+        "promotional": "Material promotional"
+      },
+      "cols": {
+        "pvcWindows": "Ferestre PVC",
+        "alumWindows": "Ferestre din aluminiu",
+        "woodWindows": "Ferestre din lemn",
+        "woodAlumWindows": "Ferestre lemn-aluminiu",
+        "pvcDoors": "Usi PVC",
+        "alumDoors": "Usi din aluminiu",
+        "liftAndSlide": "Ridicați și glisați HS",
+        "slide": "Slide",
+        "foldingDoors": "Usi Rabatabile",
+        "tiltAndSlide": "Înclinați și glisați PSK"
+      },
+      "new": "Nou"
+    }
+  },
+  "home": {
+    "hero": {
+      "premium": "Ferestre și uși premium",
+      "explore": "Explorați produsele",
+      "configurator": "Configurator 3D",
+      "slide1": {
+        "headline": "Definiți-vă",
+        "headlineSpan": "spaţiu",
+        "sub": "Ferestre și uși proiectate cu precizie care transformă arhitectura cu performanțe termice și acustice de ultimă oră."
+      },
+      "slide2": {
+        "headline": "Deschis către",
+        "headlineSpan": "lume",
+        "sub": "Sisteme panoramice de ridicare și glisare care dizolvă granița dintre interior și exterior."
+      },
+      "slide3": {
+        "headline": "Ușoară, redefinită",
+        "headlineSpan": "prin proiectare",
+        "sub": "Geam din podea până în tavan, care umple fiecare cameră cu lumină naturală, păstrând în același timp căldura și zgomotul."
+      }
+    },
+    "offer": {
+      "subtitle": "Soluții complete",
+      "title": "Oferta noastră",
+      "text": "Oferim o gama larga de ferestre, rame, usi de exterior si usi glisante din PVC, lemn si aluminiu. Prin măiestrie expertă, materiale de cea mai înaltă calitate și un nivel de servicii asigurăm statutul companiei noastre. Fiecare fereastră și ușă este realizată la comandă, oferind fiecărui client servicii și atenție individuală. Vă vom oferi cel mai înalt nivel de expertiză și vă vom ajuta pe tot parcursul cu planurile de renovare și construcție."
+    },
+    "categories": {
+      "subtitle": "Răsfoiți după tip",
+      "title": "Categorii de produse",
+      "tabs": {
+        "windows": "WINDOWS",
+        "doors": "UȘI",
+        "shutters": "Obloane",
+        "blinds": "JARBURI",
+        "terrace": "SISTEME DE TERESA",
+        "additions": "ADULTĂRI"
+      },
+      "items": {
+        "alu": "ALUMINIU",
+        "woodAlu": "LEMN-ALUMINIU",
+        "pvc": "PVC",
+        "wooden": "DE LEMN",
+        "adaptive": "ADAPTIV",
+        "topMounted": "MONTAT SUP",
+        "externalVenetian": "VENETIAN EXTERIOR",
+        "liftSlide": "RIDICAȚI ȘI ALUNEȚI HS",
+        "tiltSlide": "Înclinați și glisați PSK",
+        "folding": "USI PLIANTE",
+        "customization": "PERSONALIZARE"
+      }
+    },
+    "featured": {
+      "subtitle": "Colecția noastră",
+      "title": "Sisteme prezentate",
+      "viewAll": "Vezi toate",
+      "tags": {
+        "new": "NOU",
+        "premium": "PREMIUM",
+        "bestseller": "CEL MAI VÂNDUT"
+      },
+      "discover": "Descoperi",
+      "igloEdge": {
+        "tagline": "Izolație maximă, cadru minim"
+      },
+      "igloLight": {
+        "tagline": "Și mai multă lumină în spațiul tău"
+      },
+      "iglo5": {
+        "tagline": "Renascutul clasic"
+      }
+    },
+    "cta": {
+      "subtitle": "Configurator 3D",
+      "title": "Proiectează-ți fereastra perfectă",
+      "text": "Alegeți dimensiunile, materialele, culorile și tipul de sticlă. Salvați configurația și solicitați o ofertă instantaneu.",
+      "button": "Lansați Configuratorul"
+    }
+  },
+  "products": {
+    "collection": "Colecția noastră",
+    "title": "Sisteme premium",
+    "description": "Descoperiți gama noastră completă de ferestre, uși și sisteme de terase. Proiectat pentru performanțe termice superioare, izolație acustică și design atemporal.",
+    "allProducts": "Toate produsele",
+    "new": "NOU",
+    "sortBy": "Sortează după",
+    "sortOptions": {
+      "default": "Ordine implicită",
+      "uw": "Transmitanță termică",
+      "db": "Izolație fonică",
+      "chambers": "Camere",
+      "depth": "Adâncime de instalare",
+      "gaskets": "Garnituri"
+    }
+  },
+  "productDetail": {
+    "notFound": "Produsul nu a fost găsit",
+    "return": "Reveniți la produse",
+    "configure": "Configurați {{nume}}",
+    "standardEquipment": "Echipament standard",
+    "seeVideo": "Vezi videoclipul",
+    "hoverDrawing": "Plasați cursorul pentru a afișa desenul tehnic",
+    "profile": "Profil",
+    "technicalDrawing": "Desen tehnic",
+    "newGeneration": "Noua Generatie",
+    "uncompromising": "Calitate și performanță termică fără compromisuri",
+    "colorsTitle": "Culori & Finisaje",
+    "colorsDesc": "Personalizați-vă {{numele}} cu peste {{număr}} de finisaje premium, variind de la solide arhitecturale moderne până la granulele de lemn hiperrealiste.",
+    "preview": "PREVIEW",
+    "selectedFinish": "Finisare selectată",
+    "selectedColor": "Culoare aleasă:",
+    "glassTitle": "Sticlă",
+    "glassDesc": "DRUTEX, cu o experiență de peste 30 de ani în producția de sticlă compozită, vă oferă o gamă foarte largă de sticlă cu care vă puteți monta ferestrele și ușile. Acestea îndeplinesc cerințe stricte de eficiență energetică și izolare fonică. Oferta include și sticlă laminată (sigură și anti-efracție), sticlă protejată de soare, sticlă cu izolare fonică îmbunătățită, sticlă călită, ornamentală și sablata.",
+    "handlesTitle": "Mânere",
+    "handlesDesc": "Mânerele noastre de ferestre se disting prin manopera lor excelentă, funcționalitate și durabilitate. Disponibil în mai multe variante de culoare pentru a se potrivi perfect ferestrelor dumneavoastră.",
+    "optionsTitle": "Opțiuni suplimentare",
+    "optionsDesc": "Îmbunătățiți și personalizați-vă IGLO EDGE cu gama noastră largă de accesorii și suplimente certificate.",
+    "seeAll": "Vezi toate",
+    "configureQuote": "Configurați produsul și oferta",
+    "mountingAccessoriesTitle": "Mounting accessories",
+    "mountingAccessoriesDesc": "Here you will find the products necessary for proper installation of joinery.",
+    "additionalOptions": {
+      "mounting": {
+        "title": "Mounting accessories",
+        "description": "Here you will find the products necessary for proper installation of joinery."
+      },
+      "muntin": {
+        "title": "Muntin bars",
+        "description": "An attractive addition that highlights the unique character of the building."
+      },
+      "fittings": {
+        "title": "Reliable fittings",
+        "description": "Safety, comfort and functionality in every detail."
+      },
+      "glass": {
+        "title": "Sandblasted glass",
+        "description": "A perfect combination of modern design and privacy."
+      },
+      "spacers": {
+        "title": "Spacers",
+        "description": "The latest generation of spacers ensuring thermal comfort."
+      },
+      "ventilation": {
+        "title": "Ventilation",
+        "description": "Ensure healthy air and optimal humidity in your home."
+      },
+      "shutters": {
+        "title": "Roller Shutters",
+        "description": "Protect your home with integrated external roller shutters."
+      },
+      "mosquito": {
+        "title": "Mosquito Nets",
+        "description": "Effective protection against insects while maintaining air flow."
+      },
+      "sill": {
+        "title": "Window sill PVC",
+        "description": "Over 30 veneer colours to choose from."
+      },
+      "mosquito-nets": {
+        "title": "Mosquito Nets",
+        "description": "Keep insects out while letting fresh air in."
+      }
+    },
+    "searchColorPlaceholder": "Căutare (de ex. lemn, metal, albastru...)",
+    "noColorsFound": "Nu s-au găsit culori potrivite",
+    "clearSearch": "Șterge căutarea"
+  },
+  "footer": {
+    "newsletter": {
+      "title": "Buletin informativ",
+      "desc": "Fiți la curent cu noile produse și inovații.",
+      "placeholder": "Adresa dvs. de e-mail",
+      "subscribe": "Abonați-vă"
+    },
+    "cols": {
+      "about": {
+        "title": "Despre Mammut",
+        "history": "Istoria noastră",
+        "quality": "Calitate & Certificate",
+        "innovation": "Inovaţie",
+        "sustainability": "Sustenabilitate"
+      },
+      "offer": {
+        "title": "Oferta noastră",
+        "pvc": "Ferestre PVC",
+        "alu": "Ferestre din aluminiu",
+        "wood": "Ferestre din lemn",
+        "doors": "Usi exterioare",
+        "shutters": "Obloane"
+      },
+      "inspiration": {
+        "title": "Inspiraţie",
+        "kitchen": "Bucătărie",
+        "living": "Camera de zi",
+        "bedroom": "Dormitor",
+        "terrace": "Terasă"
+      },
+      "partners": {
+        "title": "Parteneri",
+        "portal": "Portal pentru parteneri",
+        "coop": "Programul de cooperare",
+        "sales": "Reprezentanți de vânzări",
+        "contact": "Contact"
+      }
+    },
+    "legal": {
+      "privacy": "Politica de confidențialitate",
+      "cookies": "Setări cookie",
+      "sitemap": "Harta site-ului",
+      "terms": "Termeni de utilizare",
+      "copyright": "Ferestre și uși Mammut. Toate drepturile rezervate."
+    }
+  },
+  "igloEdge": {
+    "tagline": "Izolație maximă, cadru minim",
+    "description": "Noua noastră fereastră, cea mai avansată din punct de vedere tehnologic, se remarcă printr-un parametru de izolare termică excelent de Uw = 0,66 W/(m²K)* și o formă modernă de profil unghiular. Parametrii extrem de buni de izolare termica se datoreaza, printre altele, designului profilului cu 7 camere si 3 garnituri EPDM, inclusiv garnitura centrala.",
+    "basicDescription": "Sistemul de ferestre IGLO EDGE reprezintă vârful eficienței energetice. Proiectat pentru case pasive și renovări conștiente de energie, are un profil cu 7 camere, cel mai bun din clasa Uw = 0,66 W/(m²K) și un design minimalist care maximizează lumina naturală care intră în cameră.",
+    "equipment": {
+      "0": "Pachet geam cu dublă cameră Ug = 0,5 W/(m²K)",
+      "1": "Cadru cald din plastic Swisspacer Ultimate",
+      "2": "sudare V-perfectă",
+      "3": "4 lovituri antifurt in functie de dimensiunea cercevelei si a sistemului de feronerie",
+      "4": "Microventilație",
+      "5": "Mâner fereastră DUBLIN din aluminiu",
+      "6": "Mecanismul de blocare a deplasării greșite a mânerului",
+      "7": "Garnituri perimetrale, geamuri si centrale in negru sau gri",
+      "8": "Umplerea canelurii feroneriei inferioare",
+      "9": "Garnitura pragului",
+      "10": "O gamă largă de culori de furnir PVC",
+      "11": "3 culori de profil din care sa alegi: alb, maro sau antracit"
+    },
+    "specs": {
+      "sound": "Izolarea fonică",
+      "gaskets": "Garnituri EPDM",
+      "thermal": "Transmisie termică",
+      "chambers": "Numărul de Camere",
+      "depth": "Adâncime de instalare",
+      "class": "Clasa de profil"
+    }
+  },
+  "colorGroups": {
+    "Metal Effect": "Efect metalic",
+    "Solid": "Solid",
+    "Wood Effect": "Efect de lemn"
+  },
+  "colors": {
+    "c209": "Bazalt Gri",
+    "c210": "Bazalt Gri Gadki",
+    "c232": "Bronz adânc",
+    "c213": "Sablat cu grafit",
+    "c207": "Cuarț gri",
+    "c208": "Cuarț gri Smooth",
+    "c237": "Albastru de oțel",
+    "c214": "Antracit",
+    "c216": "Antracit Ulti Matt",
+    "c215": "Antracit neted",
+    "c218": "Black Ulti Matt",
+    "c236": "Albastru strălucitor",
+    "c231": "Maro ciocolata",
+    "c206": "Beton Gri",
+    "c200": "Cremă",
+    "c199": "Croviu Platinium",
+    "c234": "Verde închis",
+    "c235": "Roșu închis",
+    "c233": "Moss Green",
+    "c205": "Gri",
+    "c217": "Jet Black",
+    "c204": "Gri deschis",
+    "c201": "Pirita",
+    "c228": "Lemn de trandafir",
+    "c211": "Ardezie",
+    "c212": "Slate Smooth",
+    "c197": "Alb",
+    "c198": "Nisip alb mat",
+    "c202": "Stejar albit",
+    "c227": "Stejar întunecat",
+    "c225": "Bradul Douglas",
+    "c229": "Macore",
+    "c230": "Mahon",
+    "c203": "Stejar natural",
+    "c224": "Oregon",
+    "c220": "Turner Oak 2023",
+    "c221": "Turner Oak Toffee 470 3004",
+    "c222": "Turner Stejar Nuc 470 3004",
+    "c226": "Nuc",
+    "c223": "Winchester",
+    "c219": "Stejar auriu",
+    "c999": "Lemn de test"
+  },
+  "configurator": {
+    "title": "Proiectați-vă sistemul de ferestre personalizat.",
+    "subtitle": "Alegeți materialul și configurați specificațiile arhitecturale exacte de mai jos.",
+    "steps": {
+      "material": "Material",
+      "system": "Profil",
+      "windowType": "Tip fereastră",
+      "openingType": "Tip de deschidere",
+      "color": "Culoare și decor",
+      "dimensions": "Dimensiuni (MM)",
+      "glazing": "Pachet de geamuri",
+      "options": "Accesorii și suplimente",
+      "profile": "Profil",
+      "start": "Început",
+      "seals": "Garnituri"
+    },
+    "summary": {
+      "title": "Prezentare generală a specificațiilor",
+      "dimensions": "Dimensiuni",
+      "material": "Material",
+      "system": "Profil",
+      "windowType": "Tip fereastră",
+      "color": "Culoare și decor",
+      "glazing": "Vitrare",
+      "financials": "Financiare",
+      "baseFramework": "Cadrul de bază",
+      "hardwareAssembly": "Ansamblu hardware",
+      "accessories": "Accesorii",
+      "totalSystem": "Sistem total",
+      "exportJson": "Export JSON",
+      "saveToCart": "Salvați în coș",
+      "edit": "Edita"
+    },
+    "inputs": {
+      "w": "W",
+      "h": "H",
+      "mm": "mm",
+      "cm": "(CM)"
+    },
+    "state": {
+      "selected": "Selectat",
+      "selectWindowType": "Selectați Tipul ferestrei",
+      "openingDirection": "Direcția de deschidere",
+      "fixedNoOpening": "Fix (fără deschidere)",
+      "turnTilt": "Frunză interioară (Întoarcere/Înclinare)",
+      "sashes": "{{count}} Configurația cercevelor",
+      "closeOnSelect": "Închide fereastra la selectare"
+    },
+    "blueprint": {
+      "interiorView": "Vedere interioară",
+      "dragToRotate": "Trageți pentru a roti liber în 3D",
+      "exteriorView": "Exterior View",
+      "uploadPhoto": "Upload Photo",
+      "removePhoto": "Remove Photo",
+      "positionOptions": "Position & Size Options",
+      "resetWindowFit": "Reset Window Fit",
+      "scale": "Scale",
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "windowTypes": {
+      "1-flugel": "1 frunză",
+      "1-flugel-oberlicht": "1 frunză \ncu Toplight",
+      "1-flugel-unterlicht": "1 frunză \ncu lumina de jos",
+      "2-flugel": "2 frunze",
+      "2-flugel-oberlicht": "2 frunze \ncu Toplight",
+      "2-flugel-oberlicht-asym": "2 frunze asym. \ncu Toplight",
+      "2-flugel-unterlicht": "2 frunze \ncu lumina de jos",
+      "2-flugel-unterlicht-asym": "2 frunze asym. \ncu lumina de jos",
+      "3-flugel": "3 frunze",
+      "3-flugel-oberlicht": "3 frunze \ncu Toplight",
+      "3-flugel-oberlicht-asym": "3 frunze asym. \ncu Toplight",
+      "3-flugel-unterlicht": "3 frunze \ncu lumina de jos",
+      "3-flugel-unterlicht-asym": "3 frunze asym. \ncu lumina de jos",
+      "4-flugel": "4 frunze"
+    },
+    "openingTypes": {
+      "F": "Fix",
+      "DKL": "Turn-Tilt (stânga)",
+      "DKR": "Turn-Tilt (Dreapta)",
+      "DL": "Viraj la stânga)",
+      "DR": "Obligatoriu Dreapta)",
+      "K": "Înclinare"
+    },
+    "welcome": {
+      "title": "Bine ați venit la configuratorul nostru Windows alimentat cu inteligență artificială",
+      "description": "Selectarea ferestrelor nu este o sarcină ușoară, există multe opțiuni și nevoile fiecăruia diferă, de aceea configuratorul nostru vă va ghida și vă va ajuta să faceți cea mai bună alegere care se potrivește nevoilor și bugetului dumneavoastră."
+    },
+    "seals": {
+      "black": "Negru (czarny)",
+      "grey": "Gri (szary)"
+    },
+    "buttons": {
+      "previous": "Pasul anterior",
+      "next": "Pasul următor"
+    }
+  },
+  "help": {
+    "materialDesc": "Alege tipul de material pentru fereastra ta. Mai jos veți găsi un rezumat al principalelor caracteristici ale fiecăruia.",
+    "pvc": "PVC",
+    "aluminum": "ALUMINIU",
+    "durability": "Durabilitate",
+    "maintenance": "Întreţinere",
+    "insulation": "Izolare",
+    "weatherRes": "Rezistență la intemperii",
+    "security": "Securitate",
+    "ecoFootprint": "Amprenta ecologică",
+    "legend": "* = neutru | ** = bun | *** = foarte bine",
+    "windowTypeDesc": "Ferestrele noastre au diferite opțiuni de deschidere. Există ferestre cu una, două și trei canape cu traverse de sus sau de jos.",
+    "singleLeaf": "Ferestre cu un singur canat",
+    "doubleLeaf": "Ferestre cu două foi",
+    "tripleLeaf": "Ferestre cu trei foi",
+    "specialWindows": "Tipuri speciale de ferestre",
+    "leaveConf": "Părăsiți configuratorul?",
+    "stillQuestions": "Mai aveți întrebări despre comanda dumneavoastră sau despre configurator?",
+    "csTeam": "Echipa noastră de asistență pentru clienți (și Asistentul nostru AI) va fi bucuros să vă consilieze gratuit:",
+    "monFri": "(de luni până vineri de la 8:00 la 18:00)",
+    "aiAssist": "AI Assistant",
+    "avail247": "(Disponibil 24/7)",
+    "exitWarning": "La ieșirea din configurator, selecția anterioară se va pierde.",
+    "continueConf": "Continuați în configurator",
+    "exitConf": "Ieșiți din configurator",
+    "haveQuestions": "Ai întrebări?",
+    "availableToday": "Suntem disponibili astăzi până la ora 18:00.",
+    "shallWeTalk": "Să vorbim? Rezervă-ți apelul acum.",
+    "scheduleMeeting": "Programează întâlnirea",
+    "up": "SUS",
+    "close": "Aproape",
+    "comp": {
+      "title": "Tabel de comparație rezumat (context 2026)",
+      "feature": "Caracteristică",
+      "pvc": "PVC (uPVC)",
+      "aluminum": "Aluminiu",
+      "bestFor": "Cel mai bun pentru",
+      "bestForPvc": "Buget, dimensiuni standard, eficienta termica maxima la costuri reduse.",
+      "bestForAlu": "Suprafețe mari de sticlă, estetică modernă, longevitate și rezistență.",
+      "lifespan": "Durată de viaţă",
+      "lifespanPvc": "20–30 de ani",
+      "lifespanAlu": "45+ ani",
+      "cost": "Cost",
+      "costPvc": "În general, cu 30%-50% mai ieftin.",
+      "costAlu": "Punct de preț premium.",
+      "aesthetics": "Estetică",
+      "aestheticsPvc": "Rame mai voluminoase.",
+      "aestheticsAlu": "Profiluri subțiri (lumină mai naturală)."
+    }
+  },
+  "assistant": {
+    "geoTitle": "Meciul climatic local",
+    "geoDesc": "Clima adaptată pentru tine \nFerestrele noastre sunt proiectate special pentru clima din zona dumneavoastră. Pe baza locației dvs. exacte, calculăm performanța termică ideală pentru a garanta izolare maximă iarna și prospețime vara. \n\nBeneficiile dvs.: \n\nEconomii de energie: reduceți cheltuielile cu încălzirea și aerul condiționat. \n\nConfort total: spune la revedere curenților de aer și căldurii înăbușitoare. \n\nPrecizie locală: tehnologie adaptată special orașului dvs.",
+    "province": "Provincie",
+    "city": "Municipiul / Orașul",
+    "selectProv": "Selectați provincia...",
+    "selectCity": "Selectați orașul...",
+    "topoEngine": "Motor topografic",
+    "altitude": "Altitudine",
+    "cteZone": "CTE DB-HE ZONA CLIMATICE",
+    "next": "Următorul pas",
+    "matTitle": "Constrângeri materiale și bugetare",
+    "matPref": "Preferința materialului",
+    "guideMe": "Nu știu, ghidează-mă",
+    "budget": "Domeniul de aplicare al bugetului",
+    "low": "Scăzut",
+    "med": "Mediu",
+    "premium": "Premium",
+    "timeTitle": "Cronologia proiectului",
+    "t1": "Cât mai repede posibil",
+    "t1Sub": "Cel mai devreme 15 zile lucrătoare",
+    "t2": "Următoarele 1-2 luni",
+    "t3": "Mai mult de 2 luni",
+    "t4": "Încă nu sunt sigur",
+    "archTitle": "Acustica & Arhitectura",
+    "houseType": "Tip de locuință",
+    "villa": "Vilă",
+    "apt": "Apartament",
+    "noisePol": "Poluarea fonică locală",
+    "nHigh": "Oraș / Trafic mare",
+    "nLow": "Rural/liniștit",
+    "processCalc": "Analiza procesului",
+    "analyzing": "Analizarea datelor",
+    "computing": "Se calculează sarcini structurale optime...",
+    "perfWin": "Fereastra ta perfecta",
+    "basedOn": "Pe baza datelor climatice ale zonei geografice absolute ale {{zonei}}, a poluării fonice locale {{zgomote}} și a bugetului definit, algoritmii noștri recomandă:",
+    "recProf": "Sistem de profil recomandat",
+    "base": "Baza",
+    "glaze": "Vitrare",
+    "useData": "Utilizați aceste date și configurați fereastra",
+    "inter1": "Recomandat: Asistent ghidat inteligent",
+    "inter2": "Du-mă direct la configurator",
+    "inter2Sub": "(Configurare complexă)"
+  },
+  "partner": {
+    "layout": {
+      "dashboard": "Bord",
+      "leads": "Leads & Pipeline",
+      "profile": "Profilul magazinului",
+      "settings": "Setări",
+      "portal": "Portal pentru parteneri",
+      "signOut": "Sign out"
+    },
+    "dashboard": {
+      "title": "Bord",
+      "subtitle": "Bine ai revenit. Iată ce se întâmplă la magazinul tău.",
+      "showQr": "Afișați QR în magazin",
+      "totalScans": "Scanări totale",
+      "activeLeads": "Leads activi",
+      "estCommissions": "Orientul. comisioane",
+      "fromLastMonth": "de luna trecuta",
+      "newThisWeek": "nou saptamana asta",
+      "leadsPending": "conduce în așteptarea închiderii",
+      "recentActivity": "Activitate recentă"
+    },
+    "leads": {
+      "title": "Leads & Pipeline",
+      "subtitle": "Urmăriți progresul clienților dvs. și comisioanele estimate.",
+      "exportCsv": "Exportați CSV",
+      "searchId": "Căutare ID...",
+      "filterStatus": "Filtrați după stare",
+      "cols": {
+        "id": "ID client",
+        "date": "Data scanării",
+        "source": "Sursă scanare",
+        "status": "Stare",
+        "budget": "EST. Buget",
+        "actions": "Acțiuni"
+      }
+    },
+    "profile": {
+      "title": "Profilul magazinului",
+      "subtitle": "Gestionați detaliile magazinului și setările de co-branding.",
+      "basicInfo": "Informații de bază",
+      "storeName": "Nume magazin",
+      "storeType": "Tip magazin",
+      "address": "Adresa",
+      "email": "E-mail",
+      "phone": "Telefon",
+      "saveChanges": "Salvați modificările",
+      "cobranding": "Co-branding",
+      "cobrandingDesc": "Încărcați-vă sigla pentru a apărea pe pagina de destinație a clientului atunci când vă scanează codurile QR.",
+      "clickToUpload": "Faceți clic pentru a încărca sigla",
+      "fileTypes": "SVG, PNG sau JPG (max. 2 MB)",
+      "networkGroup": "Grup de rețea",
+      "networkDesc": "Magazinul dvs. este un partener independent. Dacă aparțineți unui lanț mai mare, vă puteți conecta contul.",
+      "linkChain": "Link către lanț/grup",
+      "types": {
+        "hardware": "Magazin de hardware",
+        "pharmacy": "Farmacie",
+        "restaurant": "Restaurant",
+        "other": "Alte"
+      }
+    }
+  },
+  "handles": {
+    "h1": {
+      "name": "Mâner standard",
+      "type": "Aluminiu"
+    },
+    "h2": {
+      "name": "Mâner cu cheie",
+      "type": "Securitate"
+    },
+    "h3": {
+      "name": "de la Secus®",
+      "type": "Antiefractie"
+    }
+  },
+  "sliderHandles": {
+    "nevada-ral7016": "NEVADA cu cheie (RAL7016)",
+    "nevada-ral9001": "NEVADA cu cheie (RAL9001)",
+    "nevada-ral9005": "NEVADA cu cheie (RAL9005)",
+    "nevada-ral9016": "NEVADA cu cheie (RAL9016)",
+    "nevada-f9": "NEVADA cu cheie (titan F9)",
+    "mistral-ral7016": "MISTRAL cu cheie (RAL7016)",
+    "mistral-ral9001": "MISTRAL cu cheie (RAL9001)",
+    "mistral-ral9005": "MISTRAL cu cheie (RAL9005)",
+    "mistral-f9-key": "MISTRAL cu cheie (titan F9)",
+    "mistral-f9": "MISTRAL F9",
+    "dublin-ral9016": "DUBLIN (alb RAL9016)",
+    "dublin-ral8019": "DUBLIN (maro RAL8019)",
+    "dublin-ral7016": "DUBLIN (RAL7016)",
+    "dublin-ral9005": "DUBLIN (RAL9005)",
+    "dublin-silver": "DUBLIN (argint)",
+    "dublin-key-ral7016": "DUBLIN cu cheie (RAL7016)",
+    "dublin-key-ral9005": "DUBLIN cu cheie (RAL9005)",
+    "dublin-key-ral9016": "DUBLIN cu cheie (alb RAL9016)",
+    "dublin-key-ral8019": "DUBLIN cu cheie (maro RAL8019)",
+    "dublin-key-silver": "DUBLIN cu cheie (argintiu)",
+    "kwadrat-ral7016": "PĂTRAT RAL 7016",
+    "kwadrat-ral8019": "PĂTRAT RAL 8019",
+    "kwadrat-ral9016": "PĂTRAT RAL 9016",
+    "kwadrat-ral9001": "PĂTRAT RAL 9001",
+    "kwadrat-f9": "SQUARE titan F9",
+    "kwadrat-key-f1": "KWADRAT cu cheia F1",
+    "kwadrat-key-f4": "KWADRAT cu tasta F4",
+    "kwadrat-key-f9": "KWADRAT cu cheia F9",
+    "kwadrat-key-ral7016": "KWADRAT cu cheie (RAL7016)",
+    "kwadrat-key-ral8019": "KWADRAT cu cheie (RAL8019)",
+    "kwadrat-key-ral9001": "KWADRAT cu cheie (RAL9001)",
+    "kwadrat-key-ral9005": "KWADRAT cu cheie (RAL9005)",
+    "kwadrat-key-ral9016": "KWADRAT cu cheie (RAL9016)"
+  },
+  "productData": {
+    "iglo-edge": {
+      "name": "IGLO EDGE",
+      "tagline": "Maximum insulation, minimal frame",
+      "description": "Our new, most technologically advanced window is distinguished by an excellent thermal insulation parameter of Uw = 0.66 W/(m²K)* and a modern, angular profile shape. The extremely good thermal insulation parameters are due, among other things, to the 7-chamber profile design and 3 EPDM gaskets, including the central gasket.",
+      "specs": {
+        "label_0": "Transmisie termică (Uw)",
+        "value_0": "0,66",
+        "label_1": "Adâncime de instalare",
+        "value_1": "82",
+        "label_2": "Camere de profil",
+        "value_2": "7",
+        "label_3": "Izolație fonică (Rw)",
+        "value_3": "36–47"
+      },
+      "standardEquipment": [
+        "Double-chamber glazing package Ug = 0.5 W/(m²K)",
+        "Swisspacer Ultimate plastic warm frame",
+        "V-perfect weld",
+        "4 anti-theft strikers according to the size of the sash and the hardware system",
+        "Microventilation",
+        "DUBLIN aluminium window handle",
+        "Handle misplacement locking mechanism",
+        "Perimeter, glazing and central gaskets in black or grey",
+        "Filling of the lower hardware groove",
+        "Sill trim",
+        "Wide selection of PVC veneer colours",
+        "3 profile colours to choose from: white, brown or anthracite"
+      ],
+      "keySpecs": {
+        "label_0": "sunet",
+        "value_0": "36–47 dB",
+        "label_1": "garnituri",
+        "value_1": "3",
+        "label_2": "termic",
+        "value_2": "Uw = 0,66 W/(m²K)*",
+        "label_3": "camere",
+        "value_3": "7",
+        "label_4": "adâncime",
+        "value_4": "82 mm",
+        "label_5": "clasă",
+        "value_5": "O"
+      },
+      "hardware": {
+        "name_0": "Mâner standard",
+        "type_0": "Aluminiu",
+        "name_1": "Mâner cu cheie",
+        "type_1": "Securitate",
+        "name_2": "de la Secus®",
+        "type_2": "Antiefractie"
+      },
+      "accessories": {
+        "name_0": "Maco Multi Matic KS",
+        "description_0": "Hardware perimetral avansat cu micro-ventilație",
+        "name_1": "V-Sudura perfectă",
+        "description_1": "Suduri de colț practic invizibile pentru o estetică impecabilă",
+        "name_2": "Armătură din oțel",
+        "description_2": "Profil de oțel închis în cadru pentru rigiditate extremă",
+        "name_3": "Garnituri EPDM",
+        "description_3": "Sistem triplu de etanșare în negru sau gri"
+      }
+    },
+    "iglo-energy": {
+      "name": "ENERGIA ACULUI",
+      "tagline": "Eficiență energetică remarcabilă",
+      "description": "Un sistem de profil inovator și original cu 7 camere clasa A, fabricat exclusiv din materie primă, remarcat printr-un coeficient de izolare termică excelent Uw = 0,6 W/(m2K)*. Iglo Energy stabilește standardul pentru ferestre eficiente din punct de vedere energetic.",
+      "specs": {
+        "label_0": "Transmisie termică (Uw)",
+        "value_0": "0,71",
+        "label_1": "Adâncime de instalare",
+        "value_1": "82",
+        "label_2": "Camere de profil",
+        "value_2": "7",
+        "label_3": "Izolație fonică (Rw)",
+        "value_3": "37–46"
+      },
+      "standardEquipment": {
+        "eq_0": "Feronerie MACO MULTI MATIC KS cu 2 dispozitive de blocare antiefractie",
+        "eq_1": "Acoperire Silber-Look și depresiuni liniare pe espagnolette",
+        "eq_2": "Dispozitiv de manipulare greșită și cercevea de ridicare",
+        "eq_3": "Micro-ventilatie in geamuri basculante",
+        "eq_4": "Profil pervaz",
+        "eq_5": "Armătură din oțel galvanizat sau fibră de sticlă (opțional)",
+        "eq_6": "Pervaz cu 5 camere",
+        "eq_7": "Pachet cu geam triplu cu distanțiere de margine caldă"
+      },
+      "keySpecs": {
+        "label_0": "sunet",
+        "value_0": "37-46 dB",
+        "label_1": "garnituri",
+        "value_1": "3 EPDM",
+        "label_2": "termic",
+        "value_2": "Uw = 0,71 W/(m²K)*",
+        "label_3": "camere",
+        "value_3": "7",
+        "label_4": "adâncime",
+        "value_4": "82 mm",
+        "label_5": "clasă",
+        "value_5": "O"
+      },
+      "hardware": {
+        "name_0": "Mâner standard",
+        "type_0": "Aluminiu",
+        "name_1": "Mâner cu cheie",
+        "type_1": "Securitate",
+        "name_2": "de la Secus®",
+        "type_2": "Antiefractie"
+      },
+      "accessories": {
+        "name_0": "Maco Multi Matic KS",
+        "description_0": "Hardware perimetral avansat cu micro-ventilație",
+        "name_1": "V-Sudura perfectă",
+        "description_1": "Suduri de colț practic invizibile pentru o estetică impecabilă",
+        "name_2": "Armătură din oțel",
+        "description_2": "Profil de oțel închis în cadru pentru rigiditate extremă",
+        "name_3": "Garnituri EPDM",
+        "description_3": "Sistem triplu de etanșare în negru sau gri"
+      }
+    },
+    "iglo-energy-classic": {
+      "name": "IGLO ENERGY CLASSIC",
+      "tagline": "Perla de geam pătrată îndeplinește performanța casei pasive",
+      "description": "Un design unic în care puteți alege șiragul de geam în formă pătrată pentru a reflecta cele mai recente tendințe arhitecturale. Parametrii remarcabili de izolare termică sunt asigurați de structura optimă a profilului cu 7 camere și de un sistem de etanșare special conceput din EPDM spumat. Profil disponibil în alb, antracit și bronz.",
+      "specs": {
+        "label_0": "Transmisie termică (Uw)",
+        "value_0": "0,73",
+        "label_1": "Adâncime de instalare",
+        "value_1": "82",
+        "label_2": "Camere de profil",
+        "value_2": "7",
+        "label_3": "Izolație fonică (Rw)",
+        "value_3": "36–42"
+      }
+    },
+    "iglo-energy-alucover": {
+      "name": "IGLO ENERGY ALUCOVER",
+      "tagline": "Performanță PVC cu eleganță exterioară din aluminiu",
+      "description": "Experimentați fuziunea dintre performanța de izolație termică de ultimă oră și designul contemporan. Placa exterioară din aluminiu oferă posibilități nemărginite de culoare, dându-vă puterea să modelați un stil personalizat unic pentru fiecare interioară sau fațadă a clădirii - fără a compromite performanța termică.",
+      "specs": {
+        "label_0": "Transmisie termică (Uw)",
+        "value_0": "0,76",
+        "label_1": "Adâncime de instalare",
+        "value_1": "82",
+        "label_2": "Camere de profil",
+        "value_2": "7",
+        "label_3": "Pachet de geamuri (Și)",
+        "value_3": "0,5"
+      }
+    },
+    "iglo-5": {
+      "name": "ACUL 5",
+      "tagline": "Calitate superioara la un pret atractiv",
+      "description": "Sistemul IGLO 5 combină eleganța, funcționalitatea și soluțiile avansate de economisire a energiei. Designul său atemporal al profilului cu 5 camere îl face o alegere versatilă atât pentru arhitectura modernă, cât și pentru renovările clasice, oferind performanțe termice solide la un preț excelent.",
+      "specs": {
+        "label_0": "Transmisie termică (Uw)",
+        "value_0": "0,74",
+        "label_1": "Adâncime de instalare",
+        "value_1": "70",
+        "label_2": "Camere de profil",
+        "value_2": "5",
+        "label_3": "Izolație fonică (Rw)",
+        "value_3": "36–44"
+      }
+    },
+    "iglo-5-classic": {
+      "name": "AC 5 CLASIC",
+      "tagline": "Soluțiile dovedite înseamnă satisfacția clienților",
+      "description": "IGLO 5 Classic îmbină sistemul de profil cu 5 camere dovedit cu o estetică tradițională. Performanța termică și acustică de încredere îl face alegerea de încredere atât pentru construcții noi, cât și pentru proiectele de renovare în toate zonele climatice.",
+      "specs": {
+        "label_0": "Transmisie termică (Uw)",
+        "value_0": "0,89",
+        "label_1": "Adâncime de instalare",
+        "value_1": "70",
+        "label_2": "Camere de profil",
+        "value_2": "5",
+        "label_3": "Izolație fonică (Rw)",
+        "value_3": "36–44"
+      }
+    },
+    "iglo-light": {
+      "name": "IGLO LUMINA",
+      "tagline": "Și mai multă lumină naturală în spațiul tău",
+      "description": "IGLO LIGHT se caracterizează prin profilele sale excepțional de subțiri, permițând mult mai multă lumină naturală în interior. În ciuda aspectului său subțire, oferă o stabilitate structurală remarcabilă și performanță termică în ingineria clasică cu 5 camere.",
+      "specs": {
+        "label_0": "Transmisie termică (Uw)",
+        "value_0": "0,88",
+        "label_1": "Adâncime de instalare",
+        "value_1": "70",
+        "label_2": "Camere de profil",
+        "value_2": "5",
+        "label_3": "Izolație fonică (Rw)",
+        "value_3": "34"
+      }
+    },
+    "iglo-ext": {
+      "name": "IGLO EXT",
+      "tagline": "Ferestre de balcon din PVC moderne care se deschid spre exterior",
+      "description": "IGLO EXT este un sistem modern din PVC cu deschidere spre exterior, ideal pentru balcoane, terase și instalații în spațiu îngust, unde deschiderea spre interior este imposibilă. Oferă protecție fiabilă împotriva intemperiilor și izolație termică într-un design care economisește spațiu.",
+      "specs": {
+        "label_0": "Transmisie termică (Uw)",
+        "value_0": "0,89",
+        "label_1": "Adâncime de instalare",
+        "value_1": "70",
+        "label_2": "Camere de profil",
+        "value_2": "5",
+        "label_3": "Direcția de deschidere",
+        "value_3": "În afară"
+      }
+    },
+    "iglo-premier": {
+      "name": "AC PREMIER",
+      "tagline": "Ferestre cu batoane sau basculante moderne cu deschidere spre exterior",
+      "description": "Iglo Premier oferă o experiență premium de fereastră cu deschidere spre exterior, cu rezistență la intemperii și performanțe termice excepționale. Proiectat pentru arhitectura contemporană care necesită linii de vedere curate și performanțe fiabile pe termen lung.",
+      "specs": {
+        "label_0": "Adâncime de instalare",
+        "value_0": "70",
+        "label_1": "Camere de profil",
+        "value_1": "5",
+        "label_2": "Direcția de deschidere",
+        "value_2": "În afară",
+        "label_3": "Vitraj standard (Și)",
+        "value_3": "0,6"
+      }
+    },
+    "ideal-neo-ad": {
+      "name": "IDEAL NEO AD",
+      "tagline": "Mai mult decât design modern",
+      "description": "IDEAL NEO AD oferă o structură de profil cu 5/6 camere cu o versatilitate remarcabilă a designului. Încorporează tehnologia avansată de rupere termică și este disponibil într-o gamă largă de finisaje, făcându-l ideal pentru proiectele solicitante din punct de vedere arhitectural.",
+      "specs": {
+        "label_0": "Transmisie termică (Uw)",
+        "value_0": "0,79",
+        "label_1": "Adâncime de instalare",
+        "value_1": "76",
+        "label_2": "Camere de profil",
+        "value_2": "5/6",
+        "label_3": "Izolație fonică (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md": {
+      "name": "IDEAL NEO MD",
+      "tagline": "Mai mult decât design modern",
+      "description": "IDEAL NEO MD este un sistem premium cu 6 camere, care oferă o izolare termică excelentă și o estetică contemporană a profilului întins. Designul cercevei fără sudură elimină rabaturile vizibile, creând un aspect modern care se potrivește interioarelor și fațadelor minimaliste.",
+      "specs": {
+        "label_0": "Transmisie termică (Uw)",
+        "value_0": "0,76",
+        "label_1": "Adâncime de instalare",
+        "value_1": "76",
+        "label_2": "Camere de profil",
+        "value_2": "6",
+        "label_3": "Izolație fonică (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-fs": {
+      "name": "IDEAL NEO MD-FS",
+      "tagline": "În armonie cu arhitectura",
+      "description": "Varianta de canapea IDEAL NEO MD-FS elimină treapta vizibilă dintre cadru și canapea, rezultând un aspect exterior perfect plat. Ideal pentru arhitectura modernă, minimalistă, unde liniile vizuale contează la fel de mult ca și performanța.",
+      "specs": {
+        "label_0": "Transmisie termică (Uw)",
+        "value_0": "0,73",
+        "label_1": "Adâncime de instalare",
+        "value_1": "76",
+        "label_2": "Camere de profil",
+        "value_2": "6",
+        "label_3": "Izolație fonică (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-monoblock": {
+      "name": "MONOBLOC IDEAL NEO MD",
+      "tagline": "Proiectat pentru instalare în straturi de izolație",
+      "description": "Ramele monobloc sunt concepute pentru ferestre instalate într-un strat de izolație. Gama largă a cadrului (76–162 mm) permite o selecție adecvată în funcție de grosimea izolației. Un raft exterior special maschează estetic izolația din jurul perimetrului ferestrei.",
+      "specs": {
+        "label_0": "Transmisie termică (Uw)",
+        "value_0": "0,76",
+        "label_1": "Adâncime de instalare",
+        "value_1": "76–162",
+        "label_2": "Camere de profil",
+        "value_2": "6",
+        "label_3": "Izolație fonică (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-neo-md-renovation": {
+      "name": "RENOVARE IDEAL NEO MD",
+      "tagline": "Ferestre noi fără a îndepărta rama veche",
+      "description": "Sistemul de toc de renovare permite instalarea ferestrelor fără a demonta ramele vechi. Ramele speciale cu profil de mascare cuprind cadrul de lemn existent. Profilele de mascare sunt disponibile în lățimi de 40 mm și 70 mm și pot fi tăiate pentru cerințe specifice.",
+      "specs": {
+        "label_0": "Transmisie termică (Uw)",
+        "value_0": "0,76",
+        "label_1": "Adâncime de instalare",
+        "value_1": "76",
+        "label_2": "Camere de profil",
+        "value_2": "5/6",
+        "label_3": "Izolație fonică (Rw)",
+        "value_3": "36"
+      }
+    },
+    "ideal-7000-nl": {
+      "name": "IDEAL 7000 NL",
+      "tagline": "În armonie cu arhitectura",
+      "description": "IDEAL 7000 NL este un sistem versatil de ferestre din PVC care oferă linii de vedere curate și performanțe termice solide. Potrivit pentru proiectele în care arhitectura necesită un profil de fereastră rafinat, contemporan, fără a compromite izolația sau durabilitatea.",
+      "specs": {
+        "label_0": "Camere de profil",
+        "value_0": "5",
+        "label_1": "Pachet de geamuri (Și)",
+        "value_1": "0,5",
+        "label_2": "Tipuri de sudura disponibile",
+        "value_2": "V-Perfect, clasic",
+        "label_3": "Hardware standard",
+        "value_3": "MACO MULTI-MATIC"
+      }
+    },
+    "mb-86n-si": {
+      "name": "MB-86N SI",
+      "tagline": "Parametri excelenți și durabilitate a aluminiului",
+      "description": "Un sistem de ferestre din aluminiu foarte avansat care îndeplinește cele mai înalte cerințe de izolare termică. Distanțierea cu marginea caldă și spargerea termică premium oferă valori Uw de până la 0,76 W/(m²K), făcându-l cel mai performant din gama de ferestre din aluminiu Drutex.",
+      "specs": {
+        "label_0": "Transmisie termică (Uw)",
+        "value_0": "0,76",
+        "label_1": "Adâncime de instalare",
+        "value_1": "77",
+        "label_2": "Straturi de etanșare",
+        "value_2": "3",
+        "label_3": "Vitraj standard (Și)",
+        "value_3": "0,5"
+      }
+    },
+    "mb-79n-si": {
+      "name": "MB-79N SI",
+      "tagline": "Alege eficienta energetica",
+      "description": "Sistemul de ferestre din aluminiu MB-79N SI oferă performanțe termice remarcabile pentru o adâncime a profilului de 70 mm. Trei niveluri de etanșare și o rupere termică de înaltă performanță îl fac potrivit atât pentru aplicații rezidențiale, cât și comerciale, care necesită un cadru eficient și durabil din aluminiu.",
+      "specs": {
+        "label_0": "Transmisie termică (Uw)",
+        "value_0": "0,81",
+        "label_1": "Adâncime de instalare",
+        "value_1": "70",
+        "label_2": "Straturi de etanșare",
+        "value_2": "3",
+        "label_3": "Vitraj standard (Și)",
+        "value_3": "0,5"
+      }
+    },
+    "mb-70hi": {
+      "name": "MB-70HI",
+      "tagline": "Aluminiu ușor, durabil, eficient din punct de vedere termic",
+      "description": "Ferestrele din aluminiu MB-70HI pot fi folosite atât în ​​clădiri individuale, cât și în fațade din aluminiu. Construcția ușoară și durabilă asigură un nivel ridicat de confort pentru mulți ani. Echipamentul standard include fitinguri MACO MULTI-MATIC KS și microventilație.",
+      "specs": {
+        "label_0": "Transmisie termică (Uw)",
+        "value_0": "0,96",
+        "label_1": "Adâncime de instalare",
+        "value_1": "70",
+        "label_2": "Straturi de etanșare",
+        "value_2": "3",
+        "label_3": "Gama de geamuri",
+        "value_3": "23,5–62"
+      }
+    },
+    "mb-70": {
+      "name": "MB-70",
+      "tagline": "Aluminiu de încredere cu o adâncime a profilului de 70 mm",
+      "description": "Sistemul de ferestre din aluminiu MB-70 oferă o soluție fiabilă și rentabilă pentru arhitectura modernă. Echipamentul standard include feronerie MACO, adâncime de instalare de 70 mm și culori mate RAL în alb sau antracit - acoperind cea mai largă gamă de aplicații rezidențiale și comerciale.",
+      "specs": {
+        "label_0": "Transmisie termică (Uw)",
+        "value_0": "1.06",
+        "label_1": "Adâncime de instalare",
+        "value_1": "70",
+        "label_2": "Straturi de etanșare",
+        "value_2": "3",
+        "label_3": "Gama de geamuri",
+        "value_3": "23,5–62"
+      }
+    },
+    "mb-45": {
+      "name": "MB-45",
+      "tagline": "Profil subțire din aluminiu pentru suprafață maximă de sticlă",
+      "description": "MB-45 este un sistem de ferestre ultra-subțire din aluminiu cu o adâncime a profilului de 45 mm, perfect pentru aplicații în care suprafața maximă de sticlă și vizibilitatea minimă a cadrului sunt priorități. Echipamentul standard include fitinguri MACO, garnituri EPDM și finisaje mate RAL.",
+      "specs": {
+        "label_0": "Adâncime de instalare",
+        "value_0": "45",
+        "label_1": "Straturi de etanșare",
+        "value_1": "2",
+        "label_2": "Gama de geamuri",
+        "value_2": "1,5–37",
+        "label_3": "Culori disponibile",
+        "value_3": "Alb RAL 9016, antracit RAL 7016"
+      }
+    },
+    "softline": {
+      "name": "SOFTLINE 68/78/88",
+      "tagline": "Durabilitatea și frumusețea naturii",
+      "description": "Ferestrele din lemn SOFTLINE aduc căldura și frumusețea materialelor naturale cu precizie inginerească modernă. Disponibil în trei adâncimi de profil — 68 mm, 78 mm și 88 mm — pentru a se potrivi diferitelor cerințe de izolare și estetică, finisat cu lacuri microporoase de înaltă calitate pentru durabilitate pe termen lung.",
+      "specs": {
+        "label_0": "Adâncimi disponibile",
+        "value_0": "68 / 78 / 88",
+        "label_1": "Material",
+        "value_1": "Pin / Stejar / Meranti",
+        "label_2": "Tratarea suprafeței",
+        "value_2": "Lac microporos de înaltă calitate",
+        "label_3": "Hardware standard",
+        "value_3": "MACO MULTI-MATIC"
+      }
+    },
+    "duoline": {
+      "name": "DUOLINE 68/78/88",
+      "tagline": "Combinație unică de lemn și aluminiu",
+      "description": "Ferestrele din lemn-aluminiu DUOLINE combină căldura unui interior din lemn natural cu o carcasă exterioară din aluminiu robustă, care necesită o întreținere redusă. Disponibil în trei adâncimi de profil (68 mm, 78 mm, 88 mm) cu opțiuni de culoare exterioare RAL practic nelimitate pentru orice stil arhitectural.",
+      "specs": {
+        "label_0": "Adâncimi disponibile",
+        "value_0": "68 / 78 / 88",
+        "label_1": "Interior",
+        "value_1": "Lemn natural (pin/stejar/meranti)",
+        "label_2": "Exterior",
+        "value_2": "Carcasă din aluminiu, RAL nelimitat",
+        "label_3": "Hardware standard",
+        "value_3": "MACO MULTI-MATIC"
+      }
+    },
+    "iglo-edge-doors": {
+      "name": "USI IGLO EDGE",
+      "tagline": "Poarta de acces către Premium",
+      "description": "Ușile de exterior bazate pe sistemul IGLO EDGE oferă securitate, durabilitate și izolație termică de neegalat. Disponibil într-o gamă largă de culori și panouri de umplutură pentru a se potrivi cu orice stil arhitectural.",
+      "specs": {
+        "label_0": "Transmisie termică (Ud)",
+        "value_0": "0,75",
+        "label_1": "Adâncime de instalare",
+        "value_1": "82",
+        "label_2": "Puncte de blocare",
+        "value_2": "3 la 5"
+      }
+    },
+    "iglo-hs": {
+      "name": "IGLO-HS",
+      "tagline": "Vederi panoramice fara limite",
+      "description": "Usi lift-and-glisante (HS) care permit crearea de geamuri spectaculoase, de format mare. Mecanismul avansat asigură funcționarea fără efort chiar și pentru cercevele cu o greutate de până la 400 kg.",
+      "specs": {
+        "label_0": "Transmisie termică (Uw)",
+        "value_0": "0,73",
+        "label_1": "Dimensiuni maxime",
+        "value_1": "3,2 m x 6,5 m",
+        "label_2": "Adâncime de instalare",
+        "value_2": "194"
+      }
+    },
+    "iglo-edge-slide": {
+      "name": "IGLO EDGE SLIDE",
+      "tagline": "Tehnologie care impresionează",
+      "description": "Noua noastră fereastră, cea mai avansată din punct de vedere tehnologic, se remarcă printr-un parametru excelent de izolare termică de Uw = 0,65 W/(m2K)* și o formă modernă, a profilului unghiular.",
+      "specs": {
+        "label_0": "Transmisie termică (Uw)",
+        "value_0": "0,65",
+        "label_1": "Adâncime de instalare (cadru)",
+        "value_1": "163",
+        "label_2": "Camere de profil",
+        "value_2": "6",
+        "label_3": "Garnituri",
+        "value_3": "3"
+      }
+    },
+    "igloEdge": {
+      "name": "IGLO EDGE",
+      "tagline": "Maximum insulation, minimal frame",
+      "description": "Our new, most technologically advanced window is distinguished by an excellent thermal insulation parameter of Uw = 0.66 W/(m²K)* and a modern, angular profile shape. The extremely good thermal insulation parameters are due, among other things, to the 7-chamber profile design and 3 EPDM gaskets, including the central gasket.",
+      "standardEquipment": [
+        "Double-chamber glazing package Ug = 0.5 W/(m²K)",
+        "Swisspacer Ultimate plastic warm frame",
+        "V-perfect weld",
+        "4 anti-theft strikers according to the size of the sash and the hardware system",
+        "Microventilation",
+        "DUBLIN aluminium window handle",
+        "Handle misplacement locking mechanism",
+        "Perimeter, glazing and central gaskets in black or grey",
+        "Filling of the lower hardware groove",
+        "Sill trim",
+        "Wide selection of PVC veneer colours",
+        "3 profile colours to choose from: white, brown or anthracite"
+      ]
+    }
+  },
+  "themeHint": {
+    "title": "Știați?",
+    "description": "Puteți comuta oricând între modul Noapte și Zi, folosind pictograma de comutare a temei situată în colțul din dreapta sus al barei de navigare.",
+    "dismiss": "Am înțeles, mulțumesc!"
+  }
+}

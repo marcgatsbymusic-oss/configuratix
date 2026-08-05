@@ -1,0 +1,1500 @@
+{
+  "en": {
+    "colorGroups": {
+      "Metal Effect": "Metal Effect",
+      "Solid": "Solid",
+      "Wood Effect": "Wood Effect"
+    },
+    "colors": {
+      "c199": {
+        "name": "Croviu Platynium",
+        "group": "Metal Effect",
+        "swatch": "#9ba1a6"
+      },
+      "c201": {
+        "name": "Piryt",
+        "group": "Metal Effect",
+        "swatch": "#a8a197"
+      },
+      "c209": {
+        "name": "Basalt Grey",
+        "group": "Solid",
+        "swatch": "#4c5154"
+      },
+      "c210": {
+        "name": "Basalt Grey Gadki",
+        "group": "Solid",
+        "swatch": "#4a4f52"
+      },
+      "c207": {
+        "name": "Grey Quartz",
+        "group": "Solid",
+        "swatch": "#6f7376"
+      },
+      "c208": {
+        "name": "Grey Quartz Smooth",
+        "group": "Solid",
+        "swatch": "#6b6f72"
+      },
+      "c237": {
+        "name": "Steel Blue",
+        "group": "Solid",
+        "swatch": "#2d4a66"
+      },
+      "c214": {
+        "name": "Anthracite",
+        "group": "Solid",
+        "swatch": "#383e42"
+      },
+      "c216": {
+        "name": "Anthracite Ulti Matt",
+        "group": "Solid",
+        "swatch": "#33383c"
+      },
+      "c215": {
+        "name": "Anthracite Smooth",
+        "group": "Solid",
+        "swatch": "#3a4044"
+      },
+      "c218": {
+        "name": "Black Ulti Matt",
+        "group": "Solid",
+        "swatch": "#1a1a1a"
+      },
+      "c236": {
+        "name": "Brilliant Blue",
+        "group": "Solid",
+        "swatch": "#1d4b8f"
+      },
+      "c231": {
+        "name": "Chocolate Brown",
+        "group": "Solid",
+        "swatch": "#3a251c"
+      },
+      "c206": {
+        "name": "Concrete Grey",
+        "group": "Solid",
+        "swatch": "#82888a"
+      },
+      "c200": {
+        "name": "Cream",
+        "group": "Solid",
+        "swatch": "#f0e9d6"
+      },
+      "c234": {
+        "name": "Dark Green",
+        "group": "Solid",
+        "swatch": "#1e3b2b"
+      },
+      "c235": {
+        "name": "Dark Red",
+        "group": "Solid",
+        "swatch": "#5c1a1b"
+      },
+      "c233": {
+        "name": "Moss Green",
+        "group": "Solid",
+        "swatch": "#2b4a34"
+      },
+      "c205": {
+        "name": "Grey",
+        "group": "Solid",
+        "swatch": "#808080"
+      },
+      "c217": {
+        "name": "Jet Black",
+        "group": "Solid",
+        "swatch": "#0a0a0a"
+      },
+      "c204": {
+        "name": "Light Grey",
+        "group": "Solid",
+        "swatch": "#c5c7c4"
+      },
+      "c211": {
+        "name": "Slate",
+        "group": "Solid",
+        "swatch": "#40464c"
+      },
+      "c212": {
+        "name": "Slate Smooth",
+        "group": "Solid",
+        "swatch": "#3c4147"
+      },
+      "c197": {
+        "name": "White",
+        "group": "Solid",
+        "swatch": "#ffffff"
+      },
+      "c198": {
+        "name": "White Sand Matt",
+        "group": "Solid",
+        "swatch": "#f5f5f0"
+      },
+      "c232": {
+        "name": "Deep Bronze",
+        "group": "Wood Effect",
+        "swatch": "linear-gradient(135deg, #3e352b, #2a231b)"
+      },
+      "c213": {
+        "name": "Graphite Sandblasted",
+        "group": "Wood Effect",
+        "swatch": "linear-gradient(135deg, #2f3133, #1f2022)"
+      },
+      "c228": {
+        "name": "Palisander",
+        "group": "Wood Effect",
+        "swatch": "linear-gradient(135deg, #2e1913, #1a0e0a)"
+      },
+      "c202": {
+        "name": "Bleached Oak",
+        "group": "Wood Effect",
+        "swatch": "linear-gradient(135deg, #dcc5ac, #c4a98b)"
+      },
+      "c227": {
+        "name": "Dark Oak",
+        "group": "Wood Effect",
+        "swatch": "linear-gradient(135deg, #3b2a20, #251a14)"
+      },
+      "c225": {
+        "name": "Douglas Fir",
+        "group": "Wood Effect",
+        "swatch": "linear-gradient(135deg, #a16d4c, #825437)"
+      },
+      "c229": {
+        "name": "Macore",
+        "group": "Wood Effect",
+        "swatch": "linear-gradient(135deg, #5b2d22, #421f17)"
+      },
+      "c230": {
+        "name": "Mahogany",
+        "group": "Wood Effect",
+        "swatch": "linear-gradient(135deg, #4c1c17, #32110c)"
+      },
+      "c203": {
+        "name": "Natural Oak",
+        "group": "Wood Effect",
+        "swatch": "linear-gradient(135deg, #b08d6a, #916f4e)"
+      },
+      "c224": {
+        "name": "Oregon",
+        "group": "Wood Effect",
+        "swatch": "linear-gradient(135deg, #a36842, #85502f)"
+      },
+      "c220": {
+        "name": "Turner Oak 2023",
+        "group": "Wood Effect",
+        "swatch": "linear-gradient(135deg, #8e5e39, #6d4628)"
+      },
+      "c221": {
+        "name": "Turner Oak Toffee 470 3004",
+        "group": "Wood Effect",
+        "swatch": "linear-gradient(135deg, #885633, #694024)"
+      },
+      "c222": {
+        "name": "Turner Oak Walnut 470 3004",
+        "group": "Wood Effect",
+        "swatch": "linear-gradient(135deg, #5c4033, #432e24)"
+      },
+      "c226": {
+        "name": "Walnut",
+        "group": "Wood Effect",
+        "swatch": "linear-gradient(135deg, #463325, #2f2117)"
+      },
+      "c223": {
+        "name": "Winchester",
+        "group": "Wood Effect",
+        "swatch": "linear-gradient(135deg, #af7c52, #8a5e3a)"
+      },
+      "c219": {
+        "name": "Golden Oak",
+        "group": "Wood Effect",
+        "swatch": "linear-gradient(135deg, #ba7e40, #96612b)"
+      }
+    }
+  },
+  "es": {
+    "colorGroups": {
+      "Metal Effect": "Efecto Metal",
+      "Solid": "Sólido",
+      "Wood Effect": "Efecto Madera"
+    },
+    "colors": {
+      "c199": {
+        "name": "Croviu Platynium",
+        "group": "Efecto Metal",
+        "swatch": "#9ba1a6"
+      },
+      "c201": {
+        "name": "Pirita",
+        "group": "Efecto Metal",
+        "swatch": "#a8a197"
+      },
+      "c209": {
+        "name": "Gris Basalto",
+        "group": "Sólido",
+        "swatch": "#4c5154"
+      },
+      "c210": {
+        "name": "Gris Basalto Liso",
+        "group": "Sólido",
+        "swatch": "#4a4f52"
+      },
+      "c207": {
+        "name": "Cuarzo Gris",
+        "group": "Sólido",
+        "swatch": "#6f7376"
+      },
+      "c208": {
+        "name": "Cuarzo Gris Liso",
+        "group": "Sólido",
+        "swatch": "#6b6f72"
+      },
+      "c237": {
+        "name": "Azul Acero",
+        "group": "Sólido",
+        "swatch": "#2d4a66"
+      },
+      "c214": {
+        "name": "Antracita",
+        "group": "Sólido",
+        "swatch": "#383e42"
+      },
+      "c216": {
+        "name": "Antracita Ulti Mate",
+        "group": "Sólido",
+        "swatch": "#33383c"
+      },
+      "c215": {
+        "name": "Antracita Liso",
+        "group": "Sólido",
+        "swatch": "#3a4044"
+      },
+      "c218": {
+        "name": "Negro Ulti Mate",
+        "group": "Sólido",
+        "swatch": "#1a1a1a"
+      },
+      "c236": {
+        "name": "Azul Brillante",
+        "group": "Sólido",
+        "swatch": "#1d4b8f"
+      },
+      "c231": {
+        "name": "Marrón Chocolate",
+        "group": "Sólido",
+        "swatch": "#3a251c"
+      },
+      "c206": {
+        "name": "Gris Hormigón",
+        "group": "Sólido",
+        "swatch": "#82888a"
+      },
+      "c200": {
+        "name": "Crema",
+        "group": "Sólido",
+        "swatch": "#f0e9d6"
+      },
+      "c234": {
+        "name": "Verde Oscuro",
+        "group": "Sólido",
+        "swatch": "#1e3b2b"
+      },
+      "c235": {
+        "name": "Rojo Oscuro",
+        "group": "Sólido",
+        "swatch": "#5c1a1b"
+      },
+      "c233": {
+        "name": "Verde Musgo",
+        "group": "Sólido",
+        "swatch": "#2b4a34"
+      },
+      "c205": {
+        "name": "Gris",
+        "group": "Sólido",
+        "swatch": "#808080"
+      },
+      "c217": {
+        "name": "Negro Azabache",
+        "group": "Sólido",
+        "swatch": "#0a0a0a"
+      },
+      "c204": {
+        "name": "Gris Claro",
+        "group": "Sólido",
+        "swatch": "#c5c7c4"
+      },
+      "c211": {
+        "name": "Pizarra",
+        "group": "Sólido",
+        "swatch": "#40464c"
+      },
+      "c212": {
+        "name": "Pizarra Liso",
+        "group": "Sólido",
+        "swatch": "#3c4147"
+      },
+      "c197": {
+        "name": "Blanco",
+        "group": "Sólido",
+        "swatch": "#ffffff"
+      },
+      "c198": {
+        "name": "Blanco Arena Mate",
+        "group": "Sólido",
+        "swatch": "#f5f5f0"
+      },
+      "c232": {
+        "name": "Bronce Profundo",
+        "group": "Efecto Madera",
+        "swatch": "linear-gradient(135deg, #3e352b, #2a231b)"
+      },
+      "c213": {
+        "name": "Grafito Arenado",
+        "group": "Efecto Madera",
+        "swatch": "linear-gradient(135deg, #2f3133, #1f2022)"
+      },
+      "c228": {
+        "name": "Palisandro",
+        "group": "Efecto Madera",
+        "swatch": "linear-gradient(135deg, #2e1913, #1a0e0a)"
+      },
+      "c202": {
+        "name": "Roble Blanqueado",
+        "group": "Efecto Madera",
+        "swatch": "linear-gradient(135deg, #dcc5ac, #c4a98b)"
+      },
+      "c227": {
+        "name": "Roble Oscuro",
+        "group": "Efecto Madera",
+        "swatch": "linear-gradient(135deg, #3b2a20, #251a14)"
+      },
+      "c225": {
+        "name": "Abeto Douglas",
+        "group": "Efecto Madera",
+        "swatch": "linear-gradient(135deg, #a16d4c, #825437)"
+      },
+      "c229": {
+        "name": "Macoré",
+        "group": "Efecto Madera",
+        "swatch": "linear-gradient(135deg, #5b2d22, #421f17)"
+      },
+      "c230": {
+        "name": "Caoba",
+        "group": "Efecto Madera",
+        "swatch": "linear-gradient(135deg, #4c1c17, #32110c)"
+      },
+      "c203": {
+        "name": "Roble Natural",
+        "group": "Efecto Madera",
+        "swatch": "linear-gradient(135deg, #b08d6a, #916f4e)"
+      },
+      "c224": {
+        "name": "Oregón",
+        "group": "Efecto Madera",
+        "swatch": "linear-gradient(135deg, #a36842, #85502f)"
+      },
+      "c220": {
+        "name": "Roble Turner 2023",
+        "group": "Efecto Madera",
+        "swatch": "linear-gradient(135deg, #8e5e39, #6d4628)"
+      },
+      "c221": {
+        "name": "Roble Turner Toffee",
+        "group": "Efecto Madera",
+        "swatch": "linear-gradient(135deg, #885633, #694024)"
+      },
+      "c222": {
+        "name": "Roble Turner Nogal",
+        "group": "Efecto Madera",
+        "swatch": "linear-gradient(135deg, #5c4033, #432e24)"
+      },
+      "c226": {
+        "name": "Nogal",
+        "group": "Efecto Madera",
+        "swatch": "linear-gradient(135deg, #463325, #2f2117)"
+      },
+      "c223": {
+        "name": "Winchester",
+        "group": "Efecto Madera",
+        "swatch": "linear-gradient(135deg, #af7c52, #8a5e3a)"
+      },
+      "c219": {
+        "name": "Roble Dorado",
+        "group": "Efecto Madera",
+        "swatch": "linear-gradient(135deg, #ba7e40, #96612b)"
+      }
+    }
+  },
+  "de": {
+    "colorGroups": {
+      "Metal Effect": "Metalleffekt",
+      "Solid": "Vollton",
+      "Wood Effect": "Holzeffekt"
+    },
+    "colors": {
+      "c199": {
+        "name": "Croviu Platynium",
+        "group": "Metalleffekt",
+        "swatch": "#9ba1a6"
+      },
+      "c201": {
+        "name": "Pyrit",
+        "group": "Metalleffekt",
+        "swatch": "#a8a197"
+      },
+      "c209": {
+        "name": "Basaltgrau",
+        "group": "Vollton",
+        "swatch": "#4c5154"
+      },
+      "c210": {
+        "name": "Basaltgrau Glatt",
+        "group": "Vollton",
+        "swatch": "#4a4f52"
+      },
+      "c207": {
+        "name": "Quarzgrau",
+        "group": "Vollton",
+        "swatch": "#6f7376"
+      },
+      "c208": {
+        "name": "Quarzgrau Glatt",
+        "group": "Vollton",
+        "swatch": "#6b6f72"
+      },
+      "c237": {
+        "name": "Stahlblau",
+        "group": "Vollton",
+        "swatch": "#2d4a66"
+      },
+      "c214": {
+        "name": "Anthrazit",
+        "group": "Vollton",
+        "swatch": "#383e42"
+      },
+      "c216": {
+        "name": "Anthrazit Ulti Matt",
+        "group": "Vollton",
+        "swatch": "#33383c"
+      },
+      "c215": {
+        "name": "Anthrazit Glatt",
+        "group": "Vollton",
+        "swatch": "#3a4044"
+      },
+      "c218": {
+        "name": "Schwarz Ulti Matt",
+        "group": "Vollton",
+        "swatch": "#1a1a1a"
+      },
+      "c236": {
+        "name": "Brillantblau",
+        "group": "Vollton",
+        "swatch": "#1d4b8f"
+      },
+      "c231": {
+        "name": "Schokoladenbraun",
+        "group": "Vollton",
+        "swatch": "#3a251c"
+      },
+      "c206": {
+        "name": "Betongrau",
+        "group": "Vollton",
+        "swatch": "#82888a"
+      },
+      "c200": {
+        "name": "Cremeweiß",
+        "group": "Vollton",
+        "swatch": "#f0e9d6"
+      },
+      "c234": {
+        "name": "Dunkelgrün",
+        "group": "Vollton",
+        "swatch": "#1e3b2b"
+      },
+      "c235": {
+        "name": "Dunkelrot",
+        "group": "Vollton",
+        "swatch": "#5c1a1b"
+      },
+      "c233": {
+        "name": "Moosgrün",
+        "group": "Vollton",
+        "swatch": "#2b4a34"
+      },
+      "c205": {
+        "name": "Grau",
+        "group": "Vollton",
+        "swatch": "#808080"
+      },
+      "c217": {
+        "name": "Tiefschwarz",
+        "group": "Vollton",
+        "swatch": "#0a0a0a"
+      },
+      "c204": {
+        "name": "Lichtgrau",
+        "group": "Vollton",
+        "swatch": "#c5c7c4"
+      },
+      "c211": {
+        "name": "Schiefergrau",
+        "group": "Vollton",
+        "swatch": "#40464c"
+      },
+      "c212": {
+        "name": "Schiefergrau Glatt",
+        "group": "Vollton",
+        "swatch": "#3c4147"
+      },
+      "c197": {
+        "name": "Weiß",
+        "group": "Vollton",
+        "swatch": "#ffffff"
+      },
+      "c198": {
+        "name": "Weißer Sand Matt",
+        "group": "Vollton",
+        "swatch": "#f5f5f0"
+      },
+      "c232": {
+        "name": "Tiefbronze",
+        "group": "Holzeffekt",
+        "swatch": "linear-gradient(135deg, #3e352b, #2a231b)"
+      },
+      "c213": {
+        "name": "Graphit Sandgestrahlt",
+        "group": "Holzeffekt",
+        "swatch": "linear-gradient(135deg, #2f3133, #1f2022)"
+      },
+      "c228": {
+        "name": "Palisander",
+        "group": "Holzeffekt",
+        "swatch": "linear-gradient(135deg, #2e1913, #1a0e0a)"
+      },
+      "c202": {
+        "name": "Gebleichte Eiche",
+        "group": "Holzeffekt",
+        "swatch": "linear-gradient(135deg, #dcc5ac, #c4a98b)"
+      },
+      "c227": {
+        "name": "Dunkle Eiche",
+        "group": "Holzeffekt",
+        "swatch": "linear-gradient(135deg, #3b2a20, #251a14)"
+      },
+      "c225": {
+        "name": "Douglasie",
+        "group": "Holzeffekt",
+        "swatch": "linear-gradient(135deg, #a16d4c, #825437)"
+      },
+      "c229": {
+        "name": "Macore",
+        "group": "Holzeffekt",
+        "swatch": "linear-gradient(135deg, #5b2d22, #421f17)"
+      },
+      "c230": {
+        "name": "Mahagoni",
+        "group": "Holzeffekt",
+        "swatch": "linear-gradient(135deg, #4c1c17, #32110c)"
+      },
+      "c203": {
+        "name": "Eiche Natur",
+        "group": "Holzeffekt",
+        "swatch": "linear-gradient(135deg, #b08d6a, #916f4e)"
+      },
+      "c224": {
+        "name": "Oregon",
+        "group": "Holzeffekt",
+        "swatch": "linear-gradient(135deg, #a36842, #85502f)"
+      },
+      "c220": {
+        "name": "Turner Eiche 2023",
+        "group": "Holzeffekt",
+        "swatch": "linear-gradient(135deg, #8e5e39, #6d4628)"
+      },
+      "c221": {
+        "name": "Turner Eiche Toffee",
+        "group": "Holzeffekt",
+        "swatch": "linear-gradient(135deg, #885633, #694024)"
+      },
+      "c222": {
+        "name": "Turner Eiche Nussbaum",
+        "group": "Holzeffekt",
+        "swatch": "linear-gradient(135deg, #5c4033, #432e24)"
+      },
+      "c226": {
+        "name": "Nussbaum",
+        "group": "Holzeffekt",
+        "swatch": "linear-gradient(135deg, #463325, #2f2117)"
+      },
+      "c223": {
+        "name": "Winchester",
+        "group": "Holzeffekt",
+        "swatch": "linear-gradient(135deg, #af7c52, #8a5e3a)"
+      },
+      "c219": {
+        "name": "Goldeiche",
+        "group": "Holzeffekt",
+        "swatch": "linear-gradient(135deg, #ba7e40, #96612b)"
+      }
+    }
+  },
+  "fr": {
+    "colorGroups": {
+      "Metal Effect": "Effet Métal",
+      "Solid": "Solide",
+      "Wood Effect": "Effet Bois"
+    },
+    "colors": {
+      "c199": {
+        "name": "Croviu Platynium",
+        "group": "Effet Métal",
+        "swatch": "#9ba1a6"
+      },
+      "c201": {
+        "name": "Pyrite",
+        "group": "Effet Métal",
+        "swatch": "#a8a197"
+      },
+      "c209": {
+        "name": "Gris Basalte",
+        "group": "Solide",
+        "swatch": "#4c5154"
+      },
+      "c210": {
+        "name": "Gris Basalte Lisse",
+        "group": "Solide",
+        "swatch": "#4a4f52"
+      },
+      "c207": {
+        "name": "Gris Quartz",
+        "group": "Solide",
+        "swatch": "#6f7376"
+      },
+      "c208": {
+        "name": "Gris Quartz Lisse",
+        "group": "Solide",
+        "swatch": "#6b6f72"
+      },
+      "c237": {
+        "name": "Bleu Acier",
+        "group": "Solide",
+        "swatch": "#2d4a66"
+      },
+      "c214": {
+        "name": "Anthracite",
+        "group": "Solide",
+        "swatch": "#383e42"
+      },
+      "c216": {
+        "name": "Anthracite Ulti Mat",
+        "group": "Solide",
+        "swatch": "#33383c"
+      },
+      "c215": {
+        "name": "Anthracite Lisse",
+        "group": "Solide",
+        "swatch": "#3a4044"
+      },
+      "c218": {
+        "name": "Noir Ulti Mat",
+        "group": "Solide",
+        "swatch": "#1a1a1a"
+      },
+      "c236": {
+        "name": "Bleu Brillant",
+        "group": "Solide",
+        "swatch": "#1d4b8f"
+      },
+      "c231": {
+        "name": "Brun Chocolat",
+        "group": "Solide",
+        "swatch": "#3a251c"
+      },
+      "c206": {
+        "name": "Gris Béton",
+        "group": "Solide",
+        "swatch": "#82888a"
+      },
+      "c200": {
+        "name": "Crème",
+        "group": "Solide",
+        "swatch": "#f0e9d6"
+      },
+      "c234": {
+        "name": "Vert Foncé",
+        "group": "Solide",
+        "swatch": "#1e3b2b"
+      },
+      "c235": {
+        "name": "Rouge Foncé",
+        "group": "Solide",
+        "swatch": "#5c1a1b"
+      },
+      "c233": {
+        "name": "Vert Mousse",
+        "group": "Solide",
+        "swatch": "#2b4a34"
+      },
+      "c205": {
+        "name": "Gris",
+        "group": "Solide",
+        "swatch": "#808080"
+      },
+      "c217": {
+        "name": "Noir Jaïs",
+        "group": "Solide",
+        "swatch": "#0a0a0a"
+      },
+      "c204": {
+        "name": "Gris Clair",
+        "group": "Solide",
+        "swatch": "#c5c7c4"
+      },
+      "c211": {
+        "name": "Ardoise",
+        "group": "Solide",
+        "swatch": "#40464c"
+      },
+      "c212": {
+        "name": "Ardoise Lisse",
+        "group": "Solide",
+        "swatch": "#3c4147"
+      },
+      "c197": {
+        "name": "Blanc",
+        "group": "Solide",
+        "swatch": "#ffffff"
+      },
+      "c198": {
+        "name": "Blanc Sable Mat",
+        "group": "Solide",
+        "swatch": "#f5f5f0"
+      },
+      "c232": {
+        "name": "Bronze Profond",
+        "group": "Effet Bois",
+        "swatch": "linear-gradient(135deg, #3e352b, #2a231b)"
+      },
+      "c213": {
+        "name": "Graphite Sablé",
+        "group": "Effet Bois",
+        "swatch": "linear-gradient(135deg, #2f3133, #1f2022)"
+      },
+      "c228": {
+        "name": "Palissandre",
+        "group": "Effet Bois",
+        "swatch": "linear-gradient(135deg, #2e1913, #1a0e0a)"
+      },
+      "c202": {
+        "name": "Chêne Blanchi",
+        "group": "Effet Bois",
+        "swatch": "linear-gradient(135deg, #dcc5ac, #c4a98b)"
+      },
+      "c227": {
+        "name": "Chêne Foncé",
+        "group": "Effet Bois",
+        "swatch": "linear-gradient(135deg, #3b2a20, #251a14)"
+      },
+      "c225": {
+        "name": "Sapin de Douglas",
+        "group": "Effet Bois",
+        "swatch": "linear-gradient(135deg, #a16d4c, #825437)"
+      },
+      "c229": {
+        "name": "Macoré",
+        "group": "Effet Bois",
+        "swatch": "linear-gradient(135deg, #5b2d22, #421f17)"
+      },
+      "c230": {
+        "name": "Acajou",
+        "group": "Effet Bois",
+        "swatch": "linear-gradient(135deg, #4c1c17, #32110c)"
+      },
+      "c203": {
+        "name": "Chêne Naturel",
+        "group": "Effet Bois",
+        "swatch": "linear-gradient(135deg, #b08d6a, #916f4e)"
+      },
+      "c224": {
+        "name": "Orégon",
+        "group": "Effet Bois",
+        "swatch": "linear-gradient(135deg, #a36842, #85502f)"
+      },
+      "c220": {
+        "name": "Chêne Turner 2023",
+        "group": "Effet Bois",
+        "swatch": "linear-gradient(135deg, #8e5e39, #6d4628)"
+      },
+      "c221": {
+        "name": "Chêne Turner Toffee",
+        "group": "Effet Bois",
+        "swatch": "linear-gradient(135deg, #885633, #694024)"
+      },
+      "c222": {
+        "name": "Chêne Turner Noyer",
+        "group": "Effet Bois",
+        "swatch": "linear-gradient(135deg, #5c4033, #432e24)"
+      },
+      "c226": {
+        "name": "Noyer",
+        "group": "Effet Bois",
+        "swatch": "linear-gradient(135deg, #463325, #2f2117)"
+      },
+      "c223": {
+        "name": "Winchester",
+        "group": "Effet Bois",
+        "swatch": "linear-gradient(135deg, #af7c52, #8a5e3a)"
+      },
+      "c219": {
+        "name": "Chêne Doré",
+        "group": "Effet Bois",
+        "swatch": "linear-gradient(135deg, #ba7e40, #96612b)"
+      }
+    }
+  },
+  "ca": {
+    "colorGroups": {
+      "Metal Effect": "Efecte Metall",
+      "Solid": "Sòlid",
+      "Wood Effect": "Efecte Fusta"
+    },
+    "colors": {
+      "c199": {
+        "name": "Croviu Platynium",
+        "group": "Efecte Metall",
+        "swatch": "#9ba1a6"
+      },
+      "c201": {
+        "name": "Pirita",
+        "group": "Efecte Metall",
+        "swatch": "#a8a197"
+      },
+      "c209": {
+        "name": "Gris Basalt",
+        "group": "Sòlid",
+        "swatch": "#4c5154"
+      },
+      "c210": {
+        "name": "Gris Basalt Llis",
+        "group": "Sòlid",
+        "swatch": "#4a4f52"
+      },
+      "c207": {
+        "name": "Quars Gris",
+        "group": "Sòlid",
+        "swatch": "#6f7376"
+      },
+      "c208": {
+        "name": "Quars Gris Llis",
+        "group": "Sòlid",
+        "swatch": "#6b6f72"
+      },
+      "c237": {
+        "name": "Blau Acer",
+        "group": "Sòlid",
+        "swatch": "#2d4a66"
+      },
+      "c214": {
+        "name": "Antracita",
+        "group": "Sòlid",
+        "swatch": "#383e42"
+      },
+      "c216": {
+        "name": "Antracita Ulti Mat",
+        "group": "Sòlid",
+        "swatch": "#33383c"
+      },
+      "c215": {
+        "name": "Antracita Llis",
+        "group": "Sòlid",
+        "swatch": "#3a4044"
+      },
+      "c218": {
+        "name": "Negre Ulti Mat",
+        "group": "Sòlid",
+        "swatch": "#1a1a1a"
+      },
+      "c236": {
+        "name": "Blau Brillant",
+        "group": "Sòlid",
+        "swatch": "#1d4b8f"
+      },
+      "c231": {
+        "name": "Marró Xocolata",
+        "group": "Sòlid",
+        "swatch": "#3a251c"
+      },
+      "c206": {
+        "name": "Gris Formigó",
+        "group": "Sòlid",
+        "swatch": "#82888a"
+      },
+      "c200": {
+        "name": "Crema",
+        "group": "Sòlid",
+        "swatch": "#f0e9d6"
+      },
+      "c234": {
+        "name": "Verd Fosc",
+        "group": "Sòlid",
+        "swatch": "#1e3b2b"
+      },
+      "c235": {
+        "name": "Vermell Fosc",
+        "group": "Sòlid",
+        "swatch": "#5c1a1b"
+      },
+      "c233": {
+        "name": "Verd Molsa",
+        "group": "Sòlid",
+        "swatch": "#2b4a34"
+      },
+      "c205": {
+        "name": "Gris",
+        "group": "Sòlid",
+        "swatch": "#808080"
+      },
+      "c217": {
+        "name": "Negre Atzabeja",
+        "group": "Sòlid",
+        "swatch": "#0a0a0a"
+      },
+      "c204": {
+        "name": "Gris Clar",
+        "group": "Sòlid",
+        "swatch": "#c5c7c4"
+      },
+      "c211": {
+        "name": "Pissarra",
+        "group": "Sòlid",
+        "swatch": "#40464c"
+      },
+      "c212": {
+        "name": "Pissarra Llis",
+        "group": "Sòlid",
+        "swatch": "#3c4147"
+      },
+      "c197": {
+        "name": "Blanc",
+        "group": "Sòlid",
+        "swatch": "#ffffff"
+      },
+      "c198": {
+        "name": "Blanc Sorra Mat",
+        "group": "Sòlid",
+        "swatch": "#f5f5f0"
+      },
+      "c232": {
+        "name": "Bronze Profund",
+        "group": "Efecte Fusta",
+        "swatch": "linear-gradient(135deg, #3e352b, #2a231b)"
+      },
+      "c213": {
+        "name": "Grafit Sorrejat",
+        "group": "Efecte Fusta",
+        "swatch": "linear-gradient(135deg, #2f3133, #1f2022)"
+      },
+      "c228": {
+        "name": "Palissandre",
+        "group": "Efecte Fusta",
+        "swatch": "linear-gradient(135deg, #2e1913, #1a0e0a)"
+      },
+      "c202": {
+        "name": "Roure Blanquejat",
+        "group": "Efecte Fusta",
+        "swatch": "linear-gradient(135deg, #dcc5ac, #c4a98b)"
+      },
+      "c227": {
+        "name": "Roure Fosc",
+        "group": "Efecte Fusta",
+        "swatch": "linear-gradient(135deg, #3b2a20, #251a14)"
+      },
+      "c225": {
+        "name": "Avet Douglas",
+        "group": "Efecte Fusta",
+        "swatch": "linear-gradient(135deg, #a16d4c, #825437)"
+      },
+      "c229": {
+        "name": "Macoré",
+        "group": "Efecte Fusta",
+        "swatch": "linear-gradient(135deg, #5b2d22, #421f17)"
+      },
+      "c230": {
+        "name": "Caoba",
+        "group": "Efecte Fusta",
+        "swatch": "linear-gradient(135deg, #4c1c17, #32110c)"
+      },
+      "c203": {
+        "name": "Roure Natural",
+        "group": "Efecte Fusta",
+        "swatch": "linear-gradient(135deg, #b08d6a, #916f4e)"
+      },
+      "c224": {
+        "name": "Oregón",
+        "group": "Efecte Fusta",
+        "swatch": "linear-gradient(135deg, #a36842, #85502f)"
+      },
+      "c220": {
+        "name": "Roure Turner 2023",
+        "group": "Efecte Fusta",
+        "swatch": "linear-gradient(135deg, #8e5e39, #6d4628)"
+      },
+      "c221": {
+        "name": "Roure Turner Toffee",
+        "group": "Efecte Fusta",
+        "swatch": "linear-gradient(135deg, #885633, #694024)"
+      },
+      "c222": {
+        "name": "Roure Turner Noguera",
+        "group": "Efecte Fusta",
+        "swatch": "linear-gradient(135deg, #5c4033, #432e24)"
+      },
+      "c226": {
+        "name": "Noguera",
+        "group": "Efecte Fusta",
+        "swatch": "linear-gradient(135deg, #463325, #2f2117)"
+      },
+      "c223": {
+        "name": "Winchester",
+        "group": "Efecte Fusta",
+        "swatch": "linear-gradient(135deg, #af7c52, #8a5e3a)"
+      },
+      "c219": {
+        "name": "Roure Daurat",
+        "group": "Efecte Fusta",
+        "swatch": "linear-gradient(135deg, #ba7e40, #96612b)"
+      }
+    }
+  },
+  "pt": {
+    "colorGroups": {
+      "Metal Effect": "Efeito Metal",
+      "Solid": "Sólido",
+      "Wood Effect": "Efeito Madeira"
+    },
+    "colors": {
+      "c199": {
+        "name": "Croviu Platynium",
+        "group": "Efeito Metal",
+        "swatch": "#9ba1a6"
+      },
+      "c201": {
+        "name": "Pirita",
+        "group": "Efeito Metal",
+        "swatch": "#a8a197"
+      },
+      "c209": {
+        "name": "Cinza Basalto",
+        "group": "Sólido",
+        "swatch": "#4c5154"
+      },
+      "c210": {
+        "name": "Cinza Basalto Liso",
+        "group": "Sólido",
+        "swatch": "#4a4f52"
+      },
+      "c207": {
+        "name": "Cinza Quartzo",
+        "group": "Sólido",
+        "swatch": "#6f7376"
+      },
+      "c208": {
+        "name": "Cinza Quartzo Liso",
+        "group": "Sólido",
+        "swatch": "#6b6f72"
+      },
+      "c237": {
+        "name": "Azul Aço",
+        "group": "Sólido",
+        "swatch": "#2d4a66"
+      },
+      "c214": {
+        "name": "Antracite",
+        "group": "Sólido",
+        "swatch": "#383e42"
+      },
+      "c216": {
+        "name": "Antracite Ulti Mate",
+        "group": "Sólido",
+        "swatch": "#33383c"
+      },
+      "c215": {
+        "name": "Antracite Liso",
+        "group": "Sólido",
+        "swatch": "#3a4044"
+      },
+      "c218": {
+        "name": "Preto Ulti Mate",
+        "group": "Sólido",
+        "swatch": "#1a1a1a"
+      },
+      "c236": {
+        "name": "Azul Brilhante",
+        "group": "Sólido",
+        "swatch": "#1d4b8f"
+      },
+      "c231": {
+        "name": "Marrom Chocolate",
+        "group": "Sólido",
+        "swatch": "#3a251c"
+      },
+      "c206": {
+        "name": "Cinza Concreto",
+        "group": "Sólido",
+        "swatch": "#82888a"
+      },
+      "c200": {
+        "name": "Creme",
+        "group": "Sólido",
+        "swatch": "#f0e9d6"
+      },
+      "c234": {
+        "name": "Verde Escuro",
+        "group": "Sólido",
+        "swatch": "#1e3b2b"
+      },
+      "c235": {
+        "name": "Vermelho Escuro",
+        "group": "Sólido",
+        "swatch": "#5c1a1b"
+      },
+      "c233": {
+        "name": "Verde Musgo",
+        "group": "Sólido",
+        "swatch": "#2b4a34"
+      },
+      "c205": {
+        "name": "Cinza",
+        "group": "Sólido",
+        "swatch": "#808080"
+      },
+      "c217": {
+        "name": "Preto Azeviche",
+        "group": "Sólido",
+        "swatch": "#0a0a0a"
+      },
+      "c204": {
+        "name": "Cinza Claro",
+        "group": "Sólido",
+        "swatch": "#c5c7c4"
+      },
+      "c211": {
+        "name": "Ardósia",
+        "group": "Sólido",
+        "swatch": "#40464c"
+      },
+      "c212": {
+        "name": "Ardósia Liso",
+        "group": "Sólido",
+        "swatch": "#3c4147"
+      },
+      "c197": {
+        "name": "Branco",
+        "group": "Sólido",
+        "swatch": "#ffffff"
+      },
+      "c198": {
+        "name": "Areia Branca Mate",
+        "group": "Sólido",
+        "swatch": "#f5f5f0"
+      },
+      "c232": {
+        "name": "Bronze Profundo",
+        "group": "Efeito Madeira",
+        "swatch": "linear-gradient(135deg, #3e352b, #2a231b)"
+      },
+      "c213": {
+        "name": "Grafite Jateado",
+        "group": "Efeito Madeira",
+        "swatch": "linear-gradient(135deg, #2f3133, #1f2022)"
+      },
+      "c228": {
+        "name": "Jacarandá",
+        "group": "Efeito Madeira",
+        "swatch": "linear-gradient(135deg, #2e1913, #1a0e0a)"
+      },
+      "c202": {
+        "name": "Carvalho Branqueado",
+        "group": "Efeito Madeira",
+        "swatch": "linear-gradient(135deg, #dcc5ac, #c4a98b)"
+      },
+      "c227": {
+        "name": "Carvalho Escuro",
+        "group": "Efeito Madeira",
+        "swatch": "linear-gradient(135deg, #3b2a20, #251a14)"
+      },
+      "c225": {
+        "name": "Abeto de Douglas",
+        "group": "Efeito Madeira",
+        "swatch": "linear-gradient(135deg, #a16d4c, #825437)"
+      },
+      "c229": {
+        "name": "Macoré",
+        "group": "Efeito Madeira",
+        "swatch": "linear-gradient(135deg, #5b2d22, #421f17)"
+      },
+      "c230": {
+        "name": "Mogno",
+        "group": "Efeito Madeira",
+        "swatch": "linear-gradient(135deg, #4c1c17, #32110c)"
+      },
+      "c203": {
+        "name": "Carvalho Natural",
+        "group": "Efeito Madeira",
+        "swatch": "linear-gradient(135deg, #b08d6a, #916f4e)"
+      },
+      "c224": {
+        "name": "Oregon",
+        "group": "Efeito Madeira",
+        "swatch": "linear-gradient(135deg, #a36842, #85502f)"
+      },
+      "c220": {
+        "name": "Carvalho Turner 2023",
+        "group": "Efeito Madeira",
+        "swatch": "linear-gradient(135deg, #8e5e39, #6d4628)"
+      },
+      "c221": {
+        "name": "Carvalho Turner Toffee",
+        "group": "Efeito Madeira",
+        "swatch": "linear-gradient(135deg, #885633, #694024)"
+      },
+      "c222": {
+        "name": "Carvalho Turner Nogueira",
+        "group": "Efeito Madeira",
+        "swatch": "linear-gradient(135deg, #5c4033, #432e24)"
+      },
+      "c226": {
+        "name": "Nogueira",
+        "group": "Efeito Madeira",
+        "swatch": "linear-gradient(135deg, #463325, #2f2117)"
+      },
+      "c223": {
+        "name": "Winchester",
+        "group": "Efeito Madeira",
+        "swatch": "linear-gradient(135deg, #af7c52, #8a5e3a)"
+      },
+      "c219": {
+        "name": "Carvalho Dourado",
+        "group": "Efeito Madeira",
+        "swatch": "linear-gradient(135deg, #ba7e40, #96612b)"
+      }
+    }
+  },
+  "eu": {
+    "colorGroups": {
+      "Metal Effect": "Metal Efektua",
+      "Solid": "Solidoa",
+      "Wood Effect": "Egur Efektua"
+    },
+    "colors": {
+      "c199": {
+        "name": "Croviu Platynium",
+        "group": "Metal Efektua",
+        "swatch": "#9ba1a6"
+      },
+      "c201": {
+        "name": "Pirita",
+        "group": "Metal Efektua",
+        "swatch": "#a8a197"
+      },
+      "c209": {
+        "name": "Basalto grisa",
+        "group": "Solidoa",
+        "swatch": "#4c5154"
+      },
+      "c210": {
+        "name": "Basalto gris leuna",
+        "group": "Solidoa",
+        "swatch": "#4a4f52"
+      },
+      "c207": {
+        "name": "Kuartzo grisa",
+        "group": "Solidoa",
+        "swatch": "#6f7376"
+      },
+      "c208": {
+        "name": "Kuartzo gris leuna",
+        "group": "Solidoa",
+        "swatch": "#6b6f72"
+      },
+      "c237": {
+        "name": "Altzairu urdina",
+        "group": "Solidoa",
+        "swatch": "#2d4a66"
+      },
+      "c214": {
+        "name": "Antrazita",
+        "group": "Solidoa",
+        "swatch": "#383e42"
+      },
+      "c216": {
+        "name": "Antrazita Ulti Matea",
+        "group": "Solidoa",
+        "swatch": "#33383c"
+      },
+      "c215": {
+        "name": "Antrazita leuna",
+        "group": "Solidoa",
+        "swatch": "#3a4044"
+      },
+      "c218": {
+        "name": "Beltz Ulti Matea",
+        "group": "Solidoa",
+        "swatch": "#1a1a1a"
+      },
+      "c236": {
+        "name": "Urdin distiratsua",
+        "group": "Solidoa",
+        "swatch": "#1d4b8f"
+      },
+      "c231": {
+        "name": "Txokolate marroia",
+        "group": "Solidoa",
+        "swatch": "#3a251c"
+      },
+      "c206": {
+        "name": "Hormigoi grisa",
+        "group": "Solidoa",
+        "swatch": "#82888a"
+      },
+      "c200": {
+        "name": "Krema",
+        "group": "Solidoa",
+        "swatch": "#f0e9d6"
+      },
+      "c234": {
+        "name": "Berde iluna",
+        "group": "Solidoa",
+        "swatch": "#1e3b2b"
+      },
+      "c235": {
+        "name": "Gorri iluna",
+        "group": "Solidoa",
+        "swatch": "#5c1a1b"
+      },
+      "c233": {
+        "name": "Goroldio berdea",
+        "group": "Solidoa",
+        "swatch": "#2b4a34"
+      },
+      "c205": {
+        "name": "Grisa",
+        "group": "Solidoa",
+        "swatch": "#808080"
+      },
+      "c217": {
+        "name": "Beltz azabachea",
+        "group": "Solidoa",
+        "swatch": "#0a0a0a"
+      },
+      "c204": {
+        "name": "Gris argia",
+        "group": "Solidoa",
+        "swatch": "#c5c7c4"
+      },
+      "c211": {
+        "name": "Arbela",
+        "group": "Solidoa",
+        "swatch": "#40464c"
+      },
+      "c212": {
+        "name": "Arbel leuna",
+        "group": "Solidoa",
+        "swatch": "#3c4147"
+      },
+      "c197": {
+        "name": "Zuria",
+        "group": "Solidoa",
+        "swatch": "#ffffff"
+      },
+      "c198": {
+        "name": "Hare zuri matea",
+        "group": "Solidoa",
+        "swatch": "#f5f5f0"
+      },
+      "c232": {
+        "name": "Brontze sakona",
+        "group": "Egur Efektua",
+        "swatch": "linear-gradient(135deg, #3e352b, #2a231b)"
+      },
+      "c213": {
+        "name": "Grafito hareatua",
+        "group": "Egur Efektua",
+        "swatch": "linear-gradient(135deg, #2f3133, #1f2022)"
+      },
+      "c228": {
+        "name": "Palisandroa",
+        "group": "Egur Efektua",
+        "swatch": "linear-gradient(135deg, #2e1913, #1a0e0a)"
+      },
+      "c202": {
+        "name": "Haritz zuritua",
+        "group": "Egur Efektua",
+        "swatch": "linear-gradient(135deg, #dcc5ac, #c4a98b)"
+      },
+      "c227": {
+        "name": "Haritz iluna",
+        "group": "Egur Efektua",
+        "swatch": "linear-gradient(135deg, #3b2a20, #251a14)"
+      },
+      "c225": {
+        "name": "Douglas izeia",
+        "group": "Egur Efektua",
+        "swatch": "linear-gradient(135deg, #a16d4c, #825437)"
+      },
+      "c229": {
+        "name": "Makore",
+        "group": "Egur Efektua",
+        "swatch": "linear-gradient(135deg, #5b2d22, #421f17)"
+      },
+      "c230": {
+        "name": "Kaoba",
+        "group": "Egur Efektua",
+        "swatch": "linear-gradient(135deg, #4c1c17, #32110c)"
+      },
+      "c203": {
+        "name": "Haritz naturala",
+        "group": "Egur Efektua",
+        "swatch": "linear-gradient(135deg, #b08d6a, #916f4e)"
+      },
+      "c224": {
+        "name": "Oregon",
+        "group": "Egur Efektua",
+        "swatch": "linear-gradient(135deg, #a36842, #85502f)"
+      },
+      "c220": {
+        "name": "Turner haritza 2023",
+        "group": "Egur Efektua",
+        "swatch": "linear-gradient(135deg, #8e5e39, #6d4628)"
+      },
+      "c221": {
+        "name": "Turner Toffee haritza",
+        "group": "Egur Efektua",
+        "swatch": "linear-gradient(135deg, #885633, #694024)"
+      },
+      "c222": {
+        "name": "Turner intxaur haritza",
+        "group": "Egur Efektua",
+        "swatch": "linear-gradient(135deg, #5c4033, #432e24)"
+      },
+      "c226": {
+        "name": "Intxaurrondoa",
+        "group": "Egur Efektua",
+        "swatch": "linear-gradient(135deg, #463325, #2f2117)"
+      },
+      "c223": {
+        "name": "Winchester",
+        "group": "Egur Efektua",
+        "swatch": "linear-gradient(135deg, #af7c52, #8a5e3a)"
+      },
+      "c219": {
+        "name": "Urrezko haritza",
+        "group": "Egur Efektua",
+        "swatch": "linear-gradient(135deg, #ba7e40, #96612b)"
+      }
+    }
+  }
+}

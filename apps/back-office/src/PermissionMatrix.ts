@@ -1,0 +1,58 @@
+export type AppRole = 'ADMIN' | 'DISPATCHER' | 'SUPERVISOR' | 'MANAGEMENT' | 'CREW_LEAD' | 'INSTALLER';
+
+export const AppAction = {
+  MANAGE_USERS_ROLES: 'MANAGE_USERS_ROLES',
+  IMPORT_ORDERS_CREATE_JOBS: 'IMPORT_ORDERS_CREATE_JOBS',
+  ASSIGN_JOBS: 'ASSIGN_JOBS',
+  GENERATE_QR_LABELS: 'GENERATE_QR_LABELS',
+  APPROVE_OVERRIDES: 'APPROVE_OVERRIDES',
+  RESOLVE_DISCREPANCIES: 'RESOLVE_DISCREPANCIES',
+  DECLARE_INSTALLATION_METHOD: 'DECLARE_INSTALLATION_METHOD',
+  EXECUTE_STEPS: 'EXECUTE_STEPS',
+  REQUEST_OVERRIDE: 'REQUEST_OVERRIDE',
+  VIEW_ANALYTICS: 'VIEW_ANALYTICS',
+  VIEW_OWN_PERFORMANCE: 'VIEW_OWN_PERFORMANCE',
+} as const;
+
+export type AppAction = typeof AppAction[keyof typeof AppAction];
+
+export const permissionMatrix: Record<AppRole, AppAction[]> = {
+  ADMIN: [
+    AppAction.MANAGE_USERS_ROLES,
+    AppAction.IMPORT_ORDERS_CREATE_JOBS,
+    AppAction.ASSIGN_JOBS,
+    AppAction.GENERATE_QR_LABELS,
+    AppAction.RESOLVE_DISCREPANCIES,
+    AppAction.VIEW_ANALYTICS,
+  ],
+  DISPATCHER: [
+    AppAction.IMPORT_ORDERS_CREATE_JOBS,
+    AppAction.ASSIGN_JOBS,
+    AppAction.GENERATE_QR_LABELS,
+    AppAction.RESOLVE_DISCREPANCIES,
+    AppAction.VIEW_ANALYTICS,
+  ],
+  SUPERVISOR: [
+    AppAction.APPROVE_OVERRIDES,
+    AppAction.RESOLVE_DISCREPANCIES,
+    AppAction.VIEW_ANALYTICS,
+  ],
+  MANAGEMENT: [
+    AppAction.VIEW_ANALYTICS,
+  ],
+  CREW_LEAD: [
+    AppAction.DECLARE_INSTALLATION_METHOD,
+    AppAction.EXECUTE_STEPS,
+    AppAction.REQUEST_OVERRIDE,
+    AppAction.VIEW_OWN_PERFORMANCE,
+  ],
+  INSTALLER: [
+    AppAction.EXECUTE_STEPS,
+    AppAction.REQUEST_OVERRIDE,
+    AppAction.VIEW_OWN_PERFORMANCE,
+  ],
+};
+
+export function hasPermission(roles: AppRole[], action: AppAction): boolean {
+  return roles.some(role => permissionMatrix[role]?.includes(action));
+}
