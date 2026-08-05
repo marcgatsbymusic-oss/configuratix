@@ -34,11 +34,34 @@ export const Login: React.FC = () => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email === 'marc.truekalia@gmail.com' && password === 'STQ1234!*!') {
-      loginAs(role);
-    } else {
-      setError('Invalid email or password');
+    setError('');
+
+    if (password !== 'STQ1234!*!') {
+      setError('Invalid password');
+      return;
     }
+
+    // 1. Attempt to match with users in User Admin (localStorage backoffice_users_v3)
+    const local = localStorage.getItem('backoffice_users_v3');
+    if (local) {
+      const allUsers = JSON.parse(local);
+      const matchedUser = allUsers.find((u: any) => u.email?.toLowerCase() === email.toLowerCase());
+      if (matchedUser) {
+        if (matchedUser.status === 'ACTIVE') {
+          const userRole = matchedUser.roleAssignments?.[0]?.role?.name;
+          if (userRole) {
+            loginAs(userRole);
+            return;
+          }
+        } else {
+          setError('User is suspended under User Administration');
+          return;
+        }
+      }
+    }
+
+    // 2. Default fallback: allow any email using the chosen role from the dropdown
+    loginAs(role);
   };
 
   return (
