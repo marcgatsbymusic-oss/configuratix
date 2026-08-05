@@ -4,43 +4,43 @@ import { useAuth } from '../AuthContext';
 const DEFAULT_USERS = [
   {
     id: 'user-admin',
-    name: 'Daniel Keller',
-    email: 'daniel.kellermartinez@csem.ch',
+    name: 'Marc Keller',
+    email: 'marc.truekalia@gmail.com',
     status: 'ACTIVE',
     roleAssignments: [{ role: { name: 'ADMIN' } }]
   },
   {
     id: 'user-dispatcher',
-    name: 'Daniel Keller (Dispatcher)',
-    email: 'daniel.kellermartinez+dispatcher@csem.ch',
+    name: 'Marc Keller (Dispatcher)',
+    email: 'marc.truekalia+dispatcher@gmail.com',
     status: 'ACTIVE',
     roleAssignments: [{ role: { name: 'DISPATCHER' } }]
   },
   {
     id: 'user-supervisor',
-    name: 'Daniel Keller (Supervisor)',
-    email: 'daniel.kellermartinez+supervisor@csem.ch',
+    name: 'Marc Keller (Supervisor)',
+    email: 'marc.truekalia+supervisor@gmail.com',
     status: 'ACTIVE',
     roleAssignments: [{ role: { name: 'SUPERVISOR' } }]
   },
   {
     id: 'user-management',
-    name: 'Daniel Keller (Management)',
-    email: 'daniel.kellermartinez+management@csem.ch',
+    name: 'Marc Keller (Management)',
+    email: 'marc.truekalia+management@gmail.com',
     status: 'ACTIVE',
     roleAssignments: [{ role: { name: 'MANAGEMENT' } }]
   },
   {
     id: 'user-crewlead',
-    name: 'Daniel Keller (Crew Lead)',
-    email: 'daniel.kellermartinez+crewlead@csem.ch',
+    name: 'Marc Keller (Crew Lead)',
+    email: 'marc.truekalia+crewlead@gmail.com',
     status: 'ACTIVE',
     roleAssignments: [{ role: { name: 'CREW_LEAD' } }]
   },
   {
     id: 'user-installer',
-    name: 'Daniel Keller (Installer)',
-    email: 'daniel.kellermartinez+installer@csem.ch',
+    name: 'Marc Keller (Installer)',
+    email: 'marc.truekalia+installer@gmail.com',
     status: 'ACTIVE',
     roleAssignments: [{ role: { name: 'INSTALLER' } }]
   }
@@ -69,7 +69,7 @@ export const UserAdmin: React.FC = () => {
         const data = await res.json();
         if (data.users && data.users.length > 0) {
           setUsers(data.users);
-          localStorage.setItem('backoffice_users', JSON.stringify(data.users));
+          localStorage.setItem('backoffice_users_v3', JSON.stringify(data.users));
           return;
         }
       }
@@ -78,12 +78,12 @@ export const UserAdmin: React.FC = () => {
     }
 
     // Fallback to localStorage or defaults
-    const local = localStorage.getItem('backoffice_users');
+    const local = localStorage.getItem('backoffice_users_v3');
     if (local) {
       setUsers(JSON.parse(local));
     } else {
       setUsers(DEFAULT_USERS);
-      localStorage.setItem('backoffice_users', JSON.stringify(DEFAULT_USERS));
+      localStorage.setItem('backoffice_users_v3', JSON.stringify(DEFAULT_USERS));
     }
   };
 
@@ -100,7 +100,7 @@ export const UserAdmin: React.FC = () => {
     // 1. Save locally
     const updatedUsers = [...users, newUser];
     setUsers(updatedUsers);
-    localStorage.setItem('backoffice_users', JSON.stringify(updatedUsers));
+    localStorage.setItem('backoffice_users_v3', JSON.stringify(updatedUsers));
     setEmail('');
     setName('');
 
@@ -130,7 +130,7 @@ export const UserAdmin: React.FC = () => {
       return u;
     });
     setUsers(updatedUsers);
-    localStorage.setItem('backoffice_users', JSON.stringify(updatedUsers));
+    localStorage.setItem('backoffice_users_v3', JSON.stringify(updatedUsers));
   };
 
   return (
