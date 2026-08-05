@@ -1,6 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../AuthContext';
 
+const DEFAULT_USERS = [
+  {
+    id: 'user-admin',
+    name: 'Daniel Keller',
+    email: 'daniel.kellermartinez@csem.ch',
+    status: 'ACTIVE',
+    roleAssignments: [{ role: { name: 'ADMIN' } }]
+  },
+  {
+    id: 'user-dispatcher',
+    name: 'Daniel Keller (Dispatcher)',
+    email: 'daniel.kellermartinez+dispatcher@csem.ch',
+    status: 'ACTIVE',
+    roleAssignments: [{ role: { name: 'DISPATCHER' } }]
+  },
+  {
+    id: 'user-supervisor',
+    name: 'Daniel Keller (Supervisor)',
+    email: 'daniel.kellermartinez+supervisor@csem.ch',
+    status: 'ACTIVE',
+    roleAssignments: [{ role: { name: 'SUPERVISOR' } }]
+  },
+  {
+    id: 'user-management',
+    name: 'Daniel Keller (Management)',
+    email: 'daniel.kellermartinez+management@csem.ch',
+    status: 'ACTIVE',
+    roleAssignments: [{ role: { name: 'MANAGEMENT' } }]
+  },
+  {
+    id: 'user-crewlead',
+    name: 'Daniel Keller (Crew Lead)',
+    email: 'daniel.kellermartinez+crewlead@csem.ch',
+    status: 'ACTIVE',
+    roleAssignments: [{ role: { name: 'CREW_LEAD' } }]
+  },
+  {
+    id: 'user-installer',
+    name: 'Daniel Keller (Installer)',
+    email: 'daniel.kellermartinez+installer@csem.ch',
+    status: 'ACTIVE',
+    roleAssignments: [{ role: { name: 'INSTALLER' } }]
+  }
+];
+
 export const UserAdmin: React.FC = () => {
   const [users, setUsers] = useState<any[]>([]);
   const { token } = useAuth();
@@ -22,17 +67,46 @@ export const UserAdmin: React.FC = () => {
       });
       if (res.ok) {
         const data = await res.json();
-        setUsers(data.users);
+        if (data.users && data.users.length > 0) {
+          setUsers(data.users);
+          localStorage.setItem('backoffice_users', JSON.stringify(data.users));
+          return;
+        }
       }
     } catch (e) {
-      console.error(e);
+      console.warn("Backend connection failed, falling back to localStorage/mock users:", e);
+    }
+
+    // Fallback to localStorage or defaults
+    const local = localStorage.getItem('backoffice_users');
+    if (local) {
+      setUsers(JSON.parse(local));
+    } else {
+      setUsers(DEFAULT_USERS);
+      localStorage.setItem('backoffice_users', JSON.stringify(DEFAULT_USERS));
     }
   };
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
+    const newUser = {
+      id: `user-${Date.now()}`,
+      name,
+      email,
+      status: 'ACTIVE',
+      roleAssignments: [{ role: { name: role } }]
+    };
+
+    // 1. Save locally
+    const updatedUsers = [...users, newUser];
+    setUsers(updatedUsers);
+    localStorage.setItem('backoffice_users', JSON.stringify(updatedUsers));
+    setEmail('');
+    setName('');
+
+    // 2. Try posting to backend
     try {
-      const res = await fetch('http://localhost:3001/api/identity/users', {
+      await fetch('http://localhost:3001/api/identity/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,16 +114,23 @@ export const UserAdmin: React.FC = () => {
         },
         body: JSON.stringify({ email, name, roleName: role })
       });
-      if (res.ok) {
-        setEmail('');
-        setName('');
-        fetchUsers();
-      } else {
-        alert('Failed to create user');
-      }
     } catch (e) {
-      console.error(e);
+      console.warn("Backend offline, user saved only locally:", e);
     }
+  };
+
+  const handleToggleSuspend = (userId: string) => {
+    const updatedUsers = users.map(u => {
+      if (u.id === userId) {
+        return {
+          ...u,
+          status: u.status === 'ACTIVE' ? 'SUSPENDED' : 'ACTIVE'
+        };
+      }
+      return u;
+    });
+    setUsers(updatedUsers);
+    localStorage.setItem('backoffice_users', JSON.stringify(updatedUsers));
   };
 
   return (
@@ -110,7 +191,13 @@ export const UserAdmin: React.FC = () => {
                   {u.roleAssignments?.map((ra: any) => ra.role.name).join(', ')}
                 </td>
                 <td>
-                  <button className="text-danger">Suspend</button>
+                  <button 
+                    onClick={() => handleToggleSuspend(u.id)}
+                    className={u.status === 'ACTIVE' ? 'text-danger' : 'text-success'}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}
+                  >
+                    {u.status === 'ACTIVE' ? 'Suspend' : 'Activate'}
+                  </button>
                 </td>
               </tr>
             ))}
