@@ -145,7 +145,8 @@ export const Orders: React.FC = () => {
                   itemNumber: itemNum || match?.itemNumber,
                   specs: match?.specs || [],
                   schematicUrl: item.schematicUrl || match?.schematicUrl,
-                  weightKg: item.weight || match?.weightKg
+                  weightKg: item.weight || match?.weightKg,
+                  quantity: item.quantity || match?.quantity
                 };
               });
               
@@ -280,6 +281,11 @@ export const Orders: React.FC = () => {
       <h2 style={{ marginBottom: '1rem', marginTop: '2rem' }}>Installation Lists</h2>
       {lists.map(list => {
         const isOpen = !!openListIds[list.id];
+        const totalWeight = list.items?.reduce((sum: number, item: any) => {
+          const weight = item.weightKg != null ? item.weightKg : (item.weight != null ? item.weight : 0);
+          const qty = item.quantity != null ? item.quantity : 1;
+          return sum + (weight * qty);
+        }, 0) || 0;
 
         return (
           <div key={list.id} className="card" style={{ padding: 0, marginBottom: '1.5rem', overflow: 'hidden' }}>
@@ -307,6 +313,9 @@ export const Orders: React.FC = () => {
                   <span className="badge badge-active">{list.status}</span>
                   <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)', fontWeight: 'normal' }}>
                     ({list.items?.length || 0} items)
+                  </span>
+                  <span className="badge" style={{ background: '#2c3e50', color: '#fff', padding: '0.2rem 0.6rem', borderRadius: '4px', fontSize: '0.85rem' }}>
+                    Est. Weight: {totalWeight.toFixed(1)} kg
                   </span>
                 </h3>
               </div>
@@ -353,14 +362,13 @@ export const Orders: React.FC = () => {
               >
                 {isOpen ? 'Click to collapse' : 'Click to expand list'}
               </div>
-            </div>
-
-            {isOpen && (
+            </div>             {isOpen && (
               <table>
                 <thead style={{ background: 'var(--bg-color)' }}>
                   <tr>
                     <th style={{ width: '100px', textAlign: 'center' }}>Image</th>
                     <th style={{ width: '80px' }}>Item No.</th>
+                    <th style={{ width: '60px', textAlign: 'center' }}>Units</th>
                     <th>Category</th>
                     <th>Type</th>
                     <th>Description</th>
@@ -403,6 +411,9 @@ export const Orders: React.FC = () => {
                           </td>
                           <td style={{ fontWeight: 600, fontSize: '1rem', color: 'var(--text-color)', textAlign: 'center' }}>
                             {cleanItemNumber}
+                          </td>
+                          <td style={{ textAlign: 'center', fontSize: '1rem', color: 'var(--text-color)', fontWeight: 600 }}>
+                            {item.quantity || 1}
                           </td>
                           <td>{item.category}</td>
                           <td>
@@ -490,7 +501,7 @@ export const Orders: React.FC = () => {
                         {/* Collapsible Technical specifications row */}
                         {openSpecs[item.id] && item.specs && item.specs.length > 0 && (
                           <tr style={{ background: '#fafbfc' }}>
-                            <td colSpan={8} style={{ padding: '1.25rem 2rem', borderTop: 'none' }}>
+                            <td colSpan={9} style={{ padding: '1.25rem 2rem', borderTop: 'none' }}>
                               <div style={{ borderLeft: '3px solid #0066cc', paddingLeft: '1.25rem' }}>
                                 <h4 style={{ margin: '0 0 0.75rem 0', color: '#333', fontSize: '0.95rem', fontWeight: 600 }}>
                                   Technical Specifications (Item {cleanItemNumber})
