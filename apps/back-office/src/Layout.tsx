@@ -14,8 +14,9 @@ export const Layout: React.FC = () => {
     <div className="layout">
       {/* Sidebar */}
       <div className="sidebar">
-        <div className="sidebar-header">
-          Insta-Exec BO
+        <div className="sidebar-header" style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
+          <div style={{ fontSize: '1.75rem', fontWeight: 800, letterSpacing: '0.05em', color: '#fff', lineHeight: 1.2 }}>WIZ</div>
+          <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 400, textTransform: 'none', letterSpacing: 'normal' }}>Window Installation wiZard</div>
         </div>
         
         <div className="nav-links">
