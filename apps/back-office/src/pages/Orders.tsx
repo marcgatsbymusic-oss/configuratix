@@ -378,7 +378,6 @@ export const Orders: React.FC = () => {
                     <th style={{ width: '80px' }}>Item No.</th>
                     <th style={{ width: '60px', textAlign: 'center' }}>Units</th>
                     <th>Category</th>
-                    <th>Type</th>
                     <th>Description</th>
                     <th>Enrichment Data</th>
                     <th>Assigned Crew</th>
@@ -424,11 +423,6 @@ export const Orders: React.FC = () => {
                             {item.quantity || 1}
                           </td>
                           <td>{item.category}</td>
-                          <td>
-                            <span className={`badge ${item.type === 'JOINERY' ? 'badge-active' : 'badge-inactive'}`}>
-                              {item.type}
-                            </span>
-                          </td>
                           <td>
                             <div>{item.description}</div>
                             {item.specs && item.specs.length > 0 && (
@@ -509,7 +503,7 @@ export const Orders: React.FC = () => {
                         {/* Collapsible Technical specifications row */}
                         {openSpecs[item.id] && item.specs && item.specs.length > 0 && (
                           <tr style={{ background: '#fafbfc' }}>
-                            <td colSpan={9} style={{ padding: '1.25rem 2rem', borderTop: 'none' }}>
+                            <td colSpan={8} style={{ padding: '1.25rem 2rem', borderTop: 'none' }}>
                               <div style={{ borderLeft: '3px solid #0066cc', paddingLeft: '1.25rem' }}>
                                 <h4 style={{ margin: '0 0 0.75rem 0', color: '#333', fontSize: '0.95rem', fontWeight: 600 }}>
                                   Technical Specifications (Item {cleanItemNumber})
