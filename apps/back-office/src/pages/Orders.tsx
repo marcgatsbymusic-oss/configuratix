@@ -89,38 +89,46 @@ export const Orders: React.FC = () => {
       });
       if (res.ok) {
         const data = await res.json();
-        if (data.users) {
+        if (data.users && data.users.length > 0) {
           const insts = data.users.filter((u: any) => 
             u.roleAssignments?.some((ra: any) => ra.role.name === 'INSTALLER')
           );
           const leads = data.users.filter((u: any) => 
             u.roleAssignments?.some((ra: any) => ra.role.name === 'CREW_LEAD')
           );
-          setInstallers(insts.length ? insts : [
-            { id: 'inst-1', name: 'Dave Grohl' },
-            { id: 'inst-2', name: 'James Hetfield' },
-            { id: 'inst-3', name: 'Corey Taylor' }
-          ]);
-          setCrewLeads(leads.length ? leads : [
-            { id: 'lead-1', name: 'Marc Keller' },
-            { id: 'lead-2', name: 'John Doe' }
-          ]);
+          setInstallers(insts);
+          setCrewLeads(leads);
           return;
         }
       }
     } catch (e) {
       console.error("Error fetching users:", e);
     }
-    // Fallback installers and lead installers
-    setInstallers([
-      { id: 'inst-1', name: 'Dave Grohl' },
-      { id: 'inst-2', name: 'James Hetfield' },
-      { id: 'inst-3', name: 'Corey Taylor' }
-    ]);
-    setCrewLeads([
-      { id: 'lead-1', name: 'Marc Keller' },
-      { id: 'lead-2', name: 'John Doe' }
-    ]);
+    
+    // Fallback to localStorage or mock data
+    const local = localStorage.getItem('backoffice_users_v3');
+    if (local) {
+      const allUsers = JSON.parse(local);
+      const insts = allUsers.filter((u: any) => 
+        u.roleAssignments?.some((ra: any) => ra.role.name === 'INSTALLER' && u.status === 'ACTIVE')
+      );
+      const leads = allUsers.filter((u: any) => 
+        u.roleAssignments?.some((ra: any) => ra.role.name === 'CREW_LEAD' && u.status === 'ACTIVE')
+      );
+      setInstallers(insts);
+      setCrewLeads(leads);
+    } else {
+      // Ultimate hardcoded fallbacks
+      setInstallers([
+        { id: 'inst-1', name: 'Dave Grohl' },
+        { id: 'inst-2', name: 'James Hetfield' },
+        { id: 'inst-3', name: 'Corey Taylor' }
+      ]);
+      setCrewLeads([
+        { id: 'lead-1', name: 'Marc Keller' },
+        { id: 'lead-2', name: 'John Doe' }
+      ]);
+    }
   };
 
   const fetchLists = async () => {
