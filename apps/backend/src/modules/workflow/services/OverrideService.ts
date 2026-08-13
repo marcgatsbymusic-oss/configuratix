@@ -62,7 +62,9 @@ export class OverrideService {
     const supervisorRoles = await this.prisma.roleAssignment.findMany({
       where: {
         userId: params.supervisorId,
-        roleId: 'SUPERVISOR'
+        role: {
+          name: 'SUPERVISOR'
+        }
       }
     });
 
@@ -107,7 +109,9 @@ export class OverrideService {
     const supervisorRoles = await this.prisma.roleAssignment.findMany({
       where: {
         userId: params.supervisorId,
-        roleId: 'SUPERVISOR'
+        role: {
+          name: 'SUPERVISOR'
+        }
       }
     });
 

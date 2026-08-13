@@ -18,7 +18,7 @@ export const mechanicalFixingConfig: MechanicalFixingConfigType = {
   screwSpecification: PLACEHOLDER_UNVERIFIED, // e.g. "7mm frame screw"
   minHolesPerSide: PLACEHOLDER_UNVERIFIED,    // e.g. 2 for small windows, 3 for large
   maxSpacingMm: PLACEHOLDER_UNVERIFIED,       // e.g. 700mm
-  cornerOffsetMm: 150,                        // Standard safe distance from corner weld
+  cornerOffsetMm: PLACEHOLDER_UNVERIFIED,                        // Standard safe distance from corner weld
   tighteningSequence: PLACEHOLDER_UNVERIFIED, // e.g. "diagonal opposite corners"
 };
 

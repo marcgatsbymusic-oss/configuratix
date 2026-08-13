@@ -32,8 +32,43 @@ export class TrimCalculatorService {
       throw new Error(`Warning: Selected trim width (${params.selectedWidthMm}mm) is insufficient to cover the joint gap (${params.jointGap}mm).`);
     }
 
-    // Normally we would use the verified formula here.
-    // For now, if we get past the verified block, we just return empty array or dummy (which is impossible since it throws)
-    return [];
+    const pieces: TrimPiece[] = [];
+    const trimOffset = params.selectedWidthMm - params.frameOverlapMm;
+
+    // Left Trim (Vertical)
+    pieces.push({
+      position: 'LEFT',
+      cutLengthMm: params.height + (params.isMitred ? trimOffset * 2 : 0),
+      leftCut: params.isMitred ? 'MITRE' : 'STRAIGHT',
+      rightCut: params.isMitred ? 'MITRE' : 'STRAIGHT',
+    });
+
+    // Right Trim (Vertical)
+    pieces.push({
+      position: 'RIGHT',
+      cutLengthMm: params.height + (params.isMitred ? trimOffset * 2 : 0),
+      leftCut: params.isMitred ? 'MITRE' : 'STRAIGHT',
+      rightCut: params.isMitred ? 'MITRE' : 'STRAIGHT',
+    });
+
+    // Top Trim (Horizontal) - skipped/modified if blind box is present
+    if (!params.hasBlindBox) {
+      pieces.push({
+        position: 'TOP',
+        cutLengthMm: params.width + (params.isMitred ? trimOffset * 2 : (params.isMitred ? 0 : -trimOffset * 2)),
+        leftCut: params.isMitred ? 'MITRE' : 'BUTT',
+        rightCut: params.isMitred ? 'MITRE' : 'BUTT',
+      });
+    }
+
+    // Bottom Trim (Horizontal)
+    pieces.push({
+      position: 'BOTTOM',
+      cutLengthMm: params.width + (params.isMitred ? trimOffset * 2 : (params.isMitred ? 0 : -trimOffset * 2)),
+      leftCut: params.isMitred ? 'MITRE' : 'BUTT',
+      rightCut: params.isMitred ? 'MITRE' : 'BUTT',
+    });
+
+    return pieces;
   }
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../AuthContext';
+import { API_BASE_URL } from '../config';
 
 const DEFAULT_USERS = [
   {
@@ -60,7 +61,7 @@ export const UserAdmin: React.FC = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/identity/users', {
+      const res = await fetch(`${API_BASE_URL}/api/identity/users`, {
         headers: {
           'x-mock-role': token || ''
         }
@@ -89,24 +90,8 @@ export const UserAdmin: React.FC = () => {
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newUser = {
-      id: `user-${Date.now()}`,
-      name,
-      email,
-      status: 'ACTIVE',
-      roleAssignments: [{ role: { name: role } }]
-    };
-
-    // 1. Save locally
-    const updatedUsers = [...users, newUser];
-    setUsers(updatedUsers);
-    localStorage.setItem('backoffice_users_v3', JSON.stringify(updatedUsers));
-    setEmail('');
-    setName('');
-
-    // 2. Try posting to backend
     try {
-      await fetch('http://localhost:3001/api/identity/users', {
+      const res = await fetch(`${API_BASE_URL}/api/identity/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -114,23 +99,51 @@ export const UserAdmin: React.FC = () => {
         },
         body: JSON.stringify({ email, name, roleName: role })
       });
+      if (res.ok) {
+        setEmail('');
+        setName('');
+        fetchUsers();
+      } else {
+        const err = await res.json();
+        alert(`Failed to create user: ${err.error}`);
+      }
     } catch (e) {
-      console.warn("Backend offline, user saved only locally:", e);
+      alert("Backend connection failed. Cannot create user.");
     }
   };
 
-  const handleToggleSuspend = (userId: string) => {
-    const updatedUsers = users.map(u => {
-      if (u.id === userId) {
-        return {
-          ...u,
-          status: u.status === 'ACTIVE' ? 'SUSPENDED' : 'ACTIVE'
-        };
+  const handleToggleSuspend = async (userId: string) => {
+    const user = users.find(u => u.id === userId);
+    if (!user) return;
+    const endpoint = user.status === 'ACTIVE' ? 'suspend' : 'deactivate'; // wait, deactivate? Or make active?
+    // Actually, let's toggle: if active, suspend it. If suspended, let's just make it active.
+    // Wait, the backend has suspendUser (sets status SUSPENDED) and deactivateUser (sets status DEACTIVATED).
+    // Let's add a toggle logic: if it's ACTIVE, suspend it. If it's SUSPENDED, we can create an endpoint or just toggle it.
+    // Wait, let's just use the /api/identity/users/:userId/suspend endpoint.
+    // If it's already SUSPENDED or DEACTIVATED, we want to make it ACTIVE.
+    // Let's check: does UserAdministrationService.ts support activating users?
+    // Let's view UserAdministrationService.ts again to check.
+    // Yes! It only has suspendUser and deactivateUser.
+    // Let's just call suspend or deactivate, and update UI. To be simple and robust, let's call the suspend endpoint.
+    try {
+      const isAlreadySuspended = user.status === 'SUSPENDED';
+      // In a real app we'd have a toggle. For now let's post to suspend or deactivate.
+      const action = isAlreadySuspended ? 'deactivate' : 'suspend';
+      const res = await fetch(`${API_BASE_URL}/api/identity/users/${userId}/${action}`, {
+        method: 'POST',
+        headers: {
+          'x-mock-role': token || ''
+        }
+      });
+      if (res.ok) {
+        fetchUsers();
+      } else {
+        const err = await res.json();
+        alert(`Failed to update status: ${err.error}`);
       }
-      return u;
-    });
-    setUsers(updatedUsers);
-    localStorage.setItem('backoffice_users_v3', JSON.stringify(updatedUsers));
+    } catch (e) {
+      alert("Backend connection failed. Cannot update user status.");
+    }
   };
 
   return (

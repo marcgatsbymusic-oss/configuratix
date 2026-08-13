@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../AuthContext';
+import { API_BASE_URL } from '../config';
 
 export const Orders: React.FC = () => {
   const [lists, setLists] = useState<any[]>([]);
@@ -83,7 +84,7 @@ export const Orders: React.FC = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/identity/users', {
+      const res = await fetch(`${API_BASE_URL}/api/identity/users`, {
         headers: { 'x-mock-role': token || '' }
       });
       if (res.ok) {
@@ -132,7 +133,7 @@ export const Orders: React.FC = () => {
 
   const fetchLists = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/orders/lists', {
+      const res = await fetch(`${API_BASE_URL}/api/orders/lists`, {
         headers: { 'x-mock-role': token || '' }
       });
       if (res.ok) {
@@ -180,7 +181,7 @@ export const Orders: React.FC = () => {
   const handleCreateOpening = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:3001/api/orders/openings', {
+      const res = await fetch(`${API_BASE_URL}/api/orders/openings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -200,7 +201,7 @@ export const Orders: React.FC = () => {
 
   const assignOpening = async (itemId: string, openingId: string) => {
     try {
-      const res = await fetch(`http://localhost:3001/api/orders/items/${itemId}/opening`, {
+      const res = await fetch(`${API_BASE_URL}/api/orders/items/${itemId}/opening`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -270,7 +271,7 @@ export const Orders: React.FC = () => {
                 if (selectedFile) {
                   const formData = new FormData();
                   formData.append('file', selectedFile);
-                  fetch('http://localhost:3001/api/orders/import/csv', {
+                  fetch(`${API_BASE_URL}/api/orders/import/csv`, {
                     method: 'POST',
                     headers: { 'x-mock-role': token || '' },
                     body: formData

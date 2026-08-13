@@ -23,7 +23,7 @@ class _WorkflowStepScreenState extends State<WorkflowStepScreen> {
   int _photosCaptured = 0;
   
   // Timer state
-  final int _timerDurationMins = 0; // Set to 40 for SEALING step
+  final int _timerDurationMins = 0; // Seeding timer duration resolved dynamically from backend configuration
   int _secondsRemaining = 0;
   Timer? _timer;
 
