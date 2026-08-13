@@ -55,7 +55,7 @@ export const Orders: React.FC = () => {
     localStorage.setItem('itemInstaller', JSON.stringify(itemInstaller));
   }, [itemInstaller]);
 
-  const handleTopLeadChange = (listId: string, listItems: any[], value: string) => {
+  const handleTopLeadChange = async (listId: string, listItems: any[], value: string) => {
     setAssignedLead(prev => ({ ...prev, [listId]: value }));
     setItemLead(prev => {
       const updated = { ...prev };
@@ -64,9 +64,25 @@ export const Orders: React.FC = () => {
       });
       return updated;
     });
+
+    try {
+      await fetch(`${API_BASE_URL}/api/orders/lists/${listId}/assign`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-mock-role': token || ''
+        },
+        body: JSON.stringify({
+          assignedLeadId: value || null,
+          assignedInstallerId: assignedInstaller[listId] || null
+        })
+      });
+    } catch (e) {
+      console.error("Failed to save lead assignment to backend:", e);
+    }
   };
 
-  const handleTopInstallerChange = (listId: string, listItems: any[], value: string) => {
+  const handleTopInstallerChange = async (listId: string, listItems: any[], value: string) => {
     setAssignedInstaller(prev => ({ ...prev, [listId]: value }));
     setItemInstaller(prev => {
       const updated = { ...prev };
@@ -75,6 +91,22 @@ export const Orders: React.FC = () => {
       });
       return updated;
     });
+
+    try {
+      await fetch(`${API_BASE_URL}/api/orders/lists/${listId}/assign`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-mock-role': token || ''
+        },
+        body: JSON.stringify({
+          assignedLeadId: assignedLead[listId] || null,
+          assignedInstallerId: value || null
+        })
+      });
+    } catch (e) {
+      console.error("Failed to save installer assignment to backend:", e);
+    }
   };
 
   useEffect(() => {
@@ -139,6 +171,21 @@ export const Orders: React.FC = () => {
       if (res.ok) {
         const data = await res.json();
         if (data.lists && data.lists.length > 0) {
+          const dbLeads: Record<string, string> = {};
+          const dbInstallers: Record<string, string> = {};
+          
+          data.lists.forEach((list: any) => {
+            if (list.assignedLeadId) {
+              dbLeads[list.id] = list.assignedLeadId;
+            }
+            if (list.assignedInstallerId) {
+              dbInstallers[list.id] = list.assignedInstallerId;
+            }
+          });
+
+          setAssignedLead(prev => ({ ...dbLeads, ...prev }));
+          setAssignedInstaller(prev => ({ ...dbInstallers, ...prev }));
+
           const mockMod = await import('../mockData');
           const enrichedLists = data.lists.map((list: any) => {
             const orderNum = list.order?.orderNumber || list.orderId;

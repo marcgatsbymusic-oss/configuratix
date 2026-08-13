@@ -82,7 +82,17 @@ app.get('/api/identity/me', mockRequireAuth, (req, res) => {
   res.json({ user: (req as any).user });
 });
 
-app.get('/api/identity/users', mockRequireAuth, requirePermission(AppAction.MANAGE_USERS_ROLES), async (req, res) => {
+app.get('/api/identity/users', mockRequireAuth, (req, res, next) => {
+  const user = (req as any).user;
+  const hasAccess = user && user.roles.some((role: AppRole) => 
+    hasPermission(role, AppAction.MANAGE_USERS_ROLES) || 
+    hasPermission(role, AppAction.EXECUTE_STEPS)
+  );
+  if (!hasAccess) {
+    return res.status(403).json({ error: 'Forbidden: requires MANAGE_USERS_ROLES or EXECUTE_STEPS' });
+  }
+  next();
+}, async (req, res) => {
   const users = await prisma.user.findMany({
     include: { roleAssignments: { include: { role: true } } }
   });
@@ -161,11 +171,38 @@ app.post('/api/orders/import/csv', mockRequireAuth, requirePermission(AppAction.
   }
 });
 
-app.get('/api/orders/lists', mockRequireAuth, requirePermission(AppAction.IMPORT_ORDERS_CREATE_JOBS), async (req, res) => {
+app.get('/api/orders/lists', mockRequireAuth, (req, res, next) => {
+  const user = (req as any).user;
+  const hasAccess = user && user.roles.some((role: AppRole) => 
+    hasPermission(role, AppAction.IMPORT_ORDERS_CREATE_JOBS) || 
+    hasPermission(role, AppAction.EXECUTE_STEPS)
+  );
+  if (!hasAccess) {
+    return res.status(403).json({ error: 'Forbidden: requires IMPORT_ORDERS_CREATE_JOBS or EXECUTE_STEPS' });
+  }
+  next();
+}, async (req, res) => {
   const lists = await prisma.installationList.findMany({
     include: { order: true, items: { include: { opening: true } } }
   });
   res.json({ lists });
+});
+
+app.post('/api/orders/lists/:listId/assign', mockRequireAuth, requirePermission(AppAction.IMPORT_ORDERS_CREATE_JOBS), async (req, res) => {
+  const { listId } = req.params;
+  const { assignedLeadId, assignedInstallerId } = req.body;
+  try {
+    const list = await prisma.installationList.update({
+      where: { id: listId },
+      data: {
+        assignedLeadId: assignedLeadId || null,
+        assignedInstallerId: assignedInstallerId || null
+      }
+    });
+    res.json({ list });
+  } catch (error: any) {
+    res.status(400).json({ error: error.message });
+  }
 });
 
 app.post('/api/orders/openings', mockRequireAuth, requirePermission(AppAction.IMPORT_ORDERS_CREATE_JOBS), async (req, res) => {

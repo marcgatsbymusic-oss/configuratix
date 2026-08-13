@@ -95,13 +95,15 @@ model Invoice {
 }
 
 model InstallationList {
-  id            String             @id @default(uuid())
-  orderId       String?            @unique
-  order         Order?             @relation(fields: [orderId], references: [id])
-  status        String             @default("DRAFT") // DRAFT, READY, IN_PROGRESS, COMPLETED
-  createdAt     DateTime           @default(now())
-  updatedAt     DateTime           @updatedAt
-  items         InstallationItem[]
+  id                  String             @id @default(uuid())
+  orderId             String?            @unique
+  order               Order?             @relation(fields: [orderId], references: [id])
+  status              String             @default("DRAFT") // DRAFT, READY, IN_PROGRESS, COMPLETED
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  items               InstallationItem[]
+  assignedLeadId      String?
+  assignedInstallerId String?
 }
 
 model InstallationItem {

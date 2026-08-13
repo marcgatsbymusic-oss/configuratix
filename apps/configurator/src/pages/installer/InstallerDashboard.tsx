@@ -21,10 +21,78 @@ const CHECKLIST_ITEMS = [
 ];
 
 export function InstallerDashboard() {
-  const [selectedJob, setSelectedJob] = useState(TODAY_SCHEDULE[0]);
+  const [schedule, setSchedule] = useState<any[]>([]);
+  const [selectedJob, setSelectedJob] = useState<any>(null);
   const [checklist, setChecklist] = useState<boolean[]>(new Array(CHECKLIST_ITEMS.length).fill(false));
   const [photoUploaded, setPhotoUploaded] = useState(false);
   const [jobComplete, setJobComplete] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const queryParams = new URLSearchParams(window.location.search);
+        const installerEmail = queryParams.get('email') || 'marc.truekalia+installer@gmail.com';
+
+        const usersRes = await fetch(`${API_BASE_URL}/api/identity/users`, {
+          headers: { 'x-mock-role': 'INSTALLER' }
+        });
+
+        let currentUserId = '';
+        if (usersRes.ok) {
+          const userData = await usersRes.json();
+          const matched = userData.users?.find((u: any) => u.email?.toLowerCase() === installerEmail.toLowerCase());
+          if (matched) {
+            currentUserId = matched.id;
+          }
+        }
+
+        const listsRes = await fetch(`${API_BASE_URL}/api/orders/lists`, {
+          headers: { 'x-mock-role': 'INSTALLER' }
+        });
+
+        if (listsRes.ok) {
+          const listsData = await listsRes.json();
+          const assignedLists = listsData.lists?.filter((list: any) => 
+            list.assignedInstallerId === currentUserId || 
+            list.assignedLeadId === currentUserId
+          ) || [];
+
+          if (assignedLists.length > 0) {
+            const mappedSchedule = assignedLists.map((list: any, index: number) => {
+              const orderNum = list.order?.orderNumber || list.orderId;
+              const hours = 8 + (index * 3) % 12;
+              const timeString = `${hours < 10 ? '0' + hours : hours}:00 ${hours >= 12 ? 'PM' : 'AM'}`;
+              return {
+                id: list.id,
+                orderNumber: orderNum,
+                customer: list.order?.customerName || `Order #${orderNum}`,
+                time: timeString,
+                address: list.order?.sourceData?.project || 'Site Address',
+                system: list.items?.[0]?.system || 'Veka/Iglo5 System',
+                items: list.items?.length || 0,
+                status: list.status === 'DRAFT' || list.status === 'READY' ? 'Pending' : (list.status === 'IN_PROGRESS' ? 'In Progress' : 'Completed')
+              };
+            });
+            setSchedule(mappedSchedule);
+            setSelectedJob(mappedSchedule[0]);
+            setLoading(false);
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn("Failed to load backend schedule, using mock schedule:", err);
+      }
+
+      setSchedule(TODAY_SCHEDULE);
+      setSelectedJob(TODAY_SCHEDULE[0]);
+      setLoading(false);
+    };
+
+    loadData();
+  }, []);
 
   // Canvas Signature State
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -123,6 +191,27 @@ export function InstallerDashboard() {
     );
   }
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-mammut-darker flex flex-col items-center justify-center text-mammut-white">
+        <div className="text-center space-y-4">
+          <div className="w-12 h-12 border-4 border-mammut-gold border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="font-bold text-sm uppercase tracking-widest text-mammut-grey-light animate-pulse">Loading Schedule...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!selectedJob) {
+    return (
+      <div className="min-h-screen bg-mammut-darker flex flex-col items-center justify-center text-mammut-white p-6">
+        <div className="text-center space-y-4">
+          <p className="text-lg text-mammut-grey-light">No assigned installation routes found for today.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-mammut-darker text-mammut-white font-sans flex flex-col pb-20 md:pb-0">
       {/* App Bar */}
@@ -144,11 +233,11 @@ export function InstallerDashboard() {
             <h2 className="text-lg font-bold flex items-center gap-2 text-mammut-gold">
               <Calendar size={18} /> Today's Route
             </h2>
-            <span className="text-xs text-mammut-grey-light font-bold">3 Jobs</span>
+            <span className="text-xs text-mammut-grey-light font-bold">{schedule.length} {schedule.length === 1 ? 'Job' : 'Jobs'}</span>
           </div>
           
           <div className="flex gap-3 overflow-x-auto pb-2 custom-scrollbar snap-x">
-            {TODAY_SCHEDULE.map((job) => (
+            {schedule.map((job) => (
               <div 
                 key={job.id}
                 onClick={() => {
