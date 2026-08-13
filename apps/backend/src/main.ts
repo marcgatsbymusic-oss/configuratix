@@ -126,6 +126,19 @@ app.post('/api/identity/users/:userId/deactivate', mockRequireAuth, requirePermi
   }
 });
 
+app.post('/api/identity/users/:userId/password', mockRequireAuth, requirePermission(AppAction.MANAGE_USERS_ROLES), async (req, res) => {
+  const { userId } = req.params;
+  const { password } = req.body;
+  const actorId = (req as any).user.userId;
+  try {
+    const user = await adminService.setPassword(actorId, userId, password);
+    res.json({ user });
+  } catch (error: any) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+
 app.get('/api/identity/audit', mockRequireAuth, requirePermission(AppAction.MANAGE_USERS_ROLES), async (req, res) => {
   const logs = await prisma.auditLogEntry.findMany({
     orderBy: { createdAt: 'desc' },

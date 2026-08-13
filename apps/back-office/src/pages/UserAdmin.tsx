@@ -55,6 +55,10 @@ export const UserAdmin: React.FC = () => {
   const [name, setName] = useState('');
   const [role, setRole] = useState('INSTALLER');
 
+  const [selectedUser, setSelectedUser] = useState<any | null>(null);
+  const [tempPassword, setTempPassword] = useState('');
+  const [isSavingPassword, setIsSavingPassword] = useState(false);
+
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -115,18 +119,8 @@ export const UserAdmin: React.FC = () => {
   const handleToggleSuspend = async (userId: string) => {
     const user = users.find(u => u.id === userId);
     if (!user) return;
-    // Actually, let's toggle: if active, suspend it. If suspended, let's just make it active.
-    // Wait, the backend has suspendUser (sets status SUSPENDED) and deactivateUser (sets status DEACTIVATED).
-    // Let's add a toggle logic: if it's ACTIVE, suspend it. If it's SUSPENDED, we can create an endpoint or just toggle it.
-    // Wait, let's just use the /api/identity/users/:userId/suspend endpoint.
-    // If it's already SUSPENDED or DEACTIVATED, we want to make it ACTIVE.
-    // Let's check: does UserAdministrationService.ts support activating users?
-    // Let's view UserAdministrationService.ts again to check.
-    // Yes! It only has suspendUser and deactivateUser.
-    // Let's just call suspend or deactivate, and update UI. To be simple and robust, let's call the suspend endpoint.
     try {
       const isAlreadySuspended = user.status === 'SUSPENDED';
-      // In a real app we'd have a toggle. For now let's post to suspend or deactivate.
       const action = isAlreadySuspended ? 'deactivate' : 'suspend';
       const res = await fetch(`${API_BASE_URL}/api/identity/users/${userId}/${action}`, {
         method: 'POST',
@@ -144,6 +138,53 @@ export const UserAdmin: React.FC = () => {
       alert("Backend connection failed. Cannot update user status.");
     }
   };
+
+  const handleSystemGeneratePassword = () => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+    let generated = '';
+    for (let i = 0; i < 12; i++) {
+      generated += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    setTempPassword(generated);
+  };
+
+  const handleSavePassword = async () => {
+    if (!selectedUser) return;
+    setIsSavingPassword(true);
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/identity/users/${selectedUser.id}/password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-mock-role': token || ''
+        },
+        body: JSON.stringify({ password: tempPassword })
+      });
+      if (res.ok) {
+        fetchUsers();
+        setSelectedUser(null);
+      } else {
+        const err = await res.json();
+        alert(`Failed to save password: ${err.error}`);
+      }
+    } catch (e) {
+      console.warn("Backend connection failed, falling back to local updates:", e);
+      const updatedUsers = users.map(u => {
+        if (u.id === selectedUser.id) {
+          return { ...u, password: tempPassword };
+        }
+        return u;
+      });
+      setUsers(updatedUsers);
+      localStorage.setItem('backoffice_users_v3', JSON.stringify(updatedUsers));
+      setSelectedUser(null);
+    } finally {
+      setIsSavingPassword(false);
+    }
+  };
+
+  const currentUserInState = selectedUser ? users.find(usr => usr.id === selectedUser.id) : null;
+  const currentPassword = currentUserInState?.password;
 
   return (
     <div>
@@ -186,6 +227,7 @@ export const UserAdmin: React.FC = () => {
               <th>Email</th>
               <th>Status</th>
               <th>Roles</th>
+              <th>PW</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -204,6 +246,22 @@ export const UserAdmin: React.FC = () => {
                 </td>
                 <td>
                   <button 
+                    onClick={() => {
+                      setSelectedUser(u);
+                      setTempPassword(u.password || '');
+                    }}
+                    className="btn-icon"
+                    title="Manage Password"
+                    style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-lock">
+                      <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                  </button>
+                </td>
+                <td>
+                  <button 
                     onClick={() => handleToggleSuspend(u.id)}
                     className={u.status === 'ACTIVE' ? 'text-danger' : 'text-success'}
                     style={{ background: 'none', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}
@@ -214,11 +272,112 @@ export const UserAdmin: React.FC = () => {
               </tr>
             ))}
             {users.length === 0 && (
-              <tr><td colSpan={5} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>No users found.</td></tr>
+              <tr><td colSpan={6} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>No users found.</td></tr>
             )}
           </tbody>
         </table>
       </div>
+
+      {selectedUser && (
+        <div 
+          onClick={() => setSelectedUser(null)}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: 'rgba(0, 0, 0, 0.75)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 9999,
+            animation: 'fadeIn 0.2s ease-out'
+          }}
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            style={{ 
+              background: 'var(--bg-panel)', 
+              padding: '2rem', 
+              borderRadius: '8px', 
+              border: '1px solid var(--border-color)',
+              width: '100%',
+              maxWidth: '450px',
+              boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+            }}
+          >
+            <h3 style={{ marginBottom: '1.5rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
+              Password Management: {selectedUser.name}
+            </h3>
+
+            <div style={{ marginBottom: '1.5rem' }}>
+              <label style={{ display: 'block', fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
+                Current Password
+              </label>
+              <div style={{ 
+                background: 'var(--bg-color)', 
+                padding: '0.75rem', 
+                borderRadius: '4px', 
+                border: '1px solid var(--border-color)', 
+                wordBreak: 'break-all',
+                fontFamily: 'monospace',
+                color: currentPassword ? 'var(--text-main)' : 'var(--text-muted)'
+              }}>
+                {currentPassword ? currentPassword : 'No password set'}
+              </div>
+            </div>
+
+            <div style={{ marginBottom: '1.5rem' }}>
+              <label style={{ display: 'block', fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
+                New Password
+              </label>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <input 
+                  type="text" 
+                  value={tempPassword} 
+                  onChange={e => setTempPassword(e.target.value)} 
+                  placeholder="Enter password manually..."
+                  style={{ 
+                    flex: 1,
+                    background: 'var(--bg-color)', 
+                    border: '1px solid var(--border-color)', 
+                    color: 'var(--text-main)', 
+                    padding: '0.5rem 0.75rem', 
+                    borderRadius: '4px', 
+                    outline: 'none' 
+                  }}
+                />
+                <button 
+                  onClick={handleSystemGeneratePassword}
+                  className="btn" 
+                  style={{ padding: '0.5rem 0.75rem', fontSize: '0.875rem', whiteSpace: 'nowrap' }}
+                >
+                  System Generate
+                </button>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '2rem' }}>
+              <button 
+                onClick={() => setSelectedUser(null)}
+                className="btn-icon" 
+                style={{ border: '1px solid var(--border-color)', padding: '0.5rem 1rem', borderRadius: '6px' }}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={handleSavePassword}
+                disabled={isSavingPassword}
+                className="btn" 
+                style={{ padding: '0.5rem 1.25rem' }}
+              >
+                {isSavingPassword ? 'Saving...' : 'Save Password'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

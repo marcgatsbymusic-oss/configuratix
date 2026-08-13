@@ -96,4 +96,21 @@ export class UserAdministrationService {
     await this.logAuditAction(actorId, 'DEACTIVATE_USER', 'User', userId, before, after);
     return after;
   }
+
+  /**
+   * FR-1.11 - Set user password
+   */
+  public async setPassword(actorId: string, userId: string, password: string) {
+    const before = await this.prisma.user.findUniqueOrThrow({ where: { id: userId } });
+    const after = await this.prisma.user.update({
+      where: { id: userId },
+      data: { password }
+    });
+
+    // Redact password value in audit log for security
+    const beforeRedacted = { ...before, password: before.password ? '[REDACTED]' : null };
+    const afterRedacted = { ...after, password: '[REDACTED]' };
+    await this.logAuditAction(actorId, 'SET_PASSWORD', 'User', userId, beforeRedacted, afterRedacted);
+    return after;
+  }
 }
