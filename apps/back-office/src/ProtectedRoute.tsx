@@ -15,8 +15,9 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ requiredAction }
   }
 
   // FR-1.1: User with no installation role (or only mobile roles with no back office capability)
+  // Temporarily allowing INSTALLER and CREW_LEAD for web testing/inspection
   const hasBackOfficeAccess = user.roles.some(role => 
-    ['ADMIN', 'DISPATCHER', 'SUPERVISOR', 'MANAGEMENT'].includes(role)
+    ['ADMIN', 'DISPATCHER', 'SUPERVISOR', 'MANAGEMENT', 'CREW_LEAD', 'INSTALLER'].includes(role)
   );
 
   if (!hasBackOfficeAccess) {
