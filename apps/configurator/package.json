@@ -77,12 +77,14 @@
     "puppeteer": "^24.40.0",
     "sharp": "^0.34.5",
     "tailwindcss": "^4.2.1",
+    "@tailwindcss/oxide": "^4.2.1",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.56.1",
     "vite": "^8.0.0",
     "vitest": "^4.1.4"
   },
   "optionalDependencies": {
-    "msnodesqlv8": "^5.1.8"
+    "msnodesqlv8": "^5.1.8",
+    "@tailwindcss/oxide-linux-x64-gnu": "^4.2.1"
   }
 }
