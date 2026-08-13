@@ -115,7 +115,6 @@ export const UserAdmin: React.FC = () => {
   const handleToggleSuspend = async (userId: string) => {
     const user = users.find(u => u.id === userId);
     if (!user) return;
-    const endpoint = user.status === 'ACTIVE' ? 'suspend' : 'deactivate'; // wait, deactivate? Or make active?
     // Actually, let's toggle: if active, suspend it. If suspended, let's just make it active.
     // Wait, the backend has suspendUser (sets status SUSPENDED) and deactivateUser (sets status DEACTIVATED).
     // Let's add a toggle logic: if it's ACTIVE, suspend it. If it's SUSPENDED, we can create an endpoint or just toggle it.
