@@ -1,9 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
   MapPin, CheckCircle2, Camera, Edit3, 
-  ChevronRight, Calendar, AlertTriangle, Truck
+  ChevronRight, Calendar, AlertTriangle, Truck, Layers
 } from 'lucide-react';
 import { ThemeToggle } from '../../components/common/ThemeToggle';
+import { OpeningWorkflow } from './OpeningWorkflow';
+import { CrewSetup } from './CrewSetup';
+
 
 // --- Dummy Data ---
 const TODAY_SCHEDULE = [
@@ -27,6 +30,13 @@ export function InstallerDashboard() {
   const [photoUploaded, setPhotoUploaded] = useState(false);
   const [jobComplete, setJobComplete] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<'schedule' | 'openings'>('schedule');
+  const [openings, setOpenings] = useState<any[]>([]);
+  const [crewRoster, setCrewRoster] = useState<string[]>([]);
+  const [activeListId, setActiveListId] = useState<string | null>(null);
+  const [selectedOpening, setSelectedOpening] = useState<any | null>(null);
+  const [showCrewSetup, setShowCrewSetup] = useState(false);
+
 
   const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
@@ -78,6 +88,19 @@ export function InstallerDashboard() {
             });
             setSchedule(mappedSchedule);
             setSelectedJob(mappedSchedule[0]);
+
+            // Load openings for the first list
+            const firstList = assignedLists[0];
+            setActiveListId(firstList.id);
+            try {
+              const [openingsRes, crewRes] = await Promise.all([
+                fetch(`${API_BASE_URL}/api/orders/lists/${firstList.id}/openings`, { headers: { 'x-mock-role': 'INSTALLER' } }),
+                fetch(`${API_BASE_URL}/api/orders/lists/${firstList.id}/crew`, { headers: { 'x-mock-role': 'INSTALLER' } })
+              ]);
+              if (openingsRes.ok) { const d = await openingsRes.json(); setOpenings(d.openings || []); }
+              if (crewRes.ok) { const d = await crewRes.json(); setCrewRoster(d.crew?.map((c: any) => c.name) || []); }
+            } catch { /* offline */ }
+
             setLoading(false);
             return;
           }
@@ -93,6 +116,7 @@ export function InstallerDashboard() {
 
     loadData();
   }, []);
+
 
   // Canvas Signature State
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -202,7 +226,7 @@ export function InstallerDashboard() {
     );
   }
 
-  if (!selectedJob) {
+  if (!selectedJob && openings.length === 0) {
     return (
       <div className="min-h-screen bg-mammut-darker flex flex-col items-center justify-center text-mammut-white p-6">
         <div className="text-center space-y-4">
@@ -212,23 +236,81 @@ export function InstallerDashboard() {
     );
   }
 
+  // --- Full-screen sub-views ---
+  if (showCrewSetup && activeListId) {
+    return (
+      <CrewSetup
+        listId={activeListId}
+        onBack={() => setShowCrewSetup(false)}
+        onSaved={(names) => { setCrewRoster(names); setShowCrewSetup(false); }}
+      />
+    );
+  }
+
+  if (selectedOpening) {
+    return (
+      <OpeningWorkflow
+        opening={selectedOpening}
+        crewRoster={crewRoster.length > 0 ? crewRoster : ['Marc', 'Garida', 'Joan', 'Luis']}
+        listId={activeListId || ''}
+        onBack={() => setSelectedOpening(null)}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-mammut-darker text-mammut-white font-sans flex flex-col pb-20 md:pb-0">
       {/* App Bar */}
-      <header className="bg-mammut-dark border-b border-mammut-border p-4 sticky top-0 z-50 flex justify-between items-center shadow-md">
-        <div className="flex items-center gap-2">
-          <div className="bg-mammut-gold text-mammut-black p-1.5 rounded-lg">
-            <Truck size={18} />
+      <header className="bg-mammut-dark border-b border-mammut-border p-4 sticky top-0 z-50 shadow-md">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <div className="bg-mammut-gold text-mammut-black p-1.5 rounded-lg">
+              <Truck size={18} />
+            </div>
+            <h1 className="font-black tracking-widest uppercase text-sm">Field Ops</h1>
           </div>
-          <h1 className="font-black tracking-widest uppercase text-sm">Field Ops</h1>
+          <div className="flex items-center gap-2">
+            {activeListId && (
+              <button
+                onClick={() => setShowCrewSetup(true)}
+                className="text-xs text-mammut-grey-light hover:text-mammut-gold transition-colors px-2 py-1 rounded-lg hover:bg-mammut-border"
+              >
+                👷 Crew
+              </button>
+            )}
+            <ThemeToggle />
+          </div>
         </div>
-        <ThemeToggle />
+        {/* Tab bar */}
+        <div className="flex gap-1 mt-3 bg-mammut-border/40 rounded-lg p-1">
+          <button
+            onClick={() => setActiveTab('schedule')}
+            className={`flex-1 text-xs font-bold py-1.5 rounded-md transition-colors flex items-center justify-center gap-1.5 ${
+              activeTab === 'schedule' ? 'bg-mammut-dark text-mammut-white' : 'text-mammut-grey-light'
+            }`}
+          >
+            <Calendar size={12} /> Schedule
+          </button>
+          <button
+            onClick={() => setActiveTab('openings')}
+            className={`flex-1 text-xs font-bold py-1.5 rounded-md transition-colors flex items-center justify-center gap-1.5 ${
+              activeTab === 'openings' ? 'bg-mammut-dark text-mammut-white' : 'text-mammut-grey-light'
+            }`}
+          >
+            <Layers size={12} /> Openings
+            {openings.length > 0 && (
+              <span className="bg-mammut-gold text-mammut-black text-[9px] font-black px-1.5 py-0.5 rounded-full">{openings.length}</span>
+            )}
+          </button>
+        </div>
       </header>
 
       <div className="flex-1 max-w-3xl mx-auto w-full p-4 space-y-6">
         
         {/* Daily Schedule Widget */}
-        <section>
+        {activeTab === 'schedule' && (
+          <React.Fragment>
+          <section>
           <div className="flex justify-between items-end mb-3">
             <h2 className="text-lg font-bold flex items-center gap-2 text-mammut-gold">
               <Calendar size={18} /> Today's Route
@@ -247,7 +329,7 @@ export function InstallerDashboard() {
                   setHasSignature(false);
                 }}
                 className={`snap-center shrink-0 w-64 p-4 rounded-2xl border transition-colors cursor-pointer ${
-                  selectedJob.id === job.id 
+                  selectedJob?.id === job.id 
                     ? 'bg-mammut-gold/10 border-mammut-gold/50' 
                     : 'bg-mammut-dark border-mammut-border hover:border-mammut-grey-light/50'
                 }`}
@@ -275,6 +357,7 @@ export function InstallerDashboard() {
         <hr className="border-mammut-border" />
 
         {/* Active Job Details */}
+        {selectedJob && (
         <section className="space-y-6">
           <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4 flex gap-3">
             <AlertTriangle size={20} className="text-blue-400 shrink-0 mt-0.5" />
@@ -390,8 +473,103 @@ export function InstallerDashboard() {
           
           <div className="h-6"></div> {/* Bottom Spacer for mobile */}
         </section>
+        )} {/* end selectedJob */}
+        </React.Fragment>
+        )} {/* end activeTab === 'schedule' */}
+
+        {/* Openings Tab */}
+        {activeTab === 'openings' && (
+          <section>
+            <div className="flex justify-between items-end mb-3">
+              <h2 className="text-lg font-bold flex items-center gap-2 text-mammut-gold">
+                <Layers size={18} /> Window Openings
+              </h2>
+              <span className="text-xs text-mammut-grey-light font-bold">{openings.length} openings</span>
+            </div>
+
+            {openings.length === 0 ? (
+              <div className="bg-mammut-dark border border-mammut-border rounded-2xl p-8 text-center">
+                <p className="text-mammut-grey-light text-sm">No openings loaded yet.</p>
+                <p className="text-xs text-mammut-grey-light/60 mt-1">Openings are seeded from the admin backend for order 369264.</p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {openings.map((op: any) => {
+                  const completedTasks = op.taskInstances?.filter((t: any) => t.status === 'complete').length || 0;
+                  const totalTasks = op.taskInstances?.length || 0;
+                  const pct = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+                  const hasOutstanding = op.taskInstances?.some((t: any) => t.status === 'outstanding');
+                  const isUnconfirmed = !op.locationConfirmed || op.matchConfidence === 'low';
+
+                  return (
+                    <button
+                      key={op.id}
+                      onClick={() => setSelectedOpening(op)}
+                      className={`w-full text-left bg-mammut-dark rounded-2xl border overflow-hidden transition-colors ${
+                        hasOutstanding ? 'border-amber-500/40' : 'border-mammut-border hover:border-mammut-grey-light/50'
+                      }`}
+                    >
+                      <div className="p-4">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="text-[10px] font-black text-mammut-gold font-mono">{op.openingId}</span>
+                              {isUnconfirmed && (
+                                <span className="text-[9px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-full font-bold">⚠ UNCONFIRMED</span>
+                              )}
+                              {hasOutstanding && (
+                                <span className="text-[9px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-full font-bold">OUTSTANDING</span>
+                              )}
+                            </div>
+                            <p className="font-bold text-sm truncate">{op.location}</p>
+                            <p className="text-xs text-mammut-grey-light truncate">{op.productType}</p>
+                            <p className="text-xs text-mammut-grey-light">{op.widthMm}×{op.heightMm}mm · {op.weightKg}kg</p>
+                          </div>
+                          <div className="flex flex-col items-end gap-1 shrink-0">
+                            <ChevronRight size={16} className="text-mammut-grey-light" />
+                            <span className="text-xs font-bold text-mammut-gold">{completedTasks}/{totalTasks}</span>
+                          </div>
+                        </div>
+
+                        {/* Task progress bar */}
+                        <div className="mt-3">
+                          <div className="h-1.5 bg-mammut-border rounded-full overflow-hidden">
+                            <div
+                              className={`h-full rounded-full transition-all ${pct === 100 ? 'bg-emerald-500' : hasOutstanding ? 'bg-amber-500' : 'bg-mammut-gold'}`}
+                              style={{ width: `${pct}%` }}
+                            />
+                          </div>
+                        </div>
+
+                        {/* Per-person time summary */}
+                        {op.taskInstances?.some((t: any) => t.timeLogs?.length > 0) && (
+                          <div className="mt-2 flex gap-3 flex-wrap">
+                            {(() => {
+                              const personTimes: Record<string, number> = {};
+                              op.taskInstances.forEach((t: any) => {
+                                t.timeLogs?.forEach((log: any) => {
+                                  personTimes[log.personName] = (personTimes[log.personName] || 0) + log.minutes;
+                                });
+                              });
+                              return Object.entries(personTimes).map(([name, mins]) => (
+                                <span key={name} className="text-[10px] text-mammut-grey-light">
+                                  <span className="font-bold text-mammut-white">{name}</span> {mins}m
+                                </span>
+                              ));
+                            })()}
+                          </div>
+                        )}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </section>
+        )}
 
       </div>
     </div>
   );
 }
+

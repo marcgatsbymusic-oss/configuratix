@@ -7,12 +7,7 @@ pdf_path = r"C:\Users\Shadow\Cloud-Drive\Web dev Drutex Product Content\Screensh
 doc = fitz.open(pdf_path)
 
 page = doc[1] # Page 2
-rect = page.rect
-crop_rect = fitz.Rect(0, 110, rect.width, 410)
-
-print("Text blocks inside crop area:")
-blocks = page.get_text("blocks", clip=crop_rect)
-for b in blocks:
-    print(f"Block at {b[:4]}:")
-    print(b[4].strip())
-    print("-" * 30)
+for term in ["U-value", "Infills", "Filling", "Spacer type"]:
+    instances = page.search_for(term)
+    for inst in instances:
+        print(f"Term '{term}' at {inst}")

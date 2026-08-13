@@ -1,0 +1,1581 @@
+--- PAGE 1 ---
+Print date: 17.06.2026  12:39:39
+Drutex S.A.
+ul. Leszka Gierszewskiego 1
+77-100 Bytów
+Poland
+Telephone +48 59 822 91 01
+Fax +48 59 822 91 03
+Order Confirmation: 369264
+Com. 369264-  Sant Cugat, Barcelona Spain v10
+Entry date:  29.01.2026
+Mammut Energy Sl
+Calle José Maria Olavarri 4
+48001
+BILBAO
+Spain
+Customer: MAMMUT_ENERGY (14 419)
+ESB13642681
+Contact person: 
+Klaudia Pomaszczyńska
+e-mail:  kpomaszczynska@drutex.com.pl
+5.33.21-1 205 786
+1/23
+DELIVERY ADDRESS: 
+MRS. MONTSE ABRIL
+CALLE DE LA INDUSTRIA 17
+08173 SANT CUGAT
+BARCELONA
+SPAIN
+CONTACT: MARC KELLER
++34603137470
+
+
+--- PAGE 2 ---
+Order Confirmation: 369264     Com. 369264-  Sant Cugat, 
+Barcelona Spain v10
+Print date: 17.06.2026  12:39:55
+Item No. 1
+Quantity:   1
+System: IGLO EDGE - WINDOWS
+1
+Window 2 chambers movable post
+Interior View
+Exterior View
+Dimensions: 
+1265 x 1300 mm
+ - External color
+ - White
+ - Internal color
+ - White
+- Core color
+- White
+- Gaskets color
+- Black
+Profiles:
+Frame 80001 (height 73mm, depth 82mm)
+Sash 80013, 76mm
+Movable post 80029, 78mm
+Under-sill / transport strip 
+54123 - 30mm
+Glazing bead style
+Rectangular
+- External application
+- Weld: V Perfect
+- Frame drainage: From the front
+- Sash drainage: From the bottom
+- Color of drainage caps: White
+- 6mm assembly holes: LEFT, RIGHT, 
+- Roller blind/Venetian blind/Guide rails: Roller shutter
+- Frame reinforcement: Full
+Field 1: Left turn passive, gearshift (R-SBP-L)
+- Fitting system: Maco Multi Matic
+- Hinge Type: Standardowy (obwiedniowy)
+- Color of the covers: White
+- 4 mushroom cam keeps (if technologically feasible)
+Field 2: Tilt & turn right-hand active (UR-SC-P)
+- Fitting system: Maco Multi Matic
+- Height of the handle from the bottom edge of the sash: 520
+- Handle type: Aluminum handle DUBLIN 
+- Handle color (inside): White
+- Color of the covers: White
+- 4 mushroom cam keeps (if technologically feasible)
+Roller shutter
+5.33.21-1 205 786
+2/23
+
+
+--- PAGE 3 ---
+Order Confirmation: 369264     Com. 369264-  Sant Cugat, 
+Barcelona Spain v10
+Print date: 17.06.2026  12:39:55
+- Type of roller shutter: Top mounted roller shutter
+- Width: 1265.0
+- Height: 1515.0
+- Shutter installed on the window: Yes
+- Type of the box: BOX 215
+- External box color: White, 
+- Internal box color: White, 
+- Revision: From the bottom
+- Zaślepka obudowy bocznej: Tak
+- Kolor zaślepek obudowy bocznej: White
+- Adapter: Adapter Iglo Energy/Iglo EDGE
+- Slat Type: Aluminium slats 37 mm
+- Color of the slats: 02 - White, RAL 9016
+- Slats perforation: Perforated slats
+- Color of the bottom rail: 02 - White, RAL 9016
+- Type of limiters 1: Drutex Bumper (mounted in the lower rail of the curtain)
+- Type of guides: PVC
+- Left outer guide rail: Guide one-sided with mosquito net 61mm RN 
+- Right outer guide rail: Guide one-sided with mosquito net 61mm RN 
+- Color of the guides: White, 
+- Drive Type I: Motor Simu T5 roller 60mm 10Nm overload
+- Control side I: Left (from the inside)
+- Mosquito net type: Roll-up (vertical)
+- Kolor siatki moskitiery: Black
+- Color of the mosquito net bottom bar: 02 - White
+- Safeguard 1: Blocking hangers
+U-value
+0,82 W/m2*K
+Details
+Field: 1
+Exposed glass size (EGS): 438.50 x 1072
+Field: 2
+Exposed glass size (EGS): 438.50 x 1072
+Rw (C;Ctr) = 36 (-2,-7) dB 
+Ra1 = 34; Ra2 = 29; Ra2R = 27
+Infills
+Field: 1
+Filling
+4 th/U18/4/U18/4 th
+Spacer type
+Glazing thickness
+Ug Coefficient
+G Coefficient
+Lt Coefficient
+Rw-value
+SHGC (Solar Heat Gain 
+Coefficient)
+Glazing dimensions
+(U) Ultimate Gray (RAL 9023)
+48.0
+0.50
+0.53
+0.73
+33db
+0.46
+468.50 x 1102
+Field: 2
+Filling
+4 th/U18/4/U18/4 th
+Spacer type
+Glazing thickness
+Ug Coefficient
+G Coefficient
+Lt Coefficient
+Rw-value
+SHGC (Solar Heat Gain 
+Coefficient)
+Glazing dimensions
+(U) Ultimate Gray (RAL 9023)
+48.0
+0.50
+0.53
+0.73
+33db
+0.46
+468.50 x 1102
+Total
+690,56 EUR
+5.33.21-1 205 786
+3/23
+
+
+--- PAGE 4 ---
+Order Confirmation: 369264     Com. 369264-  Sant Cugat, 
+Barcelona Spain v10
+Print date: 17.06.2026  12:39:55
+Item No. 2
+Quantity:   1
+System: IGLO EDGE - WINDOWS
+2
+2-chambersbalcony door movable post
+Interior View
+Exterior View
+Dimensions: 
+1280 x 2030 mm
+ - External color
+ - White
+ - Internal color
+ - White
+- Core color
+- White
+- Gaskets color
+- Black
+Profiles:
+Frame 80001 (height 73mm, depth 82mm)
+Sash 80013, 76mm
+Movable post 80029, 78mm
+Under-sill / transport strip 
+54123 - 30mm
+Glazing bead style
+Rectangular
+- External application
+- Weld: V Perfect
+- Frame drainage: From the front
+- Sash drainage: From the bottom
+- Color of drainage caps: White
+- 6mm assembly holes: LEFT, RIGHT, 
+- Roller blind/Venetian blind/Guide rails: Roller shutter
+- Frame reinforcement: Full
+Field 1: Left turn passive, gearshift (R-SBP-L)
+- Fitting system: Maco Multi Matic
+- Turning sash with perimeter fittings
+- Hinge Type: Standardowy (obwiedniowy)
+- Color of the covers: White
+- 4 mushroom cam keeps (if technologically feasible)
+Field 2: Tilt & turn right-hand active (UR-SC-P)
+- Fitting system: Maco Multi Matic
+- Height of the handle from the bottom edge of the sash: 1070
+- Handle type: Aluminum handle DUBLIN 
+- Handle color (inside): White
+- Color of the covers: White
+- 4 mushroom cam keeps (if technologically feasible)
+Roller shutter
+5.33.21-1 205 786
+4/23
+
+
+--- PAGE 5 ---
+Order Confirmation: 369264     Com. 369264-  Sant Cugat, 
+Barcelona Spain v10
+Print date: 17.06.2026  12:39:55
+- Type of roller shutter: Top mounted roller shutter
+- Width: 1280.0
+- Height: 2245.0
+- Shutter installed on the window: Yes
+- Type of the box: BOX 215
+- External box color: White, 
+- Internal box color: White, 
+- Revision: From the bottom
+- Zaślepka obudowy bocznej: Tak
+- Kolor zaślepek obudowy bocznej: White
+- Adapter: Adapter Iglo Energy/Iglo EDGE
+- Slat Type: Aluminium slats 37 mm
+- Color of the slats: 02 - White, RAL 9016
+- Slats perforation: Perforated slats
+- Color of the bottom rail: 02 - White, RAL 9016
+- Type of limiters 1: Drutex Bumper (mounted in the lower rail of the curtain)
+- Type of guides: PVC
+- Left outer guide rail: Guide one-sided with mosquito net 61mm RN 
+- Right outer guide rail: Guide one-sided with mosquito net 61mm RN 
+- Color of the guides: White, 
+- Drive Type I: Motor Simu T5 roller 60mm 10Nm overload
+- Control side I: Left (from the inside)
+- Mosquito net type: Roll-up (vertical)
+- Kolor siatki moskitiery: Black
+- Color of the mosquito net bottom bar: 02 - White
+- Safeguard 1: Blocking hangers
+U-value
+0,79 W/m2*K
+Details
+Field: 1
+Exposed glass size (EGS): 446 x 1802
+Field: 2
+Exposed glass size (EGS): 446 x 1802
+Rw (C;Ctr) = 36 (-2,-7) dB 
+Ra1 = 34; Ra2 = 29; Ra2R = 27
+Infills
+Field: 1
+Filling
+4 th ESG/U18/4/U18/4 th ESG
+Spacer type
+Glazing thickness
+Ug Coefficient
+G Coefficient
+Lt Coefficient
+Rw-value
+SHGC (Solar Heat Gain 
+Coefficient)
+Glazing dimensions
+(U) Ultimate Gray (RAL 9023)
+48.0
+0.50
+0.53
+0.73
+33db
+0.46
+476 x 1832
+Field: 2
+Filling
+4 th ESG/U18/4/U18/4 th ESG
+Spacer type
+Glazing thickness
+Ug Coefficient
+G Coefficient
+Lt Coefficient
+Rw-value
+SHGC (Solar Heat Gain 
+Coefficient)
+Glazing dimensions
+(U) Ultimate Gray (RAL 9023)
+48.0
+0.50
+0.53
+0.73
+33db
+0.46
+476 x 1832
+Total
+993,88 EUR
+5.33.21-1 205 786
+5/23
+
+
+--- PAGE 6 ---
+Order Confirmation: 369264     Com. 369264-  Sant Cugat, 
+Barcelona Spain v10
+Print date: 17.06.2026  12:39:55
+Item No. 3
+Quantity:   1
+System: IGLO EDGE - WINDOWS
+3
+2-chambersbalcony door movable post
+Interior View
+Exterior View
+Dimensions: 
+1270 x 2030 mm
+ - External color
+ - White
+ - Internal color
+ - White
+- Core color
+- White
+- Gaskets color
+- Black
+Profiles:
+Frame 80001 (height 73mm, depth 82mm)
+Sash 80013, 76mm
+Movable post 80029, 78mm
+Under-sill / transport strip 
+54123 - 30mm
+Glazing bead style
+Rectangular
+- External application
+- Weld: V Perfect
+- Frame drainage: From the front
+- Sash drainage: From the bottom
+- Color of drainage caps: White
+- 6mm assembly holes: LEFT, RIGHT, 
+- Roller blind/Venetian blind/Guide rails: Roller shutter
+- Frame reinforcement: Full
+Field 1: Left turn passive, gearshift (R-SBP-L)
+- Fitting system: Maco Multi Matic
+- Hinge Type: Standardowy (obwiedniowy)
+- Color of the covers: White
+- 4 mushroom cam keeps (if technologically feasible)
+Field 2: Tilt & turn right-hand active (UR-SC-P)
+- Fitting system: Maco Multi Matic
+- Height of the handle from the bottom edge of the sash: 1070
+- Handle type: Aluminum handle DUBLIN 
+- Handle color (inside): White
+- Color of the covers: White
+- 4 mushroom cam keeps (if technologically feasible)
+Roller shutter
+5.33.21-1 205 786
+6/23
+
+
+--- PAGE 7 ---
+Order Confirmation: 369264     Com. 369264-  Sant Cugat, 
+Barcelona Spain v10
+Print date: 17.06.2026  12:39:55
+- Type of roller shutter: Top mounted roller shutter
+- Width: 1270.0
+- Height: 2245.0
+- Shutter installed on the window: Yes
+- Type of the box: BOX 215
+- External box color: White, 
+- Internal box color: White, 
+- Revision: From the bottom
+- Zaślepka obudowy bocznej: Tak
+- Kolor zaślepek obudowy bocznej: White
+- Adapter: Adapter Iglo Energy/Iglo EDGE
+- Slat Type: Aluminium slats 37 mm
+- Color of the slats: 02 - White, RAL 9016
+- Slats perforation: Perforated slats
+- Color of the bottom rail: 02 - White, RAL 9016
+- Type of limiters 1: Drutex Bumper (mounted in the lower rail of the curtain)
+- Type of guides: PVC
+- Left outer guide rail: Guide one-sided with mosquito net 61mm RN 
+- Right outer guide rail: Guide one-sided with mosquito net 61mm RN 
+- Color of the guides: White, 
+- Drive Type I: Motor Simu T5 roller 60mm 10Nm overload
+- Control side I: Right (from the inside)
+- Mosquito net type: Roll-up (vertical)
+- Kolor siatki moskitiery: Black
+- Color of the mosquito net bottom bar: 02 - White
+- Safeguard 1: Blocking hangers
+U-value
+0,79 W/m2*K
+Details
+Field: 1
+Exposed glass size (EGS): 441 x 1802
+Field: 2
+Exposed glass size (EGS): 441 x 1802
+Rw (C;Ctr) = 36 (-2,-7) dB 
+Ra1 = 34; Ra2 = 29; Ra2R = 27
+Infills
+Field: 1
+Filling
+4 th ESG/U18/4/U18/4 th ESG
+Spacer type
+Glazing thickness
+Ug Coefficient
+G Coefficient
+Lt Coefficient
+Rw-value
+SHGC (Solar Heat Gain 
+Coefficient)
+Glazing dimensions
+(U) Ultimate Gray (RAL 9023)
+48.0
+0.50
+0.53
+0.73
+33db
+0.46
+471 x 1832
+Field: 2
+Filling
+4 th ESG/U18/4/U18/4 th ESG
+Spacer type
+Glazing thickness
+Ug Coefficient
+G Coefficient
+Lt Coefficient
+Rw-value
+SHGC (Solar Heat Gain 
+Coefficient)
+Glazing dimensions
+(U) Ultimate Gray (RAL 9023)
+48.0
+0.50
+0.53
+0.73
+33db
+0.46
+471 x 1832
+Total
+987,78 EUR
+5.33.21-1 205 786
+7/23
+
+
+--- PAGE 8 ---
+Order Confirmation: 369264     Com. 369264-  Sant Cugat, 
+Barcelona Spain v10
+Print date: 17.06.2026  12:39:55
+Item No. 4
+Quantity:   1
+System: IGLO EDGE - WINDOWS
+5.a
+Window 2 chambers movable post
+Interior View
+Exterior View
+Dimensions: 
+1270 x 1040 mm
+ - External color
+ - White
+ - Internal color
+ - White
+- Core color
+- White
+- Gaskets color
+- Black
+Profiles:
+Frame 80001 (height 73mm, depth 82mm)
+Sash 80013, 76mm
+Movable post 80029, 78mm
+Under-sill / transport strip 
+54123 - 30mm
+Glazing bead style
+Rectangular
+- External application
+- Weld: V Perfect
+- Frame drainage: From the front
+- Sash drainage: From the bottom
+- Color of drainage caps: White
+- 6mm assembly holes: LEFT, RIGHT, 
+- Frame reinforcement: Full
+Field 1: Left turn passive, gearshift (R-SBP-L)
+- Fitting system: Maco Multi Matic
+- Hinge Type: Standardowy (obwiedniowy)
+- Color of the covers: White
+- 4 mushroom cam keeps (if technologically feasible)
+Field 2: Tilt & turn right-hand active (UR-SC-P)
+- Fitting system: Maco Multi Matic
+- Height of the handle from the bottom edge of the sash: 420
+- Handle type: Aluminum handle DUBLIN 
+- Handle color (inside): White
+- Color of the covers: White
+- 4 mushroom cam keeps (if technologically feasible)
+U-value
+0,84 W/m2*K
+Details
+Field: 1
+Exposed glass size (EGS): 441 x 812
+Field: 2
+Exposed glass size (EGS): 441 x 812
+Rw (C;Ctr) = 36 (-2,-7) dB 
+Ra1 = 34; Ra2 = 29; Ra2R = 27
+Infills
+Field: 1
+Filling
+4 th/U18/4 Satinovo matte/U18/4 th
+Spacer type
+Glazing thickness
+Ug Coefficient
+G Coefficient
+Lt Coefficient
+Rw-value
+SHGC (Solar Heat Gain 
+Coefficient)
+Glazing dimensions
+(U) Ultimate Gray (RAL 9023)
+48.0
+0.50
+0.52
+0.72
+33db
+0.46
+471 x 842
+Field: 2
+Filling
+4 th/U18/4 Satinovo matte/U18/4 th
+Spacer type
+Glazing thickness
+Ug Coefficient
+G Coefficient
+Lt Coefficient
+Rw-value
+SHGC (Solar Heat Gain 
+Coefficient)
+Glazing dimensions
+(U) Ultimate Gray (RAL 9023)
+48.0
+0.50
+0.52
+0.72
+33db
+0.46
+471 x 842
+Total
+416,32 EUR
+5.33.21-1 205 786
+8/23
+
+
+--- PAGE 9 ---
+Order Confirmation: 369264     Com. 369264-  Sant Cugat, 
+Barcelona Spain v10
+Print date: 17.06.2026  12:39:55
+Item No. 5
+Quantity:   1
+System: IGLO EDGE - WINDOWS
+6
+1-chamber window
+Interior View
+Exterior View
+Dimensions: 
+860 x 830 mm
+ - External color
+ - White
+ - Internal color
+ - White
+- Core color
+- White
+- Gaskets color
+- Black
+Profiles:
+Frame 80001 (height 73mm, depth 82mm)
+Sash 80013, 76mm
+Under-sill / transport strip 
+54123 - 30mm
+Glazing bead style
+Rectangular
+- External application
+- Weld: V Perfect
+- Frame drainage: From the front
+- Sash drainage: From the bottom
+- Color of drainage caps: White
+- 6mm assembly holes: LEFT, RIGHT, 
+- Frame reinforcement: Full
+Field 1: Left hand tilt & turn Perimeter fittings
+- Fitting system: Maco Multi Matic
+- Height of the handle from the bottom edge of the sash: 320
+- Handle type: Aluminum handle DUBLIN 
+- Handle color (inside): White
+- Color of the covers: White
+- 4 mushroom cam keeps (if technologically feasible)
+U-value
+0,84 W/m2*K
+Details
+Field: 1
+Exposed glass size (EGS): 632 x 602
+Rw (C;Ctr) = 36 (-2,-7) dB 
+Ra1 = 34; Ra2 = 29; Ra2R = 27
+Infills
+Field: 1
+Filling
+4 th/U18/4 Satinovo matte/U18/4 th
+Spacer type
+Glazing thickness
+Ug Coefficient
+G Coefficient
+Lt Coefficient
+Rw-value
+SHGC (Solar Heat Gain 
+Coefficient)
+Glazing dimensions
+(U) Ultimate Gray (RAL 9023)
+48.0
+0.50
+0.52
+0.72
+33db
+0.46
+662 x 632
+Total
+213,86 EUR
+5.33.21-1 205 786
+9/23
+
+
+--- PAGE 10 ---
+Order Confirmation: 369264     Com. 369264-  Sant Cugat, 
+Barcelona Spain v10
+Print date: 17.06.2026  12:39:55
+Item No. 6
+Quantity:   1
+System: IGLO EDGE - WINDOWS
+7
+1-chamber window
+Interior View
+Exterior View
+Dimensions: 
+560 x 820 mm
+ - External color
+ - White
+ - Internal color
+ - White
+- Core color
+- White
+- Gaskets color
+- Black
+Profiles:
+Frame 80001 (height 73mm, depth 82mm)
+Sash 80013, 76mm
+Under-sill / transport strip 
+54123 - 30mm
+Glazing bead style
+Rectangular
+- External application
+- Weld: V Perfect
+- Frame drainage: From the front
+- Sash drainage: From the bottom
+- Color of drainage caps: White
+- 6mm assembly holes: LEFT, RIGHT, 
+- Frame reinforcement: Full
+Field 1: Left hand tilt & turn Perimeter fittings
+- Fitting system: Maco Multi Matic
+- Height of the handle from the bottom edge of the sash: 320
+- Handle type: Aluminum handle DUBLIN 
+- Handle color (inside): White
+- Color of the covers: White
+- 4 mushroom cam keeps (if technologically feasible)
+U-value
+0,91 W/m2*K
+Details
+Field: 1
+Exposed glass size (EGS): 332 x 592
+Rw (C;Ctr) = 36 (-2,-7) dB 
+Ra1 = 34; Ra2 = 29; Ra2R = 27
+Infills
+Field: 1
+Filling
+4 th/U18/4 Satinovo matte/U18/4 th
+Spacer type
+Glazing thickness
+Ug Coefficient
+G Coefficient
+Lt Coefficient
+Rw-value
+SHGC (Solar Heat Gain 
+Coefficient)
+Glazing dimensions
+(U) Ultimate Gray (RAL 9023)
+48.0
+0.50
+0.52
+0.72
+33db
+0.46
+362 x 622
+Total
+171,39 EUR
+5.33.21-1 205 786
+10/23
+
+
+--- PAGE 11 ---
+Order Confirmation: 369264     Com. 369264-  Sant Cugat, 
+Barcelona Spain v10
+Print date: 17.06.2026  12:39:55
+Item No. 7
+Quantity:   1
+System: IGLO EDGE - WINDOWS
+8
+1-chamber window
+Interior View
+Exterior View
+Dimensions: 
+560 x 820 mm
+ - External color
+ - White
+ - Internal color
+ - White
+- Core color
+- White
+- Gaskets color
+- Black
+Profiles:
+Frame 80001 (height 73mm, depth 82mm)
+Sash 80013, 76mm
+Under-sill / transport strip 
+54123 - 30mm
+Glazing bead style
+Rectangular
+- External application
+- Weld: V Perfect
+- Frame drainage: From the front
+- Sash drainage: From the bottom
+- Color of drainage caps: White
+- 6mm assembly holes: LEFT, RIGHT, 
+- Frame reinforcement: Full
+Field 1: Tilt & turn right-hand Perimeter fittings
+- Fitting system: Maco Multi Matic
+- Height of the handle from the bottom edge of the sash: 320
+- Handle type: Aluminum handle DUBLIN 
+- Handle color (inside): White
+- Color of the covers: White
+- 4 mushroom cam keeps (if technologically feasible)
+U-value
+0,91 W/m2*K
+Details
+Field: 1
+Exposed glass size (EGS): 332 x 592
+Rw (C;Ctr) = 36 (-2,-7) dB 
+Ra1 = 34; Ra2 = 29; Ra2R = 27
+Infills
+Field: 1
+Filling
+4 th/U18/4 Satinovo matte/U18/4 th
+Spacer type
+Glazing thickness
+Ug Coefficient
+G Coefficient
+Lt Coefficient
+Rw-value
+SHGC (Solar Heat Gain 
+Coefficient)
+Glazing dimensions
+(U) Ultimate Gray (RAL 9023)
+48.0
+0.50
+0.52
+0.72
+33db
+0.46
+362 x 622
+Total
+171,39 EUR
+5.33.21-1 205 786
+11/23
+
+
+--- PAGE 12 ---
+Order Confirmation: 369264     Com. 369264-  Sant Cugat, 
+Barcelona Spain v10
+Print date: 17.06.2026  12:39:55
+Item No. 8
+Quantity:   1
+System: IGLO EDGE - WINDOWS
+9
+Window 3-chambers movable post
+Interior View
+Exterior View
+Dimensions: 
+1270 x 1300 mm
+ - External color
+ - White
+ - Internal color
+ - White
+- Core color
+- White
+- Gaskets color
+- Black
+Profiles:
+Frame 80001 (height 73mm, depth 82mm)
+Sash 80013, 76mm
+Post 80021, 98mm
+Movable post 80029, 78mm
+Under-sill / transport strip 
+54123 - 30mm
+Glazing bead style
+Rectangular
+- External application
+- Weld: V Perfect
+- Frame drainage: From the front
+- Sash drainage: From the bottom
+- Post drainage: From the front
+- Color of drainage caps: White
+- 6mm assembly holes: LEFT, RIGHT, 
+- Roller blind/Venetian blind/Guide rails: Roller shutter
+- Frame reinforcement: Full
+Field 1: Left hand tilt & turn czynne (UR-SC-L)
+- Fitting system: Maco Multi Matic
+- Height of the handle from the bottom edge of the sash: 420
+- Handle type: Aluminum handle DUBLIN 
+- Handle color (inside): White
+- Color of the covers: White
+- 4 mushroom cam keeps (if technologically feasible)
+Field 2: Turn right passive, gearshift (R-SBP-P)
+- Fitting system: Maco Multi Matic
+- Hinge Type: Standardowy (obwiedniowy)
+- Color of the covers: White
+- 4 mushroom cam keeps (if technologically feasible)
+Field 3: Fixed glazing in the frame (FIX)
+Roller shutter
+5.33.21-1 205 786
+12/23
+
+
+--- PAGE 13 ---
+Order Confirmation: 369264     Com. 369264-  Sant Cugat, 
+Barcelona Spain v10
+Print date: 17.06.2026  12:39:55
+- Type of roller shutter: Top mounted roller shutter
+- Width: 1270.0
+- Height: 1515.0
+- Shutter installed on the window: Yes
+- Type of the box: BOX 215
+- External box color: White, 
+- Internal box color: White, 
+- Revision: From the bottom
+- Zaślepka obudowy bocznej: Tak
+- Kolor zaślepek obudowy bocznej: White
+- Adapter: Adapter Iglo Energy/Iglo EDGE
+- Slat Type: Aluminium slats 37 mm
+- Color of the slats: 02 - White, RAL 9016
+- Slats perforation: Perforated slats
+- Color of the bottom rail: 02 - White, RAL 9016
+- Type of limiters 1: Drutex Bumper (mounted in the lower rail of the curtain)
+- Type of guides: PVC
+- Left outer guide rail: Guide one-sided with mosquito net 61mm RN 
+- Right outer guide rail: Guide one-sided with mosquito net 61mm RN 
+- Color of the guides: White, 
+- Drive Type I: Motor Simu T5 roller 60mm 10Nm overload
+- Control side I: Right (from the inside)
+- Mosquito net type: Roll-up (vertical)
+- Kolor siatki moskitiery: Black
+- Color of the mosquito net bottom bar: 02 - White
+- Safeguard 1: Blocking hangers
+U-value
+0,86 W/m2*K
+Details
+Field: 1
+Exposed glass size (EGS): 441 x 746
+Field: 2
+Exposed glass size (EGS): 441 x 746
+Field: 3
+Exposed glass size (EGS): 1124 x 228
+Rw (C;Ctr) = 34 (-1,-5) dB 
+Ra1 = 33; Ra2 = 29; Ra2R = 27
+Infills
+Field: 1
+Filling
+4 th/U20/4 Satinovo matte/U18/4 th
+Spacer type
+Glazing thickness
+Ug Coefficient
+G Coefficient
+Lt Coefficient
+Rw-value
+SHGC (Solar Heat Gain 
+Coefficient)
+Glazing dimensions
+(U) Ultimate Gray (RAL 9023)
+50.0
+0.50
+0.52
+0.72
+33db
+0.46
+471 x 776
+Field: 2
+Filling
+4 th/U20/4 Satinovo matte/U18/4 th
+Spacer type
+Glazing thickness
+Ug Coefficient
+G Coefficient
+Lt Coefficient
+Rw-value
+SHGC (Solar Heat Gain 
+Coefficient)
+Glazing dimensions
+(U) Ultimate Gray (RAL 9023)
+50.0
+0.50
+0.52
+0.72
+33db
+0.46
+471 x 776
+Field: 3
+Filling
+4 th/U20/4 Satinovo matte/U18/4 th
+Spacer type
+Glazing thickness
+Ug Coefficient
+G Coefficient
+Lt Coefficient
+Rw-value
+SHGC (Solar Heat Gain 
+Coefficient)
+Glazing dimensions
+(U) Ultimate Gray (RAL 9023)
+50.0
+0.50
+0.52
+0.72
+33db
+0.46
+1160 x 264.50
+Total
+818,36 EUR
+5.33.21-1 205 786
+13/23
+
+
+--- PAGE 14 ---
+Order Confirmation: 369264     Com. 369264-  Sant Cugat, 
+Barcelona Spain v10
+Print date: 17.06.2026  12:39:55
+Item No. 9
+Quantity:   10
+P04000023 - Flat bar P04000023, 40x2,3mm 6000mm
+- Length: 6000 mm
+- Color: White
+Total
+10 x 8,65 = 86,50 EUR
+5.33.21-1 205 786
+14/23
+
+
+--- PAGE 15 ---
+Order Confirmation: 369264     Com. 369264-  Sant Cugat, 
+Barcelona Spain v10
+Print date: 17.06.2026  12:39:55
+Item No. 10
+Quantity:   1
+System: IGLO EDGE SLIDE
+Iglo Edge Slide A (2 kw.) otw. na prawo
+Interior View
+Exterior View
+Dimensions: 
+2000 x 2100 mm
+ - External color
+ - White
+ - Internal color
+ - White
+- Core color
+- White
+- Gaskets color
+- Black
+Profiles:
+Frame Edge Slide
+Stable post from Edge Slide sash
+Sash Edge Slide
+Sash Edge Slide sash bottom
+Glazing bead style
+Rectangular
+- External application
+- Weld: V Perfect
+- Frame drainage: From the front
+- Sash drainage: From the bottom
+- Color of drainage caps: White
+- Roller blind/Venetian blind/Guide rails: Roller shutter
+- Frame reinforcement: Full
+50103 Extension 15mm (depth 70mm) I5
+- Length: 2100 mm
+- Color: OUT: White / IN: White
+- Position: Left
+- Aligning-to-the-outside
+- Reinforcement: Lack
+50103 Extension 15mm (depth 70mm) I5
+- Length: 2100 mm
+- Color: OUT: White / IN: White
+- Position: Left
+- Flush to the inside
+- Reinforcement: Lack
+50103 Extension 15mm (depth 70mm) I5
+- Length: 2100 mm
+- Color: OUT: White / IN: White
+- Position: Right
+- Aligning-to-the-outside
+- Reinforcement: Lack
+50103 Extension 15mm (depth 70mm) I5
+- Length: 2100 mm
+- Color: OUT: White / IN: White
+- Position: Right
+- Flush to the inside
+- Reinforcement: Lack
+Field 1: Opened to the right (HST-A-P)
+- Espagnolette type: Central position of the handle
+- Height of the handle from the bottom edge of the sash: 1020
+- Handle type: Iglo Edge Slide 2-sided handle + inside only insert 
+- Handle color (inside): White
+- Color of the handle/pull (ext.): White
+- Type of insert: Standard insert lock, spacing: 45/00
+- Standard safety class of fittings
+Field 2: fixed Glazing w ramie HS (HSM-FIX)
+Roller shutter
+5.33.21-1 205 786
+15/23
+
+
+--- PAGE 16 ---
+Order Confirmation: 369264     Com. 369264-  Sant Cugat, 
+Barcelona Spain v10
+Print date: 17.06.2026  12:39:55
+- Type of roller shutter: Top mounted roller shutter
+- Width: 2030.0
+- Width 1: 1015.0
+- Width 2: 1015.0
+- Height: 2325.0
+- Shutter installed on the window: Yes
+- Type of the box: BOX 225
+- External box color: White, 
+- Internal box color: White, 
+- Revision: From the forehead
+- Zaślepka obudowy bocznej: Tak
+- Kolor zaślepek obudowy bocznej: White
+- Adapter: Adapter ALU, Wood, frame renovation
+- Number of reinforcing consoles: 1
+- Slat Type: Aluminium slats 37 mm
+- Color of the slats: 02 - White, RAL 9016
+- Slats perforation: Perforated slats
+- Color of the bottom rail: 02 - White, RAL 9016
+- Type of limiters 1: Drutex Bumper (mounted in the lower rail of the curtain)
+- Type of guides: PVC
+- Left outer guide rail: Guide one-sided with mosquito net 61mm RN 
+- Left guide rail on extension profile: Yes
+- Center guide: Double-sided guide with mosquito net 61mm RN
+- Right outer guide rail: Guide one-sided with mosquito net 61mm RN 
+- Right guide rail on extension profile: Yes
+- Color of the guides: White, 
+- Drive Type I: Motor Simu T5 roller 60mm 10Nm overload
+- Control side I: Left (from the inside)
+- Drive Type II: common drive
+- Control side II: z polem sasiadujacym po lewej (od wewnatrz)
+- Mosquito net type: Roll-up (vertical)
+- Kolor siatki moskitiery: Black
+- Color of the mosquito net bottom bar: 02 - White
+- Safeguard 1: Blocking hangers
+U-value
+0,75 W/m2*K
+Details
+Field: 1
+Exposed glass size (EGS): 807.25 x 1823
+Field: 2
+Exposed glass size (EGS): 889.75 x 1988
+Rw (C;Ctr) = 34 (-2,-6) dB 
+Ra1 = 32; Ra2 = 28; Ra2R = 26
+Infills
+Field: 1
+Filling
+4 th ESG/U18/4/U18/4 th ESG
+Spacer type
+Glazing thickness
+Ug Coefficient
+G Coefficient
+Lt Coefficient
+Rw-value
+SHGC (Solar Heat Gain 
+Coefficient)
+Glazing dimensions
+(U) Ultimate Gray (RAL 9023)
+48.0
+0.50
+0.53
+0.73
+33db
+0.46
+837.25 x 1853
+Field: 2
+Filling
+4 th ESG/U18/4/U18/4 th ESG
+Spacer type
+Glazing thickness
+Ug Coefficient
+G Coefficient
+Lt Coefficient
+Rw-value
+SHGC (Solar Heat Gain 
+Coefficient)
+Glazing dimensions
+(U) Ultimate Gray (RAL 9023)
+48.0
+0.50
+0.53
+0.73
+33db
+0.46
+919.25 x 2017
+Total
+2 179,02 EUR
+5.33.21-1 205 786
+16/23
+
+
+--- PAGE 17 ---
+Order Confirmation: 369264     Com. 369264-  Sant Cugat, 
+Barcelona Spain v10
+Print date: 17.06.2026  12:39:55
+Item No. 11
+Quantity:   10
+P08000023 - Flat bar P08000023, 80x2.3mm 6000mm
+- Length: 6000 mm
+- Color: White
+Total
+10 x 15,87 = 158,70 EUR
+Item No. 12
+Quantity:   5
+STER_BLEBOX - uWIFI Blebox Shutterbox 230V controller Silniki : GEIGER,SIMU,YOODA_S,SELVE,SOMFY_WT
+Total
+5 x 38,46 = 192,30 EUR
+Item No. 13
+Quantity:   1
+_BLEBOX_BI - remote 12 channel uRemote Basic Blebox white Silniki : GEIGER,SIMU,YOODA_S,SELVE,SOMFY_
+Total
+33,90 EUR
+5.33.21-1 205 786
+17/23
+
+
+--- PAGE 18 ---
+Order Confirmation: 369264     Com. 369264-  Sant Cugat, 
+Barcelona Spain v10
+Print date: 17.06.2026  12:39:55
+Item No. 14
+Quantity:   3
+_BLEBOX_BI - remote 12 channel uRemote Basic Blebox white Silniki : GEIGER,SIMU,YOODA_S,SELVE,SOMFY_
+Total
+3 x 33,90 = 101,70 EUR
+Item No. 15
+Quantity:   1
+P10000023 - Flat bar P10000023, 100x2.3mm 6000mm
+- Length: 6000 mm
+- Color: White
+Total
+18,75 EUR
+5.33.21-1 205 786
+18/23
+
+
+--- PAGE 19 ---
+Order Confirmation: 369264     Com. 369264-  Sant Cugat, 
+Barcelona Spain v10
+Print date: 17.06.2026  12:39:55
+Item No. 16
+Quantity:   1
+System: IGLO EDGE - WINDOWS
+POS 4
+Single-sash balcony door
+Interior View
+Exterior View
+Dimensions: 
+867 x 2125 mm
+ - External color
+ - Smooth basalt grey - REN. 701205-097
+ - Internal color
+ - White
+- Core color
+- White
+- Gaskets color
+- Black
+Profiles:
+Frame 80001 (height 73mm, depth 82mm)
+Sash 80013, 76mm
+Under-sill / transport strip 
+54123 - 30mm
+Glazing bead style
+Rectangular
+- External application
+- Weld: V Perfect
+- Frame drainage: From the front
+- Sash drainage: From the bottom
+- Color of drainage caps: Basalt grey
+- 6mm assembly holes: LEFT, RIGHT, 
+- Roller blind/Venetian blind/Guide rails: Roller shutter
+- Frame reinforcement: Full
+Field 1: Left hand tilt & turn Perimeter fittings
+- Fitting system: Maco Multi Matic
+- Height of the handle from the bottom edge of the sash: 1070
+- Handle type: Aluminum handle DUBLIN 
+- Handle color (inside): White
+- Color of the covers: White
+- 4 mushroom cam keeps (if technologically feasible)
+Roller shutter
+- Type of roller shutter: Top mounted roller shutter
+- Width: 867.0
+- Height: 2340.0
+- Shutter installed on the window: Yes
+- Type of the box: BOX 215
+- External box color: Smooth basalt grey, 701205-097
+- Internal box color: White, 
+- Revision: From the bottom
+- Zaślepka obudowy bocznej: Tak
+- Kolor zaślepek obudowy bocznej: White
+- Adapter: Adapter Iglo Energy/Iglo EDGE
+- Slat Type: Aluminium slats 37 mm
+- Color of the slats: 33 - Bazaltowy szary, RAL 7012
+- Slats perforation: Perforated slats
+- Color of the bottom rail: 33 - Bazaltowy szary, RAL 7012
+- Type of limiters 1: Drutex Bumper (mounted in the lower rail of the curtain)
+- Type of guides: PVC
+- Left outer guide rail: Guide one-sided 61mm RN 
+- Right outer guide rail: Guide one-sided 61mm RN 
+- Color of the guides: Smooth basalt grey, 701205-097
+- Drive Type I: Motor Simu T5 roller 60mm 10Nm overload
+- Control side I: Right (from the inside)
+- Safeguard 1: Blocking hangers
+U-value
+0,75 W/m2*K
+Details
+Field: 1
+Exposed glass size (EGS): 639 x 1897
+Rw (C;Ctr) = 36 (-2,-7) dB 
+Ra1 = 34; Ra2 = 29; Ra2R = 27
+5.33.21-1 205 786
+19/23
+
+
+--- PAGE 20 ---
+Order Confirmation: 369264     Com. 369264-  Sant Cugat, 
+Barcelona Spain v10
+Print date: 17.06.2026  12:39:55
+Infills
+Field: 1
+Filling
+4 Sun35/U18/4/U18/4 th
+Spacer type
+Glazing thickness
+Ug Coefficient
+G Coefficient
+Lt Coefficient
+Rw-value
+SHGC (Solar Heat Gain 
+Coefficient)
+Glazing dimensions
+(U) Ultimate Gray (RAL 9023)
+48.0
+0.50
+0.32
+0.64
+33db
+0.30
+669 x 1927
+Total
+721,95 EUR
+5.33.21-1 205 786
+20/23
+
+
+--- PAGE 21 ---
+Order Confirmation: 369264     Com. 369264-  Sant Cugat, 
+Barcelona Spain v10
+Print date: 17.06.2026  12:39:55
+Item No. 17
+Quantity:   1
+System: IGLO EDGE - WINDOWS
+POS 5
+1-chamber window
+Interior View
+Exterior View
+Dimensions: 
+867 x 1175 mm
+ - External color
+ - Smooth basalt grey - REN. 701205-097
+ - Internal color
+ - White
+- Core color
+- White
+- Gaskets color
+- Black
+Profiles:
+Frame 80001 (height 73mm, depth 82mm)
+Sash 80013, 76mm
+Under-sill / transport strip 
+54123 - 30mm
+Glazing bead style
+Rectangular
+- External application
+- Weld: V Perfect
+- Frame drainage: From the front
+- Sash drainage: From the bottom
+- Color of drainage caps: Basalt grey
+- 6mm assembly holes: LEFT, RIGHT, 
+- Roller blind/Venetian blind/Guide rails: Roller shutter
+- Frame reinforcement: Full
+Field 1: Tilt & turn right-hand Perimeter fittings
+- Fitting system: Maco Multi Matic
+- Height of the handle from the bottom edge of the sash: 420
+- Handle type: Aluminum handle DUBLIN 
+- Handle color (inside): White
+- Color of the covers: White
+- 4 mushroom cam keeps (if technologically feasible)
+Roller shutter
+- Type of roller shutter: Top mounted roller shutter
+- Width: 867.0
+- Height: 1350.0
+- Shutter installed on the window: Yes
+- Type of the box: BOX 175
+- External box color: Smooth basalt grey, 701205-097
+- Internal box color: White, 
+- Revision: From the bottom
+- Zaślepka obudowy bocznej: Tak
+- Kolor zaślepek obudowy bocznej: White
+- Adapter: Adapter Iglo Energy / Iglo Edge
+- Slat Type: Aluminium slats 37 mm
+- Color of the slats: 33 - Bazaltowy szary, RAL 7012
+- Slats perforation: Perforated slats
+- Color of the bottom rail: 33 - Bazaltowy szary, RAL 7012
+- Type of limiters 1: Buffer 20mm
+- Color of the limiters: Anthracite
+- Type of guides: PVC
+- Left outer guide rail: Guide one-sided 61mm RN 175 - SKS 
+- Right outer guide rail: Guide one-sided 61mm RN 175 - SKS 
+- Color of the guides: Smooth basalt grey, 701205-097
+- Drive Type I: Motor Simu T5 roller 60mm 10Nm overload
+- Control side I: Right (from the inside)
+- Safeguard 1: Blocking hangers
+U-value
+0,80 W/m2*K
+Details
+Field: 1
+Exposed glass size (EGS): 639 x 947
+Rw (C;Ctr) = 36 (-2,-7) dB 
+Ra1 = 34; Ra2 = 29; Ra2R = 27
+5.33.21-1 205 786
+21/23
+
+
+--- PAGE 22 ---
+Order Confirmation: 369264     Com. 369264-  Sant Cugat, 
+Barcelona Spain v10
+Print date: 17.06.2026  12:39:55
+Infills
+Field: 1
+Filling
+4 Sun35/U18/4/U18/4 th
+Spacer type
+Glazing thickness
+Ug Coefficient
+G Coefficient
+Lt Coefficient
+Rw-value
+SHGC (Solar Heat Gain 
+Coefficient)
+Glazing dimensions
+(U) Ultimate Gray (RAL 9023)
+48.0
+0.50
+0.32
+0.64
+33db
+0.30
+669 x 977
+Total
+528,69 EUR
+Palletizing service
+Total
+1,00 EUR
+Palette wooden
+Total
+23,60 EUR
+Summary
+VAT
+GROSS
+NET
+Pallets
+EUR
+0,00%
+EUR
+EUR
+ 23,60
+ 0,00
+ 23,60
+Products
+EUR
+0,00%
+EUR
+EUR
+ 8 485,05
+ 0,00
+ 8 485,05
+Services
+EUR
+0,00%
+EUR
+EUR
+ 1,00
+ 0,00
+ 1,00
+EUR
+EUR
+EUR
+ 8 509,65
+ 8 509,65
+ 0,00
+Payment form: Bank transfer
+EUR = 4,1598 PLN
+This offer is valid for 3 days from the date of issue.
+5.33.21-1 205 786
+22/23
+
+
+--- PAGE 23 ---
+Order Confirmation: 369264     Com. 369264-  Sant Cugat, 
+Barcelona Spain v10
+Print date: 17.06.2026  12:39:55
+Item No.
+Quantity
+Uw
+Area
+Total area
+Rw (C,Ctr)
+Circumference
+Total 
+circumference
+Weight
+Total 
+weight
+ 1 
+0,82 W/m2*K
+1,64 m2
+~71,35 kg
+~71,35 kg
+5,13 m
+5,13 m
+36 (-2,-7) dB
+1,64 m2
+1
+ 1 
+0,79 W/m2*K
+2,60 m2
+~107,90 kg
+~107,90 kg
+6,62 m
+6,62 m
+36 (-2,-7) dB
+2,60 m2
+2
+ 1 
+0,79 W/m2*K
+2,58 m2
+~107,22 kg
+~107,22 kg
+6,60 m
+6,60 m
+36 (-2,-7) dB
+2,58 m2
+3
+ 1 
+0,84 W/m2*K
+1,32 m2
+~58,87 kg
+~58,87 kg
+4,62 m
+4,62 m
+36 (-2,-7) dB
+1,32 m2
+4
+ 1 
+0,84 W/m2*K
+0,71 m2
+~32,11 kg
+~32,11 kg
+3,38 m
+3,38 m
+36 (-2,-7) dB
+0,71 m2
+5
+ 1 
+0,91 W/m2*K
+0,46 m2
+~22,57 kg
+~22,57 kg
+2,76 m
+2,76 m
+36 (-2,-7) dB
+0,46 m2
+6
+ 1 
+0,91 W/m2*K
+0,46 m2
+~22,57 kg
+~22,57 kg
+2,76 m
+2,76 m
+36 (-2,-7) dB
+0,46 m2
+7
+ 1 
+0,86 W/m2*K
+1,65 m2
+~71,53 kg
+~71,53 kg
+5,14 m
+5,14 m
+34 (-1,-5) dB
+1,65 m2
+8
+ 1 
+0,75 W/m2*K
+4,20 m2
+~179,39 kg
+~179,39 kg
+8,20 m
+8,20 m
+34 (-2,-6) dB
+4,20 m2
+10
+ 1 
+0,75 W/m2*K
+1,84 m2
+~73,93 kg
+~73,93 kg
+5,98 m
+5,98 m
+36 (-2,-7) dB
+1,84 m2
+16
+ 1 
+0,80 W/m2*K
+1,02 m2
+~43,41 kg
+~43,41 kg
+4,08 m
+4,08 m
+36 (-2,-7) dB
+1,02 m2
+17
+ 11 
+18,49 m2
+~790,85 kg
+55,28 m
+Average U-value: 0,82 W/m2*K
+The personal data controller is Drutex Inc with headquarters in Bytów, adress: 77-100 Bytów, Leszka Gierszewskiego Str. 1, 
+registered under National Court Register No 0000140428, tax number 8421622720, hereinafter refered to as „DRUTEX S.A.” 
+or „Administrator”. Personal data will be processed for no other purpose but execution of the orders during the contract 
+period and after the termination or expiry of the Agreement, relatively expiry of the client warranty privileges, till the limitation 
+of all warranty claims. The personal data contoller will process it for direct marketing purpose until the consent is revoked. 
+Detailed information about personal data processing can be found on the website 
+<https://e-portal.drutex.pl/pl/document/rodo_orders>
+5.33.21-1 205 786
+23/23
+
+

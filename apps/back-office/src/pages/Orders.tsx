@@ -37,6 +37,9 @@ export const Orders: React.FC = () => {
   const [openListIds, setOpenListIds] = useState<Record<string, boolean>>({});
   const [openSpecs, setOpenSpecs] = useState<Record<string, boolean>>({});
   const [enlargedImage, setEnlargedImage] = useState<string | null>(null);
+  const [openingsData, setOpeningsData] = useState<Record<string, any[]>>({});
+  const [openingsLoading, setOpeningsLoading] = useState<Record<string, boolean>>({});
+  const [openOpeningIds, setOpenOpeningIds] = useState<Record<string, boolean>>({});
 
   // Sync to localStorage when states change
   useEffect(() => {
@@ -269,6 +272,19 @@ export const Orders: React.FC = () => {
       ...prev,
       [id]: !prev[id]
     }));
+    // Load openings when expanding
+    if (!openingsData[id]) {
+      setOpeningsLoading(prev => ({ ...prev, [id]: true }));
+      fetch(`${API_BASE_URL}/api/orders/lists/${id}/openings`, {
+        headers: { 'Authorization': `Bearer ${token}`, 'x-mock-role': token || '' }
+      })
+        .then(r => r.ok ? r.json() : null)
+        .then(data => {
+          if (data?.openings) setOpeningsData(prev => ({ ...prev, [id]: data.openings }));
+        })
+        .catch(() => {})
+        .finally(() => setOpeningsLoading(prev => ({ ...prev, [id]: false })));
+    }
   };
 
   const toggleSpecs = (itemId: string) => {
@@ -659,6 +675,167 @@ export const Orders: React.FC = () => {
                 </tbody>
               </table>
             )}
+
+            {/* ── OPENINGS & TASK PROGRESS PANEL ── */}
+            {isOpen && (() => {
+              const ops = openingsData[list.id];
+              const isLoadingOps = openingsLoading[list.id];
+              if (isLoadingOps) return (
+                <div style={{ padding: '1rem 1.5rem', borderTop: '1px solid var(--border-color)', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                  Loading openings…
+                </div>
+              );
+              if (!ops || ops.length === 0) return null;
+
+              // Aggregate per-person time across all openings
+              const globalPersonTime: Record<string, number> = {};
+              ops.forEach((op: any) => {
+                op.taskInstances?.forEach((t: any) => {
+                  t.timeLogs?.forEach((log: any) => {
+                    globalPersonTime[log.personName] = (globalPersonTime[log.personName] || 0) + log.minutes;
+                  });
+                });
+              });
+
+              return (
+                <div style={{ borderTop: '1px solid var(--border-color)', padding: '1.25rem 1.5rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                    <h4 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 700 }}>🪟 Window Openings — Task Execution</h4>
+                    {Object.keys(globalPersonTime).length > 0 && (
+                      <div style={{ display: 'flex', gap: '1rem', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                        {Object.entries(globalPersonTime).map(([name, mins]) => (
+                          <span key={name}><strong style={{ color: 'var(--text-primary)' }}>{name}</strong> {mins}m total</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {ops.map((op: any) => {
+                    const opOpen = !!openOpeningIds[op.id];
+                    const completedCount = op.taskInstances?.filter((t: any) => t.status === 'complete').length || 0;
+                    const totalCount = op.taskInstances?.length || 0;
+                    const pct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+                    const hasOutstanding = op.taskInstances?.some((t: any) => t.status === 'outstanding');
+                    const isUnconfirmed = !op.locationConfirmed || op.matchConfidence === 'low';
+
+                    // Per-person time for this opening
+                    const personTime: Record<string, number> = {};
+                    op.taskInstances?.forEach((t: any) => {
+                      t.timeLogs?.forEach((log: any) => {
+                        personTime[log.personName] = (personTime[log.personName] || 0) + log.minutes;
+                      });
+                    });
+
+                    return (
+                      <div key={op.id} style={{
+                        border: `1px solid ${hasOutstanding ? '#d97706' : 'var(--border-color)'}`,
+                        borderRadius: '8px',
+                        marginBottom: '0.75rem',
+                        overflow: 'hidden'
+                      }}>
+                        {/* Opening header row */}
+                        <div
+                          onClick={() => setOpenOpeningIds(prev => ({ ...prev, [op.id]: !prev[op.id] }))}
+                          style={{
+                            padding: '0.75rem 1rem',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '1rem',
+                            background: 'var(--surface-color)'
+                          }}
+                        >
+                          <span style={{ fontSize: '0.7rem', transform: opOpen ? 'rotate(90deg)' : 'none', display: 'inline-block', transition: '0.2s' }}>▶</span>
+                          <span style={{ fontFamily: 'monospace', fontSize: '0.78rem', fontWeight: 700, color: '#c88a3e' }}>{op.openingId}</span>
+                          {isUnconfirmed && (
+                            <span style={{ fontSize: '0.65rem', background: '#fef08a22', color: '#d97706', border: '1px solid #d9770650', padding: '1px 6px', borderRadius: '999px', fontWeight: 700 }}>⚠ UNCONFIRMED</span>
+                          )}
+                          <span style={{ fontSize: '0.82rem', fontWeight: 600 }}>{op.location}</span>
+                          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{op.widthMm}×{op.heightMm}mm · {op.weightKg}kg</span>
+                          <div style={{ flex: 1, margin: '0 1rem' }}>
+                            <div style={{ height: '4px', background: 'var(--border-color)', borderRadius: '999px', overflow: 'hidden' }}>
+                              <div style={{ height: '100%', width: `${pct}%`, background: pct === 100 ? '#10b981' : hasOutstanding ? '#f59e0b' : '#c88a3e', borderRadius: '999px', transition: 'width 0.4s' }} />
+                            </div>
+                          </div>
+                          <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#c88a3e', whiteSpace: 'nowrap' }}>{completedCount}/{totalCount} tasks · {pct}%</span>
+                          {Object.keys(personTime).length > 0 && (
+                            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
+                              ⏱ {Object.entries(personTime).map(([n, m]) => `${n} ${m}m`).join(' · ')}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Expanded task list */}
+                        {opOpen && (
+                          <div style={{ borderTop: '1px solid var(--border-color)' }}>
+                            {/* Masonry punch-list */}
+                            {op.masonryPunchList && (
+                              <div style={{ padding: '0.5rem 1rem', background: '#78716c10', fontSize: '0.78rem', color: 'var(--text-muted)', borderBottom: '1px solid var(--border-color)' }}>
+                                🧱 <strong>Masonry (T19)</strong> — {op.masonryPunchList.responsible} — {op.masonryPunchList.status}
+                                {op.masonryPunchList.detail && <span> — {op.masonryPunchList.detail}</span>}
+                              </div>
+                            )}
+
+                            <table style={{ width: '100%', fontSize: '0.78rem', borderCollapse: 'collapse' }}>
+                              <thead>
+                                <tr style={{ background: 'var(--border-color)', textAlign: 'left' }}>
+                                  <th style={{ padding: '0.4rem 0.75rem' }}>Code</th>
+                                  <th style={{ padding: '0.4rem 0.75rem' }}>Task</th>
+                                  <th style={{ padding: '0.4rem 0.75rem' }}>Status</th>
+                                  <th style={{ padding: '0.4rem 0.75rem' }}>Crew</th>
+                                  <th style={{ padding: '0.4rem 0.75rem' }}>Time</th>
+                                  <th style={{ padding: '0.4rem 0.75rem' }}>Time / Person</th>
+                                  <th style={{ padding: '0.4rem 0.75rem' }}>Evidence</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {op.taskInstances?.map((task: any) => {
+                                  const statusColors: Record<string, string> = {
+                                    complete:    '#10b981',
+                                    outstanding: '#f59e0b',
+                                    in_progress: '#3b82f6',
+                                    not_started: 'var(--text-muted)',
+                                    blocked:     '#ef4444'
+                                  };
+                                  const statusColor = statusColors[task.status] || 'var(--text-muted)';
+                                  return (
+                                    <tr key={task.templateCode} style={{ borderBottom: '1px solid var(--border-color)' }}>
+                                      <td style={{ padding: '0.4rem 0.75rem', fontFamily: 'monospace', fontWeight: 700, color: '#c88a3e' }}>{task.templateCode}</td>
+                                      <td style={{ padding: '0.4rem 0.75rem' }}>
+                                        <div style={{ fontWeight: 600 }}>{task.template?.nameEn}</div>
+                                        <div style={{ color: 'var(--text-muted)', fontSize: '0.7rem' }}>{task.template?.nameEs}</div>
+                                      </td>
+                                      <td style={{ padding: '0.4rem 0.75rem' }}>
+                                        <span style={{ color: statusColor, fontWeight: 700, fontSize: '0.72rem' }}>● {task.status.replace('_', ' ')}</span>
+                                      </td>
+                                      <td style={{ padding: '0.4rem 0.75rem', color: 'var(--text-muted)' }}>{task.responsible || '—'}</td>
+                                      <td style={{ padding: '0.4rem 0.75rem', fontWeight: 600 }}>{task.timeMinutes ? `${task.timeMinutes}m` : '—'}</td>
+                                      <td style={{ padding: '0.4rem 0.75rem', fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+                                        {task.timeLogs?.length > 0
+                                          ? task.timeLogs.map((log: any) => `${log.personName}: ${log.minutes}m`).join(' · ')
+                                          : '—'
+                                        }
+                                      </td>
+                                      <td style={{ padding: '0.4rem 0.75rem' }}>
+                                        {task.evidenceUrl
+                                          ? <img src={task.evidenceUrl} alt="evidence" style={{ width: 32, height: 32, objectFit: 'cover', borderRadius: 4, border: '1px solid var(--border-color)' }} />
+                                          : <span style={{ color: 'var(--text-muted)', fontSize: '0.7rem' }}>{task.template?.evidenceRequired ? 'pending' : '—'}</span>
+                                        }
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              </tbody>
+                            </table>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })()}
+
           </div>
         );
       })}

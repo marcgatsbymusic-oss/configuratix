@@ -147,22 +147,46 @@ model InstallationItem {
 }
 
 model Opening {
-  id               String             @id @default(uuid())
-  projectId        String?            // Associated project
-  room             String             // e.g., "Living Room"
-  elevation        String             // e.g., "North Elevation"
-  reference        String             // e.g., "W-01"
-  items            InstallationItem[]
-  
+  id                  String             @id @default(uuid())
+  projectId           String?            // Associated project
+  room                String             // e.g., "Living Room"
+  elevation           String?            // e.g., "North Elevation"
+  reference           String             // e.g., "W-01"
+  items               InstallationItem[]
+
   // Installation execution workflow state per opening
   workflowInstances WorkflowStepInstance[]
-  
+
   // Evidence
   evidencePhotos    EvidencePhoto[]
   measurements      MeasurementRecord[]
 
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
+  // Job-specific fields (from seed data / spec)
+  openingId           String?            // e.g. "369264-01" — job-scoped identifier
+  listId              String?            // FK to InstallationList
+  drutexItemNo        Int?               // Item number from Drutex order confirmation
+  matchConfidence     String?            // "high" | "medium" | "low"
+  matchNote           String?            // Human-readable note on confidence
+  location            String?            // Room name / location label
+  locationConfirmed   Boolean            @default(true)
+  widthMm             Float?
+  heightMm            Float?
+  weightKg            Float?
+  hasOldShutter       Boolean?           @default(false)
+  openingUndersized   Boolean?           @default(false)
+  fixingMethod        String?            // "chemical" | "mechanical"
+  hasMotorizedShutter Boolean?           @default(false)
+  motorCount          Int?               @default(0)
+  sillAtFloorLevel    Boolean?           @default(false)
+  crewSizeObserved    Int?
+  schematicUrl        String?            // Product image from order
+  productType         String?            // Product description
+
+  taskInstances       TaskInstance[]
+  masonryPunchList    MasonryPunchList?
+
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
 }
 
 // -----------------------------------------
@@ -471,3 +495,73 @@ model JobPack {
   assembled       Boolean  @default(false)
   createdAt       DateTime @default(now())
 }
+
+// -----------------------------------------
+// TASK EXECUTION MODULE (T1-T21 Spec)
+// -----------------------------------------
+
+model TaskTemplate {
+  id               String         @id @default(uuid())
+  code             String         @unique // "T1" ... "T21"
+  nameEs           String         // Spanish name
+  nameEn           String         // English name
+  category         String         // "Extraction" | "Prep" | "Install" | "Fixing" | "Trim" | "Masonry" | "Automation"
+  appliesWhen      String         // "always" | "has_old_shutter" | "opening_undersized" | "fixing_method==chemical" | "has_motorized_shutter" | "sill_at_floor_level" | "manual"
+  evidenceRequired Boolean        @default(false)
+  sequence         Int            // Nominal display order
+  instances        TaskInstance[]
+}
+
+model TaskInstance {
+  id           String       @id @default(uuid())
+  openingDbId  String
+  opening      Opening      @relation(fields: [openingDbId], references: [id], onDelete: Cascade)
+  templateCode String
+  template     TaskTemplate @relation(fields: [templateCode], references: [code])
+
+  status       String       @default("not_started") // not_started | in_progress | complete | outstanding | blocked
+  responsible  String?      // Comma-separated crew names (seed data default)
+  timeMinutes  Int?         // Total logged time in minutes
+  detail       String?      // Extra notes
+  evidenceUrl  String?      // Photo URL
+  source       String?      // Data quality flag
+
+  timeLogs     TaskTimeLog[]
+
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@unique([openingDbId, templateCode])
+}
+
+model TaskTimeLog {
+  id             String       @id @default(uuid())
+  taskInstanceId String
+  taskInstance   TaskInstance @relation(fields: [taskInstanceId], references: [id], onDelete: Cascade)
+  personName     String       // Name from crew roster
+  minutes        Int
+  loggedAt       DateTime     @default(now())
+}
+
+model MasonryPunchList {
+  id          String   @id @default(uuid())
+  openingDbId String   @unique
+  opening     Opening  @relation(fields: [openingDbId], references: [id], onDelete: Cascade)
+  status      String   @default("pending") // pending | in_progress | complete
+  responsible String?  // e.g. "Joan/Garida"
+  detail      String?
+  completedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model CrewMember {
+  id        String   @id @default(uuid())
+  listId    String   // FK to InstallationList
+  name      String
+  role      String?
+  createdAt DateTime @default(now())
+
+  @@unique([listId, name])
+}
+

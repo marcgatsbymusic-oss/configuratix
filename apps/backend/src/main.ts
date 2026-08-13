@@ -273,6 +273,133 @@ app.post('/api/delivery/discrepancy', mockRequireAuth, requirePermission(AppActi
   }
 });
 
+
+// -----------------------------------------
+// TASK EXECUTION API ROUTES
+// -----------------------------------------
+
+// GET /api/task-templates — fetch all 21 task templates
+app.get('/api/task-templates', mockRequireAuth, async (req, res) => {
+  const templates = await prisma.taskTemplate.findMany({ orderBy: { sequence: 'asc' } });
+  res.json({ templates });
+});
+
+// GET /api/orders/lists/:listId/openings — fetch all openings with tasks for a list
+app.get('/api/orders/lists/:listId/openings', mockRequireAuth, async (req, res) => {
+  const listId = req.params.listId as string;
+  try {
+    const openings = await prisma.opening.findMany({
+      where: { listId },
+      include: {
+        taskInstances: {
+          include: {
+            template: true,
+            timeLogs: true
+          },
+          orderBy: { template: { sequence: 'asc' } }
+        },
+        masonryPunchList: true
+      },
+      orderBy: { drutexItemNo: 'asc' }
+    });
+    res.json({ openings });
+  } catch (error: any) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// POST /api/openings/:openingDbId/tasks/:templateCode/log — log time/crew/status for a task
+app.post('/api/openings/:openingDbId/tasks/:templateCode/log', mockRequireAuth, async (req, res) => {
+  const openingDbId = req.params.openingDbId as string;
+  const templateCode = req.params.templateCode as string;
+  const { status, minutes, crew, evidenceUrl, detail } = req.body;
+
+  try {
+    // Upsert the task instance status/time/evidence
+    const taskInstance = await prisma.taskInstance.upsert({
+      where: { openingDbId_templateCode: { openingDbId, templateCode } },
+      update: {
+        ...(status    !== undefined && { status }),
+        ...(minutes   !== undefined && { timeMinutes: minutes }),
+        ...(evidenceUrl !== undefined && { evidenceUrl }),
+        ...(detail    !== undefined && { detail }),
+        ...(crew      !== undefined && { responsible: Array.isArray(crew) ? crew.join(', ') : crew }),
+      },
+      create: {
+        openingDbId,
+        templateCode,
+        status:       status || 'in_progress',
+        timeMinutes:  minutes || null,
+        evidenceUrl:  evidenceUrl || null,
+        detail:       detail || null,
+        responsible:  Array.isArray(crew) ? crew.join(', ') : (crew || null),
+      }
+    });
+
+    // Log per-person time if provided
+    if (minutes && crew && Array.isArray(crew) && crew.length > 0) {
+      const perPerson = Math.round(minutes / crew.length);
+      for (const name of crew) {
+        const existing = await prisma.taskTimeLog.findFirst({
+          where: { taskInstanceId: taskInstance.id, personName: name }
+        });
+        if (existing) {
+          await prisma.taskTimeLog.update({ where: { id: existing.id }, data: { minutes: perPerson } });
+        } else {
+          await prisma.taskTimeLog.create({ data: { taskInstanceId: taskInstance.id, personName: name, minutes: perPerson } });
+        }
+      }
+    }
+
+    res.json({ taskInstance });
+  } catch (error: any) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// GET /api/orders/lists/:listId/crew — get crew roster for a job
+app.get('/api/orders/lists/:listId/crew', mockRequireAuth, async (req, res) => {
+  const listId = req.params.listId as string;
+  const crew = await prisma.crewMember.findMany({ where: { listId } });
+  res.json({ crew });
+});
+
+// POST /api/orders/lists/:listId/crew — add or update crew members
+app.post('/api/orders/lists/:listId/crew', mockRequireAuth, async (req, res) => {
+  const listId = req.params.listId as string;
+  const { names } = req.body; // string[]
+  try {
+    const results: any[] = [];
+    for (const name of names) {
+      const member = await prisma.crewMember.upsert({
+        where: { listId_name: { listId, name: name as string } },
+        update: {},
+        create: { listId, name: name as string }
+      });
+      results.push(member);
+    }
+    res.json({ crew: results });
+  } catch (error: any) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// PATCH /api/openings/:openingDbId/masonry — update masonry punch-list status
+app.patch('/api/openings/:openingDbId/masonry', mockRequireAuth, async (req, res) => {
+  const openingDbId = req.params.openingDbId as string;
+  const { status, detail, responsible } = req.body;
+  try {
+    const punch = await prisma.masonryPunchList.upsert({
+      where: { openingDbId },
+      update: { status: status as string, detail: detail as string | null, responsible: responsible as string | null },
+      create: { openingDbId, status: (status as string) || 'pending', detail: detail as string | null, responsible: responsible as string | null }
+    });
+    res.json({ punch });
+  } catch (error: any) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Backend listening on port ${port}`);
 });

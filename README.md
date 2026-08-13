@@ -1,33 +1,44 @@
-# Window Configurator — seed repo
+# Installation Execution Platform & Window Configurator
 
-Geometry comes from CAD as DATA. An assembly engine composes windows from that
-data using a frozen contract. New profiles are onboarded by running the
-extractor — not by writing new geometry code.
+This repository is a monorepo containing the Drutex Window Configurator and the Installation Execution Platform module.
 
-## What's here
-- `data/profiles/` — 56 IGLO 5 components, extracted + auto-classified.
-- `data/recipes/zlozenie_recipes.json` — 44 measured junction recipes.
-- `contracts/profile.schema.json` — the profile data contract.
-- `contracts/assemblyRules.json` — the frozen assembly contract.
-- `pipeline/extract.py` — DXF → profiles + recipes.
-- `engine/` — assembly engine (to build: sweep / mitre / seat / place).
-- `AGENTS.md` — rules the coding agent must follow. Read first.
+## Workspace Layout
 
-## Pipeline
-DXF  →  pipeline/extract.py  →  data/profiles + data/recipes
-                                        │
-        contracts/* (frozen) ───────────┤
-                                        ▼
-                                   engine/  →  parametric window  →  Three.js
+- `apps/configurator/`: Existing React window configurator
+- `apps/back-office/`: React web app for installation administration and operations
+- `apps/backend/`: Node.js modular monolith providing the backend for the installation platform
+- `apps/mobile/`: Flutter mobile app for installers
+- `packages/shared/`: Shared TS types and API contracts
 
-## For the agent (Antigravity / any agentic IDE)
-Point the agent at this repo. Its scope is: run/extend the extractor, generate
-and validate profile data, add per-family meta and window specs. It must NOT
-touch `engine/` logic or `contracts/assemblyRules.json` without an explicit,
-file-named instruction. See AGENTS.md.
+## Local Development Setup
 
-## Next build targets
-1. `engine/assemble.js` — consume a window spec + profiles + recipes, emit an
-   ExtrudeGeometry-ready cross-section per junction.
-2. Per-family `meta.json` for non-derivable semantics (weatherline, system depth).
-3. Resolve the 4 REGION blocks (explode in CAD or build from atomic + offsets).
+### Prerequisites
+- Node.js (v20+)
+- Docker & Docker Compose
+- Flutter SDK (for mobile app development)
+
+### Getting Started
+
+1. **Start the database:**
+   ```bash
+   docker compose up -d
+   ```
+   This starts a PostgreSQL instance with the PostGIS extension enabled on port 5432.
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Run the stack:**
+   ```bash
+   npm run dev
+   ```
+   This will concurrently start the `configurator`, `back-office`, and `backend` servers.
+
+### Architecture Constraints
+- The Installation Platform is a module of the configurator with its own access boundary (OIDC).
+- Business logic is strictly housed in the backend.
+- Mobile operates offline-first with an outbox sync pattern.
+
+See `docs/spec/installation-execution-spec.md` for full functional requirements.

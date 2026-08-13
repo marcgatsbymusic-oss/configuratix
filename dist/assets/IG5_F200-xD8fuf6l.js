@@ -1,1 +1,0 @@
-import{$ as e,Q as t,et as n,tt as r}from"./index-CA4V5Gn6.js";export{t as default,e as profiles,n as system,r as type};

@@ -1,1 +1,0 @@
-{"name": "mostek podszybowy", "component": "spacer_bridge", "has_region": false, "polyline_loops": 3, "bbox": [-29.71, 5.0, 0.29, 9.0], "loops": [{"closed": true, "pts": [[-29.706, 4.999], [0.294, 4.999], [0.294, 9.0], [-29.706, 9.0], [-29.706, 4.999]]}, {"closed": false, "pts": [[0.294, 9.0], [-29.706, 4.999]]}, {"closed": false, "pts": [[-29.706, 9.0], [0.294, 4.999]]}]}
